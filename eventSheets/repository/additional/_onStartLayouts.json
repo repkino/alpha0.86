@@ -1,0 +1,175 @@
+{
+	"name": "_onStartLayouts",
+	"events": [
+		{
+			"eventType": "comment",
+			"text": "\n\nвозможно, для каждой способности лучше иметь переменную в aGame. Численную 0 - не открыта, 1 - off, 2 - target, 3 - auto, 10,20,30 - заблокирована и т.п.\n\n"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 917787675740706
+				}
+			],
+			"actions": [
+				{
+					"type": "comment",
+					"text": "загрузка способностей в словарь из файла"
+				},
+				{
+					"id": "request-project-file",
+					"objectClass": "AJAX",
+					"sid": 595880157111461,
+					"parameters": {
+						"tag": "\"abils\"",
+						"file": "abils.json"
+					}
+				},
+				{
+					"type": "comment",
+					"text": " загрузка способностей из словаря в героя"
+				},
+				{
+					"callFunction": "abilToHero",
+					"sid": 774217712620063,
+					"disabled": true,
+					"parameters": [
+						"\"active\""
+					]
+				}
+			],
+			"sid": 609560889046256,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "добавление предмета в инвентарь на старте"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "has-key",
+							"objectClass": "itemsQ",
+							"sid": 598756305094528,
+							"parameters": {
+								"key": "\"porG\""
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "add-key",
+							"objectClass": "itemsQ",
+							"sid": 273521500744373,
+							"parameters": {
+								"key": "\"porG\"",
+								"value": "1"
+							}
+						}
+					],
+					"sid": 776691787952717,
+					"disabled": true
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "onStartSession",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "help",
+									"sid": 214508894365022,
+									"disabled": true,
+									"parameters": {
+										"text": "LayoutName"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 590717470772039,
+									"parameters": {
+										"group-name": "\"onStartSession\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 476092968934978
+						}
+					],
+					"sid": 429425224366522
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-outside-layout",
+							"objectClass": "point",
+							"sid": 388321135106489
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "point",
+							"sid": 447139967128010,
+							"parameters": {
+								"instance-variable": "pType",
+								"comparison": 1,
+								"value": "\"button\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "stop-animation",
+							"objectClass": "point",
+							"sid": 233252176830616
+						}
+					],
+					"sid": 935684616798298
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-completed",
+					"objectClass": "AJAX",
+					"sid": 468520097680657,
+					"parameters": {
+						"tag": "\"abils\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "load",
+					"objectClass": "abils",
+					"sid": 833913371312447,
+					"parameters": {
+						"json": "AJAX.LastData"
+					}
+				},
+				{
+					"callFunction": "abilToHero",
+					"sid": 132712273418131,
+					"parameters": [
+						"\"active\""
+					]
+				}
+			],
+			"sid": 415557515725018
+		}
+	],
+	"sid": 433355084414148
+}

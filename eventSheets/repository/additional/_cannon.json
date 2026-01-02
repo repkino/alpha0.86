@@ -1,0 +1,2279 @@
+{
+	"name": "_cannon",
+	"events": [
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "cannon",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"aceType": "action",
+					"aceName": "fire",
+					"objectClass": "cannon",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "x",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 834320994458950
+						},
+						{
+							"name": "y",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 555934628849922
+						},
+						{
+							"name": "cannonMod",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 785180889603489
+						},
+						{
+							"name": "ang",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 717400055205045
+						},
+						{
+							"name": "layer",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 380111390207405
+						},
+						{
+							"name": "ballPermanent",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 571964620489000
+						},
+						{
+							"name": "ballRotate",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 708587726416612
+						},
+						{
+							"name": "tag",
+							"type": "string",
+							"initialValue": "",
+							"comment": "",
+							"sid": 809751903864470
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 433878190442535,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 172549232975432,
+									"parameters": {
+										"variable": "cannonMod",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannon",
+									"sid": 751139568995621,
+									"parameters": {
+										"instance-variable": "mod",
+										"value": "cannonMod"
+									}
+								}
+							],
+							"sid": 699774495963935
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 673881432021017,
+									"parameters": {
+										"variable": "x",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonMark",
+									"sid": 140704448828359,
+									"parameters": {
+										"instance-variable": "ind",
+										"comparison": 0,
+										"value": "cannon.ind"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 783552981769618,
+									"parameters": {
+										"variable": "x",
+										"value": "cannonMark.X"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 882310185338833,
+									"parameters": {
+										"variable": "y",
+										"value": "cannonMark.Y"
+									}
+								}
+							],
+							"sid": 465870721739197
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannon",
+									"sid": 838095169948511,
+									"parameters": {
+										"instance-variable": "mod",
+										"comparison": 0,
+										"value": "\"fixAngle\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 537345168981370,
+									"parameters": {
+										"variable": "ang",
+										"value": "cannon.Angle"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannon",
+									"sid": 579632976164176,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "sqrt(cannon.gravity*(x-cannon.x)^2/2/((y-cannon.Y)*cos(ang)^2-(x-cannon.X)*cos(ang)*sin(ang)))"
+									}
+								}
+							],
+							"sid": 983819363160831
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannon",
+									"sid": 209410604216010,
+									"parameters": {
+										"instance-variable": "mod",
+										"comparison": 0,
+										"value": "\"fixSpeed\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannon",
+									"sid": 574617984492490,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "round(Self.gravity/1.5)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannon",
+									"sid": 263251881967204,
+									"parameters": {
+										"instance-variable": "a",
+										"value": "angle(x,cannon.Y,cannon.X,y)"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 243582772792306,
+									"parameters": {
+										"variable": "ang",
+										"value": "0.5*asin(cannon.gravity*(x-cannon.x)^2/(cannon.speed^2*distance(cannon.X,cannon.Y,x,y))-sin(cannon.a))"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 349661647975079,
+									"parameters": {
+										"variable": "ang",
+										"value": "(x<cannon.x?90-ang:ang)-cannon.a/2+((y>cannon.Y&y>cannon.X)?0:180)"
+									}
+								}
+							],
+							"sid": 859021895494614
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannon",
+									"sid": 976003504716256,
+									"parameters": {
+										"instance-variable": "mod",
+										"comparison": 0,
+										"value": "\"mix\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannon",
+									"sid": 374080613448059,
+									"parameters": {
+										"instance-variable": "minSpeed",
+										"value": "round(Self.gravity/2)"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 437527429052554,
+									"parameters": {
+										"variable": "ang",
+										"value": "clamp(angle(cannon.X,cannon.Y,x,y-cannon.targLift),-180+cannon.horizonMinAng,-cannon.horizonMinAng)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannon",
+									"sid": 539080866786789,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "sqrt(Self.gravity*(x-Self.x)^2/2/((y-Self.Y)*cos(ang)^2-(x-Self.X)*cos(ang)*sin(ang)))"
+									}
+								}
+							],
+							"sid": 157518352077764,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cannon",
+											"sid": 688573407422550,
+											"parameters": {
+												"instance-variable": "speed",
+												"comparison": 2,
+												"value": "Self.minSpeed"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cannon",
+											"sid": 331621938719857,
+											"parameters": {
+												"instance-variable": "speed",
+												"value": "Self.minSpeed"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cannon",
+											"sid": 555500815507054,
+											"parameters": {
+												"instance-variable": "a",
+												"value": "angle(x,cannon.Y,cannon.X,y)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 729518404167450,
+											"parameters": {
+												"variable": "ang",
+												"value": "0.5*asin(cannon.gravity*(x-cannon.x)^2/(cannon.speed^2*distance(cannon.X,cannon.Y,x,y))-sin(cannon.a))"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 435666524087395,
+											"parameters": {
+												"variable": "ang",
+												"value": "(x<cannon.x?90-ang:ang)-cannon.a/2+((y>cannon.Y&y>cannon.X)?0:180)"
+											}
+										}
+									],
+									"sid": 273564236138726
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 841976622427524,
+									"parameters": {
+										"variable": "ballPermanent"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cannonBall",
+									"sid": 546664746382211,
+									"parameters": {
+										"instance-variable": "permanent"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-angle",
+									"objectClass": "cannon",
+									"sid": 604714603858970,
+									"parameters": {
+										"angle": "ang"
+									}
+								},
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "cannonBall",
+									"sid": 845730063097282,
+									"parameters": {
+										"object": "cannon",
+										"image-point-optional": "0"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cannonBall",
+									"sid": 206964454639420,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 763945726245327,
+									"parameters": {
+										"instance-variable": "vx",
+										"value": "cannon.speed*cos(ang)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 271746460895549,
+									"parameters": {
+										"instance-variable": "vy",
+										"value": "cannon.speed*sin(ang)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 311425731948847,
+									"parameters": {
+										"instance-variable": "gravity",
+										"value": "cannon.gravity"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 146999788721020,
+									"parameters": {
+										"instance-variable": "ind",
+										"value": "cannon.ind"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 136022558755032,
+									"parameters": {
+										"instance-variable": "rotate",
+										"value": "ballRotate"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 929251024112121,
+									"parameters": {
+										"instance-variable": "tag",
+										"value": "tag"
+									}
+								}
+							],
+							"sid": 344415088344297
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 170515955245122,
+									"parameters": {
+										"variable": "ballPermanent"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-angle",
+									"objectClass": "cannon",
+									"sid": 554988869411172,
+									"parameters": {
+										"angle": "ang"
+									}
+								},
+								{
+									"id": "spawn-another-object",
+									"objectClass": "cannon",
+									"sid": 600212405067487,
+									"parameters": {
+										"object": "cannonBall",
+										"layer": "layer<>\"zero\"?layer:cannon.LayerName",
+										"image-point": "0",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cannonBall",
+									"sid": 493085125265983,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 846503125414806,
+									"parameters": {
+										"instance-variable": "vx",
+										"value": "cannon.speed*cos(ang)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 772862016641173,
+									"parameters": {
+										"instance-variable": "vy",
+										"value": "cannon.speed*sin(ang)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 570258319786345,
+									"parameters": {
+										"instance-variable": "gravity",
+										"value": "cannon.gravity"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 662918176972951,
+									"parameters": {
+										"instance-variable": "ind",
+										"value": "cannon.ind"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 290698377716641,
+									"parameters": {
+										"instance-variable": "rotate",
+										"value": "ballRotate"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 326788436451168,
+									"parameters": {
+										"instance-variable": "tag",
+										"value": "tag"
+									}
+								}
+							],
+							"sid": 916976636474621
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "cannonBall",
+							"sid": 896067735829055,
+							"parameters": {
+								"instance-variable": "on"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "cannonBall",
+							"sid": 938877061333823,
+							"parameters": {
+								"x": "Self.X+self.vx*dt",
+								"y": "Self.Y+self.vy*dt+0.5*Self.gravity*dt^2"
+							}
+						},
+						{
+							"id": "add-to-instvar",
+							"objectClass": "cannonBall",
+							"sid": 328354663352109,
+							"parameters": {
+								"instance-variable": "vy",
+								"value": "cannon.gravity*dt"
+							}
+						}
+					],
+					"sid": 536639288897008,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonBall",
+									"sid": 634860942764849,
+									"parameters": {
+										"instance-variable": "rotate",
+										"comparison": 1,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "rotate-counter-clockwise",
+									"objectClass": "cannonBall",
+									"sid": 365548917236892,
+									"parameters": {
+										"degrees": "Self.rotate"
+									}
+								}
+							],
+							"sid": 425529517130242
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonMark",
+									"sid": 666774423389344,
+									"parameters": {
+										"instance-variable": "ind",
+										"comparison": 0,
+										"value": "cannonBall.ind"
+									}
+								},
+								{
+									"id": "compare-y",
+									"objectClass": "cannonBall",
+									"sid": 980573469002705,
+									"parameters": {
+										"comparison": 4,
+										"y-co-ordinate": "cannonMark.Y"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 155384240362202,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cannonMark",
+											"sid": 440173897568719,
+											"parameters": {
+												"instance-variable": "reboundFlor",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "cannonBall",
+											"sid": 868037019957075,
+											"parameters": {
+												"instance-variable": "back"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "cannonBall",
+											"sid": 820623728144901,
+											"parameters": {
+												"instance-variable": "back",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cannonBall",
+											"sid": 211211920254357,
+											"parameters": {
+												"instance-variable": "vy",
+												"value": "Self.vy*-cannonMark.reboundFlor"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cannonBall",
+											"sid": 291091903656517,
+											"parameters": {
+												"instance-variable": "vx",
+												"value": "Self.vx*cannonMark.reboundFlor"
+											}
+										}
+									],
+									"sid": 846020757793096
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cannonBall",
+											"sid": 930439025753943,
+											"parameters": {
+												"instance-variable": "vy",
+												"comparison": 2,
+												"value": "50"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cannonBall",
+											"sid": 223277483680751,
+											"parameters": {
+												"instance-variable": "vy",
+												"comparison": 4,
+												"value": "-50"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-y",
+											"objectClass": "cannonBall",
+											"sid": 736628468480770,
+											"parameters": {
+												"y": "cannonMark.Y"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "cannonBall",
+											"sid": 213382618218614,
+											"parameters": {
+												"instance-variable": "on",
+												"value": "false"
+											}
+										},
+										{
+											"id": "instance-signal",
+											"objectClass": "cannonBall",
+											"sid": 237175912754501,
+											"parameters": {
+												"tag": "\"selfDestroy\""
+											}
+										}
+									],
+									"sid": 667059338304101,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "cannonBall",
+													"sid": 130810320089164,
+													"parameters": {
+														"instance-variable": "permanent"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 576054930934691,
+													"parameters": {
+														"seconds": "0",
+														"use-timescale": true
+													}
+												},
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 981309316804099,
+													"parameters": {
+														"seconds": "0",
+														"use-timescale": true
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "cannonBall",
+													"sid": 378647177154774,
+													"parameters": {
+														"x": "-3333",
+														"y": "-9876"
+													}
+												}
+											],
+											"sid": 947861080351825
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "cannonBall",
+													"sid": 325172914447011,
+													"parameters": {
+														"instance-variable": "permanent"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 152734427982358,
+													"parameters": {
+														"seconds": "0",
+														"use-timescale": true
+													}
+												},
+												{
+													"id": "destroy",
+													"objectClass": "cannonBall",
+													"sid": 225529867793519
+												}
+											],
+											"sid": 768589166759273
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cannonBall",
+									"sid": 284910585027008,
+									"parameters": {
+										"instance-variable": "back"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonBall",
+									"sid": 738498126175019,
+									"parameters": {
+										"instance-variable": "vy",
+										"comparison": 2,
+										"value": "40"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonBall",
+									"sid": 740939215444094,
+									"parameters": {
+										"instance-variable": "vy",
+										"comparison": 4,
+										"value": "-40"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cannonBall",
+									"sid": 108671408969431,
+									"parameters": {
+										"instance-variable": "back",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 777769411388905
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "cannonBall",
+							"sid": 822051170989327,
+							"parameters": {
+								"object": "cannonMark"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 520050424225175,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonMark",
+									"sid": 784997697635102,
+									"parameters": {
+										"instance-variable": "reboundWall",
+										"comparison": 4,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 245827093336807,
+									"parameters": {
+										"instance-variable": "vx",
+										"value": "Self.vx*-cannonMark.reboundWall"
+									}
+								}
+							],
+							"sid": 501136446837101
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonMark",
+									"sid": 736664792847551,
+									"parameters": {
+										"instance-variable": "reboundFlor",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cannonBall",
+									"sid": 778054105235006,
+									"parameters": {
+										"instance-variable": "back"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cannonBall",
+									"sid": 194933394027749,
+									"parameters": {
+										"instance-variable": "back",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 175884785553322,
+									"parameters": {
+										"instance-variable": "vy",
+										"value": "Self.vy*-cannonMark.reboundFlor"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cannonBall",
+									"sid": 283252436168267,
+									"parameters": {
+										"instance-variable": "vx",
+										"value": "Self.vx*cannonMark.reboundFlor"
+									}
+								}
+							],
+							"sid": 741635675548373
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonBall",
+									"sid": 125224345895841,
+									"parameters": {
+										"instance-variable": "vy",
+										"comparison": 4,
+										"value": "50"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cannonBall",
+									"sid": 662485075530045,
+									"parameters": {
+										"instance-variable": "vy",
+										"comparison": 2,
+										"value": "-50"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cannonBall",
+									"sid": 878333795677045,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "instance-signal",
+									"objectClass": "cannonBall",
+									"sid": 204912589594373,
+									"parameters": {
+										"tag": "\"selfDestroy\""
+									}
+								}
+							],
+							"sid": 645995972906512,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "cannonBall",
+											"sid": 198593557357851,
+											"parameters": {
+												"instance-variable": "permanent"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 225714225497286,
+											"parameters": {
+												"seconds": "0",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 584551353067107,
+											"parameters": {
+												"seconds": "0",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "cannonBall",
+											"sid": 467375497180514,
+											"parameters": {
+												"x": "-3333",
+												"y": "-9876"
+											}
+										}
+									],
+									"sid": 641556976419261
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 282163972692600
+										}
+									],
+									"actions": [
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 571432482850110,
+											"parameters": {
+												"seconds": "0",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "destroy",
+											"objectClass": "cannonBall",
+											"sid": 993165672231415
+										}
+									],
+									"sid": 835943817772490
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-outside-layout",
+							"objectClass": "cannonBall",
+							"sid": 433518052189087
+						}
+					],
+					"actions": [],
+					"sid": 983179354896445,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cannonBall",
+									"sid": 403755903935123,
+									"parameters": {
+										"instance-variable": "permanent"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "instance-signal",
+									"objectClass": "cannonBall",
+									"sid": 773932836953227,
+									"parameters": {
+										"tag": "\"selfDestroy\""
+									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 725963569558537,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": true
+									}
+								},
+								{
+									"id": "destroy",
+									"objectClass": "cannonBall",
+									"sid": 351353592182538
+								}
+							],
+							"sid": 237960962940322
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cannonBall",
+									"sid": 325871985133744,
+									"parameters": {
+										"instance-variable": "permanent"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cannonBall",
+									"sid": 922711241339682,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cannonBall",
+									"sid": 720242285655697,
+									"parameters": {
+										"instance-variable": "back",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "cannonBall",
+									"sid": 641384064661802,
+									"parameters": {
+										"x": "-3333",
+										"y": "-9876"
+									}
+								}
+							],
+							"sid": 925353959837257
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-click",
+							"objectClass": "Mouse",
+							"sid": 421084502567120,
+							"parameters": {
+								"mouse-button": "right",
+								"click-type": "clicked"
+							}
+						}
+					],
+					"actions": [
+						{
+							"customAction": "fire",
+							"objectClass": "cannon",
+							"sid": 226788971315407,
+							"parameters": [
+								"Mouse.X",
+								"Mouse.Y",
+								"\"zero\"",
+								"0",
+								"\"zero\"",
+								true,
+								"0",
+								"\"\""
+							]
+						}
+					],
+					"sid": 958296731994994
+				}
+			],
+			"sid": 563338703408204
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-key-pressed",
+					"objectClass": "Keyboard",
+					"sid": 242246930120654,
+					"parameters": {
+						"key": 74
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 608023007012916,
+					"parameters": {
+						"group-name": "\"jumperBall\"",
+						"state": "activated"
+					}
+				},
+				{
+					"customAction": "jBall",
+					"objectClass": "ats",
+					"sid": 815091376086855,
+					"parameters": [
+						"Bit.X",
+						"Bit.Y",
+						"Mouse.X",
+						"Mouse.Y",
+						"0",
+						"0",
+						"0",
+						"\"nut\"",
+						"0"
+					]
+				}
+			],
+			"sid": 517473003976058,
+			"disabled": true
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "explode",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"aceType": "action",
+					"aceName": "explode",
+					"objectClass": "ats",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "x",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 665912889648786
+						},
+						{
+							"name": "y",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 539205930637045
+						},
+						{
+							"name": "targX",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 342957744045828
+						},
+						{
+							"name": "targY",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 549030714767965
+						},
+						{
+							"name": "ang",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 514262962052200
+						},
+						{
+							"name": "dist",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 488657766465647
+						},
+						{
+							"name": "distIso",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 317421224719354
+						},
+						{
+							"name": "type",
+							"type": "string",
+							"initialValue": "nut",
+							"comment": "",
+							"sid": 101392122587111
+						},
+						{
+							"name": "hi",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 855856542602840
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "vegaBall",
+							"sid": 995653992239529,
+							"parameters": {
+								"instance-variable": "on"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 150967758446735,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-random-instance",
+									"objectClass": "System",
+									"sid": 908886731363990,
+									"parameters": {
+										"object": "vegaBall"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "vegaBallBase",
+									"sid": 129455906003052,
+									"parameters": {
+										"x": "x+random(-70,70)",
+										"y": "y+random(-40,40)"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "vegaBall",
+									"sid": 196620296701691,
+									"parameters": {
+										"x": "vegaBallBase.X",
+										"y": "vegaBallBase.Y+random(20,70)"
+									}
+								}
+							],
+							"sid": 652053323928436
+						}
+					]
+				}
+			],
+			"sid": 481078206884028
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "jumperBall",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"aceType": "action",
+					"aceName": "jBall",
+					"objectClass": "ats",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "x",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 908931293405673
+						},
+						{
+							"name": "y",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 132312684821193
+						},
+						{
+							"name": "targX",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 508868743765886
+						},
+						{
+							"name": "targY",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 993250800540177
+						},
+						{
+							"name": "ang",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 519112173050800
+						},
+						{
+							"name": "dist",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 638703215498177
+						},
+						{
+							"name": "distIso",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 262637583016415
+						},
+						{
+							"name": "type",
+							"type": "string",
+							"initialValue": "nut",
+							"comment": "",
+							"sid": 971784462802394
+						},
+						{
+							"name": "hi",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 303983299768161
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "seedNut",
+							"sid": 964884646029312,
+							"parameters": {
+								"instance-variable": "on"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 366035303122784,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-random-instance",
+									"objectClass": "System",
+									"sid": 815559181201619,
+									"parameters": {
+										"object": "seedNut"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 920625105799227,
+									"parameters": {
+										"object-to-create": "jBase",
+										"layer": "\"iso\"",
+										"x": "x",
+										"y": "y",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 919123971517162,
+									"parameters": {
+										"object-to-create": "jBall",
+										"layer": "\"iso\"",
+										"x": "x",
+										"y": "y-hi",
+										"create-hierarchy": true,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBall",
+									"sid": 871019927723283,
+									"parameters": {
+										"instance-variable": "baseUID",
+										"value": "jBase.UID"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "jBall",
+									"sid": 290551747887837,
+									"disabled": true,
+									"parameters": {
+										"y": "jBase.Y-jBase.hi"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "jBall",
+									"sid": 794808313688273,
+									"disabled": true,
+									"parameters": {
+										"y": "jBase.Y+hi"
+									}
+								},
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "seedNut",
+									"sid": 724701458717077,
+									"parameters": {
+										"object": "jBall",
+										"image-point-optional": "0"
+									}
+								},
+								{
+									"id": "pin-to-object-properties",
+									"objectClass": "seedNut",
+									"sid": 902117709419591,
+									"behaviorType": "Pin",
+									"parameters": {
+										"pin-to": "jBall",
+										"x": true,
+										"y": true,
+										"angle": false,
+										"width-type": "no",
+										"height-type": "no",
+										"z": false
+									}
+								},
+								{
+									"id": "set-mirrored",
+									"objectClass": "seedNut",
+									"sid": 259839120903317,
+									"parameters": {
+										"state": "not-mirrored"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "seedNut",
+									"sid": 542551454449801,
+									"parameters": {
+										"instance-variable": "type",
+										"value": "type"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBall",
+									"sid": 698952802336230,
+									"parameters": {
+										"instance-variable": "seedUID",
+										"value": "seedNut.UID"
+									}
+								},
+								{
+									"id": "clear-obstacles",
+									"objectClass": "jBase",
+									"sid": 720313860529184,
+									"disabled": true,
+									"behaviorType": "losPfmt"
+								},
+								{
+									"id": "move-to-layer",
+									"objectClass": "jBase",
+									"sid": 391714138437661,
+									"parameters": {
+										"layer": "\"iso\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBase",
+									"sid": 411652093530537,
+									"parameters": {
+										"instance-variable": "ballUID",
+										"value": "jBall.UID"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBase",
+									"sid": 430896598870645,
+									"parameters": {
+										"instance-variable": "jumpY",
+										"value": "Self.Y"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBase",
+									"sid": 153623087963118,
+									"parameters": {
+										"instance-variable": "deltaY",
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBase",
+									"sid": 982215471035008,
+									"parameters": {
+										"instance-variable": "jumpHi",
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBall",
+									"sid": 177802507440349,
+									"parameters": {
+										"instance-variable": "jumpHi",
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBall",
+									"sid": 761917614710599,
+									"parameters": {
+										"instance-variable": "gravity",
+										"value": "6000"
+									}
+								},
+								{
+									"type": "comment",
+									"text": ""
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 542671646444182,
+									"parameters": {
+										"variable": "distIso",
+										"value": "Functions.getIsoDist(x,y,targX,targY)"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "jBall",
+									"sid": 103532739443427,
+									"parameters": {
+										"instance-variable": "jump",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBall",
+									"sid": 386489548716937,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "-sqrt(distIso*Self.gravity)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBase",
+									"sid": 186365963285752,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "sqrt(distIso*jBall.gravity)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jBase",
+									"sid": 604443056146915,
+									"parameters": {
+										"instance-variable": "speedGround",
+										"value": "Self.speed*aBook.heroScaleCoeff"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "jBase",
+									"sid": 732297879228777,
+									"disabled": true,
+									"behaviorType": "EasyIsometric",
+									"parameters": {
+										"newState_": "enabled"
+									}
+								},
+								{
+									"callFunction": "smt",
+									"sid": 229268378591308,
+									"parameters": [
+										"jBase.UID",
+										"targX+random(-60,60)",
+										"targY+random(-30,30)"
+									]
+								}
+							],
+							"sid": 474484251995385,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "Chance",
+											"objectClass": "Utils",
+											"sid": 936691342166436,
+											"parameters": {
+												"chance": "1",
+												"outof": "2"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-mirrored",
+											"objectClass": "seedNut",
+											"sid": 512964492618773,
+											"parameters": {
+												"state": "mirrored"
+											}
+										}
+									],
+									"sid": 246085484074445
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "устарело:\nиз этой формулы sqrt((sin(Sprite.Angle)*(a*ISO))^2+(cos(Sprite.Angle)*a)^2)\nполучаем обратную проекцию 1/sqrt((sin(Sprite.Angle)/a)^2+(cos(Sprite.Angle)/(a*ISO))^2)"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "jBall",
+							"sid": 997930898717051,
+							"parameters": {
+								"instance-variable": "destroy"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "destroy",
+							"objectClass": "jBall",
+							"sid": 996875078842545
+						}
+					],
+					"sid": 447591531664740
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "jBall",
+							"sid": 398269034661040,
+							"parameters": {
+								"instance-variable": "jump"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 458486007744395,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 584687267954630,
+									"parameters": {
+										"object": "jBall"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 446298725383876,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "jBase",
+											"sid": 465711771320053,
+											"parameters": {
+												"unique-id": "jBall.baseUID"
+											}
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "seedNut",
+											"sid": 248379174213789,
+											"parameters": {
+												"unique-id": "jBall.seedUID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-x",
+											"objectClass": "jBall",
+											"sid": 815135582547854,
+											"parameters": {
+												"x": "jBase.X"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jBase",
+											"sid": 130487200271782,
+											"parameters": {
+												"instance-variable": "deltaY",
+												"value": "(Self.Y-Self.jumpY)*1.2"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jBase",
+											"sid": 239093269444734,
+											"parameters": {
+												"instance-variable": "jumpY",
+												"value": "Self.Y"
+											}
+										},
+										{
+											"type": "comment",
+											"text": ""
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jBall",
+											"sid": 670316221232527,
+											"parameters": {
+												"instance-variable": "jumpHi",
+												"value": "Self.Y + (Self.speed*dt + 0.5*Self.gravity*dt^2)+(jBase.deltaY)"
+											}
+										},
+										{
+											"id": "set-y",
+											"objectClass": "jBall",
+											"sid": 402558784793111,
+											"parameters": {
+												"y": "Self.jumpHi"
+											}
+										},
+										{
+											"id": "add-to-instvar",
+											"objectClass": "jBall",
+											"sid": 756074133545885,
+											"parameters": {
+												"instance-variable": "speed",
+												"value": "Self.gravity*dt"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jBase",
+											"sid": 429082366867664,
+											"parameters": {
+												"instance-variable": "jumpHi",
+												"value": "Self.Y-jBall.Y"
+											}
+										},
+										{
+											"id": "set-angle",
+											"objectClass": "seedNut",
+											"sid": 176219374687975,
+											"parameters": {
+												"angle": "random(360)"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "seedNut",
+											"sid": 738125295830181,
+											"parameters": {
+												"animation": "\"seed\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "seedNut",
+											"sid": 473700503157671,
+											"parameters": {
+												"scale": "0.58"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "seedNut",
+											"sid": 971999588779687,
+											"parameters": {
+												"where": "in-front",
+												"object": "jBase"
+											}
+										}
+									],
+									"sid": 572295377936504,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "jBall",
+													"sid": 784878811530807,
+													"parameters": {
+														"instance-variable": "speed",
+														"comparison": 4,
+														"value": "0"
+													}
+												},
+												{
+													"id": "compare-y",
+													"objectClass": "jBall",
+													"sid": 843544916636893,
+													"parameters": {
+														"comparison": 4,
+														"y-co-ordinate": "jBase.Y"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-y",
+													"objectClass": "jBall",
+													"sid": 670594057953531,
+													"parameters": {
+														"y": "jBase.Y"
+													}
+												},
+												{
+													"id": "instance-signal",
+													"objectClass": "jBall",
+													"sid": 570977649358120,
+													"parameters": {
+														"tag": "\"seedNut\""
+													}
+												},
+												{
+													"id": "set-y",
+													"objectClass": "seedNut",
+													"sid": 918964235013654,
+													"parameters": {
+														"y": "jBase.Y"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "seedNut",
+													"sid": 461514182531475,
+													"parameters": {
+														"angle": "0"
+													}
+												},
+												{
+													"id": "unpin",
+													"objectClass": "seedNut",
+													"sid": 937964094854289,
+													"behaviorType": "Pin"
+												},
+												{
+													"id": "set-enabled",
+													"objectClass": "jBase",
+													"sid": 977541957354510,
+													"behaviorType": "EasyIsometric",
+													"parameters": {
+														"newState_": "disabled"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "jBall",
+													"sid": 970568854462780,
+													"parameters": {
+														"instance-variable": "jump",
+														"value": "false"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "jBall",
+													"sid": 494500965076574,
+													"parameters": {
+														"instance-variable": "destroy",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 291243357655928,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "seedNut",
+															"sid": 101285960675615,
+															"parameters": {
+																"instance-variable": "type",
+																"comparison": 0,
+																"value": "\"nut\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "addNut",
+															"sid": 948767104327677,
+															"parameters": [
+																"jBase.X",
+																"jBase.Y",
+																"0",
+																"\"zero\""
+															]
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "seedNut",
+															"sid": 428785730190392,
+															"parameters": {
+																"instance-variable": "on",
+																"value": "false"
+															}
+														},
+														{
+															"id": "wait",
+															"objectClass": "System",
+															"sid": 229001330466855,
+															"parameters": {
+																"seconds": "0",
+																"use-timescale": true
+															}
+														},
+														{
+															"id": "set-position",
+															"objectClass": "seedNut",
+															"sid": 631511755836476,
+															"parameters": {
+																"x": "-388",
+																"y": "-3880"
+															}
+														}
+													],
+													"sid": 143731620084275
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "seedNut",
+															"sid": 676007983206761,
+															"parameters": {
+																"instance-variable": "type",
+																"comparison": 0,
+																"value": "\"chick\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "addChick",
+															"sid": 292376209803916,
+															"parameters": [
+																"jBase.X",
+																"jBase.Y",
+																"0",
+																"\"zero\""
+															]
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "seedNut",
+															"sid": 405134991401230,
+															"parameters": {
+																"instance-variable": "on",
+																"value": "false"
+															}
+														},
+														{
+															"id": "wait",
+															"objectClass": "System",
+															"sid": 968733548577865,
+															"parameters": {
+																"seconds": "0",
+																"use-timescale": true
+															}
+														},
+														{
+															"id": "set-position",
+															"objectClass": "seedNut",
+															"sid": 970566872141027,
+															"parameters": {
+																"x": "-388",
+																"y": "-3880"
+															}
+														}
+													],
+													"sid": 419775784064865
+												},
+												{
+													"eventType": "block",
+													"conditions": [],
+													"actions": [
+														{
+															"id": "wait",
+															"objectClass": "System",
+															"sid": 176928077651529,
+															"parameters": {
+																"seconds": "0",
+																"use-timescale": true
+															}
+														},
+														{
+															"id": "wait",
+															"objectClass": "System",
+															"sid": 857918018526431,
+															"parameters": {
+																"seconds": "0",
+																"use-timescale": true
+															}
+														},
+														{
+															"id": "destroy",
+															"objectClass": "jBase",
+															"sid": 379741798141882
+														}
+													],
+													"sid": 263972201478673
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-outside-layout",
+							"objectClass": "seedNut",
+							"sid": 881186615278316,
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 244600898015466
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 837062080004031
+						}
+					],
+					"actions": [
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 220172960330029,
+							"parameters": {
+								"seconds": "0",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 159682313643172,
+							"parameters": {
+								"seconds": "0",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 652041775675790,
+							"parameters": {
+								"group-name": "\"jumperBall\"",
+								"state": "deactivated"
+							}
+						}
+					],
+					"sid": 630954382227213
+				}
+			],
+			"sid": 267730736900239
+		}
+	],
+	"sid": 288665511722313
+}

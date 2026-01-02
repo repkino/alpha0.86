@@ -1,0 +1,793 @@
+{
+	"name": "_relocation",
+	"events": [
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "camLocations",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "startLayout",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-start-of-layout",
+									"objectClass": "System",
+									"sid": 784668213297047
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Булева блокирующая управление героем во время переходов"
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aBook",
+									"sid": 684534807284112,
+									"parameters": {
+										"instance-variable": "portalHero",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 368769367544895,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "загрузка игры из загрузчика с переходом на локацию"
+								},
+								{
+									"bookmark": true,
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aTools",
+											"sid": 836125815947561,
+											"parameters": {
+												"instance-variable": "typeStartLocation",
+												"comparison": 0,
+												"value": "\"load\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "    здесь должен быть вызов функции загрузки"
+										},
+										{
+											"callFunction": "gotoFrame",
+											"sid": 832105366392716,
+											"parameters": [
+												"aTools.n",
+												"-1",
+												"\"\"",
+												"0",
+												"0"
+											]
+										}
+									],
+									"sid": 361691477291520
+								},
+								{
+									"eventType": "comment",
+									"text": "переход на макет с переходом на локацию"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aTools",
+											"sid": 645249200920660,
+											"parameters": {
+												"instance-variable": "typeStartLocation",
+												"comparison": 0,
+												"value": "\"gotoLayout\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "gotoFrame",
+											"sid": 697206629148940,
+											"parameters": [
+												"aTools.n",
+												"-1",
+												"\"\"",
+												"0",
+												"0"
+											]
+										}
+									],
+									"sid": 216196109603790
+								},
+								{
+									"eventType": "comment",
+									"text": "деактивация групп перехода и загрузки"
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 185383331067200,
+											"parameters": {
+												"seconds": "0.1",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 660616406033868,
+											"parameters": {
+												"group-name": "\"startLayout\"",
+												"state": "deactivated"
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 660219131841782,
+											"parameters": {
+												"group-name": "\"gotoLocation\"",
+												"state": "deactivated"
+											}
+										}
+									],
+									"sid": 775300848904448
+								}
+							]
+						}
+					],
+					"sid": 719378212098721,
+					"text-color": [
+						0.10196078431372549,
+						0.10196078431372549,
+						0.10196078431372549,
+						1
+					],
+					"background-color": [
+						0.8666666666666667,
+						0.796078431372549,
+						0.9058823529411765,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "portToLocation",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"functionName": "portToLocation",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "basis",
+									"sid": 273633224667873,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "aBook.hero"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 298604043424162,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "    если переход на другой макет"
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [],
+									"sid": 833132663905299
+								},
+								{
+									"eventType": "comment",
+									"text": "    если переход в пределах макета"
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [],
+									"sid": 433702645149565
+								}
+							]
+						}
+					],
+					"sid": 408640290381758,
+					"background-color": [
+						0.8666666666666667,
+						0.796078431372549,
+						0.9058823529411765,
+						1
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "    "
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "gotoLocation",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"functionName": "gotoLayout",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "currentLayout",
+									"type": "string",
+									"initialValue": "",
+									"comment": "",
+									"sid": 202897767587614
+								},
+								{
+									"name": "gotoLayout",
+									"type": "string",
+									"initialValue": "",
+									"comment": "",
+									"sid": 261138947824823
+								},
+								{
+									"name": "portalUID",
+									"type": "number",
+									"initialValue": "-1",
+									"comment": "",
+									"sid": 320936582068060
+								},
+								{
+									"name": "name",
+									"type": "string",
+									"initialValue": "",
+									"comment": "",
+									"sid": 143064094870011
+								},
+								{
+									"name": "arrX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 325220749493519
+								},
+								{
+									"name": "arrY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 449968011688905
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aTools",
+									"sid": 502181135184774,
+									"parameters": {
+										"instance-variable": "nOld",
+										"value": "Self.camindex"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 556305282266630,
+									"parameters": {
+										"variable": "currentLayout",
+										"value": "LayoutName"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 323127050772850,
+									"parameters": {
+										"variable": "gotoLayout",
+										"value": "aTools.n=0? \"start\" : aTools.n=200? \"mico\" : aTools.n=201|aTools.n=202|aTools.n=203|aTools.n=204|aTools.n=205|aTools.n=206? \"micoNT\" :  aTools.n=207? \"micoBalcon\": aTools.n=211? \"mis1Puff\" : aTools.n=212? \"mis2Jump\" : aTools.n=213? \"mis3Sent\"  : aTools.n=214? \"mis4Trap\"  : aTools.n=215? \"mis5Stalker\" : aTools.n=217? \"mission7\"  : aTools.n=1|aTools.n=11|aTools.n=12|aTools.n=13|aTools.n=14|aTools.n=15|aTools.n=16|aTools.n=17? \"lib\" : aTools.n=2|aTools.n=21|aTools.n=22|aTools.n=23|aTools.n=24|aTools.n=25|aTools.n=26|aTools.n=27 ? \"rif\" : aTools.n=3|aTools.n=31|aTools.n=32|aTools.n=33|aTools.n=34|aTools.n=35|aTools.n=36|aTools.n=37? \"robo\" : aTools.n=4|aTools.n=41|aTools.n=42|aTools.n=43|aTools.n=44|aTools.n=45|aTools.n=46|aTools.n=47 ? \"towers\" : \naTools.n=5|aTools.n=51|aTools.n=52|aTools.n=53|aTools.n=54|aTools.n=55|aTools.n=56|aTools.n=57? \"clouds\" : aTools.n=6|aTools.n=61|aTools.n=62|aTools.n=63|aTools.n=64|aTools.n=65|aTools.n=66|aTools.n=67? \"Lumy\" : aTools.n=7|aTools.n=71|aTools.n=72|aTools.n=73|aTools.n=74|aTools.n=75|aTools.n=76|aTools.n=77? \"thorns\" : aTools.n=8|aTools.n=81|aTools.n=82|aTools.n=83|aTools.n=84|aTools.n=85|aTools.n=86|aTools.n=87? \"x\" : aTools.n=9|aTools.n=91|aTools.n=92|aTools.n=93|aTools.n=94|aTools.n=95|aTools.n=96|aTools.n=97? \"alef\" : aTools.n=999? \"cloudEditor\" : aTools.n=1000? \"poligon\" : aTools.n=777? \"test\" : aTools.n=2026? \"giftsHunt\" : \"PasnutiArrow\""
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 229238342767005,
+									"parameters": {
+										"variable": "gotoLayout",
+										"value": "aTools.n=2110?\"mis1Award\":gotoLayout"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aTools",
+									"sid": 689249028638339,
+									"parameters": {
+										"instance-variable": "gotoLayout",
+										"value": "gotoLayout"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aTools",
+									"sid": 173730031673086,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "cameraType",
+										"value": "Self.n=1|Self.n=2? \"cameraPerspective\" : Self.n=3|Self.n=4? \"cameraIsometric\" : \"top\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aTools",
+									"sid": 332437440775489,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "cameraType",
+										"value": "Self.n=1|Self.n=13|Self.n=14|Self.n=2|Self.n=6|Self.n=200|Self.n=211? \"cameraIsometric\" : \"cameraPerspective\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aTools",
+									"sid": 930408182648511,
+									"parameters": {
+										"instance-variable": "cameraType",
+										"value": "\"cameraIsometric\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aTools",
+									"sid": 164614478281330,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "cameraType",
+										"value": "\"cameraPerspective\""
+									}
+								},
+								{
+									"id": "set-text",
+									"objectClass": "help",
+									"sid": 303783105580887,
+									"disabled": true,
+									"parameters": {
+										"text": "\"1\""
+									}
+								}
+							],
+							"sid": 117253032009047,
+							"children": [
+								{
+									"bookmark": true,
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 420109898875544,
+											"parameters": {
+												"first-value": "currentLayout",
+												"comparison": 0,
+												"second-value": "gotoLayout"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aTools",
+											"sid": 559269601185792,
+											"parameters": {
+												"instance-variable": "n",
+												"comparison": 1,
+												"value": "Self.camindex"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-tweens",
+											"objectClass": "camera",
+											"sid": 590702945883688,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aIns",
+											"sid": 119949232281943,
+											"parameters": {
+												"instance-variable": "onChangeLocation",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aBook",
+											"sid": 665121031443148,
+											"parameters": {
+												"instance-variable": "portalHero",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-text",
+											"objectClass": "help",
+											"sid": 375263247077387,
+											"disabled": true,
+											"parameters": {
+												"text": "\"goFrame!  \"&aTools.n&\" \"&portalUID"
+											}
+										},
+										{
+											"callFunction": "gotoFrame",
+											"sid": 821631252863428,
+											"parameters": [
+												"aTools.n",
+												"portalUID",
+												"name",
+												"0",
+												"0"
+											]
+										},
+										{
+											"id": "set-text",
+											"objectClass": "help",
+											"sid": 555660883362009,
+											"disabled": true,
+											"parameters": {
+												"text": "\"1s\""
+											}
+										}
+									],
+									"sid": 917138852529733,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "camera",
+													"sid": 452234807280236,
+													"parameters": {
+														"instance-variable": "index",
+														"comparison": 0,
+														"value": "aTools.n"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "basis",
+													"sid": 624752296849354,
+													"parameters": {
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "aBook.hero"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "basis",
+													"sid": 372550565434630,
+													"parameters": {
+														"x": "camera.baseHeroX",
+														"y": "camera.baseHeroY"
+													}
+												}
+											],
+											"sid": 918824865556170,
+											"disabled": true
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 243838568341882,
+											"parameters": {
+												"first-value": "currentLayout",
+												"comparison": 0,
+												"second-value": "gotoLayout"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "закрытие инвентаря"
+										},
+										{
+											"id": "signal",
+											"objectClass": "System",
+											"sid": 646661008702227,
+											"parameters": {
+												"tag": "\"closePanels\""
+											}
+										},
+										{
+											"type": "comment",
+											"text": ""
+										},
+										{
+											"id": "set-text",
+											"objectClass": "help",
+											"sid": 148024213888981,
+											"disabled": true,
+											"parameters": {
+												"text": "\"2\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aTools",
+											"sid": 629352325627848,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "gotoLayout",
+												"value": "gotoLayout"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aTools",
+											"sid": 350125637701963,
+											"parameters": {
+												"instance-variable": "typeStartLocation",
+												"value": "gotoLayout=\"micoNT\" | gotoLayout=\"lib\" | gotoLayout=\"rif\" | gotoLayout=\"robo\" | gotoLayout=\"thorns\" | gotoLayout=\"towers\" | gotoLayout=\"mico\" |gotoLayout=\"clouds\" | gotoLayout=\"Lumy\" | gotoLayout=\"x\" | gotoLayout=\"alef\"| gotoLayout=\"cloudEditor\" ? \"loaderLayout\" : \"gotoLayout\""
+											}
+										}
+									],
+									"sid": 278047492330616,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-text",
+													"objectClass": "help",
+													"sid": 180918908148361,
+													"disabled": true,
+													"parameters": {
+														"text": "\"3\""
+													}
+												},
+												{
+													"id": "disableGroupsOfType",
+													"objectClass": "groups",
+													"sid": 916330445445651,
+													"disabled": true,
+													"parameters": {
+														"groupType": "LayoutName"
+													}
+												},
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
+													"sid": 230684235419800,
+													"parameters": {
+														"group-name": "\"startLayout\"",
+														"state": "activated"
+													}
+												},
+												{
+													"callFunction": "changeCameraGroup",
+													"sid": 104040875610083
+												},
+												{
+													"id": "go-to-layout-by-name",
+													"objectClass": "System",
+													"sid": 801480719641547,
+													"parameters": {
+														"layout": "gotoLayout=\"micoNT\"? \"loadMicoNT\" : gotoLayout=\"lib\"? \"loadLib\" : gotoLayout=\"rif\"? \"loadRif\" : gotoLayout=\"robo\"? \"loadRobo\" : gotoLayout=\"thorns\"? \"loadThorns\" : gotoLayout=\"towers\"? \"loadTowers\" : gotoLayout=\"mico\"? \"loadMico\" : gotoLayout=\"alef\"? \"loadAlef\" : gotoLayout=\"Lumy\"? \"loadLumy\" : gotoLayout=\"clouds\"? \"loadClouds\" : gotoLayout=\"x\"? \"loadX\" : gotoLayout=\"cloudEditor\"? \"loadCE\" : gotoLayout"
+													}
+												}
+											],
+											"sid": 267520029199335
+										}
+									]
+								}
+							]
+						}
+					],
+					"sid": 333682611675249,
+					"background-color": [
+						0.8666666666666667,
+						0.796078431372549,
+						0.9058823529411765,
+						1
+					]
+				}
+			],
+			"sid": 401469300583125,
+			"background-color": [
+				0.8666666666666667,
+				0.796078431372549,
+				0.9058823529411765,
+				1
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "    "
+		},
+		{
+			"functionName": "changeCameraGroup",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [],
+			"eventType": "function-block",
+			"conditions": [],
+			"actions": [
+				{
+					"id": "disableGroupsOfType",
+					"objectClass": "groups",
+					"sid": 806282205342769,
+					"parameters": {
+						"groupType": "\"camera\""
+					}
+				},
+				{
+					"id": "enableGroup",
+					"objectClass": "groups",
+					"sid": 677622064315796,
+					"parameters": {
+						"groupName": "aTools.cameraType"
+					}
+				}
+			],
+			"sid": 675927520379746
+		},
+		{
+			"functionName": "go",
+			"functionDescription": "",
+			"functionCategory": "_TOP",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "n",
+					"type": "number",
+					"initialValue": "-1",
+					"comment": "",
+					"sid": 827504287695565
+				},
+				{
+					"name": "portalUID",
+					"type": "number",
+					"initialValue": "-1",
+					"comment": "",
+					"sid": 454529773097675
+				},
+				{
+					"name": "arrX",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 357471121035983
+				},
+				{
+					"name": "arrY",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 378721092341249
+				}
+			],
+			"eventType": "function-block",
+			"conditions": [],
+			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aTools",
+					"sid": 472907164470732,
+					"parameters": {
+						"instance-variable": "n",
+						"value": "n"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aTools",
+					"sid": 828401954439543,
+					"parameters": {
+						"instance-variable": "portalUID",
+						"value": "portalUID"
+					}
+				},
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 237141073436304,
+					"parameters": {
+						"group-name": "\"gotoLocation\"",
+						"state": "activated"
+					}
+				},
+				{
+					"callFunction": "gotoLayout",
+					"sid": 992946085101564,
+					"parameters": [
+						"\"\"",
+						"\"\"",
+						"portalUID",
+						"\"\"",
+						"arrX",
+						"arrY"
+					]
+				}
+			],
+			"sid": 151886838497011
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-click",
+					"objectClass": "Mouse",
+					"sid": 737492380704928,
+					"parameters": {
+						"mouse-button": "button-4",
+						"click-type": "clicked"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "signal",
+					"objectClass": "System",
+					"sid": 693846268136376,
+					"parameters": {
+						"tag": "\"closePanels\""
+					}
+				}
+			],
+			"sid": 243415979963394,
+			"disabled": true
+		}
+	],
+	"sid": 634373651393720
+}
