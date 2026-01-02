@@ -1,0 +1,1974 @@
+{
+	"name": "_jump2",
+	"events": [
+		{
+			"eventType": "comment",
+			"text": "Оптимизированный лист прыжков _jump2\nОсновная механика прыжка, включая:\n- Вызов прыжка (функция jump)\n- Физика прыжка\n- Воздушный прыжок\n- Приземление"
+		},
+		{
+			"eventType": "variable",
+			"name": "jc",
+			"type": "number",
+			"initialValue": "1",
+			"comment": " jump correction"
+		},
+		{
+			"eventType": "comment",
+			"text": "Функция вызова прыжка"
+		},
+		{
+			"functionName": "jump",
+			"functionDescription": "Основная функция прыжка",
+			"functionCategory": "_TOP",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "name",
+					"type": "string",
+					"initialValue": "Bit",
+					"comment": "Имя персонажа"
+				},
+				{
+					"name": "speed",
+					"type": "number",
+					"initialValue": "-1300",
+					"comment": "Скорость прыжка"
+				},
+				{
+					"name": "gravity",
+					"type": "number",
+					"initialValue": "4000",
+					"comment": "Гравитация"
+				},
+				{
+					"name": "airJump",
+					"type": "number",
+					"initialValue": "1",
+					"comment": "Воздушные прыжки"
+				},
+				{
+					"name": "type",
+					"type": "string",
+					"initialValue": "map",
+					"comment": "Тип прыжка: map, air, gaser"
+				},
+				{
+					"name": "mind",
+					"type": "number",
+					"initialValue": "1",
+					"comment": "Коэффициент разума"
+				},
+				{
+					"name": "airJumpCoeff",
+					"type": "number",
+					"initialValue": "1",
+					"comment": "Коэффициент воздушного прыжка"
+				},
+				{
+					"name": "noJump",
+					"type": "boolean",
+					"initialValue": "false",
+					"comment": "Запрет прыжка"
+				},
+				{
+					"name": "airJumpOn",
+					"type": "boolean",
+					"initialValue": "true",
+					"comment": "Воздушный прыжок включён"
+				},
+				{
+					"name": "specAnim",
+					"type": "string",
+					"initialValue": "zero",
+					"comment": "Специальная анимация"
+				},
+				{
+					"name": "sonic",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "Sonic модификатор"
+				}
+			],
+			"eventType": "function-block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "jumper",
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "name"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "basis",
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "name"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "person",
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "name"
+					}
+				},
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "basis",
+					"parameters": {
+						"instance-variable": "inTrap"
+					},
+					"isInverted": true
+				}
+			],
+			"actions": [
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"parameters": {
+						"group-name": "\"jump\"",
+						"state": "activated"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"parameters": {
+						"variable": "gravity",
+						"value": "gravity=0? aBook.locationGravity: gravity"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"parameters": {
+						"variable": "mind",
+						"value": "aGame.mind>1?1:aGame.mind"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"parameters": {
+						"variable": "airJumpCoeff",
+						"value": "aGame.airJumpCoeff"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "basis",
+					"parameters": {
+						"instance-variable": "jumpY",
+						"value": "Self.Y"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aGame",
+					"parameters": {
+						"instance-variable": "sonicMod",
+						"value": "sonic"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"parameters": {
+						"variable": "speed",
+						"value": "speed*jc-300"
+					}
+				},
+				{
+					"id": "set-text",
+					"objectClass": "help",
+					"parameters": {
+						"text": "speed"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"parameters": {
+						"variable": "gravity",
+						"value": "gravity*jc+200"
+					}
+				}
+			],
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "Замедление при ползании"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "person",
+							"parameters": {
+								"instance-variable": "moveType",
+								"comparison": 0,
+								"value": "\"crawl\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"parameters": {
+								"variable": "speed",
+								"value": "speed/3"
+							}
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Обработка для текущего героя"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"parameters": {
+								"variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "name"
+							}
+						}
+					],
+					"actions": [],
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Прыжок из состояния споры"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "person",
+									"parameters": {
+										"animation": "\"sporeJet\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "person",
+									"parameters": {
+										"animation": "\"sporeFly\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "person",
+									"parameters": {
+										"animation": "\"sporeLand\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jump",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"parameters": {
+										"instance-variable": "jump",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "jumper",
+									"parameters": {
+										"y": "person.ImagePointY(\"center\")"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jumpHi",
+										"value": "person.ImagePointY(\"center\")"
+									}
+								},
+								{
+									"id": "set-boolean-eventvar",
+									"objectClass": "System",
+									"parameters": {
+										"variable": "airJumpOn",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"parameters": {
+										"variable": "type",
+										"value": "\"air\""
+									}
+								}
+							],
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBook",
+											"parameters": {
+												"instance-variable": "hero",
+												"comparison": 0,
+												"value": "\"Bit\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aBit",
+											"parameters": {
+												"instance-variable": "jump",
+												"value": "true"
+											}
+										}
+									]
+								}
+							],
+							"isOrBlock": true
+						},
+						{
+							"eventType": "comment",
+							"text": "Запрет прыжка при hNoJump"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aIns",
+									"parameters": {
+										"instance-variable": "hNoJump"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-eventvar",
+									"objectClass": "System",
+									"parameters": {
+										"variable": "noJump",
+										"value": "true"
+									}
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Отсоединить sporesFX"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-pinned",
+									"objectClass": "sporesFX",
+									"behaviorType": "Pin"
+								}
+							],
+							"actions": [
+								{
+									"id": "unpin",
+									"objectClass": "sporesFX",
+									"behaviorType": "Pin"
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Основной блок обработки прыжка (если прыжок разрешён)"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"parameters": {
+								"variable": "noJump"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "jumper",
+							"parameters": {
+								"instance-variable": "state",
+								"value": "\"jump\""
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "jumper",
+							"parameters": {
+								"instance-variable": "typeJump",
+								"value": "type"
+							}
+						}
+					],
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Прыжок с воздуха (не с поверхности, не в прыжке)"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"parameters": {
+										"variable": "type",
+										"comparison": 0,
+										"value": "\"map\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jump"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "speed*mind*basis.density"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "gravity",
+										"value": "gravity*basis.density"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "airJump",
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "specAnim",
+										"value": "specAnim"
+									}
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Воздушный прыжок (из прыжка)"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System"
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"parameters": {
+										"variable": "type",
+										"comparison": 0,
+										"value": "\"air\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aIns",
+									"parameters": {
+										"instance-variable": "hNoBigJump"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "speed*airJumpCoeff*map.jumpSpeedCoeff*basis.density"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "gravity",
+										"value": "gravity*map.gravityCoeff*basis.density"
+									}
+								},
+								{
+									"id": "callselffunction0",
+									"objectClass": "jumper",
+									"behaviorType": "sf",
+									"parameters": {
+										"function_name:0": "\"airJump\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "specAnim",
+										"value": "specAnim"
+									}
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Прыжок с поверхности (map type)"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System"
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"parameters": {
+										"variable": "type",
+										"comparison": 0,
+										"value": "\"map\""
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "map",
+									"parameters": {
+										"unique-id": "aTools.groundUID"
+									}
+								}
+							],
+							"actions": [],
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "Прыжок с активной поверхности"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "map",
+											"parameters": {
+												"instance-variable": "activeMap",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "jump"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [],
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "jumper",
+													"parameters": {
+														"instance-variable": "airJump",
+														"value": "map.airJumps"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "jumper",
+													"parameters": {
+														"instance-variable": "speed",
+														"value": "speed*map.jumpSpeedCoeff*mind*basis.density"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "jumper",
+													"parameters": {
+														"instance-variable": "gravity",
+														"value": "gravity*map.gravityCoeff*basis.density"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "jumper",
+													"parameters": {
+														"instance-variable": "specAnim",
+														"value": "specAnim"
+													}
+												},
+												{
+													"id": "callselffunction0",
+													"objectClass": "jumper",
+													"behaviorType": "sf",
+													"parameters": {
+														"function_name:0": "\"jump\""
+													}
+												},
+												{
+													"type": "comment",
+													"text": "Визуальный эффект пыли"
+												},
+												{
+													"id": "create-object",
+													"objectClass": "System",
+													"parameters": {
+														"object-to-create": "airCloud",
+														"layer": "\"iso\"",
+														"x": "basis.X",
+														"y": "basis.Y",
+														"create-hierarchy": false,
+														"template-name": "\"\""
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "airCloud",
+													"parameters": {
+														"animation": "\"dust\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "airCloud",
+													"parameters": {
+														"scale": "basis.fullScale*0.35"
+													}
+												},
+												{
+													"id": "instance-signal",
+													"objectClass": "basis",
+													"parameters": {
+														"tag": "\"jump\""
+													}
+												}
+											]
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "Воздушный прыжок с поверхности"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System"
+										},
+										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"parameters": {
+												"variable": "airJumpOn"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "airJump",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "basis",
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "jumper.name"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aIns",
+											"parameters": {
+												"instance-variable": "hNoBigJump"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "speed",
+												"value": "speed*airJumpCoeff*map.jumpSpeedCoeff*mind*basis.density"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "gravity",
+												"value": "gravity*map.gravityCoeff*basis.density"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "airJump",
+												"value": "Self.jump=0 ? map.airJumps : Self.airJump-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "specAnim",
+												"value": "specAnim"
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "jumper",
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"airJump\""
+											}
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Установка флагов прыжка"
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jump",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "basis",
+									"parameters": {
+										"instance-variable": "jump",
+										"value": "true"
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "Группа физики прыжка"
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "jump",
+			"description": "Физика прыжка и приземления",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "Функция анимации sonic прыжка"
+				},
+				{
+					"functionName": "sonicJumpAnim",
+					"functionDescription": "Анимация sonic прыжка для Bit",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "aBit",
+							"parameters": {
+								"instance-variable": "sonic",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "Bit",
+							"parameters": {
+								"animation": "\"sonicJump\"&(base.direct=3 ? 1 : base.direct=4 ? 0 : base.direct=5 ? 7 : base.direct) ",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-mirrored",
+							"objectClass": "Bit",
+							"parameters": {
+								"state": "not-mirrored"
+							}
+						}
+					],
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-between-values",
+									"objectClass": "System",
+									"parameters": {
+										"value": "base.direct",
+										"lower-bound": "3",
+										"upper-bound": "5"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-mirrored",
+									"objectClass": "Bit",
+									"parameters": {
+										"state": "mirrored"
+									}
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Триггер анимации sonicAirCharge"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "Bit",
+							"parameters": {
+								"animation": "\"sonicAirCharge\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "sonicJumpAnim"
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Основной цикл физики прыжка"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "for-each",
+							"objectClass": "System",
+							"parameters": {
+								"object": "jumper"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "jumper.name"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "person",
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "jumper.name"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "shad",
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "jumper.name"
+							}
+						}
+					],
+					"actions": [],
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Сброс при отсутствии прыжка (и не в полёте)"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jump"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "person",
+									"parameters": {
+										"instance-variable": "fly"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-y",
+									"objectClass": "jumper",
+									"parameters": {
+										"y": "shad.Y+person.hi"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jumpHi",
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "person",
+									"parameters": {
+										"angle": "0"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "person",
+									"parameters": {
+										"instance-variable": "animJumpSpecial",
+										"value": "jumper.specAnim"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"parameters": {
+										"instance-variable": "deltaY",
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"parameters": {
+										"instance-variable": "jumpHi",
+										"value": "0"
+									}
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Физика прыжка в воздухе"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jump"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"parameters": {
+										"instance-variable": "deltaY",
+										"value": "Self.Y-Self.jumpY"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"parameters": {
+										"instance-variable": "jumpY",
+										"value": "Self.Y"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "Расчёт новой высоты прыжка"
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jumpHi",
+										"value": "Self.Y + ((self.speed * dt + 0.5 * self.gravity * dt^2) * basis.zScale) + basis.deltaY"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "jumper",
+									"parameters": {
+										"y": "Self.jumpHi"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "Применение гравитации"
+								},
+								{
+									"id": "add-to-instvar",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "Self.gravity*dt"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"parameters": {
+										"instance-variable": "jumpHi",
+										"value": "Self.Y-jumper.Y"
+									}
+								}
+							],
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "Обработка анимации только для текущего героя"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "aBook.hero"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "jump"
+											}
+										}
+									],
+									"actions": [],
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "Триггеры анимации прыжка обрабатываются здесь"
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Приземление"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shad",
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "jumper.name"
+									}
+								}
+							],
+							"actions": [],
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-y",
+											"objectClass": "jumper",
+											"parameters": {
+												"comparison": 4,
+												"y-co-ordinate": "shad.Y+person.hi"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "basis",
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "jumper.name"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-y",
+											"objectClass": "jumper",
+											"parameters": {
+												"y": "shad.Y+person.hi"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "speed",
+												"value": "0"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "airJump",
+												"value": "1"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "jump",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"parameters": {
+												"instance-variable": "jump",
+												"value": "false"
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "basis",
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"land\""
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "basis",
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"groundUID\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jumper",
+											"parameters": {
+												"instance-variable": "state",
+												"value": "\"land\""
+											}
+										},
+										{
+											"id": "monitorstr1",
+											"objectClass": "vm",
+											"parameters": {
+												"tag0": "\"land\"",
+												"string1": "jumper.state"
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "jumper",
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"land\""
+											}
+										},
+										{
+											"id": "monitorstr1",
+											"objectClass": "vm",
+											"parameters": {
+												"tag0": "\"land\"",
+												"string1": "\"zero\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"parameters": {
+												"instance-variable": "controlMove",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "person",
+											"parameters": {
+												"instance-variable": "jumpFly",
+												"value": "false"
+											}
+										},
+										{
+											"id": "instance-signal",
+											"objectClass": "basis",
+											"parameters": {
+												"tag": "\"landAll\""
+											}
+										}
+									],
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "Анимация при приземлении из sporePump"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-animation-playing",
+													"objectClass": "person",
+													"parameters": {
+														"animation": "\"sporePump\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"customAction": "stop",
+													"objectClass": "basis"
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "person",
+													"parameters": {
+														"instance-variable": "animPriority",
+														"value": "2"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "person",
+													"parameters": {
+														"animation": "\"sporeJet\"",
+														"from": "beginning"
+													}
+												}
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "Стандартная анимация приземления"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System"
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "person",
+													"parameters": {
+														"instance-variable": "animJumpSpecial",
+														"comparison": 0,
+														"value": "\"zero\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-animation",
+													"objectClass": "person",
+													"parameters": {
+														"animation": "aGame.sonicMod>0?\"sonicGrow\": \"landing\"",
+														"from": "beginning"
+													}
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System"
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "person",
+													"parameters": {
+														"instance-variable": "animJumpSpecial",
+														"value": "\"zero\""
+													}
+												}
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "Сигнал приземления для Nordik/Bit"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "jumper",
+													"parameters": {
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "\"Nordik\""
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "jumper",
+													"parameters": {
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "\"Bit\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "signal",
+													"objectClass": "System",
+													"parameters": {
+														"tag": "\"land\""
+													}
+												},
+												{
+													"id": "signal",
+													"objectClass": "System",
+													"parameters": {
+														"tag": "jumper.name&\"Land\""
+													}
+												}
+											],
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "person",
+															"parameters": {
+																"instance-variable": "moveType",
+																"comparison": 0,
+																"value": "\"crawl\""
+															}
+														},
+														{
+															"id": "is-animation-playing",
+															"objectClass": "person",
+															"parameters": {
+																"animation": "\"sporePump\""
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"customAction": "anim",
+															"objectClass": "aaa",
+															"parameters": [
+																"\"upsideDown\"",
+																"0",
+																"0",
+																"\"zero\"",
+																false,
+																false,
+																"\"Bit\"",
+																"12",
+																"0",
+																true,
+																"\"zero\""
+															]
+														}
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "aBook",
+															"parameters": {
+																"instance-variable": "hero",
+																"comparison": 0,
+																"value": "\"Bit\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "aBit",
+															"parameters": {
+																"instance-variable": "jump",
+																"value": "false"
+															}
+														}
+													]
+												}
+											],
+											"isOrBlock": true
+										},
+										{
+											"eventType": "comment",
+											"text": "Сброс угла и остановка при приземлении"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "basis",
+													"parameters": {
+														"instance-variable": "move"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "person",
+													"parameters": {
+														"instance-variable": "animPriority",
+														"value": "0"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "person",
+													"parameters": {
+														"angle": "0"
+													}
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System"
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "basis",
+													"parameters": {
+														"instance-variable": "move"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "set-angle",
+													"objectClass": "person",
+													"parameters": {
+														"angle": "0"
+													}
+												}
+											],
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "aGame",
+															"parameters": {
+																"instance-variable": "blackout"
+															},
+															"isInverted": true
+														},
+														{
+															"id": "is-animation-playing",
+															"objectClass": "person",
+															"parameters": {
+																"animation": "\"sporePump\""
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "person",
+															"parameters": {
+																"instance-variable": "animPriority",
+																"value": "0"
+															}
+														},
+														{
+															"customAction": "stop",
+															"objectClass": "basis"
+														}
+													]
+												}
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "Сброс флага rbmBallTarget"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aBook",
+													"parameters": {
+														"instance-variable": "rbmBallTarget"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "aBook",
+													"parameters": {
+														"instance-variable": "rbmBallTarget",
+														"value": "false"
+													}
+												},
+												{
+													"callFunction": "ballTargetBit",
+													"parameters": [
+														"\"zero\""
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Обработка воздушного прыжка"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "jumper",
+							"behaviorType": "sf",
+							"parameters": {
+								"function_name:0": "\"airJump\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "jumper.name"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "person",
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "jumper.name"
+							}
+						}
+					],
+					"actions": [],
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Обычный воздушный прыжок (не gaser)"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "typeJump",
+										"comparison": 0,
+										"value": "\"gaser\""
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Облачко при воздушном прыжке"
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "person",
+									"parameters": {
+										"angle": "0"
+									}
+								},
+								{
+									"id": "spawn-another-object",
+									"objectClass": "person",
+									"parameters": {
+										"object": "airCloud",
+										"layer": "\"iso\"",
+										"image-point": "2",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "airCloud",
+									"parameters": {
+										"animation": "\"cloud\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "move-to-object",
+									"objectClass": "airCloud",
+									"parameters": {
+										"where": "behind",
+										"object": "person"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "airCloud",
+									"parameters": {
+										"scale": "basis.fullScale*0.35"
+									}
+								}
+							],
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "Анимация без sonic режима"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"parameters": {
+												"instance-variable": "sonic"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "animPers",
+											"parameters": [
+												"person.UID",
+												"aBook.hero=\"Nordik\"? \"react\" :  aGame.sonicMod>0?\"sonicAirCharge\":   \"chargeAir\"",
+												"1",
+												"0",
+												"777",
+												"0"
+											]
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "Анимация в sonic режиме"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System"
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "sonicJumpAnim"
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Воздушный прыжок типа gaser"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "typeJump",
+										"comparison": 0,
+										"value": "\"gaser\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "animPers",
+									"parameters": [
+										"person.UID",
+										"\"fly\"",
+										"1",
+										"person.AnimationFrame",
+										"person.AnimationSpeed>0?-6:6",
+										"0"
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Отключение группы прыжка при приземлении"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onvaluechange0",
+							"objectClass": "vm",
+							"parameters": {
+								"tag0": "\"land\""
+							}
+						}
+					],
+					"actions": [],
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "jumper",
+									"parameters": {
+										"instance-variable": "jump"
+									}
+								}
+							],
+							"actions": []
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System"
+								}
+							],
+							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"parameters": {
+										"group-name": "\"jump\"",
+										"state": "deactivated"
+									}
+								}
+							]
+						}
+					]
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "Уничтожение облачков после анимации"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-any-animation-finished",
+					"objectClass": "airCloud"
+				}
+			],
+			"actions": [
+				{
+					"id": "destroy",
+					"objectClass": "airCloud"
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "Анимация chargeAir -> прыжок"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-animation-finished",
+					"objectClass": "person",
+					"parameters": {
+						"animation": "\"chargeAir\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"callFunction": "animPers",
+					"parameters": [
+						"person.UID",
+						"aBook.hero=\"Bit\"?choose(\"salto\",\"jumpTurn\",\"jump\"):\"react\"",
+						"1",
+						"0",
+						"777",
+						"0"
+					]
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "Анимация sonicAirCharge -> sonicJump"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-animation-finished",
+					"objectClass": "person",
+					"parameters": {
+						"animation": "\"sonicAirCharge\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"callFunction": "animPers",
+					"parameters": [
+						"person.UID",
+						"\"sonicJump\"",
+						"1",
+						"0",
+						"777",
+						"0"
+					]
+				}
+			]
+		}
+	]
+}
