@@ -446,7 +446,97 @@
 							]
 						}
 					],
-					"sid": 935754772659513
+					"sid": 935754772659513,
+					"disabled": true
+				},
+				{
+					"eventType": "comment",
+					"text": "Защита resetShoko: разрешаем сброс только когда shoko.status == \"zero\" или shoko.status == \"portEnd\".",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.4,
+						0.6,
+						0.8,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 153032906106923,
+							"parameters": {
+								"tag": "\"resetShoko\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 353452819739934,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shoko",
+									"sid": 419812213188202,
+									"parameters": {
+										"instance-variable": "status",
+										"comparison": 0,
+										"value": "\"portEnd\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shoko",
+									"sid": 254452193152176,
+									"parameters": {
+										"instance-variable": "status",
+										"comparison": 0,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "shoko",
+									"sid": 949814097298462,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "shoko",
+									"sid": 811734050243044,
+									"parameters": {
+										"animation": "\"loop\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"customAction": "hide",
+									"objectClass": "shoko",
+									"sid": 192272738204010,
+									"parameters": [
+										true,
+										true
+									]
+								}
+							],
+							"sid": 531780437164751,
+							"isOrBlock": true
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -481,7 +571,7 @@
 						{
 							"customAction": "puls",
 							"objectClass": "shoko",
-							"sid": 514550066441790
+							"sid": 484958930385990
 						},
 						{
 							"id": "instance-signal",
@@ -652,7 +742,7 @@
 				},
 				{
 					"aceType": "action",
-					"aceName": "puls",
+					"aceName": "pulsOLD",
 					"objectClass": "shoko",
 					"functionDescription": "",
 					"functionCategory": "",
@@ -665,7 +755,7 @@
 						{
 							"id": "compare-instance-variable",
 							"objectClass": "ath",
-							"sid": 606851066552610,
+							"sid": 115804530634508,
 							"parameters": {
 								"instance-variable": "name",
 								"comparison": 0,
@@ -675,7 +765,7 @@
 						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "base",
-							"sid": 218477601316851,
+							"sid": 601555176402362,
 							"parameters": {
 								"instance-variable": "shokoTarget"
 							}
@@ -683,7 +773,7 @@
 						{
 							"id": "is-animation-playing",
 							"objectClass": "shoko",
-							"sid": 380289401870230,
+							"sid": 932548289054608,
 							"parameters": {
 								"animation": "\"up\""
 							},
@@ -692,7 +782,7 @@
 						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "shoko",
-							"sid": 350511002608486,
+							"sid": 248157322697270,
 							"parameters": {
 								"instance-variable": "attack"
 							},
@@ -701,7 +791,7 @@
 						{
 							"id": "compare-instance-variable",
 							"objectClass": "shoko",
-							"sid": 168335980628313,
+							"sid": 816782759977343,
 							"parameters": {
 								"instance-variable": "status",
 								"comparison": 0,
@@ -714,14 +804,14 @@
 						{
 							"id": "append-text",
 							"objectClass": "help",
-							"sid": 559136644165672,
+							"sid": 637164173057757,
 							"disabled": true,
 							"parameters": {
 								"text": "\".\""
 							}
 						}
 					],
-					"sid": 648633011975112,
+					"sid": 711525415009510,
 					"children": [
 						{
 							"eventType": "comment",
@@ -745,7 +835,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "base",
-									"sid": 913189227008991,
+									"sid": 511572652977248,
 									"parameters": {
 										"instance-variable": "serpentTarget"
 									}
@@ -753,7 +843,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "base",
-									"sid": 703971924389644,
+									"sid": 524302125777102,
 									"parameters": {
 										"instance-variable": "hi",
 										"comparison": 3,
@@ -763,13 +853,13 @@
 								{
 									"id": "is-outside-layout",
 									"objectClass": "base",
-									"sid": 761063885941060,
+									"sid": 298128615327961,
 									"isInverted": true
 								},
 								{
 									"id": "is-overlapping-another-object",
 									"objectClass": "base",
-									"sid": 751011570997498,
+									"sid": 483773758692479,
 									"parameters": {
 										"object": "zoneStopTh"
 									},
@@ -780,7 +870,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "base",
-									"sid": 547963961795855,
+									"sid": 760397576239934,
 									"parameters": {
 										"instance-variable": "shokoTargDist",
 										"value": "Functions.getIsoDist(ath.X,ath.Y,Self.X,Self.Y)"
@@ -789,14 +879,14 @@
 								{
 									"id": "append-text",
 									"objectClass": "help",
-									"sid": 269324588753004,
+									"sid": 347320437197946,
 									"disabled": true,
 									"parameters": {
 										"text": "\"a\""
 									}
 								}
 							],
-							"sid": 997558006924761,
+							"sid": 364304871316457,
 							"children": [
 								{
 									"eventType": "comment",
@@ -820,7 +910,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "base",
-											"sid": 621432840583881,
+											"sid": 470379766896516,
 											"parameters": {
 												"instance-variable": "name",
 												"comparison": 0,
@@ -830,7 +920,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "base",
-											"sid": 526135976146354,
+											"sid": 671646977815521,
 											"parameters": {
 												"instance-variable": "respawn"
 											},
@@ -839,7 +929,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "base",
-											"sid": 946232587066441,
+											"sid": 699122582057662,
 											"parameters": {
 												"instance-variable": "serpGetMeUID",
 												"comparison": 3,
@@ -849,7 +939,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aBit",
-											"sid": 813027453511023,
+											"sid": 220950270110864,
 											"parameters": {
 												"instance-variable": "intersept"
 											},
@@ -858,7 +948,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aBit",
-											"sid": 905838815870517,
+											"sid": 549462953103608,
 											"parameters": {
 												"instance-variable": "respawn"
 											},
@@ -867,7 +957,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aMico",
-											"sid": 898678792340478,
+											"sid": 968767420136424,
 											"parameters": {
 												"instance-variable": "BitHide"
 											},
@@ -878,7 +968,7 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "shoko",
-											"sid": 790891239941515,
+											"sid": 839908148642064,
 											"parameters": {
 												"instance-variable": "heroDist",
 												"value": "base.shokoTargDist"
@@ -887,14 +977,14 @@
 										{
 											"id": "append-text",
 											"objectClass": "help",
-											"sid": 485394736329173,
+											"sid": 663165742359950,
 											"disabled": true,
 											"parameters": {
 												"text": "\"b\""
 											}
 										}
 									],
-									"sid": 739958332285677
+									"sid": 883744423065934
 								},
 								{
 									"eventType": "comment",
@@ -918,12 +1008,12 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 926190489357809
+											"sid": 986132416311255
 										},
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "base",
-											"sid": 431022322251713,
+											"sid": 859994024437749,
 											"parameters": {
 												"instance-variable": "name",
 												"comparison": 0,
@@ -935,7 +1025,7 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "base",
-											"sid": 338050775210618,
+											"sid": 780542173988922,
 											"parameters": {
 												"instance-variable": "shokoTargDist",
 												"value": "10000"
@@ -944,7 +1034,7 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "shoko",
-											"sid": 796664632649224,
+											"sid": 455973363930144,
 											"parameters": {
 												"instance-variable": "heroDist",
 												"value": "10000"
@@ -953,14 +1043,14 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "shoko",
-											"sid": 886136264325017,
+											"sid": 817975978789067,
 											"parameters": {
 												"instance-variable": "closeTarg",
 												"value": "false"
 											}
 										}
 									],
-									"sid": 204810285265644
+									"sid": 434532265799486
 								},
 								{
 									"eventType": "comment",
@@ -984,7 +1074,7 @@
 										{
 											"id": "pick-by-comparison",
 											"objectClass": "System",
-											"sid": 784288659225836,
+											"sid": 675821543880472,
 											"parameters": {
 												"object": "base",
 												"expression": "base.shokoTargDist",
@@ -997,14 +1087,14 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "shoko",
-											"sid": 960587096943951,
+											"sid": 387247582436317,
 											"parameters": {
 												"instance-variable": "closeTarg",
 												"value": "true"
 											}
 										}
 									],
-									"sid": 285344549690348,
+									"sid": 779240705508162,
 									"children": [
 										{
 											"eventType": "comment",
@@ -1028,7 +1118,7 @@
 												{
 													"id": "pick-highestlowest",
 													"objectClass": "base",
-													"sid": 788394886793995,
+													"sid": 967862729512896,
 													"parameters": {
 														"which": "lowest",
 														"instance-variable": "shokoTargDist"
@@ -1039,7 +1129,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "shoko",
-													"sid": 879666492489610,
+													"sid": 832500932203923,
 													"parameters": {
 														"instance-variable": "uTargDist",
 														"value": "base.shokoTargDist"
@@ -1048,14 +1138,14 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "shoko",
-													"sid": 599184476693441,
+													"sid": 236801627912532,
 													"parameters": {
-														"instance-variable": "targUID",
+														"instance-variable": "targetUID",
 														"value": "base.UID"
 													}
 												}
 											],
-											"sid": 312047978200709,
+											"sid": 578777343326564,
 											"children": [
 												{
 													"eventType": "comment",
@@ -1079,7 +1169,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "shoko",
-															"sid": 343105146144884,
+															"sid": 511795358839048,
 															"parameters": {
 																"instance-variable": "uTargDist",
 																"comparison": 4,
@@ -1091,7 +1181,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "shoko",
-															"sid": 249690215078922,
+															"sid": 196975604975376,
 															"parameters": {
 																"instance-variable": "targGoToMe",
 																"value": "0"
@@ -1100,14 +1190,14 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "shoko",
-															"sid": 939087619558646,
+															"sid": 797307547404945,
 															"parameters": {
 																"instance-variable": "mod",
 																"value": "\"run\""
 															}
 														}
 													],
-													"sid": 695417959692347
+													"sid": 532644196213682
 												},
 												{
 													"eventType": "block",
@@ -1115,21 +1205,21 @@
 														{
 															"id": "else",
 															"objectClass": "System",
-															"sid": 939160498111408
+															"sid": 226798380085819
 														}
 													],
 													"actions": [
 														{
 															"id": "set-instvar-value",
 															"objectClass": "shoko",
-															"sid": 696477322787970,
+															"sid": 357891702590487,
 															"parameters": {
 																"instance-variable": "targGoToMe",
 																"value": "1"
 															}
 														}
 													],
-													"sid": 526152090091382,
+													"sid": 484376030069613,
 													"children": [
 														{
 															"eventType": "block",
@@ -1137,7 +1227,7 @@
 																{
 																	"id": "compare-instance-variable",
 																	"objectClass": "shoko",
-																	"sid": 194525178183105,
+																	"sid": 773251001451681,
 																	"parameters": {
 																		"instance-variable": "mod",
 																		"comparison": 1,
@@ -1149,14 +1239,14 @@
 																{
 																	"id": "set-instvar-value",
 																	"objectClass": "shoko",
-																	"sid": 616612112581272,
+																	"sid": 879056119781514,
 																	"parameters": {
 																		"instance-variable": "mod",
 																		"value": "\"wait\""
 																	}
 																}
 															],
-															"sid": 287528549058577,
+															"sid": 443395314640112,
 															"children": [
 																{
 																	"eventType": "block",
@@ -1164,7 +1254,7 @@
 																		{
 																			"id": "is-boolean-instance-variable-set",
 																			"objectClass": "shoko",
-																			"sid": 526615762803989,
+																			"sid": 426425228609343,
 																			"parameters": {
 																				"instance-variable": "undergroud"
 																			},
@@ -1173,7 +1263,7 @@
 																		{
 																			"id": "is-boolean-instance-variable-set",
 																			"objectClass": "shoko",
-																			"sid": 352581021474857,
+																			"sid": 197297655493809,
 																			"parameters": {
 																				"instance-variable": "attack"
 																			},
@@ -1184,14 +1274,14 @@
 																		{
 																			"customAction": "hide",
 																			"objectClass": "shoko",
-																			"sid": 650064060633234,
+																			"sid": 117884585309142,
 																			"parameters": [
 																				false,
 																				false
 																			]
 																		}
 																	],
-																	"sid": 247339147100499
+																	"sid": 707423163183217
 																}
 															]
 														}
@@ -1236,14 +1326,14 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "shoko",
-															"sid": 311586864984633,
+															"sid": 225109029859228,
 															"parameters": {
 																"instance-variable": "targDist",
 																"value": "base.shokoTargDist"
 															}
 														}
 													],
-													"sid": 308360901148368
+													"sid": 638431167011004
 												},
 												{
 													"eventType": "comment",
@@ -1267,7 +1357,7 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "shoko",
-															"sid": 780593385993322,
+															"sid": 962999396952531,
 															"disabled": true,
 															"parameters": {
 																"instance-variable": "attack"
@@ -1277,7 +1367,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "shoko",
-															"sid": 739649585565805,
+															"sid": 309137151130710,
 															"parameters": {
 																"instance-variable": "mod",
 																"comparison": 1,
@@ -1286,7 +1376,7 @@
 														}
 													],
 													"actions": [],
-													"sid": 156645930982263,
+													"sid": 330717094624852,
 													"children": [
 														{
 															"eventType": "comment",
@@ -1310,7 +1400,7 @@
 																{
 																	"id": "compare-instance-variable",
 																	"objectClass": "shoko",
-																	"sid": 619050177748898,
+																	"sid": 387685287626801,
 																	"parameters": {
 																		"instance-variable": "mod",
 																		"comparison": 0,
@@ -1320,7 +1410,7 @@
 																{
 																	"id": "compare-instance-variable",
 																	"objectClass": "base",
-																	"sid": 762205161317169,
+																	"sid": 627397693314110,
 																	"parameters": {
 																		"instance-variable": "shokoTargDist",
 																		"comparison": 2,
@@ -1332,14 +1422,14 @@
 																{
 																	"customAction": "attack",
 																	"objectClass": "shoko",
-																	"sid": 672111907084052,
+																	"sid": 113179097690563,
 																	"parameters": [
 																		"\"cut\"",
 																		"0"
 																	]
 																}
 															],
-															"sid": 300330953948955
+															"sid": 367658247482859
 														},
 														{
 															"eventType": "comment",
@@ -1363,12 +1453,12 @@
 																{
 																	"id": "else",
 																	"objectClass": "System",
-																	"sid": 127291894836407
+																	"sid": 766641863592758
 																},
 																{
 																	"id": "compare-instance-variable",
 																	"objectClass": "shoko",
-																	"sid": 913506350022808,
+																	"sid": 258803958921075,
 																	"parameters": {
 																		"instance-variable": "mod",
 																		"comparison": 0,
@@ -1377,7 +1467,7 @@
 																}
 															],
 															"actions": [],
-															"sid": 115443141743789,
+															"sid": 336562134386217,
 															"children": [
 																{
 																	"eventType": "comment",
@@ -1401,7 +1491,7 @@
 																		{
 																			"id": "compare-instance-variable",
 																			"objectClass": "base",
-																			"sid": 171032033353884,
+																			"sid": 404425445071708,
 																			"parameters": {
 																				"instance-variable": "shokoTargDist",
 																				"comparison": 2,
@@ -1413,14 +1503,14 @@
 																		{
 																			"customAction": "attack",
 																			"objectClass": "shoko",
-																			"sid": 665519046819554,
+																			"sid": 467710913501455,
 																			"parameters": [
 																				"\"cut\"",
 																				"0"
 																			]
 																		}
 																	],
-																	"sid": 602259703882808
+																	"sid": 201607996615033
 																},
 																{
 																	"eventType": "comment",
@@ -1444,12 +1534,12 @@
 																		{
 																			"id": "else",
 																			"objectClass": "System",
-																			"sid": 215824247003139
+																			"sid": 787108276003098
 																		},
 																		{
 																			"id": "compare-instance-variable",
 																			"objectClass": "base",
-																			"sid": 653750681816444,
+																			"sid": 144749234554553,
 																			"parameters": {
 																				"instance-variable": "shokoTargDist",
 																				"comparison": 2,
@@ -1461,14 +1551,14 @@
 																		{
 																			"customAction": "attack",
 																			"objectClass": "shoko",
-																			"sid": 109565006046048,
+																			"sid": 765533877983883,
 																			"parameters": [
 																				"\"claws\"",
 																				"0"
 																			]
 																		}
 																	],
-																	"sid": 563557918012169
+																	"sid": 515509597846062
 																},
 																{
 																	"eventType": "comment",
@@ -1492,12 +1582,12 @@
 																		{
 																			"id": "else",
 																			"objectClass": "System",
-																			"sid": 735822659583704
+																			"sid": 676236741847938
 																		},
 																		{
 																			"id": "compare-instance-variable",
 																			"objectClass": "base",
-																			"sid": 306107163957940,
+																			"sid": 566104616487951,
 																			"parameters": {
 																				"instance-variable": "shokoTargDist",
 																				"comparison": 2,
@@ -1506,7 +1596,7 @@
 																		}
 																	],
 																	"actions": [],
-																	"sid": 574910143721123,
+																	"sid": 132870635337020,
 																	"children": [
 																		{
 																			"eventType": "block",
@@ -1514,7 +1604,7 @@
 																				{
 																					"id": "compare-instance-variable",
 																					"objectClass": "shoko",
-																					"sid": 148943174778677,
+																					"sid": 140167851721476,
 																					"parameters": {
 																						"instance-variable": "targGoToMe",
 																						"comparison": 0,
@@ -1526,14 +1616,14 @@
 																				{
 																					"customAction": "attack",
 																					"objectClass": "shoko",
-																					"sid": 881972449825100,
+																					"sid": 939357005514065,
 																					"parameters": [
 																						"\"claws\"",
 																						"0"
 																					]
 																				}
 																			],
-																			"sid": 418442160866643
+																			"sid": 957335256418072
 																		},
 																		{
 																			"eventType": "block",
@@ -1541,21 +1631,21 @@
 																				{
 																					"id": "else",
 																					"objectClass": "System",
-																					"sid": 777336212337330
+																					"sid": 738174134489507
 																				}
 																			],
 																			"actions": [
 																				{
 																					"customAction": "attack",
 																					"objectClass": "shoko",
-																					"sid": 474307280702301,
+																					"sid": 134636084607095,
 																					"parameters": [
 																						"\"shuriken\"",
 																						"0"
 																					]
 																				}
 																			],
-																			"sid": 336398806752451
+																			"sid": 126779130874609
 																		}
 																	]
 																}
@@ -1589,14 +1679,14 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 370148447791373
+											"sid": 248992302437528
 										}
 									],
 									"actions": [
 										{
 											"id": "set-instvar-value",
 											"objectClass": "shoko",
-											"sid": 984273550357758,
+											"sid": 225146609128444,
 											"parameters": {
 												"instance-variable": "uTargDist",
 												"value": "10000"
@@ -1605,7 +1695,7 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "shoko",
-											"sid": 374664308386329,
+											"sid": 493718877192859,
 											"parameters": {
 												"instance-variable": "targDist",
 												"value": "10000"
@@ -1614,7 +1704,7 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "shoko",
-											"sid": 870748360978800,
+											"sid": 335381865653442,
 											"parameters": {
 												"instance-variable": "closeTarg",
 												"value": "false"
@@ -1623,14 +1713,14 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "shoko",
-											"sid": 534842138857221,
+											"sid": 606875688797749,
 											"parameters": {
-												"instance-variable": "targUID",
+												"instance-variable": "targetUID",
 												"value": "-1"
 											}
 										}
 									],
-									"sid": 261864681266884,
+									"sid": 865139340620641,
 									"children": [
 										{
 											"eventType": "block",
@@ -1638,7 +1728,7 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "shoko",
-													"sid": 776960540643955,
+													"sid": 493610382204252,
 													"parameters": {
 														"instance-variable": "patrol"
 													},
@@ -1647,7 +1737,7 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "shoko",
-													"sid": 134427527821676,
+													"sid": 165806098423114,
 													"parameters": {
 														"instance-variable": "undergroud"
 													},
@@ -1656,7 +1746,7 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "shoko",
-													"sid": 943899529657125,
+													"sid": 920834594053185,
 													"parameters": {
 														"instance-variable": "attack"
 													},
@@ -1664,7 +1754,7 @@
 												}
 											],
 											"actions": [],
-											"sid": 865219798252237,
+											"sid": 530072569019950,
 											"children": [
 												{
 													"eventType": "block",
@@ -1672,7 +1762,7 @@
 														{
 															"id": "is-animation-playing",
 															"objectClass": "shoko",
-															"sid": 879196773748932,
+															"sid": 319283061844938,
 															"parameters": {
 																"animation": "\"zero\""
 															}
@@ -1682,7 +1772,7 @@
 														{
 															"id": "set-boolean-instvar",
 															"objectClass": "shoko",
-															"sid": 202741531975604,
+															"sid": 463614282795699,
 															"parameters": {
 																"instance-variable": "upPositive",
 																"value": "true"
@@ -1691,14 +1781,14 @@
 														{
 															"id": "set-animation",
 															"objectClass": "shoko",
-															"sid": 697458994632780,
+															"sid": 540445044188586,
 															"parameters": {
 																"animation": "\"up\"",
 																"from": "beginning"
 															}
 														}
 													],
-													"sid": 358975979955874
+													"sid": 240011492658466
 												},
 												{
 													"eventType": "block",
@@ -1706,14 +1796,14 @@
 														{
 															"id": "else",
 															"objectClass": "System",
-															"sid": 781620229488681
+															"sid": 354792119646752
 														}
 													],
 													"actions": [
 														{
 															"id": "set-group-active",
 															"objectClass": "System",
-															"sid": 213987034461749,
+															"sid": 179470385689969,
 															"parameters": {
 																"group-name": "\"shokoPatrol\"",
 																"state": "activated"
@@ -1722,10 +1812,10 @@
 														{
 															"customAction": "patrol",
 															"objectClass": "shoko",
-															"sid": 318188245839359
+															"sid": 382908838386248
 														}
 													],
-													"sid": 681502735598185
+													"sid": 174104023030808
 												}
 											]
 										}
@@ -1739,12 +1829,12 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 529300535665271
+									"sid": 201917762322132
 								},
 								{
 									"id": "pick-all",
 									"objectClass": "System",
-									"sid": 128445298118079,
+									"sid": 895827793694817,
 									"parameters": {
 										"object": "base"
 									}
@@ -1752,7 +1842,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "base",
-									"sid": 460779269854020,
+									"sid": 428296336303807,
 									"parameters": {
 										"instance-variable": "shokoTarget"
 									}
@@ -1762,7 +1852,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "base",
-									"sid": 894043386586708,
+									"sid": 839884389397321,
 									"parameters": {
 										"instance-variable": "shokoTargDist",
 										"value": "10000"
@@ -1771,7 +1861,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "shoko",
-									"sid": 297624144718848,
+									"sid": 885656192720825,
 									"parameters": {
 										"instance-variable": "heroDist",
 										"value": "10000"
@@ -1780,7 +1870,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "shoko",
-									"sid": 193546473282252,
+									"sid": 660536694331913,
 									"parameters": {
 										"instance-variable": "closeTarg",
 										"value": "false"
@@ -1789,14 +1879,14 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "shoko",
-									"sid": 824181796304617,
+									"sid": 648837314647520,
 									"parameters": {
-										"instance-variable": "targUID",
+										"instance-variable": "targetUID",
 										"value": "-1"
 									}
 								}
 							],
-							"sid": 235412353896100,
+							"sid": 214744313108122,
 							"children": [
 								{
 									"eventType": "block",
@@ -1804,7 +1894,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "shoko",
-											"sid": 545218081139426,
+											"sid": 286499342043489,
 											"parameters": {
 												"instance-variable": "patrol"
 											},
@@ -1813,7 +1903,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "shoko",
-											"sid": 453522222447152,
+											"sid": 840143807742589,
 											"parameters": {
 												"instance-variable": "undergroud"
 											},
@@ -1822,7 +1912,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "shoko",
-											"sid": 564280628394263,
+											"sid": 395840244764016,
 											"parameters": {
 												"instance-variable": "attack"
 											},
@@ -1830,7 +1920,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 589086432798488,
+									"sid": 654840220847617,
 									"children": [
 										{
 											"eventType": "block",
@@ -1838,7 +1928,7 @@
 												{
 													"id": "is-animation-playing",
 													"objectClass": "shoko",
-													"sid": 396022546109274,
+													"sid": 623052209008549,
 													"parameters": {
 														"animation": "\"zero\""
 													}
@@ -1848,7 +1938,7 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "shoko",
-													"sid": 249028975601254,
+													"sid": 551537773892600,
 													"parameters": {
 														"instance-variable": "upPositive",
 														"value": "true"
@@ -1857,14 +1947,14 @@
 												{
 													"id": "set-animation",
 													"objectClass": "shoko",
-													"sid": 508489388513114,
+													"sid": 989048403325803,
 													"parameters": {
 														"animation": "\"up\"",
 														"from": "beginning"
 													}
 												}
 											],
-											"sid": 898926347117738
+											"sid": 995581548025588
 										},
 										{
 											"eventType": "block",
@@ -1872,14 +1962,14 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 927312934181163
+													"sid": 755737925164772
 												}
 											],
 											"actions": [
 												{
 													"id": "set-group-active",
 													"objectClass": "System",
-													"sid": 424842046518898,
+													"sid": 246592838825462,
 													"parameters": {
 														"group-name": "\"shokoPatrol\"",
 														"state": "activated"
@@ -1888,16 +1978,767 @@
 												{
 													"customAction": "patrol",
 													"objectClass": "shoko",
-													"sid": 370214119586414
+													"sid": 430091777089945
 												}
 											],
-											"sid": 307750167252484
+											"sid": 978984113795390
 										}
 									]
 								}
 							]
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "CA puls — объединённая версия. Вставляйте целиком (Edit → Paste events). Если вы вставляете ВНУТРИ уже открытого custom action puls, вместо top-level определения — вставьте только children (т.е. все блоки внутри custom-ace-block).",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.45,
+						0.55,
+						0.7,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "puls",
+					"objectClass": "shoko",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "custom-ace-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 262529278121681,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Часть A — вычисление дистанции кандидата и фиксация цели (heroDist/targetUID/closeTarg/status=\"search\"), + pick-by-comparison -> locked.",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.6,
+								0.6,
+								0.9,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 423947645749847,
+									"parameters": {
+										"instance-variable": "serpentTarget"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 369224524482196,
+									"parameters": {
+										"instance-variable": "hi",
+										"comparison": 3,
+										"value": "30"
+									}
+								},
+								{
+									"id": "is-outside-layout",
+									"objectClass": "base",
+									"sid": 649998538632414,
+									"isInverted": true
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "base",
+									"sid": 633523760414115,
+									"parameters": {
+										"object": "zoneStopTh"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 699507119857720,
+									"parameters": {
+										"instance-variable": "shokoTargDist",
+										"value": "Functions.getIsoDist(ath.X,ath.Y,Self.X,Self.Y)"
+									}
+								}
+							],
+							"sid": 513600243881297,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 248463741467862,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "aBook.hero"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 216010038838812,
+											"parameters": {
+												"instance-variable": "respawn"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 918261380297339,
+											"parameters": {
+												"instance-variable": "serpGetMeUID",
+												"comparison": 3,
+												"value": "0"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 357481804182572,
+											"parameters": {
+												"instance-variable": "intersept"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 597558794959748,
+											"parameters": {
+												"instance-variable": "respawn"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aMico",
+											"sid": 820965171973883,
+											"parameters": {
+												"instance-variable": "BitHide"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 514651958731944,
+											"parameters": {
+												"instance-variable": "heroDist",
+												"value": "base.shokoTargDist"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 151591232139414,
+											"parameters": {
+												"instance-variable": "targetUID",
+												"value": "base.serpGetMeUID"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "shoko",
+											"sid": 657464300407188,
+											"parameters": {
+												"instance-variable": "closeTarg",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 986503934749625,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"search\""
+											}
+										}
+									],
+									"sid": 556323122087867
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 414843644834260
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 417561962311724,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "aBook.hero"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 538939510209302,
+											"parameters": {
+												"instance-variable": "shokoTargDist",
+												"value": "10000"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 991772707821882,
+											"parameters": {
+												"instance-variable": "heroDist",
+												"value": "10000"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "shoko",
+											"sid": 874964143455604,
+											"parameters": {
+												"instance-variable": "closeTarg",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 847404186692399,
+											"parameters": {
+												"instance-variable": "targetUID",
+												"value": "0"
+											}
+										}
+									],
+									"sid": 415192102994226
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-comparison",
+											"objectClass": "System",
+											"sid": 288070564534132,
+											"parameters": {
+												"object": "base",
+												"expression": "base.shokoTargDist",
+												"comparison": 3,
+												"value": "shoko.shurikenAttackRadius"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "shoko",
+											"sid": 133437550741509,
+											"parameters": {
+												"instance-variable": "closeTarg",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 772906439174916,
+											"parameters": {
+												"instance-variable": "targetUID",
+												"value": "base.serpGetMeUID"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 190459680882145,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"locked\""
+											}
+										}
+									],
+									"sid": 815104145837710
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Часть B — адаптивное управление pulseInterval и запуск атаки.",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.6,
+								0.5,
+								0.8,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "shoko",
+									"sid": 345953621852581,
+									"parameters": {
+										"instance-variable": "closeTarg"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shoko",
+									"sid": 810288328719797,
+									"parameters": {
+										"instance-variable": "pulseInterval",
+										"comparison": 0,
+										"value": "\"0.1\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 502218377255537
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "shoko",
+									"sid": 747014084957081,
+									"parameters": {
+										"instance-variable": "pulseInterval",
+										"value": "\"0.1\""
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "shoko",
+									"sid": 577612549254641,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"pulsShoko\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "shoko",
+									"sid": 540030207307541,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "0.1",
+										"type": "regular",
+										"tag": "\"pulsShoko\""
+									}
+								}
+							],
+							"sid": 115838625260221
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 289485328995808
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shoko",
+									"sid": 273147753077620,
+									"parameters": {
+										"instance-variable": "pulseInterval",
+										"comparison": 0,
+										"value": "\"0.33\""
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "shoko",
+									"sid": 530394008984986,
+									"parameters": {
+										"instance-variable": "pulseInterval",
+										"value": "\"0.33\""
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "shoko",
+									"sid": 458350048892114,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"pulsShoko\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "shoko",
+									"sid": 225965741506112,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "0.33",
+										"type": "regular",
+										"tag": "\"pulsShoko\""
+									}
+								}
+							],
+							"sid": 177840005300247
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "shoko",
+									"sid": 427312928162587,
+									"parameters": {
+										"instance-variable": "closeTarg"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "shoko",
+									"sid": 603355533557722,
+									"parameters": {
+										"instance-variable": "attack"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shoko",
+									"sid": 736937757356751,
+									"parameters": {
+										"instance-variable": "status",
+										"comparison": 0,
+										"value": "\"locked\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "shoko",
+									"sid": 468006942511772,
+									"parameters": {
+										"animation": "\"up\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "shoko",
+									"sid": 752711552679461,
+									"parameters": {
+										"instance-variable": "startHide"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shoko",
+									"sid": 163348679895808,
+									"parameters": {
+										"instance-variable": "targetUID",
+										"comparison": 0,
+										"value": "0"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 771679653256078
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "shoko",
+									"sid": 488287578663648,
+									"parameters": {
+										"instance-variable": "attack",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "shoko",
+									"sid": 396479192266965,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"attack\""
+									}
+								},
+								{
+									"id": "instance-signal",
+									"objectClass": "shoko",
+									"sid": 151588733365989,
+									"parameters": {
+										"tag": "\"startShokoAttack\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "shoko",
+									"sid": 484317891455030,
+									"parameters": {
+										"animation": "\"attack\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 782389180022243
+						},
+						{
+							"eventType": "comment",
+							"text": "Часть C — безопасное прерывание атаки (abort).",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.8,
+								0.6,
+								0.6,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "shoko",
+									"sid": 728453919579687,
+									"parameters": {
+										"instance-variable": "attack"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shoko",
+									"sid": 410232524170101,
+									"parameters": {
+										"instance-variable": "targetUID",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 472237808436201
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "shoko",
+									"sid": 314099244269656,
+									"parameters": {
+										"instance-variable": "attack",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "shoko",
+									"sid": 986604164555437,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"search\""
+									}
+								},
+								{
+									"id": "instance-signal",
+									"objectClass": "shoko",
+									"sid": 534292671476570,
+									"parameters": {
+										"tag": "\"abortShokoAttack\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "shoko",
+									"sid": 610156821726503,
+									"parameters": {
+										"animation": "\"loop\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 991957608416815
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "shoko",
+									"sid": 420660821853882,
+									"parameters": {
+										"instance-variable": "attack"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shoko",
+									"sid": 427555740538646,
+									"parameters": {
+										"instance-variable": "heroDist",
+										"comparison": 3,
+										"value": "10000"
+									}
+								},
+								{
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 229795085271084
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "shoko",
+									"sid": 142991473422745,
+									"parameters": {
+										"instance-variable": "attack",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "shoko",
+									"sid": 492675388598217,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"search\""
+									}
+								},
+								{
+									"id": "instance-signal",
+									"objectClass": "shoko",
+									"sid": 749338362088233,
+									"parameters": {
+										"tag": "\"abortShokoAttack\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "shoko",
+									"sid": 371748490448394,
+									"parameters": {
+										"animation": "\"loop\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 598298435184982
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "shoko",
+									"sid": 313739535222621,
+									"parameters": {
+										"instance-variable": "attack"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aMico",
+									"sid": 717938154698576,
+									"parameters": {
+										"instance-variable": "BitHide"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "shoko",
+									"sid": 260176590158306,
+									"parameters": {
+										"instance-variable": "attack",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "shoko",
+									"sid": 497039867173050,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"search\""
+									}
+								},
+								{
+									"id": "instance-signal",
+									"objectClass": "shoko",
+									"sid": 943286645924213,
+									"parameters": {
+										"tag": "\"abortShokoAttack\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "shoko",
+									"sid": 515603526826795,
+									"parameters": {
+										"animation": "\"loop\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 541930546121211
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\n\n\n\n\n\n\n\n\n\n\n"
 				},
 				{
 					"eventType": "comment",
@@ -2369,7 +3210,7 @@
 									"objectClass": "base",
 									"sid": 184543042535566,
 									"parameters": {
-										"unique-id": "shoko.targUID"
+										"unique-id": "shoko.targetUID"
 									}
 								},
 								{
@@ -3040,7 +3881,7 @@
 											"objectClass": "base",
 											"sid": 887877375394586,
 											"parameters": {
-												"unique-id": "shoko.targUID"
+												"unique-id": "shoko.targetUID"
 											}
 										}
 									],
@@ -3771,7 +4612,7 @@
 									"objectClass": "base",
 									"sid": 843394721599914,
 									"parameters": {
-										"unique-id": "shoko.targUID"
+										"unique-id": "shoko.targetUID"
 									}
 								}
 							],
@@ -4006,7 +4847,7 @@
 									"objectClass": "base",
 									"sid": 927931730905889,
 									"parameters": {
-										"unique-id": "shoko.targUID"
+										"unique-id": "shoko.targetUID"
 									}
 								}
 							],
@@ -4903,7 +5744,7 @@
 									"objectClass": "base",
 									"sid": 445024686031001,
 									"parameters": {
-										"unique-id": "shoko.targUID"
+										"unique-id": "shoko.targetUID"
 									}
 								},
 								{
@@ -5234,7 +6075,7 @@
 									"objectClass": "base",
 									"sid": 186105398447670,
 									"parameters": {
-										"unique-id": "shoko.targUID"
+										"unique-id": "shoko.targetUID"
 									}
 								}
 							],
@@ -5356,7 +6197,7 @@
 									"objectClass": "base",
 									"sid": 589735260730606,
 									"parameters": {
-										"unique-id": "shoko.targUID"
+										"unique-id": "shoko.targetUID"
 									}
 								}
 							],
