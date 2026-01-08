@@ -18,6 +18,7 @@
 					"id": "set-group-active",
 					"objectClass": "System",
 					"sid": 608023007012916,
+					"disabled": true,
 					"parameters": {
 						"group-name": "\"jumperBall\"",
 						"state": "activated"
@@ -27,6 +28,7 @@
 					"customAction": "jBall",
 					"objectClass": "ats",
 					"sid": 815091376086855,
+					"disabled": true,
 					"parameters": [
 						"Bit.X",
 						"Bit.Y",
@@ -41,7 +43,31 @@
 				}
 			],
 			"sid": 517473003976058,
-			"disabled": true
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"callFunction": "fireIso",
+							"sid": 875911820670806,
+							"parameters": [
+								"Bit.ImagePointX(\"gun\")",
+								"Bit.ImagePointY(\"gun\")",
+								"Mouse.X",
+								"Mouse.Y",
+								"600",
+								"1500",
+								"45",
+								"50",
+								"1000",
+								"\"angle\""
+							]
+						}
+					],
+					"sid": 322747702258062
+				}
+			]
 		},
 		{
 			"eventType": "comment",
@@ -52,11 +78,11 @@
 			"disabled": false,
 			"title": "cannonISO",
 			"description": "",
-			"isActiveOnStart": false,
+			"isActiveOnStart": true,
 			"children": [
 				{
 					"eventType": "comment",
-					"text": "запуск стрельбы"
+					"text": "ФУНКЦИЯ ВЫСТРЕЛА"
 				},
 				{
 					"functionName": "fireIso",
@@ -67,107 +93,322 @@
 					"functionIsAsync": false,
 					"functionParameters": [
 						{
+							"name": "startX",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 584348724536347
+						},
+						{
+							"name": "startY",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 645185263726742
+						},
+						{
 							"name": "targX",
 							"type": "number",
 							"initialValue": "0",
 							"comment": "",
-							"sid": 840489780436619
+							"sid": 442452343196501
 						},
 						{
 							"name": "targY",
 							"type": "number",
 							"initialValue": "0",
 							"comment": "",
-							"sid": 344349772677095
+							"sid": 143941351007944
 						},
 						{
-							"name": "speed",
+							"name": "pSpeed",
 							"type": "number",
-							"initialValue": "0",
+							"initialValue": "600",
 							"comment": "",
-							"sid": 624634266609604
+							"sid": 793474374457296
 						},
 						{
 							"name": "gravity",
 							"type": "number",
-							"initialValue": "0",
+							"initialValue": "1500",
 							"comment": "",
-							"sid": 336457582088925
+							"sid": 840691611009150
 						},
 						{
 							"name": "angZ",
 							"type": "number",
-							"initialValue": "0",
+							"initialValue": "45",
 							"comment": "",
-							"sid": 718886681270251
+							"sid": 435419002695623
 						},
 						{
 							"name": "minR",
 							"type": "number",
-							"initialValue": "0",
+							"initialValue": "50",
 							"comment": "",
-							"sid": 715035970032458
+							"sid": 610511148702895
 						},
 						{
 							"name": "maxR",
 							"type": "number",
-							"initialValue": "0",
+							"initialValue": "1000",
 							"comment": "",
-							"sid": 273521000346119
+							"sid": 598697493928245
 						},
 						{
 							"name": "mod",
 							"type": "string",
-							"initialValue": "",
+							"initialValue": "angle",
 							"comment": "",
-							"sid": 923332985326768
+							"sid": 356401912326790
 						}
 					],
 					"eventType": "function-block",
 					"conditions": [],
 					"actions": [],
-					"sid": 433216601711002,
+					"sid": 180175371548198,
 					"children": [
+						{
+							"eventType": "variable",
+							"name": "vH",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 727337737146586
+						},
+						{
+							"eventType": "variable",
+							"name": "vV",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 106467651129594
+						},
+						{
+							"eventType": "variable",
+							"name": "localAngZ",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 629548354533625
+						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "dart",
-									"sid": 803606215185930,
+									"sid": 374182733900303,
 									"parameters": {
 										"instance-variable": "on"
 									},
 									"isInverted": true
+								},
+								{
+									"id": "pick-random-instance",
+									"objectClass": "System",
+									"sid": 353311834684409,
+									"parameters": {
+										"object": "dart"
+									}
 								}
 							],
-							"actions": [],
-							"sid": 990701172430225,
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "dart",
+									"sid": 611992656313798,
+									"parameters": {
+										"x": "startX",
+										"y": "startY"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 893205579586514,
+									"parameters": {
+										"instance-variable": "maxR",
+										"value": "maxR"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 727237034657623,
+									"parameters": {
+										"instance-variable": "minR",
+										"value": "minR"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 171599421287671,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "clamp(Functions.getIsoDist(dart.X, dart.Y, targX, targY), minR, maxR)"
+									}
+								}
+							],
+							"sid": 925062354954261,
 							"children": [
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "pick-random-instance",
+											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 590832111176413,
+											"sid": 933797101929551,
 											"parameters": {
-												"object": "dart"
+												"variable": "mod",
+												"comparison": 0,
+												"value": "\"angle\""
 											}
 										}
 									],
 									"actions": [
 										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 728007050180322,
+											"parameters": {
+												"variable": "vH",
+												"value": "sqrt( (dart.speed * gravity) / sin(2 * angZ) ) * cos(angZ)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 694959602567459,
+											"parameters": {
+												"variable": "vV",
+												"value": "sqrt( (dart.speed * gravity) / sin(2 * angZ) ) * sin(angZ)"
+											}
+										}
+									],
+									"sid": 406002715426823
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 378205611226552,
+											"parameters": {
+												"variable": "mod",
+												"comparison": 0,
+												"value": "\"speed\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 713743969829699,
+											"parameters": {
+												"variable": "localAngZ",
+												"value": "0.5 * asin( clamp((dart.speed * gravity) / (pSpeed * pSpeed), -1, 1) )"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 327331779684349,
+											"parameters": {
+												"variable": "vH",
+												"value": "pSpeed * cos(localAngZ)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 383879305043699,
+											"parameters": {
+												"variable": "vV",
+												"value": "pSpeed * sin(localAngZ)"
+											}
+										}
+									],
+									"sid": 203149654775094
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 247785954342706,
+											"parameters": {
+												"instance-variable": "groundY",
+												"value": "dart.Y"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 154667684579609,
+											"parameters": {
+												"instance-variable": "zHeight",
+												"value": "0"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 283011825103895,
+											"parameters": {
+												"instance-variable": "gravity",
+												"value": "gravity"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 985843216350699,
+											"parameters": {
+												"instance-variable": "vX",
+												"value": "cos(angle(dart.X, dart.Y, targX, targY)) * vH * Functions.getIsoArray(angle(dart.X, dart.Y, targX, targY))"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 498161678921966,
+											"parameters": {
+												"instance-variable": "vY",
+												"value": "sin(angle(dart.X, dart.Y, targX, targY)) * vH * Functions.getIsoArray(angle(dart.X, dart.Y, targX, targY))"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 460038288425882,
+											"parameters": {
+												"instance-variable": "vZ",
+												"value": "vV"
+											}
+										},
+										{
 											"id": "set-boolean-instvar",
 											"objectClass": "dart",
-											"sid": 740691017334843,
+											"sid": 960863928547975,
 											"parameters": {
 												"instance-variable": "on",
 												"value": "true"
 											}
 										}
 									],
-									"sid": 751026482859780
+									"sid": 467631287909773
 								}
 							]
 						}
@@ -175,7 +416,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "вычисление стрельбы"
+					"text": "ЦИКЛ ПОЛЕТА"
 				},
 				{
 					"eventType": "block",
@@ -183,14 +424,66 @@
 						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "dart",
-							"sid": 530984045211376,
+							"sid": 983495455911568,
 							"parameters": {
 								"instance-variable": "on"
 							}
 						}
 					],
-					"actions": [],
-					"sid": 161675497659351,
+					"actions": [
+						{
+							"id": "set-x",
+							"objectClass": "dart",
+							"sid": 845979813067758,
+							"parameters": {
+								"x": "dart.X + dart.vX * dt"
+							}
+						},
+						{
+							"id": "add-to-instvar",
+							"objectClass": "dart",
+							"sid": 579289012635867,
+							"parameters": {
+								"instance-variable": "groundY",
+								"value": "dart.vY * dt"
+							}
+						},
+						{
+							"id": "add-to-instvar",
+							"objectClass": "dart",
+							"sid": 924511029999755,
+							"parameters": {
+								"instance-variable": "zHeight",
+								"value": "dart.vZ * dt"
+							}
+						},
+						{
+							"id": "subtract-from-instvar",
+							"objectClass": "dart",
+							"sid": 567110420927997,
+							"parameters": {
+								"instance-variable": "vZ",
+								"value": "dart.gravity * dt"
+							}
+						},
+						{
+							"id": "set-y",
+							"objectClass": "dart",
+							"sid": 346242626398637,
+							"parameters": {
+								"y": "dart.groundY - dart.zHeight"
+							}
+						},
+						{
+							"id": "set-angle",
+							"objectClass": "dart",
+							"sid": 440424958601158,
+							"parameters": {
+								"angle": "angle(0, 0, dart.vX, (dart.vY - dart.vZ))"
+							}
+						}
+					],
+					"sid": 742638501282435,
 					"children": [
 						{
 							"eventType": "block",
@@ -198,39 +491,48 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "dart",
-									"sid": 367053149460402,
+									"sid": 937783288491920,
 									"parameters": {
-										"instance-variable": "mod",
-										"comparison": 0,
-										"value": "\"speed\""
+										"instance-variable": "zHeight",
+										"comparison": 3,
+										"value": "0"
 									}
 								}
 							],
-							"actions": [],
-							"sid": 704713532857001
-						},
-						{
-							"eventType": "block",
-							"conditions": [
+							"actions": [
 								{
-									"id": "compare-instance-variable",
+									"id": "set-boolean-instvar",
 									"objectClass": "dart",
-									"sid": 871110219481512,
+									"sid": 782369207921711,
 									"parameters": {
-										"instance-variable": "mod",
-										"comparison": 0,
-										"value": "\"angle\""
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "dart",
+									"sid": 322593190319112,
+									"parameters": {
+										"y": "dart.groundY"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "dart",
+									"sid": 624483084682900,
+									"parameters": {
+										"angle": "0"
 									}
 								}
 							],
-							"actions": [],
-							"sid": 490180345139712
+							"sid": 672102209030463
 						}
 					]
 				},
 				{
 					"eventType": "comment",
-					"text": "\n\n\nвременное событие для демонстрации имеющихся переменных у объекта dart"
+					"text": "\n\n\n\n\nвременное событие для демонстрации имеющихся переменных у объекта dart"
 				},
 				{
 					"eventType": "block",
@@ -369,7 +671,8 @@
 							}
 						}
 					],
-					"sid": 140461118300238
+					"sid": 140461118300238,
+					"disabled": true
 				}
 			],
 			"sid": 730393973823391
