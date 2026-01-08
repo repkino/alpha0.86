@@ -62,7 +62,8 @@
 								"50",
 								"1000",
 								"\"angle\"",
-								"0"
+								true,
+								"1"
 							]
 						}
 					],
@@ -164,11 +165,18 @@
 							"sid": 356401912326790
 						},
 						{
+							"name": "showShad",
+							"type": "boolean",
+							"initialValue": "true",
+							"comment": "",
+							"sid": 666636347192084
+						},
+						{
 							"name": "shad",
 							"type": "number",
-							"initialValue": "0",
+							"initialValue": "1",
 							"comment": "",
-							"sid": 767754469068453
+							"sid": 374459696637999
 						}
 					],
 					"eventType": "function-block",
@@ -263,6 +271,19 @@
 										"instance-variable": "speed",
 										"value": "clamp(Functions.getIsoDist(dart.X, dart.Y, targX, targY), minR, maxR)"
 									}
+								},
+								{
+									"type": "comment",
+									"text": "чтобы передать что-то в действии булева не годится:"
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 780913692973595,
+									"parameters": {
+										"instance-variable": "shad",
+										"value": "shad"
+									}
 								}
 							],
 							"sid": 925062354954261,
@@ -347,6 +368,35 @@
 										}
 									],
 									"sid": 203149654775094
+								},
+								{
+									"eventType": "comment",
+									"text": "мы не можем назначать булеву в действии в виде числа, потому что конструктор использует вложенный выбор:"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 567823728479378,
+											"parameters": {
+												"variable": "showShad"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "dart",
+											"sid": 801138663528577,
+											"parameters": {
+												"instance-variable": "on",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 503242456598041
 								},
 								{
 									"eventType": "block",
@@ -497,6 +547,42 @@
 							"eventType": "block",
 							"conditions": [
 								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "dart",
+									"sid": 652893812784445,
+									"parameters": {
+										"instance-variable": "showShad"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "dart",
+									"sid": 179134481432105,
+									"parameters": {
+										"instance-variable": "shad",
+										"comparison": 0,
+										"value": "1"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "dartShad",
+									"sid": 114548195590019,
+									"parameters": {
+										"x": "dart.X",
+										"y": "dart.groundY"
+									}
+								}
+							],
+							"sid": 465589128801819,
+							"isOrBlock": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
 									"id": "compare-instance-variable",
 									"objectClass": "dart",
 									"sid": 937783288491920,
@@ -534,153 +620,57 @@
 									}
 								}
 							],
-							"sid": 672102209030463
+							"sid": 672102209030463,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "dart",
+											"sid": 888399385401375,
+											"parameters": {
+												"instance-variable": "showShad"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "dart",
+											"sid": 463502814481761,
+											"parameters": {
+												"instance-variable": "shad",
+												"comparison": 0,
+												"value": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-visible",
+											"objectClass": "dartShad",
+											"sid": 138324136282129,
+											"disabled": true,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "dartShad",
+											"sid": 913142939611908,
+											"disabled": true,
+											"parameters": {
+												"x": "-4444",
+												"y": "-6666"
+											}
+										}
+									],
+									"sid": 260536478466103,
+									"isOrBlock": true
+								}
+							]
 						}
 					]
-				},
-				{
-					"eventType": "comment",
-					"text": "\n\n\n\n\nвременное событие для демонстрации имеющихся переменных у объекта dart"
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "dart",
-							"sid": 285824364227332,
-							"parameters": {
-								"instance-variable": "on"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 837146260795317,
-							"parameters": {
-								"instance-variable": "speed",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 168147958299152,
-							"parameters": {
-								"instance-variable": "gravity",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 485152481773206,
-							"parameters": {
-								"instance-variable": "gravity",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 423575774928630,
-							"parameters": {
-								"instance-variable": "groundY",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 331059079431536,
-							"parameters": {
-								"instance-variable": "vX",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 563831857242760,
-							"parameters": {
-								"instance-variable": "vY",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 242149177065265,
-							"parameters": {
-								"instance-variable": "vZ",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 731365884042201,
-							"parameters": {
-								"instance-variable": "maxR",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 310405019415686,
-							"parameters": {
-								"instance-variable": "minR",
-								"comparison": 0,
-								"value": "0"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "dart",
-							"sid": 530443747275893,
-							"parameters": {
-								"instance-variable": "mod",
-								"comparison": 0,
-								"value": "\"speed\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "dart",
-							"sid": 541961608936311,
-							"parameters": {
-								"instance-variable": "speed",
-								"value": "0"
-							}
-						},
-						{
-							"type": "comment",
-							"text": "булева регистрирующая используемые снаряды"
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "dart",
-							"sid": 516361818903323,
-							"parameters": {
-								"instance-variable": "on",
-								"value": "true"
-							}
-						}
-					],
-					"sid": 140461118300238,
-					"disabled": true
 				}
 			],
 			"sid": 730393973823391
