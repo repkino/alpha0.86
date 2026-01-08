@@ -50,10 +50,12 @@
 					"actions": [
 						{
 							"callFunction": "fireIso",
-							"sid": 875911820670806,
+							"sid": 794229963600458,
+							"disabled": true,
 							"parameters": [
 								"Bit.ImagePointX(\"gun\")",
 								"Bit.ImagePointY(\"gun\")",
+								"111",
 								"Mouse.X",
 								"Mouse.Y",
 								"600",
@@ -62,6 +64,24 @@
 								"50",
 								"1000",
 								"\"angle\"",
+								"1"
+							]
+						},
+						{
+							"callFunction": "fireIso",
+							"sid": 458210264387433,
+							"parameters": [
+								"Bit.ImagePointX(\"gun\")",
+								"Bit.ImagePointY(\"gun\")",
+								"222",
+								"Mouse.X",
+								"Mouse.Y",
+								"1500",
+								"4000",
+								"45",
+								"50",
+								"1000",
+								"\"speed\"",
 								"1"
 							]
 						}
@@ -106,6 +126,13 @@
 							"initialValue": "0",
 							"comment": "",
 							"sid": 645185263726742
+						},
+						{
+							"name": "startZ",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 273421125136245
 						},
 						{
 							"name": "targX",
@@ -272,6 +299,24 @@
 										"instance-variable": "shad",
 										"value": "shad"
 									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 713279150256093,
+									"parameters": {
+										"instance-variable": "zHeight",
+										"value": "startZ"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 216806509733218,
+									"parameters": {
+										"instance-variable": "groundY",
+										"value": "startY + startZ"
+									}
 								}
 							],
 							"sid": 925062354954261,
@@ -295,6 +340,7 @@
 											"id": "set-eventvar-value",
 											"objectClass": "System",
 											"sid": 728007050180322,
+											"disabled": true,
 											"parameters": {
 												"variable": "vH",
 												"value": "sqrt( (dart.speed * gravity) / sin(2 * angZ) ) * cos(angZ)"
@@ -303,10 +349,29 @@
 										{
 											"id": "set-eventvar-value",
 											"objectClass": "System",
-											"sid": 694959602567459,
+											"sid": 312114582627916,
+											"disabled": true,
 											"parameters": {
 												"variable": "vV",
 												"value": "sqrt( (dart.speed * gravity) / sin(2 * angZ) ) * sin(angZ)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 976478098608477,
+											"parameters": {
+												"variable": "vH",
+												"value": "dart.speed * sqrt( gravity / (2 * (startZ + dart.speed * tan(angZ))) )"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 513836663133112,
+											"parameters": {
+												"variable": "vV",
+												"value": "vH * tan(angZ)"
 											}
 										}
 									],
@@ -331,6 +396,7 @@
 											"id": "set-eventvar-value",
 											"objectClass": "System",
 											"sid": 713743969829699,
+											"disabled": true,
 											"parameters": {
 												"variable": "localAngZ",
 												"value": "0.5 * asin( clamp((dart.speed * gravity) / (pSpeed * pSpeed), -1, 1) )"
@@ -340,6 +406,7 @@
 											"id": "set-eventvar-value",
 											"objectClass": "System",
 											"sid": 327331779684349,
+											"disabled": true,
 											"parameters": {
 												"variable": "vH",
 												"value": "pSpeed * cos(localAngZ)"
@@ -349,6 +416,34 @@
 											"id": "set-eventvar-value",
 											"objectClass": "System",
 											"sid": 383879305043699,
+											"disabled": true,
+											"parameters": {
+												"variable": "vV",
+												"value": "pSpeed * sin(localAngZ)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 755883308976995,
+											"parameters": {
+												"variable": "localAngZ",
+												"value": "atan((pSpeed*pSpeed + sqrt(max(0, pSpeed*pSpeed*pSpeed*pSpeed - gravity*(gravity*dart.speed*dart.speed - 2*pSpeed*pSpeed*startZ)))) / (gravity*dart.speed))"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 848734850626713,
+											"parameters": {
+												"variable": "vH",
+												"value": "pSpeed * cos(localAngZ)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 485461922370786,
 											"parameters": {
 												"variable": "vV",
 												"value": "pSpeed * sin(localAngZ)"
@@ -374,6 +469,7 @@
 											"id": "set-instvar-value",
 											"objectClass": "dart",
 											"sid": 154667684579609,
+											"disabled": true,
 											"parameters": {
 												"instance-variable": "zHeight",
 												"value": "0"
