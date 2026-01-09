@@ -5947,7 +5947,7 @@
 					"disabled": false,
 					"title": "shuriken",
 					"description": "",
-					"isActiveOnStart": false,
+					"isActiveOnStart": true,
 					"children": [
 						{
 							"functionName": "shurikenThrow",
@@ -5986,39 +5986,11 @@
 									"sid": 536870807445568
 								},
 								{
-									"name": "ang",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"sid": 400473717810132
-								},
-								{
 									"name": "speed",
 									"type": "number",
 									"initialValue": "0",
 									"comment": "",
 									"sid": 639271495212695
-								},
-								{
-									"name": "tempX",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"sid": 565961791897301
-								},
-								{
-									"name": "tempY",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"sid": 919172386666971
-								},
-								{
-									"name": "tempTime",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"sid": 905648025532110
 								},
 								{
 									"name": "extraDist",
@@ -6030,63 +6002,162 @@
 							],
 							"eventType": "function-block",
 							"conditions": [],
-							"actions": [
+							"actions": [],
+							"sid": 901394525818748,
+							"children": [
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 898785519745613,
-									"parameters": {
-										"variable": "ang",
-										"value": "angle(startX, startY, targX, targY)"
-									}
+									"eventType": "variable",
+									"name": "ang",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 871339734052530
 								},
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 266311940119791,
-									"parameters": {
-										"variable": "tempX",
-										"value": "float(tokenat(Functions.getPos(startX, startY, ang, Functions.getIsoDist(startX, startY, targX, targY) * extraDist), 0, \";\"))"
-									}
+									"eventType": "variable",
+									"name": "tX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 741624366722867
 								},
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 685183512185383,
-									"parameters": {
-										"variable": "tempY",
-										"value": "float(tokenat(Functions.getPos(startX, startY, ang, Functions.getIsoDist(startX, startY, targX, targY) * extraDist), 1, \";\"))"
-									}
+									"eventType": "variable",
+									"name": "tY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 520857782726361
 								},
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 383464433010436,
-									"parameters": {
-										"variable": "tempTime",
-										"value": "(Functions.getIsoDist(startX, startY, targX, targY) * extraDist) / speed"
-									}
+									"eventType": "variable",
+									"name": "tTime",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 628601375398138
 								},
 								{
-									"id": "tween-two-properties",
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 482228014164743,
+											"parameters": {
+												"variable": "ang",
+												"value": "angle(startX, startY, targX, targY)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 138943888957604,
+											"parameters": {
+												"variable": "tX",
+												"value": "float(tokenat(Functions.getPos(startX, startY, ang, Functions.getIsoDist(startX, startY, targX, targY) * extraDist), 0, \";\"))"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 686139822786909,
+											"parameters": {
+												"variable": "tY",
+												"value": "float(tokenat(Functions.getPos(startX, startY, ang, Functions.getIsoDist(startX, startY, targX, targY) * extraDist), 1, \";\"))"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 405068023337734,
+											"parameters": {
+												"variable": "tTime",
+												"value": "(Functions.getIsoDist(startX, startY, targX, targY) * extraDist) / speed"
+											}
+										},
+										{
+											"id": "tween-two-properties",
+											"objectClass": "shuriken",
+											"sid": 679333441675610,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"s\"",
+												"property": "position",
+												"end-x": "tX",
+												"end-y": "tY",
+												"time": "tTime",
+												"ease": "easeoutquad",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "yes",
+												"repeat-count": "1"
+											}
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "shuriken",
+											"sid": 902741397978635,
+											"behaviorType": "EasyIsometric",
+											"parameters": {
+												"newState_": "enabled"
+											}
+										}
+									],
+									"sid": 458784446694732
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.5019607843137255,
+								0.47058823529411764,
+								0.592156862745098,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-tweens-finished",
 									"objectClass": "shuriken",
-									"sid": 217946012253512,
+									"sid": 568668984712895,
 									"behaviorType": "Tween",
 									"parameters": {
-										"tags": "\"boomerang\"",
-										"property": "position",
-										"end-x": "tempX",
-										"end-y": "tempY",
-										"time": "tempTime",
-										"ease": "easeoutquad",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "yes",
-										"repeat-count": "1"
+										"tags": "\"s\""
 									}
 								}
 							],
-							"sid": 901394525818748
+							"actions": [
+								{
+									"id": "set-enabled",
+									"objectClass": "shuriken",
+									"sid": 954399721920813,
+									"behaviorType": "EasyIsometric",
+									"parameters": {
+										"newState_": "disabled"
+									}
+								}
+							],
+							"sid": 261987096485002
 						},
 						{
 							"eventType": "comment",
@@ -6730,18 +6801,14 @@
 						},
 						{
 							"callFunction": "shurikenThrow",
-							"sid": 551563944654485,
+							"sid": 459198473245630,
 							"parameters": [
 								"shoko.X",
 								"shoko.Y",
 								"base.X",
-								"base.Y",
-								"0",
+								"base.Y+1",
 								"2000",
-								"0",
-								"0",
-								"0",
-								"1.4"
+								"1.6"
 							]
 						}
 					],
