@@ -5928,6 +5928,206 @@
 				},
 				{
 					"eventType": "comment",
+					"text": "\n\nатака сюрикеном вдогонку герою",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.5019607843137255,
+						0.47058823529411764,
+						0.592156862745098,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "shuriken",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"functionName": "shurikenThrow",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "startX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 677917445896020
+								},
+								{
+									"name": "startY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 621280596616535
+								},
+								{
+									"name": "targX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 173690363717069
+								},
+								{
+									"name": "targY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 536870807445568
+								},
+								{
+									"name": "ang",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 400473717810132
+								},
+								{
+									"name": "speed",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 639271495212695
+								},
+								{
+									"name": "tempX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 565961791897301
+								},
+								{
+									"name": "tempY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 919172386666971
+								},
+								{
+									"name": "tempTime",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 905648025532110
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 898785519745613,
+									"parameters": {
+										"variable": "ang",
+										"value": "angle(startX, startY, targX, targY)"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 288485454419730,
+									"parameters": {
+										"variable": "tempX",
+										"value": "float(tokenat(Functions.getPos(startX, startY, ang, Functions.getIsoDist(startX, startY, targX, targY) * 1.4), 0, \";\"))"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 727515954025946,
+									"parameters": {
+										"variable": "tempY",
+										"value": "float(tokenat(Functions.getPos(startX, startY, ang, Functions.getIsoDist(startX, startY, targX, targY) * 1.4), 1, \";\"))"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 371818732438918,
+									"parameters": {
+										"variable": "tempTime",
+										"value": "(Functions.getIsoDist(startX, startY, targX, targY) * 1.4) / speed"
+									}
+								},
+								{
+									"id": "tween-two-properties",
+									"objectClass": "shuriken",
+									"sid": 217946012253512,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"boomerang\"",
+										"property": "position",
+										"end-x": "tempX",
+										"end-y": "tempY",
+										"time": "tempTime",
+										"ease": "easeoutquad",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "yes",
+										"repeat-count": "1"
+									}
+								}
+							],
+							"sid": 901394525818748
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.5019607843137255,
+								0.47058823529411764,
+								0.592156862745098,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "shuriken",
+									"sid": 180042597070243,
+									"parameters": {
+										"object": "shoko"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "shuriken",
+									"sid": 855245244735008,
+									"parameters": {
+										"x": "shoko.X",
+										"y": "shoko.Y-50"
+									}
+								}
+							],
+							"sid": 614462740200307,
+							"disabled": true
+						}
+					],
+					"sid": 292162795805522
+				},
+				{
+					"eventType": "comment",
 					"text": "\n\nпатрулирование",
 					"text-color": [
 						1,
@@ -6469,87 +6669,8 @@
 			"sid": 806388573040015
 		},
 		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "compare-speed",
-					"objectClass": "shokoken",
-					"sid": 805323477834148,
-					"behaviorType": "Bullet",
-					"parameters": {
-						"comparison": 2,
-						"speed": "1"
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-angle",
-					"objectClass": "shokoken",
-					"sid": 363560723291889,
-					"disabled": true,
-					"parameters": {
-						"angle": "Self.Angle+180"
-					}
-				},
-				{
-					"id": "set-acceleration",
-					"objectClass": "shokoken",
-					"sid": 526568072484876,
-					"behaviorType": "Bullet",
-					"parameters": {
-						"acceleration": "4000"
-					}
-				},
-				{
-					"id": "set-angle-of-motion",
-					"objectClass": "shokoken",
-					"sid": 398304355469409,
-					"behaviorType": "Bullet",
-					"parameters": {
-						"angle": "angle(Self.X,Self.Y,shoko.X,shoko.Y-40)"
-					}
-				}
-			],
-			"sid": 213112428332924
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-collision-with-another-object",
-					"objectClass": "shokoken",
-					"sid": 375631680470654,
-					"parameters": {
-						"object": "shoko"
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-enabled",
-					"objectClass": "shokoken",
-					"sid": 468767775769273,
-					"behaviorType": "Bullet",
-					"parameters": {
-						"state": "disabled"
-					}
-				},
-				{
-					"id": "set-position",
-					"objectClass": "shokoken",
-					"sid": 191703017649356,
-					"parameters": {
-						"x": "shoko.X",
-						"y": "shoko.Y-50"
-					}
-				}
-			],
-			"sid": 225668558402432
-		},
-		{
 			"eventType": "comment",
-			"text": "\n\nтест"
+			"text": "\n\n\n\n\nтест"
 		},
 		{
 			"eventType": "block",
@@ -6578,99 +6699,45 @@
 			"children": [
 				{
 					"eventType": "block",
-					"conditions": [],
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 329580519353626,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						}
+					],
 					"actions": [
 						{
 							"id": "set-position",
-							"objectClass": "shokoken",
-							"sid": 985972923889388,
+							"objectClass": "shuriken",
+							"sid": 850075940134525,
 							"parameters": {
 								"x": "shoko.X",
-								"y": "shoko.Y-50"
+								"y": "shoko.Y"
 							}
 						},
 						{
-							"id": "set-instvar-value",
-							"objectClass": "shokoken",
-							"sid": 881196075431022,
-							"parameters": {
-								"instance-variable": "dist",
-								"value": "distance(Self.X,Self.Y,base.X,base.Y)*1.4"
-							}
-						},
-						{
-							"id": "tween-two-properties",
-							"objectClass": "shokoken",
-							"sid": 289494926640490,
-							"behaviorType": "Tween",
-							"parameters": {
-								"tags": "\"s\"",
-								"property": "position",
-								"end-x": "222",
-								"end-y": "0",
-								"time": "5",
-								"ease": "default",
-								"destroy-on-complete": "no",
-								"loop": "no",
-								"ping-pong": "no",
-								"repeat-count": "1"
-							}
+							"callFunction": "shurikenThrow",
+							"sid": 551563944654485,
+							"parameters": [
+								"shoko.X",
+								"shoko.Y",
+								"base.X",
+								"base.Y",
+								"0",
+								"2000",
+								"0",
+								"0",
+								"0"
+							]
 						}
 					],
 					"sid": 554010121137802
-				},
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"id": "set-position",
-							"objectClass": "shokoken",
-							"sid": 333190221010730,
-							"parameters": {
-								"x": "shoko.X",
-								"y": "shoko.Y-50"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "shokoken",
-							"sid": 903318031710030,
-							"behaviorType": "Bullet",
-							"parameters": {
-								"state": "enabled"
-							}
-						},
-						{
-							"id": "set-acceleration",
-							"objectClass": "shokoken",
-							"sid": 656954275555271,
-							"behaviorType": "Bullet",
-							"parameters": {
-								"acceleration": "-4000"
-							}
-						},
-						{
-							"id": "set-speed",
-							"objectClass": "shokoken",
-							"sid": 240298388214929,
-							"behaviorType": "Bullet",
-							"parameters": {
-								"speed": "4000"
-							}
-						},
-						{
-							"id": "set-angle-of-motion",
-							"objectClass": "shokoken",
-							"sid": 502984547415489,
-							"behaviorType": "Bullet",
-							"parameters": {
-								"angle": "angle(Self.X,Self.Y,Bit.X,Bit.Y-40)"
-							}
-						}
-					],
-					"sid": 280454317030562,
-					"disabled": true
 				},
 				{
 					"eventType": "block",
