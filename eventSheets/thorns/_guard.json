@@ -3,7 +3,7 @@
 	"events": [
 		{
 			"eventType": "comment",
-			"text": "\n\n\n\n\n   Стражи - неподвижные юниты, охраняющие важные объекты, обычно достижение миссии.\nДля подавления стражей нужно найти ключевую для каждого стража энергосферу и бросить в стража.\n\n",
+			"text": "\n\n\n\n\n   Стражи - неподвижные юниты, охраняющие важные объекты, обычно достижение миссии.\nСтражи-охранники охраняют область вокруг достижения, стражи-ронины охраняют область вокруг себя.\nДля подавления стражей нужно найти ключевую для каждого стража энергосферу и бросить ядро в стража.\n\n",
 			"background-color": [
 				0.7372549019607844,
 				0.7568627450980392,
@@ -81,22 +81,85 @@
 						"instance-variable": "status",
 						"value": "\"sleep\""
 					}
-				},
-				{
-					"id": "set-group-active",
-					"objectClass": "System",
-					"sid": 699676115426007,
-					"parameters": {
-						"group-name": "\"guard\"",
-						"state": "activated"
-					}
 				}
 			],
-			"sid": 528935901050295
+			"sid": 528935901050295,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "каждого стража-охранника-лостижений закрепляем за близким к нему охраняемым достижением",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "achivments",
+							"sid": 686286751124455,
+							"parameters": {
+								"instance-variable": "guarded"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "tGuard",
+							"sid": 447774594262529,
+							"parameters": {
+								"instance-variable": "achivGuard"
+							}
+						},
+						{
+							"id": "for-each",
+							"objectClass": "System",
+							"sid": 513519771503303,
+							"parameters": {
+								"object": "tGuard"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 613483040755924,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-nearestfurthest",
+									"objectClass": "achivments",
+									"sid": 985923979487776,
+									"parameters": {
+										"which": "nearest",
+										"x": "tGuard.X",
+										"y": "tGuard.Y"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 738171614703460,
+									"parameters": {
+										"instance-variable": "achivUID",
+										"value": "achivments.UID"
+									}
+								}
+							],
+							"sid": 550686253120157
+						}
+					]
+				}
+			]
 		},
 		{
 			"eventType": "comment",
-			"text": "включение пульса у стражей при приближении Бита, вкл/выкл группы стражей",
+			"text": "включение пульса у стражей или у достижения, при приближении Бита. Вкл/выкл группы стражей",
 			"background-color": [
 				0.7372549019607844,
 				0.7568627450980392,
@@ -169,26 +232,6 @@
 								"instance-variable": "alert",
 								"value": "true"
 							}
-						},
-						{
-							"id": "stop-timer",
-							"objectClass": "tGuard",
-							"sid": 423201128472380,
-							"behaviorType": "Timer",
-							"parameters": {
-								"tag": "\"puls\""
-							}
-						},
-						{
-							"id": "start-timer",
-							"objectClass": "tGuard",
-							"sid": 543818492529186,
-							"behaviorType": "Timer",
-							"parameters": {
-								"duration": "0.1",
-								"type": "regular",
-								"tag": "\"puls\""
-							}
 						}
 					],
 					"sid": 350008641136456,
@@ -199,7 +242,7 @@
 								{
 									"id": "is-group-active",
 									"objectClass": "System",
-									"sid": 917138213031846,
+									"sid": 267580634913434,
 									"parameters": {
 										"group-name": "\"guard\""
 									},
@@ -210,15 +253,123 @@
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 870775491165163,
+									"sid": 458677444740749,
 									"parameters": {
 										"group-name": "\"guard\"",
 										"state": "activated"
 									}
 								}
 							],
-							"sid": 594892444989798
+							"sid": 796681648613574
+						},
+						{
+							"eventType": "comment",
+							"text": "для стражей охраняющих достижение, включаем пульс у достижения",
+							"background-color": [
+								0.7372549019607844,
+								0.7568627450980392,
+								0.8431372549019608,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tGuard",
+									"sid": 743262894597991,
+									"parameters": {
+										"instance-variable": "achivGuard"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "achivments",
+									"sid": 825313322374954,
+									"parameters": {
+										"unique-id": "tGuard.achivUID"
+									}
+								},
+								{
+									"id": "is-timer-running",
+									"objectClass": "achivments",
+									"sid": 384437312818822,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"puls\""
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "start-timer",
+									"objectClass": "achivments",
+									"sid": 883158672718421,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "0.1",
+										"type": "regular",
+										"tag": "\"puls\""
+									}
+								}
+							],
+							"sid": 127922512618070
+						},
+						{
+							"eventType": "comment",
+							"text": "стражи-ронины включают пульс у себя",
+							"background-color": [
+								0.7372549019607844,
+								0.7568627450980392,
+								0.8431372549019608,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 485729937432651
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tGuard",
+									"sid": 455492039005402,
+									"parameters": {
+										"instance-variable": "achivGuard"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "start-timer",
+									"objectClass": "tGuard",
+									"sid": 294915898644038,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "0.1",
+										"type": "regular",
+										"tag": "\"puls\""
+									}
+								}
+							],
+							"sid": 995909871865463
 						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "отключение пульса и группы",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
 					]
 				},
 				{
@@ -253,19 +404,74 @@
 								"instance-variable": "alert",
 								"value": "false"
 							}
-						},
-						{
-							"id": "stop-timer",
-							"objectClass": "tGuard",
-							"sid": 556786419956971,
-							"behaviorType": "Timer",
-							"parameters": {
-								"tag": "\"puls\""
-							}
 						}
 					],
 					"sid": 929053052151650,
 					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tGuard",
+									"sid": 815776928871535,
+									"parameters": {
+										"instance-variable": "achivGuard"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "achivments",
+									"sid": 309693486865099,
+									"parameters": {
+										"unique-id": "tGuard.achivUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "stop-timer",
+									"objectClass": "achivments",
+									"sid": 173172665980634,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"puls\""
+									}
+								}
+							],
+							"sid": 954944515217790
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 385241788902031
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tGuard",
+									"sid": 698804555309763,
+									"parameters": {
+										"instance-variable": "achivGuard"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "stop-timer",
+									"objectClass": "tGuard",
+									"sid": 897931515277609,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"puls\""
+									}
+								}
+							],
+							"sid": 904212764522709
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -325,6 +531,16 @@
 			]
 		},
 		{
+			"eventType": "comment",
+			"text": "",
+			"background-color": [
+				0.7372549019607844,
+				0.7568627450980392,
+				0.8431372549019608,
+				1
+			]
+		},
+		{
 			"eventType": "group",
 			"disabled": false,
 			"title": "guard",
@@ -333,7 +549,7 @@
 			"children": [
 				{
 					"eventType": "comment",
-					"text": "пульс, сортировка стражей на спящих и проснувшихся",
+					"text": "пульс",
 					"background-color": [
 						0.7372549019607844,
 						0.7568627450980392,
@@ -346,28 +562,104 @@
 					"conditions": [
 						{
 							"id": "on-timer",
-							"objectClass": "tGuard",
-							"sid": 208826527898429,
+							"objectClass": "achivments",
+							"sid": 574432406194416,
 							"behaviorType": "Timer",
 							"parameters": {
 								"tag": "\"puls\""
 							}
 						}
 					],
+					"actions": [
+						{
+							"customAction": "distGuard",
+							"objectClass": "ati",
+							"sid": 860063503793235,
+							"parameters": [
+								"achivments.UID"
+							]
+						}
+					],
+					"sid": 219455850188196
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-timer",
+							"objectClass": "tGuard",
+							"sid": 826037921320015,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"puls\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"customAction": "pulsGuard",
+							"objectClass": "ati",
+							"sid": 601318136168668,
+							"parameters": [
+								"tGuard.UID"
+							]
+						}
+					],
+					"sid": 651744127085850
+				},
+				{
+					"eventType": "comment",
+					"text": "дистанция для стражей-охранников и выбор реагирующего",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "distGuard",
+					"objectClass": "ati",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 791068121579056
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "achivments",
+							"sid": 123916276076364,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						}
+					],
 					"actions": [],
-					"sid": 511198603410118,
+					"sid": 872395893146382,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "compare-instance-variable",
-									"objectClass": "base",
-									"sid": 693332323730854,
+									"objectClass": "tGuard",
+									"sid": 341005296750162,
 									"parameters": {
-										"instance-variable": "name",
+										"instance-variable": "achivUID",
 										"comparison": 0,
-										"value": "aBook.hero"
+										"value": "achivments.UID"
 									}
 								}
 							],
@@ -375,31 +667,221 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "tGuard",
-									"sid": 962332644863564,
+									"sid": 481543322684288,
+									"parameters": {
+										"instance-variable": "compDist",
+										"value": "Functions.getIsoDist(Self.X,Self.Y,base.X,base.Y)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 999592220739467,
 									"parameters": {
 										"instance-variable": "heroDist",
-										"value": "Functions.getIsoDist(Self.X,Self.Y,base.X,base.Y)"
+										"value": "Functions.getIsoDist(achivments.X,achivments.Y,base.X,base.Y)"
 									}
 								},
 								{
 									"id": "append-text",
 									"objectClass": "help",
-									"sid": 871333742342561,
+									"sid": 607592028417349,
 									"disabled": true,
 									"parameters": {
 										"text": "\"/\""
 									}
 								}
 							],
-							"sid": 520994500796440,
+							"sid": 245719018988122,
 							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "achivments",
+											"sid": 139661357666624,
+											"parameters": {
+												"instance-variable": "angryMod",
+												"comparison": 0,
+												"value": "0"
+											}
+										},
+										{
+											"id": "pick-highestlowest",
+											"objectClass": "tGuard",
+											"sid": 862844484348058,
+											"parameters": {
+												"which": "lowest",
+												"instance-variable": "heroDist"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "pulsGuard",
+											"objectClass": "ati",
+											"sid": 681855484305386,
+											"parameters": [
+												"tGuard.UID"
+											]
+										}
+									],
+									"sid": 382182109029145
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 173497539093274
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "achivments",
+											"sid": 535960652988014,
+											"parameters": {
+												"instance-variable": "angryMod",
+												"comparison": 4,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 297462808907766,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 127945840911203,
+													"parameters": {
+														"object": "tGuard"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 259015678168648,
+													"parameters": {
+														"seconds": "0.1*(loopindex-1)",
+														"use-timescale": true
+													}
+												},
+												{
+													"customAction": "pulsGuard",
+													"objectClass": "ati",
+													"sid": 566737936623841,
+													"parameters": [
+														"tGuard.UID"
+													]
+												}
+											],
+											"sid": 634195603911340
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "менеджмент реагирования",
+					"background-color": [
+						0.6039215686274509,
+						0.7803921568627451,
+						0.8392156862745098,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "pulsGuard",
+					"objectClass": "ati",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 299478907770268
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "tGuard",
+							"sid": 669995945477142,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 599545292295523,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 719063073695773,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "aBook.hero"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 586028493966018,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "tGuard",
+											"sid": 425025357695811,
+											"parameters": {
+												"instance-variable": "achivGuard"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 873645992976032,
+											"parameters": {
+												"instance-variable": "heroDist",
+												"value": "Functions.getIsoDist(Self.X,Self.Y,base.X,base.Y)"
+											}
+										}
+									],
+									"sid": 364045356177182
+								},
 								{
 									"eventType": "comment",
 									"text": "условия реагирования",
 									"background-color": [
-										0.7372549019607844,
-										0.7568627450980392,
-										0.8431372549019608,
+										0.6039215686274509,
+										0.7803921568627451,
+										0.8392156862745098,
 										1
 									]
 								},
@@ -409,7 +891,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "base",
-											"sid": 953152961577079,
+											"sid": 179155151424215,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "serpentTarget"
@@ -418,7 +900,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "base",
-											"sid": 546863506905194,
+											"sid": 223428887732156,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "hi",
@@ -429,13 +911,13 @@
 										{
 											"id": "is-outside-layout",
 											"objectClass": "base",
-											"sid": 431565007994798,
+											"sid": 878646052953400,
 											"isInverted": true
 										},
 										{
 											"id": "is-overlapping-another-object",
 											"objectClass": "base",
-											"sid": 330111979335340,
+											"sid": 813375751678299,
 											"disabled": true,
 											"parameters": {
 												"object": "zoneStopTh"
@@ -445,7 +927,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "base",
-											"sid": 984630835214586,
+											"sid": 959569328977685,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "serpGetMeUID",
@@ -456,7 +938,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "base",
-											"sid": 575715064512211,
+											"sid": 992567447161358,
 											"parameters": {
 												"instance-variable": "respawn"
 											},
@@ -465,7 +947,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aBit",
-											"sid": 149532282926137,
+											"sid": 233125119328159,
 											"parameters": {
 												"instance-variable": "respawn"
 											},
@@ -474,7 +956,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aBit",
-											"sid": 714033532837075,
+											"sid": 398916223890268,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "intersept"
@@ -484,7 +966,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aMico",
-											"sid": 959688540004203,
+											"sid": 344377838507491,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "BitHide"
@@ -493,25 +975,15 @@
 										}
 									],
 									"actions": [],
-									"sid": 304427680099875,
+									"sid": 289328146304517,
 									"children": [
 										{
 											"eventType": "comment",
-											"text": "проснувшиеся стражи растут при приближении Бита и наоборот",
+											"text": "полностью выросший атакует",
 											"background-color": [
-												0.7372549019607844,
-												0.7568627450980392,
-												0.8431372549019608,
-												1
-											]
-										},
-										{
-											"eventType": "comment",
-											"text": "полностью выросший уменьшается",
-											"background-color": [
-												0.7372549019607844,
-												0.7568627450980392,
-												0.8431372549019608,
+												0.6039215686274509,
+												0.7803921568627451,
+												0.8392156862745098,
 												1
 											]
 										},
@@ -521,7 +993,7 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "tGuard",
-													"sid": 777539453481916,
+													"sid": 952840989516576,
 													"parameters": {
 														"instance-variable": "grown"
 													}
@@ -529,7 +1001,222 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "tGuard",
-													"sid": 282467092485979,
+													"sid": 712927572051065,
+													"parameters": {
+														"instance-variable": "heroDist",
+														"comparison": 2,
+														"value": "Self.closeDist"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 429733624712146,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "атака запечатыванием",
+													"background-color": [
+														0.6039215686274509,
+														0.7803921568627451,
+														0.8392156862745098,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tGuard",
+															"sid": 101944941660085,
+															"parameters": {
+																"instance-variable": "heroDist",
+																"comparison": 2,
+																"value": "Self.attackDist"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "tGuard",
+															"sid": 287624940253024,
+															"parameters": {
+																"instance-variable": "attack"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [],
+													"sid": 881709355034877,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "аборт атаки каштаном ?",
+															"background-color": [
+																0.6039215686274509,
+																0.7803921568627451,
+																0.8392156862745098,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "tGuard",
+																	"sid": 735486160266477,
+																	"parameters": {
+																		"instance-variable": "nut"
+																	}
+																}
+															],
+															"actions": [],
+															"sid": 637541151369898
+														},
+														{
+															"eventType": "comment",
+															"text": "атака запечатыванием",
+															"background-color": [
+																0.6039215686274509,
+																0.7803921568627451,
+																0.8392156862745098,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 522134953465730
+																}
+															],
+															"actions": [],
+															"sid": 303075564678182
+														}
+													]
+												},
+												{
+													"eventType": "comment",
+													"text": "атака каштаном",
+													"background-color": [
+														0.6039215686274509,
+														0.7803921568627451,
+														0.8392156862745098,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 356809025768363
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tGuard",
+															"sid": 377913875191578,
+															"parameters": {
+																"instance-variable": "heroDist",
+																"comparison": 2,
+																"value": "Self.nutDist"
+															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tGuard",
+															"sid": 675643447156968,
+															"parameters": {
+																"instance-variable": "heroDist",
+																"comparison": 4,
+																"value": "Self.attackDist"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "tGuard",
+															"sid": 302600918592224,
+															"parameters": {
+																"instance-variable": "nut"
+															},
+															"isInverted": true
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "tGuard",
+															"sid": 122168313899773,
+															"parameters": {
+																"instance-variable": "attack"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "tGuard",
+															"sid": 126970268434569,
+															"parameters": {
+																"instance-variable": "nut",
+																"value": "true"
+															}
+														},
+														{
+															"customAction": "guardNut",
+															"objectClass": "ati",
+															"sid": 377971202598292,
+															"parameters": [
+																"tGuard.UID"
+															]
+														}
+													],
+													"sid": 887836363882911
+												}
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "проснувшиеся стражи растут при приближении Бита и наоборот",
+											"background-color": [
+												0.6039215686274509,
+												0.7803921568627451,
+												0.8392156862745098,
+												1
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "полностью выросший уменьшается",
+											"background-color": [
+												0.6039215686274509,
+												0.7803921568627451,
+												0.8392156862745098,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 937645344655384
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "tGuard",
+													"sid": 456757734924003,
+													"parameters": {
+														"instance-variable": "grown"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "tGuard",
+													"sid": 632863501276137,
 													"parameters": {
 														"instance-variable": "heroDist",
 														"comparison": 4,
@@ -541,7 +1228,7 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "tGuard",
-													"sid": 947873335121547,
+													"sid": 101510741146780,
 													"parameters": {
 														"instance-variable": "grown",
 														"value": "false"
@@ -550,7 +1237,7 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "tGuard",
-													"sid": 771096467041585,
+													"sid": 226303942093416,
 													"parameters": {
 														"instance-variable": "grow",
 														"value": "true"
@@ -559,7 +1246,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "tGuard",
-													"sid": 597270864159475,
+													"sid": 518507069866789,
 													"parameters": {
 														"instance-variable": "status",
 														"value": "\"growDown\""
@@ -568,7 +1255,7 @@
 												{
 													"id": "set-animation",
 													"objectClass": "tGuard",
-													"sid": 352788656028932,
+													"sid": 999861176673561,
 													"parameters": {
 														"animation": "\"grow\"",
 														"from": "current-frame"
@@ -581,7 +1268,7 @@
 												{
 													"id": "set-animation-frame",
 													"objectClass": "tGuard",
-													"sid": 836047466097240,
+													"sid": 197299705526762,
 													"parameters": {
 														"frame-number": "4"
 													}
@@ -589,7 +1276,7 @@
 												{
 													"id": "set-animation-speed",
 													"objectClass": "tGuard",
-													"sid": 438866196568592,
+													"sid": 420834241064619,
 													"parameters": {
 														"speed": "-12"
 													}
@@ -597,21 +1284,21 @@
 												{
 													"id": "start-animation",
 													"objectClass": "tGuard",
-													"sid": 997438363432290,
+													"sid": 355655045313968,
 													"parameters": {
 														"from": "current-frame"
 													}
 												}
 											],
-											"sid": 876877932325628
+											"sid": 485524227489118
 										},
 										{
 											"eventType": "comment",
 											"text": "спящий начинает расти",
 											"background-color": [
-												0.7372549019607844,
-												0.7568627450980392,
-												0.8431372549019608,
+												0.6039215686274509,
+												0.7803921568627451,
+												0.8392156862745098,
 												1
 											]
 										},
@@ -621,12 +1308,12 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 262410042024611
+													"sid": 677419050252509
 												},
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "tGuard",
-													"sid": 776774154493508,
+													"sid": 982421875284862,
 													"parameters": {
 														"instance-variable": "grown"
 													},
@@ -635,7 +1322,7 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "tGuard",
-													"sid": 352514540817891,
+													"sid": 998253775835838,
 													"parameters": {
 														"instance-variable": "grow"
 													},
@@ -644,7 +1331,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "tGuard",
-													"sid": 423094659286097,
+													"sid": 927708099358086,
 													"parameters": {
 														"instance-variable": "status",
 														"comparison": 0,
@@ -654,7 +1341,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "tGuard",
-													"sid": 661098394030660,
+													"sid": 455018767965784,
 													"parameters": {
 														"instance-variable": "heroDist",
 														"comparison": 2,
@@ -666,7 +1353,7 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "tGuard",
-													"sid": 427065873465873,
+													"sid": 345915105152765,
 													"parameters": {
 														"instance-variable": "grow",
 														"value": "true"
@@ -675,7 +1362,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "tGuard",
-													"sid": 528855437426325,
+													"sid": 464319826337646,
 													"parameters": {
 														"instance-variable": "status",
 														"value": "\"growUp\""
@@ -684,7 +1371,7 @@
 												{
 													"id": "set-animation",
 													"objectClass": "tGuard",
-													"sid": 921796796133750,
+													"sid": 499439639736483,
 													"parameters": {
 														"animation": "\"grow\"",
 														"from": "beginning"
@@ -693,7 +1380,7 @@
 												{
 													"id": "set-animation-speed",
 													"objectClass": "tGuard",
-													"sid": 954251302014483,
+													"sid": 215586630261214,
 													"parameters": {
 														"speed": "12"
 													}
@@ -701,21 +1388,21 @@
 												{
 													"id": "start-animation",
 													"objectClass": "tGuard",
-													"sid": 885671859009912,
+													"sid": 795804995575345,
 													"parameters": {
 														"from": "beginning"
 													}
 												}
 											],
-											"sid": 892487631973306
+											"sid": 587715793000156
 										},
 										{
 											"eventType": "comment",
 											"text": "растущий",
 											"background-color": [
-												0.7372549019607844,
-												0.7568627450980392,
-												0.8431372549019608,
+												0.6039215686274509,
+												0.7803921568627451,
+												0.8392156862745098,
 												1
 											]
 										},
@@ -725,12 +1412,12 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 883328146902174
+													"sid": 497502514982901
 												},
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "tGuard",
-													"sid": 439242870073237,
+													"sid": 153637656185425,
 													"parameters": {
 														"instance-variable": "grown"
 													},
@@ -739,22 +1426,22 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "tGuard",
-													"sid": 676635555509908,
+													"sid": 557591722296371,
 													"parameters": {
 														"instance-variable": "grow"
 													}
 												}
 											],
 											"actions": [],
-											"sid": 957509154496774,
+											"sid": 926418458552662,
 											"children": [
 												{
 													"eventType": "comment",
 													"text": "если герой близко",
 													"background-color": [
-														0.7372549019607844,
-														0.7568627450980392,
-														0.8431372549019608,
+														0.6039215686274509,
+														0.7803921568627451,
+														0.8392156862745098,
 														1
 													]
 												},
@@ -764,7 +1451,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "tGuard",
-															"sid": 265735423745887,
+															"sid": 167671356376313,
 															"parameters": {
 																"instance-variable": "heroDist",
 																"comparison": 2,
@@ -774,7 +1461,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "tGuard",
-															"sid": 409467453152881,
+															"sid": 906751568038517,
 															"parameters": {
 																"instance-variable": "status",
 																"comparison": 1,
@@ -786,7 +1473,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "tGuard",
-															"sid": 643539930821256,
+															"sid": 948053782776153,
 															"parameters": {
 																"instance-variable": "status",
 																"value": "\"growUp\""
@@ -795,7 +1482,7 @@
 														{
 															"id": "set-animation",
 															"objectClass": "tGuard",
-															"sid": 642466492653918,
+															"sid": 653801456181112,
 															"parameters": {
 																"animation": "\"grow\"",
 																"from": "current-frame"
@@ -804,7 +1491,7 @@
 														{
 															"id": "set-animation-speed",
 															"objectClass": "tGuard",
-															"sid": 380328770840458,
+															"sid": 839367231380386,
 															"parameters": {
 																"speed": "12"
 															}
@@ -812,21 +1499,21 @@
 														{
 															"id": "start-animation",
 															"objectClass": "tGuard",
-															"sid": 517181061933205,
+															"sid": 299978289639142,
 															"parameters": {
 																"from": "current-frame"
 															}
 														}
 													],
-													"sid": 795993248899128
+													"sid": 218077035216954
 												},
 												{
 													"eventType": "comment",
 													"text": "если герой далеко",
 													"background-color": [
-														0.7372549019607844,
-														0.7568627450980392,
-														0.8431372549019608,
+														0.6039215686274509,
+														0.7803921568627451,
+														0.8392156862745098,
 														1
 													]
 												},
@@ -836,12 +1523,12 @@
 														{
 															"id": "else",
 															"objectClass": "System",
-															"sid": 863188922587449
+															"sid": 136128109549582
 														},
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "tGuard",
-															"sid": 559212803741180,
+															"sid": 375149164638794,
 															"parameters": {
 																"instance-variable": "heroDist",
 																"comparison": 4,
@@ -851,7 +1538,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "tGuard",
-															"sid": 201611881606168,
+															"sid": 312199045323574,
 															"parameters": {
 																"instance-variable": "status",
 																"comparison": 1,
@@ -863,7 +1550,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "tGuard",
-															"sid": 998482028933773,
+															"sid": 621587515939060,
 															"parameters": {
 																"instance-variable": "status",
 																"value": "\"growDown\""
@@ -872,7 +1559,7 @@
 														{
 															"id": "set-animation",
 															"objectClass": "tGuard",
-															"sid": 903445662222539,
+															"sid": 393805092936597,
 															"parameters": {
 																"animation": "\"grow\"",
 																"from": "current-frame"
@@ -881,7 +1568,7 @@
 														{
 															"id": "set-animation-speed",
 															"objectClass": "tGuard",
-															"sid": 979113294463639,
+															"sid": 554020507315752,
 															"parameters": {
 																"speed": "-12"
 															}
@@ -889,13 +1576,13 @@
 														{
 															"id": "start-animation",
 															"objectClass": "tGuard",
-															"sid": 499536156049877,
+															"sid": 913815766142142,
 															"parameters": {
 																"from": "current-frame"
 															}
 														}
 													],
-													"sid": 785228526605810
+													"sid": 405042482753024
 												}
 											]
 										}
@@ -907,7 +1594,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "страж полностью вырос или уменьшился",
+					"text": "\n\nстраж полностью вырос или уменьшился",
 					"background-color": [
 						0.7372549019607844,
 						0.7568627450980392,
@@ -1120,9 +1807,9 @@
 					"eventType": "comment",
 					"text": "выросшие стражи следят за героем",
 					"background-color": [
-						0.7372549019607844,
-						0.7568627450980392,
-						0.8431372549019608,
+						0.8980392156862745,
+						0.6627450980392157,
+						0.5607843137254902,
 						1
 					]
 				},
@@ -1165,6 +1852,17 @@
 							"parameters": {
 								"instance-variable": "dir",
 								"value": "int(((Self.ang+360+22.5) %360)/45)"
+							}
+						},
+						{
+							"id": "start-timer",
+							"objectClass": "tGuard",
+							"sid": 846828781327997,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "1",
+								"type": "once",
+								"tag": "\"nut\""
 							}
 						}
 					],
@@ -1246,17 +1944,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "стражи атакуют героя",
-					"background-color": [
-						0.7372549019607844,
-						0.7568627450980392,
-						0.8431372549019608,
-						1
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "атака рассыпанием каштанов",
+					"text": "на расстоянии разбрасывания семян, стражи атакуют героя, разбрасывая семена",
 					"background-color": [
 						0.7372549019607844,
 						0.7568627450980392,
@@ -1283,46 +1971,17 @@
 						}
 					],
 					"eventType": "custom-ace-block",
-					"conditions": [],
-					"actions": [
+					"conditions": [
 						{
-							"id": "set-group-active",
-							"objectClass": "System",
-							"sid": 360954817767512,
-							"disabled": true,
+							"id": "pick-by-unique-id",
+							"objectClass": "tGuard",
+							"sid": 538489071295852,
 							"parameters": {
-								"group-name": "\"cannon\"",
-								"state": "activated"
+								"unique-id": "uid"
 							}
-						},
-						{
-							"callFunction": "addNut",
-							"sid": 392004727289462,
-							"disabled": true,
-							"parameters": [
-								"cannon.X",
-								"cannon.Y",
-								"0",
-								"\"cucu\"&cucumber.UID"
-							]
-						},
-						{
-							"customAction": "fire",
-							"objectClass": "cannon",
-							"sid": 569913320174814,
-							"disabled": true,
-							"parameters": [
-								"cucumber.X+200",
-								"cucumber.Y+30",
-								"\"zero\"",
-								"295",
-								"\"zero\"",
-								false,
-								"0",
-								"\"cucu\"&cucumber.UID"
-							]
 						}
 					],
+					"actions": [],
 					"sid": 169339041230419,
 					"children": [
 						{
@@ -1330,39 +1989,86 @@
 							"conditions": [
 								{
 									"id": "is-outside-layout",
-									"objectClass": "cannon",
-									"sid": 911273050786560,
-									"isInverted": true
+									"objectClass": "seedNut",
+									"sid": 800710241471463
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 665028721361876,
+							"children": [
 								{
-									"id": "set-position-to-another-object",
-									"objectClass": "cannon",
-									"sid": 920239891423174,
-									"parameters": {
-										"object": "tGuard",
-										"image-point-optional": "1"
-									}
-								},
-								{
-									"customAction": "fire",
-									"objectClass": "cannon",
-									"sid": 489727097057397,
-									"parameters": [
-										"Mouse.X",
-										"Mouse.Y",
-										"\"zero\"",
-										"0",
-										"\"zero\"",
-										false,
-										"0",
-										"\"\""
-									]
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 177293880534576,
+											"parameters": {
+												"object": "seedNut"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "seedNut",
+											"sid": 586602804541200,
+											"parameters": {
+												"object": "tGuard",
+												"image-point-optional": "1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "seedNut",
+											"sid": 135275886781678,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"value": "uid"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "seedNut",
+											"sid": 968514018580698,
+											"parameters": {
+												"animation": "\"guard\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "seedNut",
+											"sid": 408284019659286,
+											"parameters": {
+												"instance-variable": "type",
+												"value": "tGuard.pType"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "seedNut",
+											"sid": 266986437617987,
+											"parameters": {
+												"instance-variable": "on",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 541642000534017
 								}
-							],
-							"sid": 770194882866840
+							]
 						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "пока семя растёт его Z-сортировка",
+					"background-color": [
+						0.9607843137254902,
+						0.6941176470588235,
+						0.5176470588235295,
+						1
 					]
 				},
 				{
@@ -1370,48 +2076,714 @@
 					"conditions": [
 						{
 							"id": "is-boolean-instance-variable-set",
-							"objectClass": "cannonBall",
-							"sid": 566111397180636,
+							"objectClass": "seedNut",
+							"sid": 224841988589225,
 							"parameters": {
 								"instance-variable": "on"
 							}
 						},
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "nut",
-							"sid": 865467567255457,
+							"id": "is-animation-playing",
+							"objectClass": "seedNut",
+							"sid": 547637569852702,
 							"parameters": {
-								"instance-variable": "tag",
+								"animation": "\"guard\""
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "tGuard",
+							"sid": 265373438251392,
+							"parameters": {
+								"unique-id": "seedNut.hostUID"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 221032435361059,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "tGuard",
+									"sid": 875156742604750,
+									"parameters": {
+										"animation": "\"stop6\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "tGuard",
+									"sid": 838637553980017,
+									"parameters": {
+										"animation": "\"stop7\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "move-to-object",
+									"objectClass": "seedNut",
+									"sid": 693227702454282,
+									"parameters": {
+										"where": "behind",
+										"object": "tGuard"
+									}
+								},
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "seedNut",
+									"sid": 816666892048341,
+									"parameters": {
+										"object": "tGuard",
+										"image-point-optional": "1"
+									}
+								}
+							],
+							"sid": 458742848396141,
+							"isOrBlock": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 820485700774128
+								}
+							],
+							"actions": [
+								{
+									"id": "move-to-object",
+									"objectClass": "seedNut",
+									"sid": 942557594093012,
+									"parameters": {
+										"where": "in-front",
+										"object": "tGuard"
+									}
+								},
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "seedNut",
+									"sid": 858665510979760,
+									"parameters": {
+										"object": "tGuard",
+										"image-point-optional": "1"
+									}
+								}
+							],
+							"sid": 546515325473082
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "семя выросло, выстрел",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "seedNut",
+							"sid": 874632083880505,
+							"parameters": {
+								"animation": "\"guard\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 723103910424499,
+							"parameters": {
+								"instance-variable": "name",
 								"comparison": 0,
-								"value": "cannonBall.tag"
+								"value": "aBook.hero"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "tGuard",
+							"sid": 785873007763879,
+							"parameters": {
+								"unique-id": "seedNut.hostUID"
 							}
 						}
 					],
 					"actions": [
 						{
-							"id": "set-position-to-another-object",
-							"objectClass": "nut",
-							"sid": 646242571298656,
+							"id": "set-animation",
+							"objectClass": "seedNut",
+							"sid": 578221394312137,
 							"parameters": {
-								"object": "cannonBall",
-								"image-point-optional": "0"
-							}
-						},
-						{
-							"id": "set-angle",
-							"objectClass": "nut",
-							"sid": 129656912312162,
-							"parameters": {
-								"angle": "cannonBall.Angle"
+								"animation": "\"seed\"",
+								"from": "beginning"
 							}
 						}
 					],
-					"sid": 811081971383373,
-					"disabled": true
+					"sid": 612238794339612,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-outside-layout",
+									"objectClass": "dart",
+									"sid": 153094504740116
+								}
+							],
+							"actions": [],
+							"sid": 524509846271175,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 103077777000453,
+											"parameters": {
+												"object": "dart"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "dart",
+											"sid": 873832470164546,
+											"parameters": {
+												"object": "tGuard",
+												"image-point-optional": "1"
+											}
+										},
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "seedNut",
+											"sid": 486560471226435,
+											"parameters": {
+												"object": "tGuard",
+												"image-point-optional": "1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "seedNut",
+											"sid": 402063643528592,
+											"parameters": {
+												"instance-variable": "dartUID",
+												"value": "dart.UID"
+											}
+										},
+										{
+											"id": "pin-to-object-properties",
+											"objectClass": "seedNut",
+											"sid": 739434379765985,
+											"behaviorType": "Pin",
+											"parameters": {
+												"pin-to": "dart",
+												"x": true,
+												"y": true,
+												"angle": true,
+												"width-type": "no",
+												"height-type": "no",
+												"z": false
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 461157599213313,
+											"parameters": {
+												"group-name": "\"dart\"",
+												"state": "activated"
+											}
+										},
+										{
+											"callFunction": "dart",
+											"sid": 203017525085178,
+											"parameters": [
+												"dart.X",
+												"dart.Y",
+												"tGuard.Y-dart.Y",
+												"base.X+random(-tGuard.precision,tGuard.precision)",
+												"base.Y+random(-tGuard.precision/2,tGuard.precision/2)",
+												"2000",
+												"1500",
+												"30",
+												"50",
+												"700",
+												"\"angle\"",
+												"1"
+											]
+										}
+									],
+									"sid": 279861100972854
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "снаряд закончил полёт",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "dart",
+							"sid": 211855486415993,
+							"parameters": {
+								"tag": "\"boom\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "seedNut",
+							"sid": 605672548583687,
+							"parameters": {
+								"instance-variable": "dartUID",
+								"comparison": 0,
+								"value": "dart.UID"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "tGuard",
+							"sid": 962955805581675,
+							"parameters": {
+								"unique-id": "seedNut.hostUID"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "unpin",
+							"objectClass": "seedNut",
+							"sid": 150554217963369,
+							"behaviorType": "Pin"
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "tGuard",
+							"sid": 470928543220375,
+							"parameters": {
+								"instance-variable": "nut",
+								"value": "false"
+							}
+						}
+					],
+					"sid": 935418617231917
+				},
+				{
+					"eventType": "comment",
+					"text": "семя взрывается или превращается в юнит переданного от стража типа",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "seedNut",
+							"sid": 935965775601880,
+							"parameters": {
+								"animation": "\"seed\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 638234189221174,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "seedNut",
+									"sid": 120398925836859,
+									"parameters": {
+										"instance-variable": "type",
+										"comparison": 0,
+										"value": "\"boom\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "seedNut",
+									"sid": 233170555658664,
+									"parameters": {
+										"animation": "\"boom\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 940114184908125
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 864483388559187
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "seedNut",
+									"sid": 381761866297271,
+									"parameters": {
+										"instance-variable": "type",
+										"comparison": 0,
+										"value": "\"nut\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "addNut",
+									"sid": 525921118233680,
+									"parameters": [
+										"seedNut.X",
+										"seedNut.Y",
+										"1",
+										"\"zero\""
+									]
+								}
+							],
+							"sid": 522246805266629
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 347109635875137
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "seedNut",
+									"sid": 858191865140076,
+									"parameters": {
+										"instance-variable": "type",
+										"comparison": 0,
+										"value": "\"chick\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "addChick",
+									"sid": 461213826869400,
+									"parameters": [
+										"seedNut.X",
+										"seedNut.Y",
+										"1",
+										"\"zero\""
+									]
+								}
+							],
+							"sid": 689538750081184
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "seedNut",
+									"sid": 437596592029921,
+									"parameters": {
+										"instance-variable": "type",
+										"comparison": 1,
+										"value": "\"boom\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "seedNut",
+									"sid": 222281418256741,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "seedNut",
+									"sid": 733462662050748,
+									"parameters": {
+										"instance-variable": "dartUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "seedNut",
+									"sid": 263659994520972,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "seedNut",
+									"sid": 255419803096315,
+									"parameters": {
+										"x": "-3777",
+										"y": "-74445"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "seedNut",
+									"sid": 945651253019712,
+									"parameters": {
+										"animation": "\"i\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 360521818352929
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "если семя взрывается, и задевает героя",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "seedNut",
+							"sid": 339053469333174,
+							"parameters": {
+								"object": "base"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "seedNut",
+							"sid": 751396522283198,
+							"parameters": {
+								"instance-variable": "type",
+								"comparison": 0,
+								"value": "\"boom\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 732809190903205,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "seedNut",
+							"sid": 686213223669300,
+							"parameters": {
+								"object": "Bit"
+							}
+						},
+						{
+							"id": "is-animation-playing",
+							"objectClass": "seedNut",
+							"sid": 356814556301928,
+							"parameters": {
+								"animation": "\"boom\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "seedNut",
+							"sid": 528632809769267,
+							"parameters": {
+								"instance-variable": "type",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"callFunction": "getSpikes",
+							"sid": 839889945413580,
+							"parameters": [
+								"5"
+							]
+						}
+					],
+					"sid": 378390365981083
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "seedNut",
+							"sid": 859286958764394,
+							"parameters": {
+								"object": "Bit"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 912064849956861,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "seedNut",
+							"sid": 897733412452695,
+							"parameters": {
+								"object": "base"
+							}
+						},
+						{
+							"id": "is-animation-playing",
+							"objectClass": "seedNut",
+							"sid": 560388295752550,
+							"parameters": {
+								"animation": "\"boom\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "seedNut",
+							"sid": 471308352882352,
+							"parameters": {
+								"instance-variable": "type",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"callFunction": "getSpikes",
+							"sid": 669141289564421,
+							"parameters": [
+								"5"
+							]
+						}
+					],
+					"sid": 481945692636488
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "seedNut",
+							"sid": 987270722491017,
+							"parameters": {
+								"animation": "\"boom\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "seedNut",
+							"sid": 238013598574057,
+							"parameters": {
+								"instance-variable": "on",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "seedNut",
+							"sid": 690371027048103,
+							"parameters": {
+								"instance-variable": "dartUID",
+								"value": "-1"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "seedNut",
+							"sid": 627648815675473,
+							"parameters": {
+								"instance-variable": "hostUID",
+								"value": "-1"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "seedNut",
+							"sid": 977492096100225,
+							"parameters": {
+								"x": "-3777",
+								"y": "-74445"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "seedNut",
+							"sid": 286287698887979,
+							"parameters": {
+								"animation": "\"i\"",
+								"from": "beginning"
+							}
+						}
+					],
+					"sid": 359219930095517
 				},
 				{
 					"eventType": "comment",
 					"text": "атака запечатыванием",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "",
 					"background-color": [
 						0.7372549019607844,
 						0.7568627450980392,
@@ -1431,7 +2803,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "стражи атакованы уникальным шаром",
+					"text": "стражи атакованы уникальным шаром-ядром энергосферы",
 					"background-color": [
 						0.7372549019607844,
 						0.7568627450980392,

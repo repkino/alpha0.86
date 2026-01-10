@@ -3,16 +3,6 @@
 	"events": [
 		{
 			"eventType": "comment",
-			"text": "Тест.\nПроверка передачи изменений редактирования."
-		},
-		{
-			"eventType": "block",
-			"conditions": [],
-			"actions": [],
-			"sid": 304671715874297
-		},
-		{
-			"eventType": "comment",
 			"text": "",
 			"text-color": [
 				1,
@@ -1089,7 +1079,7 @@
 												"object": "base",
 												"expression": "base.shokoTargDist",
 												"comparison": 3,
-												"value": "shoko.shurikenAttackRadius"
+												"value": "shoko.shurikenRadius"
 											}
 										}
 									],
@@ -1601,7 +1591,7 @@
 																			"parameters": {
 																				"instance-variable": "shokoTargDist",
 																				"comparison": 2,
-																				"value": "shoko.shurikenAttackRadius"
+																				"value": "shoko.shurikenRadius"
 																			}
 																		}
 																	],
@@ -1622,18 +1612,37 @@
 																					}
 																				}
 																			],
-																			"actions": [
+																			"actions": [],
+																			"sid": 957335256418072,
+																			"children": [
 																				{
-																					"customAction": "attack",
-																					"objectClass": "shoko",
-																					"sid": 939357005514065,
-																					"parameters": [
-																						"\"claws\"",
-																						"0"
-																					]
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "compare-instance-variable",
+																							"objectClass": "base",
+																							"sid": 362460059756458,
+																							"parameters": {
+																								"instance-variable": "shokoTargDist",
+																								"comparison": 2,
+																								"value": "shoko.clawsMaxRad"
+																							}
+																						}
+																					],
+																					"actions": [
+																						{
+																							"customAction": "attack",
+																							"objectClass": "shoko",
+																							"sid": 938724847795987,
+																							"parameters": [
+																								"\"claws\"",
+																								"0"
+																							]
+																						}
+																					],
+																					"sid": 867740517703740
 																				}
-																			],
-																			"sid": 957335256418072
+																			]
 																		},
 																		{
 																			"eventType": "block",
@@ -1645,6 +1654,15 @@
 																				}
 																			],
 																			"actions": [
+																				{
+																					"id": "set-instvar-value",
+																					"objectClass": "shoko",
+																					"sid": 726587322676690,
+																					"parameters": {
+																						"instance-variable": "shurTargUID",
+																						"value": "base.UID"
+																					}
+																				},
 																				{
 																					"customAction": "attack",
 																					"objectClass": "shoko",
@@ -2926,6 +2944,42 @@
 									"parameters": {
 										"animation": "\"shurikenLoop\"",
 										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "shuriken",
+									"sid": 228934477760215,
+									"parameters": {
+										"x": "shoko.X",
+										"y": "shoko.Y+1"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "shuriken",
+									"sid": 830680366900756,
+									"parameters": {
+										"animation": "\"shu\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "shuriken",
+									"sid": 500634023896346,
+									"parameters": {
+										"instance-variable": "state",
+										"value": "\"start\""
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 431289874396140,
+									"parameters": {
+										"group-name": "\"shuriken\"",
+										"state": "activated"
 									}
 								}
 							],
@@ -5947,10 +6001,185 @@
 					"disabled": false,
 					"title": "shuriken",
 					"description": "",
-					"isActiveOnStart": true,
+					"isActiveOnStart": false,
 					"children": [
 						{
-							"functionName": "shurikenThrow",
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "shoko",
+									"sid": 596877825396162,
+									"parameters": {
+										"animation": "\"shurikenLoop\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "shuriken",
+									"sid": 884456940573821,
+									"parameters": {
+										"x": "shoko.X",
+										"y": "shoko.Y-20"
+									}
+								},
+								{
+									"id": "move-to-object",
+									"objectClass": "shuriken",
+									"sid": 509642846030238,
+									"parameters": {
+										"where": "in-front",
+										"object": "shoko"
+									}
+								}
+							],
+							"sid": 754372532168636
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-animation-finished",
+									"objectClass": "shoko",
+									"sid": 440016926551283,
+									"parameters": {
+										"animation": "\"shurikenLoop\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 671260314630705,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "base",
+											"sid": 663038332438547,
+											"parameters": {
+												"unique-id": "shoko.shurTargUID"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 136478074226719,
+											"parameters": {
+												"instance-variable": "respawn"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 887494127730691,
+											"parameters": {
+												"instance-variable": "respawn"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 467197209482635,
+											"parameters": {
+												"instance-variable": "intersept"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "shoko",
+											"sid": 549220337569296,
+											"parameters": {
+												"animation": "\"shuriken\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"callFunction": "shuriken",
+											"sid": 911228536473360,
+											"parameters": [
+												"shoko.X",
+												"shoko.Y-20",
+												"base.X",
+												"base.Y",
+												"2000",
+												"1.4"
+											]
+										}
+									],
+									"sid": 311535277549038
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 648537408450546
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 776064174322391,
+											"parameters": {
+												"instance-variable": "shurTargUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "shoko",
+											"sid": 248766255136081,
+											"parameters": {
+												"instance-variable": "attack",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "shoko",
+											"sid": 859335039707018,
+											"disabled": true,
+											"parameters": {
+												"animation": "\"loop\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"customAction": "hide",
+											"objectClass": "shoko",
+											"sid": 391552713997446,
+											"disabled": true,
+											"parameters": [
+												true,
+												false
+											]
+										},
+										{
+											"id": "set-position",
+											"objectClass": "shuriken",
+											"sid": 790485341546632,
+											"parameters": {
+												"x": "-9999",
+												"y": "-3777"
+											}
+										}
+									],
+									"sid": 936826022165338
+								}
+							]
+						},
+						{
+							"functionName": "shuriken",
 							"functionDescription": "",
 							"functionCategory": "",
 							"functionReturnType": "none",
@@ -6146,18 +6375,55 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 261987096485002,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
 								{
-									"id": "set-enabled",
+									"id": "on-tweens-ping-pong",
 									"objectClass": "shuriken",
-									"sid": 954399721920813,
-									"behaviorType": "EasyIsometric",
+									"sid": 658676837874869,
+									"behaviorType": "Tween",
 									"parameters": {
-										"newState_": "disabled"
+										"tags": "\"s\"",
+										"state": "start"
 									}
 								}
 							],
-							"sid": 261987096485002
+							"actions": [],
+							"sid": 546103321585288,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-tweens-ping-pong",
+									"objectClass": "shuriken",
+									"sid": 764353592797254,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"s\"",
+										"state": "end"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "shuriken",
+									"sid": 819054400195117,
+									"parameters": {
+										"x": "shoko.X",
+										"y": "shoko.Y-20"
+									}
+								}
+							],
+							"sid": 479327407830023,
+							"disabled": true
 						},
 						{
 							"eventType": "comment",
@@ -6187,19 +6453,266 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 614462740200307,
+							"children": [
 								{
-									"id": "set-position",
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "shuriken",
+											"sid": 893361954584345,
+											"parameters": {
+												"instance-variable": "state",
+												"comparison": 0,
+												"value": "\"end\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "shuriken",
+											"sid": 754149060223369,
+											"parameters": {
+												"x": "-9999",
+												"y": "-3777"
+											}
+										}
+									],
+									"sid": 238424759418070
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 845572930545640
+										},
+										{
+											"id": "is-ping-pong",
+											"objectClass": "shuriken",
+											"sid": 302576050355398,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"s\"",
+												"state": "end"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "shuriken",
+											"sid": 172875344559982,
+											"disabled": true,
+											"parameters": {
+												"x": "shoko.X",
+												"y": "shoko.Y-20"
+											}
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "shuriken",
+											"sid": 659022434680481,
+											"behaviorType": "EasyIsometric",
+											"parameters": {
+												"newState_": "disabled"
+											}
+										},
+										{
+											"id": "stop-tweens",
+											"objectClass": "shuriken",
+											"sid": 548075610857645,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"s\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "shoko",
+											"sid": 336935266021496,
+											"parameters": {
+												"animation": "\"shurikenLoop\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 426892813244343
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
 									"objectClass": "shuriken",
-									"sid": 855245244735008,
+									"sid": 387277747033123,
 									"parameters": {
-										"x": "shoko.X",
-										"y": "shoko.Y-50"
+										"object": "Bit"
 									}
 								}
 							],
-							"sid": 614462740200307,
-							"disabled": true
+							"actions": [],
+							"sid": 569895945940905,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-outside-layout",
+											"objectClass": "snowCrash",
+											"sid": 822679488675508
+										}
+									],
+									"actions": [],
+									"sid": 714386434638457,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 717450308265282,
+													"parameters": {
+														"object": "snowCrash"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "snowCrash",
+													"sid": 134005139003700,
+													"parameters": {
+														"x": "Bit.ImagePointX(\"center\")",
+														"y": "Bit.ImagePointY(\"center\")"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "snowCrash",
+													"sid": 821565379696109,
+													"parameters": {
+														"animation": "\"crash\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 109289054739697
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 659517101673826
+										}
+									],
+									"actions": [
+										{
+											"id": "create-object",
+											"objectClass": "System",
+											"sid": 279461883014580,
+											"parameters": {
+												"object-to-create": "snowCrash",
+												"layer": "\"iso\"",
+												"x": "Bit.ImagePointX(\"center\")",
+												"y": "Bit.ImagePointY(\"center\")",
+												"create-hierarchy": false,
+												"template-name": "\"\""
+											}
+										}
+									],
+									"sid": 724648611655034
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shoko",
+											"sid": 964681328816035,
+											"parameters": {
+												"instance-variable": "shurTargUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "shoko",
+											"sid": 239541112971204,
+											"parameters": {
+												"instance-variable": "attack",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "shoko",
+											"sid": 546974836999967,
+											"disabled": true,
+											"parameters": {
+												"animation": "\"loop\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "shuriken",
+											"sid": 796151448546518,
+											"parameters": {
+												"instance-variable": "state",
+												"value": "\"end\""
+											}
+										},
+										{
+											"callFunction": "respawn",
+											"sid": 111599171790854,
+											"parameters": [
+												true,
+												"0",
+												"2"
+											]
+										}
+									],
+									"sid": 886654601210767
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-animation-finished",
+									"objectClass": "snowCrash",
+									"sid": 587400795507284,
+									"parameters": {
+										"animation": "\"crash\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "snowCrash",
+									"sid": 876224485280136,
+									"parameters": {
+										"x": "-444",
+										"y": "-8888"
+									}
+								}
+							],
+							"sid": 470784147879877
 						}
 					],
 					"sid": 292162795805522
@@ -6800,7 +7313,7 @@
 							}
 						},
 						{
-							"callFunction": "shurikenThrow",
+							"callFunction": "shuriken",
 							"sid": 459198473245630,
 							"parameters": [
 								"shoko.X",
