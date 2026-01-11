@@ -201,6 +201,16 @@
 			"sid": 889829041510876,
 			"children": [
 				{
+					"eventType": "comment",
+					"text": "включение пульса и группы",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
 					"eventType": "block",
 					"conditions": [
 						{
@@ -212,30 +222,37 @@
 								"object": "base",
 								"image-point": "0"
 							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "tGuard",
-							"sid": 662582545877088,
-							"parameters": {
-								"instance-variable": "alert"
-							},
-							"isInverted": true
 						}
 					],
-					"actions": [
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "tGuard",
-							"sid": 417173148385630,
-							"parameters": {
-								"instance-variable": "alert",
-								"value": "true"
-							}
-						}
-					],
+					"actions": [],
 					"sid": 350008641136456,
 					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tGuard",
+									"sid": 395780283302172,
+									"parameters": {
+										"instance-variable": "alert"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "tGuard",
+									"sid": 449171526581275,
+									"parameters": {
+										"instance-variable": "alert",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 592392342845613
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -604,9 +621,8 @@
 					],
 					"actions": [
 						{
-							"customAction": "distGuard",
-							"objectClass": "ati",
-							"sid": 860063503793235,
+							"callFunction": "distGuard",
+							"sid": 330524772882567,
 							"parameters": [
 								"achivments.UID"
 							]
@@ -650,9 +666,7 @@
 					]
 				},
 				{
-					"aceType": "action",
-					"aceName": "distGuard",
-					"objectClass": "ati",
+					"functionName": "distGuard",
 					"functionDescription": "",
 					"functionCategory": "",
 					"functionReturnType": "none",
@@ -664,22 +678,32 @@
 							"type": "number",
 							"initialValue": "0",
 							"comment": "",
-							"sid": 791068121579056
+							"sid": 757371776325146
 						}
 					],
-					"eventType": "custom-ace-block",
+					"eventType": "function-block",
 					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 514997522880863,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						},
 						{
 							"id": "pick-by-unique-id",
 							"objectClass": "achivments",
-							"sid": 123916276076364,
+							"sid": 591519771712293,
 							"parameters": {
 								"unique-id": "uid"
 							}
 						}
 					],
 					"actions": [],
-					"sid": 872395893146382,
+					"sid": 879056571163961,
 					"children": [
 						{
 							"eventType": "block",
@@ -687,7 +711,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "tGuard",
-									"sid": 341005296750162,
+									"sid": 703923453251243,
 									"parameters": {
 										"instance-variable": "achivUID",
 										"comparison": 0,
@@ -699,40 +723,66 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "tGuard",
-									"sid": 481543322684288,
+									"sid": 728103673781500,
 									"parameters": {
-										"instance-variable": "compDist",
-										"value": "Functions.getIsoDist(Self.X,Self.Y,base.X,base.Y)"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "tGuard",
-									"sid": 999592220739467,
-									"parameters": {
-										"instance-variable": "heroDist",
-										"value": "Functions.getIsoDist(achivments.X,achivments.Y,base.X,base.Y)"
-									}
-								},
-								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 607592028417349,
-									"disabled": true,
-									"parameters": {
-										"text": "\"/\""
+										"instance-variable": "index",
+										"value": "0"
 									}
 								}
 							],
-							"sid": 245719018988122,
+							"sid": 758760507065411,
 							"children": [
 								{
 									"eventType": "comment",
-									"text": "ИСПРАВЛЕНИЕ №1: Выбор действительно ближайшего к Биту стража из группы охраны",
+									"text": "Обновляем дистанцию для каждого стража группы индивидуально",
 									"background-color": [
-										0.6666666666666666,
-										0.8392156862745098,
-										0.6039215686274509,
+										0.6745098039215687,
+										0.8470588235294118,
+										0.611764705882353,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 507129196895418,
+											"parameters": {
+												"object": "tGuard"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 104638426297387,
+											"parameters": {
+												"instance-variable": "compDist",
+												"value": "Functions.getIsoDist(Self.X,Self.Y,base.X,base.Y)"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 444482967691169,
+											"parameters": {
+												"instance-variable": "heroDist",
+												"value": "Functions.getIsoDist(achivments.X,achivments.Y,base.X,base.Y)"
+											}
+										}
+									],
+									"sid": 916104730238426
+								},
+								{
+									"eventType": "comment",
+									"text": "Теперь выбираем действительно ближайшего из обновленных",
+									"background-color": [
+										0.6745098039215687,
+										0.8470588235294118,
+										0.611764705882353,
 										1
 									]
 								},
@@ -742,7 +792,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "achivments",
-											"sid": 977615090158428,
+											"sid": 260212426487931,
 											"parameters": {
 												"instance-variable": "angryMod",
 												"comparison": 0,
@@ -752,7 +802,7 @@
 										{
 											"id": "pick-highestlowest",
 											"objectClass": "tGuard",
-											"sid": 540984584859851,
+											"sid": 309595944405084,
 											"parameters": {
 												"which": "lowest",
 												"instance-variable": "compDist"
@@ -763,13 +813,22 @@
 										{
 											"customAction": "pulsGuard",
 											"objectClass": "ati",
-											"sid": 558937590059681,
+											"sid": 223364215648165,
 											"parameters": [
 												"tGuard.UID"
 											]
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 149181780949449,
+											"parameters": {
+												"instance-variable": "index",
+												"value": "1"
+											}
 										}
 									],
-									"sid": 177224022739488
+									"sid": 601931875222322
 								},
 								{
 									"eventType": "block",
@@ -777,12 +836,12 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 173497539093274
+											"sid": 404915860330022
 										},
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "achivments",
-											"sid": 535960652988014,
+											"sid": 112547766933187,
 											"parameters": {
 												"instance-variable": "angryMod",
 												"comparison": 4,
@@ -791,7 +850,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 297462808907766,
+									"sid": 881886317945255,
 									"children": [
 										{
 											"eventType": "block",
@@ -799,7 +858,7 @@
 												{
 													"id": "for-each",
 													"objectClass": "System",
-													"sid": 127945840911203,
+													"sid": 828484161928992,
 													"parameters": {
 														"object": "tGuard"
 													}
@@ -809,7 +868,7 @@
 												{
 													"id": "wait",
 													"objectClass": "System",
-													"sid": 259015678168648,
+													"sid": 441042897249953,
 													"parameters": {
 														"seconds": "0.1*(loopindex-1)",
 														"use-timescale": true
@@ -818,13 +877,13 @@
 												{
 													"customAction": "pulsGuard",
 													"objectClass": "ati",
-													"sid": 566737936623841,
+													"sid": 937320750200443,
 													"parameters": [
 														"tGuard.UID"
 													]
 												}
 											],
-											"sid": 634195603911340
+											"sid": 506756393310195
 										}
 									]
 								}
