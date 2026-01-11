@@ -734,7 +734,7 @@
 							"children": [
 								{
 									"eventType": "comment",
-									"text": "Обновляем дистанцию для каждого стража группы индивидуально",
+									"text": "Обновляем дистанцию для каждого охранника достижения индивидуально",
 									"background-color": [
 										0.6745098039215687,
 										0.8470588235294118,
@@ -1415,14 +1415,6 @@
 											]
 										},
 										{
-											"eventType": "comment",
-											"text": "Событие №35: Исправлено - не засыпать, если герой в zoneStopTh"
-										},
-										{
-											"eventType": "comment",
-											"text": "хмм"
-										},
-										{
 											"eventType": "block",
 											"conditions": [
 												{
@@ -1633,7 +1625,197 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "Событие №34: Управление процессом изменения размера (когда флаг grow активен)",
+											"text": "растущий",
+											"background-color": [
+												0.6039215686274509,
+												0.7803921568627451,
+												0.8392156862745098,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 793110303488355
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "tGuard",
+													"sid": 283564318813247,
+													"parameters": {
+														"instance-variable": "grown"
+													},
+													"isInverted": true
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "tGuard",
+													"sid": 671616290046981,
+													"parameters": {
+														"instance-variable": "grow"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 810550463659987,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "если герой близко",
+													"background-color": [
+														0.6039215686274509,
+														0.7803921568627451,
+														0.8392156862745098,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tGuard",
+															"sid": 873025696688587,
+															"parameters": {
+																"instance-variable": "heroDist",
+																"comparison": 2,
+																"value": "Self.closeDist+10"
+															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tGuard",
+															"sid": 316637645874060,
+															"parameters": {
+																"instance-variable": "status",
+																"comparison": 1,
+																"value": "\"growUp\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "tGuard",
+															"sid": 744093783547599,
+															"parameters": {
+																"instance-variable": "status",
+																"value": "\"growUp\""
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "tGuard",
+															"sid": 871328756623005,
+															"parameters": {
+																"animation": "\"grow\"",
+																"from": "current-frame"
+															}
+														},
+														{
+															"id": "set-animation-speed",
+															"objectClass": "tGuard",
+															"sid": 386466738801897,
+															"parameters": {
+																"speed": "12"
+															}
+														},
+														{
+															"id": "start-animation",
+															"objectClass": "tGuard",
+															"sid": 180436147986611,
+															"parameters": {
+																"from": "current-frame"
+															}
+														}
+													],
+													"sid": 384696965687972
+												},
+												{
+													"eventType": "comment",
+													"text": "если герой далеко",
+													"background-color": [
+														0.6039215686274509,
+														0.7803921568627451,
+														0.8392156862745098,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 735325767995060
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tGuard",
+															"sid": 620972366072092,
+															"parameters": {
+																"instance-variable": "heroDist",
+																"comparison": 4,
+																"value": "Self.closeDist+30"
+															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tGuard",
+															"sid": 750089647936510,
+															"parameters": {
+																"instance-variable": "status",
+																"comparison": 1,
+																"value": "\"growDown\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "tGuard",
+															"sid": 580203646031713,
+															"parameters": {
+																"instance-variable": "status",
+																"value": "\"growDown\""
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "tGuard",
+															"sid": 355720401194753,
+															"parameters": {
+																"animation": "\"grow\"",
+																"from": "current-frame"
+															}
+														},
+														{
+															"id": "set-animation-speed",
+															"objectClass": "tGuard",
+															"sid": 935453020690093,
+															"parameters": {
+																"speed": "-12"
+															}
+														},
+														{
+															"id": "start-animation",
+															"objectClass": "tGuard",
+															"sid": 429021700490065,
+															"parameters": {
+																"from": "current-frame"
+															}
+														}
+													],
+													"sid": 746684916349293
+												}
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "Управление процессом изменения размера (когда флаг grow активен)",
 											"background-color": [
 												0.6666666666666666,
 												0.8392156862745098,
@@ -1660,10 +1842,11 @@
 											],
 											"actions": [],
 											"sid": 422449414527971,
+											"disabled": true,
 											"children": [
 												{
 													"eventType": "comment",
-													"text": "Событие №35: Если герой в зоне активации — растем вверх",
+													"text": "Если герой в зоне активации — растем вверх",
 													"background-color": [
 														0.6666666666666666,
 														0.8392156862745098,
@@ -1705,10 +1888,11 @@
 														}
 													],
 													"sid": 405678568958918,
+													"disabled": true,
 													"children": [
 														{
 															"eventType": "comment",
-															"text": "Событие №36: Если анимация остановилась на краю, толкаем её дальше",
+															"text": " Если анимация остановилась на краю, толкаем её дальше",
 															"background-color": [
 																0.6666666666666666,
 																0.8392156862745098,
@@ -1739,13 +1923,14 @@
 																	}
 																}
 															],
-															"sid": 952452020460612
+															"sid": 952452020460612,
+															"disabled": true
 														}
 													]
 												},
 												{
 													"eventType": "comment",
-													"text": "Событие №37: Если герой отошел — уменьшаемся",
+													"text": " Если герой отошел — уменьшаемся",
 													"background-color": [
 														0.6666666666666666,
 														0.8392156862745098,
@@ -1782,10 +1967,11 @@
 														}
 													],
 													"sid": 303885394317106,
+													"disabled": true,
 													"children": [
 														{
 															"eventType": "comment",
-															"text": "Событие №38: Толкаем анимацию в обратную сторону, если она встала",
+															"text": "Толкаем анимацию в обратную сторону, если она встала",
 															"background-color": [
 																0.6666666666666666,
 																0.8392156862745098,
@@ -1816,199 +2002,10 @@
 																	}
 																}
 															],
-															"sid": 870698619862433
+															"sid": 870698619862433,
+															"disabled": true
 														}
 													]
-												}
-											]
-										},
-										{
-											"eventType": "comment",
-											"text": "растущий",
-											"background-color": [
-												0.6039215686274509,
-												0.7803921568627451,
-												0.8392156862745098,
-												1
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 110848811032698
-												},
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "tGuard",
-													"sid": 672421517361995,
-													"parameters": {
-														"instance-variable": "grown"
-													},
-													"isInverted": true
-												},
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "tGuard",
-													"sid": 397638305788361,
-													"parameters": {
-														"instance-variable": "grow"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 354948305828111,
-											"children": [
-												{
-													"eventType": "comment",
-													"text": "если герой близко",
-													"background-color": [
-														0.6039215686274509,
-														0.7803921568627451,
-														0.8392156862745098,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "tGuard",
-															"sid": 338429164875208,
-															"parameters": {
-																"instance-variable": "heroDist",
-																"comparison": 2,
-																"value": "Self.closeDist"
-															}
-														},
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "tGuard",
-															"sid": 661767600862410,
-															"parameters": {
-																"instance-variable": "status",
-																"comparison": 1,
-																"value": "\"growUp\""
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "tGuard",
-															"sid": 270369081232952,
-															"parameters": {
-																"instance-variable": "status",
-																"value": "\"growUp\""
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "tGuard",
-															"sid": 889403817869897,
-															"parameters": {
-																"animation": "\"grow\"",
-																"from": "current-frame"
-															}
-														},
-														{
-															"id": "set-animation-speed",
-															"objectClass": "tGuard",
-															"sid": 841537030812736,
-															"parameters": {
-																"speed": "12"
-															}
-														},
-														{
-															"id": "start-animation",
-															"objectClass": "tGuard",
-															"sid": 688890524578838,
-															"parameters": {
-																"from": "current-frame"
-															}
-														}
-													],
-													"sid": 630194198437166
-												},
-												{
-													"eventType": "comment",
-													"text": "если герой далеко",
-													"background-color": [
-														0.6039215686274509,
-														0.7803921568627451,
-														0.8392156862745098,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "else",
-															"objectClass": "System",
-															"sid": 129178041717183
-														},
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "tGuard",
-															"sid": 715766719680795,
-															"parameters": {
-																"instance-variable": "heroDist",
-																"comparison": 4,
-																"value": "Self.closeDist+30"
-															}
-														},
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "tGuard",
-															"sid": 585972035014799,
-															"parameters": {
-																"instance-variable": "status",
-																"comparison": 1,
-																"value": "\"growDown\""
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "tGuard",
-															"sid": 418150834824305,
-															"parameters": {
-																"instance-variable": "status",
-																"value": "\"growDown\""
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "tGuard",
-															"sid": 280729961965081,
-															"parameters": {
-																"animation": "\"grow\"",
-																"from": "current-frame"
-															}
-														},
-														{
-															"id": "set-animation-speed",
-															"objectClass": "tGuard",
-															"sid": 682289196972529,
-															"parameters": {
-																"speed": "-12"
-															}
-														},
-														{
-															"id": "start-animation",
-															"objectClass": "tGuard",
-															"sid": 547174875454497,
-															"parameters": {
-																"from": "current-frame"
-															}
-														}
-													],
-													"sid": 615687857115142
 												}
 											]
 										}
@@ -2637,9 +2634,9 @@
 						{
 							"id": "set-animation",
 							"objectClass": "seedNut",
-							"sid": 578221394312137,
+							"sid": 377859481419832,
 							"parameters": {
-								"animation": "\"seed\"",
+								"animation": "\"dart\"",
 								"from": "beginning"
 							}
 						}
@@ -2805,7 +2802,58 @@
 							}
 						}
 					],
-					"sid": 935418617231917
+					"sid": 935418617231917,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "seedNut",
+									"sid": 510477347423744,
+									"parameters": {
+										"instance-variable": "type",
+										"comparison": 0,
+										"value": "\"boom\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "seedNut",
+									"sid": 554978740944201,
+									"parameters": {
+										"animation": "\"boom\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 995041131204678
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 717859348942574
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "seedNut",
+									"sid": 300363288300347,
+									"parameters": {
+										"animation": "\"seed\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 862189157521050
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -2835,38 +2883,6 @@
 						{
 							"eventType": "block",
 							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 120398925836859,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"boom\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "seedNut",
-									"sid": 233170555658664,
-									"parameters": {
-										"animation": "\"boom\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 940114184908125
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 864483388559187
-								},
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "seedNut",
@@ -2924,71 +2940,79 @@
 								}
 							],
 							"sid": 689538750081184
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 437596592029921,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 1,
-										"value": "\"boom\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "seedNut",
-									"sid": 222281418256741,
-									"parameters": {
-										"instance-variable": "on",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "seedNut",
-									"sid": 733462662050748,
-									"parameters": {
-										"instance-variable": "dartUID",
-										"value": "-1"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "seedNut",
-									"sid": 263659994520972,
-									"parameters": {
-										"instance-variable": "hostUID",
-										"value": "-1"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "seedNut",
-									"sid": 255419803096315,
-									"parameters": {
-										"x": "-3777",
-										"y": "-74445"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "seedNut",
-									"sid": 945651253019712,
-									"parameters": {
-										"animation": "\"i\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 360521818352929
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "после взрыва возвращаем в банк",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "seedNut",
+							"sid": 713001174119130,
+							"parameters": {
+								"animation": "\"boom\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "seedNut",
+							"sid": 907946971160200,
+							"parameters": {
+								"instance-variable": "on",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "seedNut",
+							"sid": 243805595219855,
+							"parameters": {
+								"instance-variable": "dartUID",
+								"value": "-1"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "seedNut",
+							"sid": 105240551536597,
+							"parameters": {
+								"instance-variable": "hostUID",
+								"value": "-1"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "seedNut",
+							"sid": 108423275474681,
+							"parameters": {
+								"x": "-3777",
+								"y": "-74445"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "seedNut",
+							"sid": 535354146008636,
+							"parameters": {
+								"animation": "\"i\"",
+								"from": "beginning"
+							}
+						}
+					],
+					"sid": 714507345757570
 				},
 				{
 					"eventType": "comment",
