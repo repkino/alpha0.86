@@ -43,35 +43,23 @@
 				}
 			],
 			"sid": 517473003976058,
-			"disabled": true,
 			"children": [
 				{
 					"eventType": "block",
 					"conditions": [],
 					"actions": [
 						{
-							"callFunction": "dart",
-							"sid": 794229963600458,
-							"disabled": true,
-							"parameters": [
-								"-1",
-								"Bit.ImagePointX(\"gun\")",
-								"Bit.ImagePointY(\"gun\")",
-								"111",
-								"Mouse.X",
-								"Mouse.Y",
-								"600",
-								"1500",
-								"45",
-								"50",
-								"1000",
-								"\"angle\"",
-								"1"
-							]
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 562506005216023,
+							"parameters": {
+								"group-name": "\"dart\"",
+								"state": "activated"
+							}
 						},
 						{
 							"callFunction": "dart",
-							"sid": 458210264387433,
+							"sid": 591051891827791,
 							"parameters": [
 								"-1",
 								"Bit.ImagePointX(\"gun\")",
@@ -79,18 +67,17 @@
 								"222",
 								"Mouse.X",
 								"Mouse.Y",
-								"1500",
+								"2500",
 								"4000",
-								"45",
+								"35",
 								"50",
-								"1000",
+								"2000",
 								"\"speed\"",
 								"1"
 							]
 						}
 					],
-					"sid": 322747702258062,
-					"disabled": true
+					"sid": 322747702258062
 				}
 			]
 		},
@@ -307,6 +294,179 @@
 							]
 						},
 						{
+							"eventType": "comment",
+							"text": "ИСПРАВЛЕНО: Расчет дистанции от ЗЕМЛИ (startY + startZ), а не от дула."
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "dart",
+									"sid": 597597938993501,
+									"parameters": {
+										"unique-id": "dartUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "dart",
+									"sid": 562635599761619,
+									"parameters": {
+										"x": "startX",
+										"y": "startY"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 687024924480988,
+									"parameters": {
+										"instance-variable": "maxR",
+										"value": "maxR"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 286120893363541,
+									"parameters": {
+										"instance-variable": "minR",
+										"value": "minR"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 483645043935710,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "clamp(Functions.getIsoDist(dart.X, startY + startZ, targX, targY), minR, maxR)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 564474947586676,
+									"parameters": {
+										"instance-variable": "shad",
+										"value": "shad"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 935497875754647,
+									"parameters": {
+										"instance-variable": "zHeight",
+										"value": "startZ"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
+									"sid": 210425886249781,
+									"parameters": {
+										"instance-variable": "groundY",
+										"value": "startY + startZ"
+									}
+								}
+							],
+							"sid": 108355549863040,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 513681404028803,
+											"parameters": {
+												"variable": "mod",
+												"comparison": 0,
+												"value": "\"angle\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 211623278856811,
+											"parameters": {
+												"variable": "vH",
+												"value": "dart.speed * sqrt( gravity / (2 * (startZ + dart.speed * tan(angZ))) )"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 301022303929621,
+											"parameters": {
+												"variable": "vV",
+												"value": "vH * tan(angZ)"
+											}
+										}
+									],
+									"sid": 348098094438374
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 104951635680345,
+											"parameters": {
+												"instance-variable": "gravity",
+												"value": "gravity"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 305670068476574,
+											"parameters": {
+												"instance-variable": "vX",
+												"value": "cos(angle(dart.X, startY + startZ, targX, targY)) * vH * Functions.getIsoArray(angle(dart.X, startY + startZ, targX, targY))"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 462363157308544,
+											"parameters": {
+												"instance-variable": "vY",
+												"value": "sin(angle(dart.X, startY + startZ, targX, targY)) * vH * Functions.getIsoArray(angle(dart.X, startY + startZ, targX, targY))"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "dart",
+											"sid": 694280272783646,
+											"parameters": {
+												"instance-variable": "vZ",
+												"value": "vV"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "dart",
+											"sid": 807936263516224,
+											"parameters": {
+												"instance-variable": "on",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 434289247285662
+								}
+							]
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -358,6 +518,16 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "dart",
+									"sid": 721485045305633,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "clamp(Functions.getIsoDist(dart.X, startY + startZ, targX, targY), minR, maxR)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dart",
 									"sid": 780913692973595,
 									"parameters": {
 										"instance-variable": "shad",
@@ -384,6 +554,7 @@
 								}
 							],
 							"sid": 925062354954261,
+							"disabled": true,
 							"children": [
 								{
 									"eventType": "block",
@@ -439,7 +610,8 @@
 											}
 										}
 									],
-									"sid": 406002715426823
+									"sid": 406002715426823,
+									"disabled": true
 								},
 								{
 									"eventType": "block",
@@ -514,7 +686,8 @@
 											}
 										}
 									],
-									"sid": 203149654775094
+									"sid": 203149654775094,
+									"disabled": true
 								},
 								{
 									"eventType": "block",
@@ -586,7 +759,8 @@
 											}
 										}
 									],
-									"sid": 467631287909773
+									"sid": 467631287909773,
+									"disabled": true
 								}
 							]
 						}
