@@ -30,6 +30,16 @@
 					"sid": 606957212673210
 				},
 				{
+					"id": "compare-two-values",
+					"objectClass": "System",
+					"sid": 587274894700317,
+					"parameters": {
+						"first-value": "LayoutName",
+						"comparison": 1,
+						"second-value": "\"start\""
+					}
+				},
+				{
 					"id": "is-outside-layout",
 					"objectClass": "tGuard",
 					"sid": 444528509330083,
@@ -37,6 +47,30 @@
 				}
 			],
 			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aMico",
+					"sid": 181712734117939,
+					"parameters": {
+						"instance-variable": "BitSpiky",
+						"value": "0"
+					}
+				},
+				{
+					"callFunction": "getSpikes",
+					"sid": 693756855147710,
+					"parameters": [
+						"26"
+					]
+				},
+				{
+					"id": "set-time-scale",
+					"objectClass": "System",
+					"sid": 153140801668493,
+					"parameters": {
+						"time-scale": "0.3"
+					}
+				},
 				{
 					"id": "set-boolean-instvar",
 					"objectClass": "tGuard",
@@ -2453,7 +2487,55 @@
 													}
 												}
 											],
-											"sid": 525161528294578
+											"sid": 525161528294578,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tGuard",
+															"sid": 436019335757407,
+															"parameters": {
+																"instance-variable": "icon",
+																"comparison": 1,
+																"value": "\"zero\""
+															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "icon",
+															"sid": 831744394048305,
+															"parameters": {
+																"instance-variable": "hostUID",
+																"comparison": 0,
+																"value": "tGuard.UID"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position",
+															"objectClass": "icon",
+															"sid": 296368985758394,
+															"parameters": {
+																"x": "-5372",
+																"y": "-5327"
+															}
+														},
+														{
+															"id": "set-enabled",
+															"objectClass": "icon",
+															"sid": 912709674301279,
+															"behaviorType": "EasyIsometric",
+															"parameters": {
+																"newState_": "disabled"
+															}
+														}
+													],
+													"sid": 774717261042364
+												}
+											]
 										},
 										{
 											"eventType": "comment",
@@ -2872,7 +2954,76 @@
 									}
 								}
 							],
-							"sid": 305577873097207
+							"sid": 305577873097207,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tGuard",
+											"sid": 618470728890919,
+											"parameters": {
+												"instance-variable": "icon",
+												"comparison": 1,
+												"value": "\"zero\""
+											}
+										},
+										{
+											"id": "is-outside-layout",
+											"objectClass": "icon",
+											"sid": 864986854654284
+										}
+									],
+									"actions": [],
+									"sid": 937525775095932,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 949819249857448,
+													"parameters": {
+														"object": "icon"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "icon",
+													"sid": 193060005897142,
+													"parameters": {
+														"x": "tGuard.X",
+														"y": "tGuard.Y+1"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "icon",
+													"sid": 283221348625156,
+													"parameters": {
+														"animation": "tGuard.icon",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-enabled",
+													"objectClass": "icon",
+													"sid": 318924183841379,
+													"behaviorType": "EasyIsometric",
+													"parameters": {
+														"newState_": "enabled"
+													}
+												}
+											],
+											"sid": 574892992854647
+										}
+									]
+								}
+							]
 						},
 						{
 							"eventType": "block",
@@ -3207,6 +3358,14 @@
 											}
 										},
 										{
+											"id": "set-scale",
+											"objectClass": "seedNut",
+											"sid": 577717739729408,
+											"parameters": {
+												"scale": "Self.type=\"chick\"?0.67:0.65"
+											}
+										},
+										{
 											"id": "set-boolean-instvar",
 											"objectClass": "seedNut",
 											"sid": 266986437617987,
@@ -3472,6 +3631,7 @@
 											"id": "set-instvar-value",
 											"objectClass": "tGuard",
 											"sid": 253881471388720,
+											"disabled": true,
 											"parameters": {
 												"instance-variable": "precision",
 												"value": "0"
@@ -3551,6 +3711,14 @@
 							"behaviorType": "Pin"
 						},
 						{
+							"id": "set-angle",
+							"objectClass": "seedNut",
+							"sid": 259348354192629,
+							"parameters": {
+								"angle": "0"
+							}
+						},
+						{
 							"id": "set-boolean-instvar",
 							"objectClass": "tGuard",
 							"sid": 470928543220375,
@@ -3607,9 +3775,44 @@
 										"animation": "\"seed\"",
 										"from": "beginning"
 									}
+								},
+								{
+									"id": "set-mirrored",
+									"objectClass": "seedNut",
+									"sid": 575105100941845,
+									"parameters": {
+										"state": "not-mirrored"
+									}
 								}
 							],
-							"sid": 862189157521050
+							"sid": 862189157521050,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "Chance",
+											"objectClass": "Utils",
+											"sid": 726796403802159,
+											"parameters": {
+												"chance": "1",
+												"outof": "2"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-mirrored",
+											"objectClass": "seedNut",
+											"sid": 740375661234016,
+											"parameters": {
+												"state": "mirrored"
+											}
+										}
+									],
+									"sid": 581581776543211
+								}
+							]
 						}
 					]
 				},
@@ -3698,6 +3901,58 @@
 								}
 							],
 							"sid": 689538750081184
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "seedNut",
+									"sid": 161451399051249,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "seedNut",
+									"sid": 178526611176939,
+									"parameters": {
+										"instance-variable": "dartUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "seedNut",
+									"sid": 573786236939623,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "seedNut",
+									"sid": 748117056051211,
+									"parameters": {
+										"x": "-3777",
+										"y": "-74445"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "seedNut",
+									"sid": 434449499392218,
+									"parameters": {
+										"animation": "\"i\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 989160082735778
 						}
 					]
 				},
