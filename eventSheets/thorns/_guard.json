@@ -3267,6 +3267,566 @@
 					]
 				},
 				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "Territory",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "1 Триггер начала отрисовки границы: герой пересек дальний радиус"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "tGuard",
+									"sid": 512524055527998,
+									"parameters": {
+										"instance-variable": "heroDist",
+										"comparison": 2,
+										"value": "Self.closeDist+50"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tGuard",
+									"sid": 424428892268258,
+									"parameters": {
+										"instance-variable": "territoryDrawn"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "tGuard",
+									"sid": 305301387944493,
+									"parameters": {
+										"instance-variable": "territoryDrawn",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 100747106465431,
+									"parameters": {
+										"instance-variable": "drawIndex",
+										"value": "0"
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "tGuard",
+									"sid": 514468902706713,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "0.05",
+										"type": "regular",
+										"tag": "\"drawSpikes\""
+									}
+								}
+							],
+							"sid": 310996923732371,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "2 Определение центра: Ронин (вокруг себя)"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "tGuard",
+											"sid": 171895072998324,
+											"parameters": {
+												"instance-variable": "achivGuard"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "tGuard",
+											"sid": 534722892620824,
+											"parameters": {
+												"instance-variable": "superGuard"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 665692330666080,
+											"parameters": {
+												"instance-variable": "drawCX",
+												"value": "Self.X"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 841576942285123,
+											"parameters": {
+												"instance-variable": "drawCY",
+												"value": "Self.Y"
+											}
+										}
+									],
+									"sid": 611272933230818
+								},
+								{
+									"eventType": "comment",
+									"text": "3 Определение центра: Обычный охранник (вокруг охраняемого достижения)"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "tGuard",
+											"sid": 236730534835155,
+											"parameters": {
+												"instance-variable": "achivGuard"
+											}
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "achivments",
+											"sid": 177485128281133,
+											"parameters": {
+												"unique-id": "tGuard.achivUID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 567945952288389,
+											"parameters": {
+												"instance-variable": "drawCX",
+												"value": "achivments.X"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 918171346284712,
+											"parameters": {
+												"instance-variable": "drawCY",
+												"value": "achivments.Y"
+											}
+										}
+									],
+									"sid": 604577182542915
+								},
+								{
+									"eventType": "comment",
+									"text": "4 Определение центра: Супер-страж (вокруг ближайшего к герою достижения в кластере)"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "tGuard",
+											"sid": 134898103091977,
+											"parameters": {
+												"instance-variable": "superGuard"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 244942469532894,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "aBook.hero"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 519601289726066,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-all",
+													"objectClass": "System",
+													"sid": 278846595226414,
+													"parameters": {
+														"object": "achivments"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "achivments",
+													"sid": 455917075952508,
+													"parameters": {
+														"instance-variable": "SGClaster",
+														"comparison": 0,
+														"value": "tGuard.SGClaster"
+													}
+												},
+												{
+													"id": "pick-nearestfurthest",
+													"objectClass": "achivments",
+													"sid": 330926708857858,
+													"parameters": {
+														"which": "nearest",
+														"x": "base.X",
+														"y": "base.Y"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "tGuard",
+													"sid": 162803432968312,
+													"parameters": {
+														"instance-variable": "drawCX",
+														"value": "achivments.X"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "tGuard",
+													"sid": 855394285902430,
+													"parameters": {
+														"instance-variable": "drawCY",
+														"value": "achivments.Y"
+													}
+												}
+											],
+											"sid": 481979793693278
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "5 блок с переменными"
+						},
+						{
+							"eventType": "variable",
+							"name": "drawX",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 123932427625943
+						},
+						{
+							"eventType": "variable",
+							"name": "drawY",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 480680566054675
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 985057367931051,
+									"parameters": {
+										"variable": "drawX",
+										"value": "float(tokenat(Functions.getPos(tGuard.drawCX, tGuard.drawCY, tGuard.drawIndex*10, tGuard.attackDist), 0, \";\"))"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 189853639996368,
+									"parameters": {
+										"variable": "drawY",
+										"value": "float(tokenat(Functions.getPos(tGuard.drawCX, tGuard.drawCY, tGuard.drawIndex*10, tGuard.attackDist), 1, \";\"))"
+									}
+								}
+							],
+							"sid": 122329510730217,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-all",
+											"objectClass": "System",
+											"sid": 717389583097900,
+											"parameters": {
+												"object": "spike"
+											}
+										},
+										{
+											"id": "is-outside-layout",
+											"objectClass": "spike",
+											"sid": 717684123055671
+										},
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 518415265897039,
+											"parameters": {
+												"object": "spike"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "spike",
+											"sid": 433301581327055,
+											"parameters": {
+												"x": "drawX",
+												"y": "drawY"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "spike",
+											"sid": 915887384565353,
+											"parameters": {
+												"animation": "\"spike\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 945261999998178
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "6 Поворот стража к точке установки шипа"
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 939649823720568,
+									"parameters": {
+										"instance-variable": "ang",
+										"value": "angle(Self.X,Self.Y,drawX,drawY)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 474061469968694,
+									"parameters": {
+										"instance-variable": "dir",
+										"value": "int(((Self.ang+360+22.5) %360)/45)"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "tGuard",
+									"sid": 756338726282669,
+									"parameters": {
+										"animation": "\"stop\"&(Self.dir=3 ? 1 : Self.dir=4 ? 0 : Self.dir=5 ? 7 : Self.dir)",
+										"from": "current-frame"
+									}
+								},
+								{
+									"id": "set-mirrored",
+									"objectClass": "tGuard",
+									"sid": 434676507537539,
+									"parameters": {
+										"state": "not-mirrored"
+									}
+								}
+							],
+							"sid": 725945114295153,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-between-values",
+											"objectClass": "System",
+											"sid": 292691721106120,
+											"parameters": {
+												"value": "tGuard.dir",
+												"lower-bound": "3",
+												"upper-bound": "5"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-mirrored",
+											"objectClass": "tGuard",
+											"sid": 671949028991941,
+											"parameters": {
+												"state": "mirrored"
+											}
+										}
+									],
+									"sid": 739610993328346
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "7 Луч: выбор по hostUID и импульс через Fade"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-comparison",
+									"objectClass": "System",
+									"sid": 565123244231494,
+									"parameters": {
+										"object": "luch1",
+										"expression": "luch1.hostUID",
+										"comparison": 0,
+										"value": "tGuard.UID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "luch1",
+									"sid": 776385990904027,
+									"parameters": {
+										"x": "tGuard.ImagePointX(1)",
+										"y": "tGuard.ImagePointY(1)"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "luch1",
+									"sid": 708792120181084,
+									"parameters": {
+										"angle": "angle(Self.X, Self.Y, drawX, drawY)"
+									}
+								},
+								{
+									"id": "set-width",
+									"objectClass": "luch1",
+									"sid": 861952724025699,
+									"parameters": {
+										"width": "distance(Self.X, Self.Y, drawX, drawY)"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "luch1",
+									"sid": 902719500605136,
+									"parameters": {
+										"visibility": "visible"
+									}
+								},
+								{
+									"id": "set-opacity",
+									"objectClass": "luch1",
+									"sid": 247836514050983,
+									"parameters": {
+										"opacity": "100"
+									}
+								},
+								{
+									"id": "restart-fade",
+									"objectClass": "luch1",
+									"sid": 948751730848686,
+									"behaviorType": "Fade"
+								}
+							],
+							"sid": 957433455435257
+						},
+						{
+							"eventType": "comment",
+							"text": "8"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "tGuard",
+									"sid": 723584757639320,
+									"parameters": {
+										"instance-variable": "drawIndex",
+										"comparison": 5,
+										"value": "36"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "stop-timer",
+									"objectClass": "tGuard",
+									"sid": 888555560857676,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"drawSpikes\""
+									}
+								}
+							],
+							"sid": 731185044060873,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-all",
+											"objectClass": "System",
+											"sid": 834001916115877,
+											"parameters": {
+												"object": "luch1"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "luch1",
+											"sid": 761919981772423,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"comparison": 0,
+												"value": "tGuard.UID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-visible",
+											"objectClass": "luch1",
+											"sid": 552487484594736,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										}
+									],
+									"sid": 231318607535236
+								}
+							]
+						}
+					],
+					"sid": 569189970035660
+				},
+				{
 					"eventType": "comment",
 					"text": "на расстоянии разбрасывания семян, стражи атакуют героя, разбрасывая семена",
 					"background-color": [
