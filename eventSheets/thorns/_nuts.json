@@ -3068,28 +3068,8 @@
 					"sid": 419600756059947
 				},
 				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-instance-signal",
-							"objectClass": "nut",
-							"sid": 179394603234551,
-							"parameters": {
-								"tag": "\"puls\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "nutCheck",
-							"sid": 366816235799111,
-							"parameters": [
-								"nut.UID"
-							]
-						}
-					],
-					"sid": 575183525777208,
-					"disabled": true
+					"eventType": "comment",
+					"text": "Таймер только обновляет данные. Решения принимаются в триггерах анимаций."
 				},
 				{
 					"eventType": "block",
@@ -3112,33 +3092,46 @@
 							]
 						}
 					],
-					"sid": 575183525777208,
-					"children": [
+					"sid": 575183525777208
+				},
+				{
+					"eventType": "comment",
+					"text": "Логика выхода из UNDER (по окончанию анимации или если зациклена)"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
 						{
-							"eventType": "comment",
-							"text": "Логика выхода из состояния UNDER (зарыт)"
-						},
+							"id": "on-animation-finished",
+							"objectClass": "nut",
+							"sid": 790984180232095,
+							"parameters": {
+								"animation": "\"under\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 190308200656441,
+					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "nut",
-									"sid": 111222333444555,
+									"sid": 216495234036773,
 									"parameters": {
-										"instance-variable": "status",
+										"instance-variable": "distN",
 										"comparison": 0,
-										"value": "\"under\""
+										"value": "0"
 									}
 								},
 								{
-									"id": "compare-instance-variable",
-									"objectClass": "nut",
-									"sid": 222333444555666,
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 700506781832326,
 									"parameters": {
-										"instance-variable": "distN",
-										"comparison": 3,
-										"value": "1"
+										"unique-id": "nut.targetUID"
 									}
 								}
 							],
@@ -3146,7 +3139,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "nut",
-									"sid": 333444555666777,
+									"sid": 229089376226423,
 									"parameters": {
 										"instance-variable": "status",
 										"value": "\"jump\""
@@ -3155,329 +3148,255 @@
 								{
 									"id": "set-animation",
 									"objectClass": "nut",
-									"sid": 444555666777888,
+									"sid": 518074395444294,
 									"parameters": {
 										"animation": "\"jump\"",
 										"from": "beginning"
 									}
 								}
 							],
-							"sid": 555666777888999
+							"sid": 481514348456113
 						},
 						{
-							"eventType": "comment",
-							"text": "Логика состояния SLEEP (сон)"
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 875915954241541
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 556607674571198,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 403812892625996,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 997275298079350,
+									"parameters": {
+										"instance-variable": "move"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 420850771082633,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"jump\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 619255770805758,
+									"parameters": {
+										"animation": "\"jump\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 781201392035693
 						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 539573138339848
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 709452120079003,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"under\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 930866613494553,
+									"parameters": {
+										"animation": "\"under\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 774078327989349
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Логика выхода из SLEEP"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "nut",
+							"sid": 331535132175961,
+							"parameters": {
+								"animation": "\"sleep\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 696387667415160,
+					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "nut",
-									"sid": 666777888999000,
+									"sid": 524485817132054,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 687079903718490,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 497519145449039,
 									"parameters": {
 										"instance-variable": "status",
+										"value": "\"target\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 822984361777863,
+									"parameters": {
+										"animation": "\"target\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 766780467437425
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 576737236101311
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 291964444715361,
+									"parameters": {
+										"instance-variable": "distN",
 										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 574108373803520,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 225949492405412,
+									"parameters": {
+										"instance-variable": "move"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 932124858940699,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"open\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 648591318581113,
+									"parameters": {
+										"animation": "\"open\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 749039299945523
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 164895780427772
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 783358584933141,
+									"parameters": {
+										"instance-variable": "status",
 										"value": "\"sleep\""
 									}
-								}
-							],
-							"actions": [],
-							"sid": 777888999000111,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "nut",
-											"sid": 888999000111222,
-											"parameters": {
-												"instance-variable": "distN",
-												"comparison": 0,
-												"value": "0"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 999000111222333,
-											"parameters": {
-												"instance-variable": "status",
-												"value": "\"target\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 101112223344556,
-											"parameters": {
-												"animation": "\"target\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 112223334455667
 								},
 								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "nut",
-											"sid": 123334445566778,
-											"parameters": {
-												"instance-variable": "distN",
-												"comparison": 0,
-												"value": "1"
-											}
-										},
-										{
-											"id": "pick-by-unique-id",
-											"objectClass": "base",
-											"sid": 134445556677889,
-											"parameters": {
-												"unique-id": "nut.targetUID"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "base",
-											"sid": 145556667788990,
-											"parameters": {
-												"instance-variable": "move"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 156667778899001,
-											"parameters": {
-												"instance-variable": "status",
-												"value": "\"open\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 167778889900112,
-											"parameters": {
-												"animation": "\"open\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 178889990011223
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "Логика состояния IDLE/OPEN (наблюдение)"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
+									"id": "set-animation",
 									"objectClass": "nut",
-									"sid": 189990001122334,
+									"sid": 385230801532274,
 									"parameters": {
-										"instance-variable": "status",
-										"comparison": 0,
-										"value": "\"idle\""
+										"animation": "\"sleep\"",
+										"from": "beginning"
 									}
 								}
 							],
-							"actions": [],
-							"sid": 201101112233445,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "nut",
-											"sid": 212212223344556,
-											"parameters": {
-												"instance-variable": "status",
-												"comparison": 0,
-												"value": "\"open\""
-											}
-										}
-									],
-									"actions": [],
-									"sid": 223323334455667
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "nut",
-											"sid": 234434445566778,
-											"parameters": {
-												"instance-variable": "distN",
-												"comparison": 0,
-												"value": "0"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 245545556677889,
-											"parameters": {
-												"instance-variable": "status",
-												"value": "\"target\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 256656667788990,
-											"parameters": {
-												"animation": "\"target\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 267767778899001
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "nut",
-											"sid": 278878889900112,
-											"parameters": {
-												"instance-variable": "distN",
-												"comparison": 0,
-												"value": "1"
-											}
-										},
-										{
-											"id": "pick-by-unique-id",
-											"objectClass": "base",
-											"sid": 289989990011223,
-											"parameters": {
-												"unique-id": "nut.targetUID"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 301101101122334,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "base",
-													"sid": 312212212233445,
-													"parameters": {
-														"instance-variable": "move"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-instvar-value",
-													"objectClass": "nut",
-													"sid": 323323323344556,
-													"parameters": {
-														"instance-variable": "status",
-														"value": "\"chase\""
-													}
-												},
-												{
-													"callFunction": "nutAttack",
-													"sid": 334434434455667,
-													"parameters": [
-														"nut.UID",
-														"base.UID"
-													]
-												}
-											],
-											"sid": 345545545566778
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 356656656677889
-												}
-											],
-											"actions": [
-												{
-													"id": "set-instvar-value",
-													"objectClass": "nut",
-													"sid": 367767767788990,
-													"parameters": {
-														"instance-variable": "status",
-														"value": "\"goSleep\""
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "nut",
-													"sid": 378878878899001,
-													"parameters": {
-														"animation": "\"goSleep\"",
-														"from": "beginning"
-													}
-												}
-											],
-											"sid": 389989989900112
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "nut",
-											"sid": 401101011122233,
-											"parameters": {
-												"instance-variable": "distN",
-												"comparison": 5,
-												"value": "2"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 412212122233344,
-											"parameters": {
-												"instance-variable": "status",
-												"value": "\"down\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 423323233344455,
-											"parameters": {
-												"animation": "\"down\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 434434344455566
-								}
-							],
-							"isOrBlock": true
+							"sid": 588898092576060
 						}
 					]
 				},
@@ -3831,26 +3750,74 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 923397756209913,
+							"children": [
 								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 460484533916288,
-									"parameters": {
-										"instance-variable": "status",
-										"value": "\"chase\""
-									}
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 843116286695004,
+											"parameters": {
+												"instance-variable": "move"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 233316470163535,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"open\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 279365134936073,
+											"parameters": {
+												"animation": "\"idle\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 173085003823941
 								},
 								{
-									"callFunction": "nutAttack",
-									"sid": 810667815704027,
-									"parameters": [
-										"nut.UID",
-										"base.UID"
-									]
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 303213325717198
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 596385684696587,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"chase\""
+											}
+										},
+										{
+											"callFunction": "nutAttack",
+											"sid": 680928913280447,
+											"parameters": [
+												"nut.UID",
+												"base.UID"
+											]
+										}
+									],
+									"sid": 647384676470906
 								}
-							],
-							"sid": 923397756209913
+							]
 						},
 						{
 							"eventType": "block",
@@ -3893,6 +3860,229 @@
 								}
 							],
 							"sid": 997235851449168
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "nut",
+							"sid": 691827187706238,
+							"parameters": {
+								"animation": "\"idle\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 560993168757123,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 506402010569852,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 589835221677115,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 380652851667885,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"chase\""
+									}
+								},
+								{
+									"callFunction": "nutAttack",
+									"sid": 936128681523841,
+									"parameters": [
+										"nut.UID",
+										"base.UID"
+									]
+								}
+							],
+							"sid": 611605564980851
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 453029096702488
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 461400369812188,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 127819443530224,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 599531251770438,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 338929507504245,
+											"parameters": {
+												"instance-variable": "move"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 700042597259419,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"target\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 858260871247650,
+											"parameters": {
+												"animation": "\"target\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 965092127799242,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"jump\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 899386715609836,
+											"disabled": true,
+											"parameters": {
+												"animation": "\"jump\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 539782077136978
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 272410667386666
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 429118685836915,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"goSleep\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 787235048390238,
+											"parameters": {
+												"animation": "\"goSleep\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 219577269646833
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 471365971024045
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 156782568633716,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "2"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 679370339072845,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"down\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 753226639368030,
+									"parameters": {
+										"animation": "\"down\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 713690908584177
 						}
 					]
 				},
@@ -3976,7 +4166,26 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "nut",
+											"sid": 337770878275695,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"goSleep\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 861235894906567,
+											"parameters": {
+												"animation": "\"goSleep\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
 											"sid": 856635460658897,
+											"disabled": true,
 											"parameters": {
 												"instance-variable": "status",
 												"value": "\"open\""
@@ -3986,6 +4195,7 @@
 											"id": "set-animation",
 											"objectClass": "nut",
 											"sid": 769878091696863,
+											"disabled": true,
 											"parameters": {
 												"animation": "\"idle\"",
 												"from": "beginning"
@@ -4026,209 +4236,6 @@
 								}
 							],
 							"sid": 617590639063422
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": ""
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-animation-finished",
-							"objectClass": "nut",
-							"sid": 145172633244462,
-							"parameters": {
-								"animation": "\"idle\""
-							}
-						}
-					],
-					"actions": [],
-					"sid": 893038760724329,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "nut",
-									"sid": 456057030755516,
-									"parameters": {
-										"instance-variable": "distN",
-										"comparison": 0,
-										"value": "0"
-									}
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "base",
-									"sid": 268072620123097,
-									"parameters": {
-										"unique-id": "nut.targetUID"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 781991164354013,
-									"parameters": {
-										"instance-variable": "status",
-										"value": "\"chase\""
-									}
-								},
-								{
-									"callFunction": "nutAttack",
-									"sid": 326919705064433,
-									"parameters": [
-										"nut.UID",
-										"base.UID"
-									]
-								}
-							],
-							"sid": 697211710196316
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 476468017566821
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "nut",
-									"sid": 528517853317583,
-									"parameters": {
-										"instance-variable": "distN",
-										"comparison": 0,
-										"value": "1"
-									}
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "base",
-									"sid": 825016247555024,
-									"parameters": {
-										"unique-id": "nut.targetUID"
-									}
-								}
-							],
-							"actions": [],
-							"sid": 636810807510424,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "base",
-											"sid": 587876527141487,
-											"parameters": {
-												"instance-variable": "move"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 771052291484287,
-											"parameters": {
-												"instance-variable": "status",
-												"value": "\"jump\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 798125118987111,
-											"parameters": {
-												"animation": "\"jump\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 397918098704204
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 631817390025967
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 198814058238325,
-											"parameters": {
-												"instance-variable": "status",
-												"value": "\"goSleep\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 225368157098027,
-											"parameters": {
-												"animation": "\"goSleep\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 149470807906410
-								}
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 536661515135885
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "nut",
-									"sid": 936883703324025,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "distN",
-										"comparison": 0,
-										"value": "2"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 317397526893304,
-									"parameters": {
-										"instance-variable": "status",
-										"value": "\"down\""
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 259336482706660,
-									"parameters": {
-										"animation": "\"down\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 662502481291228
 						}
 					]
 				},
