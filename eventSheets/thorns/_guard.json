@@ -2842,6 +2842,21 @@
 													"sid": 734882620931829
 												}
 											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "instance-signal",
+													"objectClass": "tGuard",
+													"sid": 875669999305986,
+													"parameters": {
+														"tag": "\"pulsEnd\""
+													}
+												}
+											],
+											"sid": 526514466122135
 										}
 									]
 								}
@@ -3281,6 +3296,14 @@
 							"eventType": "block",
 							"conditions": [
 								{
+									"id": "on-instance-signal",
+									"objectClass": "tGuard",
+									"sid": 475980524496193,
+									"parameters": {
+										"tag": "\"pulsEnd\""
+									}
+								},
+								{
 									"id": "compare-instance-variable",
 									"objectClass": "tGuard",
 									"sid": 512524055527998,
@@ -3293,7 +3316,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "tGuard",
-									"sid": 424428892268258,
+									"sid": 463555703792883,
 									"parameters": {
 										"instance-variable": "territoryDrawn"
 									},
@@ -3304,7 +3327,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "tGuard",
-									"sid": 305301387944493,
+									"sid": 723915069211342,
 									"parameters": {
 										"instance-variable": "territoryDrawn",
 										"value": "true"
@@ -3540,7 +3563,17 @@
 						},
 						{
 							"eventType": "block",
-							"conditions": [],
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "tGuard",
+									"sid": 170687619788426,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"drawSpikes\""
+									}
+								}
+							],
 							"actions": [
 								{
 									"id": "set-eventvar-value",
@@ -3609,201 +3642,95 @@
 										}
 									],
 									"sid": 945261999998178
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "6 Поворот стража к точке установки шипа"
-						},
-						{
-							"eventType": "block",
-							"conditions": [],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "tGuard",
-									"sid": 939649823720568,
-									"parameters": {
-										"instance-variable": "ang",
-										"value": "angle(Self.X,Self.Y,drawX,drawY)"
-									}
 								},
 								{
-									"id": "set-instvar-value",
-									"objectClass": "tGuard",
-									"sid": 474061469968694,
-									"parameters": {
-										"instance-variable": "dir",
-										"value": "int(((Self.ang+360+22.5) %360)/45)"
-									}
+									"eventType": "comment",
+									"text": "6 Поворот стража к точке установки шипа"
 								},
-								{
-									"id": "set-animation",
-									"objectClass": "tGuard",
-									"sid": 756338726282669,
-									"parameters": {
-										"animation": "\"stop\"&(Self.dir=3 ? 1 : Self.dir=4 ? 0 : Self.dir=5 ? 7 : Self.dir)",
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-mirrored",
-									"objectClass": "tGuard",
-									"sid": 434676507537539,
-									"parameters": {
-										"state": "not-mirrored"
-									}
-								}
-							],
-							"sid": 725945114295153,
-							"children": [
 								{
 									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-between-values",
-											"objectClass": "System",
-											"sid": 292691721106120,
-											"parameters": {
-												"value": "tGuard.dir",
-												"lower-bound": "3",
-												"upper-bound": "5"
-											}
-										}
-									],
+									"conditions": [],
 									"actions": [
 										{
-											"id": "set-mirrored",
+											"id": "set-instvar-value",
 											"objectClass": "tGuard",
-											"sid": 671949028991941,
+											"sid": 694568323334070,
 											"parameters": {
-												"state": "mirrored"
-											}
-										}
-									],
-									"sid": 739610993328346
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "7 Луч: выбор по hostUID и импульс через Fade"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "pick-by-comparison",
-									"objectClass": "System",
-									"sid": 565123244231494,
-									"parameters": {
-										"object": "luch1",
-										"expression": "luch1.hostUID",
-										"comparison": 0,
-										"value": "tGuard.UID"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-position",
-									"objectClass": "luch1",
-									"sid": 776385990904027,
-									"parameters": {
-										"x": "tGuard.ImagePointX(1)",
-										"y": "tGuard.ImagePointY(1)"
-									}
-								},
-								{
-									"id": "set-angle",
-									"objectClass": "luch1",
-									"sid": 708792120181084,
-									"parameters": {
-										"angle": "angle(Self.X, Self.Y, drawX, drawY)"
-									}
-								},
-								{
-									"id": "set-width",
-									"objectClass": "luch1",
-									"sid": 861952724025699,
-									"parameters": {
-										"width": "distance(Self.X, Self.Y, drawX, drawY)"
-									}
-								},
-								{
-									"id": "set-visible",
-									"objectClass": "luch1",
-									"sid": 902719500605136,
-									"parameters": {
-										"visibility": "visible"
-									}
-								},
-								{
-									"id": "set-opacity",
-									"objectClass": "luch1",
-									"sid": 247836514050983,
-									"parameters": {
-										"opacity": "100"
-									}
-								},
-								{
-									"id": "restart-fade",
-									"objectClass": "luch1",
-									"sid": 948751730848686,
-									"behaviorType": "Fade"
-								}
-							],
-							"sid": 957433455435257
-						},
-						{
-							"eventType": "comment",
-							"text": "8"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "tGuard",
-									"sid": 723584757639320,
-									"parameters": {
-										"instance-variable": "drawIndex",
-										"comparison": 5,
-										"value": "36"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "stop-timer",
-									"objectClass": "tGuard",
-									"sid": 888555560857676,
-									"behaviorType": "Timer",
-									"parameters": {
-										"tag": "\"drawSpikes\""
-									}
-								}
-							],
-							"sid": 731185044060873,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "pick-all",
-											"objectClass": "System",
-											"sid": 834001916115877,
-											"parameters": {
-												"object": "luch1"
+												"instance-variable": "ang",
+												"value": "angle(Self.X,Self.Y,drawX,drawY)"
 											}
 										},
 										{
-											"id": "compare-instance-variable",
-											"objectClass": "luch1",
-											"sid": 761919981772423,
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 136183696786463,
 											"parameters": {
-												"instance-variable": "hostUID",
+												"instance-variable": "dir",
+												"value": "int(((Self.ang+360+22.5) %360)/45)"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "tGuard",
+											"sid": 339878503202903,
+											"parameters": {
+												"animation": "\"stop\"&(Self.dir=3 ? 1 : Self.dir=4 ? 0 : Self.dir=5 ? 7 : Self.dir)",
+												"from": "current-frame"
+											}
+										},
+										{
+											"id": "set-mirrored",
+											"objectClass": "tGuard",
+											"sid": 125750161164403,
+											"parameters": {
+												"state": "not-mirrored"
+											}
+										}
+									],
+									"sid": 593758939955545,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-between-values",
+													"objectClass": "System",
+													"sid": 736692480577400,
+													"parameters": {
+														"value": "tGuard.dir",
+														"lower-bound": "3",
+														"upper-bound": "5"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-mirrored",
+													"objectClass": "tGuard",
+													"sid": 825488026480883,
+													"parameters": {
+														"state": "mirrored"
+													}
+												}
+											],
+											"sid": 851435687308751
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "7 Луч: выбор по hostUID и импульс через Fade"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-comparison",
+											"objectClass": "System",
+											"sid": 110043700366679,
+											"parameters": {
+												"object": "luch1",
+												"expression": "luch1.hostUID",
 												"comparison": 0,
 												"value": "tGuard.UID"
 											}
@@ -3811,15 +3738,121 @@
 									],
 									"actions": [
 										{
+											"id": "set-position",
+											"objectClass": "luch1",
+											"sid": 905842823546693,
+											"parameters": {
+												"x": "tGuard.ImagePointX(1)",
+												"y": "tGuard.ImagePointY(1)"
+											}
+										},
+										{
+											"id": "set-angle",
+											"objectClass": "luch1",
+											"sid": 934121667189966,
+											"parameters": {
+												"angle": "angle(Self.X, Self.Y, drawX, drawY)"
+											}
+										},
+										{
+											"id": "set-width",
+											"objectClass": "luch1",
+											"sid": 901000177073000,
+											"parameters": {
+												"width": "distance(Self.X, Self.Y, drawX, drawY)"
+											}
+										},
+										{
 											"id": "set-visible",
 											"objectClass": "luch1",
-											"sid": 552487484594736,
+											"sid": 424830666416762,
 											"parameters": {
-												"visibility": "invisible"
+												"visibility": "visible"
+											}
+										},
+										{
+											"id": "set-opacity",
+											"objectClass": "luch1",
+											"sid": 993013696095741,
+											"parameters": {
+												"opacity": "100"
+											}
+										},
+										{
+											"id": "restart-fade",
+											"objectClass": "luch1",
+											"sid": 390393290923781,
+											"behaviorType": "Fade"
+										}
+									],
+									"sid": 822979830853415
+								},
+								{
+									"eventType": "comment",
+									"text": "8"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tGuard",
+											"sid": 700402723281344,
+											"parameters": {
+												"instance-variable": "drawIndex",
+												"comparison": 5,
+												"value": "36"
 											}
 										}
 									],
-									"sid": 231318607535236
+									"actions": [
+										{
+											"id": "stop-timer",
+											"objectClass": "tGuard",
+											"sid": 702206747600557,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"drawSpikes\""
+											}
+										}
+									],
+									"sid": 578262369107415,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-all",
+													"objectClass": "System",
+													"sid": 544071455203265,
+													"parameters": {
+														"object": "luch1"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "luch1",
+													"sid": 535395735399672,
+													"parameters": {
+														"instance-variable": "hostUID",
+														"comparison": 0,
+														"value": "tGuard.UID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-visible",
+													"objectClass": "luch1",
+													"sid": 955379756528102,
+													"parameters": {
+														"visibility": "invisible"
+													}
+												}
+											],
+											"sid": 283052348864245
+										}
+									]
 								}
 							]
 						}
