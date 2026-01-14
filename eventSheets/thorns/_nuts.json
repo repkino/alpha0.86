@@ -39,8 +39,9 @@
 					"parameters": [
 						"Mouse.X",
 						"Mouse.Y",
-						"0",
-						"\"zero\""
+						"\"zero\"",
+						false,
+						false
 					]
 				},
 				{
@@ -99,32 +100,29 @@
 					"sid": 217851261736440
 				},
 				{
-					"name": "jump",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"sid": 501011237839596
-				},
-				{
 					"name": "tag",
 					"type": "string",
 					"initialValue": "zero",
 					"comment": "",
 					"sid": 358020710833121
+				},
+				{
+					"name": "downUnder",
+					"type": "boolean",
+					"initialValue": "false",
+					"comment": "",
+					"sid": 479583275330078
+				},
+				{
+					"name": "goHero",
+					"type": "boolean",
+					"initialValue": "false",
+					"comment": "",
+					"sid": 999984402200316
 				}
 			],
 			"eventType": "function-block",
-			"conditions": [
-				{
-					"id": "is-boolean-instance-variable-set",
-					"objectClass": "nut",
-					"sid": 424138943586723,
-					"parameters": {
-						"instance-variable": "onLayout"
-					},
-					"isInverted": true
-				}
-			],
+			"conditions": [],
 			"actions": [],
 			"sid": 514595635704796,
 			"children": [
@@ -132,146 +130,192 @@
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "pick-random-instance",
+							"id": "is-group-active",
 							"objectClass": "System",
-							"sid": 862356992462305,
+							"sid": 926463845902838,
 							"parameters": {
-								"object": "nut"
-							}
+								"group-name": "\"nuts\""
+							},
+							"isInverted": true
 						}
 					],
 					"actions": [
 						{
 							"id": "set-group-active",
 							"objectClass": "System",
-							"sid": 899214989364960,
+							"sid": 858833694998113,
 							"parameters": {
 								"group-name": "\"nuts\"",
 								"state": "activated"
 							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "nut",
-							"sid": 724387888780295,
-							"parameters": {
-								"instance-variable": "onLayout",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-position",
-							"objectClass": "nut",
-							"sid": 935116328339955,
-							"parameters": {
-								"x": "x",
-								"y": "y"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "nut",
-							"sid": 756484052912122,
-							"behaviorType": "mt",
-							"parameters": {
-								"enabled": true
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "nut",
-							"sid": 650885462037142,
-							"behaviorType": "EasyIsometric",
-							"parameters": {
-								"newState_": "enabled"
-							}
-						},
-						{
-							"id": "instance-signal",
-							"objectClass": "nut",
-							"sid": 860127349655766,
-							"parameters": {
-								"tag": "\"add\""
-							}
 						}
 					],
-					"sid": 165565488786729,
+					"sid": 564738918631957
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "nut",
+							"sid": 946359098639405,
+							"parameters": {
+								"instance-variable": "onLayout"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 281694467825371,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-eventvar",
+									"id": "pick-random-instance",
 									"objectClass": "System",
-									"sid": 110028768033161,
+									"sid": 810359075455211,
 									"parameters": {
-										"variable": "jump",
-										"comparison": 0,
-										"value": "0"
+										"object": "nut"
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "set-instvar-value",
+									"id": "set-position",
 									"objectClass": "nut",
-									"sid": 576965022347042,
-									"disabled": true,
+									"sid": 481072193363258,
 									"parameters": {
-										"instance-variable": "status",
-										"value": "\"open\""
+										"x": "x",
+										"y": "y"
 									}
 								},
 								{
-									"id": "set-animation",
+									"id": "instance-signal",
 									"objectClass": "nut",
-									"sid": 450637418694204,
-									"disabled": true,
+									"sid": 157441377318360,
 									"parameters": {
-										"animation": "\"open\"",
-										"from": "beginning"
+										"tag": "\"add\""
 									}
+								}
+							],
+							"sid": 713813143498612,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 137788362726002,
+											"parameters": {
+												"variable": "goHero"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 461201710191197,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "aBook.hero"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 237568066161222,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"goHero\""
+											}
+										},
+										{
+											"callFunction": "smt",
+											"sid": 982327542351458,
+											"parameters": [
+												"nut.UID",
+												"base.X",
+												"base.Y"
+											]
+										}
+									],
+									"sid": 363514710382763
 								},
 								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 721330310311896,
-									"parameters": {
-										"animation": "\"run\"",
-										"from": "beginning"
-									}
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 314890130438939
+										},
+										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 761829571586786,
+											"parameters": {
+												"variable": "downUnder"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 743511412066647,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"down\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 418218727571596,
+											"parameters": {
+												"animation": "\"down\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 554933392970264
 								},
 								{
-									"callFunction": "nutCheck",
-									"sid": 433681848023965,
-									"parameters": [
-										"nut.UID"
-									]
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 781953280894070
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 712795282726877,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"jump\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 773454891846598,
+											"parameters": {
+												"animation": "\"jump\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 230039744813776
 								}
-							],
-							"sid": 127726550850229
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 879972345592930
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 718990843146571,
-									"parameters": {
-										"animation": "\"jump\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 853555168244471
+							]
 						}
 					]
 				}
@@ -1873,8 +1917,9 @@
 											"parameters": [
 												"cucuBoom.ImagePointX(1)",
 												"cucuBoom.ImagePointY(1)",
-												"1",
-												"\"zero\""
+												"\"zero\"",
+												false,
+												false
 											]
 										}
 									],
@@ -1900,8 +1945,9 @@
 											"parameters": [
 												"cucuBoom.ImagePointX(2)",
 												"cucuBoom.ImagePointY(2)",
-												"1",
-												"\"zero\""
+												"\"zero\"",
+												false,
+												false
 											]
 										}
 									],
@@ -1927,8 +1973,9 @@
 											"parameters": [
 												"cucuBoom.ImagePointX(3)",
 												"cucuBoom.ImagePointY(3)",
-												"1",
-												"\"zero\""
+												"\"zero\"",
+												false,
+												false
 											]
 										},
 										{
@@ -1937,8 +1984,9 @@
 											"parameters": [
 												"cucuBoom.ImagePointX(4)",
 												"cucuBoom.ImagePointY(4)",
-												"1",
-												"\"zero\""
+												"\"zero\"",
+												false,
+												false
 											]
 										}
 									],
@@ -1964,8 +2012,9 @@
 											"parameters": [
 												"cucuBoom.ImagePointX(5)",
 												"cucuBoom.ImagePointY(5)",
-												"1",
-												"\"zero\""
+												"\"zero\"",
+												false,
+												false
 											]
 										},
 										{
@@ -1974,8 +2023,9 @@
 											"parameters": [
 												"cucuBoom.ImagePointX(6)",
 												"cucuBoom.ImagePointY(6)",
-												"1",
-												"\"zero\""
+												"\"zero\"",
+												false,
+												false
 											]
 										}
 									],
@@ -2001,8 +2051,9 @@
 											"parameters": [
 												"cucuBoom.ImagePointX(7)",
 												"cucuBoom.ImagePointY(7)",
-												"1",
-												"\"zero\""
+												"\"zero\"",
+												false,
+												false
 											]
 										}
 									],
@@ -2028,8 +2079,9 @@
 											"parameters": [
 												"cucuBoom.ImagePointX(8)",
 												"cucuBoom.ImagePointY(8)",
-												"1",
-												"\"zero\""
+												"\"zero\"",
+												false,
+												false
 											]
 										}
 									],
@@ -2093,52 +2145,8 @@
 			"isActiveOnStart": false,
 			"children": [
 				{
-					"eventType": "group",
-					"disabled": false,
-					"title": "nutJump",
-					"description": "",
-					"isActiveOnStart": false,
-					"children": [
-						{
-							"aceType": "action",
-							"aceName": "jump",
-							"objectClass": "nut",
-							"functionDescription": "",
-							"functionCategory": "",
-							"functionReturnType": "none",
-							"functionCopyPicked": false,
-							"functionIsAsync": false,
-							"functionParameters": [
-								{
-									"name": "UID",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"sid": 138382338127010
-								},
-								{
-									"name": "targX",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"sid": 853149866869667
-								},
-								{
-									"name": "targY",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"sid": 439695102417157
-								}
-							],
-							"eventType": "custom-ace-block",
-							"conditions": [],
-							"actions": [],
-							"sid": 589081558199017,
-							"disabled": true
-						}
-					],
-					"sid": 369166380249571
+					"eventType": "comment",
+					"text": "Инициализация"
 				},
 				{
 					"eventType": "block",
@@ -2146,22 +2154,290 @@
 						{
 							"id": "on-instance-signal",
 							"objectClass": "nut",
-							"sid": 525741077632011,
+							"sid": 294937764421582,
 							"parameters": {
-								"tag": "\"stopnut\""
+								"tag": "\"add\""
 							}
 						}
 					],
 					"actions": [
 						{
-							"callFunction": "nutCheck",
-							"sid": 579039977457454,
-							"parameters": [
-								"nut.UID"
-							]
+							"id": "set-boolean-instvar",
+							"objectClass": "nut",
+							"sid": 741648738770407,
+							"parameters": {
+								"instance-variable": "onLayout",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-enabled",
+							"objectClass": "nut",
+							"sid": 855522021516202,
+							"behaviorType": "mt",
+							"parameters": {
+								"enabled": true
+							}
+						},
+						{
+							"id": "set-enabled",
+							"objectClass": "nut",
+							"sid": 280851371062768,
+							"behaviorType": "EasyIsometric",
+							"parameters": {
+								"newState_": "enabled"
+							}
+						},
+						{
+							"id": "stop-all-timers",
+							"objectClass": "nut",
+							"sid": 807950796516263,
+							"behaviorType": "Timer"
+						},
+						{
+							"id": "start-timer",
+							"objectClass": "nut",
+							"sid": 906537076476818,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "Self.puls",
+								"type": "regular",
+								"tag": "\"puls\""
+							}
 						}
 					],
-					"sid": 364390501504228
+					"sid": 286712858025875
+				},
+				{
+					"functionName": "nutAttack",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 889588728899146
+						},
+						{
+							"name": "targUID",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 293565636380514
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "nut",
+							"sid": 877993315587605,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "base",
+							"sid": 833186537717456,
+							"parameters": {
+								"unique-id": "targUID"
+							}
+						},
+						{
+							"id": "is-outside-layout",
+							"objectClass": "base",
+							"sid": 949765179075668,
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 111579238783465,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-moving",
+									"objectClass": "nut",
+									"sid": 814892643457027,
+									"behaviorType": "mt",
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 755085931066248,
+									"parameters": {
+										"instance-variable": "sImpuls",
+										"value": "0.2"
+									}
+								}
+							],
+							"sid": 587268281450621
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 857540360586045,
+									"parameters": {
+										"animation": "\"run\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "nut",
+									"sid": 466397155532608,
+									"parameters": {
+										"speed": "16"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "nut",
+									"sid": 532428647943562,
+									"disabled": true,
+									"parameters": {
+										"speed": "24"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "nut",
+									"sid": 778710459943878,
+									"disabled": true,
+									"parameters": {
+										"speed": "12"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "nut",
+									"sid": 665497104627350,
+									"parameters": {
+										"from": "current-frame"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "nut",
+									"sid": 136065684816372,
+									"behaviorType": "mt",
+									"parameters": {
+										"enabled": true
+									}
+								},
+								{
+									"id": "stop-all-timers",
+									"objectClass": "nut",
+									"sid": 476416560145879,
+									"behaviorType": "Timer"
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "nut",
+									"sid": 613027364539385,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "random(0.2,0.3)",
+										"type": "regular",
+										"tag": "\"puls\""
+									}
+								},
+								{
+									"callFunction": "smt",
+									"sid": 788957480981371,
+									"parameters": [
+										"nut.UID",
+										"base.X",
+										"base.Y"
+									]
+								}
+							],
+							"sid": 760150944621698,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 580282999930246,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "\"Bit\""
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 373434576330010,
+											"parameters": {
+												"instance-variable": "move"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 585809942956565,
+											"parameters": {
+												"animation": "\"auau\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"customAction": "anim",
+											"objectClass": "aaa",
+											"sid": 687978105465997,
+											"disabled": true,
+											"parameters": [
+												"\"auau\"",
+												"1",
+												"0",
+												"\"zero\"",
+												false,
+												false,
+												"\"Bit\"",
+												"12",
+												"0",
+												false,
+												"\"zero\""
+											]
+										},
+										{
+											"callFunction": "animPers",
+											"sid": 163229581485176,
+											"parameters": [
+												"Bit.UID",
+												"\"auau\"",
+												"0",
+												"0",
+												"777",
+												"0"
+											]
+										}
+									],
+									"sid": 330687791006982
+								}
+							]
+						}
+					]
 				},
 				{
 					"functionName": "nutCheck",
@@ -2190,25 +2466,7 @@
 							}
 						}
 					],
-					"actions": [
-						{
-							"id": "set-mirrored",
-							"objectClass": "nut",
-							"sid": 401299825930790,
-							"parameters": {
-								"state": "not-mirrored"
-							}
-						},
-						{
-							"id": "set-text",
-							"objectClass": "help",
-							"sid": 122940758985469,
-							"disabled": true,
-							"parameters": {
-								"text": "\"f\""
-							}
-						}
-					],
+					"actions": [],
 					"sid": 378357123198612,
 					"children": [
 						{
@@ -2307,7 +2565,7 @@
 											"objectClass": "base",
 											"sid": 927852548072795,
 											"parameters": {
-												"instance-variable": "snutTarDist",
+												"instance-variable": "nutTarDist",
 												"value": "Functions.getIsoDist(nut.X,nut.Y,Self.X,Self.Y)"
 											}
 										}
@@ -2333,7 +2591,7 @@
 													"sid": 253716295582980,
 													"parameters": {
 														"object": "base",
-														"expression": "base.snutTarDist",
+														"expression": "base.nutTarDist",
 														"comparison": 3,
 														"value": "nut.distSense"
 													}
@@ -2378,6 +2636,7 @@
 															"id": "pick-by-comparison",
 															"objectClass": "System",
 															"sid": 726212496298131,
+															"disabled": true,
 															"parameters": {
 																"object": "base",
 																"expression": "base.serpStrikeMeUID",
@@ -2408,7 +2667,7 @@
 																	"sid": 573026424861821,
 																	"parameters": {
 																		"which": "lowest",
-																		"instance-variable": "snutTarDist"
+																		"instance-variable": "nutTarDist"
 																	}
 																}
 															],
@@ -2419,7 +2678,7 @@
 																	"sid": 563830819029467,
 																	"parameters": {
 																		"instance-variable": "targetDistance",
-																		"value": "base.snutTarDist"
+																		"value": "base.nutTarDist"
 																	}
 																},
 																{
@@ -2432,21 +2691,11 @@
 																	}
 																},
 																{
-																	"id": "set-boolean-instvar",
+																	"id": "set-mirrored",
 																	"objectClass": "nut",
-																	"sid": 706441386730161,
+																	"sid": 195625928352883,
 																	"parameters": {
-																		"instance-variable": "attack",
-																		"value": "true"
-																	}
-																},
-																{
-																	"id": "append-text",
-																	"objectClass": "help",
-																	"sid": 762125438244598,
-																	"disabled": true,
-																	"parameters": {
-																		"text": "4"
+																		"state": "not-mirrored"
 																	}
 																}
 															],
@@ -2458,9 +2707,9 @@
 																		{
 																			"id": "compare-x",
 																			"objectClass": "nut",
-																			"sid": 399089316023244,
+																			"sid": 245123020348852,
 																			"parameters": {
-																				"comparison": 2,
+																				"comparison": 4,
 																				"x-co-ordinate": "base.X"
 																			}
 																		}
@@ -2481,29 +2730,137 @@
 																	"eventType": "block",
 																	"conditions": [
 																		{
-																			"id": "is-animation-playing",
+																			"id": "compare-instance-variable",
 																			"objectClass": "nut",
-																			"sid": 778680305567582,
-																			"disabled": true,
+																			"sid": 862784169391204,
 																			"parameters": {
-																				"animation": "\"run\""
+																				"instance-variable": "targetDistance",
+																				"comparison": 2,
+																				"value": "Self.distAttack"
 																			}
 																		}
 																	],
 																	"actions": [
 																		{
-																			"callFunction": "nutAttack",
-																			"sid": 191676119575214,
-																			"parameters": [
-																				"nut.UID",
-																				"base.UID"
-																			]
+																			"id": "stop-timer",
+																			"objectClass": "nut",
+																			"sid": 532987676534048,
+																			"behaviorType": "Timer",
+																			"parameters": {
+																				"tag": "\"bank\""
+																			}
+																		},
+																		{
+																			"id": "set-instvar-value",
+																			"objectClass": "nut",
+																			"sid": 232100875830063,
+																			"parameters": {
+																				"instance-variable": "distN",
+																				"value": "0"
+																			}
 																		}
 																	],
-																	"sid": 857164259846951
+																	"sid": 588848228771680
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "else",
+																			"objectClass": "System",
+																			"sid": 283608194137615
+																		},
+																		{
+																			"id": "compare-instance-variable",
+																			"objectClass": "nut",
+																			"sid": 536341227712901,
+																			"parameters": {
+																				"instance-variable": "targetDistance",
+																				"comparison": 5,
+																				"value": "Self.distAttack"
+																			}
+																		},
+																		{
+																			"id": "compare-instance-variable",
+																			"objectClass": "nut",
+																			"sid": 564717146634856,
+																			"parameters": {
+																				"instance-variable": "targetDistance",
+																				"comparison": 3,
+																				"value": "Self.distSense"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "stop-timer",
+																			"objectClass": "nut",
+																			"sid": 335342414992201,
+																			"behaviorType": "Timer",
+																			"parameters": {
+																				"tag": "\"bank\""
+																			}
+																		},
+																		{
+																			"id": "set-instvar-value",
+																			"objectClass": "nut",
+																			"sid": 918746227310643,
+																			"parameters": {
+																				"instance-variable": "distN",
+																				"value": "1"
+																			}
+																		}
+																	],
+																	"sid": 682175800351880
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "else",
+																			"objectClass": "System",
+																			"sid": 423368799447601
+																		},
+																		{
+																			"id": "compare-instance-variable",
+																			"objectClass": "nut",
+																			"sid": 159316926293960,
+																			"parameters": {
+																				"instance-variable": "targetDistance",
+																				"comparison": 4,
+																				"value": "Self.distSense"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-instvar-value",
+																			"objectClass": "nut",
+																			"sid": 309418762554312,
+																			"parameters": {
+																				"instance-variable": "distN",
+																				"value": "2"
+																			}
+																		}
+																	],
+																	"sid": 448966273348089
 																}
 															]
 														}
+													]
+												},
+												{
+													"eventType": "comment",
+													"text": "\n\n"
+												},
+												{
+													"eventType": "comment",
+													"text": "цель не найдена",
+													"background-color": [
+														0.996078431372549,
+														0.8549019607843137,
+														0.4627450980392157,
+														1
 													]
 												},
 												{
@@ -2513,140 +2870,47 @@
 															"id": "else",
 															"objectClass": "System",
 															"sid": 995846786329920
-														},
-														{
-															"id": "pick-by-comparison",
-															"objectClass": "System",
-															"sid": 559802735830805,
-															"parameters": {
-																"object": "base",
-																"expression": "base.serpStrikeMeUID",
-																"comparison": 1,
-																"value": "-1"
-															}
 														}
 													],
 													"actions": [
 														{
 															"id": "set-instvar-value",
-															"objectClass": "base",
-															"sid": 885848913861983,
+															"objectClass": "nut",
+															"sid": 556710711682268,
 															"parameters": {
-																"instance-variable": "snutTarDist",
-																"value": "Functions.getIsoDist(nut.X,nut.Y,base.X,base.Y)"
+																"instance-variable": "targetDistance",
+																"value": "10000"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "nut",
+															"sid": 897580315315971,
+															"parameters": {
+																"instance-variable": "targetUID",
+																"value": "-1"
+															}
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "nut",
+															"sid": 206254996674765,
+															"parameters": {
+																"instance-variable": "close",
+																"value": "false"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "nut",
+															"sid": 718027606156407,
+															"parameters": {
+																"instance-variable": "distN",
+																"value": "3"
 															}
 														}
 													],
-													"sid": 595083671975765,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "pick-nearestfurthest",
-																	"objectClass": "base",
-																	"sid": 880223429870415,
-																	"disabled": true,
-																	"parameters": {
-																		"which": "nearest",
-																		"x": "ser.X",
-																		"y": "ser.Y"
-																	}
-																},
-																{
-																	"id": "pick-highestlowest",
-																	"objectClass": "base",
-																	"sid": 476739875989154,
-																	"parameters": {
-																		"which": "lowest",
-																		"instance-variable": "snutTarDist"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 908634829808407,
-																	"parameters": {
-																		"instance-variable": "targetDistance",
-																		"value": "base.snutTarDist"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 990862787796508,
-																	"parameters": {
-																		"instance-variable": "targetUID",
-																		"value": "base.UID"
-																	}
-																},
-																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "nut",
-																	"sid": 269636962465721,
-																	"parameters": {
-																		"instance-variable": "attack",
-																		"value": "true"
-																	}
-																}
-															],
-															"sid": 520052392060043,
-															"children": [
-																{
-																	"eventType": "block",
-																	"conditions": [
-																		{
-																			"id": "compare-x",
-																			"objectClass": "nut",
-																			"sid": 830115302424223,
-																			"parameters": {
-																				"comparison": 2,
-																				"x-co-ordinate": "base.X"
-																			}
-																		}
-																	],
-																	"actions": [
-																		{
-																			"id": "set-mirrored",
-																			"objectClass": "nut",
-																			"sid": 315872043744053,
-																			"parameters": {
-																				"state": "mirrored"
-																			}
-																		}
-																	],
-																	"sid": 214841789695624
-																},
-																{
-																	"eventType": "block",
-																	"conditions": [
-																		{
-																			"id": "is-animation-playing",
-																			"objectClass": "nut",
-																			"sid": 947490490843229,
-																			"disabled": true,
-																			"parameters": {
-																				"animation": "\"run\""
-																			}
-																		}
-																	],
-																	"actions": [
-																		{
-																			"callFunction": "nutAttack",
-																			"sid": 197006857758922,
-																			"parameters": [
-																				"nut.UID",
-																				"base.UID"
-																			]
-																		}
-																	],
-																	"sid": 916607642748654
-																}
-															]
-														}
-													]
+													"sid": 595083671975765
 												}
 											]
 										},
@@ -2671,6 +2935,24 @@
 											],
 											"actions": [
 												{
+													"id": "set-instvar-value",
+													"objectClass": "nut",
+													"sid": 829480702858565,
+													"parameters": {
+														"instance-variable": "targetDistance",
+														"value": "10000"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "nut",
+													"sid": 244925457323038,
+													"parameters": {
+														"instance-variable": "targetUID",
+														"value": "-1"
+													}
+												},
+												{
 													"id": "set-boolean-instvar",
 													"objectClass": "nut",
 													"sid": 862724453159618,
@@ -2680,115 +2962,27 @@
 													}
 												},
 												{
-													"id": "set-boolean-instvar",
-													"objectClass": "nut",
-													"sid": 784495529374993,
-													"parameters": {
-														"instance-variable": "attack",
-														"value": "false"
-													}
-												},
-												{
 													"id": "set-instvar-value",
 													"objectClass": "nut",
-													"sid": 147070263288002,
+													"sid": 958839421577266,
 													"parameters": {
-														"instance-variable": "targetDistance",
-														"value": "99999"
-													}
-												},
-												{
-													"id": "stop-all-timers",
-													"objectClass": "nut",
-													"sid": 973457175100812,
-													"behaviorType": "Timer"
-												},
-												{
-													"id": "start-timer",
-													"objectClass": "nut",
-													"sid": 255548999917196,
-													"behaviorType": "Timer",
-													"parameters": {
-														"duration": "random(2)",
-														"type": "once",
-														"tag": "\"lookSnut\""
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "nut",
-													"sid": 435512652378194,
-													"parameters": {
-														"animation": "\"idle\"",
-														"from": "beginning"
+														"instance-variable": "distN",
+														"value": "3"
 													}
 												}
 											],
-											"sid": 977691695441061,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "nut",
-															"sid": 500376619559674,
-															"parameters": {
-																"instance-variable": "targetUID",
-																"comparison": 4,
-																"value": "-1"
-															}
-														},
-														{
-															"id": "pick-all",
-															"objectClass": "System",
-															"sid": 499456388907566,
-															"parameters": {
-																"object": "base"
-															}
-														}
-													],
-													"actions": [],
-													"sid": 439947880556754,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "pick-by-unique-id",
-																	"objectClass": "base",
-																	"sid": 873995859343493,
-																	"parameters": {
-																		"unique-id": "nut.targetUID"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "base",
-																	"sid": 656865000816796,
-																	"parameters": {
-																		"instance-variable": "snutTarDist",
-																		"value": "9999"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 970464673590184,
-																	"parameters": {
-																		"instance-variable": "targetUID",
-																		"value": "-1"
-																	}
-																}
-															],
-															"sid": 858397222627279
-														}
-													]
-												}
-											]
+											"sid": 977691695441061
 										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "цель не найдена",
+									"background-color": [
+										0.996078431372549,
+										0.8549019607843137,
+										0.4627450980392157,
+										1
 									]
 								},
 								{
@@ -2802,6 +2996,24 @@
 									],
 									"actions": [
 										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 209057990087087,
+											"parameters": {
+												"instance-variable": "targetDistance",
+												"value": "99999"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 368348413333742,
+											"parameters": {
+												"instance-variable": "targetUID",
+												"value": "-1"
+											}
+										},
+										{
 											"id": "set-boolean-instvar",
 											"objectClass": "nut",
 											"sid": 961004180964112,
@@ -2811,56 +3023,12 @@
 											}
 										},
 										{
-											"id": "set-boolean-instvar",
-											"objectClass": "nut",
-											"sid": 484844581819020,
-											"parameters": {
-												"instance-variable": "attack",
-												"value": "false"
-											}
-										},
-										{
 											"id": "set-instvar-value",
 											"objectClass": "nut",
-											"sid": 381397142445189,
+											"sid": 186838975133791,
 											"parameters": {
-												"instance-variable": "targetDistance",
-												"value": "99999"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 467586145883134,
-											"parameters": {
-												"instance-variable": "targetUID",
-												"value": "-1"
-											}
-										},
-										{
-											"id": "stop-all-timers",
-											"objectClass": "nut",
-											"sid": 817767328390954,
-											"behaviorType": "Timer"
-										},
-										{
-											"id": "start-timer",
-											"objectClass": "nut",
-											"sid": 937348533011899,
-											"behaviorType": "Timer",
-											"parameters": {
-												"duration": "random(2)",
-												"type": "once",
-												"tag": "\"lookSnut\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 772270766148175,
-											"parameters": {
-												"animation": "\"idle\"",
-												"from": "beginning"
+												"instance-variable": "distN",
+												"value": "3"
 											}
 										}
 									],
@@ -2878,147 +3046,49 @@
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "on-animation-finished",
+							"id": "on-timer",
 							"objectClass": "nut",
-							"sid": 419331239169001,
+							"sid": 860728187579900,
+							"behaviorType": "Timer",
 							"parameters": {
-								"animation": "\"jump\""
+								"tag": "\"puls\""
 							}
-						},
+						}
+					],
+					"actions": [
 						{
-							"id": "is-animation-playing",
+							"id": "instance-signal",
 							"objectClass": "nut",
-							"sid": 944437644648446,
+							"sid": 655107382918367,
 							"parameters": {
-								"animation": "\"run\""
-							},
-							"isInverted": true
+								"tag": "\"puls\""
+							}
+						}
+					],
+					"sid": 419600756059947
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "nut",
+							"sid": 179394603234551,
+							"parameters": {
+								"tag": "\"puls\""
+							}
 						}
 					],
 					"actions": [
 						{
 							"callFunction": "nutCheck",
-							"sid": 588570755849238,
+							"sid": 366816235799111,
 							"parameters": [
 								"nut.UID"
 							]
 						}
 					],
-					"sid": 376171672786734,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "nut",
-									"sid": 159340295741915,
-									"parameters": {
-										"instance-variable": "attack"
-									}
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "base",
-									"sid": 645090427204552,
-									"parameters": {
-										"unique-id": "nut.targetUID"
-									}
-								},
-								{
-									"id": "is-outside-layout",
-									"objectClass": "base",
-									"sid": 527047386132302,
-									"isInverted": true
-								}
-							],
-							"actions": [
-								{
-									"id": "set-mirrored",
-									"objectClass": "nut",
-									"sid": 821276510464041,
-									"parameters": {
-										"state": "not-mirrored"
-									}
-								},
-								{
-									"callFunction": "nutAttack",
-									"sid": 357801667262612,
-									"parameters": [
-										"nut.UID",
-										"base.UID"
-									]
-								}
-							],
-							"sid": 209926501895674,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-x",
-											"objectClass": "nut",
-											"sid": 777239532500138,
-											"parameters": {
-												"comparison": 2,
-												"x-co-ordinate": "base.X"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-mirrored",
-											"objectClass": "nut",
-											"sid": 285464834600340,
-											"parameters": {
-												"state": "mirrored"
-											}
-										}
-									],
-									"sid": 810105548617981
-								}
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 796989407950656
-								}
-							],
-							"actions": [
-								{
-									"id": "stop-all-timers",
-									"objectClass": "nut",
-									"sid": 764228468510654,
-									"behaviorType": "Timer"
-								},
-								{
-									"id": "start-timer",
-									"objectClass": "nut",
-									"sid": 814902010294778,
-									"behaviorType": "Timer",
-									"parameters": {
-										"duration": "random(2)",
-										"type": "once",
-										"tag": "\"lookSnut\""
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 966503359435786,
-									"parameters": {
-										"animation": "\"idle\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 366679718332754
-						}
-					]
+					"sid": 575183525777208
 				},
 				{
 					"eventType": "comment",
@@ -3030,62 +3100,79 @@
 						{
 							"id": "on-animation-frame-changed",
 							"objectClass": "nut",
-							"sid": 382895621447317
+							"sid": 362706885703866
 						}
 					],
 					"actions": [],
-					"sid": 816338088464623,
+					"sid": 929658035978796,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
+									"id": "is-animation-playing",
+									"objectClass": "nut",
+									"sid": 921129661662604,
+									"parameters": {
+										"animation": "\"jump\""
+									}
+								},
+								{
 									"id": "compare-animation-frame-tag",
 									"objectClass": "nut",
-									"sid": 651525282815252,
+									"sid": 923296554224051,
 									"parameters": {
 										"comparison": 0,
 										"tag": "\"hi\""
 									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 215241565013571,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 744696635971454,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 404905595724732,
+									"parameters": {
+										"instance-variable": "serpentTarget"
+									}
 								}
 							],
-							"actions": [],
-							"sid": 689491079744051,
-							"children": [
+							"actions": [
 								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "nut",
-											"sid": 329206865414092,
-											"parameters": {
-												"instance-variable": "attack"
-											}
-										},
-										{
-											"id": "is-animation-playing",
-											"objectClass": "nut",
-											"sid": 875511860779975,
-											"parameters": {
-												"animation": "\"run\""
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"callFunction": "nutAttack",
-											"sid": 968130798238173,
-											"parameters": [
-												"nut.UID",
-												"base.UID"
-											]
-										}
-									],
-									"sid": 292059308841114
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 170321862817055,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"chase\""
+									}
+								},
+								{
+									"callFunction": "nutAttack",
+									"sid": 899610035434756,
+									"parameters": [
+										"nut.UID",
+										"base.UID"
+									]
 								}
-							]
+							],
+							"sid": 906594289025105
 						},
 						{
 							"eventType": "comment",
@@ -3095,9 +3182,18 @@
 							"eventType": "block",
 							"conditions": [
 								{
+									"id": "is-animation-playing",
+									"objectClass": "nut",
+									"sid": 659217128764659,
+									"disabled": true,
+									"parameters": {
+										"animation": "\"destroy\""
+									}
+								},
+								{
 									"id": "compare-animation-frame-tag",
 									"objectClass": "nut",
-									"sid": 466143746700158,
+									"sid": 708351999024082,
 									"parameters": {
 										"comparison": 0,
 										"tag": "\"explode\""
@@ -3105,7 +3201,7 @@
 								}
 							],
 							"actions": [],
-							"sid": 211777349151065,
+							"sid": 828072604705467,
 							"children": [
 								{
 									"eventType": "block",
@@ -3113,7 +3209,7 @@
 										{
 											"id": "is-overlapping-another-object",
 											"objectClass": "nut",
-											"sid": 796473683161267,
+											"sid": 267212347263537,
 											"parameters": {
 												"object": "Bit"
 											}
@@ -3122,13 +3218,13 @@
 									"actions": [
 										{
 											"callFunction": "getSpikes",
-											"sid": 604031594805771,
+											"sid": 481843330803027,
 											"parameters": [
 												"3"
 											]
 										}
 									],
-									"sid": 607041057896402,
+									"sid": 492668678862000,
 									"children": [
 										{
 											"eventType": "comment",
@@ -3140,7 +3236,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "aMico",
-													"sid": 617820929740468,
+													"sid": 215785341262376,
 													"parameters": {
 														"instance-variable": "BitSpiky",
 														"comparison": 4,
@@ -3150,7 +3246,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "base",
-													"sid": 785887783269611,
+													"sid": 824153178336424,
 													"parameters": {
 														"instance-variable": "name",
 														"comparison": 0,
@@ -3160,7 +3256,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "base",
-													"sid": 372616124609935,
+													"sid": 729712058771794,
 													"parameters": {
 														"instance-variable": "capturetBy",
 														"comparison": 1,
@@ -3170,20 +3266,29 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "base",
-													"sid": 608526547150582,
+													"sid": 111708548846726,
 													"parameters": {
 														"instance-variable": "freeToMove"
 													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "base",
+													"sid": 924862775742344,
+													"parameters": {
+														"instance-variable": "move"
+													},
+													"isInverted": true
 												}
 											],
 											"actions": [
 												{
 													"customAction": "spikeClean",
 													"objectClass": "Bit",
-													"sid": 429826790190534
+													"sid": 643428751445012
 												}
 											],
-											"sid": 126854231213979
+											"sid": 322157325939787
 										}
 									]
 								}
@@ -3193,7 +3298,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": ""
+					"text": "Обработка анимаций"
 				},
 				{
 					"eventType": "block",
@@ -3201,14 +3306,14 @@
 						{
 							"id": "on-animation-finished",
 							"objectClass": "nut",
-							"sid": 220829252383008,
+							"sid": 570264985917204,
 							"parameters": {
-								"animation": "\"open\""
+								"animation": "\"jump\""
 							}
 						}
 					],
 					"actions": [],
-					"sid": 338595748805009,
+					"sid": 285259128579977,
 					"children": [
 						{
 							"eventType": "block",
@@ -3216,441 +3321,42 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "nut",
-									"sid": 210895996490890,
+									"sid": 476694519826166,
 									"parameters": {
-										"instance-variable": "status",
+										"instance-variable": "distN",
 										"comparison": 0,
-										"value": "\"open\""
+										"value": "0"
 									}
 								},
 								{
-									"id": "compare-animation-speed",
-									"objectClass": "nut",
-									"sid": 980120085981506,
-									"disabled": true,
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 466373733268632,
 									"parameters": {
-										"comparison": 4,
-										"number": "0"
-									}
-								},
-								{
-									"id": "compare-animation-frame",
-									"objectClass": "nut",
-									"sid": 405079280325259,
-									"disabled": true,
-									"parameters": {
-										"comparison": 0,
-										"number": "3"
+										"unique-id": "nut.targetUID"
 									}
 								}
 							],
 							"actions": [
 								{
-									"callFunction": "nutCheck",
-									"sid": 929416209344636,
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 152137529941522,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"chase\""
+									}
+								},
+								{
+									"callFunction": "nutAttack",
+									"sid": 823950951058552,
 									"parameters": [
-										"nut.UID"
+										"nut.UID",
+										"base.UID"
 									]
 								}
 							],
-							"sid": 367534004613130,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "nut",
-											"sid": 267607240240353,
-											"parameters": {
-												"instance-variable": "attack"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "stop-all-timers",
-											"objectClass": "nut",
-											"sid": 852114461260750,
-											"behaviorType": "Timer"
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 376926454304441,
-											"parameters": {
-												"animation": "\"jump\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "nut",
-											"sid": 906497005741782,
-											"disabled": true,
-											"parameters": {
-												"speed": "12"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "nut",
-											"sid": 973418799412873,
-											"disabled": true,
-											"parameters": {
-												"speed": "18"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "nut",
-											"sid": 585280274964046,
-											"parameters": {
-												"speed": "16"
-											}
-										},
-										{
-											"id": "start-animation",
-											"objectClass": "nut",
-											"sid": 979949606930632,
-											"parameters": {
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 843165786997717
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 263044940707464
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "nut",
-											"sid": 810659739231413,
-											"parameters": {
-												"instance-variable": "attack"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [],
-									"sid": 168754786224967,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "ChancePercent",
-													"objectClass": "Utils",
-													"sid": 885169053495108,
-													"parameters": {
-														"chance": "50"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "stop-all-timers",
-													"objectClass": "nut",
-													"sid": 739778259570521,
-													"behaviorType": "Timer"
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "nut",
-													"sid": 337970792846275,
-													"parameters": {
-														"animation": "\"jump\"",
-														"from": "beginning"
-													}
-												},
-												{
-													"id": "set-animation-speed",
-													"objectClass": "nut",
-													"sid": 339592066561296,
-													"disabled": true,
-													"parameters": {
-														"speed": "18"
-													}
-												},
-												{
-													"id": "set-animation-speed",
-													"objectClass": "nut",
-													"sid": 625301869184808,
-													"parameters": {
-														"speed": "16"
-													}
-												},
-												{
-													"id": "set-animation-speed",
-													"objectClass": "nut",
-													"sid": 836931854302564,
-													"disabled": true,
-													"parameters": {
-														"speed": "12"
-													}
-												},
-												{
-													"id": "start-animation",
-													"objectClass": "nut",
-													"sid": 639352975711527,
-													"parameters": {
-														"from": "beginning"
-													}
-												}
-											],
-											"sid": 479406434712743
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 757461676864180
-												}
-											],
-											"actions": [
-												{
-													"id": "stop-all-timers",
-													"objectClass": "nut",
-													"sid": 556468250070542,
-													"behaviorType": "Timer"
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "nut",
-													"sid": 469706696837791,
-													"parameters": {
-														"animation": "\"idle\"",
-														"from": "beginning"
-													}
-												},
-												{
-													"id": "start-timer",
-													"objectClass": "nut",
-													"sid": 550698661795296,
-													"behaviorType": "Timer",
-													"parameters": {
-														"duration": "random(2)",
-														"type": "once",
-														"tag": "\"lookSnut\""
-													}
-												}
-											],
-											"sid": 185248051672247
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "ChancePercent",
-											"objectClass": "Utils",
-											"sid": 187830529369484,
-											"parameters": {
-												"chance": "33"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 557232938681950,
-											"parameters": {
-												"animation": "\"open\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 946911982235534,
-									"disabled": true
-								}
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "nut",
-									"sid": 455408069690709,
-									"parameters": {
-										"instance-variable": "status",
-										"comparison": 0,
-										"value": "\"close\""
-									}
-								},
-								{
-									"id": "compare-animation-speed",
-									"objectClass": "nut",
-									"sid": 660264831162961,
-									"disabled": true,
-									"parameters": {
-										"comparison": 2,
-										"number": "0"
-									}
-								},
-								{
-									"id": "compare-animation-frame",
-									"objectClass": "nut",
-									"sid": 755431590979384,
-									"disabled": true,
-									"parameters": {
-										"comparison": 0,
-										"number": "0"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "stop-all-timers",
-									"objectClass": "nut",
-									"sid": 101577431749889,
-									"behaviorType": "Timer"
-								},
-								{
-									"id": "start-timer",
-									"objectClass": "nut",
-									"sid": 146638908693514,
-									"behaviorType": "Timer",
-									"parameters": {
-										"duration": "random(2)",
-										"type": "once",
-										"tag": "\"sleepSnut\""
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 492915976918937,
-									"disabled": true,
-									"parameters": {
-										"animation": "\"idle\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 682937447081855,
-									"parameters": {
-										"animation": "\"sleep\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 454908514306806
-						}
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-timer",
-							"objectClass": "nut",
-							"sid": 353043263640940,
-							"behaviorType": "Timer",
-							"parameters": {
-								"tag": "\"lookSnut\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "nut",
-							"sid": 960474583880322,
-							"parameters": {
-								"instance-variable": "status",
-								"value": "\"close\""
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 129784288299563,
-							"parameters": {
-								"seconds": "0",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "nut",
-							"sid": 927166279424009,
-							"parameters": {
-								"animation": "\"open\"",
-								"from": "current-frame"
-							}
-						},
-						{
-							"id": "set-animation-speed",
-							"objectClass": "nut",
-							"sid": 424269265929202,
-							"parameters": {
-								"speed": "-12"
-							}
-						},
-						{
-							"id": "start-animation",
-							"objectClass": "nut",
-							"sid": 390568764142341,
-							"parameters": {
-								"from": "current-frame"
-							}
-						}
-					],
-					"sid": 535724134847243
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-timer",
-							"objectClass": "nut",
-							"sid": 911400863042055,
-							"behaviorType": "Timer",
-							"parameters": {
-								"tag": "\"sleepSnut\""
-							}
-						}
-					],
-					"actions": [],
-					"sid": 130241235144771,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "ChancePercent",
-									"objectClass": "Utils",
-									"sid": 812939307778320,
-									"parameters": {
-										"chance": "70"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 398121519952983,
-									"parameters": {
-										"animation": "\"down\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 860922284733551
+							"sid": 265303652700231
 						},
 						{
 							"eventType": "block",
@@ -3658,294 +3364,89 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 446444441909804
+									"sid": 678969110906457
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 679414620783097,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 852253570183757,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
 								}
 							],
 							"actions": [
 								{
 									"id": "set-instvar-value",
 									"objectClass": "nut",
-									"sid": 689228851698291,
+									"sid": 460484533916288,
 									"parameters": {
 										"instance-variable": "status",
-										"value": "\"open\""
+										"value": "\"chase\""
 									}
 								},
 								{
-									"id": "wait",
-									"objectClass": "System",
-									"sid": 576659747941176,
-									"parameters": {
-										"seconds": "0",
-										"use-timescale": true
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 280704642412409,
-									"parameters": {
-										"animation": "\"open\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "nut",
-									"sid": 970081140576577,
-									"parameters": {
-										"speed": "12"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "nut",
-									"sid": 808196366212486,
-									"parameters": {
-										"from": "beginning"
-									}
-								},
-								{
-									"callFunction": "nutCheck",
-									"sid": 786646812907438,
-									"disabled": true,
+									"callFunction": "nutAttack",
+									"sid": 810667815704027,
 									"parameters": [
-										"nut.UID"
+										"nut.UID",
+										"base.UID"
 									]
 								}
 							],
-							"sid": 542072205610605
-						}
-					]
-				},
-				{
-					"functionName": "nutAttack",
-					"functionDescription": "",
-					"functionCategory": "",
-					"functionReturnType": "none",
-					"functionCopyPicked": false,
-					"functionIsAsync": false,
-					"functionParameters": [
-						{
-							"name": "uid",
-							"type": "number",
-							"initialValue": "-1",
-							"comment": "",
-							"sid": 889588728899146
+							"sid": 923397756209913
 						},
-						{
-							"name": "targUID",
-							"type": "number",
-							"initialValue": "-1",
-							"comment": "",
-							"sid": 293565636380514
-						}
-					],
-					"eventType": "function-block",
-					"conditions": [
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "nut",
-							"sid": 322127536401867,
-							"parameters": {
-								"unique-id": "uid"
-							}
-						},
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "base",
-							"sid": 180579661692055,
-							"parameters": {
-								"unique-id": "targUID"
-							}
-						},
-						{
-							"id": "is-outside-layout",
-							"objectClass": "base",
-							"sid": 925068261610883,
-							"isInverted": true
-						}
-					],
-					"actions": [],
-					"sid": 100700241213581,
-					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "is-moving",
+									"id": "else",
+									"objectClass": "System",
+									"sid": 838855183751523
+								},
+								{
+									"id": "compare-instance-variable",
 									"objectClass": "nut",
-									"sid": 347886644194971,
-									"behaviorType": "mt",
-									"isInverted": true
+									"sid": 983298087251412,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "2"
+									}
 								}
 							],
 							"actions": [
 								{
 									"id": "set-instvar-value",
 									"objectClass": "nut",
-									"sid": 889644905019225,
+									"sid": 731541886963610,
 									"parameters": {
-										"instance-variable": "sImpuls",
-										"value": "0.2"
+										"instance-variable": "status",
+										"value": "\"down\""
 									}
-								}
-							],
-							"sid": 959818037984467
-						},
-						{
-							"eventType": "block",
-							"conditions": [],
-							"actions": [
+								},
 								{
 									"id": "set-animation",
 									"objectClass": "nut",
-									"sid": 401358216698649,
+									"sid": 163475151187821,
 									"parameters": {
-										"animation": "\"run\"",
+										"animation": "\"down\"",
 										"from": "beginning"
 									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "nut",
-									"sid": 140835003832583,
-									"parameters": {
-										"speed": "16"
-									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "nut",
-									"sid": 858340007977472,
-									"disabled": true,
-									"parameters": {
-										"speed": "24"
-									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "nut",
-									"sid": 268284650958278,
-									"disabled": true,
-									"parameters": {
-										"speed": "12"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "nut",
-									"sid": 576229605932244,
-									"parameters": {
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-enabled",
-									"objectClass": "nut",
-									"sid": 342640737868315,
-									"behaviorType": "mt",
-									"parameters": {
-										"enabled": true
-									}
-								},
-								{
-									"id": "stop-all-timers",
-									"objectClass": "nut",
-									"sid": 900466586742541,
-									"behaviorType": "Timer"
-								},
-								{
-									"id": "start-timer",
-									"objectClass": "nut",
-									"sid": 255516257823297,
-									"behaviorType": "Timer",
-									"parameters": {
-										"duration": "random(0.2,0.3)",
-										"type": "regular",
-										"tag": "\"puls\""
-									}
-								},
-								{
-									"callFunction": "smt",
-									"sid": 454038815632240,
-									"parameters": [
-										"nut.UID",
-										"base.X",
-										"base.Y"
-									]
 								}
 							],
-							"sid": 679276994210358,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "base",
-											"sid": 906145601685867,
-											"parameters": {
-												"instance-variable": "name",
-												"comparison": 0,
-												"value": "\"Bit\""
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "base",
-											"sid": 800779189599324,
-											"parameters": {
-												"instance-variable": "move"
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-animation-playing",
-											"objectClass": "Bit",
-											"sid": 513233255635503,
-											"parameters": {
-												"animation": "\"auau\""
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"customAction": "anim",
-											"objectClass": "aaa",
-											"sid": 581126949713078,
-											"disabled": true,
-											"parameters": [
-												"\"auau\"",
-												"1",
-												"0",
-												"\"zero\"",
-												false,
-												false,
-												"\"Bit\"",
-												"12",
-												"0",
-												false,
-												"\"zero\""
-											]
-										},
-										{
-											"callFunction": "animPers",
-											"sid": 836321839356423,
-											"parameters": [
-												"Bit.UID",
-												"\"auau\"",
-												"0",
-												"0",
-												"777",
-												"0"
-											]
-										}
-									],
-									"sid": 309315378396802
-								}
-							]
+							"sid": 997235851449168
 						}
 					]
 				},
@@ -3957,342 +3458,64 @@
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "on-timer",
-							"objectClass": "nut",
-							"sid": 941821101673163,
-							"behaviorType": "Timer",
-							"parameters": {
-								"tag": "\"puls\""
-							}
-						},
-						{
-							"id": "is-animation-playing",
-							"objectClass": "nut",
-							"sid": 348265579068619,
-							"parameters": {
-								"animation": "\"run\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "nutCheck",
-							"sid": 673900015785448,
-							"parameters": [
-								"nut.UID"
-							]
-						}
-					],
-					"sid": 910659754335619
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
 							"id": "on-animation-finished",
 							"objectClass": "nut",
-							"sid": 690414491834959,
+							"sid": 725956249317840,
 							"parameters": {
-								"animation": "\"run\""
+								"animation": "\"target\""
 							}
 						}
 					],
 					"actions": [],
-					"sid": 901389918434634,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-collision-with-another-object",
-							"objectClass": "nut",
-							"sid": 611134184534885,
-							"parameters": {
-								"object": "base"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "nut",
-							"sid": 931770212342740,
-							"parameters": {
-								"instance-variable": "targetUID",
-								"comparison": 0,
-								"value": "base.UID"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 692271095587914,
+					"sid": 716509662428625,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-instance-variable",
+									"id": "pick-by-unique-id",
 									"objectClass": "base",
-									"sid": 776597040680526,
+									"sid": 891252284635761,
 									"parameters": {
-										"instance-variable": "name",
-										"comparison": 1,
-										"value": "\"Bit\""
+										"unique-id": "nut.targetUID"
 									}
 								}
 							],
-							"actions": [
-								{
-									"id": "stop-all-timers",
-									"objectClass": "nut",
-									"sid": 906700448271824,
-									"behaviorType": "Timer"
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "nut",
-									"sid": 929660334485834,
-									"parameters": {
-										"animation": "\"destroy\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"callFunction": "stopThorns",
-									"sid": 828235200154209,
-									"parameters": [
-										"nut.UID",
-										true
-									]
-								},
-								{
-									"id": "set-enabled",
-									"objectClass": "nut",
-									"sid": 650859230217959,
-									"behaviorType": "mt",
-									"parameters": {
-										"enabled": false
-									}
-								},
-								{
-									"id": "set-y",
-									"objectClass": "nut",
-									"sid": 524975102067739,
-									"parameters": {
-										"y": "base.Y+2"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "nut",
-									"sid": 502540594871723,
-									"parameters": {
-										"instance-variable": "close",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "nut",
-									"sid": 425450616090640,
-									"parameters": {
-										"instance-variable": "attack",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 900186533606111,
-									"parameters": {
-										"instance-variable": "targetDistance",
-										"value": "99999"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 222259095637883,
-									"parameters": {
-										"instance-variable": "targetUID",
-										"value": "-1"
-									}
-								}
-							],
-							"sid": 317055688786797
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "base",
-									"sid": 219542437194650,
-									"parameters": {
-										"instance-variable": "name",
-										"comparison": 0,
-										"value": "\"Bit\""
-									}
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "nut",
-									"sid": 844806833050531,
-									"parameters": {
-										"animation": "\"destroy\""
-									},
-									"isInverted": true
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "Bit",
-									"sid": 868913564158881,
-									"parameters": {
-										"animation": "\"auau\""
-									},
-									"isInverted": true
-								}
-							],
-							"actions": [
-								{
-									"customAction": "anim",
-									"objectClass": "aaa",
-									"sid": 654388232649926,
-									"disabled": true,
-									"parameters": [
-										"\"auau\"",
-										"1",
-										"0",
-										"\"zero\"",
-										false,
-										false,
-										"\"Bit\"",
-										"12",
-										"0",
-										false,
-										"\"zero\""
-									]
-								},
-								{
-									"callFunction": "animPers",
-									"sid": 955539753400290,
-									"parameters": [
-										"Bit.UID",
-										"\"auau\"",
-										"0",
-										"0",
-										"777",
-										"0"
-									]
-								}
-							],
-							"sid": 616614458712613,
+							"actions": [],
+							"sid": 737685760797001,
 							"children": [
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "nut",
-											"sid": 623862447591880,
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 356102848763685,
 											"parameters": {
-												"object": "ath"
+												"instance-variable": "move"
 											}
 										}
 									],
 									"actions": [
 										{
-											"customAction": "shift",
+											"id": "set-instvar-value",
 											"objectClass": "nut",
-											"sid": 944781874151848
-										}
-									],
-									"sid": 587170532137993
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "nut",
-											"sid": 546982690602857,
+											"sid": 714794290814983,
 											"parameters": {
-												"object": "Bit"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation",
-											"objectClass": "nut",
-											"sid": 263909606661141,
-											"parameters": {
-												"animation": "\"destroy\"",
-												"from": "beginning"
+												"instance-variable": "status",
+												"value": "\"chase\""
 											}
 										},
 										{
-											"callFunction": "stopThorns",
-											"sid": 848899398345441,
+											"callFunction": "nutAttack",
+											"sid": 829465011191040,
 											"parameters": [
 												"nut.UID",
-												true
+												"base.UID"
 											]
-										},
-										{
-											"id": "set-enabled",
-											"objectClass": "nut",
-											"sid": 377507597206366,
-											"behaviorType": "mt",
-											"parameters": {
-												"enabled": false
-											}
-										},
-										{
-											"id": "set-y",
-											"objectClass": "nut",
-											"sid": 861914728146415,
-											"parameters": {
-												"y": "base.Y+2"
-											}
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "nut",
-											"sid": 235697109483308,
-											"parameters": {
-												"instance-variable": "close",
-												"value": "false"
-											}
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "nut",
-											"sid": 510844220592357,
-											"parameters": {
-												"instance-variable": "attack",
-												"value": "false"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 775421958829957,
-											"parameters": {
-												"instance-variable": "targetDistance",
-												"value": "99999"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "nut",
-											"sid": 367019305011561,
-											"parameters": {
-												"instance-variable": "targetUID",
-												"value": "-1"
-											}
 										}
 									],
-									"sid": 137853442825683
+									"sid": 510230919089685
 								},
 								{
 									"eventType": "block",
@@ -4300,319 +3523,1375 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 861450050751372
+											"sid": 833986174029818
 										}
 									],
 									"actions": [
 										{
 											"id": "set-instvar-value",
 											"objectClass": "nut",
-											"sid": 986303811234052,
+											"sid": 856635460658897,
 											"parameters": {
 												"instance-variable": "status",
-												"value": "\"toDestroy\""
+												"value": "\"open\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 769878091696863,
+											"parameters": {
+												"animation": "\"idle\"",
+												"from": "beginning"
 											}
 										}
 									],
-									"sid": 257836255956923
+									"sid": 420086044059870
 								}
 							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 211390959041668
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 171054306883831,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"down\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 664102576205189,
+									"parameters": {
+										"animation": "\"down\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 617590639063422
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "on-collision-with-another-object",
+							"id": "on-animation-finished",
 							"objectClass": "nut",
-							"sid": 399529603162886,
+							"sid": 145172633244462,
 							"parameters": {
-								"object": "Bit"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "base",
-							"sid": 229236545759273,
-							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "\"Bit\""
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "shad",
-							"sid": 859540183596880,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "\"Bit\""
+								"animation": "\"idle\""
 							}
 						}
 					],
 					"actions": [],
-					"sid": 514411638354203,
+					"sid": 893038760724329,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "is-overlapping-another-object",
+									"id": "compare-instance-variable",
 									"objectClass": "nut",
-									"sid": 613825457238733,
-									"disabled": true,
+									"sid": 456057030755516,
 									"parameters": {
-										"object": "shad"
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "0"
 									}
 								},
 								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "nut",
-									"sid": 929869801356954,
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 268072620123097,
 									"parameters": {
-										"object": "base"
+										"unique-id": "nut.targetUID"
 									}
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "nut",
-									"sid": 646697876702448,
-									"parameters": {
-										"animation": "\"destroy\""
-									},
-									"isInverted": true
 								}
 							],
 							"actions": [
 								{
-									"callFunction": "stopThorns",
-									"sid": 197428178817035,
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 781991164354013,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"chase\""
+									}
+								},
+								{
+									"callFunction": "nutAttack",
+									"sid": 326919705064433,
 									"parameters": [
 										"nut.UID",
-										true
+										"base.UID"
 									]
+								}
+							],
+							"sid": 697211710196316
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 476468017566821
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 528517853317583,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 825016247555024,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 636810807510424,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 587876527141487,
+											"parameters": {
+												"instance-variable": "move"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 771052291484287,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"jump\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 798125118987111,
+											"parameters": {
+												"animation": "\"jump\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 397918098704204
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 631817390025967
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 198814058238325,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"goSleep\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 225368157098027,
+											"parameters": {
+												"animation": "\"goSleep\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 149470807906410
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 536661515135885
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 936883703324025,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "2"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 317397526893304,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"down\""
+									}
 								},
 								{
 									"id": "set-animation",
 									"objectClass": "nut",
-									"sid": 241248166862161,
+									"sid": 259336482706660,
 									"parameters": {
-										"animation": "\"destroy\"",
+										"animation": "\"down\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 662502481291228
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "nut",
+							"sid": 212304829810105,
+							"parameters": {
+								"animation": "\"goSleep\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 860133233021521,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 731965755850832,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 260317420227177,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 216478136054051,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"target\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 881031928066017,
+									"parameters": {
+										"animation": "\"target\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 314579251225991
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 236522838892043
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 280470196333433,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 953657494848902,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 744952330979606,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 225949492405412,
+											"parameters": {
+												"instance-variable": "move"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 837380762106529,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"open\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 893950586928419,
+											"parameters": {
+												"animation": "\"open\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 442757110228755,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"jump\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 387415140513319,
+											"disabled": true,
+											"parameters": {
+												"animation": "\"jump\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 553012529581771
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 153033285599773
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 766862881970820,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"sleep\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 117226326571251,
+											"parameters": {
+												"animation": "\"sleep\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 235818767022940
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 108226474744851
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 847179581167110,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "2"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 260528436454017,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"down\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 338510738492460,
+									"parameters": {
+										"animation": "\"down\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 719813473203940
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "nut",
+							"sid": 331535132175961,
+							"parameters": {
+								"animation": "\"sleep\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 696387667415160,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 524485817132054,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 687079903718490,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 497519145449039,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"target\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 822984361777863,
+									"parameters": {
+										"animation": "\"target\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 766780467437425
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 576737236101311
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 291964444715361,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 574108373803520,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 252482336162081,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 480253165393440,
+											"parameters": {
+												"instance-variable": "move"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 932124858940699,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"open\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 648591318581113,
+											"parameters": {
+												"animation": "\"open\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 749039299945523
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 164895780427772
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 783358584933141,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"down\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 385230801532274,
+											"parameters": {
+												"animation": "\"down\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 588898092576060
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 900803522458110
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 531255497375916,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "2"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 388613551069313,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"down\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 486981275163432,
+									"parameters": {
+										"animation": "\"down\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 426407592581522
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "nut",
+							"sid": 904363768487737,
+							"parameters": {
+								"animation": "\"open\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 387589520193281,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 584519844506439,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 429939035967211,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 948818876715011,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"target\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 972707661953772,
+									"parameters": {
+										"animation": "\"target\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 438988761675129
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 166126666534896
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 938851501372760,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 188835432326452,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 471829463102652,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 225096146117377,
+											"parameters": {
+												"instance-variable": "move"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 431254331738811,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"target\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 766593321530722,
+											"parameters": {
+												"animation": "\"target\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 492934249905354
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 529388382647062
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 276392297280073,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"goSleep\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 161027111835086,
+											"parameters": {
+												"animation": "\"goSleep\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 453190296832746
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 480300936828384
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 695033345625456,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "2"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 820165956126851,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"down\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 239510324791308,
+									"parameters": {
+										"animation": "\"down\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 407695380699884
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "nut",
+							"sid": 826975758816855,
+							"parameters": {
+								"animation": "\"down\""
+							}
+						},
+						{
+							"id": "on-animation-finished",
+							"objectClass": "nut",
+							"sid": 790984180232095,
+							"parameters": {
+								"animation": "\"under\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 190308200656441,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 216495234036773,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 700506781832326,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 229089376226423,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"jump\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 518074395444294,
+									"parameters": {
+										"animation": "\"jump\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 481514348456113
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 875915954241541
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 556607674571198,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 403812892625996,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 806978073261974,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 997275298079350,
+											"parameters": {
+												"instance-variable": "move"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 420850771082633,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"jump\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 619255770805758,
+											"parameters": {
+												"animation": "\"jump\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "stop-all-timers",
+											"objectClass": "nut",
+											"sid": 613852070351342,
+											"disabled": true,
+											"behaviorType": "Timer"
+										},
+										{
+											"id": "start-timer",
+											"objectClass": "nut",
+											"sid": 792767131840922,
+											"disabled": true,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "Self.puls",
+												"type": "regular",
+												"tag": "\"puls\""
+											}
+										}
+									],
+									"sid": 781201392035693
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 539573138339848
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 709452120079003,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"under\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 930866613494553,
+											"parameters": {
+												"animation": "\"under\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "stop-all-timers",
+											"objectClass": "nut",
+											"sid": 794378659411869,
+											"disabled": true,
+											"behaviorType": "Timer"
+										},
+										{
+											"id": "start-timer",
+											"objectClass": "nut",
+											"sid": 514797200852764,
+											"disabled": true,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "1",
+												"type": "regular",
+												"tag": "\"puls\""
+											}
+										}
+									],
+									"sid": 774078327989349
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 891277320977523
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 936327888074696,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "distN",
+										"comparison": 0,
+										"value": "2"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 373618607300543,
+									"parameters": {
+										"instance-variable": "status",
+										"comparison": 1,
+										"value": "\"under\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 502296079547880,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"under\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 557700387978205,
+									"parameters": {
+										"animation": "\"under\"",
 										"from": "beginning"
 									}
 								},
 								{
-									"id": "set-enabled",
+									"id": "stop-all-timers",
 									"objectClass": "nut",
-									"sid": 575088185308959,
-									"behaviorType": "mt",
-									"parameters": {
-										"enabled": false
-									}
+									"sid": 961530688276874,
+									"disabled": true,
+									"behaviorType": "Timer"
 								},
 								{
-									"id": "set-y",
+									"id": "start-timer",
 									"objectClass": "nut",
-									"sid": 985393791037593,
+									"sid": 109566804258453,
+									"disabled": true,
+									"behaviorType": "Timer",
 									"parameters": {
-										"y": "base.Y+2"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "nut",
-									"sid": 420526049727265,
-									"parameters": {
-										"instance-variable": "close",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "nut",
-									"sid": 941734196882890,
-									"parameters": {
-										"instance-variable": "attack",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 409190669607009,
-									"parameters": {
-										"instance-variable": "targetDistance",
-										"value": "99999"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 519190542823711,
-									"parameters": {
-										"instance-variable": "targetUID",
-										"value": "-1"
+										"duration": "1",
+										"type": "regular",
+										"tag": "\"puls\""
 									}
 								}
 							],
-							"sid": 914072673748805
+							"sid": 128245254854408,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-timer-running",
+											"objectClass": "nut",
+											"sid": 807257100991692,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"bank\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "start-timer",
+											"objectClass": "nut",
+											"sid": 394933340347336,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "60",
+												"type": "once",
+												"tag": "\"bank\""
+											}
+										}
+									],
+									"sid": 254760888791928
+								}
+							]
 						}
-					]
+					],
+					"isOrBlock": true
+				},
+				{
+					"eventType": "comment",
+					"text": "Анти-застревание"
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
 							"id": "is-overlapping-another-object",
-							"objectClass": "nut",
-							"sid": 166383153107353,
+							"objectClass": "seedNut",
+							"sid": 344968030520616,
 							"parameters": {
-								"object": "Bit"
+								"object": "zoneStopTh"
 							}
-						},
+						}
+					],
+					"actions": [
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "shad",
-							"sid": 419472770187824,
-							"disabled": true,
+							"id": "move-at-angle",
+							"objectClass": "seedNut",
+							"sid": 309224702847457,
 							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "\"Bit\""
+								"angle": "angle(zoneStopTh.X, zoneStopTh.Y, Self.X, Self.Y)",
+								"distance": "2"
 							}
-						},
+						}
+					],
+					"sid": 362312589614635
+				},
+				{
+					"eventType": "block",
+					"conditions": [
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "base",
-							"sid": 483637398114823,
+							"id": "is-overlapping-another-object",
+							"objectClass": "seedNut",
+							"sid": 493692087459339,
 							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "\"Bit\""
+								"object": "puffball"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "move-at-angle",
+							"objectClass": "seedNut",
+							"sid": 443598952897567,
+							"parameters": {
+								"angle": "angle(puffball.X, puffball.Y, Self.X, Self.Y)",
+								"distance": "2"
+							}
+						}
+					],
+					"sid": 910219226832420
+				},
+				{
+					"eventType": "comment",
+					"text": "Реакция на респаун героя: все активные каштаны закапываются"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "aBit",
+							"sid": 353467878219981,
+							"parameters": {
+								"tag": "\"respawn\""
 							}
 						}
 					],
 					"actions": [],
-					"sid": 741319986801865,
+					"sid": 165924838724320,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "is-animation-playing",
-									"objectClass": "nut",
-									"sid": 429236017127423,
+									"id": "pick-all",
+									"objectClass": "System",
+									"sid": 807804155088997,
 									"parameters": {
-										"animation": "\"destroy\""
-									},
-									"isInverted": true
-								},
-								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "nut",
-									"sid": 253962270670381,
-									"disabled": true,
-									"parameters": {
-										"object": "shad"
+										"object": "nut"
 									}
 								},
 								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "nut",
-									"sid": 696584826650808,
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 506420319092312,
 									"parameters": {
-										"object": "base"
+										"object": "nut"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "nut",
+									"sid": 741091337298805,
+									"parameters": {
+										"instance-variable": "onLayout"
 									}
 								},
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "nut",
-									"sid": 632092075922548,
+									"sid": 757438743212591,
 									"parameters": {
 										"instance-variable": "status",
-										"comparison": 0,
-										"value": "\"toDestroy\""
+										"comparison": 1,
+										"value": "\"under\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 488935852411190,
+									"parameters": {
+										"instance-variable": "status",
+										"comparison": 1,
+										"value": "\"down\""
 									}
 								}
 							],
 							"actions": [
 								{
-									"callFunction": "stopThorns",
-									"sid": 720282371809963,
-									"parameters": [
-										"nut.UID",
-										true
-									]
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 697594250634042,
+									"parameters": {
+										"seconds": "loopindex*0.1",
+										"use-timescale": true
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 619833107674163,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"down\""
+									}
+								},
+								{
+									"id": "stop",
+									"objectClass": "nut",
+									"sid": 220446062758541,
+									"behaviorType": "mt"
 								},
 								{
 									"id": "set-animation",
 									"objectClass": "nut",
-									"sid": 882829381764862,
+									"sid": 687927597468167,
 									"parameters": {
-										"animation": "\"destroy\"",
+										"animation": "\"down\"",
 										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-enabled",
-									"objectClass": "nut",
-									"sid": 919430520890381,
-									"behaviorType": "mt",
-									"parameters": {
-										"enabled": false
-									}
-								},
-								{
-									"id": "set-y",
-									"objectClass": "nut",
-									"sid": 432194832756970,
-									"parameters": {
-										"y": "base.Y+2"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "nut",
-									"sid": 512313787454499,
-									"parameters": {
-										"instance-variable": "close",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "nut",
-									"sid": 673387795443948,
-									"parameters": {
-										"instance-variable": "attack",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 192299717732730,
-									"parameters": {
-										"instance-variable": "targetDistance",
-										"value": "99999"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 515391949604848,
-									"parameters": {
-										"instance-variable": "targetUID",
-										"value": "-1"
 									}
 								}
 							],
-							"sid": 142487890869715
+							"sid": 687194338632553
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
 				},
 				{
 					"eventType": "block",
@@ -4620,7 +4899,7 @@
 						{
 							"id": "every-x-seconds",
 							"objectClass": "System",
-							"sid": 815251952441312,
+							"sid": 795095351221213,
 							"parameters": {
 								"interval-seconds": "1.0"
 							}
@@ -4628,7 +4907,7 @@
 						{
 							"id": "is-overlapping-another-object",
 							"objectClass": "nut",
-							"sid": 361444154335821,
+							"sid": 741200028563564,
 							"parameters": {
 								"object": "ath"
 							}
@@ -4638,10 +4917,10 @@
 						{
 							"customAction": "shift",
 							"objectClass": "nut",
-							"sid": 569819566340159
+							"sid": 869345418448542
 						}
 					],
-					"sid": 142089410038995
+					"sid": 165585405538622
 				},
 				{
 					"aceType": "action",
@@ -4659,934 +4938,371 @@
 						{
 							"id": "move-at-angle",
 							"objectClass": "nut",
-							"sid": 959613301818619,
+							"sid": 626491227028487,
 							"parameters": {
 								"angle": "random(360)",
 								"distance": "random(5,20)"
 							}
 						}
 					],
-					"sid": 803995702180962
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-animation-finished",
-							"objectClass": "nut",
-							"sid": 308314233358725,
-							"parameters": {
-								"animation": "\"destroy\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-position",
-							"objectClass": "nut",
-							"sid": 709274327802715,
-							"parameters": {
-								"x": "-4567",
-								"y": "-7654"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "nut",
-							"sid": 829669121129739,
-							"parameters": {
-								"instance-variable": "onLayout",
-								"value": "false"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "nut",
-							"sid": 862540540908025,
-							"behaviorType": "EasyIsometric",
-							"parameters": {
-								"newState_": "disabled"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "nut",
-							"sid": 198688542573383,
-							"parameters": {
-								"animation": "\"destroy\"",
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "nut",
-							"sid": 188927433522493,
-							"parameters": {
-								"instance-variable": "status",
-								"value": "\"out\""
-							}
-						}
-					],
-					"sid": 352294383101224
-				}
-			],
-			"sid": 413045356188611
-		},
-		{
-			"eventType": "group",
-			"disabled": false,
-			"title": "nuts2",
-			"description": "Logic: Sleep <-> Open -> Jump -> Chase -> Down -> Burrowed",
-			"isActiveOnStart": false,
-			"children": [
-				{
-					"eventType": "comment",
-					"text": "Инициализация (из пула)"
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-instance-signal",
-							"objectClass": "nut",
-							"sid": 525741077632011,
-							"parameters": {
-								"tag": "\"add\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "nut",
-							"sid": 724387888780295,
-							"parameters": {
-								"instance-variable": "onLayout",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "nut",
-							"sid": 756484052912122,
-							"behaviorType": "mt",
-							"parameters": {
-								"enabled": true
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "nut",
-							"sid": 650885462037142,
-							"behaviorType": "EasyIsometric",
-							"parameters": {
-								"newState_": "enabled"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "nut",
-							"sid": 576965022347042,
-							"parameters": {
-								"instance-variable": "status",
-								"value": "\"sleep\""
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "nut",
-							"sid": 682937447081855,
-							"parameters": {
-								"animation": "\"sleep\"",
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "stop-all-timers",
-							"objectClass": "nut",
-							"sid": 973457175100812,
-							"behaviorType": "Timer"
-						},
-						{
-							"id": "start-timer",
-							"objectClass": "nut",
-							"sid": 255516257823297,
-							"behaviorType": "Timer",
-							"parameters": {
-								"duration": "0.1",
-								"type": "regular",
-								"tag": "\"logic\""
-							}
-						}
-					],
-					"sid": 364390501504228
+					"sid": 930632370811670
 				},
 				{
 					"eventType": "comment",
-					"text": "Реакция на респаун героя: все активные каштаны закапываются"
+					"text": ""
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "on-instance-signal",
-							"objectClass": "aBit",
-							"sid": 123456789012345,
+							"id": "on-collision-with-another-object",
+							"objectClass": "nut",
+							"sid": 399839988917378,
 							"parameters": {
-								"tag": "\"respawn\""
+								"object": "base"
 							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "nut",
+							"sid": 583341845135958,
+							"parameters": {
+								"instance-variable": "targetUID",
+								"comparison": 0,
+								"value": "base.UID"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "nut",
+							"sid": 890503707492292,
+							"parameters": {
+								"instance-variable": "destroy"
+							},
+							"isInverted": true
 						}
 					],
 					"actions": [],
-					"sid": 987654321098765,
+					"sid": 161298451054513,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "pick-all",
-									"objectClass": "System",
-									"sid": 112233445566778,
-									"parameters": {
-										"object": "nut"
-									}
-								},
-								{
-									"id": "for-each",
-									"objectClass": "System",
-									"sid": 998877665544332,
-									"parameters": {
-										"object": "nut"
-									}
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "nut",
-									"sid": 554433221100998,
-									"parameters": {
-										"instance-variable": "onLayout"
-									}
-								},
-								{
 									"id": "compare-instance-variable",
-									"objectClass": "nut",
-									"sid": 445566778899001,
+									"objectClass": "base",
+									"sid": 117416967455598,
 									"parameters": {
-										"instance-variable": "status",
+										"instance-variable": "name",
 										"comparison": 1,
-										"value": "\"burrowed\""
+										"value": "\"Bit\""
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "wait",
-									"objectClass": "System",
-									"sid": 123123123123123,
+									"callFunction": "stopThorns",
+									"sid": 726965680269679,
+									"parameters": [
+										"nut.UID",
+										true
+									]
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "nut",
+									"sid": 735717646907972,
 									"parameters": {
-										"seconds": "loopindex*0.1",
-										"use-timescale": true
+										"animation": "\"destroy\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "nut",
+									"sid": 433329649299255,
+									"behaviorType": "mt",
+									"parameters": {
+										"enabled": false
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "nut",
+									"sid": 284903474832052,
+									"parameters": {
+										"y": "base.Y+2"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "nut",
+									"sid": 186969367456847,
+									"parameters": {
+										"instance-variable": "close",
+										"value": "false"
 									}
 								},
 								{
 									"id": "set-instvar-value",
 									"objectClass": "nut",
-									"sid": 321321321321321,
+									"sid": 326079471330341,
 									"parameters": {
-										"instance-variable": "status",
-										"value": "\"down\""
+										"instance-variable": "targetDistance",
+										"value": "99999"
 									}
 								},
 								{
-									"id": "stop",
+									"id": "set-instvar-value",
 									"objectClass": "nut",
-									"sid": 456456456456456,
-									"behaviorType": "mt"
+									"sid": 220720824785298,
+									"parameters": {
+										"instance-variable": "targetUID",
+										"value": "-1"
+									}
 								},
 								{
-									"id": "set-animation",
+									"id": "set-instvar-value",
 									"objectClass": "nut",
-									"sid": 789789789789789,
+									"sid": 915558303509329,
+									"disabled": true,
 									"parameters": {
-										"animation": "\"down\"",
-										"from": "beginning"
+										"instance-variable": "status",
+										"value": "\"destroy\""
+									}
+								},
+								{
+									"id": "stop-all-timers",
+									"objectClass": "nut",
+									"sid": 631376888246028,
+									"behaviorType": "Timer"
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "nut",
+									"sid": 282076336285106,
+									"parameters": {
+										"instance-variable": "destroy",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 796000615692284,
+									"parameters": {
+										"instance-variable": "distN",
+										"value": "3"
 									}
 								}
 							],
-							"sid": 654654654654654
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "Анти-застревание"
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "seedNut",
-							"sid": 215007761812487,
-							"parameters": {
-								"object": "zoneStopTh"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "move-at-angle",
-							"objectClass": "seedNut",
-							"sid": 959613301818619,
-							"parameters": {
-								"angle": "angle(zoneStopTh.X, zoneStopTh.Y, Self.X, Self.Y)",
-								"distance": "2"
-							}
-						}
-					],
-					"sid": 142089410038995
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "seedNut",
-							"sid": 613825457238733,
-							"parameters": {
-								"object": "puffball"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "move-at-angle",
-							"objectClass": "seedNut",
-							"sid": 569819566340159,
-							"parameters": {
-								"angle": "angle(puffball.X, puffball.Y, Self.X, Self.Y)",
-								"distance": "2"
-							}
-						}
-					],
-					"sid": 514411638354203
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-timer",
-							"objectClass": "nut",
-							"sid": 466463101678998,
-							"behaviorType": "Timer",
-							"parameters": {
-								"tag": "\"logic\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "instance-signal",
-							"objectClass": "seedNut",
-							"sid": 238136100262714,
-							"parameters": {
-								"tag": "\"puls\""
-							}
-						}
-					],
-					"sid": 550011959012597
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-instance-signal",
-							"objectClass": "nut",
-							"sid": 402745477524722,
-							"parameters": {
-								"tag": "\"puls\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "nutPuls",
-							"sid": 315611750977374,
-							"parameters": [
-								"nut.UID"
-							]
-						}
-					],
-					"sid": 209047263637901
-				},
-				{
-					"eventType": "comment",
-					"text": "Основной цикл логики (FSM)"
-				},
-				{
-					"functionName": "nutPuls",
-					"functionDescription": "",
-					"functionCategory": "",
-					"functionReturnType": "none",
-					"functionCopyPicked": false,
-					"functionIsAsync": false,
-					"functionParameters": [
-						{
-							"name": "uid",
-							"type": "number",
-							"initialValue": "0",
-							"comment": "",
-							"sid": 588286923582714
-						}
-					],
-					"eventType": "function-block",
-					"conditions": [
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "nut",
-							"sid": 751274134867097,
-							"parameters": {
-								"unique-id": "uid"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 598168593319528,
-					"children": [
+							"sid": 250364805999944
+						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "compare-instance-variable",
-									"objectClass": "nut",
-									"sid": 861279238582233,
+									"objectClass": "base",
+									"sid": 346489124849819,
 									"parameters": {
-										"instance-variable": "status",
-										"comparison": 1,
-										"value": "\"explode\""
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
 									}
 								},
 								{
-									"id": "compare-instance-variable",
+									"id": "is-animation-playing",
 									"objectClass": "nut",
-									"sid": 554876331246739,
+									"sid": 908467885815481,
 									"parameters": {
-										"instance-variable": "status",
-										"comparison": 1,
-										"value": "\"down\""
-									}
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "aBit",
-									"sid": 389067144873411,
-									"parameters": {
-										"instance-variable": "respawn"
+										"animation": "\"destroy\""
 									},
 									"isInverted": true
-								},
-								{
-									"id": "pick-all",
-									"objectClass": "System",
-									"sid": 883615605149859,
-									"parameters": {
-										"object": "base"
-									}
 								}
 							],
 							"actions": [],
-							"sid": 494143920999900,
+							"sid": 618469305866909,
 							"children": [
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "base",
-											"sid": 279850946545673,
-											"parameters": {
-												"instance-variable": "respawn"
-											},
-											"isInverted": true
-										},
-										{
 											"id": "is-overlapping-another-object",
-											"objectClass": "base",
-											"sid": 435695281411100,
+											"objectClass": "nut",
+											"sid": 455822462806607,
 											"parameters": {
-												"object": "zoneStopTh"
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "base",
-											"sid": 856735211938196,
-											"parameters": {
-												"instance-variable": "serpentTarget"
+												"object": "ath"
 											}
 										}
 									],
-									"actions": [],
-									"sid": 847224393400259,
+									"actions": [
+										{
+											"customAction": "shift",
+											"objectClass": "nut",
+											"sid": 507862983395369
+										}
+									],
+									"sid": 274037523457752
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "nut",
+											"sid": 906970086536325,
+											"parameters": {
+												"object": "Bit"
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "stopThorns",
+											"sid": 252283381060018,
+											"parameters": [
+												"nut.UID",
+												true
+											]
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "nut",
+											"sid": 153679091913485,
+											"parameters": {
+												"animation": "\"destroy\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "nut",
+											"sid": 539464986851559,
+											"behaviorType": "mt",
+											"parameters": {
+												"enabled": false
+											}
+										},
+										{
+											"id": "set-y",
+											"objectClass": "nut",
+											"sid": 645208081359745,
+											"parameters": {
+												"y": "base.Y+2"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "nut",
+											"sid": 386188481801814,
+											"parameters": {
+												"instance-variable": "close",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 887577679489230,
+											"parameters": {
+												"instance-variable": "targetDistance",
+												"value": "99999"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 298133791714434,
+											"parameters": {
+												"instance-variable": "targetUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 241241223823328,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"destroy\""
+											}
+										},
+										{
+											"id": "stop-all-timers",
+											"objectClass": "nut",
+											"sid": 444717212022436,
+											"behaviorType": "Timer"
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "nut",
+											"sid": 832375000712419,
+											"parameters": {
+												"instance-variable": "destroy",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "nut",
+											"sid": 594786733398960,
+											"parameters": {
+												"instance-variable": "distN",
+												"value": "3"
+											}
+										}
+									],
+									"sid": 885090709056046,
 									"children": [
 										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "pick-nearestfurthest",
-													"objectClass": "base",
-													"sid": 495512342445148,
+													"id": "is-animation-playing",
+													"objectClass": "Bit",
+													"sid": 687512422009401,
 													"parameters": {
-														"which": "nearest",
-														"x": "nut.X",
-														"y": "nut.Y"
-													}
+														"animation": "\"auau\""
+													},
+													"isInverted": true
 												}
 											],
 											"actions": [
 												{
-													"id": "set-instvar-value",
-													"objectClass": "nut",
-													"sid": 670039159539865,
-													"parameters": {
-														"instance-variable": "targetDistance",
-														"value": "Functions.getIsoDist(nut.X,nut.Y,base.X,base.Y)"
-													}
+													"callFunction": "animPers",
+													"sid": 908108072330799,
+													"parameters": [
+														"Bit.UID",
+														"\"auau\"",
+														"0",
+														"0",
+														"777",
+														"0"
+													]
+												},
+												{
+													"customAction": "anim",
+													"objectClass": "aaa",
+													"sid": 292371825090630,
+													"disabled": true,
+													"parameters": [
+														"\"auau\"",
+														"1",
+														"0",
+														"\"zero\"",
+														false,
+														false,
+														"\"Bit\"",
+														"12",
+														"0",
+														false,
+														"\"zero\""
+													]
 												}
 											],
-											"sid": 468836130034558,
-											"children": [
-												{
-													"eventType": "comment",
-													"text": "--- CHASE: Преследование ---"
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "nut",
-															"sid": 903872929463221,
-															"parameters": {
-																"instance-variable": "status",
-																"comparison": 0,
-																"value": "\"chase\""
-															}
-														}
-													],
-													"actions": [
-														{
-															"callFunction": "smt",
-															"sid": 430147904133119,
-															"parameters": [
-																"nut.UID",
-																"base.X",
-																"base.Y"
-															]
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "nut",
-															"sid": 232670203470791,
-															"parameters": {
-																"animation": "\"run\"",
-																"from": "current-frame"
-															}
-														}
-													],
-													"sid": 314468010378656,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 717879120153618,
-																	"parameters": {
-																		"first-value": "nut.targetDistance",
-																		"comparison": 4,
-																		"second-value": "700"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 429122689302819,
-																	"parameters": {
-																		"instance-variable": "status",
-																		"value": "\"down\""
-																	}
-																},
-																{
-																	"id": "stop",
-																	"objectClass": "nut",
-																	"sid": 191633884173173,
-																	"behaviorType": "mt"
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "nut",
-																	"sid": 840189720228651,
-																	"parameters": {
-																		"animation": "\"down\"",
-																		"from": "beginning"
-																	}
-																}
-															],
-															"sid": 966777379691934
-														}
-													]
-												},
-												{
-													"eventType": "comment",
-													"text": "--- SLEEP: Мониторинг ---"
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "nut",
-															"sid": 721637442716564,
-															"parameters": {
-																"instance-variable": "status",
-																"comparison": 0,
-																"value": "\"sleep\""
-															}
-														}
-													],
-													"actions": [],
-													"sid": 157786270182513,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 300512295541614,
-																	"parameters": {
-																		"first-value": "nut.targetDistance",
-																		"comparison": 2,
-																		"second-value": "200"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 527175773116100,
-																	"parameters": {
-																		"instance-variable": "status",
-																		"value": "\"jump\""
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "nut",
-																	"sid": 990176027608625,
-																	"parameters": {
-																		"animation": "\"jump\"",
-																		"from": "beginning"
-																	}
-																},
-																{
-																	"id": "stop-timer",
-																	"objectClass": "nut",
-																	"sid": 305391803151797,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"bank\""
-																	}
-																}
-															],
-															"sid": 983599182967450
-														},
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "else",
-																	"objectClass": "System",
-																	"sid": 106671738010398
-																},
-																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 155811589777900,
-																	"parameters": {
-																		"first-value": "nut.targetDistance",
-																		"comparison": 2,
-																		"second-value": "500"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 952099973717409,
-																	"parameters": {
-																		"instance-variable": "status",
-																		"value": "\"open\""
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "nut",
-																	"sid": 721516872357472,
-																	"parameters": {
-																		"animation": "\"open\"",
-																		"from": "beginning"
-																	}
-																},
-																{
-																	"id": "stop-timer",
-																	"objectClass": "nut",
-																	"sid": 665141222109942,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"bank\""
-																	}
-																}
-															],
-															"sid": 486395189354678
-														},
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "else",
-																	"objectClass": "System",
-																	"sid": 270700089726008
-																},
-																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 116217964888553,
-																	"parameters": {
-																		"first-value": "nut.targetDistance",
-																		"comparison": 4,
-																		"second-value": "600"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 779232229643486,
-																	"parameters": {
-																		"instance-variable": "status",
-																		"value": "\"down\""
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "nut",
-																	"sid": 453399939155355,
-																	"parameters": {
-																		"animation": "\"down\"",
-																		"from": "beginning"
-																	}
-																}
-															],
-															"sid": 466387566177045
-														}
-													]
-												},
-												{
-													"eventType": "comment",
-													"text": "--- OPEN: Средняя дистанция ---"
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "nut",
-															"sid": 126193522298525,
-															"parameters": {
-																"instance-variable": "status",
-																"comparison": 0,
-																"value": "\"open\""
-															}
-														}
-													],
-													"actions": [],
-													"sid": 389826820511407,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "is-boolean-instance-variable-set",
-																	"objectClass": "base",
-																	"sid": 442576893822191,
-																	"parameters": {
-																		"instance-variable": "move"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 727461477782741,
-																	"parameters": {
-																		"instance-variable": "status",
-																		"value": "\"jump\""
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "nut",
-																	"sid": 119722947880328,
-																	"parameters": {
-																		"animation": "\"jump\"",
-																		"from": "beginning"
-																	}
-																}
-															],
-															"sid": 378784495471575
-														},
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "else",
-																	"objectClass": "System",
-																	"sid": 850836415126829
-																},
-																{
-																	"id": "is-timer-running",
-																	"objectClass": "nut",
-																	"sid": 248859302435198,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"toSleep\""
-																	},
-																	"isInverted": true
-																}
-															],
-															"actions": [
-																{
-																	"id": "start-timer",
-																	"objectClass": "nut",
-																	"sid": 268180185339715,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"duration": "1.0",
-																		"type": "once",
-																		"tag": "\"toSleep\""
-																	}
-																}
-															],
-															"sid": 683542592428473
-														},
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 718170275056006,
-																	"parameters": {
-																		"first-value": "nut.targetDistance",
-																		"comparison": 4,
-																		"second-value": "600"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "nut",
-																	"sid": 484386305321886,
-																	"parameters": {
-																		"instance-variable": "status",
-																		"value": "\"down\""
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "nut",
-																	"sid": 849314254924188,
-																	"parameters": {
-																		"animation": "\"down\"",
-																		"from": "beginning"
-																	}
-																}
-															],
-															"sid": 968635121960279
-														}
-													]
-												},
-												{
-													"eventType": "comment",
-													"text": "--- BURROWED: Под землей ---"
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "nut",
-															"sid": 838498166586318,
-															"parameters": {
-																"instance-variable": "status",
-																"comparison": 0,
-																"value": "\"burrowed\""
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 935225032693246,
-															"parameters": {
-																"first-value": "nut.targetDistance",
-																"comparison": 2,
-																"second-value": "500"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "nut",
-															"sid": 331278932126891,
-															"parameters": {
-																"instance-variable": "status",
-																"value": "\"unearth\""
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "nut",
-															"sid": 981103290146371,
-															"parameters": {
-																"animation": "\"jump\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "stop-timer",
-															"objectClass": "nut",
-															"sid": 165125989079428,
-															"behaviorType": "Timer",
-															"parameters": {
-																"tag": "\"bank\""
-															}
-														}
-													],
-													"sid": 155411544904099
-												}
-											]
+											"sid": 624931875835327
 										}
 									]
 								}
@@ -5596,130 +5312,187 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "Таймер перехода в сон из Open"
+					"text": ""
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "on-timer",
+							"id": "on-collision-with-another-object",
 							"objectClass": "nut",
-							"sid": 353043263640940,
-							"behaviorType": "Timer",
+							"sid": 876983974727629,
 							"parameters": {
-								"tag": "\"toSleep\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "nut",
-							"sid": 960474583880322,
-							"parameters": {
-								"instance-variable": "status",
-								"value": "\"sleep\""
+								"object": "Bit"
 							}
 						},
 						{
-							"id": "set-animation",
-							"objectClass": "nut",
-							"sid": 927166279424009,
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 430145157782328,
+							"disabled": true,
 							"parameters": {
-								"animation": "\"sleep\"",
-								"from": "beginning"
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
 							}
-						}
-					],
-					"sid": 535724134847243
-				},
-				{
-					"eventType": "comment",
-					"text": "Обработка анимаций"
-				},
-				{
-					"eventType": "block",
-					"conditions": [
+						},
 						{
-							"id": "on-animation-finished",
-							"objectClass": "nut",
-							"sid": 419331239169001,
+							"id": "compare-instance-variable",
+							"objectClass": "shad",
+							"sid": 195710547813007,
 							"parameters": {
-								"animation": "\"jump\""
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
 							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "nut",
+							"sid": 780389504974682,
+							"parameters": {
+								"instance-variable": "destroy"
+							},
+							"isInverted": true
 						}
 					],
 					"actions": [],
-					"sid": 376171672786734,
+					"sid": 453499332881050,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-instance-variable",
+									"id": "is-overlapping-another-object",
 									"objectClass": "nut",
-									"sid": 588570755849238,
+									"sid": 418386085996629,
 									"parameters": {
-										"instance-variable": "status",
-										"comparison": 0,
-										"value": "\"unearth\""
+										"object": "shad"
 									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "nut",
+									"sid": 322575978893283,
+									"disabled": true,
+									"parameters": {
+										"object": "base"
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "nut",
+									"sid": 307191358693994,
+									"parameters": {
+										"animation": "\"destroy\""
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [
 								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 966503359435786,
-									"parameters": {
-										"instance-variable": "status",
-										"value": "\"sleep\""
-									}
+									"callFunction": "stopThorns",
+									"sid": 174853867583430,
+									"parameters": [
+										"nut.UID",
+										true
+									]
 								},
 								{
 									"id": "set-animation",
 									"objectClass": "nut",
-									"sid": 198688542573383,
+									"sid": 571369958372739,
 									"parameters": {
-										"animation": "\"sleep\"",
+										"animation": "\"destroy\"",
 										"from": "beginning"
-									}
-								}
-							],
-							"sid": 209926501895674
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 796989407950656
-								}
-							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "nut",
-									"sid": 357801667262612,
-									"parameters": {
-										"instance-variable": "status",
-										"value": "\"chase\""
 									}
 								},
 								{
-									"id": "set-animation",
+									"id": "set-enabled",
 									"objectClass": "nut",
-									"sid": 821276510464041,
+									"sid": 176118366224034,
+									"behaviorType": "mt",
 									"parameters": {
-										"animation": "\"run\"",
-										"from": "beginning"
+										"enabled": false
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "nut",
+									"sid": 942178354571028,
+									"parameters": {
+										"y": "base.Y+2"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "nut",
+									"sid": 637653072728971,
+									"parameters": {
+										"instance-variable": "close",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 965630459781673,
+									"parameters": {
+										"instance-variable": "targetDistance",
+										"value": "99999"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 487521732833402,
+									"parameters": {
+										"instance-variable": "targetUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 119110447789279,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"destroy\""
+									}
+								},
+								{
+									"id": "stop-all-timers",
+									"objectClass": "nut",
+									"sid": 863422847008668,
+									"behaviorType": "Timer"
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "nut",
+									"sid": 603698974020264,
+									"parameters": {
+										"instance-variable": "destroy",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "nut",
+									"sid": 590667430434075,
+									"parameters": {
+										"instance-variable": "distN",
+										"value": "3"
 									}
 								}
 							],
-							"sid": 366679718332754
+							"sid": 763113402542241
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
 				},
 				{
 					"eventType": "block",
@@ -5727,35 +5500,92 @@
 						{
 							"id": "on-animation-finished",
 							"objectClass": "nut",
-							"sid": 308314233358725,
+							"sid": 994501363797296,
 							"parameters": {
-								"animation": "\"down\""
+								"animation": "\"destroy\""
+							}
+						},
+						{
+							"id": "compare-animation-frame",
+							"objectClass": "nut",
+							"sid": 958088054818724,
+							"parameters": {
+								"comparison": 4,
+								"number": "0"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "nut",
+							"sid": 459988767719198,
+							"parameters": {
+								"instance-variable": "destroy"
 							}
 						}
 					],
 					"actions": [
 						{
-							"id": "set-instvar-value",
+							"id": "set-position",
 							"objectClass": "nut",
-							"sid": 709274327802715,
+							"sid": 714717310124929,
 							"parameters": {
-								"instance-variable": "status",
-								"value": "\"burrowed\""
+								"x": "-4567",
+								"y": "-7654"
 							}
 						},
 						{
-							"id": "start-timer",
+							"id": "set-boolean-instvar",
 							"objectClass": "nut",
-							"sid": 829669121129739,
-							"behaviorType": "Timer",
+							"sid": 549744285735467,
 							"parameters": {
-								"duration": "60",
-								"type": "once",
-								"tag": "\"bank\""
+								"instance-variable": "onLayout",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-enabled",
+							"objectClass": "nut",
+							"sid": 462636492475724,
+							"behaviorType": "EasyIsometric",
+							"parameters": {
+								"newState_": "disabled"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "nut",
+							"sid": 362873868464456,
+							"parameters": {
+								"animation": "\"zero\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "nut",
+							"sid": 921197941649108,
+							"parameters": {
+								"instance-variable": "status",
+								"value": "\"out\""
+							}
+						},
+						{
+							"id": "stop-all-timers",
+							"objectClass": "nut",
+							"sid": 781387153924433,
+							"behaviorType": "Timer"
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "nut",
+							"sid": 671805569698653,
+							"parameters": {
+								"instance-variable": "destroy",
+								"value": "false"
 							}
 						}
 					],
-					"sid": 352294383101224
+					"sid": 397503031511464
 				},
 				{
 					"eventType": "comment",
@@ -5767,27 +5597,37 @@
 						{
 							"id": "on-timer",
 							"objectClass": "nut",
-							"sid": 862540540908025,
+							"sid": 508641831115980,
 							"behaviorType": "Timer",
 							"parameters": {
 								"tag": "\"bank\""
 							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "nut",
+							"sid": 620891567516091,
+							"parameters": {
+								"instance-variable": "status",
+								"comparison": 1,
+								"value": "\"under\""
+							}
 						}
 					],
 					"actions": [
 						{
 							"id": "set-position",
 							"objectClass": "nut",
-							"sid": 188927433522493,
+							"sid": 762474721531843,
 							"parameters": {
-								"x": "-5000",
-								"y": "-5000"
+								"x": "-4567",
+								"y": "-7654"
 							}
 						},
 						{
 							"id": "set-boolean-instvar",
 							"objectClass": "nut",
-							"sid": 425450616090640,
+							"sid": 802723161268222,
 							"parameters": {
 								"instance-variable": "onLayout",
 								"value": "false"
@@ -5796,185 +5636,53 @@
 						{
 							"id": "set-enabled",
 							"objectClass": "nut",
-							"sid": 650859230217959,
+							"sid": 976632453976310,
 							"behaviorType": "mt",
 							"parameters": {
 								"enabled": false
 							}
-						}
-					],
-					"sid": 317055688786797
-				},
-				{
-					"eventType": "comment",
-					"text": "Столкновение и взрыв"
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-collision-with-another-object",
-							"objectClass": "nut",
-							"sid": 611134184534885,
-							"parameters": {
-								"object": "base"
-							}
 						},
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "base",
-							"sid": 776597040680526,
+							"id": "set-enabled",
+							"objectClass": "nut",
+							"sid": 108306585931014,
+							"behaviorType": "EasyIsometric",
 							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "\"Bit\""
+								"newState_": "disabled"
 							}
 						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "nut",
-							"sid": 931770212342740,
-							"parameters": {
-								"instance-variable": "status",
-								"comparison": 1,
-								"value": "\"explode\""
-							}
-						}
-					],
-					"actions": [
 						{
 							"id": "set-instvar-value",
 							"objectClass": "nut",
-							"sid": 900186533606111,
+							"sid": 248304398667473,
 							"parameters": {
 								"instance-variable": "status",
-								"value": "\"explode\""
+								"value": "\"out\""
 							}
-						},
-						{
-							"id": "stop",
-							"objectClass": "nut",
-							"sid": 650859230217959,
-							"behaviorType": "mt"
 						},
 						{
 							"id": "set-animation",
 							"objectClass": "nut",
-							"sid": 929660334485834,
+							"sid": 966880439062190,
 							"parameters": {
-								"animation": "\"destroy\"",
+								"animation": "\"zero\"",
 								"from": "beginning"
-							}
-						},
-						{
-							"callFunction": "stopThorns",
-							"sid": 828235200154209,
-							"parameters": [
-								"nut.UID",
-								true
-							]
-						}
-					],
-					"sid": 692271095587914
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-animation-finished",
-							"objectClass": "nut",
-							"sid": 413045356188611,
-							"parameters": {
-								"animation": "\"destroy\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-position",
-							"objectClass": "nut",
-							"sid": 352294383101224,
-							"parameters": {
-								"x": "-5000",
-								"y": "-5000"
 							}
 						},
 						{
 							"id": "set-boolean-instvar",
 							"objectClass": "nut",
-							"sid": 425450616090640,
+							"sid": 322241019053410,
 							"parameters": {
-								"instance-variable": "onLayout",
+								"instance-variable": "destroy",
 								"value": "false"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "nut",
-							"sid": 650859230217959,
-							"behaviorType": "mt",
-							"parameters": {
-								"enabled": false
 							}
 						}
 					],
-					"sid": 607041057896402,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "nut",
-									"sid": 796473683161267,
-									"parameters": {
-										"object": "base"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "base",
-									"sid": 219542437194650,
-									"parameters": {
-										"instance-variable": "name",
-										"comparison": 0,
-										"value": "\"Bit\""
-									}
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "base",
-									"sid": 396321196079869,
-									"parameters": {
-										"instance-variable": "respawn"
-									},
-									"isInverted": true
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "aBit",
-									"sid": 550563600240848,
-									"parameters": {
-										"instance-variable": "respawn"
-									},
-									"isInverted": true
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "getSpikes",
-									"sid": 604031594805771,
-									"parameters": [
-										"3"
-									]
-								}
-							],
-							"sid": 126854231213979
-						}
-					]
+					"sid": 186963586388332
 				}
 			],
-			"sid": 369166380249571
+			"sid": 413045356188611
 		},
 		{
 			"eventType": "group",
