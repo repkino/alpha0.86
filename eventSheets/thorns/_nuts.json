@@ -2552,21 +2552,21 @@
 									],
 									"actions": [
 										{
-											"id": "append-text",
-											"objectClass": "help",
-											"sid": 245146678518473,
-											"disabled": true,
-											"parameters": {
-												"text": "1"
-											}
-										},
-										{
 											"id": "set-instvar-value",
 											"objectClass": "base",
 											"sid": 927852548072795,
 											"parameters": {
 												"instance-variable": "nutTarDist",
 												"value": "Functions.getIsoDist(nut.X,nut.Y,Self.X,Self.Y)"
+											}
+										},
+										{
+											"id": "set-text",
+											"objectClass": "help",
+											"sid": 402971192460018,
+											"disabled": true,
+											"parameters": {
+												"text": "base.name&\"_\"&round(base.nutTarDist)"
 											}
 										}
 									],
@@ -3148,7 +3148,65 @@
 							]
 						}
 					],
-					"sid": 575183525777208
+					"sid": 575183525777208,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Корректировка курса во время бега (шанс 1 из 2 или 3)"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "nut",
+									"sid": 999111222333444,
+									"parameters": {
+										"animation": "\"run\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nut",
+									"sid": 888777666555444,
+									"parameters": {
+										"instance-variable": "targetUID",
+										"comparison": 1,
+										"value": "-1"
+									}
+								},
+								{
+									"id": "Chance",
+									"objectClass": "Utils",
+									"sid": 148097704408752,
+									"parameters": {
+										"chance": "1",
+										"outof": "2"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "base",
+									"sid": 666555444333222,
+									"parameters": {
+										"unique-id": "nut.targetUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "smt",
+									"sid": 555444333222111,
+									"parameters": [
+										"nut.UID",
+										"base.X",
+										"base.Y"
+									]
+								}
+							],
+							"sid": 444333222111000
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -6024,29 +6082,49 @@
 							"parameters": {
 								"interval-seconds": "1.0"
 							}
+						}
+					],
+					"actions": [],
+					"sid": 445566778899001,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "nut",
+									"sid": 598011229815259,
+									"parameters": {
+										"instance-variable": "onLayout"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 441514753142705
 						},
 						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "nut",
-							"sid": 223344556677889,
-							"parameters": {
-								"instance-variable": "onLayout"
-							},
-							"isInverted": true
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 779673720647164
+								}
+							],
+							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 287362551986741,
+									"parameters": {
+										"group-name": "\"nuts\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 591139870490467
 						}
-					],
-					"actions": [
-						{
-							"id": "set-group-active",
-							"objectClass": "System",
-							"sid": 334455667788990,
-							"parameters": {
-								"group-name": "\"nuts\"",
-								"state": "deactivated"
-							}
-						}
-					],
-					"sid": 445566778899001
+					]
 				}
 			],
 			"sid": 413045356188611
