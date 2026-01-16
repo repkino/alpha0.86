@@ -5191,26 +5191,6 @@
 							]
 						},
 						{
-							"eventType": "variable",
-							"name": "drawX",
-							"type": "number",
-							"initialValue": "0",
-							"comment": "",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 401070869379453
-						},
-						{
-							"eventType": "variable",
-							"name": "drawY",
-							"type": "number",
-							"initialValue": "0",
-							"comment": "",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 756671618663276
-						},
-						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -5225,21 +5205,21 @@
 							],
 							"actions": [
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 977573219412187,
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 727699014471490,
 									"parameters": {
-										"variable": "drawX",
-										"value": "tGuard.drawCX + cos(tGuard.startAng + tGuard.drawIndex * 10) * tGuard.attackDist"
+										"instance-variable": "drawX",
+										"value": "Self.drawCX + cos(self.startAng + self.drawIndex * 10) * self.attackDist"
 									}
 								},
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 949418888655177,
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 520221525589241,
 									"parameters": {
-										"variable": "drawY",
-										"value": "tGuard.drawCY + sin(tGuard.startAng + tGuard.drawIndex * 10) * tGuard.attackDist * 0.5"
+										"instance-variable": "drawY",
+										"value": "Self.drawCY + sin(Self.startAng + Self.drawIndex * 10) * Self.attackDist * 0.5"
 									}
 								},
 								{
@@ -5282,10 +5262,10 @@
 												{
 													"id": "set-position",
 													"objectClass": "spike",
-													"sid": 205971713947184,
+													"sid": 392036158990679,
 													"parameters": {
-														"x": "drawX",
-														"y": "drawY"
+														"x": "tGuard.drawX",
+														"y": "tGuard.drawY"
 													}
 												},
 												{
@@ -5317,10 +5297,10 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "tGuard",
-													"sid": 774130137553245,
+													"sid": 564646460032125,
 													"parameters": {
 														"instance-variable": "ang",
-														"value": "angle(Self.X,Self.Y,drawX,drawY)"
+														"value": "angle(Self.X,Self.Y,Self.drawX,Self.drawY)"
 													}
 												},
 												{
@@ -5454,20 +5434,11 @@
 													}
 												},
 												{
-													"id": "append-text",
-													"objectClass": "help",
-													"sid": 719192008175401,
-													"disabled": true,
-													"parameters": {
-														"text": "round(distance(luch1.X, luch1.Y, drawX, drawY))&\"_\""
-													}
-												},
-												{
 													"id": "set-angle",
 													"objectClass": "luch1",
-													"sid": 145657066300547,
+													"sid": 345917125979501,
 													"parameters": {
-														"angle": "angle(Self.X, Self.Y, drawX, drawY)"
+														"angle": "angle(Self.X, Self.Y, tGuard.drawX, tGuard.drawY)"
 													}
 												},
 												{
@@ -5505,9 +5476,9 @@
 												{
 													"id": "set-width",
 													"objectClass": "luch1",
-													"sid": 140350605937074,
+													"sid": 337911518943450,
 													"parameters": {
-														"width": "distance(Self.X, Self.Y, drawX, drawY)"
+														"width": "distance(Self.X, Self.Y, tGuard.drawX, tGuard.drawY)"
 													}
 												}
 											],
@@ -5658,15 +5629,6 @@
 																	"id": "is-outside-layout",
 																	"objectClass": "tGuard",
 																	"sid": 223306871509105,
-																	"isInverted": true
-																},
-																{
-																	"id": "is-boolean-instance-variable-set",
-																	"objectClass": "tGuard",
-																	"sid": 408865765766975,
-																	"parameters": {
-																		"instance-variable": "onPerimeter"
-																	},
 																	"isInverted": true
 																},
 																{
@@ -5858,6 +5820,15 @@
 																"comparison": 0,
 																"value": "0"
 															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "tGuard",
+															"sid": 635434386283266,
+															"parameters": {
+																"instance-variable": "onPerimeter"
+															},
+															"isInverted": true
 														}
 													],
 													"actions": [
@@ -7589,6 +7560,112 @@
 						0.8431372549019608,
 						1
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Механика подавления стража энергоядром"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "energoBall",
+							"sid": 668590821325813,
+							"parameters": {
+								"object": "tGuard"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "tGuard",
+							"sid": 344968313041240,
+							"parameters": {
+								"instance-variable": "status",
+								"comparison": 1,
+								"value": "\"suppressed\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "tGuard",
+							"sid": 669791018522430,
+							"parameters": {
+								"instance-variable": "status",
+								"value": "\"suppressed\""
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "tGuard",
+							"sid": 803590834270137,
+							"parameters": {
+								"instance-variable": "outlined",
+								"value": "1"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "tGuard",
+							"sid": 640211979080207,
+							"parameters": {
+								"instance-variable": "alert",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "tGuard",
+							"sid": 696001605197812,
+							"parameters": {
+								"instance-variable": "grown",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "tGuard",
+							"sid": 957151959861451,
+							"parameters": {
+								"instance-variable": "grow",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 357193588751115,
+							"parameters": {
+								"animation": "\"grow\"",
+								"from": "current-frame"
+							}
+						},
+						{
+							"id": "set-animation-speed",
+							"objectClass": "tGuard",
+							"sid": 791096059337282,
+							"parameters": {
+								"speed": "-12"
+							}
+						},
+						{
+							"id": "start-animation",
+							"objectClass": "tGuard",
+							"sid": 170567735213461,
+							"parameters": {
+								"from": "current-frame"
+							}
+						},
+						{
+							"id": "destroy",
+							"objectClass": "energoBall",
+							"sid": 662387956890450
+						}
+					],
+					"sid": 544746554838410,
+					"disabled": true
 				},
 				{
 					"eventType": "comment",
