@@ -122,8 +122,18 @@
 					"sid": 594477484286980
 				},
 				{
-					"functionName": "HolderClean",
-					"functionDescription": "Удаляет все элементы холдера",
+					"eventType": "comment",
+					"text": "пример комментария",
+					"background-color": [
+						0.5725490196078431,
+						0.9098039215686274,
+						0.6392156862745098,
+						1
+					]
+				},
+				{
+					"functionName": "holderclean",
+					"functionDescription": "",
 					"functionCategory": "",
 					"functionReturnType": "none",
 					"functionCopyPicked": false,
@@ -133,27 +143,87 @@
 					"conditions": [],
 					"actions": [
 						{
-							"id": "destroy",
+							"type": "comment",
+							"text": "пример комментария",
+							"background-color": [
+								0.49411764705882355,
+								0.6980392156862745,
+								0.3843137254901961,
+								1
+							]
+						},
+						{
+							"id": "set-position",
 							"objectClass": "holder",
-							"sid": 670306333002360
+							"sid": 471313798153536,
+							"parameters": {
+								"x": "-2000",
+								"y": "-2000"
+							}
 						},
 						{
-							"id": "destroy",
+							"type": "comment",
+							"text": "пример комментария",
+							"background-color": [
+								0.32941176470588235,
+								0.7333333333333333,
+								0.4823529411764706,
+								1
+							]
+						},
+						{
+							"id": "set-position",
 							"objectClass": "hBody",
-							"sid": 887136860175703
+							"sid": 967698958309393,
+							"parameters": {
+								"x": "-2000",
+								"y": "-2000"
+							}
 						},
 						{
-							"id": "destroy",
+							"type": "comment",
+							"text": "пример комментария",
+							"background-color": [
+								0.48627450980392156,
+								0.8745098039215686,
+								0.6352941176470588,
+								1
+							]
+						},
+						{
+							"id": "set-position",
 							"objectClass": "hCap",
-							"sid": 893769953608797
+							"sid": 219850505945568,
+							"parameters": {
+								"x": "-2000",
+								"y": "-2000"
+							}
 						},
 						{
-							"id": "destroy",
+							"type": "comment",
+							"text": "пример комментария",
+							"background-color": [
+								0.6745098039215687,
+								0.984313725490196,
+								0.792156862745098,
+								1
+							]
+						},
+						{
+							"id": "set-position",
 							"objectClass": "hIcon",
-							"sid": 766278419200996
+							"sid": 835086087827002,
+							"parameters": {
+								"x": "-2000",
+								"y": "-2000"
+							}
 						}
 					],
-					"sid": 178312705122574
+					"sid": 425382879298070
+				},
+				{
+					"eventType": "comment",
+					"text": "ЛОГИКА: Возвращает все элементы холдера в банк вне макета."
 				},
 				{
 					"eventType": "comment",
@@ -183,7 +253,7 @@
 							}
 						},
 						{
-							"callFunction": "HolderClean",
+							"callFunction": "holderclean",
 							"sid": 859460952445754
 						},
 						{
@@ -195,7 +265,8 @@
 							}
 						}
 					],
-					"sid": 257398879066059
+					"sid": 257398879066059,
+					"disabled": true
 				},
 				{
 					"eventType": "comment",
@@ -240,7 +311,7 @@
 					],
 					"actions": [
 						{
-							"callFunction": "HolderClean",
+							"callFunction": "holderclean",
 							"sid": 611068271750889
 						},
 						{
@@ -252,11 +323,115 @@
 							}
 						}
 					],
-					"sid": 129430628199635
+					"sid": 129430628199635,
+					"disabled": true
 				},
 				{
-					"functionName": "HolderOpen",
-					"functionDescription": "Собирает и открывает меню для указанного типа способностей",
+					"eventType": "comment",
+					"text": "\n\n\n"
+				},
+				{
+					"eventType": "comment",
+					"text": "Выбор способности и возврат в банк"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "hIcon",
+							"sid": 507252763670889,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"click\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aGame",
+							"sid": 918523584554335,
+							"parameters": {
+								"instance-variable": "gunBit",
+								"value": "hIcon.hSign"
+							}
+						},
+						{
+							"callFunction": "holderclean",
+							"sid": 742512314536375
+						},
+						{
+							"id": "set-time-scale",
+							"objectClass": "System",
+							"sid": 743881630982272,
+							"parameters": {
+								"time-scale": "1"
+							}
+						}
+					],
+					"sid": 232400946898108
+				},
+				{
+					"eventType": "comment",
+					"text": "Закрытие кликом мимо (проверка через курсор)"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-click",
+							"objectClass": "Mouse",
+							"sid": 475358874487256
+						},
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 527877529923393,
+							"parameters": {
+								"first-value": "holder.Y",
+								"comparison": 4,
+								"second-value": "0"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "cursor",
+							"sid": 181339067317704,
+							"parameters": {
+								"object": "hIcon"
+							},
+							"isInverted": true
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "cursor",
+							"sid": 252417609457118,
+							"parameters": {
+								"object": "hBody"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "holderclean",
+							"sid": 188391321542628
+						},
+						{
+							"id": "set-time-scale",
+							"objectClass": "System",
+							"sid": 334520954528397,
+							"parameters": {
+								"time-scale": "1"
+							}
+						}
+					],
+					"sid": 881528995521019
+				},
+				{
+					"functionName": "holderopen",
+					"functionDescription": "",
 					"functionCategory": "",
 					"functionReturnType": "none",
 					"functionCopyPicked": false,
@@ -266,21 +441,30 @@
 							"name": "type",
 							"type": "string",
 							"initialValue": "ball",
-							"comment": "Тип фильтрации",
-							"sid": 918818900627513
+							"sid": 223945378280018
 						}
 					],
 					"eventType": "function-block",
 					"conditions": [],
 					"actions": [
 						{
-							"callFunction": "HolderClean",
-							"sid": 497581813065983
+							"type": "comment",
+							"text": "ПОДГОТОВКА: Очистка старого состояния и установка паузы",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"callFunction": "holderclean",
+							"sid": 808435903610963
 						},
 						{
 							"id": "set-time-scale",
 							"objectClass": "System",
-							"sid": 582902394833084,
+							"sid": 924146254224364,
 							"parameters": {
 								"time-scale": "0"
 							}
@@ -288,14 +472,20 @@
 						{
 							"id": "clear",
 							"objectClass": "balls",
-							"sid": 254499002886827
+							"sid": 573386052937181
 						}
 					],
-					"sid": 552009035855367,
+					"sid": 946819632675758,
 					"children": [
 						{
 							"eventType": "comment",
-							"text": "Шаг 1: Сбор уникальных ID из инвентаря"
+							"text": "Шаг 1: Сбор уникальных ID из инвентаря",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
 						},
 						{
 							"eventType": "block",
@@ -303,7 +493,7 @@
 								{
 									"id": "for-each",
 									"objectClass": "System",
-									"sid": 155439678841356,
+									"sid": 222581215315845,
 									"parameters": {
 										"object": "itemInv"
 									}
@@ -311,7 +501,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "itemInv",
-									"sid": 778143721781378,
+									"sid": 510612751498745,
 									"parameters": {
 										"instance-variable": "ball"
 									}
@@ -319,20 +509,36 @@
 							],
 							"actions": [
 								{
+									"type": "comment",
+									"text": "Добавляем в словарь для исключения дубликатов",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
 									"id": "add-key",
 									"objectClass": "balls",
-									"sid": 760610563116965,
+									"sid": 371317477742798,
 									"parameters": {
 										"key": "itemInv.iSign",
 										"value": "1"
 									}
 								}
 							],
-							"sid": 868382533721448
+							"sid": 501648938290788
 						},
 						{
 							"eventType": "comment",
-							"text": "Шаг 2: Расчет позиций и создание графики"
+							"text": "Шаг 2: Позиционирование базы холдера",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
 						},
 						{
 							"eventType": "block",
@@ -340,7 +546,7 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 576119257066554,
+									"sid": 818961086700176,
 									"parameters": {
 										"first-value": "balls.KeyCount",
 										"comparison": 4,
@@ -350,67 +556,71 @@
 							],
 							"actions": [
 								{
+									"type": "comment",
+									"text": "Вычисляем X старта для центрирования пенала",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
 									"id": "set-eventvar-value",
 									"objectClass": "System",
-									"sid": 309612066040692,
+									"sid": 120070959853976,
 									"parameters": {
 										"variable": "hStartX",
-										"value": "(1280 / 2) - ((balls.KeyCount * hSegmentWidth) / 2) - 30"
+										"value": "640 - ((balls.KeyCount * hsegmentwidth) / 2) - 30"
 									}
 								},
 								{
-									"id": "create-object",
-									"objectClass": "System",
-									"sid": 120945707503479,
+									"id": "set-position",
+									"objectClass": "holder",
+									"sid": 503965537042455,
 									"parameters": {
-										"object-to-create": "holder",
-										"layer": "\"ui\"",
-										"x": "hStartX",
-										"y": "360",
-										"create-hierarchy": true,
-										"template-name": "\"\""
+										"x": "hstartx",
+										"y": "360"
 									}
 								},
 								{
-									"id": "create-object",
-									"objectClass": "System",
-									"sid": 358326969898926,
+									"id": "set-position",
+									"objectClass": "hBody",
+									"sid": 294496098087369,
 									"parameters": {
-										"object-to-create": "hBody",
-										"layer": "\"ui\"",
-										"x": "hStartX + 30",
-										"y": "360",
-										"create-hierarchy": true,
-										"template-name": "\"\""
+										"x": "hstartx + 30",
+										"y": "360"
 									}
 								},
 								{
 									"id": "set-width",
 									"objectClass": "hBody",
-									"sid": 439363237918620,
+									"sid": 990360404267276,
 									"parameters": {
-										"width": "balls.KeyCount * hSegmentWidth"
+										"width": "balls.KeyCount * hsegmentwidth"
 									}
 								},
 								{
-									"id": "create-object",
-									"objectClass": "System",
-									"sid": 192469999675068,
+									"id": "set-position",
+									"objectClass": "hCap",
+									"sid": 331744110327568,
 									"parameters": {
-										"object-to-create": "hCap",
-										"layer": "\"ui\"",
-										"x": "hStartX + 30 + (balls.KeyCount * hSegmentWidth)",
-										"y": "360",
-										"create-hierarchy": true,
-										"template-name": "\"\""
+										"x": "hBody.X + hBody.Width",
+										"y": "360"
 									}
 								}
 							],
-							"sid": 467350686732408,
+							"sid": 953693605157249,
 							"children": [
 								{
 									"eventType": "comment",
-									"text": "Шаг 3: Расстановка иконок"
+									"text": "Шаг 3: Расстановка иконок из банка",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
 								},
 								{
 									"eventType": "block",
@@ -418,56 +628,83 @@
 										{
 											"id": "for-each-key",
 											"objectClass": "balls",
-											"sid": 968719161760840
+											"sid": 821560454028278
 										}
 									],
-									"actions": [
+									"actions": [],
+									"sid": 968432078592874,
+									"children": [
 										{
-											"id": "create-object",
-											"objectClass": "System",
-											"sid": 371719924370673,
-											"parameters": {
-												"object-to-create": "hIcon",
-												"layer": "\"ui\"",
-												"x": "hStartX + 30 + (loopindex * hSegmentWidth) + (hSegmentWidth / 2)",
-												"y": "360",
-												"create-hierarchy": true,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "hIcon",
-											"sid": 437241824046614,
-											"parameters": {
-												"animation": "balls.CurrentKey",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "hIcon",
-											"sid": 887378551037688,
-											"parameters": {
-												"instance-variable": "hSign",
-												"value": "balls.CurrentKey"
-											}
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "hIcon",
-											"sid": 332186251929465,
-											"parameters": {
-												"instance-variable": "ball",
-												"value": "true"
-											}
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-y",
+													"objectClass": "hIcon",
+													"sid": 981905555379900,
+													"parameters": {
+														"comparison": 2,
+														"y-co-ordinate": "0"
+													}
+												},
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 522127376718161,
+													"parameters": {
+														"object": "hIcon"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Перемещаем иконку из банка на вычисленную позицию",
+													"background-color": [
+														0.67,
+														0.98,
+														0.79,
+														1
+													]
+												},
+												{
+													"id": "set-position",
+													"objectClass": "hIcon",
+													"sid": 839900528862833,
+													"parameters": {
+														"x": "hBody.X + (loopindex * hsegmentwidth) + (hsegmentwidth / 2)",
+														"y": "360"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "hIcon",
+													"sid": 938980856181058,
+													"parameters": {
+														"animation": "balls.CurrentKey",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "hIcon",
+													"sid": 641142618226819,
+													"parameters": {
+														"instance-variable": "hSign",
+														"value": "balls.CurrentKey"
+													}
+												}
+											],
+											"sid": 846081203778283
 										}
-									],
-									"sid": 633979602091727
+									]
 								}
 							]
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 				}
 			],
 			"sid": 253788522998105

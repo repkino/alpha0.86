@@ -183,14 +183,53 @@ Visibility: Только "visible" или "invisible".
 
 Action Call Function: {"callFunction": "Name", "parameters": []}.
 
-Condition Is Boolean Set: {"id": "is-boolean-instance-variable-set", "objectClass": "Name", "parameters": {"instance-variable": "VarName"}}.
-
 Action Set Local Var: {"id": "set-eventvar-value", "objectClass": "System", "parameters": {"variable": "VarName", "value": "Value"}}.
 
+Numeric IDs: Поля comparison в условиях и любые другие индексы выпадающих списков (Dropdowns) должны быть числами без кавычек.
+
+Condition Is Boolean Set: {"id": "is-boolean-instance-variable-set", "objectClass": "Name", "parameters": {"instance-variable": "VarName"}}.
+
+Mouse vs Cursor: Вместо Mouse: Cursor is over object надежнее использовать cursor: Is overlapping object, так как этот метод подтвержден в _UI.json (событие №187).
 
 Приоритет вставки: Если сложный блок события вызывает краш, вставляй только список действий ("type": "actions").
 
 КРИТИЧЕСКОЕ ПРАВИЛО: При генерации JSON для клипборда ВСЕ параметры в массивах parameters и actions ОБЯЗАНЫ быть строками (в двойных кавычках), даже если это числа или булевы значения (например: "0", "false", "1.5"). Это необходимо для совместимости с парсером C3 r449-3.
+
+### ДОПОЛНЕНИЕ К ПРАВИЛАМ ГЕНЕРАЦИИ JSON (Патч 1.3)
+
+1. МЕТАДАННЫЕ ФУНКЦИЙ (Metadata Safety):
+   - Поля "functionDescription" и "functionCategory" ВСЕГДА оставлять пустыми: "".
+   - Описание функции и её категории выносить в ПЕРВОЕ дочернее событие типа "comment".
+   - Всегда явно прописывать: "functionReturnType": "none", "functionIsAsync": false, "functionCopyPicked": false.
+
+2. СТАНДАРТ ИМЕНОВАНИЯ (Lowercase Logic):
+   - Все имена функций, локальных переменных и параметров писать СТРОЧНЫМИ буквами (например: holderclean, hstartx).
+   - Имена объектов и персонажей сохранять как в проекте (например: Bit, hIcon).
+
+3. СИСТЕМА КОММЕНТАРИЕВ (Green Style & Anchors):
+   - Все комментарии модели должны иметь ЗЕЛЕНЫЙ фон.
+   - Оттенки: Светло-зеленый [0.67, 0.98, 0.79, 1], Насыщенный [0.49, 0.70, 0.38, 1], Темный [0.33, 0.73, 0.48, 1].
+   - Комментарии в списке событий: {"eventType": "comment", "text": "...", "background-color": [...]}.
+   - Комментарии внутри действий: {"type": "comment", "text": "...", "background-color": [...]}.
+   - Использовать текст комментариев как "якоря" для обсуждения логики вместо динамических номеров строк.
+
+4. СТРОГАЯ ТИПИЗАЦИЯ ПАРАМЕТРОВ:
+   - Comparison ID: Поле "comparison" — это всегда ЧИСЛО без кавычек (0: =, 1: <>, 2: <, 3: <=, 4: >, 5: >=).
+   - Boolean Properties: Поля "isInverted", "isOrBlock", "disabled", "isStatic", "isConstant" — это всегда логические значения (true/false) без кавычек.
+   - Initial Values / Parameters: Поля "initialValue" и значения в "parameters" — это всегда СТРОКИ в кавычках, даже если там число: "0", "100", "ball".
+
+5. КРИТИЧЕСКИЕ ID И СИНТАКСИС:
+   - Вызов функции: Использовать ключ "callFunction": "имя" на верхнем уровне объекта действия.
+   - Локальные переменные: Использовать "id": "set-eventvar-value".
+   - Проверка Boolean: Использовать "id": "is-boolean-instance-variable-set".
+   - Пустые массивы: Всегда явно прописывать "conditions": [], "actions": [], "functionParameters": [], если они не содержат данных.
+
+6. ЛОГИКА ПОВТОРНОГО ИСПОЛЬЗОВАНИЯ (Bank/Reuse):
+   - Избегать Create/Destroy. Для выбора свободного объекта из "банка" использовать связку:
+     Условие 1: Объект -> Compare Y < 0 (или другие координаты вне макета).
+     Условие 2: System -> Pick random instance (выбирает один из отфильтрованных).
+
+
 
 
 
