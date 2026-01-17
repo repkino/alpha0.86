@@ -100,6 +100,374 @@
 						}
 					],
 					"sid": 266598652390069
+				},
+				{
+					"eventType": "variable",
+					"name": "hStartX",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "Динамическая точка старта меню",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 750304943325548
+				},
+				{
+					"eventType": "variable",
+					"name": "hSegmentWidth",
+					"type": "number",
+					"initialValue": "60",
+					"comment": "Ширина одной ячейки",
+					"isStatic": false,
+					"isConstant": true,
+					"sid": 594477484286980
+				},
+				{
+					"functionName": "HolderClean",
+					"functionDescription": "Удаляет все элементы холдера",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "destroy",
+							"objectClass": "holder",
+							"sid": 670306333002360
+						},
+						{
+							"id": "destroy",
+							"objectClass": "hBody",
+							"sid": 887136860175703
+						},
+						{
+							"id": "destroy",
+							"objectClass": "hCap",
+							"sid": 893769953608797
+						},
+						{
+							"id": "destroy",
+							"objectClass": "hIcon",
+							"sid": 766278419200996
+						}
+					],
+					"sid": 178312705122574
+				},
+				{
+					"eventType": "comment",
+					"text": "Выбор способности и закрытие меню"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "hIcon",
+							"sid": 669162083463264,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"click\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aGame",
+							"sid": 709357011525457,
+							"parameters": {
+								"instance-variable": "gunBit",
+								"value": "hIcon.hSign"
+							}
+						},
+						{
+							"callFunction": "HolderClean",
+							"sid": 859460952445754
+						},
+						{
+							"id": "set-time-scale",
+							"objectClass": "System",
+							"sid": 809569033695146,
+							"parameters": {
+								"time-scale": "1"
+							}
+						}
+					],
+					"sid": 257398879066059
+				},
+				{
+					"eventType": "comment",
+					"text": "Закрытие при клике мимо (если холдер существует)"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-click",
+							"objectClass": "Mouse",
+							"sid": 705575744594743
+						},
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 153231380617742,
+							"parameters": {
+								"first-value": "holder.Count",
+								"comparison": 4,
+								"second-value": "0"
+							}
+						},
+						{
+							"id": "cursor-is-over-object",
+							"objectClass": "Mouse",
+							"sid": 225006312618762,
+							"parameters": {
+								"object": "hIcon"
+							},
+							"isInverted": true
+						},
+						{
+							"id": "cursor-is-over-object",
+							"objectClass": "Mouse",
+							"sid": 749235858833138,
+							"parameters": {
+								"object": "hBody"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "HolderClean",
+							"sid": 611068271750889
+						},
+						{
+							"id": "set-time-scale",
+							"objectClass": "System",
+							"sid": 389513158736862,
+							"parameters": {
+								"time-scale": "1"
+							}
+						}
+					],
+					"sid": 129430628199635
+				},
+				{
+					"functionName": "HolderOpen",
+					"functionDescription": "Собирает и открывает меню для указанного типа способностей",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "type",
+							"type": "string",
+							"initialValue": "ball",
+							"comment": "Тип фильтрации",
+							"sid": 918818900627513
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"callFunction": "HolderClean",
+							"sid": 497581813065983
+						},
+						{
+							"id": "set-time-scale",
+							"objectClass": "System",
+							"sid": 582902394833084,
+							"parameters": {
+								"time-scale": "0"
+							}
+						},
+						{
+							"id": "clear",
+							"objectClass": "balls",
+							"sid": 254499002886827
+						}
+					],
+					"sid": 552009035855367,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Шаг 1: Сбор уникальных ID из инвентаря"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 155439678841356,
+									"parameters": {
+										"object": "itemInv"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "itemInv",
+									"sid": 778143721781378,
+									"parameters": {
+										"instance-variable": "ball"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-key",
+									"objectClass": "balls",
+									"sid": 760610563116965,
+									"parameters": {
+										"key": "itemInv.iSign",
+										"value": "1"
+									}
+								}
+							],
+							"sid": 868382533721448
+						},
+						{
+							"eventType": "comment",
+							"text": "Шаг 2: Расчет позиций и создание графики"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 576119257066554,
+									"parameters": {
+										"first-value": "balls.KeyCount",
+										"comparison": 4,
+										"second-value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 309612066040692,
+									"parameters": {
+										"variable": "hStartX",
+										"value": "(1280 / 2) - ((balls.KeyCount * hSegmentWidth) / 2) - 30"
+									}
+								},
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 120945707503479,
+									"parameters": {
+										"object-to-create": "holder",
+										"layer": "\"ui\"",
+										"x": "hStartX",
+										"y": "360",
+										"create-hierarchy": true,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 358326969898926,
+									"parameters": {
+										"object-to-create": "hBody",
+										"layer": "\"ui\"",
+										"x": "hStartX + 30",
+										"y": "360",
+										"create-hierarchy": true,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "set-width",
+									"objectClass": "hBody",
+									"sid": 439363237918620,
+									"parameters": {
+										"width": "balls.KeyCount * hSegmentWidth"
+									}
+								},
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 192469999675068,
+									"parameters": {
+										"object-to-create": "hCap",
+										"layer": "\"ui\"",
+										"x": "hStartX + 30 + (balls.KeyCount * hSegmentWidth)",
+										"y": "360",
+										"create-hierarchy": true,
+										"template-name": "\"\""
+									}
+								}
+							],
+							"sid": 467350686732408,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "Шаг 3: Расстановка иконок"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each-key",
+											"objectClass": "balls",
+											"sid": 968719161760840
+										}
+									],
+									"actions": [
+										{
+											"id": "create-object",
+											"objectClass": "System",
+											"sid": 371719924370673,
+											"parameters": {
+												"object-to-create": "hIcon",
+												"layer": "\"ui\"",
+												"x": "hStartX + 30 + (loopindex * hSegmentWidth) + (hSegmentWidth / 2)",
+												"y": "360",
+												"create-hierarchy": true,
+												"template-name": "\"\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "hIcon",
+											"sid": 437241824046614,
+											"parameters": {
+												"animation": "balls.CurrentKey",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "hIcon",
+											"sid": 887378551037688,
+											"parameters": {
+												"instance-variable": "hSign",
+												"value": "balls.CurrentKey"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "hIcon",
+											"sid": 332186251929465,
+											"parameters": {
+												"instance-variable": "ball",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 633979602091727
+								}
+							]
+						}
+					]
 				}
 			],
 			"sid": 253788522998105
