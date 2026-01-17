@@ -572,47 +572,68 @@
 											]
 										},
 										{
+											"eventType": "comment",
+											"text": "Сортировка по численной переменной ball и проброс значений в hIcon",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "ШАГ 1: Фильтруем инвентарь. Если ball > 0, заносим значение в словарь.",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
 											"eventType": "block",
 											"conditions": [
 												{
 													"id": "for-each",
 													"objectClass": "System",
-													"sid": 908640088296629,
+													"sid": 837435821620026,
 													"parameters": {
 														"object": "itemInv"
 													}
 												},
 												{
-													"id": "is-boolean-instance-variable-set",
+													"id": "compare-instance-variable",
 													"objectClass": "itemInv",
-													"sid": 106495078260879,
+													"sid": 230241975523914,
 													"parameters": {
-														"instance-variable": "ballold"
+														"instance-variable": "ball",
+														"comparison": 4,
+														"value": "0"
 													}
 												}
 											],
 											"actions": [
 												{
-													"type": "comment",
-													"text": "Добавляем в словарь для исключения дубликатов",
-													"background-color": [
-														0.67,
-														0.98,
-														0.79,
-														1
-													]
-												},
-												{
-													"id": "add-key",
+													"id": "set-key",
 													"objectClass": "balls",
-													"sid": 249885407649685,
+													"sid": 955660896234600,
 													"parameters": {
 														"key": "itemInv.iSign",
-														"value": "1"
+														"value": "itemInv.ball"
+													}
+												},
+												{
+													"id": "append-text",
+													"objectClass": "help",
+													"sid": 715492590814048,
+													"disabled": true,
+													"parameters": {
+														"text": "itemInv.iSign&itemInv.ball"
 													}
 												}
 											],
-											"sid": 379848019259899
+											"sid": 410307865510019
 										}
 									]
 								},
@@ -769,7 +790,16 @@
 													"sid": 587247326083051
 												}
 											],
-											"actions": [],
+											"actions": [
+												{
+													"id": "append-text",
+													"objectClass": "help",
+													"sid": 885049532206995,
+													"parameters": {
+														"text": "\"L\""
+													}
+												}
+											],
 											"sid": 207401960981075,
 											"children": [
 												{
@@ -778,63 +808,230 @@
 														{
 															"id": "compare-y",
 															"objectClass": "hIcon",
-															"sid": 361456433461865,
+															"sid": 310044312707855,
 															"parameters": {
 																"comparison": 2,
 																"y-co-ordinate": "0"
-															}
-														},
-														{
-															"id": "pick-random-instance",
-															"objectClass": "System",
-															"sid": 787708976409242,
-															"parameters": {
-																"object": "hIcon"
 															}
 														}
 													],
 													"actions": [
 														{
-															"type": "comment",
-															"text": "Перемещаем иконку из банка на вычисленную позицию",
-															"background-color": [
-																0.67,
-																0.98,
-																0.79,
-																1
-															]
-														},
-														{
-															"id": "set-position",
-															"objectClass": "hIcon",
-															"sid": 873198601589371,
+															"id": "append-text",
+															"objectClass": "help",
+															"sid": 296121850477755,
 															"parameters": {
-																"x": "hBody.X + (loopindex * hsegmentwidth) + (hsegmentwidth / 2)",
-																"y": "360"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "hIcon",
-															"sid": 112967115087980,
-															"parameters": {
-																"animation": "balls.CurrentKey",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "hIcon",
-															"sid": 404424611071457,
-															"parameters": {
-																"instance-variable": "hSign",
-																"value": "balls.CurrentKey"
+																"text": "\"H\""
 															}
 														}
 													],
-													"sid": 100050325750218
+													"sid": 808766808197556,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "pick-random-instance",
+																	"objectClass": "System",
+																	"sid": 213681115746637,
+																	"parameters": {
+																		"object": "hIcon"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Перемещаем иконку из банка на вычисленную позицию",
+																	"background-color": [
+																		0.67,
+																		0.98,
+																		0.79,
+																		1
+																	]
+																},
+																{
+																	"id": "set-position",
+																	"objectClass": "hIcon",
+																	"sid": 311256238463510,
+																	"parameters": {
+																		"x": "hBody.X + (loopindex * hsegmentwidth) + (hsegmentwidth / 2)",
+																		"y": "360"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "hIcon",
+																	"sid": 551677583821271,
+																	"parameters": {
+																		"animation": "balls.CurrentKey",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "append-text",
+																	"objectClass": "help",
+																	"sid": 406413155996209,
+																	"parameters": {
+																		"text": "balls.CurrentKey"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "hIcon",
+																	"sid": 726559751054414,
+																	"parameters": {
+																		"instance-variable": "hSign",
+																		"value": "balls.CurrentKey"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "hIcon",
+																	"sid": 440832784392456,
+																	"parameters": {
+																		"instance-variable": "ball",
+																		"value": "balls.Get(balls.CurrentKey)"
+																	}
+																},
+																{
+																	"id": "spawn-another-object",
+																	"objectClass": "hIcon",
+																	"sid": 892377825447709,
+																	"parameters": {
+																		"object": "quant",
+																		"layer": "\"ui\"",
+																		"image-point": "0",
+																		"create-hierarchy": false,
+																		"template-name": "\"\""
+																	}
+																},
+																{
+																	"type": "comment",
+																	"text": "число предметов",
+																	"background-color": [
+																		0.7450980392156863,
+																		0.9803921568627451,
+																		0.996078431372549,
+																		1
+																	]
+																},
+																{
+																	"id": "set-position",
+																	"objectClass": "quant",
+																	"sid": 558299314435337,
+																	"parameters": {
+																		"x": "hIcon.X+15",
+																		"y": "hIcon.Y+15"
+																	}
+																},
+																{
+																	"id": "set-text",
+																	"objectClass": "quant",
+																	"sid": 500112747346717,
+																	"parameters": {
+																		"text": "hIcon.ball"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "quant",
+																	"sid": 903325230258728,
+																	"parameters": {
+																		"instance-variable": "hostUID",
+																		"value": "hIcon.UID"
+																	}
+																},
+																{
+																	"id": "move-to-object",
+																	"objectClass": "quant",
+																	"sid": 355637728258621,
+																	"parameters": {
+																		"where": "in-front",
+																		"object": "hIcon"
+																	}
+																},
+																{
+																	"type": "comment",
+																	"text": "temp"
+																},
+																{
+																	"id": "set-text",
+																	"objectClass": "quant",
+																	"sid": 228293012308628,
+																	"disabled": true,
+																	"parameters": {
+																		"text": "itemsQ.Get(itemsQ.CurrentKey)"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "item",
+																	"sid": 677669910259869,
+																	"disabled": true,
+																	"parameters": {
+																		"instance-variable": "quantUID",
+																		"value": "quant.UID"
+																	}
+																},
+																{
+																	"id": "pin-to-object-properties",
+																	"objectClass": "quant",
+																	"sid": 608542234100017,
+																	"disabled": true,
+																	"behaviorType": "Pin",
+																	"parameters": {
+																		"pin-to": "item",
+																		"x": true,
+																		"y": true,
+																		"angle": false,
+																		"width-type": "no",
+																		"height-type": "no",
+																		"z": false
+																	}
+																},
+																{
+																	"id": "append-text",
+																	"objectClass": "help",
+																	"sid": 627628442209777,
+																	"disabled": true,
+																	"parameters": {
+																		"text": "itemsQ.CurrentKey"
+																	}
+																}
+															],
+															"sid": 198314080199387
+														}
+													]
 												}
 											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-key",
+													"objectClass": "balls",
+													"sid": 228666096281932
+												}
+											],
+											"actions": [
+												{
+													"id": "create-object",
+													"objectClass": "System",
+													"sid": 793600975388378,
+													"parameters": {
+														"object-to-create": "hIcon",
+														"layer": "\"ui\"",
+														"x": "hstartx + 30 + (loopindex * hsegmentwidth) + (hsegmentwidth / 2)",
+														"y": "360",
+														"create-hierarchy": false,
+														"template-name": "\"\""
+													}
+												}
+											],
+											"sid": 883303057653109,
+											"disabled": true
 										}
 									]
 								}
@@ -871,7 +1068,8 @@
 					}
 				}
 			],
-			"sid": 519016795236666
+			"sid": 519016795236666,
+			"disabled": true
 		},
 		{
 			"eventType": "block",
@@ -892,7 +1090,8 @@
 					}
 				}
 			],
-			"sid": 737278521932307
+			"sid": 737278521932307,
+			"disabled": true
 		}
 	],
 	"sid": 472327917008711
