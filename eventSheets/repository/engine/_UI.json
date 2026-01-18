@@ -71,6 +71,11 @@
 					"sid": 559702231562480
 				},
 				{
+					"id": "destroy",
+					"objectClass": "quant",
+					"sid": 805288062340772
+				},
+				{
 					"id": "wait",
 					"objectClass": "System",
 					"sid": 503849496484163,
@@ -6370,6 +6375,31 @@
 										}
 									],
 									"sid": 205087198410854
+								},
+								{
+									"eventType": "comment",
+									"text": "костыль номер 2"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 495189654696730
+										}
+									],
+									"actions": [
+										{
+											"id": "instance-signal",
+											"objectClass": "item",
+											"sid": 632439061432827,
+											"parameters": {
+												"tag": "\"rocketNewItem\""
+											}
+										}
+									],
+									"sid": 581742695906026
 								}
 							]
 						},
@@ -7037,11 +7067,11 @@
 										{
 											"id": "wait",
 											"objectClass": "System",
-											"sid": 129406611568924,
+											"sid": 619472256566211,
 											"disabled": true,
 											"parameters": {
 												"seconds": "0",
-												"use-timescale": true
+												"use-timescale": false
 											}
 										},
 										{
@@ -9190,6 +9220,22 @@
 							}
 						},
 						{
+							"id": "set-animation-speed",
+							"objectClass": "ringFX",
+							"sid": 918716121982034,
+							"parameters": {
+								"speed": "16"
+							}
+						},
+						{
+							"id": "start-animation",
+							"objectClass": "ringFX",
+							"sid": 309362801054475,
+							"parameters": {
+								"from": "beginning"
+							}
+						},
+						{
 							"id": "set-instvar-value",
 							"objectClass": "aUI",
 							"sid": 450107817207351,
@@ -9222,6 +9268,142 @@
 							"eventType": "block",
 							"conditions": [
 								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 457896439414884,
+									"parameters": {
+										"instance-variable": "iQuant",
+										"comparison": 4,
+										"value": "1"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "destroy",
+									"objectClass": "quant",
+									"sid": 583412459564467
+								},
+								{
+									"id": "spawn-another-object",
+									"objectClass": "item",
+									"sid": 781278026190136,
+									"parameters": {
+										"object": "quant",
+										"layer": "\"ui\"",
+										"image-point": "0",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"type": "comment",
+									"text": "добавляет содержимое ключа",
+									"background-color": [
+										0.7450980392156863,
+										0.9803921568627451,
+										0.996078431372549,
+										1
+									]
+								},
+								{
+									"id": "set-text",
+									"objectClass": "quant",
+									"sid": 189018067463706,
+									"disabled": true,
+									"parameters": {
+										"text": "itemsQ.Get(itemsQ.CurrentKey)"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "quant",
+									"sid": 572096927934677,
+									"parameters": {
+										"x": "item.X+15",
+										"y": "item.Y+15"
+									}
+								},
+								{
+									"id": "set-text",
+									"objectClass": "quant",
+									"sid": 931749202395753,
+									"parameters": {
+										"text": "item.iQuant"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "quant",
+									"sid": 341110383915740,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "item.UID"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 569739841357973,
+									"parameters": {
+										"instance-variable": "quantUID",
+										"value": "quant.UID"
+									}
+								},
+								{
+									"id": "move-to-object",
+									"objectClass": "quant",
+									"sid": 287791787937507,
+									"parameters": {
+										"where": "in-front",
+										"object": "item"
+									}
+								},
+								{
+									"id": "pin-to-object-properties",
+									"objectClass": "quant",
+									"sid": 179408670057839,
+									"behaviorType": "Pin",
+									"parameters": {
+										"pin-to": "item",
+										"x": true,
+										"y": true,
+										"angle": false,
+										"width-type": "no",
+										"height-type": "no",
+										"z": false
+									}
+								},
+								{
+									"type": "comment",
+									"text": "добавляет название ключа",
+									"background-color": [
+										0.7450980392156863,
+										0.9803921568627451,
+										0.996078431372549,
+										1
+									]
+								},
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 897819185897775,
+									"disabled": true,
+									"parameters": {
+										"text": "itemsQ.CurrentKey"
+									}
+								}
+							],
+							"sid": 765618762384195
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
 									"id": "pick-highestlowest",
 									"objectClass": "itemInv",
 									"sid": 205709451372499,
@@ -9241,7 +9423,47 @@
 									}
 								}
 							],
-							"sid": 145360331533230
+							"sid": 145360331533230,
+							"disabled": true
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-highestlowest",
+									"objectClass": "itemInv",
+									"sid": 950475369488484,
+									"parameters": {
+										"which": "lowest",
+										"instance-variable": "cellN"
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 786146849940660,
+									"parameters": {
+										"first-value": "itemInv.UID",
+										"comparison": 1,
+										"second-value": "item.UID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-y",
+									"objectClass": "itemInv",
+									"sid": 952994537528203,
+									"parameters": {
+										"y": "-19000"
+									}
+								}
+							],
+							"sid": 811266051549277
 						}
 					]
 				},
