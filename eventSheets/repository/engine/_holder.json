@@ -1054,11 +1054,11 @@
 								},
 								{
 									"eventType": "comment",
-									"text": "ЛОГИКА FORMS: Наполнение словаря и расстановка иконок из банка",
+									"text": "ЛОГИКА FORMS: Сбор из dForms и расстановка с расчетом энергии",
 									"background-color": [
-										0.6745098039215687,
-										0.9450980392156862,
-										0.7764705882352941,
+										0.67,
+										0.98,
+										0.79,
 										1
 									]
 								},
@@ -1068,7 +1068,7 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 195201799868933,
+											"sid": 887606016517762,
 											"parameters": {
 												"variable": "abilName",
 												"comparison": 0,
@@ -1080,52 +1080,32 @@
 										{
 											"id": "clear",
 											"objectClass": "forms",
-											"sid": 774368211414806
+											"sid": 740410409017034
 										}
 									],
-									"sid": 537040888106386,
+									"sid": 240156357501411,
 									"children": [
-										{
-											"eventType": "comment",
-											"text": "ШАГ 1: Копируем изученные формы из dForms",
-											"background-color": [
-												0.67,
-												0.98,
-												0.79,
-												1
-											]
-										},
 										{
 											"eventType": "block",
 											"conditions": [
 												{
 													"id": "for-each-key",
 													"objectClass": "dForms",
-													"sid": 504227917376545
+													"sid": 386273237430544
 												}
 											],
 											"actions": [
 												{
 													"id": "add-key",
 													"objectClass": "forms",
-													"sid": 552862972740322,
+													"sid": 475599426623382,
 													"parameters": {
 														"key": "dForms.CurrentKey",
 														"value": "dForms.CurrentValue"
 													}
 												}
 											],
-											"sid": 889772971673058
-										},
-										{
-											"eventType": "comment",
-											"text": "ШАГ 2: Расчет позиции и перемещение базы (теперь внутри блока типа)",
-											"background-color": [
-												0.67,
-												0.98,
-												0.79,
-												1
-											]
+											"sid": 702829095668702
 										},
 										{
 											"eventType": "block",
@@ -1134,132 +1114,170 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 505633440767522,
+													"sid": 358808260484012,
 													"parameters": {
 														"variable": "hStartX",
-														"value": "640 + (((1+forms.KeyCount) * hsegmentwidth) / 2)"
+														"value": "640 + (((1+forms.KeyCount) * hSegmentWidth) / 2)"
 													}
 												},
 												{
 													"id": "set-position",
 													"objectClass": "holder",
-													"sid": 413570477664175,
+													"sid": 825198038107294,
 													"parameters": {
-														"x": "hstartx",
+														"x": "hStartX",
 														"y": "360"
 													}
 												},
 												{
 													"id": "set-position",
 													"objectClass": "hBody",
-													"sid": 404873249435760,
+													"sid": 532806602129126,
 													"parameters": {
-														"x": "holder.x",
-														"y": "holder.y"
+														"x": "holder.X",
+														"y": "holder.Y"
 													}
 												},
 												{
 													"id": "set-width",
 													"objectClass": "hBody",
-													"sid": 812149581107070,
+													"sid": 338846880770760,
 													"parameters": {
-														"width": "(1+forms.KeyCount) * hsegmentwidth"
+														"width": "(1+forms.KeyCount) * hSegmentWidth"
 													}
 												},
 												{
 													"id": "set-position",
 													"objectClass": "hCap",
-													"sid": 961526471328121,
+													"sid": 328239584655095,
 													"parameters": {
 														"x": "hBody.X - hBody.Width",
 														"y": "360"
 													}
 												}
 											],
-											"sid": 929589663108584,
-											"children": [
+											"sid": 908193123253159
+										},
+										{
+											"eventType": "block",
+											"conditions": [
 												{
-													"eventType": "comment",
-													"text": "ШАГ 3: Перемещение иконок из банка на экран",
-													"background-color": [
-														0.67,
-														0.98,
-														0.79,
-														1
-													]
-												},
+													"id": "for-each-key",
+													"objectClass": "forms",
+													"sid": 794769650908909
+												}
+											],
+											"actions": [],
+											"sid": 461564608340421,
+											"children": [
 												{
 													"eventType": "block",
 													"conditions": [
 														{
-															"id": "for-each-key",
-															"objectClass": "forms",
-															"sid": 197730907651334
+															"id": "compare-y",
+															"objectClass": "hIcon",
+															"sid": 896522899641699,
+															"parameters": {
+																"comparison": 2,
+																"y-co-ordinate": "0"
+															}
+														},
+														{
+															"id": "pick-random-instance",
+															"objectClass": "System",
+															"sid": 823718376367214,
+															"parameters": {
+																"object": "hIcon"
+															}
 														}
 													],
-													"actions": [],
-													"sid": 789288676118684,
+													"actions": [
+														{
+															"id": "set-position",
+															"objectClass": "hIcon",
+															"sid": 399766460675620,
+															"parameters": {
+																"x": "hStartX - 45 - (loopindex * hSegmentWidth) + (hSegmentWidth / 2)",
+																"y": "360"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "hIcon",
+															"sid": 772470022931535,
+															"parameters": {
+																"animation": "forms.CurrentKey",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "hIcon",
+															"sid": 477882127411261,
+															"parameters": {
+																"instance-variable": "hSign",
+																"value": "forms.CurrentKey"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "hIcon",
+															"sid": 397758510627459,
+															"parameters": {
+																"instance-variable": "formEnergy",
+																"value": "balls.Get(forms.CurrentKey)"
+															}
+														}
+													],
+													"sid": 989215264115184,
 													"children": [
 														{
 															"eventType": "block",
 															"conditions": [
 																{
-																	"id": "compare-y",
-																	"objectClass": "hIcon",
-																	"sid": 142139044199366,
-																	"parameters": {
-																		"comparison": 2,
-																		"y-co-ordinate": "0"
-																	}
-																},
-																{
-																	"id": "pick-random-instance",
+																	"id": "compare-two-values",
 																	"objectClass": "System",
-																	"sid": 156458091376358,
+																	"sid": 533729291120474,
 																	"parameters": {
-																		"object": "hIcon"
+																		"first-value": "floor(aBit.energo / hIcon.formEnergy)",
+																		"comparison": 2,
+																		"second-value": "20"
 																	}
 																}
 															],
 															"actions": [
 																{
-																	"id": "set-position",
+																	"id": "spawn-another-object",
 																	"objectClass": "hIcon",
-																	"sid": 522483765930933,
+																	"sid": 520415648278326,
 																	"parameters": {
-																		"x": "hStartX - 45 - (loopindex * hSegmentWidth) + (hsegmentwidth / 2)",
-																		"y": "360"
+																		"object": "quant",
+																		"layer": "\"ui\"",
+																		"image-point": "0",
+																		"create-hierarchy": false,
+																		"template-name": "\"\""
 																	}
 																},
 																{
-																	"id": "set-animation",
-																	"objectClass": "hIcon",
-																	"sid": 848032679097419,
+																	"id": "set-text",
+																	"objectClass": "quant",
+																	"sid": 800482288713592,
 																	"parameters": {
-																		"animation": "forms.CurrentKey",
-																		"from": "beginning"
+																		"text": "floor(aBit.energo / hIcon.formEnergy)"
 																	}
 																},
 																{
-																	"id": "set-instvar-value",
-																	"objectClass": "hIcon",
-																	"sid": 113418506963959,
+																	"id": "set-boolean-instvar",
+																	"objectClass": "quant",
+																	"sid": 129605895411719,
 																	"parameters": {
-																		"instance-variable": "hSign",
-																		"value": "forms.CurrentKey"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "hIcon",
-																	"sid": 218319343379447,
-																	"parameters": {
-																		"instance-variable": "ball",
-																		"value": "forms.Get(forms.CurrentKey)"
+																		"instance-variable": "holder",
+																		"value": "true"
 																	}
 																}
 															],
-															"sid": 361483689713935
+															"sid": 911381263364691,
+															"disabled": true
 														}
 													]
 												}
