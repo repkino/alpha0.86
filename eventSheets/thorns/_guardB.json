@@ -1,0 +1,587 @@
+{
+	"name": "_guardB",
+	"events": [
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "guardRonin",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "Менеджер Ронинов: активация по LOS и управление пульсом",
+					"background-color": [
+						0.67,
+						0.98,
+						0.79,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 260382086612890,
+							"parameters": {
+								"interval-seconds": "0.6"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 617915834826648,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 564302870430808,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tGuard",
+									"sid": 301950676139428,
+									"parameters": {
+										"instance-variable": "roninGuard"
+									}
+								},
+								{
+									"id": "has-los-to-object",
+									"objectClass": "tGuard",
+									"sid": 855854577680817,
+									"behaviorType": "los",
+									"parameters": {
+										"object": "base",
+										"image-point": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "tGuard",
+									"sid": 359269525509225,
+									"parameters": {
+										"instance-variable": "alert",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 150325491392901,
+									"parameters": {
+										"group-name": "\"guardRCore\"",
+										"state": "activated"
+									}
+								}
+							],
+							"sid": 101267386865374,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-timer-running",
+											"objectClass": "tGuard",
+											"sid": 706607918756732,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"puls\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "start-timer",
+											"objectClass": "tGuard",
+											"sid": 620350118010197,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "0.1",
+												"type": "regular",
+												"tag": "\"puls\""
+											}
+										}
+									],
+									"sid": 432647737621755
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 378887942766899
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "tGuard",
+									"sid": 635343816604233,
+									"parameters": {
+										"instance-variable": "alert",
+										"value": "false"
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "tGuard",
+									"sid": 938226769978367,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"puls\""
+									}
+								}
+							],
+							"sid": 960212055764664
+						}
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "guardRCore",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "tGuard",
+									"sid": 188221855694961,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"puls\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "v2_roninBrain",
+									"sid": 365472308286648,
+									"parameters": [
+										"tGuard.UID"
+									]
+								}
+							],
+							"sid": 843023740052998
+						},
+						{
+							"functionName": "v2_roninBrain",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "uid",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 0
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "tGuard",
+									"sid": 734623693418311,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 203407279381964,
+									"parameters": {
+										"instance-variable": "heroDist",
+										"value": "Functions.getIsoDist(Self.X, Self.Y, base.X, base.Y)"
+									}
+								}
+							],
+							"sid": 596839873481278,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "ЛОГИКА РОСТА",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tGuard",
+											"sid": 399231068663005,
+											"parameters": {
+												"instance-variable": "status",
+												"comparison": 0,
+												"value": "\"sleep\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tGuard",
+											"sid": 322110815611140,
+											"parameters": {
+												"instance-variable": "heroDist",
+												"comparison": 2,
+												"value": "Self.closeDist"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 338119058802472,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"growUp\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "tGuard",
+											"sid": 161288515844241,
+											"parameters": {
+												"animation": "\"grow\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-animation-speed",
+											"objectClass": "tGuard",
+											"sid": 354070836471504,
+											"parameters": {
+												"speed": "12"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "tGuard",
+											"sid": 573707258602957,
+											"parameters": {
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 100351742955320
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tGuard",
+											"sid": 738220927867310,
+											"parameters": {
+												"instance-variable": "status",
+												"comparison": 0,
+												"value": "\"active\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tGuard",
+											"sid": 644685045397636,
+											"parameters": {
+												"instance-variable": "heroDist",
+												"comparison": 4,
+												"value": "Self.closeDist + 50"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuard",
+											"sid": 536211258005549,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"growDown\""
+											}
+										},
+										{
+											"id": "set-animation-speed",
+											"objectClass": "tGuard",
+											"sid": 842256371946089,
+											"parameters": {
+												"speed": "-12"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "tGuard",
+											"sid": 851401643603386,
+											"parameters": {
+												"from": "current-frame"
+											}
+										}
+									],
+									"sid": 311034308601708
+								},
+								{
+									"eventType": "comment",
+									"text": "ПРИОРИТЕТЫ ДЕЙСТВИЙ",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tGuard",
+											"sid": 862718887058805,
+											"parameters": {
+												"instance-variable": "status",
+												"comparison": 0,
+												"value": "\"active\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 301683623094191,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "tGuard",
+													"sid": 942109062649318,
+													"parameters": {
+														"instance-variable": "heroDist",
+														"comparison": 2,
+														"value": "Self.attackDist"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "tGuard",
+													"sid": 308913755759746,
+													"parameters": {
+														"instance-variable": "attack",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 567639647632499
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 570498922661769
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "tGuard",
+													"sid": 513182332791604,
+													"parameters": {
+														"instance-variable": "outlined",
+														"comparison": 0,
+														"value": "0"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "tGuard",
+													"sid": 965137385389027,
+													"parameters": {
+														"instance-variable": "heroDist",
+														"comparison": 2,
+														"value": "Self.nutDist"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Здесь будет вызов v2_roninStartDraw"
+												}
+											],
+											"sid": 360610371298547
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 791885932100231
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "tGuard",
+													"sid": 981965768972818,
+													"parameters": {
+														"instance-variable": "heroDist",
+														"comparison": 2,
+														"value": "Self.nutDist"
+													}
+												}
+											],
+											"actions": [
+												{
+													"customAction": "guardNut",
+													"objectClass": "ati",
+													"sid": 421178358267751,
+													"parameters": [
+														"tGuard.UID"
+													]
+												}
+											],
+											"sid": 382551999643191
+										}
+									]
+								}
+							]
+						}
+					],
+					"sid": 771082979259555,
+					"background-color": [
+						0.49,
+						0.7,
+						0.38,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "tGuard",
+							"sid": 295549373322368,
+							"parameters": {
+								"animation": "\"grow\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 927706173548988,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-animation-speed",
+									"objectClass": "tGuard",
+									"sid": 465983713611961,
+									"parameters": {
+										"comparison": 4,
+										"number": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 220784942755411,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"active\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "tGuard",
+									"sid": 705824552344635,
+									"parameters": {
+										"instance-variable": "grown",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 930778292040172
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 689431864345924
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 446239188375188,
+									"parameters": {
+										"instance-variable": "status",
+										"value": "\"sleep\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "tGuard",
+									"sid": 253112132589326,
+									"parameters": {
+										"instance-variable": "grown",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "tGuard",
+									"sid": 954804663786399,
+									"parameters": {
+										"animation": "\"sleep\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 631035909646346
+						}
+					]
+				}
+			],
+			"sid": 853586910723406,
+			"background-color": [
+				0.33,
+				0.73,
+				0.48,
+				1
+			]
+		}
+	],
+	"sid": 485602790774841
+}

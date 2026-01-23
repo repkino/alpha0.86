@@ -1,0 +1,5976 @@
+{
+	"name": "_energo",
+	"events": [
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "energo",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "пульс",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.24705882352941178,
+						0.3137254901960784,
+						0.5137254901960784,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 278828011523817,
+							"parameters": {
+								"interval-seconds": "aBit.pulsInterval"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "signal",
+							"objectClass": "System",
+							"sid": 552621845944003,
+							"parameters": {
+								"tag": "\"pulsBit\""
+							}
+						},
+						{
+							"callFunction": "pulsBit",
+							"sid": 694520131346906
+						}
+					],
+					"sid": 592546473070545
+				},
+				{
+					"eventType": "comment",
+					"text": "мгновенное воздействие на энергию",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.24705882352941178,
+						0.3137254901960784,
+						0.5137254901960784,
+						1
+					]
+				},
+				{
+					"functionName": "energo",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "sub",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 934915978717588
+						},
+						{
+							"name": "add",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 452385686128026
+						},
+						{
+							"name": "postHibernation",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 631663878967579
+						},
+						{
+							"name": "energyType",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 380949235713103
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 611668639912298,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "person",
+							"sid": 171344794111994,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBit",
+							"sid": 834561651047849,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "energoOld",
+								"value": "Self.energo"
+							}
+						}
+					],
+					"sid": 435264226834370,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "add-to-instvar",
+									"objectClass": "aBit",
+									"sid": 806590777762099,
+									"parameters": {
+										"instance-variable": "energo",
+										"value": "add"
+									}
+								}
+							],
+							"sid": 276303234944361
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-timer-running",
+									"objectClass": "indicator",
+									"sid": 672007900747460,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"happyTime\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-timer-running",
+									"objectClass": "indicator",
+									"sid": 892041901031276,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"lastDrop\""
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "subtract-from-instvar",
+									"objectClass": "aBit",
+									"sid": 170751209682461,
+									"parameters": {
+										"instance-variable": "energo",
+										"value": "sub/aBit.spirit"
+									}
+								}
+							],
+							"sid": 807433955312638
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aBit",
+									"sid": 243962310737626,
+									"parameters": {
+										"instance-variable": "energo",
+										"value": "clamp(Self.energo,0,1080)"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "цифра индикатора",
+									"background-color": [
+										0.7450980392156863,
+										0.7725490196078432,
+										0.996078431372549,
+										1
+									]
+								},
+								{
+									"id": "set-text",
+									"objectClass": "indiEnergo360",
+									"sid": 755529970203401,
+									"parameters": {
+										"text": "aBit.energo"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 935890593063861,
+									"parameters": {
+										"instance-variable": "energb",
+										"value": "aBit.energo"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aBit",
+									"sid": 123787943191182,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "energoLeak",
+										"value": "1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aBit",
+									"sid": 890359136985151,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "energoInflux",
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aBit",
+									"sid": 543890639995934,
+									"parameters": {
+										"instance-variable": "pulsInterval",
+										"value": "Self.energo>540?0.4:Self.energo>216?0.5:Self.energo>108?0.6:1"
+									}
+								},
+								{
+									"id": "signal",
+									"objectClass": "System",
+									"sid": 788318076372761,
+									"disabled": true,
+									"parameters": {
+										"tag": "aBit.energo>108?\"pulsBit\":\"BitGibernation\""
+									}
+								},
+								{
+									"id": "set-text",
+									"objectClass": "help",
+									"sid": 462531304057208,
+									"disabled": true,
+									"parameters": {
+										"text": "aBit.energo"
+									}
+								}
+							],
+							"sid": 716785260271912
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 304623282944727,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 774479808777692,
+									"parameters": {
+										"instance-variable": "hibernation"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "BitHibernation",
+									"objectClass": "aIns",
+									"sid": 497986421780400
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"sid": 470267519415715,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "hibernation",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"sid": 467504369690393,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "freeToMove",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 824318693259541,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "subState",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "set-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 630574698203999,
+									"parameters": {
+										"variable": "postHibernation",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 943271931431594,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 620292128067072,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 3,
+												"value": "108"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "person",
+											"sid": 119798628976057,
+											"parameters": {
+												"instance-variable": "moveType",
+												"value": "\"crawl\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 355442035897932,
+											"parameters": {
+												"instance-variable": "speedMax",
+												"value": "200+Self.energb"
+											}
+										},
+										{
+											"customAction": "anim",
+											"objectClass": "aaa",
+											"sid": 409984165434477,
+											"parameters": [
+												"\"hibUp\"",
+												"1",
+												"0",
+												"\"zero\"",
+												false,
+												false,
+												"\"Bit\"",
+												"12",
+												"0",
+												true,
+												"\"zero\""
+											]
+										}
+									],
+									"sid": 450095396006461
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 416263982584564,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 3,
+										"value": "108"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 468921409842060,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "person",
+									"sid": 971542831599813,
+									"parameters": {
+										"instance-variable": "moveType",
+										"comparison": 1,
+										"value": "\"crawl\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 777407853370933,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"line\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 237934854315286,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"charge\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 913954641794307,
+									"parameters": {
+										"instance-variable": "speedMax",
+										"value": "200+Self.energb"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "person",
+									"sid": 654647509897493,
+									"parameters": {
+										"instance-variable": "moveType",
+										"value": "\"crawl\""
+									}
+								}
+							],
+							"sid": 527107938037560,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "base",
+											"sid": 374846897879914,
+											"parameters": {
+												"object": "mEnergo"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 354282671105836,
+											"parameters": {
+												"instance-variable": "slug"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 788710915605308,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "subState",
+												"value": "\"slug\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "base",
+											"sid": 164622763421258,
+											"parameters": {
+												"instance-variable": "slug",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 228676431536598
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "возвращение способности ходить",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 880729565971252,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "120"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "person",
+									"sid": 813909766269418,
+									"parameters": {
+										"instance-variable": "moveType",
+										"comparison": 0,
+										"value": "\"crawl\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "person",
+									"sid": 215215791406951,
+									"parameters": {
+										"instance-variable": "moveType",
+										"value": "\"walk\""
+									}
+								}
+							],
+							"sid": 234663729320443,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 711843179295977,
+											"parameters": {
+												"instance-variable": "slug"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "base",
+											"sid": 964686759368521,
+											"parameters": {
+												"instance-variable": "slug",
+												"value": "false"
+											}
+										}
+									],
+									"sid": 558715112613397,
+									"disabled": true
+								},
+								{
+									"eventType": "comment",
+									"text": "реакция на возвращение способности ходить",
+									"text-color": [
+										1,
+										1,
+										1,
+										1
+									],
+									"background-color": [
+										0.24705882352941178,
+										0.3137254901960784,
+										0.5137254901960784,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 952129081075611,
+											"parameters": {
+												"instance-variable": "freeToMove"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 587905717440003,
+											"parameters": {
+												"instance-variable": "intersept"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "jump",
+											"sid": 999961571274895,
+											"parameters": [
+												"\"Bit\"",
+												"-800",
+												"4000",
+												"1",
+												"\"map\"",
+												"1",
+												"1",
+												false,
+												true,
+												"\"jumpHappy\"",
+												"0"
+											]
+										}
+									],
+									"sid": 249309174815507,
+									"disabled": true
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "реакции на пополнение",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 624284815591443,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "120"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 762319726645260,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "возвращение способности ходить",
+									"text-color": [
+										1,
+										1,
+										1,
+										1
+									],
+									"background-color": [
+										0.24705882352941178,
+										0.3137254901960784,
+										0.5137254901960784,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "person",
+											"sid": 528534026365970,
+											"parameters": {
+												"instance-variable": "moveType",
+												"comparison": 0,
+												"value": "\"crawl\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "person",
+											"sid": 545624525056140,
+											"parameters": {
+												"instance-variable": "moveType",
+												"value": "\"walk\""
+											}
+										}
+									],
+									"sid": 473013700855860,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "base",
+													"sid": 913844853215947,
+													"parameters": {
+														"instance-variable": "slug"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "base",
+													"sid": 571520128305405,
+													"parameters": {
+														"instance-variable": "slug",
+														"value": "false"
+													}
+												}
+											],
+											"sid": 894757710761126
+										},
+										{
+											"eventType": "comment",
+											"text": "реакция на возвращение способности ходить",
+											"text-color": [
+												1,
+												1,
+												1,
+												1
+											],
+											"background-color": [
+												0.24705882352941178,
+												0.3137254901960784,
+												0.5137254901960784,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "base",
+													"sid": 976839117914484,
+													"parameters": {
+														"instance-variable": "freeToMove"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aBit",
+													"sid": 247844892268752,
+													"parameters": {
+														"instance-variable": "intersept"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "jump",
+													"sid": 823239061918207,
+													"parameters": [
+														"\"Bit\"",
+														"-(600+(aBit.energo-aBit.energoOld))",
+														"4000",
+														"1",
+														"\"map\"",
+														"1",
+														"1",
+														false,
+														true,
+														"\"jumpHappy\"",
+														"0"
+													]
+												}
+											],
+											"sid": 634788953675261
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 808364152618163
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 905059383474493,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 4,
+												"value": "Self.energoOld"
+											}
+										},
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 253188286576497,
+											"disabled": true,
+											"parameters": {
+												"first-value": "aBit.energo-aBit.energoOld",
+												"comparison": 4,
+												"second-value": "50"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 394006029225332,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "base",
+													"sid": 406226015085801,
+													"parameters": {
+														"instance-variable": "freeToMove"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aBit",
+													"sid": 631767404195143,
+													"parameters": {
+														"instance-variable": "intersept"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "jump",
+													"sid": 703083042053066,
+													"parameters": [
+														"\"Bit\"",
+														"-(600+(aBit.energo-aBit.energoOld))",
+														"3000",
+														"1",
+														"\"map\"",
+														"1",
+														"1",
+														false,
+														true,
+														"(aBit.energo-aBit.energoOld)<150? \"dance\" :\"duck\"",
+														"0"
+													]
+												}
+											],
+											"sid": 372198350109277
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 600238671574000,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "Self.energoOld"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "energo",
+									"objectClass": "indicator",
+									"sid": 247427567441457,
+									"disabled": true,
+									"parameters": [
+										false,
+										"ceil(aBit.energo-aBit.energoOld)/3",
+										"0",
+										"0",
+										"0",
+										"0",
+										"0.032"
+									]
+								},
+								{
+									"customAction": "energo",
+									"objectClass": "indicator",
+									"sid": 118668585800572,
+									"disabled": true,
+									"parameters": [
+										false,
+										"(aBit.energo-aBit.energoOld)/3",
+										"0",
+										"0",
+										"0",
+										"0",
+										"0.032"
+									]
+								},
+								{
+									"customAction": "energo",
+									"objectClass": "indicator",
+									"sid": 554092584532799,
+									"disabled": true,
+									"parameters": [
+										false,
+										"round((aBit.energo-aBit.energoOld)/3)",
+										"0",
+										"0",
+										"0",
+										"0",
+										"0.032"
+									]
+								},
+								{
+									"customAction": "energo",
+									"objectClass": "indicator",
+									"sid": 658899437448756,
+									"parameters": [
+										false,
+										"ceil((aBit.energo-aBit.energoOld)/3)",
+										"0",
+										"0",
+										"0",
+										"0",
+										"0.032"
+									]
+								}
+							],
+							"sid": 877469136767095
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 647703473452342,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 2,
+										"value": "Self.energoOld"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "energo",
+									"objectClass": "indicator",
+									"sid": 737331423841651,
+									"disabled": true,
+									"parameters": [
+										false,
+										"0",
+										"round(aBit.energoOld-aBit.energo)/3",
+										"0",
+										"0",
+										"0",
+										"0.032"
+									]
+								},
+								{
+									"customAction": "energo",
+									"objectClass": "indicator",
+									"sid": 902708624777783,
+									"disabled": true,
+									"parameters": [
+										false,
+										"0",
+										"round((aBit.energoOld-aBit.energo)/3)",
+										"0",
+										"0",
+										"0",
+										"0"
+									]
+								},
+								{
+									"customAction": "energo",
+									"objectClass": "indicator",
+									"sid": 515394193922094,
+									"parameters": [
+										false,
+										"0",
+										"ceil((aBit.energoOld-aBit.energo)/3)",
+										"0",
+										"0",
+										"0",
+										"0"
+									]
+								}
+							],
+							"sid": 334142519986116,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 369761785892308,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 3,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "BitHibernation",
+											"objectClass": "aIns",
+											"sid": 402370720660660
+										}
+									],
+									"sid": 867410871311600
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "\n\nдобавление энергии",
+							"background-color": [
+								0.4392156862745098,
+								1,
+								0.6078431372549019,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 242646737215343,
+									"parameters": {
+										"variable": "add",
+										"comparison": 4,
+										"value": "sub"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "emananta",
+									"objectClass": "person",
+									"sid": 838005363742030,
+									"parameters": [
+										"\"stars1\"",
+										"\"Bit\""
+									]
+								}
+							],
+							"sid": 794496110191426,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 805035801116622,
+											"parameters": {
+												"instance-variable": "freeToMove"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 641132559160441,
+											"parameters": {
+												"instance-variable": "intersept"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"customAction": "energoEm",
+											"objectClass": "aaa",
+											"sid": 461438507381028,
+											"parameters": [
+												"aBit.energo-aBit.energoOld",
+												true,
+												"energyType",
+												"0"
+											]
+										}
+									],
+									"sid": 817715791258960,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 955242602010979,
+													"parameters": {
+														"first-value": "aBit.energo-aBit.energoOld",
+														"comparison": 4,
+														"second-value": "19"
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "jump",
+													"sid": 239837255883388,
+													"parameters": [
+														"\"Bit\"",
+														"-800",
+														"4000",
+														"1",
+														"\"map\"",
+														"1",
+														"1",
+														false,
+														true,
+														"(aBit.energo-aBit.energoOld)<150? \"dance\" : (aBit.energo-aBit.energoOld)<300?\"dack\": (aBit.energo-aBit.energoOld)<600?\"jumpSwirl\":  \"happyStars\"",
+														"0"
+													]
+												}
+											],
+											"sid": 427445112057698,
+											"disabled": true
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "пульс с наложенным действием",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.24705882352941178,
+						0.3137254901960784,
+						0.5137254901960784,
+						1
+					]
+				},
+				{
+					"functionName": "pulsBit",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 590712648292131,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "person",
+							"sid": 702656289351236,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "aBit",
+							"sid": 925098221608762,
+							"parameters": {
+								"instance-variable": "react",
+								"value": "false"
+							}
+						}
+					],
+					"sid": 949785831687322,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "зарядка",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 184317216616880,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 0,
+										"value": "\"charge\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 428150236003521,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "mEnergo",
+											"sid": 347041578939634,
+											"parameters": {
+												"instance-variable": "chargeUID",
+												"comparison": 0,
+												"value": "base.UID"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "mukRainbow",
+											"sid": 313019096027509,
+											"parameters": {
+												"instance-variable": "energoUID",
+												"comparison": 0,
+												"value": "mEnergo.UID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "add-to-instvar",
+											"objectClass": "aBit",
+											"sid": 139932136455708,
+											"parameters": {
+												"instance-variable": "energoInflux",
+												"value": "mEnergo.chargePotential"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "mukRainbow",
+											"sid": 145519244728205,
+											"parameters": {
+												"visibility": "visible"
+											}
+										},
+										{
+											"id": "set-opacity",
+											"objectClass": "mukRainbow",
+											"sid": 467451531083941,
+											"disabled": true,
+											"parameters": {
+												"opacity": "base.name=\"Bit\"?base.energb/20/base.energoLvl :base.energb/2/base.energoLvl"
+											}
+										},
+										{
+											"id": "set-opacity",
+											"objectClass": "mukRainbow",
+											"sid": 983029420435438,
+											"parameters": {
+												"opacity": "base.energb/3.5/base.energoLvl"
+											}
+										}
+									],
+									"sid": 845396869297765
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 605813513960005,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 0,
+												"value": "1080"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "instance-signal",
+											"objectClass": "base",
+											"sid": 122875587897466,
+											"parameters": {
+												"tag": "\"charged\""
+											}
+										}
+									],
+									"sid": 403563832265604,
+									"disabled": true
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aBit",
+									"sid": 135495705193713,
+									"parameters": {
+										"instance-variable": "onResp"
+									}
+								},
+								{
+									"id": "pick-nearestfurthest",
+									"objectClass": "mRespawn",
+									"sid": 719735845689578,
+									"parameters": {
+										"which": "nearest",
+										"x": "base.X",
+										"y": "base.Y"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-to-instvar",
+									"objectClass": "aBit",
+									"sid": 897656002812286,
+									"parameters": {
+										"instance-variable": "energoInflux",
+										"value": "mRespawn.energoInflux"
+									}
+								}
+							],
+							"sid": 499862077454151
+						},
+						{
+							"eventType": "comment",
+							"text": "разрядка",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 807953368125507,
+									"parameters": {
+										"instance-variable": "move"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-to-instvar",
+									"objectClass": "aBit",
+									"sid": 470002235554672,
+									"parameters": {
+										"instance-variable": "energoLeak",
+										"value": "person.moveType=\"walk\"?2:1"
+									}
+								}
+							],
+							"sid": 387190516313772
+						},
+						{
+							"eventType": "comment",
+							"text": "сумма энергии",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aBit",
+									"sid": 588172302800316,
+									"parameters": {
+										"instance-variable": "energoOld",
+										"value": "Self.energo"
+									}
+								}
+							],
+							"sid": 814795383004872,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "add-to-instvar",
+											"objectClass": "aBit",
+											"sid": 115210394766558,
+											"parameters": {
+												"instance-variable": "energo",
+												"value": "Self.energoInflux"
+											}
+										}
+									],
+									"sid": 779257276280591
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-timer-running",
+											"objectClass": "indicator",
+											"sid": 283029962696468,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"happyTime\""
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-timer-running",
+											"objectClass": "indicator",
+											"sid": 367747697706818,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"lastDrop\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "subtract-from-instvar",
+											"objectClass": "aBit",
+											"sid": 150859646676521,
+											"parameters": {
+												"instance-variable": "energo",
+												"value": "Self.energoLeak/aBit.spirit"
+											}
+										}
+									],
+									"sid": 572413626914854
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 906852268346830,
+											"parameters": {
+												"instance-variable": "energo",
+												"value": "clamp(Self.energo,0,1080)"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "цифра индикатора",
+											"background-color": [
+												0.7450980392156863,
+												0.7725490196078432,
+												0.996078431372549,
+												1
+											]
+										},
+										{
+											"id": "set-text",
+											"objectClass": "indiEnergo360",
+											"sid": 991457621075394,
+											"parameters": {
+												"text": "aBit.energo"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 689260453230839,
+											"parameters": {
+												"instance-variable": "energb",
+												"value": "aBit.energo"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 941829943633470,
+											"parameters": {
+												"instance-variable": "energoLeak",
+												"value": "1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 683409698039655,
+											"parameters": {
+												"instance-variable": "energoInflux",
+												"value": "0"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 784565134641323,
+											"parameters": {
+												"instance-variable": "energyType",
+												"value": "\"zero\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 596549567423690,
+											"parameters": {
+												"instance-variable": "pulsInterval",
+												"value": "Self.energo>540?0.4:Self.energo>216?0.5:Self.energo>108?0.6:1"
+											}
+										},
+										{
+											"id": "signal",
+											"objectClass": "System",
+											"sid": 890874108362651,
+											"parameters": {
+												"tag": "aBit.energo>108?\"pulsBit\":\"BitHibernation\""
+											}
+										},
+										{
+											"id": "set-text",
+											"objectClass": "help",
+											"sid": 413725706095541,
+											"disabled": true,
+											"parameters": {
+												"text": "aBit.energo"
+											}
+										}
+									],
+									"sid": 130072474824599
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 346734877124184,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 5,
+												"value": "1080"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 707216590771863,
+											"parameters": {
+												"instance-variable": "subState",
+												"comparison": 0,
+												"value": "\"charge\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "instance-signal",
+											"objectClass": "base",
+											"sid": 307179370657266,
+											"parameters": {
+												"tag": "\"charged\""
+											}
+										}
+									],
+									"sid": 613683786070611,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-timer-running",
+													"objectClass": "indicator",
+													"sid": 682365945709518,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"happyTime\""
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "start-timer",
+													"objectClass": "indicator",
+													"sid": 947462760580976,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "3",
+														"type": "once",
+														"tag": "\"happyTime\""
+													}
+												}
+											],
+											"sid": 390390109384227
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "реакции на пополнение",
+									"text-color": [
+										1,
+										1,
+										1,
+										1
+									],
+									"background-color": [
+										0.24705882352941178,
+										0.3137254901960784,
+										0.5137254901960784,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 505748789899933,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 4,
+												"value": "120"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 283077668901596,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "возвращение способности ходить",
+											"text-color": [
+												1,
+												1,
+												1,
+												1
+											],
+											"background-color": [
+												0.24705882352941178,
+												0.3137254901960784,
+												0.5137254901960784,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "person",
+													"sid": 272577573407330,
+													"parameters": {
+														"instance-variable": "moveType",
+														"comparison": 0,
+														"value": "\"crawl\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "person",
+													"sid": 656398943945664,
+													"parameters": {
+														"instance-variable": "moveType",
+														"value": "\"walk\""
+													}
+												}
+											],
+											"sid": 485345977071975,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "base",
+															"sid": 582430173916637,
+															"parameters": {
+																"instance-variable": "slug"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "base",
+															"sid": 609105142504568,
+															"parameters": {
+																"instance-variable": "slug",
+																"value": "false"
+															}
+														}
+													],
+													"sid": 456233690175644
+												},
+												{
+													"eventType": "comment",
+													"text": "реакция на возвращение способности ходить",
+													"text-color": [
+														1,
+														1,
+														1,
+														1
+													],
+													"background-color": [
+														0.24705882352941178,
+														0.3137254901960784,
+														0.5137254901960784,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "base",
+															"sid": 623988379992528,
+															"parameters": {
+																"instance-variable": "freeToMove"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "aBit",
+															"sid": 385208349972451,
+															"parameters": {
+																"instance-variable": "intersept"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "jump",
+															"sid": 974489712953525,
+															"parameters": [
+																"\"Bit\"",
+																"-800",
+																"4000",
+																"1",
+																"\"map\"",
+																"1",
+																"1",
+																false,
+																true,
+																"\"jumpHappy\"",
+																"0"
+															]
+														}
+													],
+													"sid": 559574774621632
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 819629180316895
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aBit",
+													"sid": 432855130113296,
+													"parameters": {
+														"instance-variable": "energo",
+														"comparison": 4,
+														"value": "Self.energoOld"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 452476389358523,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "\n\nдобавление энергии",
+													"background-color": [
+														0.4392156862745098,
+														1,
+														0.6078431372549019,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "base",
+															"sid": 785897857585329,
+															"parameters": {
+																"instance-variable": "freeToMove"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "aBit",
+															"sid": 167465640936188,
+															"parameters": {
+																"instance-variable": "intersept"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"customAction": "energoEm",
+															"objectClass": "aaa",
+															"sid": 822445385556698,
+															"parameters": [
+																"aBit.energo-aBit.energoOld",
+																true,
+																"\"zero\"",
+																"0"
+															]
+														}
+													],
+													"sid": 542315381321406,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 817095964523343,
+																	"parameters": {
+																		"first-value": "aBit.energo-aBit.energoOld",
+																		"comparison": 4,
+																		"second-value": "19"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"callFunction": "jump",
+																	"sid": 910188967800801,
+																	"parameters": [
+																		"\"Bit\"",
+																		"-800",
+																		"4000",
+																		"1",
+																		"\"map\"",
+																		"1",
+																		"1",
+																		false,
+																		true,
+																		"(aBit.energo-aBit.energoOld)<150? \"dance\" : (aBit.energo-aBit.energoOld)<300?\"dack\": (aBit.energo-aBit.energoOld)<600?\"jumpSwirl\":  \"happyStars\"",
+																		"0"
+																	]
+																}
+															],
+															"sid": 690548082433088,
+															"disabled": true
+														}
+													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 645541113913238,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 4,
+												"value": "Self.energoOld"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "energo",
+											"objectClass": "indicator",
+											"sid": 760998830409211,
+											"disabled": true,
+											"parameters": [
+												false,
+												"ceil((aBit.energo-aBit.energoOld)/3)",
+												"0",
+												"0",
+												"0",
+												"0",
+												"0.032"
+											]
+										},
+										{
+											"customAction": "energo",
+											"objectClass": "indicator",
+											"sid": 108891811562894,
+											"disabled": true,
+											"parameters": [
+												false,
+												"round((aBit.energo-aBit.energoOld)/3)",
+												"0",
+												"0",
+												"0",
+												"0",
+												"0.032"
+											]
+										},
+										{
+											"customAction": "energo",
+											"objectClass": "indicator",
+											"sid": 757704352905882,
+											"parameters": [
+												false,
+												"ceil((aBit.energo-aBit.energoOld)/3)",
+												"0",
+												"0",
+												"0",
+												"0",
+												"0.032"
+											]
+										}
+									],
+									"sid": 438291507047888
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 603368815207479,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 2,
+												"value": "Self.energoOld"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "energo",
+											"objectClass": "indicator",
+											"sid": 550207052707937,
+											"disabled": true,
+											"parameters": [
+												false,
+												"0",
+												"(aBit.energoOld-aBit.energo)/3",
+												"0",
+												"0",
+												"0",
+												"0.032"
+											]
+										},
+										{
+											"customAction": "energo",
+											"objectClass": "indicator",
+											"sid": 987112537674914,
+											"disabled": true,
+											"parameters": [
+												false,
+												"0",
+												"round((aBit.energoOld-aBit.energo)/3)",
+												"0",
+												"0",
+												"0",
+												"0"
+											]
+										},
+										{
+											"customAction": "energo",
+											"objectClass": "indicator",
+											"sid": 846206276350670,
+											"parameters": [
+												false,
+												"0",
+												"ceil((aBit.energoOld-aBit.energo)/3)",
+												"0",
+												"0",
+												"0",
+												"0"
+											]
+										}
+									],
+									"sid": 972431103139030,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "?"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aBit",
+													"sid": 161980143401071,
+													"parameters": {
+														"instance-variable": "eLight"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "aBit",
+													"sid": 724434829362508,
+													"parameters": {
+														"instance-variable": "eLight",
+														"value": "false"
+													}
+												}
+											],
+											"sid": 441692598522775
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "без энергии, превращение в шарик",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 375423413508675,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 3,
+										"value": "0"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 220749432809868,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"egg\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 464377557573340,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"charge\""
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "base",
+									"sid": 843867852016098,
+									"disabled": true,
+									"parameters": {
+										"object": "mEnergo"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [],
+							"sid": 642115292676361,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 829678641475850,
+											"parameters": {
+												"instance-variable": "hibernation"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"customAction": "BitHibernation",
+											"objectClass": "aIns",
+											"sid": 599685503027496
+										}
+									],
+									"sid": 269551632319511
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 280617050531062
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 712999113231610,
+											"parameters": {
+												"instance-variable": "hibernation"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 352775173194991,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-animation-playing",
+													"objectClass": "Bit",
+													"sid": 936815549962240,
+													"parameters": {
+														"animation": "\"hibernation\""
+													},
+													"isInverted": true
+												},
+												{
+													"id": "is-animation-playing",
+													"objectClass": "Bit",
+													"sid": 525061750643872,
+													"parameters": {
+														"animation": "\"flower\""
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"customAction": "BitHibernation",
+													"objectClass": "aIns",
+													"sid": 465398901314583
+												}
+											],
+											"sid": 782773441633124,
+											"isOrBlock": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 214052068439004,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 232726836294602,
+									"parameters": {
+										"instance-variable": "hibernation"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "BitHibernation",
+									"objectClass": "aIns",
+									"sid": 923292193422589
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"sid": 287385287523818,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "hibernation",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 790510902902349,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "speedMax",
+										"value": "200+Self.energb"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"sid": 821955105209582,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "freeToMove",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "person",
+									"sid": 429359458452952,
+									"parameters": {
+										"instance-variable": "moveType",
+										"value": "\"crawl\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 669550383010375,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "subState",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "Bit",
+									"sid": 306212085012346,
+									"disabled": true,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"hibernation\""
+									}
+								}
+							],
+							"sid": 622546205958545,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-on-screen",
+											"objectClass": "buttonRespawn",
+											"sid": 359845802410657
+										}
+									],
+									"actions": [
+										{
+											"id": "tween-two-properties",
+											"objectClass": "buttonRespawn",
+											"sid": 735272982683296,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"out\"",
+												"property": "scale",
+												"end-x": "0.2",
+												"end-y": "0.2",
+												"time": "0.5",
+												"ease": "easeinback",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 182010472998556,
+									"disabled": true
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "скорость в обычной форме",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 998303895108361,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "108"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "person",
+									"sid": 622324353325336,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "moveType",
+										"comparison": 0,
+										"value": "\"walk\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 453868515003727,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"line\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 965417493776345,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"charge\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 704961618892923,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "speedMax",
+										"value": "aBook.heroMaxSpeed+Self.energb/Self.energoLvl"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 168741459925912,
+									"parameters": {
+										"instance-variable": "speedMax",
+										"value": "aBook.heroMaxSpeed-100+round(Self.energb/10)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "person",
+									"sid": 654380679679709,
+									"parameters": {
+										"instance-variable": "moveType",
+										"value": "\"walk\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 465887424838061,
+									"parameters": {
+										"instance-variable": "energb",
+										"value": "aBit.energo"
+									}
+								}
+							],
+							"sid": 345582481538230
+						},
+						{
+							"eventType": "comment",
+							"text": "знергии мало - движение к зарядке",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 916581665713597,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 3,
+										"value": "216"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 170263427023738,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"goToEnergo\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 954364617391971,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"line\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 763912451993733,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"charge\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 341375507825385,
+									"parameters": {
+										"instance-variable": "freeToMove"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 714160244459520,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-timer-running",
+											"objectClass": "Bit",
+											"sid": 284401444699764,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"energyEma\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"customAction": "emananta",
+											"objectClass": "person",
+											"sid": 980623804312244,
+											"parameters": [
+												"\"energy\"",
+												"\"Bit\""
+											]
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 639394979028826,
+											"disabled": true,
+											"parameters": {
+												"seconds": "0.1",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "start-timer",
+											"objectClass": "Bit",
+											"sid": 909967287381483,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "8",
+												"type": "once",
+												"tag": "\"energyEma\""
+											}
+										}
+									],
+									"sid": 360379913736759
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-group-active",
+											"objectClass": "System",
+											"sid": 488914441049144,
+											"parameters": {
+												"group-name": "\"mukla\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "goToEnergo",
+											"objectClass": "base",
+											"sid": 648119367022161
+										}
+									],
+									"sid": 225804180283386,
+									"disabled": true
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "скорость слизняка",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.24705882352941178,
+								0.3137254901960784,
+								0.5137254901960784,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 387920831394671,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 3,
+										"value": "108"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 160871589280423,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "person",
+									"sid": 851061937890656,
+									"parameters": {
+										"instance-variable": "moveType",
+										"comparison": 1,
+										"value": "\"crawl\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 177686296464017,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"line\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 673826593253120,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"charge\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 683445528156229,
+									"parameters": {
+										"instance-variable": "speedMax",
+										"value": "200+Self.energb"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "person",
+									"sid": 698898921630353,
+									"parameters": {
+										"instance-variable": "moveType",
+										"value": "\"crawl\""
+									}
+								}
+							],
+							"sid": 735881490017503,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "base",
+											"sid": 514862414292200,
+											"parameters": {
+												"object": "mEnergo"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 330477040316753,
+											"parameters": {
+												"instance-variable": "slug"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 996424021181108,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "subState",
+												"value": "\"slug\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "base",
+											"sid": 659043363686614,
+											"parameters": {
+												"instance-variable": "slug",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 376324061456030
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 848537098049573,
+											"parameters": {
+												"instance-variable": "jump"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "person",
+											"sid": 152767534420300,
+											"parameters": {
+												"animation": "\"upsideDown\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"customAction": "anim",
+											"objectClass": "aaa",
+											"sid": 324421896566405,
+											"parameters": [
+												"\"upsideDown\"",
+												"0",
+												"0",
+												"\"zero\"",
+												false,
+												false,
+												"\"Bit\"",
+												"12",
+												"0",
+												true,
+												"\"zero\""
+											]
+										}
+									],
+									"sid": 104209890825127
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\nэнерго эмананты",
+					"background-color": [
+						0.40784313725490196,
+						0.9921568627450981,
+						0.5529411764705883,
+						1
+					]
+				},
+				{
+					"eventType": "variable",
+					"name": "e",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"isStatic": true,
+					"isConstant": false,
+					"sid": 605624825741220
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-click",
+							"objectClass": "Mouse",
+							"sid": 410088459117439
+						}
+					],
+					"actions": [
+						{
+							"id": "add-to-instvar",
+							"objectClass": "aBit",
+							"sid": 381337652153249,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "energoInflux",
+								"value": "random(80)"
+							}
+						},
+						{
+							"id": "add-to-eventvar",
+							"objectClass": "System",
+							"sid": 209764208564389,
+							"parameters": {
+								"variable": "e",
+								"value": "50"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBit",
+							"sid": 130042002333440,
+							"parameters": {
+								"instance-variable": "energyType",
+								"value": "\"singLight\""
+							}
+						}
+					],
+					"sid": 532521513394256,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 777563022910585,
+							"parameters": {
+								"tag": "\"pulsBit\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBit",
+							"sid": 795626860749708,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "energoInflux",
+								"value": "random(30)"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBit",
+							"sid": 126333637357605,
+							"parameters": {
+								"instance-variable": "energoInflux",
+								"value": "random(10)+e"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBit",
+							"sid": 323740212771143,
+							"parameters": {
+								"instance-variable": "energyType",
+								"value": "\"singLight\""
+							}
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 503097756835199,
+							"parameters": {
+								"variable": "e",
+								"value": "0"
+							}
+						}
+					],
+					"sid": 467469860366150,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "aBit",
+							"sid": 959926894779261,
+							"parameters": {
+								"instance-variable": "energoInflux",
+								"comparison": 2,
+								"value": "1"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 689394474068097,
+					"disabled": true
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.40784313725490196,
+						0.9921568627450981,
+						0.5529411764705883,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "energoEm",
+					"objectClass": "aaa",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "add",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 649607239334767
+						},
+						{
+							"name": "lights",
+							"type": "boolean",
+							"initialValue": "true",
+							"comment": "",
+							"sid": 327059300495690
+						},
+						{
+							"name": "energyType",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 646180386089656
+						},
+						{
+							"name": "oldAdd",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 953970201744119
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 409233213009365,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "энерго-пыль",
+							"background-color": [
+								0.40784313725490196,
+								0.9921568627450981,
+								0.5529411764705883,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 318994059183128,
+									"parameters": {
+										"variable": "add",
+										"comparison": 2,
+										"value": "3"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 196501710095826,
+									"parameters": {
+										"object-to-create": "ePlus",
+										"layer": "\"iso\"",
+										"x": "Bit.ImagePointX(\"dialog\")+random(-20,20)",
+										"y": "Bit.ImagePointY(\"dialog\")-random(10,30)",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "ePlus",
+									"sid": 929349040181149,
+									"parameters": {
+										"scale": "0.3*add"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "ePlus",
+									"sid": 577973471328414,
+									"parameters": {
+										"angle": "random(360)"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "ePlus",
+									"sid": 628486904898751,
+									"parameters": {
+										"animation": "\"dust\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "ePlus",
+									"sid": 796410070026229,
+									"behaviorType": "Bullet",
+									"parameters": {
+										"state": "disabled"
+									}
+								}
+							],
+							"sid": 232900738865511
+						},
+						{
+							"eventType": "comment",
+							"text": "символ",
+							"background-color": [
+								0.40784313725490196,
+								0.9921568627450981,
+								0.5529411764705883,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 692141047306133,
+									"parameters": {
+										"variable": "add",
+										"comparison": 5,
+										"value": "3"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "create-object",
+									"objectClass": "System",
+									"sid": 364676610666174,
+									"parameters": {
+										"object-to-create": "ePlus",
+										"layer": "\"iso\"",
+										"x": "Bit.ImagePointX(\"dialog\")",
+										"y": "Bit.ImagePointY(\"dialog\")-5",
+										"create-hierarchy": false,
+										"template-name": "\"\""
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "ePlus",
+									"sid": 640395623970469,
+									"parameters": {
+										"scale": "1"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "ePlus",
+									"sid": 386779945859509,
+									"parameters": {
+										"animation": "\"light\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "ePlus",
+									"sid": 880275417122909,
+									"disabled": true,
+									"parameters": {
+										"animation": "\"plus\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "ePlus",
+									"sid": 777846311522534,
+									"parameters": {
+										"frame-number": "clamp(round(add/2),0,10)-1"
+									}
+								},
+								{
+									"id": "set-text",
+									"objectClass": "help",
+									"sid": 256645817900344,
+									"disabled": true,
+									"parameters": {
+										"text": "round(add)-1&newline&clamp(round(add)-1,0,10)&newline&ePlus.AnimationFrame"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "ePlus",
+									"sid": 362639239364865,
+									"disabled": true,
+									"parameters": {
+										"scale": "0.3+0.1*add"
+									}
+								},
+								{
+									"id": "set-angle-of-motion",
+									"objectClass": "ePlus",
+									"sid": 517669122813871,
+									"behaviorType": "Bullet",
+									"parameters": {
+										"angle": "270"
+									}
+								},
+								{
+									"id": "start-fade",
+									"objectClass": "ePlus",
+									"sid": 786898732112855,
+									"behaviorType": "Fade"
+								}
+							],
+							"sid": 786606660187107
+						},
+						{
+							"eventType": "comment",
+							"text": "молнии",
+							"background-color": [
+								0.40784313725490196,
+								0.9921568627450981,
+								0.5529411764705883,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 410539387337856,
+									"parameters": {
+										"variable": "lights"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aBit",
+									"sid": 426595105878821,
+									"parameters": {
+										"instance-variable": "eLight",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 335556269428254,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 141483267391142,
+											"parameters": {
+												"instance-variable": "energyType",
+												"comparison": 0,
+												"value": "\"singLight\""
+											}
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 676057295968500,
+											"parameters": {
+												"variable": "energyType",
+												"comparison": 0,
+												"value": "\"singLight\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 779072102921745,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "repeat",
+													"objectClass": "System",
+													"sid": 435075612626100,
+													"parameters": {
+														"count": "add"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 672013840541063,
+													"parameters": {
+														"seconds": "(1/add)*loopindex",
+														"use-timescale": true
+													}
+												},
+												{
+													"id": "create-object",
+													"objectClass": "System",
+													"sid": 333056840054403,
+													"disabled": true,
+													"parameters": {
+														"object-to-create": "ePlus",
+														"layer": "\"iso\"",
+														"x": "Bit.ImagePointX(\"dialog\")",
+														"y": "Bit.ImagePointY(\"dialog\")",
+														"create-hierarchy": false,
+														"template-name": "\"\""
+													}
+												},
+												{
+													"id": "create-object",
+													"objectClass": "System",
+													"sid": 512431374564955,
+													"parameters": {
+														"object-to-create": "ePlus",
+														"layer": "\"iso\"",
+														"x": "Bit.ImagePointX(\"center\")",
+														"y": "Bit.ImagePointY(\"center\")",
+														"create-hierarchy": false,
+														"template-name": "\"\""
+													}
+												},
+												{
+													"id": "pin-to-object-imagepoint",
+													"objectClass": "ePlus",
+													"sid": 811789418742491,
+													"behaviorType": "Pin",
+													"parameters": {
+														"pin-to": "Bit",
+														"image-point": "\"center\"",
+														"angle": false,
+														"width-type": "no",
+														"height-type": "no",
+														"z": false
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ePlus",
+													"sid": 621042620759647,
+													"disabled": true,
+													"parameters": {
+														"scale": "random(0.5,1)"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ePlus",
+													"sid": 674797903248407,
+													"parameters": {
+														"scale": "add<6? clamp(random(0.3,0.3+0.055*add),0.3,1.2) : clamp(random(0.6,0.3+0.02*add),0.6,1.2)"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ePlus",
+													"sid": 671095908607537,
+													"parameters": {
+														"animation": "\"bolt\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "ePlus",
+													"sid": 812739892614368,
+													"disabled": true,
+													"parameters": {
+														"angle": "random(30,330)"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "ePlus",
+													"sid": 790993806718118,
+													"parameters": {
+														"angle": "random(360)"
+													}
+												},
+												{
+													"id": "set-enabled",
+													"objectClass": "ePlus",
+													"sid": 857493143746414,
+													"behaviorType": "Bullet",
+													"parameters": {
+														"state": "disabled"
+													}
+												},
+												{
+													"id": "set-mirrored",
+													"objectClass": "ePlus",
+													"sid": 950290219787233,
+													"parameters": {
+														"state": "not-mirrored"
+													}
+												}
+											],
+											"sid": 537831469109731,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "Chance",
+															"objectClass": "Utils",
+															"sid": 196665749919337,
+															"parameters": {
+																"chance": "1",
+																"outof": "2"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-mirrored",
+															"objectClass": "ePlus",
+															"sid": 817893563915533,
+															"parameters": {
+																"state": "mirrored"
+															}
+														}
+													],
+													"sid": 451775568169694
+												}
+											]
+										}
+									],
+									"isOrBlock": true
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 589803026714450
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aBit",
+									"sid": 701790069687164,
+									"parameters": {
+										"instance-variable": "eLight",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 481009625918820
+						},
+						{
+							"eventType": "comment",
+							"text": "искры",
+							"background-color": [
+								0.40784313725490196,
+								0.9921568627450981,
+								0.5529411764705883,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 294445440909096,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "energyType",
+										"comparison": 1,
+										"value": "\"singLight\""
+									}
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 405336938647638,
+									"parameters": {
+										"variable": "add",
+										"comparison": 5,
+										"value": "10"
+									}
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 526278291965930,
+									"parameters": {
+										"variable": "add",
+										"comparison": 2,
+										"value": "30"
+									}
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 444650501917550,
+									"parameters": {
+										"variable": "add",
+										"comparison": 4,
+										"value": "oldAdd"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "sparklesBit",
+									"sid": 711562707040130,
+									"parameters": {
+										"object": "Bit",
+										"image-point-optional": "\"center\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "sparklesBit",
+									"sid": 487145433023013,
+									"parameters": {
+										"animation": "\"duga\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "sparklesBit",
+									"sid": 331776241496091,
+									"parameters": {
+										"scale": "0.3+add/70"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 317878583034038,
+									"parameters": {
+										"variable": "oldAdd",
+										"value": "add"
+									}
+								}
+							],
+							"sid": 946744251293643
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 381869215209461
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 172984520865018,
+									"parameters": {
+										"variable": "add",
+										"comparison": 5,
+										"value": "30"
+									}
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 308828085027687,
+									"parameters": {
+										"variable": "add",
+										"comparison": 2,
+										"value": "50"
+									}
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 701304631042446,
+									"parameters": {
+										"variable": "add",
+										"comparison": 4,
+										"value": "oldAdd"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "sparklesBit",
+									"sid": 293076705033679,
+									"parameters": {
+										"object": "Bit",
+										"image-point-optional": "\"center\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "sparklesBit",
+									"sid": 731128750794494,
+									"parameters": {
+										"animation": "\"duga\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "sparklesBit",
+									"sid": 976983678382972,
+									"parameters": {
+										"scale": "0.3+add/70"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 494125851429894,
+									"parameters": {
+										"variable": "oldAdd",
+										"value": "add"
+									}
+								}
+							],
+							"sid": 122189942906085
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 277553110910165
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 800380932355582,
+									"parameters": {
+										"variable": "add",
+										"comparison": 5,
+										"value": "50"
+									}
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 746041544439387,
+									"parameters": {
+										"variable": "add",
+										"comparison": 3,
+										"value": "150"
+									}
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 415751370667579,
+									"parameters": {
+										"variable": "add",
+										"comparison": 4,
+										"value": "oldAdd"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "sparklesBit",
+									"sid": 979748825876684,
+									"parameters": {
+										"object": "Bit",
+										"image-point-optional": "\"center\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "sparklesBit",
+									"sid": 879365367969029,
+									"parameters": {
+										"animation": "\"mumriky\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "sparklesBit",
+									"sid": 197548072063019,
+									"parameters": {
+										"scale": "clamp(add/100,0.3,1.5)"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 680882759194739,
+									"parameters": {
+										"variable": "oldAdd",
+										"value": "add"
+									}
+								}
+							],
+							"sid": 897691484374652
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 187125978069245
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 814757672766680,
+									"parameters": {
+										"variable": "add",
+										"comparison": 4,
+										"value": "150"
+									}
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 151581025705267,
+									"parameters": {
+										"variable": "add",
+										"comparison": 4,
+										"value": "oldAdd"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "sparklesBit",
+									"sid": 310085435953301,
+									"parameters": {
+										"object": "Bit",
+										"image-point-optional": "\"center\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "sparklesBit",
+									"sid": 411703844455439,
+									"parameters": {
+										"animation": "\"duga\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "sparklesBit",
+									"sid": 373221838139456,
+									"parameters": {
+										"scale": "clamp(add/100,1,2)"
+									}
+								}
+							],
+							"sid": 712225644190995
+						},
+						{
+							"eventType": "comment",
+							"text": "прыжок",
+							"background-color": [
+								0.40784313725490196,
+								0.9921568627450981,
+								0.5529411764705883,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 629337009612156,
+									"parameters": {
+										"variable": "add",
+										"comparison": 5,
+										"value": "50"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "jump",
+									"sid": 267204505378526,
+									"parameters": [
+										"\"Bit\"",
+										"-800",
+										"4000",
+										"1",
+										"\"map\"",
+										"1",
+										"1",
+										false,
+										true,
+										"(aBit.energo-aBit.energoOld)<150? \"dance\" : (aBit.energo-aBit.energoOld)<300?\"dack\": (aBit.energo-aBit.energoOld)<600?\"jumpSwirl\":  \"happyStars\"",
+										"0"
+									]
+								}
+							],
+							"sid": 298826182550140
+						},
+						{
+							"eventType": "comment",
+							"text": "реакция Бита",
+							"background-color": [
+								0.40784313725490196,
+								0.9921568627450981,
+								0.5529411764705883,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "Bit",
+									"sid": 267805670286031,
+									"parameters": {
+										"animation": "\"coolGlass\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "Bit",
+									"sid": 957478564353078,
+									"parameters": {
+										"animation": "\"ouou\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "Bit",
+									"sid": 790881320389320,
+									"parameters": {
+										"animation": "\"auau\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "Bit",
+									"sid": 381968039354253,
+									"parameters": {
+										"animation": "\"flame\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "Bit",
+									"sid": 634973444494058,
+									"parameters": {
+										"animation": "\"mad\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "Bit",
+									"sid": 149435040859916,
+									"parameters": {
+										"animation": "\"worry\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 613396270784525,
+									"parameters": {
+										"variable": "add",
+										"comparison": 5,
+										"value": "3"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "anim",
+									"objectClass": "aaa",
+									"sid": 412415075595249,
+									"parameters": [
+										"add>30?\"mad\": add>20?\"ouou\": add>10?\"worry\": add>6? \"flame\": choose(\"flame\",\"auau\")",
+										"0",
+										"0",
+										"\"zero\"",
+										false,
+										false,
+										"\"Bit\"",
+										"0",
+										"0",
+										false,
+										"\"zero\""
+									]
+								}
+							],
+							"sid": 700657179271916
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-outside-layout",
+									"objectClass": "sparklesBit",
+									"sid": 694206630223111
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 118281059400032,
+									"parameters": {
+										"variable": "oldAdd",
+										"value": "add"
+									}
+								}
+							],
+							"sid": 708654772151004
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\nискры уходят с локации",
+					"background-color": [
+						0.40784313725490196,
+						0.9921568627450981,
+						0.5529411764705883,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-animation-finished",
+							"objectClass": "sparklesBit",
+							"sid": 738632201919131
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "sparklesBit",
+							"sid": 117849859535713,
+							"parameters": {
+								"x": "-3333",
+								"y": "-33335"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "sparklesBit",
+							"sid": 486213292595220,
+							"parameters": {
+								"animation": "\"i\"",
+								"from": "beginning"
+							}
+						}
+					],
+					"sid": 886271393981645
+				},
+				{
+					"eventType": "comment",
+					"text": "молнии (символы) уничтожаются",
+					"background-color": [
+						0.40784313725490196,
+						0.9921568627450981,
+						0.5529411764705883,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-animation-finished",
+							"objectClass": "ePlus",
+							"sid": 429329127487268
+						}
+					],
+					"actions": [
+						{
+							"id": "unpin",
+							"objectClass": "ePlus",
+							"sid": 924115191654173,
+							"behaviorType": "Pin"
+						},
+						{
+							"id": "destroy",
+							"objectClass": "ePlus",
+							"sid": 610503926602077
+						}
+					],
+					"sid": 771385913539451,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "ePlus",
+									"sid": 453884230601250,
+									"parameters": {
+										"animation": "\"ll\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 325675474598517,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-all",
+											"objectClass": "System",
+											"sid": 551728508403399,
+											"parameters": {
+												"object": "ePlus"
+											}
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "ePlus",
+											"sid": 528017120319024,
+											"parameters": {
+												"animation": "\"shock\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "ePlus",
+											"sid": 576296379804165,
+											"parameters": {
+												"animation": "\"shock\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 296630261966597,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-animation-playing",
+													"objectClass": "ePlus",
+													"sid": 261981931634121,
+													"parameters": {
+														"animation": "\"shock\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 163486416800504
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 979540390977313
+										}
+									],
+									"actions": [
+										{
+											"id": "create-object",
+											"objectClass": "System",
+											"sid": 904332080901578,
+											"parameters": {
+												"object-to-create": "ePlus",
+												"layer": "\"iso\"",
+												"x": "Bit.ImagePointX(\"center\")",
+												"y": "Bit.ImagePointY(\"center\")",
+												"create-hierarchy": false,
+												"template-name": "\"\""
+											}
+										},
+										{
+											"id": "pin-to-object-imagepoint",
+											"objectClass": "ePlus",
+											"sid": 343667008869643,
+											"behaviorType": "Pin",
+											"parameters": {
+												"pin-to": "Bit",
+												"image-point": "\"center\"",
+												"angle": false,
+												"width-type": "no",
+												"height-type": "no",
+												"z": false
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "ePlus",
+											"sid": 263187202797849,
+											"parameters": {
+												"animation": "\"shock\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-angle",
+											"objectClass": "ePlus",
+											"sid": 422648489236502,
+											"parameters": {
+												"angle": "0"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "ePlus",
+											"sid": 679738673111910,
+											"parameters": {
+												"scale": "0.5"
+											}
+										}
+									],
+									"sid": 159266576586261
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "продолжение реакции Бита на получение энергии",
+					"background-color": [
+						0.40784313725490196,
+						0.9921568627450981,
+						0.5529411764705883,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "Bit",
+							"sid": 354686367185355,
+							"parameters": {
+								"animation": "\"coolGlass\""
+							}
+						},
+						{
+							"id": "on-animation-finished",
+							"objectClass": "Bit",
+							"sid": 808233818147785,
+							"parameters": {
+								"animation": "\"ouou\""
+							}
+						},
+						{
+							"id": "on-animation-finished",
+							"objectClass": "Bit",
+							"sid": 166945009395724,
+							"parameters": {
+								"animation": "\"auau\""
+							}
+						},
+						{
+							"id": "on-animation-finished",
+							"objectClass": "Bit",
+							"sid": 315240752579152,
+							"parameters": {
+								"animation": "\"mad\""
+							}
+						},
+						{
+							"id": "on-animation-finished",
+							"objectClass": "Bit",
+							"sid": 812226006100739,
+							"parameters": {
+								"animation": "\"worry\""
+							}
+						},
+						{
+							"id": "on-animation-finished",
+							"objectClass": "Bit",
+							"sid": 346886827056530,
+							"parameters": {
+								"animation": "\"flame\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 938665234508214,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aBit",
+									"sid": 642546121252401,
+									"parameters": {
+										"instance-variable": "eLight"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 180134413148752,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 2,
+										"value": "1080"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "anim",
+									"objectClass": "aaa",
+									"sid": 351272510681407,
+									"parameters": [
+										"aBit.energo>900?\"coolGlass\":  aBit.energo>700?\"flame\": aBit.energo>300?\"auau\": aBit.energo<300?\"ouou\":  choose(\"coolGlass\",\"ouou\",\"flame\")",
+										"0",
+										"0",
+										"\"zero\"",
+										false,
+										false,
+										"\"Bit\"",
+										"0",
+										"0",
+										false,
+										"\"zero\""
+									]
+								}
+							],
+							"sid": 296376844705192
+						}
+					],
+					"isOrBlock": true
+				},
+				{
+					"eventType": "comment",
+					"text": "\nбез энергии, превращение в шарик",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.24705882352941178,
+						0.3137254901960784,
+						0.5137254901960784,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "BitHibernation",
+					"objectClass": "aIns",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 156183600543362,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "append-text",
+							"objectClass": "help",
+							"sid": 330561151929081,
+							"disabled": true,
+							"parameters": {
+								"text": "\"h\""
+							}
+						}
+					],
+					"sid": 937522405744472,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 222449309008725,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 668898332833857,
+									"parameters": {
+										"instance-variable": "hibernation"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"sid": 730447894254288,
+									"parameters": {
+										"instance-variable": "hibernation",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"sid": 582299304274633,
+									"parameters": {
+										"instance-variable": "freeToMove",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 787610487594784,
+									"parameters": {
+										"instance-variable": "subState",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "Bit",
+									"sid": 912103474785677,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"hibernation\""
+									}
+								}
+							],
+							"sid": 606756107174365,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 131883663844194,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 3,
+												"value": "108"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 224789702676700,
+											"parameters": {
+												"instance-variable": "speedMax",
+												"value": "200+Self.energb"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "person",
+											"sid": 509739314476847,
+											"parameters": {
+												"instance-variable": "moveType",
+												"value": "\"crawl\""
+											}
+										}
+									],
+									"sid": 507045899118240,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 780875204617395
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 171108072711377,
+											"parameters": {
+												"instance-variable": "speedMax",
+												"value": "aBook.heroMaxSpeed-100+round(Self.energb/10)"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "person",
+											"sid": 262093225005280,
+											"parameters": {
+												"instance-variable": "moveType",
+												"value": "\"walk\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 622539728054466,
+											"parameters": {
+												"instance-variable": "energb",
+												"value": "aBit.energo"
+											}
+										}
+									],
+									"sid": 585310042938918,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-on-screen",
+											"objectClass": "buttonRespawn",
+											"sid": 570249574293496
+										}
+									],
+									"actions": [
+										{
+											"id": "tween-two-properties",
+											"objectClass": "buttonRespawn",
+											"sid": 420083641687087,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"out\"",
+												"property": "scale",
+												"end-x": "0.2",
+												"end-y": "0.2",
+												"time": "0.5",
+												"ease": "easeinback",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 575413044547793
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 336037580434658
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 212157381448379,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 3,
+										"value": "0"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 655995713016662,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"egg\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 788483386409652,
+									"parameters": {
+										"instance-variable": "subState",
+										"comparison": 1,
+										"value": "\"charge\""
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "base",
+									"sid": 807592594735276,
+									"parameters": {
+										"object": "mEnergo"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"sid": 148344167240831,
+									"parameters": {
+										"instance-variable": "hibernation",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 439768846433969,
+									"parameters": {
+										"instance-variable": "speedMax",
+										"value": "0"
+									}
+								},
+								{
+									"id": "callselffunction0",
+									"objectClass": "base",
+									"sid": 685131119212064,
+									"behaviorType": "sf",
+									"parameters": {
+										"function_name:0": "\"stop\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 558169104901193,
+									"parameters": {
+										"instance-variable": "subState",
+										"value": "\"egg\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "base",
+									"sid": 401946061563289,
+									"parameters": {
+										"instance-variable": "freeToMove",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "person",
+									"sid": 184628879047197,
+									"parameters": {
+										"instance-variable": "moveType",
+										"value": "\"crawl\""
+									}
+								},
+								{
+									"customAction": "anim",
+									"objectClass": "aaa",
+									"sid": 640270527091307,
+									"parameters": [
+										"\"hibernation\"",
+										"1",
+										"0",
+										"\"zero\"",
+										false,
+										false,
+										"\"Bit\"",
+										"12",
+										"0",
+										true,
+										"\"zero\""
+									]
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "Bit",
+									"sid": 291491507731799,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"hibernation\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "Bit",
+									"sid": 875642645839142,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "5",
+										"type": "once",
+										"tag": "\"hibernation\""
+									}
+								}
+							],
+							"sid": 871111636398132
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "Bit",
+							"sid": 699651780150787,
+							"parameters": {
+								"animation": "\"hibernation\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-animation",
+							"objectClass": "Bit",
+							"sid": 180349780577270,
+							"parameters": {
+								"animation": "\"flower\"",
+								"from": "beginning"
+							}
+						}
+					],
+					"sid": 278070541818198
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-timer",
+							"objectClass": "Bit",
+							"sid": 656626665941660,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"hibernation\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-scale",
+							"objectClass": "buttonRespawn",
+							"sid": 806943017676006,
+							"parameters": {
+								"scale": "0.2"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "buttonRespawn",
+							"sid": 879063549587773,
+							"parameters": {
+								"x": "640",
+								"y": "560"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "buttonRespawn",
+							"sid": 533162234921561,
+							"parameters": {
+								"animation": "\"yes\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "tween-two-properties",
+							"objectClass": "buttonRespawn",
+							"sid": 400029118349294,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"in\"",
+								"property": "scale",
+								"end-x": "1",
+								"end-y": "1",
+								"time": "0.5",
+								"ease": "easeoutback",
+								"destroy-on-complete": "no",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						}
+					],
+					"sid": 102846146112254
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "buttonRespawn",
+							"sid": 624027991081194,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"respButt\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "tween-two-properties",
+							"objectClass": "buttonRespawn",
+							"sid": 226725406510617,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"out\"",
+								"property": "scale",
+								"end-x": "0.2",
+								"end-y": "0.2",
+								"time": "0.5",
+								"ease": "easeinback",
+								"destroy-on-complete": "no",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						},
+						{
+							"callFunction": "respawn",
+							"sid": 332637511893299,
+							"parameters": [
+								true,
+								"0",
+								"0"
+							]
+						}
+					],
+					"sid": 517758740094655
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "buttonRespawn",
+							"sid": 936852289541373,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"out\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "buttonRespawn",
+							"sid": 126976239960515,
+							"parameters": {
+								"x": "-555",
+								"y": "-3222"
+							}
+						}
+					],
+					"sid": 939103342444828
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\nэнерго-реакции Бита",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.24705882352941178,
+						0.3137254901960784,
+						0.5137254901960784,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "energoBitReactions",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [],
+					"sid": 257969885644902
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\nэнерго-звездочки",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.24705882352941178,
+						0.3137254901960784,
+						0.5137254901960784,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "energoSparkle",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 729397352582230
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 555353453047347,
+									"parameters": {
+										"instance-variable": "energy",
+										"value": "random(70,100)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 279566699481936,
+									"parameters": {
+										"instance-variable": "maxEnergy",
+										"value": "140"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "eSparkle",
+									"sid": 159592278078076,
+									"disabled": true,
+									"parameters": {
+										"scale": "Self.energy/300"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 868208634933939,
+									"parameters": {
+										"instance-variable": "addCharge",
+										"value": "10"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aGame",
+									"sid": 854440518099972,
+									"parameters": {
+										"instance-variable": "eSparklePuls",
+										"value": "5"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "eSparkle",
+									"sid": 917060342901261,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								}
+							],
+							"sid": 365775335173457,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 206975384800346,
+											"parameters": {
+												"object": "eSparkle"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "start-timer",
+											"objectClass": "eSparkle",
+											"sid": 787679289283121,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "random(5)",
+												"type": "once",
+												"tag": "\"puls\""
+											}
+										}
+									],
+									"sid": 881543108688139,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "eSparkle",
+													"sid": 101318399202498,
+													"parameters": {
+														"instance-variable": "energy",
+														"comparison": 5,
+														"value": "70"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-visible",
+													"objectClass": "eSparkle",
+													"sid": 809098212699200,
+													"parameters": {
+														"visibility": "visible"
+													}
+												},
+												{
+													"id": "tween-two-properties",
+													"objectClass": "eSparkle",
+													"sid": 134130399146115,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"down\"",
+														"property": "scale",
+														"end-x": "0.2",
+														"end-y": "0.2",
+														"time": "0.2",
+														"ease": "easeoutcubic",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												}
+											],
+											"sid": 144425720894651
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "eSparkle",
+									"sid": 438231243501308,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"puls\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-to-instvar",
+									"objectClass": "eSparkle",
+									"sid": 760277526413402,
+									"parameters": {
+										"instance-variable": "energy",
+										"value": "Self.addCharge"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 420739254405659,
+									"parameters": {
+										"instance-variable": "energy",
+										"value": "clamp((Self.energy+Self.addCharge),0,Self.maxEnergy)"
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "eSparkle",
+									"sid": 331277409328922,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "aGame.eSparklePuls",
+										"type": "once",
+										"tag": "\"puls\""
+									}
+								}
+							],
+							"sid": 834114255840294,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "eSparkle",
+											"sid": 617923235845673,
+											"parameters": {
+												"instance-variable": "energy",
+												"comparison": 5,
+												"value": "70"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-visible",
+											"objectClass": "eSparkle",
+											"sid": 624053764734813,
+											"parameters": {
+												"visibility": "visible"
+											}
+										},
+										{
+											"id": "tween-two-properties",
+											"objectClass": "eSparkle",
+											"sid": 600057535320462,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"down\"",
+												"property": "scale",
+												"end-x": "0.2",
+												"end-y": "0.2",
+												"time": "0.2",
+												"ease": "easeoutcubic",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 555271759419236
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "every-x-seconds",
+									"objectClass": "System",
+									"sid": 470124390503916,
+									"parameters": {
+										"interval-seconds": "aGame.eSparklePuls"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-scale",
+									"objectClass": "eSparkle",
+									"sid": 613483905670972,
+									"disabled": true,
+									"parameters": {
+										"scale": "Self.energy/300"
+									}
+								}
+							],
+							"sid": 856121269934401,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "Bit",
+									"sid": 520385553394592,
+									"parameters": {
+										"object": "eSparkle"
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "shad",
+									"sid": 394806280308277,
+									"parameters": {
+										"object": "eSparkle"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shad",
+									"sid": 575058103591707,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "aBook.hero"
+									}
+								},
+								{
+									"id": "is-visible",
+									"objectClass": "eSparkle",
+									"sid": 389113951901825
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "eSparkle",
+									"sid": 489208755452791,
+									"parameters": {
+										"instance-variable": "energy",
+										"comparison": 5,
+										"value": "70"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 914806589997430,
+									"parameters": {
+										"instance-variable": "energyOld",
+										"value": "Self.energy"
+									}
+								},
+								{
+									"id": "stop-all-timers",
+									"objectClass": "eSparkle",
+									"sid": 330366057984956,
+									"behaviorType": "Timer"
+								},
+								{
+									"callFunction": "energo",
+									"sid": 467545593882027,
+									"parameters": [
+										"0",
+										"eSparkle.energy-50",
+										false,
+										"\"zero\""
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 689085502273660,
+									"parameters": {
+										"instance-variable": "energy",
+										"value": "49"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "eSparkle",
+									"sid": 301181722614708,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								},
+								{
+									"id": "tween-two-properties",
+									"objectClass": "eSparkle",
+									"sid": 993873869676168,
+									"disabled": true,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"up\"",
+										"property": "scale",
+										"end-x": "Self.energy/300",
+										"end-y": "Self.energy/300",
+										"time": "0.2",
+										"ease": "easeoutback",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "eSparkle",
+									"sid": 706986092931006,
+									"disabled": true,
+									"parameters": {
+										"scale": "Self.energy/300"
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "eSparkle",
+									"sid": 832708199389329,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "aGame.eSparklePuls",
+										"type": "once",
+										"tag": "\"puls\""
+									}
+								},
+								{
+									"customAction": "sparkles",
+									"objectClass": "aaa",
+									"sid": 991253417534619,
+									"parameters": [
+										"eSparkle.UID"
+									]
+								}
+							],
+							"sid": 382551429627113,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "sparkleFX",
+											"sid": 293871596043040,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [],
+									"sid": 498340689733696,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 945826886508117,
+													"parameters": {
+														"object": "sparkleFX"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "sparkleFX",
+													"sid": 936754931443571,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "sparkleFX",
+													"sid": 918091377325016,
+													"parameters": {
+														"object": "eSparkle",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "sparkleFX",
+													"sid": 877751287553370,
+													"parameters": {
+														"animation": "\"sparkles\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "sparkleFX",
+													"sid": 473333158818642,
+													"parameters": {
+														"scale": "eSparkle.energy/150"
+													}
+												}
+											],
+											"sid": 192641002338476,
+											"disabled": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "shad",
+									"sid": 897992946452754,
+									"parameters": {
+										"object": "eSparkle"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shad",
+									"sid": 131134167550390,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "aBook.hero"
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "Bit",
+									"sid": 102398720962420,
+									"parameters": {
+										"object": "eSparkle"
+									}
+								},
+								{
+									"id": "is-visible",
+									"objectClass": "eSparkle",
+									"sid": 895217382347958
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "eSparkle",
+									"sid": 201384728837617,
+									"parameters": {
+										"instance-variable": "energy",
+										"comparison": 5,
+										"value": "70"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 991194576607932,
+									"parameters": {
+										"instance-variable": "energyOld",
+										"value": "Self.energy"
+									}
+								},
+								{
+									"id": "stop-all-timers",
+									"objectClass": "eSparkle",
+									"sid": 791554687482193,
+									"behaviorType": "Timer"
+								},
+								{
+									"callFunction": "energo",
+									"sid": 430302559972444,
+									"parameters": [
+										"0",
+										"eSparkle.energy-50",
+										false,
+										"\"zero\""
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 734568627103301,
+									"parameters": {
+										"instance-variable": "energy",
+										"value": "49"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "eSparkle",
+									"sid": 769680659730305,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								},
+								{
+									"id": "tween-two-properties",
+									"objectClass": "eSparkle",
+									"sid": 196578487842316,
+									"disabled": true,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"up\"",
+										"property": "scale",
+										"end-x": "Self.energy/300",
+										"end-y": "Self.energy/300",
+										"time": "0.2",
+										"ease": "easeoutback",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "eSparkle",
+									"sid": 894796924846844,
+									"disabled": true,
+									"parameters": {
+										"scale": "Self.energy/300"
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "eSparkle",
+									"sid": 112384110333896,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "aGame.eSparklePuls",
+										"type": "once",
+										"tag": "\"puls\""
+									}
+								},
+								{
+									"customAction": "sparkles",
+									"objectClass": "aaa",
+									"sid": 433717492599082,
+									"parameters": [
+										"eSparkle.UID"
+									]
+								}
+							],
+							"sid": 648029263903465,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "sparkleFX",
+											"sid": 516630814355730,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [],
+									"sid": 272357441694529,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 508784221139473,
+													"parameters": {
+														"object": "sparkleFX"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "sparkleFX",
+													"sid": 370936950729222,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "sparkleFX",
+													"sid": 165161206689665,
+													"parameters": {
+														"object": "eSparkle",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "sparkleFX",
+													"sid": 500841348925288,
+													"parameters": {
+														"animation": "\"sparkles\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "sparkleFX",
+													"sid": 351891438756879,
+													"parameters": {
+														"scale": "eSparkle.energy/150"
+													}
+												}
+											],
+											"sid": 444735753456324,
+											"disabled": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "base",
+									"sid": 653470369916763,
+									"parameters": {
+										"object": "eSparkle"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 713295090217757,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "aBook.hero"
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "Bit",
+									"sid": 887339652440046,
+									"parameters": {
+										"object": "eSparkle"
+									}
+								},
+								{
+									"id": "is-visible",
+									"objectClass": "eSparkle",
+									"sid": 689863985016713
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "eSparkle",
+									"sid": 988876888756130,
+									"parameters": {
+										"instance-variable": "energy",
+										"comparison": 5,
+										"value": "70"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 674454240310276,
+									"parameters": {
+										"instance-variable": "energyOld",
+										"value": "Self.energy"
+									}
+								},
+								{
+									"id": "stop-all-timers",
+									"objectClass": "eSparkle",
+									"sid": 535136196971809,
+									"behaviorType": "Timer"
+								},
+								{
+									"callFunction": "energo",
+									"sid": 528861543867512,
+									"parameters": [
+										"0",
+										"eSparkle.energy-50",
+										false,
+										"\"zero\""
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "eSparkle",
+									"sid": 137681643844437,
+									"parameters": {
+										"instance-variable": "energy",
+										"value": "49"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "eSparkle",
+									"sid": 460648098090238,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								},
+								{
+									"id": "tween-two-properties",
+									"objectClass": "eSparkle",
+									"sid": 919109365048602,
+									"disabled": true,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"up\"",
+										"property": "scale",
+										"end-x": "Self.energy/300",
+										"end-y": "Self.energy/300",
+										"time": "0.2",
+										"ease": "easeoutback",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "eSparkle",
+									"sid": 841167944953697,
+									"disabled": true,
+									"parameters": {
+										"scale": "Self.energy/300"
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "eSparkle",
+									"sid": 740381137585939,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "aGame.eSparklePuls",
+										"type": "once",
+										"tag": "\"puls\""
+									}
+								},
+								{
+									"customAction": "sparkles",
+									"objectClass": "aaa",
+									"sid": 410507641822470,
+									"parameters": [
+										"eSparkle.UID"
+									]
+								}
+							],
+							"sid": 409739574620965
+						},
+						{
+							"aceType": "action",
+							"aceName": "sparkles",
+							"objectClass": "aaa",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "sUID",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 785409089108513
+								}
+							],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [],
+							"sid": 208155332169426,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "sparkleFX",
+											"sid": 740185835907540,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "eSparkle",
+											"sid": 207828389931568,
+											"parameters": {
+												"unique-id": "sUID"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 184327272611299,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 258106753816340,
+													"parameters": {
+														"object": "sparkleFX"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "sparkleFX",
+													"sid": 646769983534778,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "sparkleFX",
+													"sid": 627101159965008,
+													"parameters": {
+														"object": "eSparkle",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "sparkleFX",
+													"sid": 117448782048521,
+													"parameters": {
+														"animation": "\"sparkles\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "sparkleFX",
+													"sid": 941871851325859,
+													"parameters": {
+														"scale": "eSparkle.energyOld/150"
+													}
+												}
+											],
+											"sid": 109867173618603
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-tweens-finished",
+									"objectClass": "eSparkle",
+									"sid": 998654026611302,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"down\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "tween-two-properties",
+									"objectClass": "eSparkle",
+									"sid": 542072388299759,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"up\"",
+										"property": "scale",
+										"end-x": "0.2+Self.energy/300",
+										"end-y": "0.2+Self.energy/300",
+										"time": "0.2",
+										"ease": "easeoutback",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								}
+							],
+							"sid": 782919168703331
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-animation-finished",
+									"objectClass": "sparkleFX",
+									"sid": 117472347744799,
+									"parameters": {
+										"animation": "\"sparkles\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "sparkleFX",
+									"sid": 309734737901598,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "sparkleFX",
+									"sid": 194816250313422,
+									"parameters": {
+										"x": "-4333",
+										"y": "-529"
+									}
+								}
+							],
+							"sid": 665024026372100
+						}
+					],
+					"sid": 481828633330000
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 965612572037994,
+							"parameters": {
+								"tag": "\"pulsBit\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 856790985940921,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 463999753473464,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBit",
+									"sid": 709929248384891,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 4,
+										"value": "108"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aBit",
+									"sid": 210918901348281,
+									"parameters": {
+										"instance-variable": "react"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 816415506330635,
+									"parameters": {
+										"instance-variable": "move"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 103462201889229,
+									"parameters": {
+										"instance-variable": "jump"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 846010323917223,
+									"parameters": {
+										"instance-variable": "inTrap"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 805142881625101,
+									"parameters": {
+										"instance-variable": "freeToMove"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aBit",
+									"sid": 295452056453442,
+									"parameters": {
+										"instance-variable": "react",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 645518684124663
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\n",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.24705882352941178,
+						0.3137254901960784,
+						0.5137254901960784,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-animation-finished",
+							"objectClass": "Bit",
+							"sid": 896574383766948
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aBit",
+							"sid": 922521271104235,
+							"parameters": {
+								"instance-variable": "react"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "aBit",
+							"sid": 695480010660657,
+							"parameters": {
+								"instance-variable": "react",
+								"value": "false"
+							}
+						}
+					],
+					"sid": 466207719748697
+				}
+			],
+			"sid": 877943665047796
+		}
+	],
+	"sid": 462053579774947
+}

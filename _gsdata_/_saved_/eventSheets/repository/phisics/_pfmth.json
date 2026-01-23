@@ -1,0 +1,1420 @@
+{
+	"name": "_pfmth",
+	"events": [
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 725406189123442
+				}
+			],
+			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "ath",
+					"sid": 610075742035204,
+					"parameters": {
+						"instance-variable": "speedGround",
+						"value": "Self.speed*aBook.heroScaleCoeff"
+					}
+				},
+				{
+					"id": "add-obstacle",
+					"objectClass": "ath",
+					"sid": 339860857483050,
+					"behaviorType": "pf",
+					"parameters": {
+						"obstacle": "zoneStop"
+					}
+				},
+				{
+					"id": "add-obstacle",
+					"objectClass": "ath",
+					"sid": 635227155552642,
+					"behaviorType": "pf",
+					"parameters": {
+						"obstacle": "zoneStopTh"
+					}
+				},
+				{
+					"id": "add-obstacle",
+					"objectClass": "ath",
+					"sid": 695774565697377,
+					"behaviorType": "losPfmt",
+					"parameters": {
+						"obstacle": "zoneStop"
+					}
+				},
+				{
+					"id": "add-obstacle",
+					"objectClass": "ath",
+					"sid": 476096561308913,
+					"behaviorType": "losPfmt",
+					"parameters": {
+						"obstacle": "zoneStopTh"
+					}
+				}
+			],
+			"sid": 649897988629691
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "pfmth",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "trigger-once-while-true",
+							"objectClass": "System",
+							"sid": 254891567458050
+						}
+					],
+					"actions": [
+						{
+							"type": "script",
+							"language": "javascript",
+							"script": [
+								"init(runtime)"
+							]
+						},
+						{
+							"id": "add-obstacle",
+							"objectClass": "ath",
+							"sid": 953503044459681,
+							"behaviorType": "pf",
+							"parameters": {
+								"obstacle": "zoneStopTh"
+							}
+						},
+						{
+							"id": "add-obstacle",
+							"objectClass": "ath",
+							"sid": 663183727894168,
+							"behaviorType": "pf",
+							"parameters": {
+								"obstacle": "zoneStop"
+							}
+						},
+						{
+							"id": "add-obstacle",
+							"objectClass": "ath",
+							"sid": 792053715403399,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"obstacle": "zoneStopTh"
+							}
+						},
+						{
+							"id": "add-obstacle",
+							"objectClass": "ath",
+							"sid": 570984214230474,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"obstacle": "zoneStop"
+							}
+						}
+					],
+					"sid": 160798200132689
+				},
+				{
+					"functionName": "smt",
+					"functionDescription": "",
+					"functionCategory": "_TOP",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 862181781561297
+						},
+						{
+							"name": "goX",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 739803521123303
+						},
+						{
+							"name": "goY",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 325677540925007
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 765886838919345,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "ath",
+									"sid": 845667209220713,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ath",
+									"sid": 460716352649762,
+									"parameters": {
+										"instance-variable": "freeToGo"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 457472717450275,
+									"disabled": true,
+									"parameters": {
+										"text": "1"
+									}
+								},
+								{
+									"id": "stop",
+									"objectClass": "ath",
+									"sid": 960422817798012,
+									"behaviorType": "mt"
+								},
+								{
+									"id": "find-path",
+									"objectClass": "ath",
+									"sid": 805013127816436,
+									"behaviorType": "pf",
+									"parameters": {
+										"x": "goX=0? Mouse.X : goX",
+										"y": "goY=0? Mouse.Y : goY"
+									}
+								}
+							],
+							"sid": 935586906948765
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7803921568627451,
+						0.8156862745098039,
+						1,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-path-found",
+							"objectClass": "ath",
+							"sid": 802690257358466,
+							"behaviorType": "pf"
+						}
+					],
+					"actions": [
+						{
+							"id": "cast-ray",
+							"objectClass": "ath",
+							"sid": 804512572459901,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X",
+								"from-y": "Self.Y",
+								"to-x": "Self.pf.NodeXAt(Self.pf.NodeCount-1)",
+								"to-y": "Self.pf.NodeYAt(Self.pf.NodeCount-1)",
+								"use-collision-cells": true
+							}
+						}
+					],
+					"sid": 221110511325530,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ath",
+									"sid": 805573059344163,
+									"parameters": {
+										"instance-variable": "move",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ath",
+									"sid": 260909448402860,
+									"parameters": {
+										"instance-variable": "startMove",
+										"value": "true"
+									}
+								},
+								{
+									"id": "instance-signal",
+									"objectClass": "ath",
+									"sid": 598410953767139,
+									"parameters": {
+										"tag": "\"startMove\""
+									}
+								}
+							],
+							"sid": 761599080001884
+						},
+						{
+							"eventType": "variable",
+							"name": "lx",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 557048706658558
+						},
+						{
+							"eventType": "variable",
+							"name": "ly",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 493765773837938
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 656640200443953,
+									"parameters": {
+										"variable": "lx",
+										"value": "round(ath.X)"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 308922921788856,
+									"parameters": {
+										"variable": "ly",
+										"value": "round(ath.Y)"
+									}
+								}
+							],
+							"sid": 809857935745746
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "repeat",
+									"objectClass": "System",
+									"sid": 273844177979833,
+									"parameters": {
+										"count": "ath.pf.NodeCount"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "cast-ray",
+									"objectClass": "ath",
+									"sid": 898538246464524,
+									"behaviorType": "losPfmt",
+									"parameters": {
+										"from-x": "lx",
+										"from-y": "ly",
+										"to-x": "ath.pf.NodeXAt(loopindex)",
+										"to-y": "ath.pf.NodeYAt(loopindex)",
+										"use-collision-cells": true
+									}
+								}
+							],
+							"sid": 540353051937594,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "ray-intersected",
+											"objectClass": "ath",
+											"sid": 597090205573102,
+											"behaviorType": "losPfmt"
+										}
+									],
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 376762489358951,
+											"parameters": {
+												"variable": "lx",
+												"value": "ath.pf.NodeXAt(loopindex-1)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 904010491902122,
+											"parameters": {
+												"variable": "ly",
+												"value": "ath.pf.NodeYAt(loopindex-1)"
+											}
+										},
+										{
+											"id": "move-to-position",
+											"objectClass": "ath",
+											"sid": 329855247626085,
+											"behaviorType": "mt",
+											"parameters": {
+												"x": "lx",
+												"y": "ly",
+												"mode": "add-waypoint"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ath",
+											"sid": 895305767233558,
+											"parameters": {
+												"instance-variable": "startMove",
+												"value": "false"
+											}
+										}
+									],
+									"sid": 590459876431816
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "move-to-position",
+									"objectClass": "ath",
+									"sid": 967793655758367,
+									"behaviorType": "mt",
+									"parameters": {
+										"x": "ath.pf.NodeXAt(ath.pf.NodeCount-1)",
+										"y": "ath.pf.NodeYAt(ath.pf.NodeCount-1)",
+										"mode": "add-waypoint"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ath",
+									"sid": 106206158143709,
+									"parameters": {
+										"instance-variable": "prevTargX",
+										"value": "lx"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ath",
+									"sid": 945785114871782,
+									"parameters": {
+										"instance-variable": "prevTargY",
+										"value": "ly"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ath",
+									"sid": 285978552455860,
+									"parameters": {
+										"instance-variable": "startMove",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 248975318031420
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7803921568627451,
+						0.8156862745098039,
+						1,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-arrived",
+							"objectClass": "ath",
+							"sid": 154728489008695,
+							"behaviorType": "mt"
+						}
+					],
+					"actions": [],
+					"sid": 617859570559005,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "    финишная прямая, булева проверки расстояния для финишной телепортации"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-moving",
+									"objectClass": "ath",
+									"sid": 928865640813210,
+									"disabled": true,
+									"behaviorType": "mt"
+								},
+								{
+									"id": "compare-speed",
+									"objectClass": "ath",
+									"sid": 695492455705358,
+									"behaviorType": "mt",
+									"parameters": {
+										"comparison": 4,
+										"speed": "10"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 153310232496700,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 909717077848666,
+											"parameters": {
+												"first-value": "int(ath.X)",
+												"comparison": 0,
+												"second-value": "int(ath.prevTargX)"
+											}
+										},
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 586819229145564,
+											"parameters": {
+												"first-value": "int(ath.Y)",
+												"comparison": 0,
+												"second-value": "int(ath.prevTargY)"
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "? действие разрешающее телепортацию или атаку"
+										}
+									],
+									"sid": 351233397882687
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "    точка назначения"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 916578673697851
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 152909359122739,
+									"disabled": true,
+									"parameters": {
+										"first-value": "ath.pf.NodeXAt(ath.pf.NodeCount)",
+										"comparison": 0,
+										"second-value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "instance-signal",
+									"objectClass": "ath",
+									"sid": 802431173174862,
+									"disabled": true,
+									"parameters": {
+										"tag": "\"stop\""
+									}
+								},
+								{
+									"callFunction": "stopThorns",
+									"sid": 183790752063445,
+									"parameters": [
+										"ath.UID",
+										true
+									]
+								}
+							],
+							"sid": 156856179015087
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7803921568627451,
+						0.8156862745098039,
+						1,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "ath",
+							"sid": 431762781443719,
+							"parameters": {
+								"tag": "\"stop\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "stopThorns",
+							"sid": 192217599554387,
+							"parameters": [
+								"ath.UID",
+								true
+							]
+						}
+					],
+					"sid": 577621961557639,
+					"disabled": true
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7803921568627451,
+						0.8156862745098039,
+						1,
+						1
+					]
+				},
+				{
+					"functionName": "stopThorns",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 312527279599885
+						},
+						{
+							"name": "signal",
+							"type": "boolean",
+							"initialValue": "true",
+							"comment": "",
+							"sid": 246100973421457
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "ath",
+							"sid": 194984573403765,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "stop",
+							"objectClass": "ath",
+							"sid": 506835882012710,
+							"behaviorType": "pf"
+						},
+						{
+							"id": "stop",
+							"objectClass": "ath",
+							"sid": 283468234330889,
+							"behaviorType": "mt"
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "ath",
+							"sid": 433174622730256,
+							"parameters": {
+								"instance-variable": "move",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "ath",
+							"sid": 635060697016898,
+							"parameters": {
+								"instance-variable": "stateAth",
+								"value": "\"stop\""
+							}
+						},
+						{
+							"id": "instance-signal",
+							"objectClass": "ath",
+							"sid": 235218411326446,
+							"disabled": true,
+							"parameters": {
+								"tag": "\"stopAth\""
+							}
+						},
+						{
+							"id": "stop-animation",
+							"objectClass": "ath",
+							"sid": 156709241316343,
+							"disabled": true
+						}
+					],
+					"sid": 672919537145415,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 620826695490723,
+									"parameters": {
+										"variable": "signal"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "instance-signal",
+									"objectClass": "ath",
+									"sid": 418955821501656,
+									"parameters": {
+										"tag": "\"stop\"&ath.name"
+									}
+								},
+								{
+									"id": "instance-signal",
+									"objectClass": "ath",
+									"sid": 458038664656551,
+									"parameters": {
+										"tag": "\"stop\"&ath.UID"
+									}
+								}
+							],
+							"sid": 233702024200873
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "    выталкивание из препятствия"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-failed-to-find-path",
+							"objectClass": "ath",
+							"sid": 137185527737339,
+							"behaviorType": "pf"
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "ath",
+							"sid": 962587873690800,
+							"parameters": {
+								"instance-variable": "pushAbil"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 556515921484923,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "ath",
+									"sid": 859683611534577,
+									"parameters": {
+										"object": "zoneStop"
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "ath",
+									"sid": 472384115225807,
+									"parameters": {
+										"object": "zoneStopTh"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "move-to-position",
+									"objectClass": "ath",
+									"sid": 506047547453164,
+									"behaviorType": "mt",
+									"parameters": {
+										"x": "Self.X+10*cos(angle(zoneStop.X,zoneStop.Y,ath.X,ath.Y))",
+										"y": "Self.Y+10*sin(angle(zoneStop.X,zoneStop.Y,ath.X,ath.Y))",
+										"mode": "direct"
+									}
+								}
+							],
+							"sid": 241858320404374,
+							"isOrBlock": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Поворот терний. Чтобы повернуться к герою, отправить x=0"
+				},
+				{
+					"aceType": "action",
+					"aceName": "thRotate",
+					"objectClass": "ats",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "athBaseUID",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 400600339745201
+						},
+						{
+							"name": "x",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 500586470347768
+						},
+						{
+							"name": "y",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 752845259483097
+						},
+						{
+							"name": "dirMirroring",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 699710494061791
+						},
+						{
+							"name": "basisUID",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 248868407949532
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "ath",
+							"sid": 474899905271713,
+							"parameters": {
+								"unique-id": "athBaseUID"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 158113244356277,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 290335785359413,
+									"parameters": {
+										"variable": "basisUID",
+										"comparison": 1,
+										"value": "-1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "basis",
+									"sid": 180720053665575,
+									"parameters": {
+										"unique-id": "basis.UID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 894252839351027,
+									"parameters": {
+										"variable": "x",
+										"value": "basis.X"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 648963983619637,
+									"parameters": {
+										"variable": "y",
+										"value": "basis.Y"
+									}
+								}
+							],
+							"sid": 959013244906589
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 351440171862576
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 363414066776243,
+									"parameters": {
+										"variable": "x",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "basis",
+									"sid": 798235846499827,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "aBook.hero"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 255228993975792,
+									"parameters": {
+										"variable": "x",
+										"value": "basis.X"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 245941291719268,
+									"parameters": {
+										"variable": "y",
+										"value": "basis.Y"
+									}
+								}
+							],
+							"sid": 414359858690312
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ath",
+									"sid": 990142345898675,
+									"parameters": {
+										"instance-variable": "vAng",
+										"value": "angle(ath.X,ath.Y,x,y)"
+									}
+								}
+							],
+							"sid": 251163521296631
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 505278104345907,
+									"parameters": {
+										"variable": "dirMirroring"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ath",
+									"sid": 115031151609871,
+									"parameters": {
+										"instance-variable": "direct",
+										"value": "int(((Self.vAng+360+22.5) %360)/45)"
+									}
+								},
+								{
+									"id": "set-mirrored",
+									"objectClass": "tChick",
+									"sid": 146633494124117,
+									"parameters": {
+										"state": "not-mirrored"
+									}
+								}
+							],
+							"sid": 203020376499705,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-between-values",
+											"objectClass": "System",
+											"sid": 141647939430038,
+											"parameters": {
+												"value": "ath.direct",
+												"lower-bound": "3",
+												"upper-bound": "5"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-mirrored",
+											"objectClass": "tChick",
+											"sid": 566627032785068,
+											"parameters": {
+												"state": "mirrored"
+											}
+										}
+									],
+									"sid": 977431239951473
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7803921568627451,
+						0.8156862745098039,
+						1,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "speedIso",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ath",
+									"sid": 657895236763271,
+									"parameters": {
+										"instance-variable": "move"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 449942799135549,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ath",
+											"sid": 733704892351763,
+											"parameters": {
+												"instance-variable": "totem",
+												"comparison": 1,
+												"value": "\"serpent\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 377808526062552,
+											"parameters": {
+												"instance-variable": "ang",
+												"value": "round(Self.Angle-360*floor(Self.Angle/360))"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 857463825991697,
+											"parameters": {
+												"instance-variable": "angZ",
+												"value": "(Self.ang>90)&(Self.ang<=270)?atan(tan(Self.ang)/aTools.isoCoeff)+180:atan(tan(Self.ang)/aTools.isoCoeff)"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 200627226708590,
+											"parameters": {
+												"instance-variable": "speedZ",
+												"value": "Self.ang=90 | Self.ang=270 ? round(Self.speedGround*aTools.isoCoeff) : round(Self.speedGround*cos(Self.angZ)/cos(Self.ang))"
+											}
+										},
+										{
+											"id": "fill-ellipse",
+											"objectClass": "DrawingCanvas",
+											"sid": 430495716937730,
+											"disabled": true,
+											"parameters": {
+												"x": "basis.X",
+												"y": "basis.Y",
+												"radius-x": "0.5",
+												"radius-y": "0.5",
+												"color": "rgba(0, 0, 0, 100)",
+												"edge": "smooth"
+											}
+										}
+									],
+									"sid": 653978205945228
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ath",
+											"sid": 336119396480093,
+											"parameters": {
+												"instance-variable": "totem",
+												"comparison": 0,
+												"value": "\"serpent\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 492957764939244,
+											"parameters": {
+												"instance-variable": "a",
+												"value": "Self.mt.MovingAngle"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 236579430448942,
+											"parameters": {
+												"instance-variable": "ang",
+												"value": "round(Self.a-360*floor(Self.a/360))"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 919704738199074,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "ang",
+												"value": "round(Self.mt.MovingAngle-360*floor(Self.mt.MovingAngle/360))"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 100780472697910,
+											"parameters": {
+												"instance-variable": "angZ",
+												"value": "(Self.ang>90)&(Self.ang<=270)?atan(tan(Self.ang)/aTools.isoCoeff)+180:atan(tan(Self.ang)/aTools.isoCoeff)"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 152278578305828,
+											"parameters": {
+												"instance-variable": "speedZ",
+												"value": "Self.ang=90 | Self.ang=270 ? round(Self.speedGround*aTools.isoCoeff) : round(Self.speedGround*cos(Self.angZ)/cos(Self.ang))"
+											}
+										}
+									],
+									"sid": 868414098310376
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ath",
+									"sid": 627625205751041,
+									"parameters": {
+										"instance-variable": "move"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-max-speed",
+									"objectClass": "ath",
+									"sid": 578520366159919,
+									"behaviorType": "mt",
+									"parameters": {
+										"max-speed": "Self.speedZ*Self.sImpuls+10"
+									}
+								},
+								{
+									"id": "set-speed",
+									"objectClass": "ath",
+									"sid": 396883966272491,
+									"behaviorType": "mt",
+									"parameters": {
+										"speed": "Self.speedZ*Self.sImpuls"
+									}
+								}
+							],
+							"sid": 653430713950478,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ath",
+											"sid": 566958962491997,
+											"parameters": {
+												"instance-variable": "sImpuls",
+												"comparison": 4,
+												"value": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "subtract-from-instvar",
+											"objectClass": "ath",
+											"sid": 453701695533619,
+											"parameters": {
+												"instance-variable": "sImpuls",
+												"value": "0.02"
+											}
+										}
+									],
+									"sid": 905909782672142
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ath",
+											"sid": 166074936891125,
+											"parameters": {
+												"instance-variable": "sImpuls",
+												"comparison": 2,
+												"value": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "add-to-instvar",
+											"objectClass": "ath",
+											"sid": 265382149788061,
+											"parameters": {
+												"instance-variable": "sImpuls",
+												"value": "0.02"
+											}
+										}
+									],
+									"sid": 333342351732761
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-between-values",
+											"objectClass": "System",
+											"sid": 831946501003513,
+											"parameters": {
+												"value": "ath.sImpuls",
+												"lower-bound": "0.96",
+												"upper-bound": "1.04"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 612329211369218,
+											"parameters": {
+												"instance-variable": "sImpuls",
+												"value": "1"
+											}
+										}
+									],
+									"sid": 997590997879205
+								}
+							]
+						}
+					],
+					"sid": 717037420261200
+				},
+				{
+					"eventType": "comment",
+					"text": "выталкивание из препятствий",
+					"background-color": [
+						0.7803921568627451,
+						0.8156862745098039,
+						1,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "pushOut",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ath",
+									"sid": 101567547947646,
+									"parameters": {
+										"instance-variable": "pushAbil"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 653979844910162,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "ath",
+											"sid": 968129469504679,
+											"parameters": {
+												"object": "zoneStop"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "ath",
+											"sid": 284257425103798,
+											"parameters": {
+												"x": "Self.X + Self.pushOut * cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * dt",
+												"y": "Self.Y + Self.pushOut * sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * dt"
+											}
+										}
+									],
+									"sid": 501311766644936
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "ath",
+											"sid": 673560006438492,
+											"parameters": {
+												"object": "zoneStopTh"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "ath",
+											"sid": 912902378653022,
+											"parameters": {
+												"x": "Self.X + Self.pushOut*2 * cos(angle(zoneStopTh.X, zoneStopTh.Y, Self.X, Self.Y)) * dt",
+												"y": "Self.Y + Self.pushOut*2 * sin(angle(zoneStopTh.X, zoneStopTh.Y, Self.X, Self.Y)) * dt"
+											}
+										}
+									],
+									"sid": 115335872756352
+								}
+							]
+						}
+					],
+					"sid": 363044042581439
+				}
+			],
+			"sid": 195975889606323
+		}
+	],
+	"sid": 980489503117215
+}

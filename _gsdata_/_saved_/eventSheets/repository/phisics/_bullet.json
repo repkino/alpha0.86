@@ -1,0 +1,253 @@
+{
+	"name": "_bullet",
+	"events": [
+		{
+			"eventType": "comment",
+			"text": ""
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 332624095206589
+				}
+			],
+			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "bull",
+					"sid": 954937980658574,
+					"parameters": {
+						"instance-variable": "zSpeedMax",
+						"value": "aBook.heroMaxSpeed"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "bull",
+					"sid": 219185813589763,
+					"parameters": {
+						"instance-variable": "zSpeedY",
+						"value": "aBook.heroMaxSpeed*aTools.isoCoeff"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "bull",
+					"sid": 210906522948244,
+					"parameters": {
+						"instance-variable": "coeff",
+						"value": "aBook.heroScaleCoeff*Self.speedCoeff"
+					}
+				},
+				{
+					"id": "destroy",
+					"objectClass": "bullet",
+					"sid": 682484586429979
+				}
+			],
+			"sid": 941886834757912
+		},
+		{
+			"eventType": "comment",
+			"text": "\n\n1/sqrt((sin(Sprite.Angle)/(a*ISO))^2+(cos(Sprite.Angle)/a)^2)"
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "bulletSpeed",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-created",
+							"objectClass": "bull",
+							"sid": 569872084493111
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "bull",
+							"sid": 435864374179061,
+							"parameters": {
+								"instance-variable": "zSpeedMax",
+								"value": "aBook.heroMaxSpeed"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "bull",
+							"sid": 303995594203972,
+							"parameters": {
+								"instance-variable": "zSpeedY",
+								"value": "aBook.heroMaxSpeed*aTools.isoCoeff"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "bull",
+							"sid": 959280821868238,
+							"parameters": {
+								"instance-variable": "coeff",
+								"value": "aBook.heroScaleCoeff*Self.speedCoeff"
+							}
+						}
+					],
+					"sid": 217030836271393,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "bull",
+							"sid": 819379912568947,
+							"parameters": {
+								"instance-variable": "bulletOn"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 362313299316397,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aTools",
+									"sid": 580677781606476,
+									"parameters": {
+										"instance-variable": "cameraType",
+										"comparison": 0,
+										"value": "\"cameraIsometric\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bull",
+									"sid": 746669067501538,
+									"parameters": {
+										"instance-variable": "ang",
+										"value": "round(Self.Angle-360*floor(Self.Angle/360))"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bull",
+									"sid": 404888196050206,
+									"parameters": {
+										"instance-variable": "zSpeed",
+										"value": "1/sqrt((sin(Self.ang)/Self.zSpeedY)^2+(cos(Self.ang)/Self.zSpeedMax)^2)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bull",
+									"sid": 872449994848003,
+									"parameters": {
+										"instance-variable": "speedTotal",
+										"value": "round(abs(self.zSpeed)*abs(self.coeff))"
+									}
+								},
+								{
+									"id": "set-speed",
+									"objectClass": "bull",
+									"sid": 543408387231247,
+									"behaviorType": "bull",
+									"parameters": {
+										"speed": "Self.speedTotal"
+									}
+								}
+							],
+							"sid": 673456667265833
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aTools",
+									"sid": 320048043502799,
+									"parameters": {
+										"instance-variable": "cameraType",
+										"comparison": 0,
+										"value": "\"cameraPerspective\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bull",
+									"sid": 199190431972348,
+									"parameters": {
+										"instance-variable": "z",
+										"value": "clamp(Self.Y-camera.horizon,horizonLimit.Y,5000)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bull",
+									"sid": 441316898518420,
+									"parameters": {
+										"instance-variable": "zScale",
+										"value": "abs(Self.z/camera.zField)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bull",
+									"sid": 840802723994030,
+									"parameters": {
+										"instance-variable": "ang",
+										"value": "round(Self.Angle-360*floor(Self.Angle/360))"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bull",
+									"sid": 844854683218484,
+									"parameters": {
+										"instance-variable": "zSpeed",
+										"value": "1/sqrt((sin(Self.ang)/Self.zSpeedY)^2+(cos(Self.ang)/Self.zSpeedMax)^2)"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bull",
+									"sid": 997391091585960,
+									"parameters": {
+										"instance-variable": "speedTotal",
+										"value": "round(abs(self.zSpeed)*abs(self.coeff)*Self.zScale)"
+									}
+								},
+								{
+									"id": "set-speed",
+									"objectClass": "bull",
+									"sid": 854361324499355,
+									"behaviorType": "bull",
+									"parameters": {
+										"speed": "Self.speedTotal"
+									}
+								}
+							],
+							"sid": 108131794603758
+						}
+					]
+				}
+			],
+			"sid": 808151478286227
+		}
+	],
+	"sid": 314353367374101
+}
