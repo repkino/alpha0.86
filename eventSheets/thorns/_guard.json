@@ -958,6 +958,15 @@
 															"actions": [
 																{
 																	"id": "set-boolean-instvar",
+																	"objectClass": "ati",
+																	"sid": 621290468300300,
+																	"parameters": {
+																		"instance-variable": "seal",
+																		"value": "true"
+																	}
+																},
+																{
+																	"id": "set-boolean-instvar",
 																	"objectClass": "aBit",
 																	"sid": 551785549732537,
 																	"parameters": {
@@ -987,9 +996,19 @@
 																	"id": "set-position",
 																	"objectClass": "luch",
 																	"sid": 316588954479177,
+																	"disabled": true,
 																	"parameters": {
 																		"x": "tGuard.ImagePointX(3)",
 																		"y": "tGuard.ImagePointY(3)"
+																	}
+																},
+																{
+																	"id": "set-position",
+																	"objectClass": "luch",
+																	"sid": 713242390066596,
+																	"parameters": {
+																		"x": "tGuard.ImagePointX(\"eye\")",
+																		"y": "tGuard.ImagePointY(\"eye\")"
 																	}
 																},
 																{
@@ -1066,7 +1085,115 @@
 																	}
 																}
 															],
-															"sid": 464982448503830
+															"sid": 464982448503830,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "is-outside-layout",
+																			"objectClass": "luchFX",
+																			"sid": 852644718668377
+																		}
+																	],
+																	"actions": [],
+																	"sid": 858584492498067,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "pick-random-instance",
+																					"objectClass": "System",
+																					"sid": 400288335561846,
+																					"parameters": {
+																						"object": "luchFX"
+																					}
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "set-position-to-another-object",
+																					"objectClass": "luchFX",
+																					"sid": 541841125905621,
+																					"parameters": {
+																						"object": "tGuard",
+																						"image-point-optional": "3"
+																					}
+																				},
+																				{
+																					"id": "set-animation",
+																					"objectClass": "luchFX",
+																					"sid": 452615527769406,
+																					"parameters": {
+																						"animation": "\"fx\"",
+																						"from": "beginning"
+																					}
+																				}
+																			],
+																			"sid": 915095594751551,
+																			"children": [
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "is-animation-playing",
+																							"objectClass": "tGuard",
+																							"sid": 727810675586642,
+																							"parameters": {
+																								"animation": "\"stop6\""
+																							}
+																						},
+																						{
+																							"id": "is-animation-playing",
+																							"objectClass": "tGuard",
+																							"sid": 120790646396157,
+																							"parameters": {
+																								"animation": "\"stop7\""
+																							}
+																						}
+																					],
+																					"actions": [
+																						{
+																							"id": "move-to-object",
+																							"objectClass": "luchFX",
+																							"sid": 769492100475294,
+																							"parameters": {
+																								"where": "behind",
+																								"object": "tGuard"
+																							}
+																						}
+																					],
+																					"sid": 472847004324504,
+																					"isOrBlock": true
+																				},
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "else",
+																							"objectClass": "System",
+																							"sid": 124580366256093
+																						}
+																					],
+																					"actions": [
+																						{
+																							"id": "move-to-object",
+																							"objectClass": "luchFX",
+																							"sid": 773954540511623,
+																							"parameters": {
+																								"where": "in-front",
+																								"object": "tGuard"
+																							}
+																						}
+																					],
+																					"sid": 788730149660239
+																				}
+																			]
+																		}
+																	]
+																}
+															]
 														}
 													]
 												},
@@ -1131,6 +1258,15 @@
 															"sid": 944674622276707,
 															"parameters": {
 																"instance-variable": "nut"
+															},
+															"isInverted": true
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "ati",
+															"sid": 261294789710253,
+															"parameters": {
+																"instance-variable": "seal"
 															},
 															"isInverted": true
 														}
@@ -1975,6 +2111,45 @@
 							]
 						},
 						{
+							"eventType": "comment",
+							"text": "растягивание луча в каждом кадре",
+							"background-color": [
+								0.7647058823529411,
+								0.6862745098039216,
+								0.8941176470588236,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-animation-frame-changed",
+									"objectClass": "luch1",
+									"sid": 934286926665657
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "tGuard",
+									"sid": 579589275577810,
+									"parameters": {
+										"unique-id": "luch1.hostUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-width",
+									"objectClass": "luch1",
+									"sid": 378071921732460,
+									"parameters": {
+										"width": "distance(Self.X, Self.Y, tGuard.drawX, tGuard.drawY)"
+									}
+								}
+							],
+							"sid": 883503325867557
+						},
+						{
 							"eventType": "group",
 							"disabled": false,
 							"title": "gDraw",
@@ -2098,10 +2273,10 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "tGuard",
-													"sid": 424557832610719,
+													"sid": 437616270616652,
 													"parameters": {
 														"instance-variable": "startAng",
-														"value": "angle(Self.X, Self.Y, base.X, base.Y)-30"
+														"value": "angle(Self.X, Self.Y, base.X, base.Y)-20"
 													}
 												},
 												{
@@ -2161,12 +2336,12 @@
 												{
 													"id": "is-outside-layout",
 													"objectClass": "luch1",
-													"sid": 946259113483395
+													"sid": 117687822470993
 												},
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "luch1",
-													"sid": 373125740904593,
+													"sid": 574807210887273,
 													"parameters": {
 														"instance-variable": "hostUID",
 														"comparison": 3,
@@ -2175,7 +2350,7 @@
 												}
 											],
 											"actions": [],
-											"sid": 269963276853797,
+											"sid": 349820818539643,
 											"children": [
 												{
 													"eventType": "block",
@@ -2183,7 +2358,7 @@
 														{
 															"id": "pick-random-instance",
 															"objectClass": "System",
-															"sid": 680610104452136,
+															"sid": 814487235394456,
 															"parameters": {
 																"object": "luch1"
 															}
@@ -2193,7 +2368,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "luch1",
-															"sid": 434511623963840,
+															"sid": 468115522166111,
 															"parameters": {
 																"instance-variable": "hostUID",
 																"value": "tGuard.UID"
@@ -2202,13 +2377,129 @@
 														{
 															"id": "set-scale",
 															"objectClass": "luch1",
-															"sid": 712699019632153,
+															"sid": 670394042650559,
+															"disabled": true,
 															"parameters": {
 																"scale": "1"
 															}
 														}
 													],
-													"sid": 253205171993208
+													"sid": 971590325983521
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-outside-layout",
+													"objectClass": "luchFX",
+													"sid": 545102794927699
+												}
+											],
+											"actions": [],
+											"sid": 999920010458915,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-random-instance",
+															"objectClass": "System",
+															"sid": 350561619721659,
+															"parameters": {
+																"object": "luchFX"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "luchFX",
+															"sid": 163731437866594,
+															"parameters": {
+																"object": "tGuard",
+																"image-point-optional": "3"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "luchFX",
+															"sid": 868794174572553,
+															"parameters": {
+																"animation": "\"fx\"",
+																"from": "beginning"
+															}
+														}
+													],
+													"sid": 560787155708130,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-animation-playing",
+																	"objectClass": "tGuard",
+																	"sid": 483432450006543,
+																	"parameters": {
+																		"animation": "\"stop6\""
+																	}
+																},
+																{
+																	"id": "is-animation-playing",
+																	"objectClass": "tGuard",
+																	"sid": 664842685224157,
+																	"parameters": {
+																		"animation": "\"stop7\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "move-to-object",
+																	"objectClass": "luchFX",
+																	"sid": 715704086057106,
+																	"parameters": {
+																		"where": "behind",
+																		"object": "tGuard"
+																	}
+																},
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "luchFX",
+																	"sid": 265408751981868,
+																	"parameters": {
+																		"object": "tGuard",
+																		"image-point-optional": "1"
+																	}
+																}
+															],
+															"sid": 340864621387492,
+															"isOrBlock": true
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 565234592181866
+																}
+															],
+															"actions": [
+																{
+																	"id": "move-to-object",
+																	"objectClass": "luchFX",
+																	"sid": 506264220602200,
+																	"parameters": {
+																		"where": "in-front",
+																		"object": "tGuard"
+																	}
+																}
+															],
+															"sid": 634825769896827
+														}
+													]
 												}
 											]
 										}
@@ -2525,7 +2816,83 @@
 															}
 														}
 													],
-													"sid": 284782002306337
+													"sid": 284782002306337,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-animation-playing",
+																	"objectClass": "tGuard",
+																	"sid": 755733692448071,
+																	"parameters": {
+																		"animation": "\"stop6\""
+																	}
+																},
+																{
+																	"id": "is-animation-playing",
+																	"objectClass": "tGuard",
+																	"sid": 624423165947851,
+																	"parameters": {
+																		"animation": "\"stop7\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "move-to-object",
+																	"objectClass": "luch1",
+																	"sid": 702661173093615,
+																	"parameters": {
+																		"where": "behind",
+																		"object": "tGuard"
+																	}
+																},
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "luch1",
+																	"sid": 887291009374103,
+																	"parameters": {
+																		"object": "tGuard",
+																		"image-point-optional": "3"
+																	}
+																}
+															],
+															"sid": 237039895646934,
+															"isOrBlock": true
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 280378485574674
+																}
+															],
+															"actions": [
+																{
+																	"id": "move-to-object",
+																	"objectClass": "luch1",
+																	"sid": 729496010510558,
+																	"parameters": {
+																		"where": "in-front",
+																		"object": "tGuard"
+																	}
+																},
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "luch1",
+																	"sid": 728641773234231,
+																	"parameters": {
+																		"object": "tGuard",
+																		"image-point-optional": "3"
+																	}
+																}
+															],
+															"sid": 299189173246523
+														}
+													]
 												}
 											]
 										},
@@ -2733,105 +3100,6 @@
 											]
 										}
 									]
-								},
-								{
-									"eventType": "comment",
-									"text": "СБРОС: Прерываем отрисовку, если страж перешел в активную фазу",
-									"background-color": [
-										0.7647058823529411,
-										0.6862745098039216,
-										0.8941176470588236,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-timer-running",
-											"objectClass": "tGuard",
-											"sid": 539596695132073,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"ds\""
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "tGuard",
-											"sid": 916627343599193,
-											"parameters": {
-												"instance-variable": "grow"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "stop-timer",
-											"objectClass": "tGuard",
-											"sid": 401196984006862,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"ds\""
-											}
-										}
-									],
-									"sid": 811909217383099,
-									"disabled": true,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "tGuard",
-													"sid": 204734173140076,
-													"parameters": {
-														"instance-variable": "grown"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 731509680263567,
-											"disabled": true
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "pick-all",
-													"objectClass": "System",
-													"sid": 727336073864900,
-													"parameters": {
-														"object": "luch1"
-													}
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "luch1",
-													"sid": 125126435617044,
-													"parameters": {
-														"instance-variable": "hostUID",
-														"comparison": 0,
-														"value": "tGuard.UID"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-visible",
-													"objectClass": "luch1",
-													"sid": 738455326591032,
-													"parameters": {
-														"visibility": "invisible"
-													}
-												}
-											],
-											"sid": 393594116135623,
-											"disabled": true
-										}
-									],
-									"isOrBlock": true
 								}
 							],
 							"sid": 954569821392062
@@ -3718,6 +3986,33 @@
 											"sid": 827742433015634
 										},
 										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "achivments",
+													"sid": 796767147037679,
+													"parameters": {
+														"instance-variable": "heroDist",
+														"comparison": 2,
+														"value": "Self.sealDist"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ati",
+													"sid": 651992334710395,
+													"parameters": {
+														"instance-variable": "seal",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 827441878827952
+										},
+										{
 											"eventType": "comment",
 											"text": "максимальное рисование при первом контакте. Условие луча основано на том, что луч как и печать могут быть только в единственном числе",
 											"background-color": [
@@ -3754,6 +4049,15 @@
 													"id": "is-outside-layout",
 													"objectClass": "luch",
 													"sid": 192049509457686
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "ati",
+													"sid": 450419514777586,
+													"parameters": {
+														"instance-variable": "seal"
+													},
+													"isInverted": true
 												}
 											],
 											"actions": [],
@@ -4085,6 +4389,15 @@
 																	"actions": [
 																		{
 																			"id": "set-boolean-instvar",
+																			"objectClass": "ati",
+																			"sid": 379966613599337,
+																			"parameters": {
+																				"instance-variable": "seal",
+																				"value": "true"
+																			}
+																		},
+																		{
+																			"id": "set-boolean-instvar",
 																			"objectClass": "aBit",
 																			"sid": 775241172979022,
 																			"parameters": {
@@ -4113,10 +4426,10 @@
 																		{
 																			"id": "set-position",
 																			"objectClass": "luch",
-																			"sid": 947806973884152,
+																			"sid": 353713740161753,
 																			"parameters": {
-																				"x": "tGuard.ImagePointX(3)",
-																				"y": "tGuard.ImagePointY(3)"
+																				"x": "tGuard.ImagePointX(\"eye\")",
+																				"y": "tGuard.ImagePointY(\"eye\")"
 																			}
 																		},
 																		{
@@ -4193,7 +4506,115 @@
 																			}
 																		}
 																	],
-																	"sid": 234658606926640
+																	"sid": 234658606926640,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "is-outside-layout",
+																					"objectClass": "luchFX",
+																					"sid": 193329409631511
+																				}
+																			],
+																			"actions": [],
+																			"sid": 599556568043283,
+																			"children": [
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "pick-random-instance",
+																							"objectClass": "System",
+																							"sid": 703372032870748,
+																							"parameters": {
+																								"object": "luchFX"
+																							}
+																						}
+																					],
+																					"actions": [
+																						{
+																							"id": "set-position-to-another-object",
+																							"objectClass": "luchFX",
+																							"sid": 175740780851360,
+																							"parameters": {
+																								"object": "tGuard",
+																								"image-point-optional": "3"
+																							}
+																						},
+																						{
+																							"id": "set-animation",
+																							"objectClass": "luchFX",
+																							"sid": 867130178809332,
+																							"parameters": {
+																								"animation": "\"fx\"",
+																								"from": "beginning"
+																							}
+																						}
+																					],
+																					"sid": 199362356228759,
+																					"children": [
+																						{
+																							"eventType": "block",
+																							"conditions": [
+																								{
+																									"id": "is-animation-playing",
+																									"objectClass": "tGuard",
+																									"sid": 949286314033753,
+																									"parameters": {
+																										"animation": "\"stop6\""
+																									}
+																								},
+																								{
+																									"id": "is-animation-playing",
+																									"objectClass": "tGuard",
+																									"sid": 833770352372391,
+																									"parameters": {
+																										"animation": "\"stop7\""
+																									}
+																								}
+																							],
+																							"actions": [
+																								{
+																									"id": "move-to-object",
+																									"objectClass": "luchFX",
+																									"sid": 716950854998795,
+																									"parameters": {
+																										"where": "behind",
+																										"object": "tGuard"
+																									}
+																								}
+																							],
+																							"sid": 345940730864424,
+																							"isOrBlock": true
+																						},
+																						{
+																							"eventType": "block",
+																							"conditions": [
+																								{
+																									"id": "else",
+																									"objectClass": "System",
+																									"sid": 930248975664121
+																								}
+																							],
+																							"actions": [
+																								{
+																									"id": "move-to-object",
+																									"objectClass": "luchFX",
+																									"sid": 842642948940894,
+																									"parameters": {
+																										"where": "in-front",
+																										"object": "tGuard"
+																									}
+																								}
+																							],
+																							"sid": 469656534630155
+																						}
+																					]
+																				}
+																			]
+																		}
+																	]
 																}
 															]
 														},
@@ -4252,6 +4673,15 @@
 																		"which": "lowest",
 																		"instance-variable": "heroDist"
 																	}
+																},
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "ati",
+																	"sid": 789283322562462,
+																	"parameters": {
+																		"instance-variable": "seal"
+																	},
+																	"isInverted": true
 																}
 															],
 															"actions": [],
@@ -4451,6 +4881,15 @@
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "tGuard",
 															"sid": 650125720427096,
+															"parameters": {
+																"instance-variable": "seal"
+															},
+															"isInverted": true
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "ati",
+															"sid": 934577989422735,
 															"parameters": {
 																"instance-variable": "seal"
 															},
@@ -5149,10 +5588,10 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "tGuard",
-													"sid": 299098485245901,
+													"sid": 662881756750493,
 													"parameters": {
 														"instance-variable": "startAng",
-														"value": "angle(achivments.X, achivments.Y, base.X, base.Y) - 30"
+														"value": "angle(achivments.X, achivments.Y, base.X, base.Y) - 20"
 													}
 												},
 												{
@@ -5215,12 +5654,146 @@
 																	"id": "set-scale",
 																	"objectClass": "luch1",
 																	"sid": 618360496514323,
+																	"disabled": true,
 																	"parameters": {
 																		"scale": "1"
 																	}
 																}
 															],
 															"sid": 558261551348897
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-outside-layout",
+																	"objectClass": "luchFX",
+																	"sid": 413410904813937
+																}
+															],
+															"actions": [],
+															"sid": 366055174698248,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "pick-random-instance",
+																			"objectClass": "System",
+																			"sid": 241419905262129,
+																			"parameters": {
+																				"object": "luchFX"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-position-to-another-object",
+																			"objectClass": "luchFX",
+																			"sid": 852069538002692,
+																			"parameters": {
+																				"object": "tGuard",
+																				"image-point-optional": "3"
+																			}
+																		},
+																		{
+																			"id": "set-position-to-another-object",
+																			"objectClass": "luchFX",
+																			"sid": 180721928055283,
+																			"parameters": {
+																				"object": "tGuard",
+																				"image-point-optional": "3"
+																			}
+																		},
+																		{
+																			"id": "set-animation",
+																			"objectClass": "luchFX",
+																			"sid": 322251906477969,
+																			"parameters": {
+																				"animation": "\"fx\"",
+																				"from": "beginning"
+																			}
+																		}
+																	],
+																	"sid": 425548916940299,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "is-animation-playing",
+																					"objectClass": "tGuard",
+																					"sid": 931333645066057,
+																					"parameters": {
+																						"animation": "\"stop6\""
+																					}
+																				},
+																				{
+																					"id": "is-animation-playing",
+																					"objectClass": "tGuard",
+																					"sid": 453963263489335,
+																					"parameters": {
+																						"animation": "\"stop7\""
+																					}
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "move-to-object",
+																					"objectClass": "luchFX",
+																					"sid": 703834848861606,
+																					"parameters": {
+																						"where": "behind",
+																						"object": "tGuard"
+																					}
+																				},
+																				{
+																					"id": "set-position-to-another-object",
+																					"objectClass": "luchFX",
+																					"sid": 905078120879758,
+																					"parameters": {
+																						"object": "tGuard",
+																						"image-point-optional": "1"
+																					}
+																				}
+																			],
+																			"sid": 936304131084147,
+																			"isOrBlock": true
+																		},
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "else",
+																					"objectClass": "System",
+																					"sid": 415764479288267
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "move-to-object",
+																					"objectClass": "luchFX",
+																					"sid": 172444675937426,
+																					"parameters": {
+																						"where": "in-front",
+																						"object": "tGuard"
+																					}
+																				},
+																				{
+																					"id": "set-position-to-another-object",
+																					"objectClass": "luchFX",
+																					"sid": 878183904526985,
+																					"parameters": {
+																						"object": "tGuard",
+																						"image-point-optional": "1"
+																					}
+																				}
+																			],
+																			"sid": 440769351810072
+																		}
+																	]
+																}
+															]
 														}
 													]
 												}
@@ -5563,7 +6136,83 @@
 															}
 														}
 													],
-													"sid": 468215235373811
+													"sid": 468215235373811,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-animation-playing",
+																	"objectClass": "tGuard",
+																	"sid": 421937407695467,
+																	"parameters": {
+																		"animation": "\"stop6\""
+																	}
+																},
+																{
+																	"id": "is-animation-playing",
+																	"objectClass": "tGuard",
+																	"sid": 982335599076860,
+																	"parameters": {
+																		"animation": "\"stop7\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "move-to-object",
+																	"objectClass": "luch1",
+																	"sid": 339059505607457,
+																	"parameters": {
+																		"where": "behind",
+																		"object": "tGuard"
+																	}
+																},
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "luch1",
+																	"sid": 711502906284958,
+																	"parameters": {
+																		"object": "tGuard",
+																		"image-point-optional": "3"
+																	}
+																}
+															],
+															"sid": 826749720678787,
+															"isOrBlock": true
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 379922568534285
+																}
+															],
+															"actions": [
+																{
+																	"id": "move-to-object",
+																	"objectClass": "luch1",
+																	"sid": 818115375251173,
+																	"parameters": {
+																		"where": "in-front",
+																		"object": "tGuard"
+																	}
+																},
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "luch1",
+																	"sid": 801123823473295,
+																	"parameters": {
+																		"object": "tGuard",
+																		"image-point-optional": "3"
+																	}
+																}
+															],
+															"sid": 995702599538442
+														}
+													]
 												}
 											]
 										},
@@ -5933,7 +6582,7 @@
 								},
 								{
 									"eventType": "comment",
-									"text": "СБРОС: Прерываем отрисовку, если страж перешел в активную фазу",
+									"text": "растягивание луча в каждом кадре",
 									"background-color": [
 										0.7647058823529411,
 										0.6862745098039216,
@@ -5945,90 +6594,30 @@
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-timer-running",
-											"objectClass": "tGuard",
-											"sid": 971954676004218,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"dsp\""
-											}
+											"id": "on-animation-frame-changed",
+											"objectClass": "luch1",
+											"sid": 508464916438216
 										},
 										{
-											"id": "is-boolean-instance-variable-set",
+											"id": "pick-by-unique-id",
 											"objectClass": "tGuard",
-											"sid": 930868088479366,
+											"sid": 857068280141583,
 											"parameters": {
-												"instance-variable": "grow"
+												"unique-id": "luch1.hostUID"
 											}
 										}
 									],
 									"actions": [
 										{
-											"id": "stop-timer",
-											"objectClass": "tGuard",
-											"sid": 113745758249310,
-											"behaviorType": "Timer",
+											"id": "set-width",
+											"objectClass": "luch1",
+											"sid": 356601024775312,
 											"parameters": {
-												"tag": "\"dsp\""
+												"width": "distance(Self.X, Self.Y, tGuard.drawX, tGuard.drawY)"
 											}
 										}
 									],
-									"sid": 226311221218782,
-									"disabled": true,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "tGuard",
-													"sid": 120475518450202,
-													"parameters": {
-														"instance-variable": "grown"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 869754793380568,
-											"disabled": true
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "pick-all",
-													"objectClass": "System",
-													"sid": 245428602144695,
-													"parameters": {
-														"object": "luch1"
-													}
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "luch1",
-													"sid": 198730051095469,
-													"parameters": {
-														"instance-variable": "hostUID",
-														"comparison": 0,
-														"value": "tGuard.UID"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-visible",
-													"objectClass": "luch1",
-													"sid": 378498084568969,
-													"parameters": {
-														"visibility": "invisible"
-													}
-												}
-											],
-											"sid": 491426781302606,
-											"disabled": true
-										}
-									],
-									"isOrBlock": true
+									"sid": 317010935089142
 								}
 							],
 							"sid": 357498339310862
@@ -6790,6 +7379,15 @@
 												"instance-variable": "on",
 												"value": "true"
 											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 141792879202491,
+											"parameters": {
+												"group-name": "\"seedNut\"",
+												"state": "activated"
+											}
 										}
 									],
 									"sid": 354850995489100
@@ -7082,920 +7680,6 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "снаряд закончил полёт",
-					"background-color": [
-						0.7372549019607844,
-						0.7568627450980392,
-						0.8431372549019608,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-instance-signal",
-							"objectClass": "dart",
-							"sid": 358900789571407,
-							"parameters": {
-								"tag": "\"boom\""
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "seedNut",
-							"sid": 799581791626875,
-							"parameters": {
-								"instance-variable": "dartUID",
-								"comparison": 0,
-								"value": "dart.UID"
-							}
-						},
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "tGuard",
-							"sid": 320788953476410,
-							"parameters": {
-								"unique-id": "seedNut.hostUID"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "unpin",
-							"objectClass": "seedNut",
-							"sid": 467174571593478,
-							"behaviorType": "Pin"
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "seedNut",
-							"sid": 434869111144504,
-							"behaviorType": "EasyIsometric",
-							"parameters": {
-								"newState_": "enabled"
-							}
-						},
-						{
-							"id": "set-angle",
-							"objectClass": "seedNut",
-							"sid": 478290761109835,
-							"parameters": {
-								"angle": "0"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "tGuard",
-							"sid": 459519910625641,
-							"parameters": {
-								"instance-variable": "nut",
-								"value": "false"
-							}
-						},
-						{
-							"id": "set-mirrored",
-							"objectClass": "seedNut",
-							"sid": 989835064483002,
-							"parameters": {
-								"state": "not-mirrored"
-							}
-						}
-					],
-					"sid": 860266992593790,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "Chance",
-									"objectClass": "Utils",
-									"sid": 459659307510797,
-									"parameters": {
-										"chance": "1",
-										"outof": "2"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-mirrored",
-									"objectClass": "seedNut",
-									"sid": 106579291362238,
-									"parameters": {
-										"state": "mirrored"
-									}
-								}
-							],
-							"sid": 509662320232691
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 196987472927947,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"nut\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 751252434165853,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "seedNut",
-											"sid": 680637720986260,
-											"parameters": {
-												"object": "zoneStopTh"
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "seedNut",
-											"sid": 253291354795833,
-											"parameters": {
-												"object": "puffball"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"callFunction": "addNut",
-											"sid": 768811911698947,
-											"parameters": [
-												"seedNut.X",
-												"seedNut.Y",
-												"\"zero\"",
-												false,
-												false
-											]
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "seedNut",
-											"sid": 792996302470561,
-											"parameters": {
-												"instance-variable": "on",
-												"value": "false"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "seedNut",
-											"sid": 660709300832734,
-											"parameters": {
-												"instance-variable": "dartUID",
-												"value": "-1"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "seedNut",
-											"sid": 198963937576643,
-											"parameters": {
-												"instance-variable": "hostUID",
-												"value": "-1"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "seedNut",
-											"sid": 982877162814240,
-											"parameters": {
-												"x": "-3777",
-												"y": "-74445"
-											}
-										},
-										{
-											"id": "set-enabled",
-											"objectClass": "seedNut",
-											"sid": 676324972301359,
-											"behaviorType": "EasyIsometric",
-											"parameters": {
-												"newState_": "disabled"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "seedNut",
-											"sid": 866126749792210,
-											"parameters": {
-												"animation": "\"i\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 994151614873382,
-									"isOrBlock": true
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 982339187213518
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation",
-											"objectClass": "seedNut",
-											"sid": 857891489651960,
-											"parameters": {
-												"animation": "\"seed\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 522866655600672
-								}
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 167016116763666
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 528712189099037,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"chick\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "seedNut",
-									"sid": 169811647889939,
-									"parameters": {
-										"animation": "\"seed\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 948555623136190
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 562935293274909
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 149034282590209,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"boom\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "seedNut",
-									"sid": 779576322715893,
-									"parameters": {
-										"animation": "\"boom\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 431942494284272
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "семя взрывается или превращается в юнит переданного от стража типа",
-					"background-color": [
-						0.7372549019607844,
-						0.7568627450980392,
-						0.8431372549019608,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-animation-finished",
-							"objectClass": "seedNut",
-							"sid": 431151038823076,
-							"parameters": {
-								"animation": "\"seed\""
-							}
-						}
-					],
-					"actions": [],
-					"sid": 729379464052116,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 214156266533592,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"chick\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "addChick",
-									"sid": 100165902392244,
-									"parameters": [
-										"seedNut.X",
-										"seedNut.Y",
-										"1",
-										"\"zero\""
-									]
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "seedNut",
-									"sid": 321365049234718,
-									"parameters": {
-										"instance-variable": "on",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "seedNut",
-									"sid": 661506217862892,
-									"parameters": {
-										"instance-variable": "dartUID",
-										"value": "-1"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "seedNut",
-									"sid": 598789330746079,
-									"parameters": {
-										"instance-variable": "hostUID",
-										"value": "-1"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "seedNut",
-									"sid": 803884268255748,
-									"parameters": {
-										"x": "-3777",
-										"y": "-74445"
-									}
-								},
-								{
-									"id": "set-enabled",
-									"objectClass": "seedNut",
-									"sid": 434068773677635,
-									"behaviorType": "EasyIsometric",
-									"parameters": {
-										"newState_": "disabled"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "seedNut",
-									"sid": 460183100791429,
-									"parameters": {
-										"animation": "\"i\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 669254014158467
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 157322395717734,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"nut\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "addNut",
-									"sid": 769983525748093,
-									"parameters": [
-										"seedNut.X",
-										"seedNut.Y",
-										"\"zero\"",
-										false,
-										false
-									]
-								},
-								{
-									"id": "wait",
-									"objectClass": "System",
-									"sid": 681934574345312,
-									"parameters": {
-										"seconds": "0",
-										"use-timescale": false
-									}
-								},
-								{
-									"id": "wait",
-									"objectClass": "System",
-									"sid": 946647980368648,
-									"parameters": {
-										"seconds": "0",
-										"use-timescale": false
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "seedNut",
-									"sid": 301442473820217,
-									"parameters": {
-										"instance-variable": "on",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "seedNut",
-									"sid": 115499733705744,
-									"parameters": {
-										"instance-variable": "dartUID",
-										"value": "-1"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "seedNut",
-									"sid": 304719134166593,
-									"parameters": {
-										"instance-variable": "hostUID",
-										"value": "-1"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "seedNut",
-									"sid": 248279845697716,
-									"parameters": {
-										"x": "-3777",
-										"y": "-74445"
-									}
-								},
-								{
-									"id": "set-enabled",
-									"objectClass": "seedNut",
-									"sid": 545159281992180,
-									"behaviorType": "EasyIsometric",
-									"parameters": {
-										"newState_": "disabled"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "seedNut",
-									"sid": 664177923962091,
-									"parameters": {
-										"animation": "\"i\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 375458762917839
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "после взрыва возвращаем в банк",
-					"background-color": [
-						0.7372549019607844,
-						0.7568627450980392,
-						0.8431372549019608,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-animation-finished",
-							"objectClass": "seedNut",
-							"sid": 184717159022870,
-							"parameters": {
-								"animation": "\"boom\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "seedNut",
-							"sid": 732471505584976,
-							"parameters": {
-								"instance-variable": "on",
-								"value": "false"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "seedNut",
-							"sid": 112577945530233,
-							"parameters": {
-								"instance-variable": "dartUID",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "seedNut",
-							"sid": 862075086855471,
-							"parameters": {
-								"instance-variable": "hostUID",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "set-position",
-							"objectClass": "seedNut",
-							"sid": 311289897872157,
-							"parameters": {
-								"x": "-3777",
-								"y": "-74445"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "seedNut",
-							"sid": 884389878578400,
-							"behaviorType": "EasyIsometric",
-							"parameters": {
-								"newState_": "disabled"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "seedNut",
-							"sid": 427224209375149,
-							"parameters": {
-								"animation": "\"i\"",
-								"from": "beginning"
-							}
-						}
-					],
-					"sid": 778558409243840
-				},
-				{
-					"eventType": "comment",
-					"text": "\nесли семя взрывается, и задевает героя",
-					"background-color": [
-						0.7372549019607844,
-						0.7568627450980392,
-						0.8431372549019608,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-collision-with-another-object",
-							"objectClass": "seedNut",
-							"sid": 117086406056546,
-							"parameters": {
-								"object": "base"
-							}
-						},
-						{
-							"id": "is-animation-playing",
-							"objectClass": "seedNut",
-							"sid": 648386094415714,
-							"parameters": {
-								"animation": "\"boom\""
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "seedNut",
-							"sid": 639294633001973,
-							"parameters": {
-								"instance-variable": "connectBit"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "base",
-							"sid": 340376685863990,
-							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "aBook.hero"
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "seedNut",
-							"sid": 782386741630341,
-							"parameters": {
-								"object": "Bit"
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "getSpikes",
-							"sid": 586946982704294,
-							"parameters": [
-								"5"
-							]
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "seedNut",
-							"sid": 581146984914567,
-							"parameters": {
-								"instance-variable": "connectBit",
-								"value": "true"
-							}
-						},
-						{
-							"callFunction": "snowCrash",
-							"sid": 748906095273421,
-							"parameters": [
-								"Bit.ImagePointX(\"center\")",
-								"Bit.ImagePointY(\"center\")",
-								"Bit.UID"
-							]
-						}
-					],
-					"sid": 150194577014188
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-collision-with-another-object",
-							"objectClass": "seedNut",
-							"sid": 668555331485945,
-							"parameters": {
-								"object": "Bit"
-							}
-						},
-						{
-							"id": "is-animation-playing",
-							"objectClass": "seedNut",
-							"sid": 554893549336851,
-							"parameters": {
-								"animation": "\"boom\""
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "seedNut",
-							"sid": 111247658433645,
-							"parameters": {
-								"instance-variable": "connectBit"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "base",
-							"sid": 686518497315741,
-							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "aBook.hero"
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "seedNut",
-							"sid": 980119213832421,
-							"parameters": {
-								"object": "base"
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "getSpikes",
-							"sid": 723554852563728,
-							"parameters": [
-								"5"
-							]
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "seedNut",
-							"sid": 231643697690178,
-							"parameters": {
-								"instance-variable": "connectBit",
-								"value": "true"
-							}
-						},
-						{
-							"callFunction": "snowCrash",
-							"sid": 107881457710090,
-							"parameters": [
-								"Bit.ImagePointX(\"center\")",
-								"Bit.ImagePointY(\"center\")",
-								"Bit.UID"
-							]
-						}
-					],
-					"sid": 363425427085186
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-collision-with-another-object",
-							"objectClass": "seedNut",
-							"sid": 122585930678759,
-							"parameters": {
-								"object": "BitFake"
-							}
-						},
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "base",
-							"sid": 243934416365053,
-							"parameters": {
-								"unique-id": "BitFake.baseUID"
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "snowCrash",
-							"sid": 575827245200560,
-							"parameters": [
-								"BitFake.ImagePointX(\"c\")",
-								"BitFake.ImagePointY(\"c\")",
-								"BitFake.UID"
-							]
-						},
-						{
-							"id": "destroy",
-							"objectClass": "base",
-							"sid": 325276315712006
-						},
-						{
-							"id": "set-position",
-							"objectClass": "BitFake",
-							"sid": 536170308897593,
-							"parameters": {
-								"x": "-9755",
-								"y": "-79881"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "BitFake",
-							"sid": 961911136854052,
-							"parameters": {
-								"animation": "\"zero\"",
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "BitFake",
-							"sid": 512983018189007,
-							"behaviorType": "EasyIsometric",
-							"parameters": {
-								"newState_": "disabled"
-							}
-						}
-					],
-					"sid": 906115697410725
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-animation-finished",
-							"objectClass": "seedNut",
-							"sid": 524996200623459,
-							"parameters": {
-								"animation": "\"boom\""
-							}
-						},
-						{
-							"id": "compare-animation-frame",
-							"objectClass": "seedNut",
-							"sid": 762624994164895,
-							"parameters": {
-								"comparison": 4,
-								"number": "0"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-position",
-							"objectClass": "seedNut",
-							"sid": 659793812812578,
-							"parameters": {
-								"x": "-3777",
-								"y": "-74445"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "seedNut",
-							"sid": 603884655105419,
-							"behaviorType": "EasyIsometric",
-							"parameters": {
-								"newState_": "disabled"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "seedNut",
-							"sid": 255038451573356,
-							"parameters": {
-								"instance-variable": "on",
-								"value": "false"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "seedNut",
-							"sid": 450198882740964,
-							"parameters": {
-								"instance-variable": "dartUID",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "seedNut",
-							"sid": 120629702923243,
-							"parameters": {
-								"instance-variable": "hostUID",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "seedNut",
-							"sid": 783296434817961,
-							"parameters": {
-								"instance-variable": "connectBit",
-								"value": "false"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "seedNut",
-							"sid": 677647706411690,
-							"parameters": {
-								"animation": "\"i\"",
-								"from": "beginning"
-							}
-						}
-					],
-					"sid": 978793400101184
-				},
-				{
-					"eventType": "comment",
 					"text": "Обновление луча атаки: Поворот и растягивание к герою, пока идет анимация.",
 					"background-color": [
 						0.7372549019607844,
@@ -8007,6 +7691,14 @@
 				{
 					"eventType": "block",
 					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 227278840923790,
+							"parameters": {
+								"interval-seconds": "0.1"
+							}
+						},
 						{
 							"id": "is-animation-playing",
 							"objectClass": "luch",
@@ -8038,10 +7730,10 @@
 						{
 							"id": "set-position",
 							"objectClass": "luch",
-							"sid": 431835725864332,
+							"sid": 717785837307687,
 							"parameters": {
-								"x": "tGuard.ImagePointX(3)",
-								"y": "tGuard.ImagePointY(3)"
+								"x": "tGuard.ImagePointX(\"eye\")",
+								"y": "tGuard.ImagePointY(\"eye\")"
 							}
 						},
 						{
@@ -8061,7 +7753,65 @@
 							}
 						}
 					],
-					"sid": 355726738575123
+					"sid": 355726738575123,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "tGuard",
+									"sid": 504381270520239,
+									"parameters": {
+										"animation": "\"stop6\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "tGuard",
+									"sid": 849859252845692,
+									"parameters": {
+										"animation": "\"stop7\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "move-to-object",
+									"objectClass": "luch",
+									"sid": 871178739543901,
+									"parameters": {
+										"where": "behind",
+										"object": "tGuard"
+									}
+								}
+							],
+							"sid": 749255712183529,
+							"isOrBlock": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 526247788354767
+								}
+							],
+							"actions": [
+								{
+									"id": "move-to-object",
+									"objectClass": "luch",
+									"sid": 517505015296371,
+									"parameters": {
+										"where": "in-front",
+										"object": "tGuard"
+									}
+								}
+							],
+							"sid": 414516522549552
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -8112,6 +7862,40 @@
 					"conditions": [
 						{
 							"id": "on-animation-finished",
+							"objectClass": "luchFX",
+							"sid": 488042618615914,
+							"parameters": {
+								"animation": "\"fx\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-animation",
+							"objectClass": "luchFX",
+							"sid": 955953379128996,
+							"parameters": {
+								"animation": "\"zero\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "luchFX",
+							"sid": 171990752951524,
+							"parameters": {
+								"x": "-3333",
+								"y": "-3333"
+							}
+						}
+					],
+					"sid": 528551228431187
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
 							"objectClass": "seal",
 							"sid": 757922041099647,
 							"parameters": {
@@ -8119,7 +7903,17 @@
 							}
 						}
 					],
-					"actions": [],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "ati",
+							"sid": 514534265173869,
+							"parameters": {
+								"instance-variable": "seal",
+								"value": "false"
+							}
+						}
+					],
 					"sid": 669657015442755,
 					"children": [
 						{
