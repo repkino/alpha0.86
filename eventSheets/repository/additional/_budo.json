@@ -3,7 +3,7 @@
 	"events": [
 		{
 			"eventType": "comment",
-			"text": "\nАнализ текущего состояния _budoBit:\nЛист написан в «старом стиле» и требует серьезной адаптации под текущие стандарты проекта Bioid:\n\n1 Нарушение стандарта Bank/Reuse: В событиях №61, 63, 67, 87 и 112 активно используются Create object и Destroy. Это противоречит правилу оптимизации Pagurus. Нужно перевести ball, ballShad и эффекты на выборку из «банка» (координаты < 0).\n2 Устаревшая коллизия: В функции ballHitByBit (№59) прописана логика только для ser (серпента). Для атаки на tGuard (стража) здесь пока ничего нет.\n3 Изометрия: Расчет bIso (изометрического радиуса) в №12 и №43 использует aTools.isoCoeff и aGame.ballRIso. Нужно проверить, соответствуют ли эти коэффициенты текущему наклону 0.5.\n4 Энергозависимость: В базе знаний указано, что Бит тратит энергию на действия. В текущем листе проверки уровня энергии перед броском нет.\nПлан адаптации (Логика):\nШаг 1: Внедрение Bank/Reuse. Переписываем создание шара: вместо Spawn, ищем ballShad с Y < 0, телепортируем его в точку Bit.ImagePoint(\"gun\") и привязываем к нему ball.\nШаг 2: Атака на Стража. Добавляем в ballHitByBit блок для tGuard. При попадании мяча страж должен либо переходить в состояние «оглушения» (stun), либо сбрасывать цикл роста.\nШаг 3: Синхронизация с _guardB. Если Бит атакует стража, который находится в процессе запечатывания (seal = true), атака должна прерывать этот процесс и освобождать Бита."
+			"text": "\nАнализ текущего состояния _budoBit:\nЛист написан в «старом стиле» и требует серьезной адаптации под текущие стандарты проекта Bioid:\n\n1 Нарушение стандарта Bank/Reuse: В событиях №61, 63, 67, 87 и 112 активно используются Create object и Destroy. Это противоречит правилу оптимизации Pagurus. Нужно перевести ball, ballShad и эффекты на выборку из «банка» (координаты < 0).\n2 Устаревшая коллизия: В функции ballHitByBit (№59) прописана логика только для ser (серпента). Для атаки на tGuard (стража) здесь пока ничего нет.\n3 Изометрия: Расчет bIso (изометрического радиуса) в №12 и №43 использует aTools.isoCoeff и aGame.ballRIso. Нужно проверить, соответствуют ли эти коэффициенты текущему наклону 0.5.\n4 Энергозависимость: В базе знаний указано, что Бит тратит энергию на действия. В текущем листе проверки уровня энергии перед броском нет.\nПлан адаптации (Логика):\nШаг 1: Внедрение Bank/Reuse. Переписываем создание шара: вместо Spawn, ищем ballShad с Y < 0, телепортируем его в точку Bit.ImagePoint(\"gun\") и привязываем к нему ball.\nШаг 2: Атака на Стража. Добавляем в ballHitByBit блок для tGuard. При попадании шара страж должен либо переходить в состояние «оглушения» (stun), либо сбрасывать цикл роста.\nШаг 3: Синхронизация с _guardB. Если Бит атакует стража, который находится в процессе запечатывания (seal = true), атака должна прерывать этот процесс и освобождать Бита."
 		},
 		{
 			"eventType": "group",
@@ -608,7 +608,7 @@
 					"children": [
 						{
 							"eventType": "comment",
-							"text": "При нажатии на панели кнопки мяча или плода активируется режим прицела на курсоре, который будет стрелять мячами на ЛКМ, пока не кончатся плоды или бесконечно в случае мячей. Отключение режима через нажатие на ту же кнопку или любую другую кнопку панелей, кроме плодов - они активируют режим с другим плодом. Так же нажатие ПКМ и СКМ и Esc отключат режим, также это сделает пробел при этом стреляя в обычном режиме. Также отключение может вызвать нападение на Нордика. Если режим отключается, надо отключить и группы мяча. В режиме другие функции мыши отключаются."
+							"text": "При нажатии на панели кнопки шара или плода активируется режим прицела на курсоре, который будет стрелять (кидать) шарами на ЛКМ, пока не кончатся плоды. Отключение режима через нажатие на ту же кнопку или любую другую кнопку панелей, кроме плодов - они активируют режим с другим плодом. Так же нажатие ПКМ и СКМ и Esc отключат режим, также это сделает пробел при этом стреляя в обычном режиме. Также отключение может вызвать нападение на героя. Если режим отключается, надо отключить и группы шара. В режиме другие функции мыши отключаются."
 						},
 						{
 							"functionName": "ballTarget",
@@ -1014,6 +1014,10 @@
 								},
 								{
 									"eventType": "comment",
+									"text": "! устаревшее"
+								},
+								{
+									"eventType": "comment",
 									"text": "реакция основной кнопки"
 								},
 								{
@@ -1077,6 +1081,10 @@
 									],
 									"sid": 532984370801184,
 									"disabled": true
+								},
+								{
+									"eventType": "comment",
+									"text": "! устаревшее"
 								},
 								{
 									"eventType": "comment",
@@ -1147,90 +1155,6 @@
 										}
 									],
 									"sid": 736666639221209,
-									"disabled": true
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "проверка изометрии"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "trigger-once-while-true",
-									"objectClass": "System",
-									"sid": 891248318693815
-								}
-							],
-							"actions": [],
-							"sid": 209706010933162,
-							"disabled": true,
-							"children": [
-								{
-									"eventType": "variable",
-									"name": "angl",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "",
-									"isStatic": false,
-									"isConstant": false,
-									"sid": 736119583725955
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "repeat",
-											"objectClass": "System",
-											"sid": 650896790363040,
-											"parameters": {
-												"count": "36"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-eventvar-value",
-											"objectClass": "System",
-											"sid": 979803820368525,
-											"parameters": {
-												"variable": "angl",
-												"value": "10*loopindex"
-											}
-										},
-										{
-											"id": "create-object",
-											"objectClass": "System",
-											"sid": 522812226120760,
-											"parameters": {
-												"object-to-create": "testSprite",
-												"layer": "\"front\"",
-												"x": "Bit.X",
-												"y": "Bit.Y",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "set-angle",
-											"objectClass": "testSprite",
-											"sid": 355592523156386,
-											"parameters": {
-												"angle": "angl"
-											}
-										},
-										{
-											"id": "set-width",
-											"objectClass": "testSprite",
-											"sid": 127327140089261,
-											"parameters": {
-												"width": "Functions.getIsoArray(angl)*222"
-											}
-										}
-									],
-									"sid": 244928250984069,
 									"disabled": true
 								}
 							]
@@ -2493,32 +2417,14 @@
 								},
 								{
 									"type": "comment",
-									"text": "   S"
-								},
-								{
-									"callFunction": "sense",
-									"sid": 915772601410733,
-									"disabled": true,
-									"parameters": [
-										"aBook.hero",
-										"\"ball\"",
-										"-0.06",
-										"0",
-										"1",
-										"\"ballStart\"",
-										"aGame.mind",
-										"0",
-										"1",
-										"1",
-										"0"
-									]
+									"text": "! нужно добавить энергозатраты"
 								}
 							],
 							"sid": 267360661643866,
 							"children": [
 								{
 									"eventType": "comment",
-									"text": "поворот Нордика к курсору"
+									"text": "поворот героя к курсору"
 								},
 								{
 									"eventType": "block",
@@ -2541,19 +2447,6 @@
 											"parameters": {
 												"function_name:0": "\"rotateToMouse\""
 											}
-										},
-										{
-											"callFunction": "animPers",
-											"sid": 489701980167841,
-											"disabled": true,
-											"parameters": [
-												"person.UID",
-												"basis.directNumbers=8? \"ball\"&(basis.direct=3 ? 1 : basis.direct=4 ? 0 : basis.direct=5 ? 7 : basis.direct) : basis.directNumbers=6? \"ball\" & (basis.direct=2 ? 1 : basis.direct=3 ? 0 : basis.direct=4 ? 5 : basis.direct) :  \"ball1\"",
-												"0",
-												"0",
-												"basis.move=1?24:12",
-												"0"
-											]
 										},
 										{
 											"customAction": "anim",
@@ -2696,19 +2589,6 @@
 																true,
 																"\"zero\""
 															]
-														},
-														{
-															"callFunction": "animPers",
-															"sid": 366688512362820,
-															"disabled": true,
-															"parameters": [
-																"person.UID",
-																"basis.directNumbers=8? \"ball\"&(basis.direct=3 ? 1 : basis.direct=4 ? 0 : basis.direct=5 ? 7 : basis.direct) : basis.directNumbers=6? \"ball\" & (basis.direct=2 ? 1 : basis.direct=3 ? 0 : basis.direct=4 ? 5 : basis.direct) :  \"ball1\"",
-																"0",
-																"0",
-																"basis.move=1?24:12",
-																"0"
-															]
 														}
 													],
 													"sid": 749316596332799
@@ -2754,7 +2634,11 @@
 								},
 								{
 									"eventType": "comment",
-									"text": "\n\n\nесли активный плод не мяч, вычетаем единицу из ключа плода"
+									"text": "! устаревшее, адаптировать"
+								},
+								{
+									"eventType": "comment",
+									"text": "вычетаем единицу из ключа шара/плода"
 								},
 								{
 									"eventType": "block",
@@ -2822,6 +2706,10 @@
 									],
 									"sid": 361444903635100,
 									"disabled": true
+								},
+								{
+									"eventType": "comment",
+									"text": "! устаревшее, адаптировать"
 								},
 								{
 									"eventType": "comment",
@@ -3008,6 +2896,10 @@
 								},
 								{
 									"eventType": "comment",
+									"text": "! устаревшее, адаптировать"
+								},
+								{
+									"eventType": "comment",
 									"text": "обновляем значки плодов"
 								},
 								{
@@ -3121,218 +3013,201 @@
 								},
 								{
 									"eventType": "comment",
-									"text": "\n\nсоздание шара"
+									"text": "\n\nвыбор шара"
 								},
 								{
 									"eventType": "block",
-									"conditions": [],
-									"actions": [
+									"conditions": [
 										{
-											"id": "spawn-another-object",
-											"objectClass": "basis",
-											"sid": 560267332463533,
-											"disabled": true,
-											"parameters": {
-												"object": "ballShad",
-												"layer": "\"iso\"",
-												"image-point": "0",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "create-object",
-											"objectClass": "System",
-											"sid": 620251027123610,
-											"parameters": {
-												"object-to-create": "ballShad",
-												"layer": "\"iso\"",
-												"x": "Bit.ImagePointX(\"gun\")",
-												"y": "basis.Y",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "set-position",
+											"id": "is-outside-layout",
 											"objectClass": "ballShad",
-											"sid": 565055399372355,
-											"parameters": {
-												"x": "Bit.ImagePointX(\"gun\")",
-												"y": "basis.direct=2?basis.Y+20: basis.direct=1|basis.direct=3?basis.Y+10:basis.direct>4?basis.Y-10:basis.Y+1"
-											}
+											"sid": 352960288809557
 										},
 										{
-											"id": "set-instvar-value",
+											"id": "is-boolean-instance-variable-set",
 											"objectClass": "ballShad",
-											"sid": 832802430140720,
+											"sid": 459066793614101,
 											"parameters": {
-												"instance-variable": "fruit",
-												"value": "aGame.activeFruit"
-											}
-										},
-										{
-											"id": "set-angle",
-											"objectClass": "ballShad",
-											"sid": 885538463969619,
-											"parameters": {
-												"angle": "0"
-											}
-										},
-										{
-											"id": "set-opacity",
-											"objectClass": "ballShad",
-											"sid": 308629223969674,
-											"parameters": {
-												"opacity": "Self.opas"
-											}
-										},
-										{
-											"id": "spawn-another-object",
-											"objectClass": "ballShad",
-											"sid": 583812219028946,
-											"parameters": {
-												"object": "ball",
-												"layer": "\"iso\"",
-												"image-point": "0",
-												"create-hierarchy": true,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "set-size",
-											"objectClass": "ball",
-											"sid": 890491928584221,
-											"disabled": true,
-											"parameters": {
-												"width": "Self.ImageWidth*aBook.heroScaleCoeff*1.1*basis.zScale",
-												"height": "Self.ImageHeight*aBook.heroScaleCoeff*1.1*basis.zScale"
-											}
-										},
-										{
-											"id": "set-size",
-											"objectClass": "ball",
-											"sid": 728201896303628,
-											"parameters": {
-												"width": "Self.ImageWidth*aBook.heroScaleCoeff*1.5",
-												"height": "Self.ImageHeight*aBook.heroScaleCoeff*1.5"
-											}
-										},
-										{
-											"id": "set-angle",
-											"objectClass": "ball",
-											"sid": 646979739296377,
-											"parameters": {
-												"angle": "0"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "ball",
-											"sid": 325952082013034,
-											"parameters": {
-												"animation": "aGame.activeFruit",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ballShad",
-											"sid": 262097293349077,
-											"parameters": {
-												"instance-variable": "ballUID",
-												"value": "ball.UID"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ballShad",
-											"sid": 225591220945203,
-											"parameters": {
-												"instance-variable": "xx",
-												"value": "xx"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ballShad",
-											"sid": 512945778149816,
-											"parameters": {
-												"instance-variable": "yy",
-												"value": "yy"
-											}
-										},
-										{
-											"id": "set-x",
-											"objectClass": "ballShad",
-											"sid": 805484842409810,
-											"parameters": {
-												"x": "Bit.ImagePointX(\"gun\")"
-											}
-										},
-										{
-											"id": "set-y",
-											"objectClass": "ball",
-											"sid": 414225713093858,
-											"disabled": true,
-											"parameters": {
-												"y": "Bit.ImagePointY(2)"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "ball",
-											"sid": 374929606080407,
-											"parameters": {
-												"x": "ballShad.X",
-												"y": "Bit.ImagePointY(\"gun\")"
-											}
-										},
-										{
-											"id": "pin-to-object-properties",
-											"objectClass": "ball",
-											"sid": 827507795461145,
-											"behaviorType": "Pin",
-											"parameters": {
-												"pin-to": "ballShad",
-												"x": true,
-												"y": false,
-												"angle": false,
-												"width-type": "no",
-												"height-type": "no",
-												"z": false
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ball",
-											"sid": 229791603450122,
-											"parameters": {
-												"instance-variable": "startY",
-												"value": "ballShad.Y"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ball",
-											"sid": 644937877629552,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "startY",
-												"value": "Self.Y"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "ball",
-											"sid": 446118514480665,
-											"parameters": {
-												"animation": "\"start\"",
-												"from": "beginning"
-											}
+												"instance-variable": "on"
+											},
+											"isInverted": true
 										}
 									],
-									"sid": 782169110455251
+									"actions": [],
+									"sid": 119296523016509,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 155828875156418,
+													"parameters": {
+														"object": "ballShad"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "ballShad",
+													"sid": 759625841705735,
+													"parameters": {
+														"x": "Bit.ImagePointX(\"gun\")",
+														"y": "basis.direct=2?basis.Y+20: basis.direct=1|basis.direct=3?basis.Y+10:basis.direct>4?basis.Y-10:basis.Y+1"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ballShad",
+													"sid": 840009390216829,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ballShad",
+													"sid": 477339592647133,
+													"parameters": {
+														"instance-variable": "fruit",
+														"value": "aGame.activeFruit"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "ballShad",
+													"sid": 138800572279940,
+													"parameters": {
+														"angle": "0"
+													}
+												},
+												{
+													"id": "set-opacity",
+													"objectClass": "ballShad",
+													"sid": 996720380919950,
+													"parameters": {
+														"opacity": "Self.opas"
+													}
+												},
+												{
+													"id": "set-size",
+													"objectClass": "ball",
+													"sid": 576231561668544,
+													"parameters": {
+														"width": "Self.ImageWidth*aBook.heroScaleCoeff*1.5",
+														"height": "Self.ImageHeight*aBook.heroScaleCoeff*1.5"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "ball",
+													"sid": 764204992301827,
+													"parameters": {
+														"angle": "0"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ball",
+													"sid": 505117937704598,
+													"parameters": {
+														"animation": "aGame.activeFruit",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ballShad",
+													"sid": 841081059096226,
+													"parameters": {
+														"instance-variable": "ballUID",
+														"value": "ball.UID"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ballShad",
+													"sid": 490128100921690,
+													"parameters": {
+														"instance-variable": "xx",
+														"value": "xx"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ballShad",
+													"sid": 266738803614511,
+													"parameters": {
+														"instance-variable": "yy",
+														"value": "yy"
+													}
+												},
+												{
+													"id": "set-x",
+													"objectClass": "ballShad",
+													"sid": 369551448915066,
+													"parameters": {
+														"x": "Bit.ImagePointX(\"gun\")"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "ball",
+													"sid": 437622151250174,
+													"parameters": {
+														"x": "ballShad.X",
+														"y": "Bit.ImagePointY(\"gun\")"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ball",
+													"sid": 576339126811880,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "true"
+													}
+												},
+												{
+													"id": "pin-to-object-properties",
+													"objectClass": "ball",
+													"sid": 596160839375281,
+													"behaviorType": "Pin",
+													"parameters": {
+														"pin-to": "ballShad",
+														"x": true,
+														"y": false,
+														"angle": false,
+														"width-type": "no",
+														"height-type": "no",
+														"z": false
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ball",
+													"sid": 917084621819292,
+													"parameters": {
+														"instance-variable": "startY",
+														"value": "ballShad.Y"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ball",
+													"sid": 963150367516454,
+													"parameters": {
+														"animation": "\"start\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 573497021230395
+										}
+									]
 								}
 							]
 						},
@@ -3374,7 +3249,13 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\n\nбросок"
+							"text": "\n\n\nбросок",
+							"background-color": [
+								0.996078431372549,
+								0.7450980392156863,
+								0.7450980392156863,
+								1
+							]
 						},
 						{
 							"eventType": "block",
@@ -3416,16 +3297,6 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "ballShad",
-									"sid": 727536270451313,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "ang",
-										"value": "round(angle(base.X,base.Y,Self.xx,Self.yy)-360*floor(angle(base.X,base.Y,Self.xx,Self.yy)/360))"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "ballShad",
 									"sid": 917808450903204,
 									"parameters": {
 										"instance-variable": "ang",
@@ -3439,16 +3310,6 @@
 									"parameters": {
 										"instance-variable": "rangeIso",
 										"value": "Functions.getIsoArray(Self.ang) * aGame.ballRange\n"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "ballShad",
-									"sid": 904910070414192,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "rangeIso",
-										"value": "1/sqrt((sin(Self.ang)/aGame.ballRIso)^2+(cos(Self.ang)/aGame.ballRange)^2)\n"
 									}
 								},
 								{
@@ -3472,20 +3333,40 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "ballShad",
-									"sid": 630063761285838,
-									"disabled": true,
+									"sid": 649135370575514,
 									"parameters": {
-										"instance-variable": "long",
-										"value": "aGame.activeFruit=\"cucu\"?Self.rangeIso: clamp(distance(Self.X,Self.Y,Self.xx,Self.yy),120,Self.rangeIso)"
+										"instance-variable": "state",
+										"value": "\"on\""
 									}
 								},
 								{
 									"id": "set-instvar-value",
 									"objectClass": "ballShad",
-									"sid": 547947132823044,
+									"sid": 424426722542419,
+									"disabled": true,
 									"parameters": {
-										"instance-variable": "state",
-										"value": "\"on\""
+										"instance-variable": "ang",
+										"value": "round(angle(base.X,base.Y,Self.xx,Self.yy)-360*floor(angle(base.X,base.Y,Self.xx,Self.yy)/360))"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ballShad",
+									"sid": 294757988832727,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "rangeIso",
+										"value": "1/sqrt((sin(Self.ang)/aGame.ballRIso)^2+(cos(Self.ang)/aGame.ballRange)^2)\n"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ballShad",
+									"sid": 630063761285838,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "long",
+										"value": "aGame.activeFruit=\"cucu\"?Self.rangeIso: clamp(distance(Self.X,Self.Y,Self.xx,Self.yy),120,Self.rangeIso)"
 									}
 								},
 								{
@@ -3505,6 +3386,15 @@
 										"loop": "no",
 										"ping-pong": "no",
 										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "ballShad",
+									"sid": 194279193455723,
+									"behaviorType": "Tween",
+									"parameters": {
+										"mode": "enabled"
 									}
 								},
 								{
@@ -3572,77 +3462,6 @@
 									}
 								},
 								{
-									"id": "set-enabled",
-									"objectClass": "ballShad",
-									"sid": 548871453950695,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"state": "enabled"
-									}
-								},
-								{
-									"id": "pin",
-									"objectClass": "ballShad",
-									"sid": 943136244039574,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"target": "base"
-									}
-								},
-								{
-									"id": "set-acceleration",
-									"objectClass": "ballShad",
-									"sid": 439528922429229,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"acceleration": "-50"
-									}
-								},
-								{
-									"id": "set-speed",
-									"objectClass": "ballShad",
-									"sid": 292748256178265,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"speed": "aGame.activeFruit=\"cucu\"?100:200"
-									}
-								},
-								{
-									"id": "set-speed",
-									"objectClass": "ballShad",
-									"sid": 125871551910551,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"speed": "aGame.activeFruit=\"cucu\"?100:250"
-									}
-								},
-								{
-									"id": "set-offset-angle",
-									"objectClass": "ballShad",
-									"sid": 622226568483633,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"angle": "Self.ang+270"
-									}
-								},
-								{
-									"id": "set-radius",
-									"objectClass": "ballShad",
-									"sid": 402606359801096,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"primary": "0",
-										"secondary": "Self.long"
-									}
-								},
-								{
 									"id": "set-instvar-value",
 									"objectClass": "Bit",
 									"sid": 515839065724173,
@@ -3653,7 +3472,7 @@
 								},
 								{
 									"type": "comment",
-									"text": "таймер отключающий активность мяча для коллизий, чтобы он покинул тень героя"
+									"text": "таймер отключающий активность шара для коллизий, чтобы он покинул тень героя"
 								},
 								{
 									"id": "start-timer",
@@ -3776,7 +3595,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "таймер включающий активность мяча"
+							"text": "таймер включающий активность шара"
 						},
 						{
 							"eventType": "block",
@@ -3834,7 +3653,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\nвозврат мяча"
+							"text": "\nвозврат шара"
 						},
 						{
 							"eventType": "block",
@@ -3897,9 +3716,18 @@
 									}
 								},
 								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ballShad",
+									"sid": 919812415060941,
+									"parameters": {
+										"instance-variable": "on"
+									}
+								},
+								{
 									"id": "compare-instance-variable",
 									"objectClass": "ballShad",
 									"sid": 641513741713287,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "fruit",
 										"comparison": 0,
@@ -3945,16 +3773,6 @@
 								}
 							],
 							"actions": [
-								{
-									"id": "set-speed",
-									"objectClass": "ballShad",
-									"sid": 909683298257735,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"speed": "80"
-									}
-								},
 								{
 									"id": "start-timer",
 									"objectClass": "basis",
@@ -4015,9 +3833,18 @@
 									}
 								},
 								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ballShad",
+									"sid": 508755247988787,
+									"parameters": {
+										"instance-variable": "on"
+									}
+								},
+								{
 									"id": "compare-instance-variable",
 									"objectClass": "ballShad",
 									"sid": 217164511957713,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "fruit",
 										"comparison": 0,
@@ -4055,16 +3882,6 @@
 								}
 							],
 							"actions": [
-								{
-									"id": "set-speed",
-									"objectClass": "ballShad",
-									"sid": 201520054318096,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"speed": "80"
-									}
-								},
 								{
 									"id": "start-timer",
 									"objectClass": "basis",
@@ -4116,9 +3933,18 @@
 									}
 								},
 								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ballShad",
+									"sid": 595530209432518,
+									"parameters": {
+										"instance-variable": "on"
+									}
+								},
+								{
 									"id": "compare-instance-variable",
 									"objectClass": "ballShad",
 									"sid": 144348635515218,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "fruit",
 										"comparison": 0,
@@ -4173,26 +3999,6 @@
 									"disabled": true,
 									"parameters": {
 										"text": "\"col\""
-									}
-								},
-								{
-									"id": "set-speed",
-									"objectClass": "ballShad",
-									"sid": 612333429862555,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"speed": "clamp(Self.Orbit.Speed,60,80)"
-									}
-								},
-								{
-									"id": "set-speed",
-									"objectClass": "ballShad",
-									"sid": 482245776701442,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"speed": "80"
 									}
 								},
 								{
@@ -4292,9 +4098,12 @@
 									"behaviorType": "Pin"
 								},
 								{
-									"id": "destroy",
+									"id": "set-visible",
 									"objectClass": "ballShad",
-									"sid": 264542542729759
+									"sid": 439569249656416,
+									"parameters": {
+										"visibility": "invisible"
+									}
 								},
 								{
 									"id": "set-enabled",
@@ -4344,6 +4153,65 @@
 						},
 						{
 							"eventType": "comment",
+							"text": "?"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-tweens-finished",
+									"objectClass": "ball",
+									"sid": 582918251355235,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"getBallX\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "ballGoBank",
+									"sid": 129956058611452,
+									"parameters": [
+										"ball.UID"
+									]
+								}
+							],
+							"sid": 786088655804269,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 419960088517986,
+											"parameters": {
+												"animation": "\"ball9\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "animPers",
+											"sid": 606136741150480,
+											"parameters": [
+												"Bit.UID",
+												"\"ball9\"",
+												"0",
+												"0",
+												"basis.move=12?24:12",
+												"0"
+											]
+										}
+									],
+									"sid": 172333452164536
+								}
+							]
+						},
+						{
+							"eventType": "comment",
 							"text": "\nпроцедура проглатывания"
 						},
 						{
@@ -4359,16 +4227,6 @@
 								}
 							],
 							"actions": [
-								{
-									"id": "set-speed",
-									"objectClass": "ballShad",
-									"sid": 501571688417915,
-									"disabled": true,
-									"behaviorType": "Orbit",
-									"parameters": {
-										"speed": "lerp(Self.Orbit.Speed,0,0.3)"
-									}
-								},
 								{
 									"type": "comment",
 									"text": "смягчает приём шара, но даёт паузу на высоте (гейзер)"
@@ -4386,14 +4244,19 @@
 							"sid": 613230041385201,
 							"children": [
 								{
+									"eventType": "comment",
+									"text": "! нужно заменить условие"
+								},
+								{
 									"eventType": "block",
 									"conditions": [
 										{
 											"id": "compare-two-values",
 											"objectClass": "System",
 											"sid": 213459249351670,
+											"disabled": true,
 											"parameters": {
-												"first-value": "ballShad.Orbit.Speed",
+												"first-value": "ballShad.Orbito.Speed",
 												"comparison": 2,
 												"second-value": "15"
 											}
@@ -4404,7 +4267,7 @@
 									"children": [
 										{
 											"eventType": "comment",
-											"text": "\nесли Нордик на высоте от тени, в прыжке, в полёте, над гейзером"
+											"text": "\nесли герой на высоте от тени, в прыжке, в полёте, над гейзером"
 										},
 										{
 											"eventType": "block",
@@ -4453,9 +4316,12 @@
 															"behaviorType": "Pin"
 														},
 														{
-															"id": "destroy",
+															"id": "set-visible",
 															"objectClass": "ballShad",
-															"sid": 914936847208981
+															"sid": 192504172344501,
+															"parameters": {
+																"visibility": "invisible"
+															}
 														},
 														{
 															"id": "set-enabled",
@@ -4507,7 +4373,7 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "если Нордик на земле"
+											"text": "если герой на земле"
 										},
 										{
 											"eventType": "block",
@@ -4542,9 +4408,12 @@
 											],
 											"actions": [
 												{
-													"id": "destroy",
+													"id": "set-visible",
 													"objectClass": "ballShad",
-													"sid": 374065011239439
+													"sid": 855039654275168,
+													"parameters": {
+														"visibility": "invisible"
+													}
 												}
 											],
 											"sid": 821847922630933
@@ -4672,7 +4541,187 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\n\n\n мяч или плоды после удара обо что-то\n"
+							"text": "\n\n\n снаряды после удара обо что-то\n"
+						},
+						{
+							"eventType": "comment",
+							"text": "\nшар возвращается в банк",
+							"background-color": [
+								0.611764705882353,
+								0.8901960784313725,
+								0.8705882352941177,
+								1
+							]
+						},
+						{
+							"functionName": "ballGoBank",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "uid",
+									"type": "number",
+									"initialValue": "-1",
+									"comment": "",
+									"sid": 379720984455746
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "ball",
+									"sid": 527105475531370,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "ballShad",
+									"sid": 314063314060307,
+									"parameters": {
+										"instance-variable": "ballUID",
+										"comparison": 0,
+										"value": "ball.UID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "unpin",
+									"objectClass": "ball",
+									"sid": 781499553192481,
+									"behaviorType": "Pin"
+								},
+								{
+									"id": "set-position",
+									"objectClass": "ball",
+									"sid": 190734151716635,
+									"parameters": {
+										"x": "-5000",
+										"y": "-53000"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ball",
+									"sid": 861710794170583,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ball",
+									"sid": 493752378329182,
+									"parameters": {
+										"instance-variable": "jump",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ball",
+									"sid": 621123506064016,
+									"parameters": {
+										"instance-variable": "state",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "stop-all-tweens",
+									"objectClass": "ball",
+									"sid": 158266212780923,
+									"behaviorType": "Tween"
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "ball",
+									"sid": 939357774828642,
+									"behaviorType": "Tween",
+									"parameters": {
+										"mode": "disabled"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "ball",
+									"sid": 980975269586350,
+									"parameters": {
+										"animation": "\"i\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "ballShad",
+									"sid": 630070194071259,
+									"parameters": {
+										"x": "-53000",
+										"y": "-5000"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ballShad",
+									"sid": 490236494727613,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ballShad",
+									"sid": 227718221431608,
+									"parameters": {
+										"instance-variable": "end",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ballShad",
+									"sid": 286291792859006,
+									"parameters": {
+										"instance-variable": "state",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "stop-all-tweens",
+									"objectClass": "ballShad",
+									"sid": 391200356645340,
+									"behaviorType": "Tween"
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "ballShad",
+									"sid": 639533934162448,
+									"behaviorType": "Tween",
+									"parameters": {
+										"mode": "disabled"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "ballShad",
+									"sid": 707976907176788,
+									"parameters": {
+										"visibility": "visible"
+									}
+								}
+							],
+							"sid": 373601359147060
+						},
+						{
+							"eventType": "comment",
+							"text": "! устаревшее, адаптировать"
 						},
 						{
 							"functionName": "ballHit",
@@ -4768,14 +4817,11 @@
 											}
 										},
 										{
-											"id": "destroy",
-											"objectClass": "ballShad",
-											"sid": 167466831810494
-										},
-										{
-											"id": "destroy",
-											"objectClass": "ball",
-											"sid": 446269125139255
+											"callFunction": "ballGoBank",
+											"sid": 609404582592221,
+											"parameters": [
+												"ball.UID"
+											]
 										}
 									],
 									"sid": 774375054134629,
@@ -4919,14 +4965,11 @@
 											}
 										},
 										{
-											"id": "destroy",
-											"objectClass": "ballShad",
-											"sid": 446482881325087
-										},
-										{
-											"id": "destroy",
-											"objectClass": "ball",
-											"sid": 175975615130102
+											"callFunction": "ballGoBank",
+											"sid": 168159021853836,
+											"parameters": [
+												"ball.UID"
+											]
 										}
 									],
 									"sid": 773685887282606,
@@ -5010,14 +5053,11 @@
 													}
 												},
 												{
-													"id": "destroy",
-													"objectClass": "ballShad",
-													"sid": 631940485990266
-												},
-												{
-													"id": "destroy",
-													"objectClass": "ball",
-													"sid": 528339372470788
+													"callFunction": "ballGoBank",
+													"sid": 283045142609869,
+													"parameters": [
+														"ball.UID"
+													]
 												}
 											],
 											"sid": 747977947006235
@@ -5080,14 +5120,11 @@
 													}
 												},
 												{
-													"id": "destroy",
-													"objectClass": "ballShad",
-													"sid": 950543771739955
-												},
-												{
-													"id": "destroy",
-													"objectClass": "ball",
-													"sid": 788360939563264
+													"callFunction": "ballGoBank",
+													"sid": 396934027006982,
+													"parameters": [
+														"ball.UID"
+													]
 												}
 											],
 											"sid": 244721555401276
@@ -5186,6 +5223,15 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "ball",
+											"sid": 777013916304966,
+											"parameters": {
+												"instance-variable": "speed",
+												"value": "-Self.speed*0.7"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ball",
 											"sid": 941042934503857,
 											"disabled": true,
 											"parameters": {
@@ -5201,15 +5247,6 @@
 											"parameters": {
 												"instance-variable": "speed",
 												"value": "-Self.speed*0.8"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ball",
-											"sid": 735658445672563,
-											"parameters": {
-												"instance-variable": "speed",
-												"value": "-Self.speed*0.7"
 											}
 										},
 										{
@@ -6106,40 +6143,31 @@
 							]
 						},
 						{
+							"eventType": "comment",
+							"text": "\nвозвращение шара в банк"
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "on-animation-finished",
 									"objectClass": "ball",
-									"sid": 617299633212777,
+									"sid": 177249828019674,
 									"parameters": {
 										"animation": "\"crash\""
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "ballShad",
-									"sid": 308876855000034,
-									"parameters": {
-										"instance-variable": "ballUID",
-										"comparison": 0,
-										"value": "ball.UID"
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "destroy",
-									"objectClass": "ball",
-									"sid": 314057482991810
-								},
-								{
-									"id": "destroy",
-									"objectClass": "ballShad",
-									"sid": 869586226440367
+									"callFunction": "ballGoBank",
+									"sid": 675923222116301,
+									"parameters": [
+										"ball.UID"
+									]
 								}
 							],
-							"sid": 454077732423078
+							"sid": 698817999151167
 						}
 					],
 					"sid": 398126200249659
@@ -6184,7 +6212,7 @@
 							"children": [
 								{
 									"eventType": "comment",
-									"text": "мяч отскакивает"
+									"text": "шар отскакивает"
 								},
 								{
 									"eventType": "variable",
@@ -6230,16 +6258,6 @@
 										}
 									],
 									"actions": [
-										{
-											"id": "set-speed",
-											"objectClass": "ballShad",
-											"sid": 473228365332424,
-											"disabled": true,
-											"behaviorType": "Orbit",
-											"parameters": {
-												"speed": "-Self.Orbit.Speed"
-											}
-										},
 										{
 											"id": "set-eventvar-value",
 											"objectClass": "System",
@@ -6315,7 +6333,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\nпроглатывание вернувшегося мяча"
+							"text": "\nпроглатывание вернувшегося шара"
 						},
 						{
 							"eventType": "block",
@@ -6414,16 +6432,18 @@
 											]
 										},
 										{
-											"id": "destroy",
-											"objectClass": "ball",
-											"sid": 456601524368337
+											"callFunction": "ballGoBank",
+											"sid": 769120221833280,
+											"parameters": [
+												"ball.UID"
+											]
 										}
 									],
 									"sid": 635412093980989
 								},
 								{
 									"eventType": "comment",
-									"text": "если мяч пролетел мимо направляем прямо к Нордику"
+									"text": "если шар пролетел мимо направляем прямо к герою"
 								},
 								{
 									"eventType": "block",
@@ -6485,7 +6505,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "завершение анимации бросания мяча"
+							"text": "завершение анимации бросания шара"
 						},
 						{
 							"eventType": "block",
