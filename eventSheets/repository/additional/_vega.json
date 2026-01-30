@@ -17165,6 +17165,356 @@
 		},
 		{
 			"eventType": "comment",
+			"text": "\n\n\n    гейзер"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-collision-with-another-object",
+					"objectClass": "basis",
+					"sid": 669785522060388,
+					"parameters": {
+						"object": "gaser"
+					}
+				}
+			],
+			"actions": [
+				{
+					"callFunction": "jump",
+					"sid": 814888317268301,
+					"parameters": [
+						"basis.name",
+						"-300",
+						"4000",
+						"0",
+						"\"gaser\"",
+						"1",
+						"0",
+						false,
+						true,
+						"\"zero\"",
+						"0"
+					]
+				},
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 811039026984863,
+					"parameters": {
+						"group-name": "\"gaser\"",
+						"state": "activated"
+					}
+				},
+				{
+					"id": "wait",
+					"objectClass": "System",
+					"sid": 320260059666478,
+					"disabled": true,
+					"parameters": {
+						"seconds": "0.1",
+						"use-timescale": true
+					}
+				},
+				{
+					"id": "callselffunction0",
+					"objectClass": "basis",
+					"sid": 406054884810313,
+					"disabled": true,
+					"behaviorType": "sf",
+					"parameters": {
+						"function_name:0": "\"stop\""
+					}
+				},
+				{
+					"id": "set-animation",
+					"objectClass": "Nordik",
+					"sid": 296240818413702,
+					"disabled": true,
+					"parameters": {
+						"animation": "\"react\"",
+						"from": "beginning"
+					}
+				}
+			],
+			"sid": 361035015860975
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "gaser",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"eventType": "variable",
+					"name": "speedC",
+					"type": "number",
+					"initialValue": "1",
+					"comment": "",
+					"isStatic": true,
+					"isConstant": false,
+					"sid": 357130174812041
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 116460008892203,
+							"parameters": {
+								"object": "gaser"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "jumper",
+							"sid": 892085459558700,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "basis.name"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 168820901589411,
+							"parameters": {
+								"variable": "speedC",
+								"value": "basis.speedCoeff"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "basis",
+							"sid": 673258878505012,
+							"parameters": {
+								"instance-variable": "speedCoeff",
+								"value": "0.1"
+							}
+						}
+					],
+					"sid": 406858077503630,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "subtract-from-instvar",
+									"objectClass": "jumper",
+									"sid": 691685889630636,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "(500-distance(0,jumper.Y,0,gaser.Y)*3)*60*dt"
+									}
+								},
+								{
+									"id": "subtract-from-instvar",
+									"objectClass": "jumper",
+									"sid": 396541394210713,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "(500-(distance(0,jumper.Y,0,gaser.ImagePointY(1)) +distance(jumper.x,0,gaser.X,0))*3)*60*dt"
+									}
+								}
+							],
+							"sid": 421809030437348,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "every-x-seconds",
+											"objectClass": "System",
+											"sid": 902237755472606,
+											"parameters": {
+												"interval-seconds": "0.1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "jumper",
+											"sid": 405573873464552,
+											"parameters": {
+												"instance-variable": "speed",
+												"value": "Self.speed*0.9"
+											}
+										}
+									],
+									"sid": 677137424335965
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "jumper",
+									"sid": 892320905517858,
+									"parameters": {
+										"instance-variable": "jump"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [],
+							"sid": 258035785761864,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "every-x-seconds",
+											"objectClass": "System",
+											"sid": 875201485106655,
+											"parameters": {
+												"interval-seconds": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "jump",
+											"sid": 680690303661700,
+											"parameters": [
+												"basis.name",
+												"random(-400,-800)",
+												"4000",
+												"0",
+												"\"gaser\"",
+												"1",
+												"0",
+												false,
+												true,
+												"\"zero\"",
+												"0"
+											]
+										}
+									],
+									"sid": 400334801407270
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 460682695872703
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "jump",
+											"sid": 977836073188900,
+											"parameters": [
+												"basis.name",
+												"-1000",
+												"4000",
+												"0",
+												"\"gaser\"",
+												"1",
+												"0",
+												false,
+												true,
+												"\"zero\"",
+												"0"
+											]
+										}
+									],
+									"sid": 694729383099247
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 257811276461231
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aGame",
+									"sid": 846932613877321,
+									"parameters": {
+										"instance-variable": "mindMapImpact",
+										"value": "\"gaser\""
+									}
+								}
+							],
+							"sid": 221534637673748,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 743311710006949
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"sid": 281592901308984,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "basis",
+							"sid": 366576061953827,
+							"parameters": {
+								"instance-variable": "speedCoeff",
+								"value": "speedC"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aGame",
+							"sid": 304948468574775,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "mindMapImpact",
+								"value": "\"\""
+							}
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 864546464698901,
+							"parameters": {
+								"group-name": "\"gaser\"",
+								"state": "deactivated"
+							}
+						}
+					],
+					"sid": 244800087516218
+				}
+			],
+			"sid": 165994984666095
+		},
+		{
+			"eventType": "comment",
 			"text": "\n\n\n\nвспомогательные действия и механики",
 			"background-color": [
 				0.7607843137254902,
