@@ -3163,6 +3163,15 @@
 													}
 												},
 												{
+													"id": "set-instvar-value",
+													"objectClass": "ball",
+													"sid": 654293533593062,
+													"parameters": {
+														"instance-variable": "vOffset",
+														"value": "ballShad.Y - Bit.ImagePointY(\"gun\")"
+													}
+												},
+												{
 													"id": "set-boolean-instvar",
 													"objectClass": "ball",
 													"sid": 576339126811880,
@@ -3723,10 +3732,10 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "ball",
-									"sid": 499420657850406,
+									"sid": 309749104992596,
 									"parameters": {
 										"instance-variable": "speed",
-										"value": "0"
+										"value": "-clamp(ballShad.long * 1.5, 300, 800)"
 									}
 								},
 								{
@@ -4039,6 +4048,14 @@
 										"comparison": 0,
 										"value": "\"Bit\""
 									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "ball",
+									"sid": 439403849747347,
+									"parameters": {
+										"unique-id": "ballShad.ballUID"
+									}
 								}
 							],
 							"actions": [
@@ -4092,13 +4109,22 @@
 										"instance-variable": "end",
 										"value": "true"
 									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ball",
+									"sid": 342091175792640,
+									"parameters": {
+										"instance-variable": "jump",
+										"value": "false"
+									}
 								}
 							],
 							"sid": 725262398110309
 						},
 						{
 							"eventType": "comment",
-							"text": ""
+							"text": "финишное долетание до Бита"
 						},
 						{
 							"eventType": "block",
@@ -4167,31 +4193,15 @@
 								{
 									"id": "tween-one-property",
 									"objectClass": "ball",
-									"sid": 359555864283958,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"getBallX\"",
-										"property": "offsetX",
-										"end-value": "Bit.X",
-										"time": "0.12",
-										"ease": "easeinsine",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
-								},
-								{
-									"id": "tween-one-property",
-									"objectClass": "ball",
-									"sid": 687842765016765,
+									"sid": 664219144935411,
+									"disabled": true,
 									"behaviorType": "Tween",
 									"parameters": {
 										"tags": "\"getBallY\"",
 										"property": "offsetY",
 										"end-value": "Bit.ImagePointY(2)",
 										"time": "0.12",
-										"ease": "easeinsine",
+										"ease": "easeoutsine",
 										"destroy-on-complete": "no",
 										"loop": "no",
 										"ping-pong": "no",
@@ -4199,7 +4209,184 @@
 									}
 								}
 							],
-							"sid": 419089422921370
+							"sid": 419089422921370,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "ball",
+											"sid": 314336561402991,
+											"parameters": {
+												"object": "Bit"
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "ballGoBank",
+											"sid": 236014198714329,
+											"parameters": [
+												"ball.UID"
+											]
+										}
+									],
+									"sid": 388939920485492,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-animation-playing",
+													"objectClass": "Bit",
+													"sid": 641680093850002,
+													"parameters": {
+														"animation": "\"ball9\""
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "animPers",
+													"sid": 638423082023993,
+													"parameters": [
+														"Bit.UID",
+														"\"ball9\"",
+														"0",
+														"0",
+														"basis.move=12?24:12",
+														"0"
+													]
+												}
+											],
+											"sid": 693613996016235
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 226340994755307
+										}
+									],
+									"actions": [],
+									"sid": 147599036160965,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "если Бит на земле"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "base",
+													"sid": 875937521898247,
+													"parameters": {
+														"instance-variable": "hi",
+														"comparison": 3,
+														"value": "20"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "tween-one-property",
+													"objectClass": "ball",
+													"sid": 137828860191747,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"getBallX\"",
+														"property": "offsetX",
+														"end-value": "Bit.X",
+														"time": "0.12",
+														"ease": "easeoutsine",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												},
+												{
+													"id": "tween-one-property",
+													"objectClass": "ball",
+													"sid": 356569324479675,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"getBallY\"",
+														"property": "offsetY",
+														"end-value": "Bit.ImagePointY(\"center\")",
+														"time": "0.12",
+														"ease": "easeoutsine",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												}
+											],
+											"sid": 763703175093367
+										},
+										{
+											"eventType": "comment",
+											"text": "если Бит высоко смягчается поворот снаряда"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 131491148459116
+												}
+											],
+											"actions": [
+												{
+													"id": "tween-one-property",
+													"objectClass": "ball",
+													"sid": 933958180063950,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"getBallX\"",
+														"property": "offsetX",
+														"end-value": "Bit.X",
+														"time": "0.12",
+														"ease": "easeinsine",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												},
+												{
+													"id": "tween-one-property",
+													"objectClass": "ball",
+													"sid": 574153754313271,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"getBallY\"",
+														"property": "offsetY",
+														"end-value": "Bit.ImagePointY(\"center\")",
+														"time": "0.12",
+														"ease": "easeinoutsine",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												}
+											],
+											"sid": 392294263071909
+										}
+									]
+								}
+							]
 						},
 						{
 							"eventType": "comment",
@@ -4854,12 +5041,22 @@
 							"sid": 271348753742460,
 							"children": [
 								{
+									"eventType": "comment",
+									"text": "Шаг 3.4: Обновление ballHit под систему vOffset (замена действий в №650972516963071)",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
 									"eventType": "block",
 									"conditions": [
 										{
 											"id": "is-animation-playing",
 											"objectClass": "ball",
-											"sid": 422628512093837,
+											"sid": 660012400157082,
 											"parameters": {
 												"animation": "\"ball\""
 											}
@@ -4867,15 +5064,29 @@
 									],
 									"actions": [
 										{
+											"type": "comment",
+											"text": "Вместо прямой установки Y, ставим минимальную высоту над землей"
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ball",
+											"sid": 810991164417083,
+											"parameters": {
+												"instance-variable": "vOffset",
+												"value": "4"
+											}
+										},
+										{
 											"id": "set-y",
 											"objectClass": "ball",
-											"sid": 663435906044620,
+											"sid": 935712393385918,
+											"disabled": true,
 											"parameters": {
 												"y": "ballShad.Y-4"
 											}
 										}
 									],
-									"sid": 650972516963071
+									"sid": 164228038434453
 								},
 								{
 									"eventType": "comment",
