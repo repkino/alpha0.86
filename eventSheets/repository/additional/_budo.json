@@ -3165,9 +3165,9 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ball",
-													"sid": 654293533593062,
+													"sid": 722598248529195,
 													"parameters": {
-														"instance-variable": "vOffset",
+														"instance-variable": "launchHeight",
 														"value": "ballShad.Y - Bit.ImagePointY(\"gun\")"
 													}
 												},
@@ -3732,10 +3732,10 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "ball",
-									"sid": 309749104992596,
+									"sid": 989254218212589,
 									"parameters": {
 										"instance-variable": "speed",
-										"value": "-clamp(ballShad.long * 1.5, 300, 800)"
+										"value": "-clamp(ballShad.long * 1.7, 300, 800)"
 									}
 								},
 								{
@@ -5728,12 +5728,34 @@
 											"actions": [
 												{
 													"type": "comment",
+													"text": "vOffset = (Начальная высота, которая тает) + (Высота параболы)"
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ball",
+													"sid": 975209968190741,
+													"parameters": {
+														"instance-variable": "vOffset",
+														"value": "((1 - ballShad.Tween.Progress(\"go\")) * ball.launchHeight) + (sin(ballShad.Tween.Progress(\"go\") * 180) * ball.arcHeight)"
+													}
+												},
+												{
+													"id": "set-y",
+													"objectClass": "ball",
+													"sid": 524601513705918,
+													"parameters": {
+														"y": "ballShad.Y - ball.vOffset"
+													}
+												},
+												{
+													"type": "comment",
 													"text": "Вычисляем текущую высоту дуги на основе прогресса твина (0...1)"
 												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ball",
 													"sid": 447627726540034,
+													"disabled": true,
 													"parameters": {
 														"instance-variable": "vOffset",
 														"value": "sin(ballShad.Tween.Progress(\"go\") * 180) * ball.arcHeight"
@@ -5743,6 +5765,7 @@
 													"id": "set-y",
 													"objectClass": "ball",
 													"sid": 530978766077982,
+													"disabled": true,
 													"parameters": {
 														"y": "ballShad.Y - ball.vOffset"
 													}
