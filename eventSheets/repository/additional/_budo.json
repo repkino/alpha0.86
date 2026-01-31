@@ -3552,7 +3552,6 @@
 											"id": "compare-instance-variable",
 											"objectClass": "aGame",
 											"sid": 512032556845080,
-											"disabled": true,
 											"parameters": {
 												"instance-variable": "activeFruit",
 												"comparison": 0,
@@ -3564,10 +3563,10 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "ball",
-											"sid": 413593895937034,
+											"sid": 811098383836117,
 											"parameters": {
 												"instance-variable": "arcHeight",
-												"value": "ballShad.long * 0.6"
+												"value": "ballShad.long * 0.8"
 											}
 										},
 										{
@@ -3595,25 +3594,6 @@
 												"end-y": "Self.yy",
 												"time": "0.2 + (Self.long / Functions.getIsoArray(Self.ang)) / (aGame.ballSpeed*0.5)",
 												"ease": "noease",
-												"destroy-on-complete": "no",
-												"loop": "no",
-												"ping-pong": "no",
-												"repeat-count": "1"
-											}
-										},
-										{
-											"id": "tween-two-properties",
-											"objectClass": "ballShad",
-											"sid": 989121695958831,
-											"disabled": true,
-											"behaviorType": "Tween",
-											"parameters": {
-												"tags": "\"go\"",
-												"property": "position",
-												"end-x": "Self.xx",
-												"end-y": "Self.yy",
-												"time": "0.2 + (Self.long / 400)",
-												"ease": "easeoutsine",
 												"destroy-on-complete": "no",
 												"loop": "no",
 												"ping-pong": "no",
@@ -3850,10 +3830,10 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "ball",
-									"sid": 404854382071498,
+									"sid": 370032135156319,
 									"parameters": {
 										"instance-variable": "speed",
-										"value": "-clamp(ballShad.long * 1.7, 100, 800)"
+										"value": "-clamp(ballShad.long * 1.7, 80, 800)"
 									}
 								},
 								{
@@ -4000,6 +3980,16 @@
 						{
 							"eventType": "comment",
 							"text": " при коллизии с тенью проглатывается"
+						},
+						{
+							"eventType": "comment",
+							"text": "ФИКС ПРИЁМА: Отвязка от тени и полет к прыгающему Биту (замена действий в №725262398110309)",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
 						},
 						{
 							"eventType": "block",
@@ -4184,6 +4174,86 @@
 											"sid": 589395615889804
 										}
 									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 368113992399559
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ballShad",
+											"sid": 648925696336175,
+											"parameters": {
+												"instance-variable": "back",
+												"value": "false"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "ОТВЯЗЫВАЕМ шар, чтобы он мог свободно лететь вверх к Биту"
+										},
+										{
+											"id": "unpin",
+											"objectClass": "ball",
+											"sid": 370222132849098,
+											"behaviorType": "Pin"
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "ball",
+											"sid": 160517877819383,
+											"behaviorType": "Tween",
+											"parameters": {
+												"mode": "enabled"
+											}
+										},
+										{
+											"id": "tween-two-properties",
+											"objectClass": "ball",
+											"sid": 786602462987748,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"getBallX\"",
+												"property": "position",
+												"end-x": "Bit.X",
+												"end-y": "Bit.ImagePointY(2)",
+												"time": "0.1",
+												"ease": "easeoutsine",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "ballShad",
+											"sid": 923307347416752,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"callFunction": "animPers",
+											"sid": 219306157018377,
+											"disabled": true,
+											"parameters": [
+												"Bit.UID",
+												"\"ball9\"",
+												"0",
+												"0",
+												"basis.move=12?24:12",
+												"0"
+											]
+										}
+									],
+									"sid": 971487747891484
 								}
 							]
 						},
@@ -5710,6 +5780,35 @@
 											],
 											"actions": [
 												{
+													"id": "set-instvar-value",
+													"objectClass": "ball",
+													"sid": 578636236541731,
+													"parameters": {
+														"instance-variable": "vOffset",
+														"value": "((1 - ballShad.Tween.Progress(\"go\")) * ball.launchHeight) + (sin(ballShad.Tween.Progress(\"go\") * 180) * ball.arcHeight)"
+													}
+												},
+												{
+													"type": "comment",
+													"text": "Сдвигаем шар по X на 10% от высоты, чтобы видеть дугу при вертикальных бросках"
+												},
+												{
+													"id": "set-x",
+													"objectClass": "ball",
+													"sid": 200474773408063,
+													"parameters": {
+														"x": "ballShad.X + (ball.vOffset * 0.15)"
+													}
+												},
+												{
+													"id": "set-y",
+													"objectClass": "ball",
+													"sid": 959609195719820,
+													"parameters": {
+														"y": "ballShad.Y - ball.vOffset"
+													}
+												},
+												{
 													"type": "comment",
 													"text": "vOffset = (Начальная высота, которая тает) + (Высота параболы)"
 												},
@@ -5717,6 +5816,7 @@
 													"id": "set-instvar-value",
 													"objectClass": "ball",
 													"sid": 975209968190741,
+													"disabled": true,
 													"parameters": {
 														"instance-variable": "vOffset",
 														"value": "((1 - ballShad.Tween.Progress(\"go\")) * ball.launchHeight) + (sin(ballShad.Tween.Progress(\"go\") * 180) * ball.arcHeight)"
@@ -5726,6 +5826,7 @@
 													"id": "set-y",
 													"objectClass": "ball",
 													"sid": 524601513705918,
+													"disabled": true,
 													"parameters": {
 														"y": "ballShad.Y - ball.vOffset"
 													}
@@ -6009,9 +6110,19 @@
 															"id": "set-instvar-value",
 															"objectClass": "ball",
 															"sid": 728967910565820,
+															"disabled": true,
 															"parameters": {
 																"instance-variable": "vOffset",
 																"value": "lerp(Self.vOffset, 40, 10 * dt)"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ball",
+															"sid": 887126552398091,
+															"parameters": {
+																"instance-variable": "vOffset",
+																"value": "lerp(Self.vOffset, (ballShad.Y - Bit.ImagePointY(\"center\")) + 20, 10 * dt)"
 															}
 														}
 													],
