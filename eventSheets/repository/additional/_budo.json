@@ -567,25 +567,12 @@
 											}
 										},
 										{
-											"callFunction": "ballNordik",
-											"sid": 186012628220197,
+											"callFunction": "ball",
+											"sid": 887323275819533,
 											"parameters": [
 												"\"target\"",
 												"Mouse.X",
 												"Mouse.Y"
-											]
-										},
-										{
-											"type": "comment",
-											"text": "?"
-										},
-										{
-											"callFunction": "ball",
-											"sid": 624950423654571,
-											"parameters": [
-												"\"key\"",
-												"0",
-												"0"
 											]
 										}
 									],
@@ -3550,10 +3537,10 @@
 									"conditions": [
 										{
 											"id": "compare-instance-variable",
-											"objectClass": "aGame",
-											"sid": 512032556845080,
+											"objectClass": "aUI",
+											"sid": 842253375146995,
 											"parameters": {
-												"instance-variable": "activeFruit",
+												"instance-variable": "aBallName",
 												"comparison": 0,
 												"value": "\"mortar\""
 											}
@@ -3612,8 +3599,19 @@
 									"conditions": [
 										{
 											"id": "compare-instance-variable",
+											"objectClass": "aUI",
+											"sid": 148367179998295,
+											"parameters": {
+												"instance-variable": "aBallName",
+												"comparison": 0,
+												"value": "\"cucu\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
 											"objectClass": "aGame",
 											"sid": 582758230963004,
+											"disabled": true,
 											"parameters": {
 												"instance-variable": "activeFruit",
 												"comparison": 0,
@@ -3757,17 +3755,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "Шаг 3.1: Обнуление vOffset и вертикальной скорости при приземлении",
-							"background-color": [
-								0.67,
-								0.98,
-								0.79,
-								1
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "1. Инициализация разгона (в блоке // возврат шара №291947778978062)",
+							"text": "Обнуление vOffset и вертикальной скорости при приземлении. Инициализация разгона",
 							"background-color": [
 								0.67,
 								0.98,
@@ -3804,6 +3792,7 @@
 									"id": "set-text",
 									"objectClass": "help",
 									"sid": 517323873804688,
+									"disabled": true,
 									"parameters": {
 										"text": "\".\""
 									}
@@ -3820,47 +3809,10 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "ball",
-									"sid": 562414866509475,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "gravity",
-										"value": "3000"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "ball",
 									"sid": 370032135156319,
 									"parameters": {
 										"instance-variable": "speed",
 										"value": "-clamp(ballShad.long * 1.7, 80, 800)"
-									}
-								},
-								{
-									"type": "comment",
-									"text": "Начинаем возврат с небольшой скоростью"
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "ball",
-									"sid": 375310782078472,
-									"parameters": {
-										"instance-variable": "hSpeed",
-										"value": "150"
-									}
-								},
-								{
-									"type": "comment",
-									"text": "эта переменная меняет характер возвращения, можно использовать для разнообразия снарядов"
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "ball",
-									"sid": 440279893634719,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "hSpeed",
-										"value": "aGame.ballSpeed * 0.2"
 									}
 								},
 								{
@@ -3896,7 +3848,76 @@
 									}
 								}
 							],
-							"sid": 291947778978062
+							"sid": 291947778978062,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUI",
+											"sid": 124973773884435,
+											"parameters": {
+												"instance-variable": "aBallName",
+												"comparison": 0,
+												"value": "\"ball\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Начинаем возврат с небольшой скоростью"
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ball",
+											"sid": 191956828733237,
+											"parameters": {
+												"instance-variable": "hSpeed",
+												"value": "150"
+											}
+										}
+									],
+									"sid": 520067798355062
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 789287754704127
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "эта переменная меняет характер возвращения, можно использовать для разнообразия снарядов"
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ball",
+											"sid": 490638528351282,
+											"parameters": {
+												"instance-variable": "hSpeed",
+												"value": "aGame.ballSpeed * Self.jumpCoeff"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ball",
+											"sid": 503544637505699,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "gravity",
+												"value": "3000"
+											}
+										}
+									],
+									"sid": 730368337577632
+								}
+							]
 						},
 						{
 							"eventType": "comment",
@@ -3956,6 +3977,7 @@
 									"id": "append-text",
 									"objectClass": "help",
 									"sid": 789829694691057,
+									"disabled": true,
 									"parameters": {
 										"text": "\"B\""
 									}
@@ -4081,6 +4103,7 @@
 									"id": "append-text",
 									"objectClass": "help",
 									"sid": 773921655610086,
+									"disabled": true,
 									"parameters": {
 										"text": "\"H\""
 									}
@@ -5136,10 +5159,11 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "ball",
-											"sid": 810991164417083,
+											"sid": 534167436152766,
+											"disabled": true,
 											"parameters": {
 												"instance-variable": "vOffset",
-												"value": "4"
+												"value": "0"
 											}
 										},
 										{
@@ -5152,8 +5176,7 @@
 											}
 										}
 									],
-									"sid": 164228038434453,
-									"disabled": true
+									"sid": 164228038434453
 								},
 								{
 									"eventType": "comment",
