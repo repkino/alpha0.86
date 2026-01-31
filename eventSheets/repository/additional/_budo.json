@@ -5757,6 +5757,178 @@
 									"children": [
 										{
 											"eventType": "comment",
+											"text": "ФИКС ФИЗИКИ: Исправленный возврат, Нырок и Объемная дуга",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-playing",
+													"objectClass": "ballShad",
+													"sid": 848372250899700,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"go\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ball",
+													"sid": 381414203414057,
+													"parameters": {
+														"instance-variable": "vOffset",
+														"value": "((1 - ballShad.Tween.Progress(\"go\")) * ball.launchHeight) + (sin(ballShad.Tween.Progress(\"go\") * 180) * ball.arcHeight)"
+													}
+												},
+												{
+													"type": "comment",
+													"text": "Сдвиг в сторону от линии полета для видимости дуги в изометрии"
+												},
+												{
+													"id": "set-x",
+													"objectClass": "ball",
+													"sid": 621454355863550,
+													"parameters": {
+														"x": "ballShad.X + cos(ballShad.ang - 90) * (ball.vOffset * 0.15)"
+													}
+												},
+												{
+													"id": "set-y",
+													"objectClass": "ball",
+													"sid": 671912518359305,
+													"parameters": {
+														"y": "ballShad.Y - ball.vOffset + sin(ballShad.ang - 90) * (ball.vOffset * 0.15)"
+													}
+												}
+											],
+											"sid": 782910354652215
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 721200496874762
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "ballShad",
+													"sid": 583274396676974,
+													"parameters": {
+														"instance-variable": "back"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "add-to-instvar",
+													"objectClass": "ball",
+													"sid": 455010480481045,
+													"parameters": {
+														"instance-variable": "hSpeed",
+														"value": "min(Self.hSpeed + 2500 * dt, 1500)"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "ballShad",
+													"sid": 651927153817993,
+													"parameters": {
+														"x": "Self.X + cos(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt",
+														"y": "Self.Y + sin(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt"
+													}
+												},
+												{
+													"id": "add-to-instvar",
+													"objectClass": "ball",
+													"sid": 167497559507309,
+													"parameters": {
+														"instance-variable": "speed",
+														"value": "ball.gravity * dt"
+													}
+												},
+												{
+													"id": "subtract-from-instvar",
+													"objectClass": "ball",
+													"sid": 807122364873711,
+													"parameters": {
+														"instance-variable": "vOffset",
+														"value": "ball.speed * dt"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ball",
+													"sid": 349846268299088,
+													"parameters": {
+														"instance-variable": "vOffset",
+														"value": "max(Self.vOffset, 0)"
+													}
+												},
+												{
+													"id": "set-y",
+													"objectClass": "ball",
+													"sid": 186703368336841,
+													"parameters": {
+														"y": "ballShad.Y - ball.vOffset"
+													}
+												}
+											],
+											"sid": 661497848387851,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "НЫРОК: Если шар ближе 120 пикселей, тянем его в корпус Бита"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 712067232275745,
+															"parameters": {
+																"first-value": "distance(ballShad.X, ballShad.Y, basis.X, basis.Y)",
+																"comparison": 2,
+																"second-value": "120"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ball",
+															"sid": 817888608147189,
+															"parameters": {
+																"instance-variable": "vOffset",
+																"value": "lerp(Self.vOffset, (ballShad.Y - Bit.Y) + 20, 10 * dt)"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ball",
+															"sid": 327647516890529,
+															"parameters": {
+																"instance-variable": "speed",
+																"value": "lerp(Self.speed, 0, 10 * dt)"
+															}
+														}
+													],
+													"sid": 904269847564042
+												}
+											]
+										},
+										{
+											"eventType": "comment",
 											"text": "Шаг 2: Расчет Y через прогресс твина (вставить внутрь условия ball.jump)",
 											"background-color": [
 												0.33,
@@ -5855,7 +6027,8 @@
 													}
 												}
 											],
-											"sid": 279234725704302
+											"sid": 279234725704302,
+											"disabled": true
 										},
 										{
 											"eventType": "comment",
@@ -6063,7 +6236,8 @@
 													}
 												}
 											],
-											"sid": 447899889860895
+											"sid": 447899889860895,
+											"disabled": true
 										},
 										{
 											"eventType": "comment",
@@ -6086,6 +6260,7 @@
 											],
 											"actions": [],
 											"sid": 604289492481430,
+											"disabled": true,
 											"children": [
 												{
 													"eventType": "comment",
@@ -6126,7 +6301,8 @@
 															}
 														}
 													],
-													"sid": 948278366605269
+													"sid": 948278366605269,
+													"disabled": true
 												}
 											]
 										}
