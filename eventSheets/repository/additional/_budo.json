@@ -2120,6 +2120,7 @@
 									"id": "set-group-active",
 									"objectClass": "System",
 									"sid": 282414998534419,
+									"disabled": true,
 									"parameters": {
 										"group-name": "\"ball\"",
 										"state": "deactivated"
@@ -3697,6 +3698,16 @@
 							]
 						},
 						{
+							"eventType": "comment",
+							"text": "1. Инициализация разгона (в блоке // возврат шара №291947778978062)",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -3712,6 +3723,7 @@
 									"id": "compare-instance-variable",
 									"objectClass": "base",
 									"sid": 666316983290080,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "name",
 										"comparison": 0,
@@ -3740,10 +3752,11 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "ball",
-									"sid": 852712154103925,
+									"sid": 562414866509475,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "gravity",
-										"value": "4600"
+										"value": "3000"
 									}
 								},
 								{
@@ -3756,9 +3769,32 @@
 									}
 								},
 								{
+									"type": "comment",
+									"text": "Начинаем возврат с небольшой скоростью"
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ball",
+									"sid": 375310782078472,
+									"parameters": {
+										"instance-variable": "hSpeed",
+										"value": "150"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ballShad",
+									"sid": 938285893677586,
+									"parameters": {
+										"instance-variable": "back",
+										"value": "true"
+									}
+								},
+								{
 									"id": "tween-two-properties",
 									"objectClass": "ballShad",
 									"sid": 410357726081356,
+									"disabled": true,
 									"behaviorType": "Tween",
 									"parameters": {
 										"tags": "\"back\"",
@@ -3797,17 +3833,6 @@
 									"sid": 508755247988787,
 									"parameters": {
 										"instance-variable": "on"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "ballShad",
-									"sid": 217164511957713,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "fruit",
-										"comparison": 0,
-										"value": "\"ball\""
 									}
 								},
 								{
@@ -3905,17 +3930,6 @@
 									"sid": 595530209432518,
 									"parameters": {
 										"instance-variable": "on"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "ballShad",
-									"sid": 144348635515218,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "fruit",
-										"comparison": 0,
-										"value": "\"ball\""
 									}
 								},
 								{
@@ -4027,7 +4041,165 @@
 									}
 								}
 							],
-							"sid": 725262398110309
+							"sid": 725262398110309,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "ball",
+											"sid": 652480118073937,
+											"parameters": {
+												"object": "Bit"
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "ballGoBank",
+											"sid": 861931056819919,
+											"parameters": [
+												"ball.UID"
+											]
+										}
+									],
+									"sid": 675758569952850,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-animation-playing",
+													"objectClass": "Bit",
+													"sid": 942037862278788,
+													"parameters": {
+														"animation": "\"ball9\""
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "animPers",
+													"sid": 237528579155468,
+													"parameters": [
+														"Bit.UID",
+														"\"ball9\"",
+														"0",
+														"0",
+														"basis.move=12?24:12",
+														"0"
+													]
+												}
+											],
+											"sid": 589395615889804
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "костыль для обязательной отправки снарядов в банк"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "ball",
+									"sid": 736287631402235,
+									"parameters": {
+										"object": "Bit"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "ballShad",
+									"sid": 721413946605906,
+									"parameters": {
+										"instance-variable": "ballUID",
+										"comparison": 0,
+										"value": "ball.UID"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ballShad",
+									"sid": 837878283952733,
+									"parameters": {
+										"instance-variable": "end"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "shad",
+									"sid": 505765057951543,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "ballShad",
+									"sid": 284037628764090,
+									"parameters": {
+										"object": "shad"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ballShad",
+									"sid": 158549790701443,
+									"parameters": {
+										"instance-variable": "on"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "ballGoBank",
+									"sid": 968946906715186,
+									"parameters": [
+										"ball.UID"
+									]
+								}
+							],
+							"sid": 497389612473872,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 606267452664762,
+											"parameters": {
+												"animation": "\"ball9\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "animPers",
+											"sid": 963084553126793,
+											"parameters": [
+												"Bit.UID",
+												"\"ball9\"",
+												"0",
+												"0",
+												"basis.move=12?24:12",
+												"0"
+											]
+										}
+									],
+									"sid": 759574899249183
+								}
+							]
 						},
 						{
 							"eventType": "comment",
@@ -4125,6 +4297,7 @@
 								}
 							],
 							"sid": 419089422921370,
+							"disabled": true,
 							"children": [
 								{
 									"eventType": "block",
@@ -4156,6 +4329,7 @@
 										}
 									],
 									"sid": 388939920485492,
+									"disabled": true,
 									"children": [
 										{
 											"eventType": "block",
@@ -4184,7 +4358,8 @@
 													]
 												}
 											],
-											"sid": 693613996016235
+											"sid": 693613996016235,
+											"disabled": true
 										}
 									]
 								},
@@ -4209,6 +4384,7 @@
 									],
 									"actions": [],
 									"sid": 147599036160965,
+									"disabled": true,
 									"children": [
 										{
 											"eventType": "comment",
@@ -4272,7 +4448,8 @@
 													}
 												}
 											],
-											"sid": 763703175093367
+											"sid": 763703175093367,
+											"disabled": true
 										},
 										{
 											"eventType": "comment",
@@ -4331,7 +4508,8 @@
 													}
 												}
 											],
-											"sid": 392294263071909
+											"sid": 392294263071909,
+											"disabled": true
 										}
 									]
 								}
@@ -4372,6 +4550,7 @@
 								}
 							],
 							"sid": 786088655804269,
+							"disabled": true,
 							"children": [
 								{
 									"eventType": "block",
@@ -4408,7 +4587,8 @@
 											]
 										}
 									],
-									"sid": 172333452164536
+									"sid": 172333452164536,
+									"disabled": true
 								}
 							]
 						},
@@ -4657,9 +4837,18 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "ballShad",
-									"sid": 490236494727613,
+									"sid": 401058319528576,
 									"parameters": {
 										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ballShad",
+									"sid": 447805826751211,
+									"parameters": {
+										"instance-variable": "back",
 										"value": "false"
 									}
 								},
@@ -5288,7 +5477,13 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\n\n\n физика прыжков шара, размер тени\n"
+							"text": "\n\n\n физика прыжков шара, размер тени\n",
+							"background-color": [
+								0.5254901960784314,
+								0.7333333333333333,
+								0.9529411764705882,
+								1
+							]
 						},
 						{
 							"eventType": "block",
@@ -5351,6 +5546,14 @@
 												"instance-variable": "ballUID",
 												"comparison": 0,
 												"value": "ball.UID"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "ballShad",
+											"sid": 218098807390571,
+											"parameters": {
+												"instance-variable": "on"
 											}
 										}
 									],
@@ -5476,6 +5679,16 @@
 											]
 										},
 										{
+											"eventType": "comment",
+											"text": "МАГНИТНЫЙ ВОЗВРАТ: Тень преследует Бита (добавить в блок Else №447899889860895)",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
 											"eventType": "block",
 											"conditions": [
 												{
@@ -5485,14 +5698,27 @@
 												},
 												{
 													"id": "is-boolean-instance-variable-set",
+													"objectClass": "ballShad",
+													"sid": 188340253547291,
+													"parameters": {
+														"instance-variable": "back"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
 													"objectClass": "ball",
 													"sid": 235034722457918,
+													"disabled": true,
 													"parameters": {
 														"instance-variable": "jump"
 													}
 												}
 											],
 											"actions": [
+												{
+													"type": "comment",
+													"text": "Тень шара плавно движется к текущим координатам Бита (base)"
+												},
 												{
 													"type": "comment",
 													"text": "Применяем гравитацию к скорости"
@@ -5552,6 +5778,50 @@
 												},
 												{
 													"type": "comment",
+													"text": "Разгоняем шар горизонтально"
+												},
+												{
+													"id": "add-to-instvar",
+													"objectClass": "ball",
+													"sid": 743908304649248,
+													"parameters": {
+														"instance-variable": "hSpeed",
+														"value": "3000 * dt"
+													}
+												},
+												{
+													"type": "comment",
+													"text": "Двигаем тень к Биту с текущей скоростью (вместо лерпа)"
+												},
+												{
+													"id": "set-position",
+													"objectClass": "ballShad",
+													"sid": 719390640966214,
+													"parameters": {
+														"x": "Self.X + cos(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt",
+														"y": "Self.Y + sin(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt"
+													}
+												},
+												{
+													"id": "set-x",
+													"objectClass": "ballShad",
+													"sid": 617333206520069,
+													"disabled": true,
+													"parameters": {
+														"x": "lerp(Self.X, basis.X, 6 * dt)"
+													}
+												},
+												{
+													"id": "set-y",
+													"objectClass": "ballShad",
+													"sid": 889035342185055,
+													"disabled": true,
+													"parameters": {
+														"y": "lerp(Self.Y, basis.Y, 6 * dt)"
+													}
+												},
+												{
+													"type": "comment",
 													"text": "Тут остается твоя старая логика с gravity и speed для фазы отскока"
 												},
 												{
@@ -5605,6 +5875,61 @@
 												}
 											],
 											"sid": 447899889860895
+										},
+										{
+											"eventType": "comment",
+											"text": "2. Физика ускорения и 'нырок' в Бита (в блок Else №447899889860895)",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 567173558060432
+												}
+											],
+											"actions": [],
+											"sid": 604289492481430,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "Если шар близко, заставляем его 'нырнуть' в центр корпуса"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 960332562936095,
+															"parameters": {
+																"first-value": "distance(ballShad.X, ballShad.Y, base.X, base.Y)",
+																"comparison": 2,
+																"second-value": "0"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ball",
+															"sid": 728967910565820,
+															"parameters": {
+																"instance-variable": "vOffset",
+																"value": "lerp(Self.vOffset, 40, 10 * dt)"
+															}
+														}
+													],
+													"sid": 948278366605269
+												}
+											]
 										}
 									]
 								},
