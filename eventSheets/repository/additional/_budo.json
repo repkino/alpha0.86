@@ -4805,11 +4805,19 @@
 									"actions": [
 										{
 											"id": "set-boolean-instvar",
-											"objectClass": "ballShad",
-											"sid": 648925696336175,
+											"objectClass": "ball",
+											"sid": 541439748935793,
 											"parameters": {
-												"instance-variable": "back",
-												"value": "false"
+												"instance-variable": "goToHero",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "ballShad",
+											"sid": 158475575737644,
+											"parameters": {
+												"visibility": "invisible"
 											}
 										},
 										{
@@ -4817,15 +4825,27 @@
 											"text": "ОТВЯЗЫВАЕМ шар, чтобы он мог свободно лететь вверх к Биту"
 										},
 										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ballShad",
+											"sid": 399772628519565,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "back",
+												"value": "false"
+											}
+										},
+										{
 											"id": "unpin",
 											"objectClass": "ball",
 											"sid": 370222132849098,
+											"disabled": true,
 											"behaviorType": "Pin"
 										},
 										{
 											"id": "set-enabled",
 											"objectClass": "ball",
 											"sid": 160517877819383,
+											"disabled": true,
 											"behaviorType": "Tween",
 											"parameters": {
 												"mode": "enabled"
@@ -4835,6 +4855,7 @@
 											"id": "tween-two-properties",
 											"objectClass": "ball",
 											"sid": 786602462987748,
+											"disabled": true,
 											"behaviorType": "Tween",
 											"parameters": {
 												"tags": "\"getBallX\"",
@@ -4847,14 +4868,6 @@
 												"loop": "no",
 												"ping-pong": "no",
 												"repeat-count": "1"
-											}
-										},
-										{
-											"id": "set-visible",
-											"objectClass": "ballShad",
-											"sid": 923307347416752,
-											"parameters": {
-												"visibility": "invisible"
 											}
 										},
 										{
@@ -6711,11 +6724,11 @@
 														{
 															"id": "compare-two-values",
 															"objectClass": "System",
-															"sid": 979038023924911,
+															"sid": 480084214903031,
 															"parameters": {
 																"first-value": "distance(ballShad.X, ballShad.Y, base.X, base.Y)",
 																"comparison": 2,
-																"second-value": "10"
+																"second-value": "30"
 															}
 														}
 													],
@@ -6728,6 +6741,14 @@
 																"instance-variable": "goToHero",
 																"value": "true"
 															}
+														},
+														{
+															"id": "set-visible",
+															"objectClass": "ballShad",
+															"sid": 834764996166405,
+															"parameters": {
+																"visibility": "invisible"
+															}
 														}
 													],
 													"sid": 457784309639727
@@ -6736,7 +6757,7 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "2. Физика ускорения и 'нырок' в Бита (в блок Else №447899889860895)",
+											"text": " 'нырок' в Бита ",
 											"background-color": [
 												0.33,
 												0.73,
@@ -6763,6 +6784,15 @@
 											],
 											"actions": [
 												{
+													"id": "set-position",
+													"objectClass": "ballShad",
+													"sid": 900584503793879,
+													"parameters": {
+														"x": "Self.X + cos(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt",
+														"y": "Self.Y + sin(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt"
+													}
+												},
+												{
 													"id": "set-instvar-value",
 													"objectClass": "ball",
 													"sid": 667890801125283,
@@ -6782,16 +6812,35 @@
 													}
 												},
 												{
-													"id": "set-position",
-													"objectClass": "ballShad",
-													"sid": 852869003203067,
+													"id": "set-y",
+													"objectClass": "ball",
+													"sid": 779769421985297,
 													"parameters": {
-														"x": "Self.X + cos(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt",
-														"y": "Self.Y + sin(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt"
+														"y": "ballShad.Y - ball.vOffset"
 													}
 												}
 											],
-											"sid": 604289492481430
+											"sid": 604289492481430,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 218263632169635,
+															"parameters": {
+																"first-value": "distance(ball.X, ball.Y, Bit.X, Bit.Y)",
+																"comparison": 2,
+																"second-value": "20"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 361262276933269,
+													"disabled": true
+												}
+											]
 										}
 									]
 								},
