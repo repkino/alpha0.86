@@ -518,65 +518,146 @@
 											"id": "else",
 											"objectClass": "System",
 											"sid": 832281967495674
-										}
-									],
-									"actions": [
-										{
-											"id": "append-text",
-											"objectClass": "info",
-											"sid": 964769849030678,
-											"disabled": true,
-											"parameters": {
-												"text": "\"c\""
-											}
 										},
 										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 957585574588936,
-											"parameters": {
-												"group-name": "\"preGun\"",
-												"state": "deactivated"
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 452544022260899,
-											"parameters": {
-												"group-name": "\"gun\"",
-												"state": "deactivated"
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 484788312373243,
-											"parameters": {
-												"group-name": "\"ball\"",
-												"state": "activated"
-											}
-										},
-										{
-											"id": "stop-timer",
+											"id": "compare-instance-variable",
 											"objectClass": "basis",
-											"sid": 911030793123579,
-											"behaviorType": "Timer",
+											"sid": 441458135003154,
 											"parameters": {
-												"tag": "\"noBall\""
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "\"Bit\""
 											}
-										},
-										{
-											"callFunction": "ball",
-											"sid": 887323275819533,
-											"parameters": [
-												"\"target\"",
-												"Mouse.X",
-												"Mouse.Y"
-											]
 										}
 									],
-									"sid": 347587853634626
+									"actions": [],
+									"sid": 347587853634626,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-timer-running",
+													"objectClass": "basis",
+													"sid": 556867926738181,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"preBall\""
+													}
+												},
+												{
+													"id": "is-timer-running",
+													"objectClass": "basis",
+													"sid": 988694743041178,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"ballOut\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "aGame",
+													"sid": 712736961733320,
+													"parameters": {
+														"instance-variable": "nextBall",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 122546889477665,
+											"isOrBlock": true
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 907481625138846
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "aGame",
+													"sid": 915721812987730,
+													"disabled": true,
+													"parameters": {
+														"instance-variable": "nextBall",
+														"value": "false"
+													}
+												},
+												{
+													"id": "append-text",
+													"objectClass": "info",
+													"sid": 197331434594560,
+													"disabled": true,
+													"parameters": {
+														"text": "\"c\""
+													}
+												},
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
+													"sid": 804422997211243,
+													"parameters": {
+														"group-name": "\"preGun\"",
+														"state": "deactivated"
+													}
+												},
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
+													"sid": 387246939706870,
+													"parameters": {
+														"group-name": "\"gun\"",
+														"state": "deactivated"
+													}
+												},
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
+													"sid": 285980572224435,
+													"parameters": {
+														"group-name": "\"ball\"",
+														"state": "activated"
+													}
+												},
+												{
+													"id": "stop-timer",
+													"objectClass": "basis",
+													"sid": 265898055714858,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"noBall\""
+													}
+												},
+												{
+													"id": "start-timer",
+													"objectClass": "basis",
+													"sid": 244317329092289,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.35",
+														"type": "once",
+														"tag": "\"preBall\""
+													}
+												},
+												{
+													"callFunction": "ball",
+													"sid": 714718918948796,
+													"parameters": [
+														"\"target\"",
+														"Mouse.X",
+														"Mouse.Y"
+													]
+												}
+											],
+											"sid": 430192504997564
+										}
+									]
 								}
 							]
 						}
@@ -847,6 +928,15 @@
 													"behaviorType": "Timer",
 													"parameters": {
 														"tag": "\"noBall\""
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "Bit",
+													"sid": 609323515042643,
+													"parameters": {
+														"animation": "\"dart\"",
+														"from": "beginning"
 													}
 												}
 											],
@@ -2357,7 +2447,7 @@
 								{
 									"id": "is-timer-running",
 									"objectClass": "basis",
-									"sid": 988694743041178,
+									"sid": 925874511200340,
 									"behaviorType": "Timer",
 									"parameters": {
 										"tag": "\"ballOut\""
@@ -2389,6 +2479,7 @@
 									"id": "append-text",
 									"objectClass": "help",
 									"sid": 402020901482689,
+									"disabled": true,
 									"parameters": {
 										"text": "\"L\""
 									}
@@ -2400,14 +2491,6 @@
 									"behaviorType": "Timer",
 									"parameters": {
 										"tag": "\"noBall\""
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "Bit",
-									"sid": 915358961410982,
-									"parameters": {
-										"from": "beginning"
 									}
 								},
 								{
@@ -2463,11 +2546,57 @@
 											]
 										},
 										{
+											"customAction": "anim",
+											"objectClass": "aaa",
+											"sid": 259180443800400,
+											"disabled": true,
+											"parameters": [
+												"\"dart\"",
+												"2",
+												"0",
+												"\"zero\"",
+												false,
+												false,
+												"\"Bit\"",
+												"30",
+												"0",
+												true,
+												"\"zero\""
+											]
+										},
+										{
 											"id": "set-animation",
 											"objectClass": "Bit",
 											"sid": 748662515384485,
+											"disabled": true,
 											"parameters": {
 												"animation": "\"swirl\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "Bit",
+											"sid": 416457357165969,
+											"parameters": {
+												"animation": "\"dart\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "Bit",
+											"sid": 807400958604401,
+											"parameters": {
+												"instance-variable": "animPriority",
+												"value": "2"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "Bit",
+											"sid": 460032823607919,
+											"parameters": {
 												"from": "beginning"
 											}
 										}
@@ -2597,11 +2726,57 @@
 															]
 														},
 														{
+															"customAction": "anim",
+															"objectClass": "aaa",
+															"sid": 119713197569119,
+															"disabled": true,
+															"parameters": [
+																"\"dart\"",
+																"2",
+																"0",
+																"\"zero\"",
+																false,
+																false,
+																"\"Bit\"",
+																"30",
+																"0",
+																true,
+																"\"zero\""
+															]
+														},
+														{
 															"id": "set-animation",
 															"objectClass": "Bit",
 															"sid": 881115001215919,
+															"disabled": true,
 															"parameters": {
 																"animation": "\"swirl\"",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "Bit",
+															"sid": 699217501093296,
+															"parameters": {
+																"animation": "\"dart\"",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "Bit",
+															"sid": 103633103490173,
+															"parameters": {
+																"instance-variable": "animPriority",
+																"value": "2"
+															}
+														},
+														{
+															"id": "start-animation",
+															"objectClass": "Bit",
+															"sid": 688640451624901,
+															"parameters": {
 																"from": "beginning"
 															}
 														}
@@ -3027,6 +3202,41 @@
 									"sid": 519010883480254
 								},
 								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "basis",
+											"sid": 296044953820829,
+											"parameters": {
+												"instance-variable": "direct",
+												"comparison": 0,
+												"value": "2"
+											}
+										},
+										{
+											"id": "compare-x",
+											"objectClass": "basis",
+											"sid": 800243153469294,
+											"parameters": {
+												"comparison": 4,
+												"x-co-ordinate": "Mouse.X"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-mirrored",
+											"objectClass": "person",
+											"sid": 770534176279096,
+											"parameters": {
+												"state": "mirrored"
+											}
+										}
+									],
+									"sid": 831832433569413
+								},
+								{
 									"eventType": "comment",
 									"text": "\n\nвыбор шара"
 								},
@@ -3061,6 +3271,16 @@
 													"parameters": {
 														"object": "ballShad"
 													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "jumper",
+													"sid": 375035342687206,
+													"parameters": {
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "\"Bit\""
+													}
 												}
 											],
 											"actions": [
@@ -3087,7 +3307,7 @@
 													"objectClass": "ballShad",
 													"sid": 477339592647133,
 													"parameters": {
-														"instance-variable": "fruit",
+														"instance-variable": "dart",
 														"value": "aGame.activeFruit"
 													}
 												},
@@ -3108,9 +3328,36 @@
 													}
 												},
 												{
+													"id": "set-scale",
+													"objectClass": "ball",
+													"sid": 520305284213720,
+													"disabled": true,
+													"parameters": {
+														"scale": "0.75"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ball",
+													"sid": 340498778533293,
+													"parameters": {
+														"scale": "0.55"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ball",
+													"sid": 534565965754489,
+													"disabled": true,
+													"parameters": {
+														"scale": "aBook.heroScaleCoeff*1.5"
+													}
+												},
+												{
 													"id": "set-size",
 													"objectClass": "ball",
-													"sid": 576231561668544,
+													"sid": 355036623451799,
+													"disabled": true,
 													"parameters": {
 														"width": "Self.ImageWidth*aBook.heroScaleCoeff*1.5",
 														"height": "Self.ImageHeight*aBook.heroScaleCoeff*1.5"
@@ -3127,9 +3374,49 @@
 												{
 													"id": "set-animation",
 													"objectClass": "ball",
+													"sid": 445455742022250,
+													"disabled": true,
+													"parameters": {
+														"animation": "\"bStar\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ball",
+													"sid": 825606787369320,
+													"parameters": {
+														"animation": "\"snow\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ball",
 													"sid": 505117937704598,
+													"disabled": true,
 													"parameters": {
 														"animation": "aGame.activeFruit",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ball",
+													"sid": 620041362896436,
+													"disabled": true,
+													"parameters": {
+														"animation": "aGame.ballType",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ball",
+													"sid": 655998550778516,
+													"disabled": true,
+													"parameters": {
+														"animation": "aUI.aBallName",
 														"from": "beginning"
 													}
 												},
@@ -3163,9 +3450,17 @@
 												{
 													"id": "set-x",
 													"objectClass": "ballShad",
-													"sid": 369551448915066,
+													"sid": 901630950017723,
 													"parameters": {
 														"x": "Bit.ImagePointX(\"gun\")"
+													}
+												},
+												{
+													"id": "set-y",
+													"objectClass": "ballShad",
+													"sid": 543086042924747,
+													"parameters": {
+														"y": "base.Y- (jumper.Y - Bit.ImagePointY(\"gun\"))"
 													}
 												},
 												{
@@ -3220,12 +3515,29 @@
 													}
 												},
 												{
-													"id": "set-animation",
+													"id": "set-enabled",
 													"objectClass": "ball",
-													"sid": 963150367516454,
+													"sid": 193307374960617,
+													"behaviorType": "Tween",
 													"parameters": {
-														"animation": "\"start\"",
-														"from": "beginning"
+														"mode": "enabled"
+													}
+												},
+												{
+													"id": "tween-value",
+													"objectClass": "ball",
+													"sid": 558428179377011,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"dart\"",
+														"start-value": "0",
+														"end-value": "1",
+														"time": "0.26",
+														"ease": "noease",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
 													}
 												}
 											],
@@ -3237,39 +3549,161 @@
 						},
 						{
 							"eventType": "comment",
-							"text": ""
+							"text": "\nметает снаряд в очереди"
 						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "on-animation-frame-changed",
-									"objectClass": "Bit",
-									"sid": 891853459361858
+									"id": "on-timer",
+									"objectClass": "basis",
+									"sid": 229587224188457,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"ballOut\""
+									}
 								},
 								{
-									"id": "compare-animation-frame-tag",
-									"objectClass": "Bit",
-									"sid": 549457948503864,
+									"id": "compare-instance-variable",
+									"objectClass": "basis",
+									"sid": 273432558864880,
 									"parameters": {
+										"instance-variable": "name",
 										"comparison": 0,
-										"tag": "\"ballStart\""
+										"value": "\"Bit\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aGame",
+									"sid": 291547421223764,
+									"parameters": {
+										"instance-variable": "nextBall"
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "set-instvar-value",
-									"objectClass": "Bit",
-									"sid": 171186417641541,
+									"id": "set-boolean-instvar",
+									"objectClass": "aGame",
+									"sid": 761144409413871,
 									"parameters": {
-										"instance-variable": "animPriority",
-										"value": "0"
+										"instance-variable": "nextBall",
+										"value": "false"
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "basis",
+									"sid": 491744236935346,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"noBall\""
+									}
+								},
+								{
+									"callFunction": "ball",
+									"sid": 332050317180675,
+									"parameters": [
+										"\"target\"",
+										"Mouse.X",
+										"Mouse.Y"
+									]
+								}
+							],
+							"sid": 953347943111224
+						},
+						{
+							"eventType": "comment",
+							"text": "позиционирование шара в руке"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "Bit",
+									"sid": 507716737584460,
+									"disabled": true,
+									"parameters": {
+										"animation": "\"dart\""
+									}
+								},
+								{
+									"id": "is-playing",
+									"objectClass": "ball",
+									"sid": 329612529805508,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"dart\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "ballShad",
+									"sid": 272384402697454,
+									"parameters": {
+										"instance-variable": "ballUID",
+										"comparison": 0,
+										"value": "ball.UID"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 125141830794008,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "jumper",
+									"sid": 652121146562184,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
 									}
 								}
 							],
-							"sid": 275603364470669,
-							"disabled": true
+							"actions": [
+								{
+									"id": "set-x",
+									"objectClass": "ballShad",
+									"sid": 173450007460665,
+									"parameters": {
+										"x": "Bit.ImagePointX(\"gun\")"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "ballShad",
+									"sid": 867969593288098,
+									"parameters": {
+										"y": "base.Y- (jumper.Y - Bit.ImagePointY(\"gun\"))"
+									}
+								},
+								{
+									"id": "set-x",
+									"objectClass": "ball",
+									"sid": 732128275822657,
+									"parameters": {
+										"x": "Bit.ImagePointX(\"gun\")"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "ball",
+									"sid": 786424376026019,
+									"parameters": {
+										"y": "Bit.ImagePointY(\"gun\")"
+									}
+								}
+							],
+							"sid": 454981825610084
 						},
 						{
 							"eventType": "comment",
@@ -3285,11 +3719,12 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "on-animation-finished",
+									"id": "on-tweens-finished",
 									"objectClass": "ball",
-									"sid": 456392785775470,
+									"sid": 232587340572606,
+									"behaviorType": "Tween",
 									"parameters": {
-										"animation": "\"start\""
+										"tags": "\"dart\""
 									}
 								},
 								{
@@ -3311,12 +3746,63 @@
 										"comparison": 0,
 										"value": "\"Bit\""
 									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "jumper",
+									"sid": 184247410831806,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
+									}
 								}
 							],
 							"actions": [
 								{
 									"type": "comment",
 									"text": "гравитация реактивного плода в 10 раз меньше\nвысота прыжка и скорость так же изменены для плоской дуги полёта.\nДальность увеличена в два раза."
+								},
+								{
+									"id": "set-x",
+									"objectClass": "ballShad",
+									"sid": 976130588559812,
+									"parameters": {
+										"x": "Bit.ImagePointX(\"gun\")"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "ballShad",
+									"sid": 999311356866174,
+									"parameters": {
+										"y": "base.Y- (jumper.Y - Bit.ImagePointY(\"gun\"))"
+									}
+								},
+								{
+									"id": "set-x",
+									"objectClass": "ball",
+									"sid": 990255219178759,
+									"parameters": {
+										"x": "Bit.ImagePointX(\"gun\")"
+									}
+								},
+								{
+									"id": "set-y",
+									"objectClass": "ball",
+									"sid": 728241574923990,
+									"parameters": {
+										"y": "Bit.ImagePointY(\"gun\")"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ball",
+									"sid": 323750977779306,
+									"parameters": {
+										"instance-variable": "launchHeight",
+										"value": "ballShad.Y - Bit.ImagePointY(\"gun\")"
+									}
 								},
 								{
 									"id": "set-instvar-value",
@@ -3493,6 +3979,7 @@
 									"id": "set-animation",
 									"objectClass": "ball",
 									"sid": 279249245668632,
+									"disabled": true,
 									"parameters": {
 										"animation": "\"ball\"",
 										"from": "beginning"
@@ -3536,15 +4023,51 @@
 									"text": "таймер для переключения групп"
 								},
 								{
+									"id": "stop-timer",
+									"objectClass": "base",
+									"sid": 442058233662468,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"preBall\""
+									}
+								},
+								{
 									"id": "start-timer",
 									"objectClass": "base",
-									"sid": 336297754892256,
+									"sid": 599114100094474,
 									"behaviorType": "Timer",
 									"parameters": {
 										"duration": "0.3",
 										"type": "once",
 										"tag": "\"ballOut\""
 									}
+								},
+								{
+									"id": "callselffunction0",
+									"objectClass": "base",
+									"sid": 695141622222122,
+									"behaviorType": "sf",
+									"parameters": {
+										"function_name:0": "\"rotateToMouse\""
+									}
+								},
+								{
+									"customAction": "anim",
+									"objectClass": "aaa",
+									"sid": 449831913130076,
+									"parameters": [
+										"base.directNumbers=8? \"ball\"&(base.direct=3 ? 1 : base.direct=4 ? 0 : base.direct=5 ? 7 : base.direct) : base.directNumbers=6? \"ball\" & (base.direct=2 ? 1 : base.direct=3 ? 0 : base.direct=4 ? 5 : base.direct) :  \"ball1\"",
+										"2",
+										"0",
+										"\"zero\"",
+										false,
+										false,
+										"\"Bit\"",
+										"base.move=1?24:12",
+										"0",
+										true,
+										"\"zero\""
+									]
 								}
 							],
 							"sid": 509783848454723,
@@ -4048,6 +4571,7 @@
 											"id": "is-animation-playing",
 											"objectClass": "Bit",
 											"sid": 236164861419160,
+											"disabled": true,
 											"parameters": {
 												"animation": "\"swirl\""
 											},
@@ -4244,6 +4768,7 @@
 													"id": "is-animation-playing",
 													"objectClass": "Bit",
 													"sid": 582408368901280,
+													"disabled": true,
 													"parameters": {
 														"animation": "\"swirl\""
 													},
@@ -4437,6 +4962,7 @@
 											"id": "is-animation-playing",
 											"objectClass": "Bit",
 											"sid": 129518868361881,
+											"disabled": true,
 											"parameters": {
 												"animation": "\"swirl\""
 											},
@@ -5020,6 +5546,15 @@
 							],
 							"actions": [
 								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 677771388708440,
+									"disabled": true,
+									"parameters": {
+										"text": "\"L\""
+									}
+								},
+								{
 									"id": "unpin",
 									"objectClass": "ball",
 									"sid": 781499553192481,
@@ -5163,7 +5698,47 @@
 									}
 								}
 							],
-							"sid": 373601359147060
+							"sid": 373601359147060,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 473451013284696,
+											"parameters": {
+												"animation": "\"ball9\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "Bit",
+											"sid": 936709045905947,
+											"parameters": {
+												"instance-variable": "animPriority",
+												"value": "0"
+											}
+										},
+										{
+											"callFunction": "animPers",
+											"sid": 828294191012549,
+											"parameters": [
+												"Bit.UID",
+												"\"ball9\"",
+												"0",
+												"0",
+												"basis.move=1?24:12",
+												"0"
+											]
+										}
+									],
+									"sid": 533347878319482
+								}
+							]
 						},
 						{
 							"eventType": "comment",
@@ -5717,7 +6292,7 @@
 									"objectClass": "ballShad",
 									"sid": 931769060318925,
 									"parameters": {
-										"instance-variable": "fruit",
+										"instance-variable": "dart",
 										"comparison": 0,
 										"value": "\"ball\""
 									}
@@ -6140,11 +6715,11 @@
 														{
 															"id": "compare-two-values",
 															"objectClass": "System",
-															"sid": 960332562936095,
+															"sid": 692248625909096,
 															"parameters": {
 																"first-value": "distance(ballShad.X, ballShad.Y, base.X, base.Y)",
 																"comparison": 2,
-																"second-value": "0"
+																"second-value": "30"
 															}
 														}
 													],
@@ -6519,7 +7094,7 @@
 									"objectClass": "ballShad",
 									"sid": 566345713839888,
 									"parameters": {
-										"instance-variable": "fruit",
+										"instance-variable": "dart",
 										"comparison": 0,
 										"value": "\"cucu\""
 									}
@@ -6962,7 +7537,7 @@
 											"objectClass": "ballShad",
 											"sid": 451398293090802,
 											"parameters": {
-												"instance-variable": "fruit",
+												"instance-variable": "dart",
 												"comparison": 0,
 												"value": "\"ball\""
 											}
