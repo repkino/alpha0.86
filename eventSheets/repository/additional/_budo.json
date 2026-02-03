@@ -5588,6 +5588,15 @@
 									}
 								},
 								{
+									"id": "set-boolean-instvar",
+									"objectClass": "ball",
+									"sid": 869734288716312,
+									"parameters": {
+										"instance-variable": "goToHero",
+										"value": "false"
+									}
+								},
+								{
 									"id": "set-instvar-value",
 									"objectClass": "ball",
 									"sid": 621123506064016,
@@ -6585,6 +6594,15 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "ball",
+													"sid": 931440774537971,
+													"parameters": {
+														"instance-variable": "goToHero"
+													},
+													"isInverted": true
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "ball",
 													"sid": 235034722457918,
 													"disabled": true,
 													"parameters": {
@@ -6681,7 +6699,40 @@
 													}
 												}
 											],
-											"sid": 447899889860895
+											"sid": 447899889860895,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "Если шар близко, заставляем его 'нырнуть' в центр корпуса"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 979038023924911,
+															"parameters": {
+																"first-value": "distance(ballShad.X, ballShad.Y, base.X, base.Y)",
+																"comparison": 2,
+																"second-value": "10"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "ball",
+															"sid": 567402468283123,
+															"parameters": {
+																"instance-variable": "goToHero",
+																"value": "true"
+															}
+														}
+													],
+													"sid": 457784309639727
+												}
+											]
 										},
 										{
 											"eventType": "comment",
@@ -6700,53 +6751,47 @@
 													"id": "else",
 													"objectClass": "System",
 													"sid": 567173558060432
-												}
-											],
-											"actions": [],
-											"sid": 604289492481430,
-											"children": [
-												{
-													"eventType": "comment",
-													"text": "Если шар близко, заставляем его 'нырнуть' в центр корпуса"
 												},
 												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 692248625909096,
-															"parameters": {
-																"first-value": "distance(ballShad.X, ballShad.Y, base.X, base.Y)",
-																"comparison": 2,
-																"second-value": "30"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "ball",
-															"sid": 728967910565820,
-															"disabled": true,
-															"parameters": {
-																"instance-variable": "vOffset",
-																"value": "lerp(Self.vOffset, 40, 10 * dt)"
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "ball",
-															"sid": 887126552398091,
-															"parameters": {
-																"instance-variable": "vOffset",
-																"value": "lerp(Self.vOffset, (ballShad.Y - Bit.ImagePointY(\"center\")) + 20, 10 * dt)"
-															}
-														}
-													],
-													"sid": 948278366605269
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "ball",
+													"sid": 767675455082643,
+													"parameters": {
+														"instance-variable": "goToHero"
+													}
 												}
-											]
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ball",
+													"sid": 667890801125283,
+													"disabled": true,
+													"parameters": {
+														"instance-variable": "vOffset",
+														"value": "lerp(Self.vOffset, 40, 10 * dt)"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ball",
+													"sid": 489235289858796,
+													"parameters": {
+														"instance-variable": "vOffset",
+														"value": "lerp(Self.vOffset, (ballShad.Y - Bit.ImagePointY(\"center\")) + 20, 10 * dt)"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "ballShad",
+													"sid": 852869003203067,
+													"parameters": {
+														"x": "Self.X + cos(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt",
+														"y": "Self.Y + sin(angle(Self.X, Self.Y, basis.X, basis.Y)) * ball.hSpeed * dt"
+													}
+												}
+											],
+											"sid": 604289492481430
 										}
 									]
 								},
