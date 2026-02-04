@@ -5720,11 +5720,17 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\n\nугасание скорости при отскоке"
+							"text": "\n\n\nЛогика удара о землю",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
 						},
 						{
 							"eventType": "comment",
-							"text": "!!! сделать угасание в зависимости от поверхностей"
+							"text": "отскакивание шара от собственной тени на полу"
 						},
 						{
 							"eventType": "block",
@@ -5785,52 +5791,12 @@
 									],
 									"actions": [
 										{
-											"id": "set-instvar-value",
-											"objectClass": "ball",
-											"sid": 614640421195887,
+											"id": "callselffunction0",
+											"objectClass": "ballShad",
+											"sid": 249358061067329,
+											"behaviorType": "sfZScale",
 											"parameters": {
-												"instance-variable": "speed",
-												"value": "-Self.speed*0.7"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ball",
-											"sid": 620622588599652,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "speed",
-												"value": "-Self.speed"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ball",
-											"sid": 162824058061589,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "speed",
-												"value": "-Self.speed*0.8"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ball",
-											"sid": 636982430889354,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "speed",
-												"value": "-Self.speed*0.63"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ball",
-											"sid": 184458934111403,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "speed",
-												"value": "-Self.speed*0.5"
+												"function_name:0": "\"bump\""
 											}
 										}
 									],
@@ -5840,17 +5806,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\n\n\nотскакивание шара от собственной тени на полу\nдля некоторых шаров - переход к реакциям"
-						},
-						{
-							"eventType": "comment",
-							"text": "Логика удара о землю",
-							"background-color": [
-								0.49,
-								0.7,
-								0.38,
-								1
-							]
+							"text": "отскакивание шара в точке нуля"
 						},
 						{
 							"eventType": "block",
@@ -5864,94 +5820,135 @@
 										"comparison": 5,
 										"value": "0"
 									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "ball",
-									"sid": 470484604741992,
-									"parameters": {
-										"instance-variable": "speed",
-										"comparison": 4,
-										"value": "0"
-									}
 								}
 							],
 							"actions": [
 								{
 									"type": "comment",
 									"text": "Инвертируем скорость с потерей энергии (0.7)"
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "ball",
-									"sid": 534427137100609,
-									"parameters": {
-										"instance-variable": "speed",
-										"value": "-Self.speed * 0.7"
-									}
-								},
-								{
-									"callFunction": "ballHit",
-									"sid": 297816581460659,
-									"parameters": [
-										"\"shad\""
-									]
 								}
 							],
-							"sid": 613690693215230
+							"sid": 613690693215230,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ball",
+											"sid": 315374513636571,
+											"parameters": {
+												"instance-variable": "speed",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ballShad",
+											"sid": 975052748804886,
+											"parameters": {
+												"instance-variable": "ballUID",
+												"comparison": 0,
+												"value": "ball.UID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "callselffunction0",
+											"objectClass": "ballShad",
+											"sid": 897598169844397,
+											"behaviorType": "sfZScale",
+											"parameters": {
+												"function_name:0": "\"bump\""
+											}
+										}
+									],
+									"sid": 793562169735258
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "угасание скорости при отскоке\nдля некоторых шаров - переход к реакциям"
+						},
+						{
+							"eventType": "comment",
+							"text": "!!! сделать угасание в зависимости от поверхностей"
 						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-y",
-									"objectClass": "ball",
-									"sid": 978801780320554,
-									"parameters": {
-										"comparison": 4,
-										"y-co-ordinate": "ballShad.Y"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
+									"id": "onselffunction0",
 									"objectClass": "ballShad",
-									"sid": 656367035973282,
+									"sid": 569604577810782,
+									"behaviorType": "sfZScale",
 									"parameters": {
-										"instance-variable": "ballUID",
-										"comparison": 0,
-										"value": "ball.UID"
+										"function_name:0": "\"bump\""
 									}
-								},
-								{
-									"id": "is-timer-running",
-									"objectClass": "ballShad",
-									"sid": 487470525035071,
-									"behaviorType": "Timer",
-									"parameters": {
-										"tag": "\"out\""
-									},
-									"isInverted": true
 								}
 							],
 							"actions": [
 								{
-									"callFunction": "ballHitNordik",
-									"sid": 805954277599400,
+									"id": "set-instvar-value",
+									"objectClass": "ball",
+									"sid": 357442057543296,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "-Self.speed*0.7"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ball",
+									"sid": 646121592937450,
 									"disabled": true,
-									"parameters": [
-										"\"shad\""
-									]
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "-Self.speed"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ball",
+									"sid": 681928692794386,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "-Self.speed*0.8"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ball",
+									"sid": 916866216827101,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "-Self.speed*0.63"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ball",
+									"sid": 356090882990352,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "speed",
+										"value": "-Self.speed*0.5"
+									}
 								},
 								{
 									"callFunction": "ballHit",
-									"sid": 270070196602091,
+									"sid": 793025898812905,
 									"parameters": [
 										"\"shad\""
 									]
 								}
 							],
-							"sid": 884490799098655,
-							"disabled": true
+							"sid": 230461480976306
 						},
 						{
 							"eventType": "comment",
