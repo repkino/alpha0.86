@@ -4525,11 +4525,11 @@
 								},
 								{
 									"eventType": "comment",
-									"text": "ЛОГИКА СПИСАНИЯ СНАРЯДА (Вставить в _budo -> //бросок)",
+									"text": "ОБНОВЛЕННАЯ ЛОГИКА СПИСАНИЯ (Вставить в _budo -> //бросок вместо старого блока)",
 									"background-color": [
-										0.33,
-										0.73,
-										0.48,
+										0.49,
+										0.7,
+										0.38,
 										1
 									]
 								},
@@ -4539,7 +4539,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "aGame",
-											"sid": 730601147290975,
+											"sid": 464963297616769,
 											"parameters": {
 												"instance-variable": "ballType",
 												"comparison": 1,
@@ -4550,32 +4550,101 @@
 									"actions": [
 										{
 											"id": "set-key",
-											"objectClass": "itemsQ",
-											"sid": 317822688382656,
-											"parameters": {
-												"key": "aGame.ballType",
-												"value": "itemsQ.Get(aGame.ballType) - 1"
-											}
-										},
-										{
-											"id": "set-key",
 											"objectClass": "balls",
-											"sid": 107049369251576,
+											"sid": 958139633256405,
 											"parameters": {
 												"key": "aGame.ballType",
 												"value": "balls.Get(aGame.ballType) - 1"
 											}
+										},
+										{
+											"id": "set-key",
+											"objectClass": "itemsQ",
+											"sid": 469158242122457,
+											"parameters": {
+												"key": "aGame.ballType",
+												"value": "balls.Get(aGame.ballType)"
+											}
+										},
+										{
+											"id": "set-text",
+											"objectClass": "help",
+											"sid": 603825509443149,
+											"parameters": {
+												"text": "itemsQ.Get(aGame.ballType)"
+											}
+										},
+										{
+											"callFunction": "quantUpdate",
+											"sid": 395774637643883,
+											"parameters": [
+												"itemsQ.Get(aGame.ballType)",
+												"aGame.ballType"
+											]
 										}
 									],
-									"sid": 148563436713638,
+									"sid": 712323805353803,
 									"children": [
+										{
+											"eventType": "comment",
+											"text": "Синхронизация с предметом в инвентаре"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 472396083665767,
+													"parameters": {
+														"object": "item"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "item",
+													"sid": 923146562699375,
+													"parameters": {
+														"instance-variable": "iSign",
+														"comparison": 0,
+														"value": "aGame.ballType"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "item",
+													"sid": 426807161434546,
+													"parameters": {
+														"instance-variable": "iQuant",
+														"value": "itemsQ.Get(aGame.ballType)"
+													}
+												},
+												{
+													"callFunction": "quantUpdate",
+													"sid": 102284876987503,
+													"disabled": true,
+													"parameters": [
+														"itemsQ.Get(aGame.ballType)",
+														"aGame.ballType"
+													]
+												}
+											],
+											"sid": 594845008795958,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "Если снаряды кончились (0)"
+										},
 										{
 											"eventType": "block",
 											"conditions": [
 												{
 													"id": "compare-value",
 													"objectClass": "itemsQ",
-													"sid": 591751285682613,
+													"sid": 636832705358913,
 													"parameters": {
 														"key": "aGame.ballType",
 														"comparison": 3,
@@ -4587,7 +4656,7 @@
 												{
 													"id": "delete-key",
 													"objectClass": "itemsQ",
-													"sid": 810742838875040,
+													"sid": 955722057724011,
 													"parameters": {
 														"key": "aGame.ballType"
 													}
@@ -4595,7 +4664,7 @@
 												{
 													"id": "delete-key",
 													"objectClass": "balls",
-													"sid": 397908160921806,
+													"sid": 228114778983370,
 													"parameters": {
 														"key": "aGame.ballType"
 													}
@@ -4603,113 +4672,58 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "aGame",
-													"sid": 600014413442816,
+													"sid": 219494565158342,
 													"parameters": {
 														"instance-variable": "ballType",
 														"value": "\"ball\""
 													}
 												},
 												{
-													"id": "set-instvar-value",
-													"objectClass": "aUI",
-													"sid": 168758094776109,
-													"parameters": {
-														"instance-variable": "aBallName",
-														"value": "\"ball\""
-													}
-												},
-												{
 													"id": "set-animation",
 													"objectClass": "ballAbil",
-													"sid": 913051074536259,
+													"sid": 241671456580550,
 													"parameters": {
 														"animation": "\"ball\"",
 														"from": "beginning"
 													}
 												}
 											],
-											"sid": 640535922193411,
+											"sid": 123723430336259,
 											"children": [
 												{
 													"eventType": "block",
 													"conditions": [
 														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "aGame",
-															"sid": 596673100793583,
+															"id": "for-each",
+															"objectClass": "System",
+															"sid": 173432892711482,
 															"parameters": {
-																"instance-variable": "targetMod"
+																"object": "item"
+															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "item",
+															"sid": 274123682473369,
+															"parameters": {
+																"instance-variable": "iSign",
+																"comparison": 0,
+																"value": "aGame.ballType"
 															}
 														}
 													],
 													"actions": [
 														{
-															"id": "set-animation",
-															"objectClass": "cursor",
-															"sid": 609988064727670,
-															"parameters": {
-																"animation": "\"target\"",
-																"from": "current-frame"
-															}
+															"id": "destroy",
+															"objectClass": "item",
+															"sid": 271024071754896
 														}
 													],
-													"sid": 640723797311703
+													"sid": 117671908467247
 												}
 											]
 										}
 									]
-								},
-								{
-									"eventType": "comment",
-									"text": "ОБНОВЛЕНИЕ ЦИФР В ХОЛДЕРЕ (Вставить в _holder -> группа holder)",
-									"background-color": [
-										0.33,
-										0.73,
-										0.48,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "quant",
-											"sid": 820738205580912,
-											"parameters": {
-												"instance-variable": "holder"
-											}
-										},
-										{
-											"id": "for-each",
-											"objectClass": "System",
-											"sid": 473394541879702,
-											"parameters": {
-												"object": "holdAbil"
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 926044488808146,
-											"parameters": {
-												"first-value": "holdAbil.UID",
-												"comparison": 0,
-												"second-value": "quant.hostUID"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-text",
-											"objectClass": "quant",
-											"sid": 155673586873141,
-											"parameters": {
-												"text": "balls.Get(holdAbil.hSign)"
-											}
-										}
-									],
-									"sid": 251225165402970
 								}
 							]
 						},
