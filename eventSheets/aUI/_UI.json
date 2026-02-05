@@ -60,7 +60,7 @@
 				{
 					"id": "set-boolean-instvar",
 					"objectClass": "aUIN",
-					"sid": 630135857235914,
+					"sid": 471150316102890,
 					"parameters": {
 						"instance-variable": "abilInstantStart",
 						"value": "true"
@@ -119,9 +119,20 @@
 					]
 				},
 				{
+					"type": "comment",
+					"text": "деактивировать wait при быстрой загрузке способностей и наоборот",
+					"background-color": [
+						0.9803921568627451,
+						0.7450980392156863,
+						0.996078431372549,
+						1
+					]
+				},
+				{
 					"id": "wait",
 					"objectClass": "System",
 					"sid": 673999484380297,
+					"disabled": true,
 					"parameters": {
 						"seconds": "1.5",
 						"use-timescale": true
@@ -574,6 +585,15 @@
 					"conditions": [],
 					"actions": [
 						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 592633368835113,
+							"parameters": {
+								"group-name": "\"cocoon\"",
+								"state": "activated"
+							}
+						},
+						{
 							"id": "set-instvar-value",
 							"objectClass": "aUIN",
 							"sid": 707707727536702,
@@ -581,15 +601,6 @@
 							"parameters": {
 								"instance-variable": "peelRWidth",
 								"value": "290"
-							}
-						},
-						{
-							"id": "set-group-active",
-							"objectClass": "System",
-							"sid": 875695940115516,
-							"parameters": {
-								"group-name": "\"cocoon\"",
-								"state": "activated"
 							}
 						},
 						{
@@ -699,80 +710,7 @@
 				{
 					"eventType": "block",
 					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "getItem",
-							"sid": 514320686827876,
-							"parameters": [
-								true,
-								"\"wMush\"",
-								"\"\"",
-								"0",
-								"1",
-								"0"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 317629463673593,
-							"parameters": [
-								true,
-								"\"energoBall\"",
-								"\"\"",
-								"0",
-								"3",
-								"1"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 742849161091722,
-							"parameters": [
-								true,
-								"\"eStarBall\"",
-								"\"\"",
-								"0",
-								"1",
-								"1"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 154299313167810,
-							"parameters": [
-								true,
-								"\"cageBall\"",
-								"\"\"",
-								"0",
-								"2",
-								"1"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 437084769399269,
-							"parameters": [
-								true,
-								"\"windBall\"",
-								"\"\"",
-								"0",
-								"5",
-								"1"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 208918455956676,
-							"parameters": [
-								true,
-								"\"superBall\"",
-								"\"\"",
-								"0",
-								"1",
-								"1"
-							]
-						}
-					],
+					"actions": [],
 					"sid": 930268268723626
 				}
 			]
@@ -879,7 +817,88 @@
 					]
 				}
 			],
-			"sid": 446957355228790
+			"sid": 446957355228790,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"callFunction": "getItem",
+							"sid": 589853640028260,
+							"parameters": [
+								true,
+								"\"wMush\"",
+								"\"\"",
+								"0",
+								"1",
+								"0"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 980245476571001,
+							"parameters": [
+								true,
+								"\"eStarBall\"",
+								"\"\"",
+								"0",
+								"1",
+								"1"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 457082972895375,
+							"parameters": [
+								true,
+								"\"cageBall\"",
+								"\"\"",
+								"0",
+								"2",
+								"1"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 509746756779347,
+							"parameters": [
+								true,
+								"\"windBall\"",
+								"\"\"",
+								"0",
+								"5",
+								"1"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 181372096541916,
+							"parameters": [
+								true,
+								"\"superBall\"",
+								"\"\"",
+								"0",
+								"1",
+								"1"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 767580821489555,
+							"parameters": [
+								true,
+								"\"energoBall\"",
+								"\"\"",
+								"0",
+								"3",
+								"1"
+							]
+						}
+					],
+					"sid": 519775408719177
+				}
+			]
 		},
 		{
 			"eventType": "comment",
@@ -1213,6 +1232,147 @@
 										}
 									],
 									"sid": 717071496901325
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Компенсация функционала инвентаря при мгновенной загрузке ( Bioid Standard )",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 112326840834422,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": true
+									}
+								},
+								{
+									"callFunction": "cellN",
+									"sid": 564374426685971
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "abilAuto",
+									"sid": 651158418849018,
+									"parameters": {
+										"visibility": "visible"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "abilAuto",
+									"sid": 186497481500140,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								}
+							],
+							"sid": 547034255088618,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-y",
+											"objectClass": "itemInv",
+											"sid": 591478818432450,
+											"parameters": {
+												"y": "-3333"
+											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "itemInv",
+											"sid": 915561030251733,
+											"parameters": {
+												"collisions": "disabled"
+											}
+										}
+									],
+									"sid": 598141216736911,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "itemInv",
+													"sid": 757113791250598,
+													"parameters": {
+														"instance-variable": "hot"
+													}
+												},
+												{
+													"id": "pick-highestlowest",
+													"objectClass": "itemInv",
+													"sid": 324302269831418,
+													"parameters": {
+														"which": "lowest",
+														"instance-variable": "cellN"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "itemInv",
+													"sid": 438576316742296,
+													"parameters": {
+														"object": "inventory",
+														"image-point-optional": "1"
+													}
+												},
+												{
+													"id": "set-visible",
+													"objectClass": "itemInv",
+													"sid": 134247807625509,
+													"parameters": {
+														"visibility": "visible"
+													}
+												},
+												{
+													"id": "set-opacity",
+													"objectClass": "itemInv",
+													"sid": 791058557417361,
+													"parameters": {
+														"opacity": "100"
+													}
+												},
+												{
+													"id": "set-collisions-enabled",
+													"objectClass": "itemInv",
+													"sid": 457002838992336,
+													"parameters": {
+														"collisions": "enabled"
+													}
+												},
+												{
+													"id": "move-to-object",
+													"objectClass": "itemInv",
+													"sid": 792190928663587,
+													"parameters": {
+														"where": "in-front",
+														"object": "inventory"
+													}
+												}
+											],
+											"sid": 324364788022103,
+											"isOrBlock": true
+										}
+									]
 								}
 							]
 						}
@@ -6642,7 +6802,34 @@
 									}
 								}
 							],
-							"sid": 879381753262391
+							"sid": 879381753262391,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "has-key",
+											"objectClass": "itemsQ",
+											"sid": 259992295089034,
+											"parameters": {
+												"key": "item.iSign"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "item",
+											"sid": 367685280863480,
+											"parameters": {
+												"instance-variable": "iQuant",
+												"value": "itemsQ.Get(Self.iSign)"
+											}
+										}
+									],
+									"sid": 545340471771691
+								}
+							]
 						},
 						{
 							"eventType": "block",
@@ -6973,7 +7160,18 @@
 										},
 										{
 											"eventType": "block",
-											"conditions": [],
+											"conditions": [
+												{
+													"id": "is-timer-running",
+													"objectClass": "aIns",
+													"sid": 932680714311186,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"startGame\""
+													},
+													"isInverted": true
+												}
+											],
 											"actions": [
 												{
 													"id": "instance-signal",
@@ -6985,6 +7183,27 @@
 												}
 											],
 											"sid": 936905283909038
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 103113988540963
+												}
+											],
+											"actions": [
+												{
+													"id": "instance-signal",
+													"objectClass": "item",
+													"sid": 890238929203875,
+													"parameters": {
+														"tag": "\"rocketInstantStart\""
+													}
+												}
+											],
+											"sid": 386085233946874
 										}
 									]
 								},
@@ -7238,17 +7457,57 @@
 											"sid": 495189654696730
 										}
 									],
-									"actions": [
+									"actions": [],
+									"sid": 581742695906026,
+									"children": [
 										{
-											"id": "instance-signal",
-											"objectClass": "item",
-											"sid": 632439061432827,
-											"parameters": {
-												"tag": "\"rocketNewItem\""
-											}
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-timer-running",
+													"objectClass": "aIns",
+													"sid": 251591550692129,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"startGame\""
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "instance-signal",
+													"objectClass": "item",
+													"sid": 951319202193461,
+													"parameters": {
+														"tag": "\"rocketNewItem\""
+													}
+												}
+											],
+											"sid": 786058356723244
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 671052343398312
+												}
+											],
+											"actions": [
+												{
+													"id": "instance-signal",
+													"objectClass": "item",
+													"sid": 674591897497947,
+													"parameters": {
+														"tag": "\"rocketInstantStart\""
+													}
+												}
+											],
+											"sid": 800170302778990
 										}
-									],
-									"sid": 581742695906026
+									]
 								}
 							]
 						},
@@ -10347,6 +10606,250 @@
 										}
 									],
 									"sid": 968096110138359
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Если способности уже загружены мгновенно, управляем видимостью вручную"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-instance-signal",
+									"objectClass": "item",
+									"sid": 305120077980821,
+									"parameters": {
+										"tag": "\"rocketInstantStart\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "cellN",
+									"sid": 704671088470714
+								},
+								{
+									"type": "comment",
+									"text": "Если способности уже загружены мгновенно, управляем видимостью вручную",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								}
+							],
+							"sid": 800725746800833,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "item",
+											"sid": 249211012552893,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "hot"
+											}
+										},
+										{
+											"id": "pick-highestlowest",
+											"objectClass": "item",
+											"sid": 930309340308324,
+											"parameters": {
+												"which": "lowest",
+												"instance-variable": "cellN"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "item",
+											"sid": 745257262963923,
+											"parameters": {
+												"object": "inventory",
+												"image-point-optional": "1"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "item",
+											"sid": 459100644392575,
+											"parameters": {
+												"where": "in-front",
+												"object": "inventory"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "item",
+											"sid": 694106955197969,
+											"parameters": {
+												"visibility": "visible"
+											}
+										}
+									],
+									"sid": 181202906522109,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "item",
+													"sid": 295554554418160,
+													"parameters": {
+														"instance-variable": "iQuant",
+														"comparison": 4,
+														"value": "1"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "destroy",
+													"objectClass": "quant",
+													"sid": 944403648955960
+												},
+												{
+													"id": "spawn-another-object",
+													"objectClass": "item",
+													"sid": 457071232452826,
+													"parameters": {
+														"object": "quant",
+														"layer": "\"ui\"",
+														"image-point": "0",
+														"create-hierarchy": false,
+														"template-name": "\"\""
+													}
+												},
+												{
+													"type": "comment",
+													"text": "добавляет содержимое ключа",
+													"background-color": [
+														0.7450980392156863,
+														0.9803921568627451,
+														0.996078431372549,
+														1
+													]
+												},
+												{
+													"id": "set-text",
+													"objectClass": "quant",
+													"sid": 199905761050465,
+													"disabled": true,
+													"parameters": {
+														"text": "itemsQ.Get(itemsQ.CurrentKey)"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "quant",
+													"sid": 394348282349886,
+													"parameters": {
+														"x": "item.X+15",
+														"y": "item.Y+15"
+													}
+												},
+												{
+													"id": "set-text",
+													"objectClass": "quant",
+													"sid": 167801903826123,
+													"parameters": {
+														"text": "item.iQuant"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "quant",
+													"sid": 894289251034406,
+													"parameters": {
+														"instance-variable": "hostUID",
+														"value": "item.UID"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "item",
+													"sid": 760656638663211,
+													"parameters": {
+														"instance-variable": "quantUID",
+														"value": "quant.UID"
+													}
+												},
+												{
+													"id": "move-to-object",
+													"objectClass": "quant",
+													"sid": 152721806334782,
+													"parameters": {
+														"where": "in-front",
+														"object": "item"
+													}
+												},
+												{
+													"id": "pin-to-object-properties",
+													"objectClass": "quant",
+													"sid": 451007401812600,
+													"behaviorType": "Pin",
+													"parameters": {
+														"pin-to": "item",
+														"x": true,
+														"y": true,
+														"angle": false,
+														"width-type": "no",
+														"height-type": "no",
+														"z": false
+													}
+												},
+												{
+													"type": "comment",
+													"text": "добавляет название ключа",
+													"background-color": [
+														0.7450980392156863,
+														0.9803921568627451,
+														0.996078431372549,
+														1
+													]
+												},
+												{
+													"id": "append-text",
+													"objectClass": "help",
+													"sid": 149673032917621,
+													"disabled": true,
+													"parameters": {
+														"text": "itemsQ.CurrentKey"
+													}
+												}
+											],
+											"sid": 388667946926162
+										}
+									],
+									"isOrBlock": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 667771419215603
+										}
+									],
+									"actions": [
+										{
+											"id": "set-y",
+											"objectClass": "item",
+											"sid": 649800953478095,
+											"parameters": {
+												"y": "-3333"
+											}
+										}
+									],
+									"sid": 613319172756769
 								}
 							]
 						},
@@ -14593,6 +15096,7 @@
 																	"id": "set-scale",
 																	"objectClass": "rockAbil",
 																	"sid": 475160097221190,
+																	"disabled": true,
 																	"parameters": {
 																		"scale": "Self.abilName=\"target\"|Self.abilName=\"auto\"?0.4:0.65"
 																	}
@@ -15525,6 +16029,7 @@
 													"id": "set-scale",
 													"objectClass": "rockAbil",
 													"sid": 879617147815747,
+													"disabled": true,
 													"parameters": {
 														"scale": "Self.abilName=\"target\"|Self.abilName=\"auto\"?0.4:0.65"
 													}
@@ -16197,6 +16702,7 @@
 											"id": "set-scale",
 											"objectClass": "rockAbil",
 											"sid": 519305786460977,
+											"disabled": true,
 											"parameters": {
 												"scale": "Self.abilName=\"target\"|Self.abilName=\"auto\"?0.4:0.65"
 											}
@@ -18406,6 +18912,7 @@
 															"id": "set-scale",
 															"objectClass": "rockAbil",
 															"sid": 888359550746146,
+															"disabled": true,
 															"parameters": {
 																"scale": "Self.abilName=\"target\"|Self.abilName=\"auto\"?0.4:0.65"
 															}
@@ -20199,6 +20706,7 @@
 															"id": "set-scale",
 															"objectClass": "rockAbil",
 															"sid": 255997487116320,
+															"disabled": true,
 															"parameters": {
 																"scale": "Self.abilName=\"target\"|Self.abilName=\"auto\"?0.4:0.65"
 															}
