@@ -318,9 +318,50 @@
 								},
 								{
 									"eventType": "block",
-									"conditions": [],
-									"actions": [],
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 851343698970484,
+											"parameters": {
+												"variable": "forceBallType",
+												"comparison": 1,
+												"value": "\"auto\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "abilOff",
+											"objectClass": "aaa",
+											"sid": 894400633368606,
+											"parameters": [
+												"1",
+												true,
+												false,
+												true
+											]
+										}
+									],
 									"sid": 669746740281428
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 480733262439736,
+											"parameters": {
+												"variable": "forceBallType",
+												"comparison": 1,
+												"value": "\"target\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 130132768158344,
+									"disabled": true
 								}
 							]
 						},
@@ -734,7 +775,13 @@
 				},
 				{
 					"eventType": "comment",
-					"text": " таблица дальности снарядов"
+					"text": "\n    ТАБЛИЦА ДАЛЬНОСТИ ПОЛЁТА СНАРЯДОВ\n",
+					"background-color": [
+						0.4588235294117647,
+						0.8196078431372549,
+						0.9411764705882353,
+						1
+					]
 				},
 				{
 					"functionName": "targetArea",
@@ -758,9 +805,9 @@
 						{
 							"id": "set-function-return-value",
 							"objectClass": "Functions",
-							"sid": 503000408344930,
+							"sid": 578166366696730,
 							"parameters": {
-								"value": "b=\"ball\"? 800 : b=\"target\"? 500 : b=\"energoBall\"? 600 : b=\"windBall\"? 1200 : b=\"superBall\"? 600 : b=\"eStarBall\"? 700 : b=\"cageBall\"? 800 : 800"
+								"value": "b=\"ball\"? 800 : b=\"target\"? 600 : b=\"auto\"? 600 : b=\"energoBall\"? 600 : b=\"windBall\"? 1200 : b=\"superBall\"? 500 : b=\"eStarBall\"? 500 : b=\"cageBall\"? 700 : 800"
 							}
 						}
 					],
@@ -859,6 +906,16 @@
 												"instance-variable": "blackout"
 											},
 											"isInverted": true
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBook",
+											"sid": 955554201908488,
+											"parameters": {
+												"instance-variable": "mod",
+												"comparison": 1,
+												"value": "\"noControl\""
+											}
 										}
 									],
 									"actions": [
@@ -1333,6 +1390,17 @@
 											"parameters": {
 												"instance-variable": "targetMod"
 											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBook",
+											"sid": 608847309176563,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "mod",
+												"comparison": 1,
+												"value": "\"noControl\""
+											}
 										}
 									],
 									"actions": [
@@ -1508,7 +1576,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": ""
+							"text": "сигнал холдера на заряд шара"
 						},
 						{
 							"eventType": "block",
@@ -1525,6 +1593,10 @@
 							"actions": [],
 							"sid": 329726368145740,
 							"children": [
+								{
+									"eventType": "comment",
+									"text": "если шар уже в руке Бита обновляем положение и анимацию"
+								},
 								{
 									"eventType": "block",
 									"conditions": [
@@ -1584,6 +1656,10 @@
 										}
 									],
 									"sid": 638567667597359
+								},
+								{
+									"eventType": "comment",
+									"text": "иначе добавляем"
 								},
 								{
 									"eventType": "block",
@@ -1856,6 +1932,15 @@
 										"instance-variable": "blackout"
 									},
 									"isInverted": true
+								},
+								{
+									"id": "is-group-active",
+									"objectClass": "System",
+									"sid": 932461207722906,
+									"parameters": {
+										"group-name": "\"holder\""
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [],
@@ -2108,6 +2193,15 @@
 																					"parameters": {
 																						"instance-variable": "ballTarget"
 																					}
+																				},
+																				{
+																					"id": "is-animation-playing",
+																					"objectClass": "cursor",
+																					"sid": 363410255056258,
+																					"parameters": {
+																						"animation": "\"click\""
+																					},
+																					"isInverted": true
 																				}
 																			],
 																			"actions": [
@@ -2177,6 +2271,15 @@
 																							"parameters": {
 																								"instance-variable": "snowBall"
 																							}
+																						},
+																						{
+																							"id": "is-animation-playing",
+																							"objectClass": "cursor",
+																							"sid": 245236500186544,
+																							"parameters": {
+																								"animation": "\"click\""
+																							},
+																							"isInverted": true
 																						}
 																					],
 																					"actions": [
@@ -2219,6 +2322,15 @@
 																							"id": "else",
 																							"objectClass": "System",
 																							"sid": 780640513933963
+																						},
+																						{
+																							"id": "is-animation-playing",
+																							"objectClass": "cursor",
+																							"sid": 279323663392935,
+																							"parameters": {
+																								"animation": "\"click\""
+																							},
+																							"isInverted": true
 																						}
 																					],
 																					"actions": [
@@ -2247,6 +2359,15 @@
 																					"id": "else",
 																					"objectClass": "System",
 																					"sid": 412903304935231
+																				},
+																				{
+																					"id": "is-animation-playing",
+																					"objectClass": "cursor",
+																					"sid": 789478432820472,
+																					"parameters": {
+																						"animation": "\"click\""
+																					},
+																					"isInverted": true
 																				}
 																			],
 																			"actions": [
@@ -2293,6 +2414,15 @@
 																			"id": "else",
 																			"objectClass": "System",
 																			"sid": 239277361631911
+																		},
+																		{
+																			"id": "is-animation-playing",
+																			"objectClass": "cursor",
+																			"sid": 304503286315644,
+																			"parameters": {
+																				"animation": "\"click\""
+																			},
+																			"isInverted": true
 																		}
 																	],
 																	"actions": [
@@ -2340,6 +2470,15 @@
 																	"id": "else",
 																	"objectClass": "System",
 																	"sid": 875954173246919
+																},
+																{
+																	"id": "is-animation-playing",
+																	"objectClass": "cursor",
+																	"sid": 874721538008889,
+																	"parameters": {
+																		"animation": "\"click\""
+																	},
+																	"isInverted": true
 																}
 															],
 															"actions": [
@@ -2387,6 +2526,15 @@
 															"id": "else",
 															"objectClass": "System",
 															"sid": 479800629650307
+														},
+														{
+															"id": "is-animation-playing",
+															"objectClass": "cursor",
+															"sid": 512983169992585,
+															"parameters": {
+																"animation": "\"click\""
+															},
+															"isInverted": true
 														}
 													],
 													"actions": [
@@ -2447,6 +2595,16 @@
 											"sid": 741823636053751
 										},
 										{
+											"eventType": "variable",
+											"name": "subY",
+											"type": "number",
+											"initialValue": "0",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 512121814248553
+										},
+										{
 											"eventType": "block",
 											"conditions": [],
 											"actions": [
@@ -2465,6 +2623,15 @@
 													"parameters": {
 														"variable": "centerang",
 														"value": "angle(base.X, base.Y, Mouse.X, Mouse.Y)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 306665098814916,
+													"parameters": {
+														"variable": "subY",
+														"value": "aGame.ballType=\"target\"|aGame.ballType=\"auto\"?20:0"
 													}
 												}
 											],
@@ -2521,10 +2688,10 @@
 																{
 																	"id": "set-position",
 																	"objectClass": "strok",
-																	"sid": 965709826225836,
+																	"sid": 650831497556112,
 																	"parameters": {
 																		"x": "base.X + cos(currentang) * aGame.ballRange",
-																		"y": "base.Y + sin(currentang) * aGame.ballRange * 0.5"
+																		"y": "base.Y-subY + sin(currentang) * aGame.ballRange * 0.5"
 																	}
 																},
 																{
@@ -3071,7 +3238,32 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\n\nбросок левой кнопкой мыши в режиме прицеливания"
+							"text": "реакция курсора на бросок левой кнопкой мыши в режиме прицеливания"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-animation-finished",
+									"objectClass": "cursor",
+									"sid": 709386862136635,
+									"parameters": {
+										"animation": "\"click\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "cursor",
+									"sid": 799470248841043,
+									"parameters": {
+										"animation": "\"target\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 769377642670234
 						},
 						{
 							"eventType": "block",
@@ -3094,116 +3286,38 @@
 									}
 								}
 							],
-							"actions": [],
-							"sid": 442765562844275,
-							"disabled": true,
-							"children": [
+							"actions": [
 								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aGame",
-											"sid": 226715982165628,
-											"parameters": {
-												"instance-variable": "targetMod"
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "aMico",
-											"sid": 604907838884917,
-											"parameters": {
-												"instance-variable": "BitSpiky",
-												"comparison": 2,
-												"value": "25"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 864932134652035,
+									"id": "set-animation",
+									"objectClass": "cursor",
+									"sid": 251140534083823,
+									"parameters": {
+										"animation": "\"click\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cursor",
+									"sid": 853720641850095,
 									"disabled": true,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-animation-playing",
-													"objectClass": "cursor",
-													"sid": 441178295296419,
-													"parameters": {
-														"animation": "\"target\""
-													}
-												},
-												{
-													"id": "is-animation-playing",
-													"objectClass": "cursor",
-													"sid": 433107090336537,
-													"parameters": {
-														"animation": "\"ball\""
-													}
-												}
-											],
-											"actions": [
-												{
-													"callFunction": "ballNordik",
-													"sid": 383211778603280,
-													"disabled": true,
-													"parameters": [
-														"\"target\"",
-														"Mouse.X",
-														"Mouse.Y"
-													]
-												},
-												{
-													"callFunction": "ball",
-													"sid": 597556127869713,
-													"disabled": true,
-													"parameters": [
-														"\"target\"",
-														"Mouse.X",
-														"Mouse.Y"
-													]
-												},
-												{
-													"callFunction": "attack",
-													"sid": 165396519638123,
-													"parameters": [
-														false,
-														false,
-														false,
-														"\"zero\"",
-														true
-													]
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "cursor",
-													"sid": 227359841313365,
-													"disabled": true,
-													"parameters": {
-														"instance-variable": "canimation",
-														"value": "\"targetEnd\""
-													}
-												},
-												{
-													"id": "monitorstr1",
-													"objectClass": "vm",
-													"sid": 623315802729477,
-													"disabled": true,
-													"parameters": {
-														"tag0": "\"cursor\"",
-														"string1": "cursor.canimation"
-													}
-												}
-											],
-											"sid": 498372555748772,
-											"disabled": true,
-											"isOrBlock": true
-										}
-									]
+									"parameters": {
+										"instance-variable": "canimation",
+										"value": "\"click\""
+									}
+								},
+								{
+									"id": "monitorstr1",
+									"objectClass": "vm",
+									"sid": 284984055424668,
+									"disabled": true,
+									"parameters": {
+										"tag0": "\"cursor\"",
+										"string1": "cursor.canimation"
+									}
 								}
 							],
+							"sid": 442765562844275,
 							"isOrBlock": true
 						}
 					],
@@ -3327,6 +3441,16 @@
 										"instance-variable": "BitSpiky",
 										"comparison": 2,
 										"value": "25"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBook",
+									"sid": 854220006739930,
+									"parameters": {
+										"instance-variable": "mod",
+										"comparison": 1,
+										"value": "\"noControl\""
 									}
 								}
 							],
@@ -5642,6 +5766,14 @@
 										"comparison": 0,
 										"value": "\"run\""
 									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ballShad",
+									"sid": 684248903575716,
+									"parameters": {
+										"instance-variable": "back"
+									}
 								}
 							],
 							"actions": [
@@ -5779,6 +5911,14 @@
 										"instance-variable": "end"
 									},
 									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ballShad",
+									"sid": 229316432049259,
+									"parameters": {
+										"instance-variable": "back"
+									}
 								},
 								{
 									"id": "compare-instance-variable",
@@ -7626,18 +7766,18 @@
 										{
 											"id": "set-size",
 											"objectClass": "ballShad",
-											"sid": 742235660751506,
+											"sid": 980376680298974,
 											"parameters": {
-												"width": "Self.w+distance(0,Self.Y,0,ball.Y)*aBook.heroScaleCoeff",
-												"height": "(Self.w+distance(0,Self.Y,0,ball.Y)*aBook.heroScaleCoeff)*Self.isoCoeff"
+												"width": "Self.w+distance(0,Self.Y,0,ball.Y)*aBook.heroScaleCoeff*0.6",
+												"height": "(Self.w+distance(0,Self.Y,0,ball.Y)*aBook.heroScaleCoeff)*Self.isoCoeff*0.6"
 											}
 										},
 										{
 											"id": "set-opacity",
 											"objectClass": "ballShad",
-											"sid": 556660158946533,
+											"sid": 602010381732948,
 											"parameters": {
-												"opacity": "Self.opac-distance(0,Self.Y,0,ball.Y)/5"
+												"opacity": "Self.opac-distance(0,Self.Y,0,ball.Y)/8"
 											}
 										},
 										{
