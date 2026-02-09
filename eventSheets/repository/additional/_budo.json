@@ -8773,6 +8773,119 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "ball",
+															"sid": 823585661943231,
+															"parameters": {
+																"instance-variable": "goToHero"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "add-to-instvar",
+															"objectClass": "ball",
+															"sid": 790939735544038,
+															"parameters": {
+																"instance-variable": "speed",
+																"value": "ball.gravity * dt"
+															}
+														},
+														{
+															"id": "add-to-instvar",
+															"objectClass": "ball",
+															"sid": 800016084679011,
+															"parameters": {
+																"instance-variable": "vOffset",
+																"value": "ball.speed * dt"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ball",
+															"sid": 866354587541801,
+															"parameters": {
+																"instance-variable": "vOffset",
+																"value": "min(Self.vOffset, 0)"
+															}
+														},
+														{
+															"id": "set-y",
+															"objectClass": "ball",
+															"sid": 666446991361987,
+															"parameters": {
+																"y": "ballShad.Y + ball.vOffset"
+															}
+														},
+														{
+															"id": "add-to-instvar",
+															"objectClass": "ball",
+															"sid": 996444090677011,
+															"parameters": {
+																"instance-variable": "hSpeed",
+																"value": "3000 * dt"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "FIX: Изометрическая коррекция (Y * 0.5)",
+															"background-color": [
+																0.8,
+																1,
+																0.8,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "ballShad",
+															"sid": 801150498968732,
+															"parameters": {
+																"x": "Self.X + cos(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt",
+																"y": "Self.Y + sin(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt * 0.5"
+															}
+														}
+													],
+													"sid": 259221768093664,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "Триггер перехода в режим магнита"
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 694854775940247,
+																	"parameters": {
+																		"first-value": "distance(ballShad.X, ballShad.Y, base.X, base.Y)",
+																		"comparison": 2,
+																		"second-value": "20"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "ball",
+																	"sid": 893044729572354,
+																	"parameters": {
+																		"instance-variable": "goToHero",
+																		"value": "true"
+																	}
+																}
+															],
+															"sid": 822602251849322
+														}
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "ball",
 															"sid": 340685743317873,
 															"parameters": {
 																"instance-variable": "goToHero"
@@ -8836,6 +8949,7 @@
 														}
 													],
 													"sid": 115937960404112,
+													"disabled": true,
 													"children": [
 														{
 															"eventType": "comment",
@@ -8866,7 +8980,8 @@
 																	}
 																}
 															],
-															"sid": 369815741271718
+															"sid": 369815741271718,
+															"disabled": true
 														}
 													]
 												},
@@ -8878,6 +8993,122 @@
 														0.7,
 														0.38,
 														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "ball",
+															"sid": 434268373869408,
+															"parameters": {
+																"instance-variable": "goToHero"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-visible",
+															"objectClass": "ballShad",
+															"sid": 998501856992929,
+															"parameters": {
+																"visibility": "invisible"
+															}
+														},
+														{
+															"id": "add-to-instvar",
+															"objectClass": "ball",
+															"sid": 886352953732191,
+															"parameters": {
+																"instance-variable": "hSpeed",
+																"value": "4000 * dt"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "FIX: Изометрическая коррекция (Y * 0.5)",
+															"background-color": [
+																0.8,
+																1,
+																0.8,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "ballShad",
+															"sid": 997922451178506,
+															"parameters": {
+																"x": "Self.X + cos(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt",
+																"y": "Self.Y + sin(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt * 0.5"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Лерпим vOffset к высоте центра Бита (отрицательное значение)"
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ball",
+															"sid": 381159056177987,
+															"parameters": {
+																"instance-variable": "vOffset",
+																"value": "lerp(Self.vOffset, Bit.ImagePointY(\"center\") - ballShad.Y, 15 * dt)"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Принудительно ставим шар в позицию (Shadow + Height)"
+														},
+														{
+															"id": "set-x",
+															"objectClass": "ball",
+															"sid": 598240994376738,
+															"parameters": {
+																"x": "ballShad.X"
+															}
+														},
+														{
+															"id": "set-y",
+															"objectClass": "ball",
+															"sid": 272163028790035,
+															"parameters": {
+																"y": "ballShad.Y + ball.vOffset"
+															}
+														}
+													],
+													"sid": 648860165675295,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "Финальное поглощение по дистанции"
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 608601374028778,
+																	"parameters": {
+																		"first-value": "distance(ball.X, ball.Y, Bit.X, Bit.Y)",
+																		"comparison": 2,
+																		"second-value": "30"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"callFunction": "ballGoBank",
+																	"sid": 624622019998068,
+																	"parameters": [
+																		"ball.UID"
+																	]
+																}
+															],
+															"sid": 309605108201773
+														}
 													]
 												},
 												{
@@ -8954,6 +9185,7 @@
 														}
 													],
 													"sid": 642140018517769,
+													"disabled": true,
 													"children": [
 														{
 															"eventType": "comment",
@@ -8982,7 +9214,8 @@
 																	]
 																}
 															],
-															"sid": 844636731370252
+															"sid": 844636731370252,
+															"disabled": true
 														}
 													]
 												}
