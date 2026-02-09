@@ -996,10 +996,10 @@
 										{
 											"id": "start-timer",
 											"objectClass": "aIns",
-											"sid": 939551106769106,
+											"sid": 900557778831190,
 											"behaviorType": "Timer",
 											"parameters": {
-												"duration": "1.0",
+												"duration": "1.4",
 												"type": "once",
 												"tag": "\"targetModOn\""
 											}
@@ -2002,22 +2002,6 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "on-timer",
-									"objectClass": "aIns",
-									"sid": 977254461059736,
-									"behaviorType": "Timer",
-									"parameters": {
-										"tag": "\"targetModOn\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 825923694456672
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
 									"id": "is-timer-running",
 									"objectClass": "aIns",
 									"sid": 856457774613677,
@@ -2025,16 +2009,282 @@
 									"parameters": {
 										"tag": "\"targetModOn\""
 									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 123456789012345,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
+									}
 								}
 							],
-							"actions": [],
+							"actions": [
+								{
+									"id": "set-y",
+									"objectClass": "strok",
+									"sid": 234567890123456,
+									"parameters": {
+										"y": "-1000"
+									}
+								}
+							],
 							"sid": 192232717364122,
 							"children": [
 								{
+									"eventType": "variable",
+									"name": "duration",
+									"type": "number",
+									"initialValue": "1.4",
+									"comment": "Длительность эффекта (сек)",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 111111111111111
+								},
+								{
+									"eventType": "variable",
+									"name": "rotSpeed",
+									"type": "number",
+									"initialValue": "40",
+									"comment": "Скорость вращения (медленно)",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 222222222222222
+								},
+								{
+									"eventType": "variable",
+									"name": "maxScale",
+									"type": "number",
+									"initialValue": "1.5",
+									"comment": "Максимальное увеличение штриха",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 333333333333333
+								},
+								{
+									"eventType": "variable",
+									"name": "t",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Линейный прогресс (0-1)",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 789012345678901
+								},
+								{
+									"eventType": "variable",
+									"name": "easeT",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Прогресс по кривой (EaseInOut)",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 444444444444444
+								},
+								{
+									"eventType": "variable",
+									"name": "blend",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Фактор перехода (последние 20%)",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 890123456789012
+								},
+								{
+									"eventType": "variable",
+									"name": "mouseA",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Угол на мышь",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 901234567890123
+								},
+								{
+									"eventType": "variable",
+									"name": "i",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Индекс цикла",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 345678901234567
+								},
+								{
 									"eventType": "block",
 									"conditions": [],
-									"actions": [],
-									"sid": 417081511747455
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 456789012345678,
+											"parameters": {
+												"variable": "t",
+												"value": "clamp(aIns.Timer.CurrentTime(\"targetModOn\") / duration, 0, 1)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 555555555555555,
+											"parameters": {
+												"variable": "easeT",
+												"value": "(1 - cos(t * 180)) / 2"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "Переход начинается с 80% времени (t > 0.8). Множитель 5 растягивает остаток 0.2 до 1.0.",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 470201441146873,
+											"parameters": {
+												"variable": "blend",
+												"value": "clamp((t - 0.4) * 5, 0, 1)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 678901234567890,
+											"parameters": {
+												"variable": "mouseA",
+												"value": "angle(base.X, base.Y, Mouse.X, Mouse.Y)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 789012345678901,
+											"parameters": {
+												"variable": "i",
+												"value": "0"
+											}
+										}
+									],
+									"sid": 417081511747455,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 890123456789012,
+													"parameters": {
+														"object": "strok"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 901234567890123,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 123450987654321,
+															"parameters": {
+																"variable": "i",
+																"comparison": 2,
+																"value": "30"
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Смешиваем вращение и финальную позицию. Радиус растет по кривой easeT.",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "strok",
+															"sid": 234561098765432,
+															"parameters": {
+																"x": "base.X + cos(anglelerp((i * 12) + (t * rotSpeed), mouseA - 58 + (i * 4), blend)) * (aGame.ballRange * easeT)",
+																"y": "base.Y + sin(anglelerp((i * 12) + (t * rotSpeed), mouseA - 58 + (i * 4), blend)) * (aGame.ballRange * easeT) * 0.5"
+															}
+														},
+														{
+															"id": "set-angle",
+															"objectClass": "strok",
+															"sid": 345671234567890,
+															"parameters": {
+																"angle": "angle(0, 0, -sin(anglelerp((i * 12) + (t * rotSpeed), mouseA - 58 + (i * 4), blend)), 0.5 * cos(anglelerp((i * 12) + (t * rotSpeed), mouseA - 58 + (i * 4), blend)))"
+															}
+														},
+														{
+															"id": "set-opacity",
+															"objectClass": "strok",
+															"sid": 456781234567890,
+															"parameters": {
+																"opacity": "100"
+															}
+														},
+														{
+															"id": "set-scale",
+															"objectClass": "strok",
+															"sid": 567891234567890,
+															"parameters": {
+																"scale": "1 + (easeT * (maxScale - 1)) * (1 - blend)"
+															}
+														},
+														{
+															"id": "add-to-eventvar",
+															"objectClass": "System",
+															"sid": 678901234567890,
+															"parameters": {
+																"variable": "i",
+																"value": "1"
+															}
+														}
+													],
+													"sid": 789012345678901
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 890123456789012
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position",
+															"objectClass": "strok",
+															"sid": 901234567890123,
+															"parameters": {
+																"x": "-1000",
+																"y": "-1000"
+															}
+														}
+													],
+													"sid": 123456789012345
+												}
+											]
+										}
+									]
 								}
 							]
 						},
@@ -5802,7 +6052,57 @@
 									]
 								}
 							],
-							"sid": 477496733407722
+							"sid": 477496733407722,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-outside-layout",
+											"objectClass": "ballImpact",
+											"sid": 300346122470605
+										}
+									],
+									"actions": [],
+									"sid": 580658183237504,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 441000334427858,
+													"parameters": {
+														"object": "ballImpact"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "ballImpact",
+													"sid": 918795581672347,
+													"parameters": {
+														"object": "ballShad",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ballImpact",
+													"sid": 691167449682998,
+													"parameters": {
+														"animation": "\"hit\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 375470236932689
+										}
+									]
+								}
+							]
 						},
 						{
 							"eventType": "block",
@@ -7117,15 +7417,76 @@
 									]
 								}
 							],
-							"sid": 230461480976306
+							"sid": 230461480976306,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-outside-layout",
+											"objectClass": "ballImpact",
+											"sid": 116298847214165
+										}
+									],
+									"actions": [],
+									"sid": 338281997067346,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 308281269417425,
+													"parameters": {
+														"object": "ballImpact"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-animation",
+													"objectClass": "ballImpact",
+													"sid": 962363660193801,
+													"parameters": {
+														"animation": "\"hit\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 177383136953956,
+											"disabled": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-any-animation-finished",
+									"objectClass": "ballImpact",
+									"sid": 506448438219765
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "ballImpact",
+									"sid": 526051472435505,
+									"parameters": {
+										"x": "-9999",
+										"y": "1294"
+									}
+								}
+							],
+							"sid": 227615552765233
 						},
 						{
 							"eventType": "comment",
 							"text": "\n\n\n снаряды после удара обо что-то\n"
-						},
-						{
-							"eventType": "comment",
-							"text": "! устаревшее, адаптировать"
 						},
 						{
 							"functionName": "ballHit",
@@ -7283,6 +7644,10 @@
 												}
 											],
 											"sid": 555480021866575
+										},
+										{
+											"eventType": "comment",
+											"text": "! устаревшее, адаптировать"
 										},
 										{
 											"eventType": "comment",
