@@ -805,9 +805,9 @@
 						{
 							"id": "set-function-return-value",
 							"objectClass": "Functions",
-							"sid": 578166366696730,
+							"sid": 638682850507660,
 							"parameters": {
-								"value": "b=\"ball\"? 800 : b=\"target\"? 600 : b=\"auto\"? 600 : b=\"energoBall\"? 600 : b=\"windBall\"? 1200 : b=\"superBall\"? 500 : b=\"eStarBall\"? 500 : b=\"cageBall\"? 700 : 800"
+								"value": "b=\"ball\"? 700 : b=\"target\"? 600 : b=\"auto\"? 600 : b=\"energoBall\"? 600 : b=\"windBall\"? 1200 : b=\"superBall\"? 500 : b=\"eStarBall\"? 500 : b=\"cageBall\"? 700 : 800"
 							}
 						}
 					],
@@ -847,7 +847,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "При нажатии на панели кнопки шара или плода активируется режим прицела на курсоре, который будет стрелять (кидать) шарами на ЛКМ, пока не кончатся плоды. Отключение режима через нажатие на ту же кнопку или любую другую кнопку панелей, кроме плодов - они активируют режим с другим плодом. Так же нажатие ПКМ и СКМ и Esc отключат режим, также это сделает пробел при этом стреляя в обычном режиме. Также отключение может вызвать нападение на героя. Если режим отключается, надо отключить и группы шара. В режиме другие функции мыши отключаются."
+							"text": "При нажатии на панели кнопки шара или плода активируется режим прицела на курсоре, который будет стрелять (кидать) шарами на ЛКМ. Отключение режима через нажатие на ту же кнопку или любую другую кнопку панелей, кроме шаров в холдере - они активируют режим с выбранным шаром. Так же нажатие ПКМ и СКМ и Esc отключат режим, также это сделает пробел при этом стреляя в обычном режиме. Также отключение может вызвать нападение на героя. Если режим отключается, надо отключить и группы шара. В режиме многие функции мыши отключаются."
 						},
 						{
 							"functionName": "ballTarget",
@@ -8759,7 +8759,130 @@
 											"children": [
 												{
 													"eventType": "comment",
-													"text": "ФАЗА 1: Обычный возврат по земле (Гравитация)",
+													"text": "ФАЗА 1: Обычный возврат по земле (Гравитация) - честная изометрия",
+													"background-color": [
+														0.67,
+														0.98,
+														0.79,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "ball",
+															"sid": 160517141445748,
+															"parameters": {
+																"instance-variable": "goToHero"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "add-to-instvar",
+															"objectClass": "ball",
+															"sid": 863949941755776,
+															"parameters": {
+																"instance-variable": "speed",
+																"value": "ball.gravity * dt"
+															}
+														},
+														{
+															"id": "add-to-instvar",
+															"objectClass": "ball",
+															"sid": 733559989188639,
+															"parameters": {
+																"instance-variable": "vOffset",
+																"value": "ball.speed * dt"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ball",
+															"sid": 825145576429283,
+															"parameters": {
+																"instance-variable": "vOffset",
+																"value": "min(Self.vOffset, 0)"
+															}
+														},
+														{
+															"id": "set-y",
+															"objectClass": "ball",
+															"sid": 280690649077355,
+															"parameters": {
+																"y": "ballShad.Y + ball.vOffset"
+															}
+														},
+														{
+															"id": "add-to-instvar",
+															"objectClass": "ball",
+															"sid": 884760325073411,
+															"parameters": {
+																"instance-variable": "hSpeed",
+																"value": "3000 * dt"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "FIX: Используем getIsoArray для корректной изометрической скорости по прямой",
+															"background-color": [
+																0.8,
+																1,
+																0.8,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "ballShad",
+															"sid": 793846183572190,
+															"parameters": {
+																"x": "Self.X + cos(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt * Functions.getIsoArray(angle(Self.X, Self.Y, base.X, base.Y))",
+																"y": "Self.Y + sin(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt * Functions.getIsoArray(angle(Self.X, Self.Y, base.X, base.Y))"
+															}
+														}
+													],
+													"sid": 837377832102891,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "Триггер перехода в режим магнита"
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 539775307517207,
+																	"parameters": {
+																		"first-value": "distance(ballShad.X, ballShad.Y, base.X, base.Y)",
+																		"comparison": 2,
+																		"second-value": "20"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "ball",
+																	"sid": 284566997722355,
+																	"parameters": {
+																		"instance-variable": "goToHero",
+																		"value": "true"
+																	}
+																}
+															],
+															"sid": 263219009028643
+														}
+													]
+												},
+												{
+													"eventType": "comment",
+													"text": "ФАЗА 1: Обычный возврат по земле (Гравитация) - искривленный вариант, более живой внешне",
 													"background-color": [
 														0.67,
 														0.98,
@@ -8846,6 +8969,7 @@
 														}
 													],
 													"sid": 259221768093664,
+													"disabled": true,
 													"children": [
 														{
 															"eventType": "comment",
@@ -8876,8 +9000,19 @@
 																	}
 																}
 															],
-															"sid": 822602251849322
+															"sid": 822602251849322,
+															"disabled": true
 														}
+													]
+												},
+												{
+													"eventType": "comment",
+													"text": "ФАЗА 2: Нырок в Бита (Магнит) - честная изометрия",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
 													]
 												},
 												{
@@ -8886,74 +9021,88 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "ball",
-															"sid": 340685743317873,
+															"sid": 640358154060120,
 															"parameters": {
 																"instance-variable": "goToHero"
-															},
-															"isInverted": true
+															}
 														}
 													],
 													"actions": [
 														{
-															"id": "add-to-instvar",
-															"objectClass": "ball",
-															"sid": 572979406847982,
+															"id": "set-visible",
+															"objectClass": "ballShad",
+															"sid": 356613693513528,
 															"parameters": {
-																"instance-variable": "speed",
-																"value": "ball.gravity * dt"
+																"visibility": "invisible"
 															}
 														},
 														{
 															"id": "add-to-instvar",
 															"objectClass": "ball",
-															"sid": 863343272374897,
+															"sid": 715512822449303,
 															"parameters": {
-																"instance-variable": "vOffset",
-																"value": "ball.speed * dt"
+																"instance-variable": "hSpeed",
+																"value": "4000 * dt"
 															}
+														},
+														{
+															"type": "comment",
+															"text": "FIX: Используем getIsoArray для корректной изометрической скорости по прямой",
+															"background-color": [
+																0.8,
+																1,
+																0.8,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "ballShad",
+															"sid": 943487912814282,
+															"parameters": {
+																"x": "Self.X + cos(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt * Functions.getIsoArray(angle(Self.X, Self.Y, base.X, base.Y))",
+																"y": "Self.Y + sin(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt * Functions.getIsoArray(angle(Self.X, Self.Y, base.X, base.Y))"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Лерпим vOffset к высоте центра Бита (отрицательное значение)"
 														},
 														{
 															"id": "set-instvar-value",
 															"objectClass": "ball",
-															"sid": 506602525813401,
+															"sid": 784222203519370,
 															"parameters": {
 																"instance-variable": "vOffset",
-																"value": "min(Self.vOffset, 0)"
+																"value": "lerp(Self.vOffset, Bit.ImagePointY(\"center\") - ballShad.Y, 15 * dt)"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Принудительно ставим шар в позицию (Shadow + Height)"
+														},
+														{
+															"id": "set-x",
+															"objectClass": "ball",
+															"sid": 181916671796104,
+															"parameters": {
+																"x": "ballShad.X"
 															}
 														},
 														{
 															"id": "set-y",
 															"objectClass": "ball",
-															"sid": 484380670461380,
+															"sid": 139882774534795,
 															"parameters": {
 																"y": "ballShad.Y + ball.vOffset"
 															}
-														},
-														{
-															"id": "add-to-instvar",
-															"objectClass": "ball",
-															"sid": 953763639584588,
-															"parameters": {
-																"instance-variable": "hSpeed",
-																"value": "3000 * dt"
-															}
-														},
-														{
-															"id": "set-position",
-															"objectClass": "ballShad",
-															"sid": 461997289255448,
-															"parameters": {
-																"x": "Self.X + cos(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt",
-																"y": "Self.Y + sin(angle(Self.X, Self.Y, base.X, base.Y)) * ball.hSpeed * dt"
-															}
 														}
 													],
-													"sid": 115937960404112,
-													"disabled": true,
+													"sid": 351033985665689,
 													"children": [
 														{
 															"eventType": "comment",
-															"text": "Триггер перехода в режим магнита"
+															"text": "Финальное поглощение по дистанции"
 														},
 														{
 															"eventType": "block",
@@ -8961,33 +9110,30 @@
 																{
 																	"id": "compare-two-values",
 																	"objectClass": "System",
-																	"sid": 137790325872429,
+																	"sid": 108919087593106,
 																	"parameters": {
-																		"first-value": "distance(ballShad.X, ballShad.Y, base.X, base.Y)",
+																		"first-value": "distance(ball.X, ball.Y, Bit.X, Bit.Y)",
 																		"comparison": 2,
-																		"second-value": "20"
+																		"second-value": "30"
 																	}
 																}
 															],
 															"actions": [
 																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "ball",
-																	"sid": 938103310921672,
-																	"parameters": {
-																		"instance-variable": "goToHero",
-																		"value": "true"
-																	}
+																	"callFunction": "ballGoBank",
+																	"sid": 878173883012737,
+																	"parameters": [
+																		"ball.UID"
+																	]
 																}
 															],
-															"sid": 369815741271718,
-															"disabled": true
+															"sid": 774140621548025
 														}
 													]
 												},
 												{
 													"eventType": "comment",
-													"text": "ФАЗА 2: Нырок в Бита (Магнит)",
+													"text": "ФАЗА 2: Нырок в Бита (Магнит) - искривленный вариант",
 													"background-color": [
 														0.49,
 														0.7,
@@ -9079,6 +9225,7 @@
 														}
 													],
 													"sid": 648860165675295,
+													"disabled": true,
 													"children": [
 														{
 															"eventType": "comment",
@@ -9107,8 +9254,19 @@
 																	]
 																}
 															],
-															"sid": 309605108201773
+															"sid": 309605108201773,
+															"disabled": true
 														}
+													]
+												},
+												{
+													"eventType": "comment",
+													"text": "ФАЗА 2: Нырок в Бита (Магнит) - без изометрии",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
 													]
 												},
 												{
