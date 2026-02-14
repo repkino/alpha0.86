@@ -8625,6 +8625,15 @@
 									}
 								},
 								{
+									"id": "set-instvar-value",
+									"objectClass": "ballImpact",
+									"sid": 113766669459395,
+									"parameters": {
+										"instance-variable": "ballUID",
+										"value": "-1"
+									}
+								},
+								{
 									"id": "set-scale",
 									"objectClass": "ballImpact",
 									"sid": 908481150133135,
@@ -9941,6 +9950,12 @@
 									"parameters": {
 										"unique-id": "ballImpact.ballUID"
 									}
+								},
+								{
+									"id": "is-outside-layout",
+									"objectClass": "ballImpact",
+									"sid": 354551452304996,
+									"isInverted": true
 								}
 							],
 							"actions": [],
@@ -10079,10 +10094,19 @@
 													"id": "compare-instance-variable",
 													"objectClass": "tUnits",
 													"sid": 987932023063213,
+													"disabled": true,
 													"parameters": {
 														"instance-variable": "unitType",
 														"comparison": 0,
 														"value": "\"guard\""
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "ballImpact",
+													"sid": 680134874609097,
+													"parameters": {
+														"instance-variable": "target"
 													}
 												}
 											],
@@ -10095,9 +10119,96 @@
 														"animation": "\"hitE\"",
 														"from": "beginning"
 													}
+												},
+												{
+													"callFunction": "ballGoBank",
+													"sid": 271148763107426,
+													"parameters": [
+														"ball.UID"
+													]
 												}
 											],
-											"sid": 500799390448204
+											"sid": 500799390448204,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-outside-layout",
+															"objectClass": "ballImpactDom",
+															"sid": 955430025110036
+														}
+													],
+													"actions": [],
+													"sid": 949508414180862,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "pick-random-instance",
+																	"objectClass": "System",
+																	"sid": 191224899888972,
+																	"parameters": {
+																		"object": "ballImpactDom"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "ballImpactDom",
+																	"sid": 392749561764935,
+																	"parameters": {
+																		"object": "ballImpact",
+																		"image-point-optional": "1"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "ballImpactDom",
+																	"sid": 866039296445076,
+																	"parameters": {
+																		"instance-variable": "hostUID",
+																		"value": "ballImpact.UID"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "ballImpactDom",
+																	"sid": 686391455763402,
+																	"parameters": {
+																		"animation": "\"hitE\"",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-enabled",
+																	"objectClass": "ballImpactDom",
+																	"sid": 319221295524074,
+																	"behaviorType": "EasyIsometric",
+																	"parameters": {
+																		"newState_": "enabled"
+																	}
+																}
+															],
+															"sid": 192949320424283
+														}
+													]
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 292353601069818
+												}
+											],
+											"actions": [],
+											"sid": 777219911171475
 										}
 									]
 								},
@@ -10130,10 +10241,36 @@
 											]
 										}
 									],
-									"sid": 367545653559109
+									"sid": 367545653559109,
+									"disabled": true
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-any-animation-finished",
+									"objectClass": "ballImpactDom",
+									"sid": 733677867390197
 								}
 							],
-							"isOrBlock": true
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "ballImpactDom",
+									"sid": 145120013821441,
+									"parameters": {
+										"x": "33333",
+										"y": "34567"
+									}
+								}
+							],
+							"sid": 122948492677470
 						},
 						{
 							"eventType": "comment",
