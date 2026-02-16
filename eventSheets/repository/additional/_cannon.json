@@ -1794,6 +1794,13 @@
 							"parameters": {
 								"object": "zoneStopTh"
 							}
+						},
+						{
+							"id": "is-pinned",
+							"objectClass": "seedNut",
+							"sid": 545963710398575,
+							"behaviorType": "Pin",
+							"isInverted": true
 						}
 					],
 					"actions": [
@@ -1825,6 +1832,13 @@
 							"parameters": {
 								"object": "puffball"
 							}
+						},
+						{
+							"id": "is-pinned",
+							"objectClass": "seedNut",
+							"sid": 907590068135713,
+							"behaviorType": "Pin",
+							"isInverted": true
 						}
 					],
 					"actions": [
@@ -1844,7 +1858,8 @@
 							"behaviorType": "EasyIsometric"
 						}
 					],
-					"sid": 432317227600614
+					"sid": 432317227600614,
+					"disabled": true
 				},
 				{
 					"eventType": "comment",
@@ -2004,7 +2019,7 @@
 						{
 							"id": "on-instance-signal",
 							"objectClass": "dart",
-							"sid": 856656943448950,
+							"sid": 885958108193237,
 							"parameters": {
 								"tag": "\"boom\""
 							}
@@ -2012,7 +2027,7 @@
 						{
 							"id": "compare-instance-variable",
 							"objectClass": "seedNut",
-							"sid": 109154492362147,
+							"sid": 726800033683339,
 							"parameters": {
 								"instance-variable": "dartUID",
 								"comparison": 0,
@@ -2022,197 +2037,525 @@
 					],
 					"actions": [
 						{
-							"id": "unpin",
+							"customAction": "seedLand",
+							"objectClass": "ats",
+							"sid": 567302563617217,
+							"parameters": [
+								"seedNut.UID"
+							]
+						}
+					],
+					"sid": 119147484033590
+				},
+				{
+					"eventType": "comment",
+					"text": "страховочная проверка",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-frame-changed",
 							"objectClass": "seedNut",
-							"sid": 727399581880488,
-							"behaviorType": "Pin"
+							"sid": 393423641198264
 						},
 						{
-							"id": "set-enabled",
+							"id": "is-animation-playing",
 							"objectClass": "seedNut",
-							"sid": 880296028468890,
-							"behaviorType": "EasyIsometric",
+							"sid": 188411291675776,
 							"parameters": {
-								"newState_": "enabled"
+								"animation": "\"dart\""
 							}
 						},
 						{
-							"id": "set-angle",
+							"id": "is-overlapping-another-object",
 							"objectClass": "seedNut",
-							"sid": 802287514869243,
+							"sid": 812613642797930,
 							"parameters": {
-								"angle": "0"
-							}
+								"object": "zoneStopTh"
+							},
+							"isInverted": true
 						},
 						{
-							"id": "set-mirrored",
-							"objectClass": "seedNut",
-							"sid": 400357296973812,
+							"id": "pick-by-unique-id",
+							"objectClass": "dart",
+							"sid": 115582434469316,
 							"parameters": {
-								"state": "not-mirrored"
+								"unique-id": "seedNut.UID"
 							}
 						}
 					],
-					"sid": 862796669818572,
+					"actions": [],
+					"sid": 916090903319396,
+					"disabled": true,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "Chance",
-									"objectClass": "Utils",
-									"sid": 936467718965165,
+									"id": "compare-instance-variable",
+									"objectClass": "dart",
+									"sid": 570227436440219,
 									"parameters": {
-										"chance": "1",
-										"outof": "2"
+										"instance-variable": "zHeight",
+										"comparison": 3,
+										"value": "0"
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "set-mirrored",
-									"objectClass": "seedNut",
-									"sid": 504793632731691,
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 993094377510312,
+									"disabled": true,
 									"parameters": {
-										"state": "mirrored"
+										"text": "\"D\""
 									}
+								},
+								{
+									"customAction": "seedLand",
+									"objectClass": "ats",
+									"sid": 854726626788430,
+									"parameters": [
+										"seedNut.UID"
+									]
 								}
 							],
-							"sid": 162764590296131
-						},
+							"sid": 351507817658578,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "по окончании полёта снаряда",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "seedLand",
+					"objectClass": "ats",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 176995633629724
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "seedNut",
+							"sid": 473492758844899,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 847245758361703,
+					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
+								{
+									"id": "is-pinned",
+									"objectClass": "seedNut",
+									"sid": 574625097909422,
+									"disabled": true,
+									"behaviorType": "Pin"
+								},
 								{
 									"id": "pick-by-unique-id",
-									"objectClass": "tGuard",
-									"sid": 124777371697698,
+									"objectClass": "dart",
+									"sid": 273169113020622,
 									"parameters": {
-										"unique-id": "seedNut.hostUID"
+										"unique-id": "seedNut.dartUID"
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "set-boolean-instvar",
-									"objectClass": "tGuard",
-									"sid": 686097620487672,
+									"id": "unpin",
+									"objectClass": "seedNut",
+									"sid": 401565534672244,
+									"behaviorType": "Pin"
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "seedNut",
+									"sid": 675987027551212,
 									"parameters": {
-										"instance-variable": "nut",
+										"instance-variable": "dartUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "dart",
+									"sid": 887656077048881,
+									"parameters": {
+										"instance-variable": "on",
 										"value": "false"
 									}
-								}
-							],
-							"sid": 522730935633574
-						},
-						{
-							"eventType": "block",
-							"conditions": [
+								},
 								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 348704874931653,
+									"id": "set-y",
+									"objectClass": "dart",
+									"sid": 537420762908732,
 									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"nut\""
+										"y": "dart.groundY"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "dart",
+									"sid": 987084014607829,
+									"parameters": {
+										"angle": "0"
+									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 107433393785527,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": false
+									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 838528236368064,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": false
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "dart",
+									"sid": 174376536931108,
+									"parameters": {
+										"x": "-22222",
+										"y": "-11111"
 									}
 								}
 							],
-							"actions": [],
-							"sid": 707340892283339,
+							"sid": 460846375469581,
 							"children": [
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "seedNut",
-											"sid": 148637035894199,
+											"id": "compare-instance-variable",
+											"objectClass": "dart",
+											"sid": 233840587262374,
 											"parameters": {
-												"object": "zoneStopTh"
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "seedNut",
-											"sid": 324374057320683,
-											"parameters": {
-												"object": "puffball"
-											},
-											"isInverted": true
+												"instance-variable": "shad",
+												"comparison": 0,
+												"value": "1"
+											}
 										}
 									],
 									"actions": [
 										{
-											"callFunction": "addNut",
-											"sid": 661042706365779,
-											"parameters": [
-												"seedNut.X",
-												"seedNut.Y",
-												"\"zero\"",
-												false,
-												false
-											]
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "seedNut",
-											"sid": 214724858023840,
+											"id": "set-visible",
+											"objectClass": "dartShad",
+											"sid": 122662938650181,
+											"disabled": true,
 											"parameters": {
-												"instance-variable": "on",
-												"value": "false"
+												"visibility": "invisible"
 											}
 										},
 										{
-											"id": "set-instvar-value",
-											"objectClass": "seedNut",
-											"sid": 837742732141891,
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 627516166488290,
 											"parameters": {
-												"instance-variable": "dartUID",
-												"value": "-1"
+												"seconds": "0",
+												"use-timescale": false
 											}
 										},
 										{
-											"id": "set-instvar-value",
-											"objectClass": "seedNut",
-											"sid": 454650928639973,
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 710090782665422,
 											"parameters": {
-												"instance-variable": "hostUID",
-												"value": "-1"
+												"seconds": "0",
+												"use-timescale": false
 											}
 										},
 										{
 											"id": "set-position",
-											"objectClass": "seedNut",
-											"sid": 344103628282305,
+											"objectClass": "dartShad",
+											"sid": 914584198202603,
 											"parameters": {
-												"x": "-3777",
-												"y": "-74445"
-											}
-										},
-										{
-											"id": "set-enabled",
-											"objectClass": "seedNut",
-											"sid": 310045372055717,
-											"behaviorType": "EasyIsometric",
-											"parameters": {
-												"newState_": "disabled"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "seedNut",
-											"sid": 839803832114058,
-											"parameters": {
-												"animation": "\"i\"",
-												"from": "beginning"
+												"x": "-4444",
+												"y": "-6666"
 											}
 										}
 									],
-									"sid": 499444608629326,
+									"sid": 501875017371966,
 									"isOrBlock": true
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-enabled",
+									"objectClass": "seedNut",
+									"sid": 545074640706696,
+									"behaviorType": "EasyIsometric",
+									"parameters": {
+										"newState_": "enabled"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "seedNut",
+									"sid": 516578944623209,
+									"parameters": {
+										"angle": "0"
+									}
+								},
+								{
+									"id": "set-mirrored",
+									"objectClass": "seedNut",
+									"sid": 290366483195943,
+									"parameters": {
+										"state": "not-mirrored"
+									}
+								}
+							],
+							"sid": 846345653863926,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "Chance",
+											"objectClass": "Utils",
+											"sid": 305489012827822,
+											"parameters": {
+												"chance": "1",
+												"outof": "2"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-mirrored",
+											"objectClass": "seedNut",
+											"sid": 687204422605619,
+											"parameters": {
+												"state": "mirrored"
+											}
+										}
+									],
+									"sid": 212056098137043
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "tGuard",
+											"sid": 818386472751174,
+											"parameters": {
+												"unique-id": "seedNut.hostUID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "tGuard",
+											"sid": 717807563026245,
+											"parameters": {
+												"instance-variable": "nut",
+												"value": "false"
+											}
+										}
+									],
+									"sid": 762901023077353
+								},
+								{
+									"eventType": "comment",
+									"text": "семя превращается в каштан",
+									"background-color": [
+										0.7490196078431373,
+										0.7686274509803922,
+										0.8509803921568627,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "seedNut",
+											"sid": 370298441893063,
+											"parameters": {
+												"instance-variable": "type",
+												"comparison": 0,
+												"value": "\"nut\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 282060736247636,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-overlapping-another-object",
+													"objectClass": "seedNut",
+													"sid": 194679278369149,
+													"parameters": {
+														"object": "zoneStopTh"
+													},
+													"isInverted": true
+												},
+												{
+													"id": "is-overlapping-another-object",
+													"objectClass": "seedNut",
+													"sid": 430348902432681,
+													"parameters": {
+														"object": "puffball"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "addNut",
+													"sid": 505779639758152,
+													"parameters": [
+														"seedNut.X",
+														"seedNut.Y",
+														"\"zero\"",
+														false,
+														false
+													]
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "seedNut",
+													"sid": 259791951871204,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "false"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "seedNut",
+													"sid": 543513812977995,
+													"parameters": {
+														"instance-variable": "dartUID",
+														"value": "-1"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "seedNut",
+													"sid": 725130920316093,
+													"parameters": {
+														"instance-variable": "hostUID",
+														"value": "-1"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "seedNut",
+													"sid": 557666991690752,
+													"parameters": {
+														"x": "-3777",
+														"y": "-74445"
+													}
+												},
+												{
+													"id": "set-enabled",
+													"objectClass": "seedNut",
+													"sid": 139022309611339,
+													"behaviorType": "EasyIsometric",
+													"parameters": {
+														"newState_": "disabled"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "seedNut",
+													"sid": 359600158121697,
+													"parameters": {
+														"animation": "\"i\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 745813561322333,
+											"isOrBlock": true
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 215019494704369
+												}
+											],
+											"actions": [
+												{
+													"id": "set-animation",
+													"objectClass": "seedNut",
+													"sid": 349892511461307,
+													"parameters": {
+														"animation": "\"seed\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 231344978883870
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "семя начинает превращаеться в цыплёнка",
+									"background-color": [
+										0.7490196078431373,
+										0.7686274509803922,
+										0.8509803921568627,
+										1
+									]
 								},
 								{
 									"eventType": "block",
@@ -2220,88 +2563,76 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 351614295768493
+											"sid": 451160724096034
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "seedNut",
+											"sid": 433394554638772,
+											"parameters": {
+												"instance-variable": "type",
+												"comparison": 0,
+												"value": "\"chick\""
+											}
 										}
 									],
 									"actions": [
 										{
 											"id": "set-animation",
 											"objectClass": "seedNut",
-											"sid": 119996448236229,
+											"sid": 240923792444341,
 											"parameters": {
 												"animation": "\"seed\"",
 												"from": "beginning"
 											}
 										}
 									],
-									"sid": 188624945729113
+									"sid": 355234330855178
+								},
+								{
+									"eventType": "comment",
+									"text": "иначе семя взрывается",
+									"background-color": [
+										0.7490196078431373,
+										0.7686274509803922,
+										0.8509803921568627,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 539464356542738
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "seedNut",
+											"sid": 649140617488468,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "type",
+												"comparison": 0,
+												"value": "\"boom\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "seedNut",
+											"sid": 945626556276397,
+											"parameters": {
+												"animation": "\"boom\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 562072507728643
 								}
 							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 638338636785413
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 669334540023277,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"chick\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "seedNut",
-									"sid": 919351101361502,
-									"parameters": {
-										"animation": "\"seed\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 350917380531182
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 817042663198282
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "seedNut",
-									"sid": 999124774779899,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "type",
-										"comparison": 0,
-										"value": "\"boom\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "seedNut",
-									"sid": 995890734979046,
-									"parameters": {
-										"animation": "\"boom\"",
-										"from": "beginning"
-									}
-								}
-							],
-							"sid": 655672394449234
 						}
 					]
 				},
@@ -2309,9 +2640,9 @@
 					"eventType": "comment",
 					"text": "семя взрывается или превращается в юнит переданного от стража типа",
 					"background-color": [
-						0.7372549019607844,
-						0.7568627450980392,
-						0.8431372549019608,
+						0.7490196078431373,
+						0.7686274509803922,
+						0.8509803921568627,
 						1
 					]
 				},
