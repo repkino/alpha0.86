@@ -12,10 +12,6 @@
 			]
 		},
 		{
-			"eventType": "comment",
-			"text": "{\n  \"PLAN_OF_ACTION\": \"Оптимизация снарядов и иконок (Объединение в ball)\",\n  \"STEPS\": [\n    {\n      \"GROUP\": \"1. ПОДГОТОВКА ОБЪЕКТА BALL (База данных)\",\n      \"ACTIONS\": [\n        \"Добавить переменную экземпляра 'uType' (String) в объект 'ball'. Дефолт: \\\"proj\\\".\",\n        \"Перенести переменные из 'rockAbil' в 'ball' (или добавить их, если отсутствуют): 'index', 'icon', 'iconName', 'auto', 'abilName'.\",\n        \"Перенести переменные из 'holdAbil' в 'ball': 'hSign', 'ball' (количество), 'formEnergy'.\",\n        \"Убедиться, что в 'ball' загружены все анимации, которые используются в 'holdAbil' и 'rockAbil' (включая формы и прочее, что открывается в холдере).\"\n      ]\n    },\n    {\n      \"GROUP\": \"2. СОЗДАНИЕ СЕМЬИ И ПУЛОВ\",\n      \"ACTIONS\": [\n        \"Создать Семью 'rockAbil' (если имя занято объектом, сначала переименовать старый объект в 'old_rockAbil').\",\n        \"Включить объект 'ball' в семью 'rockAbil'.\",\n        \"Создать событие 'On Start of Layout' (в загрузчике или _startPack):\",\n        \"  - Создать 15 'ball' (uType=\\\"proj\\\") за пределами макета (слой Game).\",\n        \"  - Создать 20 'ball' (uType=\\\"holder\\\") за пределами макета (слой UI).\",\n        \"  - Создать 3 'ball' (uType=\\\"abil\\\") за пределами макета (слой UI).\"\n      ]\n    },\n    {\n      \"GROUP\": \"3. РЕФАКТОРИНГ ЛИСТА _BUDO (Боевка)\",\n      \"NOTE\": \"Критически важно изолировать боевые снаряды от иконок.\",\n      \"ACTIONS\": [\n        \"Во все события выборки снарядов (Picking) добавить условие:\",\n        \"  - ball: Compare uType = \\\"proj\\\"\",\n        \"  - (Опционально для скорости) ball: Layer = \\\"Game\\\"\",\n        \"В функции 'ballGoBank' (возврат в пул):\",\n        \"  - Убедиться, что она работает только с uType=\\\"proj\\\".\",\n        \"В функции стрельбы 'ball':\",\n        \"  - Вместо 'Create Object' использовать выборку свободного из пула: ball.Y < 0, uType=\\\"proj\\\", Pick Random -> Set Position.\"\n      ]\n    },\n    {\n      \"GROUP\": \"4. РЕФАКТОРИНГ ЛИСТА _HOLDER (Меню)\",\n      \"ACTIONS\": [\n        \"Заменить все упоминания объекта 'holdAbil' на семью 'rockAbil' (или напрямую 'ball', если удобнее).\",\n        \"В событиях выборки иконок (Loop, Pick) добавить фильтр:\",\n        \"  - rockAbil: Compare uType = \\\"holder\\\"\",\n        \"В логике спавна иконок (holderOpen):\",\n        \"  - Вместо 'Create Object' использовать выборку: rockAbil.Y < 0, uType=\\\"holder\\\", Pick Random -> Set Position.\",\n        \"Функция 'holderClean':\",\n        \"  - Просто отправлять объекты с uType=\\\"holder\\\" за пределы экрана (Y=-2000), не уничтожать.\"\n      ]\n    },\n    {\n      \"GROUP\": \"5. РЕФАКТОРИНГ ЛИСТА _ABILS (Способности)\",\n      \"ACTIONS\": [\n        \"Заменить старый объект иконок на семью 'rockAbil'.\",\n        \"В событиях позиционирования и анимации добавить фильтр:\",\n        \"  - rockAbil: Compare uType = \\\"abil\\\"\",\n        \"При инициализации способностей:\",\n        \"  - Выбирать из пула (uType=\\\"abil\\\"), а не создавать заново.\"\n      ]\n    },\n    {\n      \"GROUP\": \"6. ЧИСТКА\",\n      \"ACTIONS\": [\n        \"После проверки работоспособности удалить старые объекты 'holdAbil' и 'old_rockAbil' из проекта.\"\n      ]\n    }\n  ]\n}"
-		},
-		{
 			"eventType": "block",
 			"conditions": [
 				{
@@ -1343,6 +1339,62 @@
 									"children": [
 										{
 											"eventType": "comment",
+											"text": "Если Бит не на высоте, добавляем снежок",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "base",
+													"sid": 963889622264929,
+													"parameters": {
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "\"Bit\""
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "base",
+													"sid": 638248810599339,
+													"parameters": {
+														"instance-variable": "hi",
+														"comparison": 3,
+														"value": "30"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "base",
+													"sid": 426558031223949,
+													"parameters": {
+														"instance-variable": "jump"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "add-key",
+													"objectClass": "balls",
+													"sid": 152918646619092,
+													"parameters": {
+														"key": "\"target\"",
+														"value": "1"
+													}
+												}
+											],
+											"sid": 198543946531641
+										},
+										{
+											"eventType": "comment",
 											"text": "Фильтруем инвентарь. Если ball > 0, заносим значение в словарь.",
 											"background-color": [
 												0.67,
@@ -1350,6 +1402,16 @@
 												0.79,
 												1
 											]
+										},
+										{
+											"eventType": "variable",
+											"name": "matrix",
+											"type": "string",
+											"initialValue": "cageBall;windBall;superball;crystBall4;crystBall3;crystBall2;crystBall1;energoBall",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": true,
+											"sid": 914241530669702
 										},
 										{
 											"eventType": "block",
@@ -1398,6 +1460,16 @@
 											"sid": 777861970885401
 										},
 										{
+											"eventType": "comment",
+											"text": "Первая иконка - обычный шар",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
 											"eventType": "block",
 											"conditions": [],
 											"actions": [
@@ -1412,52 +1484,6 @@
 												}
 											],
 											"sid": 213887566352508
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "base",
-													"sid": 772299078445190,
-													"parameters": {
-														"instance-variable": "name",
-														"comparison": 0,
-														"value": "\"Bit\""
-													}
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "base",
-													"sid": 711449616634022,
-													"parameters": {
-														"instance-variable": "hi",
-														"comparison": 3,
-														"value": "30"
-													}
-												},
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "base",
-													"sid": 567186888270479,
-													"parameters": {
-														"instance-variable": "jump"
-													},
-													"isInverted": true
-												}
-											],
-											"actions": [
-												{
-													"id": "add-key",
-													"objectClass": "balls",
-													"sid": 597317553980652,
-													"parameters": {
-														"key": "\"target\"",
-														"value": "1"
-													}
-												}
-											],
-											"sid": 679734367306816
 										},
 										{
 											"eventType": "comment",
@@ -1654,6 +1680,15 @@
 																	"parameters": {
 																		"animation": "balls.CurrentKey",
 																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-scale",
+																	"objectClass": "holdAbil",
+																	"sid": 277081221882899,
+																	"disabled": true,
+																	"parameters": {
+																		"scale": "balls.CurrentKey=\"target\" ? 0.8 : 0.9"
 																	}
 																},
 																{

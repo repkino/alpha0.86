@@ -63,6 +63,15 @@
 								"instance-variable": "a",
 								"value": "\"A\""
 							}
+						},
+						{
+							"id": "setactive0",
+							"objectClass": "tGuard",
+							"sid": 151051382081069,
+							"behaviorType": "Simplex",
+							"parameters": {
+								"state2": "active"
+							}
 						}
 					],
 					"sid": 115834766254349,
@@ -81,12 +90,30 @@
 							],
 							"actions": [
 								{
+									"id": "set-position-to-another-object",
+									"objectClass": "tGuardFlor",
+									"sid": 504149027108306,
+									"parameters": {
+										"object": "tGuard",
+										"image-point-optional": "0"
+									}
+								},
+								{
 									"id": "set-instvar-value",
 									"objectClass": "tGuardFlor",
 									"sid": 677604406570181,
 									"parameters": {
 										"instance-variable": "guardUID",
 										"value": "tGuard.UID"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "tGuardFlor",
+									"sid": 270881079033416,
+									"parameters": {
+										"instance-variable": "onU",
+										"value": "true"
 									}
 								}
 							],
@@ -157,7 +184,60 @@
 									}
 								}
 							],
-							"sid": 291185007214110
+							"sid": 291185007214110,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "tGuard",
+											"sid": 873610578411006,
+											"parameters": {
+												"object": "tGuardFlor"
+											}
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "tGuardFlor",
+											"sid": 385124610853489,
+											"parameters": {
+												"animation": "\"base\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "tGuardFlor",
+											"sid": 548548004103754,
+											"parameters": {
+												"object": "tGuard",
+												"image-point-optional": "0"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tGuardFlor",
+											"sid": 715819358698618,
+											"parameters": {
+												"instance-variable": "guardUID",
+												"value": "tGuard.UID"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "tGuardFlor",
+											"sid": 333841478352864,
+											"parameters": {
+												"instance-variable": "onU",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 641026550098452
+								}
+							]
 						},
 						{
 							"eventType": "block",
@@ -1590,6 +1670,15 @@
 														"comparison": 1,
 														"number": "-12"
 													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "tGuard",
+													"sid": 525198495130536,
+													"parameters": {
+														"instance-variable": "shock"
+													},
+													"isInverted": true
 												}
 											],
 											"actions": [
@@ -1809,6 +1898,15 @@
 														"comparison": 1,
 														"number": "12"
 													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "tGuard",
+													"sid": 102060822660904,
+													"parameters": {
+														"instance-variable": "shock"
+													},
+													"isInverted": true
 												}
 											],
 											"actions": [
@@ -1917,6 +2015,15 @@
 													"sid": 672401748014034,
 													"parameters": {
 														"instance-variable": "seal"
+													},
+													"isInverted": true
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "tGuard",
+													"sid": 512349517110282,
+													"parameters": {
+														"instance-variable": "shock"
 													},
 													"isInverted": true
 												}
@@ -8316,6 +8423,28 @@
 							"parameters": {
 								"object": "tGuardFlor"
 							}
+						},
+						{
+							"id": "is-outside-layout",
+							"objectClass": "ballImpact",
+							"sid": 716528346628053,
+							"isInverted": true
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "tGuard",
+							"sid": 604775220909080,
+							"parameters": {
+								"unique-id": "tGuardFlor.guardUID"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "tGuard",
+							"sid": 594294063356606,
+							"parameters": {
+								"instance-variable": "on"
+							}
 						}
 					],
 					"actions": [],
@@ -8325,16 +8454,820 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "pick-by-unique-id",
-									"objectClass": "tGuard",
-									"sid": 418651564188459,
+									"id": "is-animation-playing",
+									"objectClass": "ballImpact",
+									"sid": 960393676381169,
 									"parameters": {
-										"unique-id": "tGuardFlor.guardUID"
+										"animation": "\"waveE\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "ballImpact",
+									"sid": 501282063220341,
+									"disabled": true,
+									"parameters": {
+										"animation": "\"hitE\""
 									}
 								}
 							],
 							"actions": [],
-							"sid": 827217039587325
+							"sid": 640774389041145,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "ballImpact",
+											"sid": 271827331958829,
+											"parameters": {
+												"instance-variable": "target"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "ballImpact",
+											"sid": 425579831896473,
+											"parameters": {
+												"animation": "\"hitE\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "ballImpact",
+											"sid": 236798093919349,
+											"disabled": true,
+											"parameters": {
+												"scale": "0.8+0.3*Self.level"
+											}
+										},
+										{
+											"callFunction": "ballGoBank",
+											"sid": 459952804661078,
+											"parameters": [
+												"ball.UID"
+											]
+										}
+									],
+									"sid": 856917010414829,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-outside-layout",
+													"objectClass": "ballImpactDom",
+													"sid": 183121837191033
+												}
+											],
+											"actions": [],
+											"sid": 741133536030813,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-random-instance",
+															"objectClass": "System",
+															"sid": 194235104516775,
+															"parameters": {
+																"object": "ballImpactDom"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "ballImpactDom",
+															"sid": 934310953785150,
+															"parameters": {
+																"object": "ballImpact",
+																"image-point-optional": "1"
+															}
+														},
+														{
+															"id": "set-scale",
+															"objectClass": "ballImpactDom",
+															"sid": 810069364500524,
+															"parameters": {
+																"scale": "1+0.25*ballImpact.level"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ballImpactDom",
+															"sid": 991861463210775,
+															"parameters": {
+																"instance-variable": "hostUID",
+																"value": "ballImpact.UID"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "ballImpactDom",
+															"sid": 807085059028489,
+															"parameters": {
+																"animation": "\"hitE\"",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-enabled",
+															"objectClass": "ballImpactDom",
+															"sid": 579667828012066,
+															"behaviorType": "EasyIsometric",
+															"parameters": {
+																"newState_": "enabled"
+															}
+														}
+													],
+													"sid": 612421692181928
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "ballImpact",
+													"sid": 246356745135138,
+													"parameters": {
+														"instance-variable": "level",
+														"comparison": 4,
+														"value": "0"
+													}
+												},
+												{
+													"id": "is-outside-layout",
+													"objectClass": "crystalBolt",
+													"sid": 285656388672827
+												}
+											],
+											"actions": [],
+											"sid": 531980698758868,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-random-instance",
+															"objectClass": "System",
+															"sid": 397021264454369,
+															"parameters": {
+																"object": "crystalBolt"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "crystalBolt",
+															"sid": 738138857326782,
+															"parameters": {
+																"object": "ballImpact",
+																"image-point-optional": "0"
+															}
+														},
+														{
+															"id": "set-scale",
+															"objectClass": "crystalBolt",
+															"sid": 507690427349413,
+															"parameters": {
+																"scale": "2.7"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "crystalBolt",
+															"sid": 583644771351556,
+															"parameters": {
+																"animation": "\"bolt\"&ballImpact.level",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "start-animation",
+															"objectClass": "crystalBolt",
+															"sid": 855418339546464,
+															"parameters": {
+																"from": "beginning"
+															}
+														}
+													],
+													"sid": 560578839619226
+												}
+											]
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ballImpact",
+											"sid": 376883163340114,
+											"parameters": {
+												"instance-variable": "level",
+												"comparison": 0,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "tGuard",
+											"sid": 447597718796005,
+											"parameters": {
+												"instance-variable": "shock",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "tGuard",
+											"sid": 942059666266155,
+											"parameters": {
+												"animation": "\"hit\"&Self.a&0",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 511175566641154,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "tGuard",
+													"sid": 356179145722519,
+													"parameters": {
+														"instance-variable": "perimeter"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [],
+											"sid": 945000431543565
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ballImpact",
+											"sid": 817204700540616,
+											"parameters": {
+												"instance-variable": "level",
+												"comparison": 0,
+												"value": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "tGuard",
+											"sid": 731851968246388,
+											"parameters": {
+												"instance-variable": "shock",
+												"value": "true"
+											}
+										},
+										{
+											"customAction": "guardShock",
+											"objectClass": "ats",
+											"sid": 809012027899722,
+											"parameters": [
+												"tGuard.UID",
+												"2",
+												"0.07"
+											]
+										}
+									],
+									"sid": 110202660026270
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ballImpact",
+											"sid": 986764441201179,
+											"parameters": {
+												"instance-variable": "level",
+												"comparison": 0,
+												"value": "2"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "tGuard",
+											"sid": 558246095556010,
+											"parameters": {
+												"instance-variable": "shock",
+												"value": "true"
+											}
+										},
+										{
+											"customAction": "guardShock",
+											"objectClass": "ats",
+											"sid": 171115606206030,
+											"parameters": [
+												"tGuard.UID",
+												"3",
+												"0.05"
+											]
+										}
+									],
+									"sid": 336482681192633
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ballImpact",
+											"sid": 244128006256504,
+											"parameters": {
+												"instance-variable": "level",
+												"comparison": 0,
+												"value": "3"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "tGuard",
+											"sid": 901226383509280,
+											"parameters": {
+												"instance-variable": "shock",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "tGuard",
+											"sid": 593904610343938,
+											"parameters": {
+												"animation": "\"hit\"&Self.a&1",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 117002393423981
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ballImpact",
+											"sid": 923299946122610,
+											"parameters": {
+												"instance-variable": "level",
+												"comparison": 0,
+												"value": "4"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "tGuard",
+											"sid": 673358371348076,
+											"parameters": {
+												"instance-variable": "shock",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "tGuard",
+											"sid": 862387613608228,
+											"parameters": {
+												"animation": "\"hit\"&Self.a&1",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 560986969213249
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "tGuard",
+							"sid": 190454696086537,
+							"parameters": {
+								"animation": "\"hit\"&Self.a&0"
+							}
+						},
+						{
+							"id": "on-animation-finished",
+							"objectClass": "tGuard",
+							"sid": 872210948016024,
+							"parameters": {
+								"animation": "\"hit\"&Self.a&1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 929604868063916,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&2",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 651711667318365,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "tGuard",
+							"sid": 615388281479763,
+							"parameters": {
+								"instance-variable": "oldDir",
+								"value": "99"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "tGuard",
+							"sid": 645239843746383,
+							"parameters": {
+								"instance-variable": "shock",
+								"value": "false"
+							}
+						}
+					],
+					"sid": 185998833174860,
+					"isOrBlock": true
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "guardShock",
+					"objectClass": "ats",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 879108151660160
+						},
+						{
+							"name": "steps",
+							"type": "number",
+							"initialValue": "3",
+							"comment": "",
+							"sid": 825811627016194
+						},
+						{
+							"name": "interval",
+							"type": "number",
+							"initialValue": "0.06",
+							"comment": "",
+							"sid": 257801573119805
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "tGuard",
+							"sid": 675718116260104,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "tGuard",
+							"sid": 936244538498108,
+							"parameters": {
+								"instance-variable": "shock"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "tGuard",
+							"sid": 366810384590642,
+							"parameters": {
+								"instance-variable": "rotate",
+								"value": "steps"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 801567952224944,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&2",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-mirrored",
+							"objectClass": "tGuard",
+							"sid": 312679184517953,
+							"parameters": {
+								"state": "not-mirrored"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 413065584573889,
+							"parameters": {
+								"seconds": "interval",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 623231267121072,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&1",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-mirrored",
+							"objectClass": "tGuard",
+							"sid": 445806969206258,
+							"parameters": {
+								"state": "mirrored"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 498923766995210,
+							"parameters": {
+								"seconds": "interval",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 517105643112423,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&0",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 461556503723535,
+							"parameters": {
+								"seconds": "interval",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 787655950657834,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&7",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 833003911786670,
+							"parameters": {
+								"seconds": "interval",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 809359716195328,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&6",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 557121309931785,
+							"parameters": {
+								"seconds": "interval",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 620237886689657,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&7",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-mirrored",
+							"objectClass": "tGuard",
+							"sid": 445385536134734,
+							"parameters": {
+								"state": "not-mirrored"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 650375546907903,
+							"parameters": {
+								"seconds": "interval",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 112679091901494,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&0",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 206753798944818,
+							"parameters": {
+								"seconds": "interval",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 926232143739546,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&1",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 672246088316649,
+							"parameters": {
+								"seconds": "interval",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "tGuard",
+							"sid": 409573243705860,
+							"parameters": {
+								"animation": "\"stop\"&Self.a&2",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "subtract-from-instvar",
+							"objectClass": "tGuard",
+							"sid": 690822174703653,
+							"parameters": {
+								"instance-variable": "rotate",
+								"value": "1"
+							}
+						}
+					],
+					"sid": 998047981078716,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "tGuard",
+									"sid": 951149648834138,
+									"parameters": {
+										"instance-variable": "rotate",
+										"comparison": 4,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "guardShock",
+									"objectClass": "ats",
+									"sid": 134031833239966,
+									"parameters": [
+										"tGuard.UID",
+										"tGuard.rotate",
+										"0.06"
+									]
+								}
+							],
+							"sid": 262485796253524
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 187057440167762
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "tGuard",
+									"sid": 681079208489583,
+									"parameters": {
+										"instance-variable": "rotate",
+										"comparison": 0,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "tGuard",
+									"sid": 776219647505618,
+									"parameters": {
+										"instance-variable": "shock",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tGuard",
+									"sid": 804251196833128,
+									"parameters": {
+										"instance-variable": "oldDir",
+										"value": "99"
+									}
+								}
+							],
+							"sid": 825802648233835
 						}
 					]
 				},
