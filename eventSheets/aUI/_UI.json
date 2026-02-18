@@ -698,6 +698,36 @@
 					"sid": 497562072829265
 				},
 				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-outside-layout",
+							"objectClass": "items",
+							"sid": 772838345906523
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "items",
+							"sid": 131764893342061,
+							"parameters": {
+								"instance-variable": "itemOn",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "items",
+							"sid": 505683301450421,
+							"parameters": {
+								"collisions": "disabled"
+							}
+						}
+					],
+					"sid": 183523913610966
+				},
+				{
 					"eventType": "comment",
 					"text": "Начальное содержание инвентаря",
 					"background-color": [
@@ -711,7 +741,8 @@
 					"eventType": "block",
 					"conditions": [],
 					"actions": [],
-					"sid": 930268268723626
+					"sid": 930268268723626,
+					"disabled": true
 				}
 			]
 		},
@@ -6211,6 +6242,224 @@
 						}
 					],
 					"sid": 701473145581268
+				},
+				{
+					"eventType": "comment",
+					"text": "Механика быстрого подбора (Run and Get) без остановки героя",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 925060766088151,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "jumper",
+							"sid": 965522031971004,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "items",
+							"sid": 355479444281154,
+							"parameters": {
+								"instance-variable": "runAndGet"
+							}
+						},
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 540348467076896,
+							"parameters": {
+								"first-value": "items.LayerName",
+								"comparison": 0,
+								"second-value": "\"iso\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 356854957349478,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "base",
+									"sid": 254899417786656,
+									"parameters": {
+										"object": "items"
+									}
+								},
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "jumper",
+									"sid": 995828661565965,
+									"parameters": {
+										"object": "items"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 502845637248069,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "items",
+											"sid": 175001255254469,
+											"parameters": {
+												"object": "base"
+											}
+										},
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "items",
+											"sid": 809917031185998,
+											"parameters": {
+												"object": "jumper"
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "runAndGet",
+											"sid": 746337583550503
+										}
+									],
+									"sid": 225089877998581
+								}
+							],
+							"isOrBlock": true
+						}
+					]
+				},
+				{
+					"functionName": "runAndGet",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": true,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"type": "comment",
+							"text": "1. Сначала визуальный эффект и 'мягкое' удаление мирового объекта"
+						},
+						{
+							"id": "spawn-another-object",
+							"objectClass": "items",
+							"sid": 604949990293577,
+							"parameters": {
+								"object": "FXmini",
+								"layer": "\"ui\"",
+								"image-point": "0",
+								"create-hierarchy": false,
+								"template-name": "\"\""
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "FXmini",
+							"sid": 933383627886865,
+							"parameters": {
+								"animation": "\"use\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"type": "comment",
+							"text": "Убираем коллизии и флаги, чтобы функции инвентаря не 'подцепили' этот объект"
+						},
+						{
+							"type": "comment",
+							"text": "Предмет отправляется в банк"
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "items",
+							"sid": 886281286293914,
+							"parameters": {
+								"collisions": "disabled"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "items",
+							"sid": 798260309826519,
+							"parameters": {
+								"instance-variable": "runAndGet",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "items",
+							"sid": 642184705505918,
+							"parameters": {
+								"x": "-9263",
+								"y": "-5463"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "items",
+							"sid": 865737355884868,
+							"parameters": {
+								"animation": "\"zero\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "items",
+							"sid": 262983884911569,
+							"parameters": {
+								"instance-variable": "itemOn",
+								"value": "false"
+							}
+						},
+						{
+							"type": "comment",
+							"text": "2. Добавляем в инвентарь (hiden = false для авто-обновления)"
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 846129469447465,
+							"parameters": [
+								false,
+								"items.iSign",
+								"items.type",
+								"items.saverTag",
+								"1",
+								"items.ball"
+							]
+						}
+					],
+					"sid": 815819682583054
 				},
 				{
 					"eventType": "comment",
