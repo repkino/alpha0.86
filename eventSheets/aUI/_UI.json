@@ -13992,367 +13992,6 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "РЕЦЕПТЫ: ПОДСВЕТКА ПРИ ПЕРЕТАСКИВАНИИ",
-					"background-color": [
-						0.611764705882353,
-						0.6235294117647059,
-						0.9686274509803922,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-dragging",
-							"objectClass": "itemInv",
-							"sid": 200000000000010,
-							"behaviorType": "DragDrop"
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "itemInv",
-							"sid": 200000000000011,
-							"parameters": {
-								"instance-variable": "inv"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 200000000000012,
-							"parameters": {
-								"instance-variable": "draggedSign",
-								"value": "itemInv.iSign"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 200000000000013,
-							"parameters": {
-								"instance-variable": "draggedUID",
-								"value": "itemInv.UID"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 200000000000014,
-							"parameters": {
-								"instance-variable": "targetItemUID",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 200000000000015,
-							"parameters": {
-								"instance-variable": "recipeRow",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "destroy",
-							"objectClass": "recipeFX",
-							"sid": 200000000000016
-						}
-					],
-					"sid": 200000000000020,
-					"children": [
-						{
-							"eventType": "comment",
-							"text": "Проверка перекрытия с другими предметами инвентаря",
-							"background-color": [
-								0.67,
-								0.98,
-								0.79,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "itemInv",
-									"sid": 200000000000021,
-									"parameters": {
-										"object": "item"
-									}
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "item",
-									"sid": 200000000000022,
-									"parameters": {
-										"unique-id": "itemInv.UID"
-									},
-									"isInverted": true
-								}
-							],
-							"actions": [],
-							"sid": 200000000000030,
-							"children": [
-								{
-									"eventType": "comment",
-									"text": "Ищем рецепт в массиве (вариант 1: A+B)",
-									"background-color": [
-										0.67,
-										0.98,
-										0.79,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "for",
-											"objectClass": "System",
-											"sid": 200000000000031,
-											"parameters": {
-												"name": "\"recipeCheck\"",
-												"start-index": "0",
-												"end-index": "itemRecipe.Height-1"
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 200000000000032,
-											"parameters": {
-												"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck\"), 0)",
-												"comparison": 1,
-												"second-value": "\"\""
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 200000000000033,
-											"parameters": {
-												"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck\"), 0)",
-												"comparison": 0,
-												"second-value": "itemInv.iSign"
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 200000000000034,
-											"parameters": {
-												"first-value": "itemRecipe.At(1, loopindex(\"recipeCheck\"), 0)",
-												"comparison": 0,
-												"second-value": "item.iSign"
-											}
-										}
-									],
-									"actions": [
-										{
-											"type": "comment",
-											"text": "Рецепт найден! Запоминаем данные",
-											"background-color": [
-												0.996078431372549,
-												0.7450980392156863,
-												0.9882352941176471,
-												1
-											]
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUI",
-											"sid": 200000000000035,
-											"parameters": {
-												"instance-variable": "recipeRow",
-												"value": "loopindex(\"recipeCheck\")"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUI",
-											"sid": 200000000000036,
-											"parameters": {
-												"instance-variable": "targetItemUID",
-												"value": "item.UID"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "itemInv",
-											"sid": 200000000000037,
-											"parameters": {
-												"instance-variable": "operationUID",
-												"value": "item.UID"
-											}
-										},
-										{
-											"type": "comment",
-											"text": "Показываем эффект над целевым предметом",
-											"background-color": [
-												0.996078431372549,
-												0.7450980392156863,
-												0.9882352941176471,
-												1
-											]
-										},
-										{
-											"id": "spawn-another-object",
-											"objectClass": "item",
-											"sid": 200000000000038,
-											"parameters": {
-												"object": "recipeFX",
-												"layer": "\"ui\"",
-												"image-point": "0",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "set-position-to-another-object",
-											"objectClass": "recipeFX",
-											"sid": 200000000000039,
-											"parameters": {
-												"object": "item",
-												"image-point-optional": "0"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "recipeFX",
-											"sid": 200000000000040,
-											"parameters": {
-												"animation": "\"active\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 200000000000050
-								},
-								{
-									"eventType": "comment",
-									"text": "Ищем рецепт в массиве (вариант 2: B+A)",
-									"background-color": [
-										0.67,
-										0.98,
-										0.79,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "for",
-											"objectClass": "System",
-											"sid": 200000000000061,
-											"parameters": {
-												"name": "\"recipeCheck2\"",
-												"start-index": "0",
-												"end-index": "itemRecipe.Height-1"
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 200000000000062,
-											"parameters": {
-												"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck2\"), 0)",
-												"comparison": 1,
-												"second-value": "\"\""
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 200000000000063,
-											"parameters": {
-												"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck2\"), 0)",
-												"comparison": 0,
-												"second-value": "item.iSign"
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 200000000000064,
-											"parameters": {
-												"first-value": "itemRecipe.At(1, loopindex(\"recipeCheck2\"), 0)",
-												"comparison": 0,
-												"second-value": "itemInv.iSign"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUI",
-											"sid": 200000000000065,
-											"parameters": {
-												"instance-variable": "recipeRow",
-												"value": "loopindex(\"recipeCheck2\")"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUI",
-											"sid": 200000000000066,
-											"parameters": {
-												"instance-variable": "targetItemUID",
-												"value": "item.UID"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "itemInv",
-											"sid": 200000000000067,
-											"parameters": {
-												"instance-variable": "operationUID",
-												"value": "item.UID"
-											}
-										},
-										{
-											"id": "spawn-another-object",
-											"objectClass": "item",
-											"sid": 200000000000068,
-											"parameters": {
-												"object": "recipeFX",
-												"layer": "\"ui\"",
-												"image-point": "0",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "set-position-to-another-object",
-											"objectClass": "recipeFX",
-											"sid": 200000000000069,
-											"parameters": {
-												"object": "item",
-												"image-point-optional": "0"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "recipeFX",
-											"sid": 200000000000070,
-											"parameters": {
-												"animation": "\"active\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 200000000000080
-								}
-							]
-						}
-					]
-				},
-				{
-					"eventType": "comment",
 					"text": "поведение ип при перетаскивании, создание перетаскиваемого экземпляра",
 					"background-color": [
 						0.611764705882353,
@@ -14379,51 +14018,66 @@
 							}
 						}
 					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 261393992080458,
-							"parameters": {
-								"instance-variable": "draggedSign",
-								"value": "itemInv.iSign"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 152792439346896,
-							"parameters": {
-								"instance-variable": "draggedUID",
-								"value": "itemInv.UID"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 997859516696194,
-							"parameters": {
-								"instance-variable": "targetItemUID",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 772502473534531,
-							"parameters": {
-								"instance-variable": "recipeRow",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "destroy",
-							"objectClass": "recipeFX",
-							"sid": 439304236331800
-						}
-					],
+					"actions": [],
 					"sid": 323744043501594,
 					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "itemInv",
+									"sid": 444035046164022,
+									"parameters": {
+										"instance-variable": "inv"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 559934639819045,
+									"parameters": {
+										"instance-variable": "draggedSign",
+										"value": "itemInv.iSign"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 714482226943431,
+									"parameters": {
+										"instance-variable": "draggedUID",
+										"value": "itemInv.UID"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 484010347340713,
+									"parameters": {
+										"instance-variable": "targetItemUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 451109182049786,
+									"parameters": {
+										"instance-variable": "recipeRow",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "destroy",
+									"objectClass": "recipeFX",
+									"sid": 462507741086394
+								}
+							],
+							"sid": 407173895006200
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -14577,6 +14231,16 @@
 										{
 											"eventType": "comment",
 											"text": "механика соединения предметов"
+										},
+										{
+											"eventType": "comment",
+											"text": "РЕЦЕПТЫ: ПОДСВЕТКА ПРИ ПЕРЕТАСКИВАНИИ",
+											"background-color": [
+												0.611764705882353,
+												0.6235294117647059,
+												0.9686274509803922,
+												1
+											]
 										},
 										{
 											"eventType": "comment",
@@ -14875,19 +14539,8 @@
 									"id": "is-animation-playing",
 									"objectClass": "inventory",
 									"sid": 815343802868062,
-									"disabled": true,
 									"parameters": {
 										"animation": "\"open\""
-									}
-								},
-								{
-									"id": "compare-two-values",
-									"objectClass": "System",
-									"sid": 416916701795595,
-									"parameters": {
-										"first-value": "inventory.AnimationName",
-										"comparison": 0,
-										"second-value": "\"open\""
 									}
 								}
 							],
