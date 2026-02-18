@@ -14073,7 +14073,26 @@
 								{
 									"id": "destroy",
 									"objectClass": "recipeFX",
-									"sid": 462507741086394
+									"sid": 462507741086394,
+									"disabled": true
+								},
+								{
+									"id": "set-position",
+									"objectClass": "recipeFX",
+									"sid": 632424769588964,
+									"parameters": {
+										"x": "-3333",
+										"y": "-8888"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "recipeFX",
+									"sid": 536062465641063,
+									"parameters": {
+										"animation": "\"zero\"",
+										"from": "beginning"
+									}
 								}
 							],
 							"sid": 407173895006200
@@ -15229,37 +15248,6 @@
 							"parameters": {
 								"text": "\"0\""
 							}
-						},
-						{
-							"type": "comment",
-							"text": "к механике соединения предметов"
-						},
-						{
-							"id": "set-position",
-							"objectClass": "recipeFX",
-							"sid": 496716829900608,
-							"parameters": {
-								"x": "-3333",
-								"y": "-8888"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 828425494375682,
-							"parameters": {
-								"instance-variable": "targetItemUID",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 323434473738330,
-							"parameters": {
-								"instance-variable": "recipeRow",
-								"value": "-1"
-							}
 						}
 					],
 					"sid": 180796326432305,
@@ -15822,13 +15810,46 @@
 							"sid": 886638069215476,
 							"children": [
 								{
+									"eventType": "comment",
+									"text": "соединение предметов"
+								},
+								{
+									"eventType": "comment",
+									"text": "СИНТЕЗ: очистка",
+									"background-color": [
+										0.6078431372549019,
+										0.7490196078431373,
+										0.615686274509804,
+										1
+									]
+								},
+								{
 									"eventType": "block",
 									"conditions": [],
 									"actions": [
 										{
 											"id": "destroy",
 											"objectClass": "recipeFX",
-											"sid": 758655281510423
+											"sid": 758655281510423,
+											"disabled": true
+										},
+										{
+											"id": "set-position",
+											"objectClass": "recipeFX",
+											"sid": 726916849349873,
+											"parameters": {
+												"x": "-3333",
+												"y": "-8888"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "recipeFX",
+											"sid": 947323848577020,
+											"parameters": {
+												"animation": "\"zero\"",
+												"from": "beginning"
+											}
 										},
 										{
 											"id": "set-instvar-value",
@@ -15850,6 +15871,281 @@
 										}
 									],
 									"sid": 720631656788207
+								},
+								{
+									"eventType": "comment",
+									"text": "СИНТЕЗ: Выполнение рецепта при броске",
+									"background-color": [
+										0.6078431372549019,
+										0.7490196078431373,
+										0.615686274509804,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUI",
+											"sid": 712574673249118,
+											"parameters": {
+												"instance-variable": "recipeRow",
+												"comparison": 1,
+												"value": "-1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Рецепт найден - выполняем синтез!",
+											"background-color": [
+												0.7450980392156863,
+												0.996078431372549,
+												0.7843137254901961,
+												1
+											]
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUI",
+											"sid": 773071825760720,
+											"parameters": {
+												"instance-variable": "resultSign",
+												"value": "itemRecipe.At(2, aUI.recipeRow, 0)"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUI",
+											"sid": 947770186549402,
+											"parameters": {
+												"instance-variable": "resultQuant",
+												"value": "itemRecipe.At(3, aUI.recipeRow, 0)"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "Уменьшаем количество ингредиентов в словаре itemsQ",
+											"background-color": [
+												0.7450980392156863,
+												0.996078431372549,
+												0.7843137254901961,
+												1
+											]
+										},
+										{
+											"id": "set-key",
+											"objectClass": "itemsQ",
+											"sid": 747730050776859,
+											"parameters": {
+												"key": "itemInv.iSign",
+												"value": "itemsQ.Get(itemInv.iSign)-1"
+											}
+										},
+										{
+											"id": "set-key",
+											"objectClass": "itemsQ",
+											"sid": 303424273536246,
+											"parameters": {
+												"key": "item.iSign",
+												"value": "itemsQ.Get(item.iSign)-1"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "Удаляем ключи если количество стало 0 или меньше",
+											"background-color": [
+												0.7450980392156863,
+												0.996078431372549,
+												0.7843137254901961,
+												1
+											]
+										},
+										{
+											"id": "delete-key",
+											"objectClass": "itemsQ",
+											"sid": 336732686405951,
+											"parameters": {
+												"key": "itemInv.iSign"
+											}
+										},
+										{
+											"id": "delete-key",
+											"objectClass": "itemsQ",
+											"sid": 165656117490294,
+											"parameters": {
+												"key": "item.iSign"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "Уничтожаем оба предмета",
+											"background-color": [
+												0.7450980392156863,
+												0.996078431372549,
+												0.7843137254901961,
+												1
+											]
+										},
+										{
+											"id": "destroy",
+											"objectClass": "itemInv",
+											"sid": 811104926934705
+										},
+										{
+											"id": "destroy",
+											"objectClass": "item",
+											"sid": 680101875048980
+										},
+										{
+											"type": "comment",
+											"text": "Создаём результирующий предмет",
+											"background-color": [
+												0.7450980392156863,
+												0.996078431372549,
+												0.7843137254901961,
+												1
+											]
+										},
+										{
+											"callFunction": "getItem",
+											"sid": 715663974405700,
+											"parameters": [
+												true,
+												"aUI.resultSign",
+												"\"use\"",
+												"0",
+												"aUI.resultQuant",
+												"0"
+											]
+										},
+										{
+											"type": "comment",
+											"text": "Эффект успешного синтеза",
+											"background-color": [
+												0.7450980392156863,
+												0.996078431372549,
+												0.7843137254901961,
+												1
+											]
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "recipeFX",
+											"sid": 869450456712180,
+											"parameters": {
+												"animation": "\"success\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "Пересортировка инвентаря",
+											"background-color": [
+												0.7450980392156863,
+												0.996078431372549,
+												0.7843137254901961,
+												1
+											]
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 978626482967857,
+											"parameters": {
+												"seconds": "0",
+												"use-timescale": false
+											}
+										},
+										{
+											"callFunction": "invLimit",
+											"sid": 771553055707170
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 917702692369474,
+											"parameters": {
+												"seconds": "0",
+												"use-timescale": false
+											}
+										},
+										{
+											"callFunction": "items",
+											"sid": 540557183666952
+										},
+										{
+											"callFunction": "cellN",
+											"sid": 604234308524274
+										}
+									],
+									"sid": 219688666716268,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "Проверка: если количество ингредиента стало 0 - удаляем ключ из словаря",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-value",
+													"objectClass": "itemsQ",
+													"sid": 539295218479443,
+													"parameters": {
+														"key": "itemInv.iSign",
+														"comparison": 2,
+														"value": "1"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "delete-key",
+													"objectClass": "itemsQ",
+													"sid": 771156321004518,
+													"parameters": {
+														"key": "itemInv.iSign"
+													}
+												}
+											],
+											"sid": 779204826710268
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-value",
+													"objectClass": "itemsQ",
+													"sid": 462830625031179,
+													"parameters": {
+														"key": "item.iSign",
+														"comparison": 2,
+														"value": "1"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "delete-key",
+													"objectClass": "itemsQ",
+													"sid": 809588863417627,
+													"parameters": {
+														"key": "item.iSign"
+													}
+												}
+											],
+											"sid": 930680068837137
+										}
+									]
 								}
 							]
 						}
