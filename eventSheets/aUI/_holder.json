@@ -1407,11 +1407,77 @@
 											"eventType": "variable",
 											"name": "matrix",
 											"type": "string",
-											"initialValue": "cageBall;windBall;superball;crystBall4;crystBall3;crystBall2;crystBall1;energoBall",
+											"initialValue": "cageBall;windBall;crystBall4;crystBall3;crystBall2;crystBall1;energoBall;superBall",
 											"comment": "",
 											"isStatic": false,
 											"isConstant": true,
 											"sid": 914241530669702
+										},
+										{
+											"eventType": "comment",
+											"text": "Цикл идет строго по списку из matrix. Если предмет в инвентаре есть и ball > 0, он попадет в словарь в нужном порядке.",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for",
+													"objectClass": "System",
+													"sid": 797037237861662,
+													"parameters": {
+														"name": "\"i\"",
+														"start-index": "0",
+														"end-index": "tokencount(matrix, \";\") - 1"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "itemInv",
+													"sid": 236026029056400,
+													"parameters": {
+														"instance-variable": "iSign",
+														"comparison": 0,
+														"value": "tokenat(matrix, loopindex(\"i\"), \";\")"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "itemInv",
+													"sid": 178802133381266,
+													"parameters": {
+														"instance-variable": "ball",
+														"comparison": 4,
+														"value": "0"
+													}
+												},
+												{
+													"id": "has-key",
+													"objectClass": "balls",
+													"sid": 356198074837087,
+													"parameters": {
+														"key": "itemInv.iSign"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "add-key",
+													"objectClass": "balls",
+													"sid": 433150510036472,
+													"parameters": {
+														"key": "itemInv.iSign",
+														"value": "itemInv.iQuant"
+													}
+												}
+											],
+											"sid": 360684790251112
 										},
 										{
 											"eventType": "block",
@@ -1457,7 +1523,8 @@
 													}
 												}
 											],
-											"sid": 777861970885401
+											"sid": 777861970885401,
+											"disabled": true
 										},
 										{
 											"eventType": "comment",
