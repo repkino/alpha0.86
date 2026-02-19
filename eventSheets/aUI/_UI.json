@@ -1915,126 +1915,10 @@
 						}
 					],
 					"eventType": "function-block",
-					"conditions": [
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "quants",
-							"sid": 127913178394794,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "qSign",
-								"comparison": 0,
-								"value": "iSign"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "append-text",
-							"objectClass": "help",
-							"sid": 779798493345317,
-							"disabled": true,
-							"parameters": {
-								"text": "\"f\""
-							}
-						}
-					],
+					"conditions": [],
+					"actions": [],
 					"sid": 981251397333797,
 					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "for-each",
-									"objectClass": "System",
-									"sid": 203405168614110,
-									"parameters": {
-										"object": "quants"
-									}
-								}
-							],
-							"actions": [],
-							"sid": 603223899946988,
-							"disabled": true,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-boolean-eventvar",
-											"objectClass": "System",
-											"sid": 330332918103241,
-											"parameters": {
-												"variable": "destroy"
-											}
-										}
-									],
-									"actions": [
-										{
-											"customAction": "out",
-											"objectClass": "quants",
-											"sid": 965249072721587
-										}
-									],
-									"sid": 297296957665487,
-									"disabled": true
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-eventvar",
-											"objectClass": "System",
-											"sid": 589884745200523,
-											"parameters": {
-												"variable": "newVal",
-												"comparison": 4,
-												"value": "1"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "append-text",
-											"objectClass": "help",
-											"sid": 509206992859745,
-											"parameters": {
-												"text": "newVal"
-											}
-										},
-										{
-											"id": "set-text",
-											"objectClass": "quants",
-											"sid": 285588237426289,
-											"parameters": {
-												"text": "newVal"
-											}
-										}
-									],
-									"sid": 184294266970998,
-									"disabled": true
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 723865877208285
-										}
-									],
-									"actions": [
-										{
-											"customAction": "out",
-											"objectClass": "quants",
-											"sid": 800810170195998
-										}
-									],
-									"sid": 561151055877982,
-									"disabled": true
-								}
-							]
-						},
 						{
 							"eventType": "comment",
 							"text": "ОБНОВЛЕНИЕ ВСЕХ СЧЕТЧИКОВ (Инвентарь + Способности)",
@@ -2056,6 +1940,14 @@
 										"instance-variable": "qSign",
 										"comparison": 0,
 										"value": "iSign"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "quants",
+									"sid": 282717436674933,
+									"parameters": {
+										"instance-variable": "on"
 									}
 								}
 							],
@@ -2090,15 +1982,6 @@
 												}
 											],
 											"actions": [
-												{
-													"id": "append-text",
-													"objectClass": "help",
-													"sid": 322493436500802,
-													"disabled": true,
-													"parameters": {
-														"text": "\"D\""
-													}
-												},
 												{
 													"customAction": "out",
 													"objectClass": "quants",
@@ -10548,11 +10431,6 @@
 														"animation": "\"use\"",
 														"from": "beginning"
 													}
-												},
-												{
-													"id": "destroy",
-													"objectClass": "item",
-													"sid": 942658264429501
 												}
 											],
 											"sid": 511974479512661,
@@ -10575,12 +10453,28 @@
 													],
 													"actions": [
 														{
-															"customAction": "out",
-															"objectClass": "quants",
-															"sid": 325529145810385
+															"callFunction": "quantUpdate",
+															"sid": 729363725620635,
+															"parameters": [
+																"itemsQ.Get(item.iSign)",
+																"item.iSign",
+																true
+															]
 														}
 													],
 													"sid": 155580335109866
+												},
+												{
+													"eventType": "block",
+													"conditions": [],
+													"actions": [
+														{
+															"id": "destroy",
+															"objectClass": "item",
+															"sid": 476129812456287
+														}
+													],
+													"sid": 917210771204272
 												},
 												{
 													"eventType": "block",
@@ -10720,12 +10614,6 @@
 														"animation": "\"use\"",
 														"from": "beginning"
 													}
-												},
-												{
-													"customAction": "out",
-													"objectClass": "quants",
-													"sid": 498612759660948,
-													"disabled": true
 												},
 												{
 													"callFunction": "quantUpdate",
@@ -12751,21 +12639,38 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "quants",
-									"sid": 438699074376376,
+									"sid": 161778219344807,
 									"parameters": {
-										"instance-variable": "abil"
-									},
-									"isInverted": true
+										"instance-variable": "on"
+									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 736297516391976,
+							"children": [
 								{
-									"customAction": "out",
-									"objectClass": "quants",
-									"sid": 968230940604025
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "quants",
+											"sid": 357660450516637,
+											"parameters": {
+												"instance-variable": "abil"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"customAction": "out",
+											"objectClass": "quants",
+											"sid": 134292009381084
+										}
+									],
+									"sid": 712062948703024
 								}
-							],
-							"sid": 736297516391976
+							]
 						},
 						{
 							"eventType": "comment",
@@ -17194,70 +17099,6 @@
 											]
 										},
 										{
-											"id": "set-key",
-											"objectClass": "itemsQ",
-											"sid": 747730050776859,
-											"disabled": true,
-											"parameters": {
-												"key": "itemInv.iSign",
-												"value": "itemsQ.Get(itemInv.iSign)-1"
-											}
-										},
-										{
-											"id": "set-key",
-											"objectClass": "itemsQ",
-											"sid": 303424273536246,
-											"disabled": true,
-											"parameters": {
-												"key": "item.iSign",
-												"value": "itemsQ.Get(item.iSign)-1"
-											}
-										},
-										{
-											"type": "comment",
-											"text": "Удаляем ключи если количество стало 0 или меньше",
-											"background-color": [
-												0.7450980392156863,
-												0.996078431372549,
-												0.7843137254901961,
-												1
-											]
-										},
-										{
-											"id": "delete-key",
-											"objectClass": "itemsQ",
-											"sid": 336732686405951,
-											"disabled": true,
-											"parameters": {
-												"key": "itemInv.iSign"
-											}
-										},
-										{
-											"id": "delete-key",
-											"objectClass": "itemsQ",
-											"sid": 165656117490294,
-											"disabled": true,
-											"parameters": {
-												"key": "item.iSign"
-											}
-										},
-										{
-											"type": "comment",
-											"text": "Уничтожаем оба предмета",
-											"background-color": [
-												0.7450980392156863,
-												0.996078431372549,
-												0.7843137254901961,
-												1
-											]
-										},
-										{
-											"id": "destroy",
-											"objectClass": "item",
-											"sid": 680101875048980,
-											"disabled": true
-										},
-										{
 											"id": "destroy",
 											"objectClass": "itemInv",
 											"sid": 224119282255395
@@ -18129,9 +17970,18 @@
 									}
 								},
 								{
+									"callFunction": "quantUpdate",
+									"sid": 906766692517598,
+									"parameters": [
+										"item.iQuant",
+										"item.iSign",
+										false
+									]
+								},
+								{
 									"id": "destroy",
 									"objectClass": "itemInv",
-									"sid": 650402738264910
+									"sid": 459535188185592
 								}
 							],
 							"sid": 778647656996539
@@ -19290,11 +19140,19 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "quants",
-									"sid": 817232728335690,
+									"sid": 553317271830226,
 									"parameters": {
 										"instance-variable": "abil"
 									},
 									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "quants",
+									"sid": 556065178239560,
+									"parameters": {
+										"instance-variable": "on"
+									}
 								}
 							],
 							"actions": [
@@ -20229,11 +20087,6 @@
 												"animation": "\"use\"",
 												"from": "beginning"
 											}
-										},
-										{
-											"id": "destroy",
-											"objectClass": "item",
-											"sid": 225079745735246
 										}
 									],
 									"sid": 718644313492943,
@@ -20251,6 +20104,14 @@
 													"sid": 742953842369684,
 													"parameters": {
 														"unique-id": "item.quantUID"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "quants",
+													"sid": 552152948364714,
+													"parameters": {
+														"instance-variable": "on"
 													}
 												}
 											],
@@ -20272,6 +20133,18 @@
 												}
 											],
 											"sid": 289847223016887
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "destroy",
+													"objectClass": "item",
+													"sid": 633985317640935
+												}
+											],
+											"sid": 478142934528796
 										},
 										{
 											"eventType": "block",
