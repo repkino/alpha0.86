@@ -151,6 +151,27 @@
 			"children": [
 				{
 					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"type": "script",
+							"language": "javascript",
+							"script": [
+								".energy-counter {",
+								"    /* Создаем четкую обводку без шейдеров */",
+								"    -webkit-text-stroke: 2px #000000; ",
+								"    /* Заставляем обводку уйти ПОД шрифт, чтобы не съедать его толщину */",
+								"    paint-order: stroke fill;",
+								"    /* Можно добавить легкое неоновое свечение в духе туманности */",
+								"    text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);",
+								"}"
+							]
+						}
+					],
+					"sid": 584796639816001
+				},
+				{
+					"eventType": "block",
 					"conditions": [
 						{
 							"id": "is-boolean-instance-variable-set",
@@ -221,7 +242,8 @@
 									"disabled": true,
 									"parameters": [
 										"\"active\"",
-										"aUIN.newAbil"
+										"aUIN.newAbil",
+										false
 									]
 								}
 							],
@@ -321,7 +343,8 @@
 									"disabled": true,
 									"parameters": [
 										"\"active\"",
-										"aUIN.newAbil"
+										"aUIN.newAbil",
+										false
 									]
 								}
 							],
@@ -1028,22 +1051,22 @@
 			],
 			"actions": [
 				{
+					"type": "comment",
+					"text": "Отладка: вывод количества строк в массиве (должно быть 33)",
+					"background-color": [
+						0.7450980392156863,
+						0.996078431372549,
+						0.7490196078431373,
+						1
+					]
+				},
+				{
 					"id": "load",
 					"objectClass": "itemRecipe",
 					"sid": 433820565536326,
 					"parameters": {
 						"json": "AJAX.LastData"
 					}
-				},
-				{
-					"type": "comment",
-					"text": "Отладка: вывод количества строк в массиве (должно быть 33)",
-					"background-color": [
-						0.996078431372549,
-						0.7450980392156863,
-						0.9882352941176471,
-						1
-					]
 				}
 			],
 			"sid": 334810800079775
@@ -1277,7 +1300,8 @@
 									"sid": 162289661987900,
 									"parameters": [
 										"hero",
-										"\"zero\""
+										"\"zero\"",
+										false
 									]
 								}
 							],
@@ -5111,7 +5135,8 @@
 									"disabled": true,
 									"parameters": [
 										"\"active\"",
-										"aUIN.newAbil"
+										"aUIN.newAbil",
+										false
 									]
 								},
 								{
@@ -5186,7 +5211,8 @@
 									"disabled": true,
 									"parameters": [
 										"\"active\"",
-										"aUIN.newAbil"
+										"aUIN.newAbil",
+										false
 									]
 								},
 								{
@@ -6220,7 +6246,8 @@
 									"sid": 121562536258269,
 									"parameters": [
 										"hero",
-										"newAbil"
+										"newAbil",
+										false
 									]
 								}
 							],
@@ -8587,7 +8614,7 @@
 							"children": [
 								{
 									"eventType": "comment",
-									"text": "Инвентарь открыт (группа holder видима). Пересчитываем лимит и перерисовываем ячейки.",
+									"text": "мягко вызываем способности (уточнить числитель снарядов)",
 									"background-color": [
 										0.67,
 										0.98,
@@ -8602,15 +8629,26 @@
 											"id": "is-on-screen",
 											"objectClass": "cocobutton",
 											"sid": 981000586465739
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aUIN",
+											"sid": 834077559689194,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "rocketDown"
+											},
+											"isInverted": true
 										}
 									],
 									"actions": [
 										{
 											"callFunction": "abilMap",
-											"sid": 489310083519905,
+											"sid": 258982863502515,
 											"parameters": [
 												"\"active\"",
-												"\"zero\""
+												"\"zero\"",
+												true
 											]
 										}
 									],
@@ -9303,7 +9341,8 @@
 											"sid": 289004934248338,
 											"parameters": [
 												"\"active\"",
-												"\"zero\""
+												"\"zero\"",
+												false
 											]
 										}
 									],
@@ -11699,7 +11738,8 @@
 									"sid": 780275696990186,
 									"parameters": [
 										"\"active\"",
-										"\"zero\""
+										"\"zero\"",
+										false
 									]
 								}
 							],
@@ -14698,6 +14738,1550 @@
 			"children": [
 				{
 					"eventType": "comment",
+					"text": "\n\n\n\n\nповедение инвентарных предметов в начале перетаскивания",
+					"background-color": [
+						0.611764705882353,
+						0.6235294117647059,
+						0.9686274509803922,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-drag-start",
+							"objectClass": "itemInv",
+							"sid": 844807915131342,
+							"behaviorType": "DragDrop"
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "itemInv",
+							"sid": 123444542663089,
+							"parameters": {
+								"instance-variable": "item"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "itemInv",
+							"sid": 245942075266102,
+							"parameters": {
+								"instance-variable": "startDragX",
+								"value": "Self.X"
+							}
+						},
+						{
+							"id": "move-to-top",
+							"objectClass": "itemInv",
+							"sid": 969320434083838
+						},
+						{
+							"id": "set-scale",
+							"objectClass": "itemInv",
+							"sid": 334699527853840,
+							"parameters": {
+								"scale": "0.8"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "itemInv",
+							"sid": 191132205966371,
+							"parameters": {
+								"instance-variable": "inv",
+								"value": "false"
+							}
+						}
+					],
+					"sid": 716144293962504
+				},
+				{
+					"eventType": "comment",
+					"text": "поведение ип при перетаскивании, создание перетаскиваемого экземпляра",
+					"background-color": [
+						0.611764705882353,
+						0.6235294117647059,
+						0.9686274509803922,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-dragging",
+							"objectClass": "itemInv",
+							"sid": 113079807684850,
+							"behaviorType": "DragDrop"
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "itemInv",
+							"sid": 543978972883958,
+							"parameters": {
+								"instance-variable": "onInventory"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 416889915230780,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "полностью открытый инвентарь"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "inventory",
+									"sid": 380943218665591,
+									"parameters": {
+										"animation": "\"openExtra\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 488106605205476,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 699266943230068,
+											"parameters": {
+												"first-value": "cursor.Y",
+												"comparison": 2,
+												"second-value": "70"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-axes",
+											"objectClass": "itemInv",
+											"sid": 515343691514365,
+											"behaviorType": "DragDrop",
+											"parameters": {
+												"axes": "horizontal-only"
+											}
+										},
+										{
+											"id": "set-y",
+											"objectClass": "itemInv",
+											"sid": 770760337146182,
+											"parameters": {
+												"y": "aUI.itemY"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "itemInv",
+											"sid": 407377509465165,
+											"parameters": {
+												"scale": "0.8"
+											}
+										}
+									],
+									"sid": 671886140643998
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 642496386859964,
+											"parameters": {
+												"first-value": "cursor.Y",
+												"comparison": 4,
+												"second-value": "80"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-axes",
+											"objectClass": "itemInv",
+											"sid": 170285342597937,
+											"behaviorType": "DragDrop",
+											"parameters": {
+												"axes": "both"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "itemInv",
+											"sid": 425569752815587,
+											"parameters": {
+												"scale": "0.65"
+											}
+										}
+									],
+									"sid": 734571817637602,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "itemInv",
+													"sid": 757251176796167,
+													"parameters": {
+														"instance-variable": "iQuant",
+														"comparison": 4,
+														"value": "1"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "itemInv",
+													"sid": 122007762989054,
+													"parameters": {
+														"instance-variable": "split"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "itemInv",
+													"sid": 422279968611992,
+													"parameters": {
+														"instance-variable": "split",
+														"value": "true"
+													}
+												},
+												{
+													"id": "create-object",
+													"objectClass": "System",
+													"sid": 792806144261994,
+													"parameters": {
+														"object-to-create": "item",
+														"layer": "\"ui\"",
+														"x": "itemInv.invX-aUI.slide",
+														"y": "aUI.itemY",
+														"create-hierarchy": false,
+														"template-name": "\"\""
+													}
+												},
+												{
+													"callFunction": "itemStay",
+													"sid": 351305396245560,
+													"parameters": [
+														"item.UID",
+														"itemInv.UID"
+													]
+												}
+											],
+											"sid": 614757107270622
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "если количество предметов больше одного, делим предмет, забираем всегда один"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "itemInv",
+											"sid": 842209813895078,
+											"parameters": {
+												"instance-variable": "iQuant",
+												"comparison": 4,
+												"value": "1"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "itemInv",
+											"sid": 340856920942986,
+											"parameters": {
+												"instance-variable": "split"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "itemInv",
+											"sid": 547500962291905,
+											"parameters": {
+												"instance-variable": "split",
+												"value": "true"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "создаём предмет на замену основному"
+										},
+										{
+											"id": "create-object",
+											"objectClass": "System",
+											"sid": 863203242861485,
+											"parameters": {
+												"object-to-create": "item",
+												"layer": "\"ui\"",
+												"x": "itemInv.invX-aUI.slide",
+												"y": "aUI.itemY",
+												"create-hierarchy": false,
+												"template-name": "\"\""
+											}
+										},
+										{
+											"callFunction": "itemStay",
+											"sid": 370803688687246,
+											"parameters": [
+												"item.UID",
+												"itemInv.UID"
+											]
+										}
+									],
+									"sid": 710565361731007,
+									"disabled": true
+								},
+								{
+									"eventType": "comment",
+									"text": "механика соединения предметов",
+									"background-color": [
+										0.803921568627451,
+										0.7725490196078432,
+										0.9686274509803922,
+										1
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "РЕЦЕПТЫ: ПОДСВЕТКА ПРИ ПЕРЕТАСКИВАНИИ",
+									"background-color": [
+										0.803921568627451,
+										0.7725490196078432,
+										0.9686274509803922,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "itemInv",
+											"sid": 948708896408613,
+											"parameters": {
+												"object": "item"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "itemInv",
+											"sid": 763239606547319,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "inv"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUI",
+											"sid": 768115403718859,
+											"parameters": {
+												"instance-variable": "draggedSign",
+												"value": "itemInv.iSign"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUI",
+											"sid": 234690872983493,
+											"parameters": {
+												"instance-variable": "draggedUID",
+												"value": "itemInv.UID"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUI",
+											"sid": 168673026061620,
+											"parameters": {
+												"instance-variable": "recipeItemUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUI",
+											"sid": 704558619681995,
+											"parameters": {
+												"instance-variable": "recipeRow",
+												"value": "-1"
+											}
+										}
+									],
+									"sid": 951054015950127
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "item",
+											"sid": 153519483185812,
+											"parameters": {
+												"instance-variable": "recipeRow",
+												"comparison": 1,
+												"value": "-1"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 590257338079474,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-overlapping-another-object",
+													"objectClass": "itemInv",
+													"sid": 229872543246202,
+													"parameters": {
+														"object": "item"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "append-text",
+													"objectClass": "help",
+													"sid": 929563482696829,
+													"parameters": {
+														"text": "\"D\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "item",
+													"sid": 182603535719343,
+													"parameters": {
+														"instance-variable": "recipeRow",
+														"value": "-1"
+													}
+												},
+												{
+													"id": "destroy",
+													"objectClass": "recipeFX",
+													"sid": 171947910849265,
+													"disabled": true
+												},
+												{
+													"id": "set-position",
+													"objectClass": "recipeFX",
+													"sid": 771264737754113,
+													"parameters": {
+														"x": "-3333",
+														"y": "-8888"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "recipeFX",
+													"sid": 933525294278320,
+													"parameters": {
+														"animation": "\"zero\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 716308596933533
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "Проверка перекрытия с другими предметами инвентаря",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "on-collision-with-another-object",
+											"objectClass": "itemInv",
+											"sid": 174454713190981,
+											"parameters": {
+												"object": "item"
+											}
+										},
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "itemInv",
+											"sid": 699747509895721,
+											"disabled": true,
+											"parameters": {
+												"object": "item"
+											}
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "item",
+											"sid": 106667860518030,
+											"parameters": {
+												"unique-id": "itemInv.UID"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [],
+									"sid": 314175050788518,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "item",
+													"sid": 649744973562111,
+													"parameters": {
+														"instance-variable": "recipeRow",
+														"comparison": 0,
+														"value": "-1"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 680154167809966,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "Ищем рецепт в массиве (вариант 1: A+B)",
+													"background-color": [
+														0.67,
+														0.98,
+														0.79,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for",
+															"objectClass": "System",
+															"sid": 348818692722731,
+															"parameters": {
+																"name": "\"recipeCheck\"",
+																"start-index": "0",
+																"end-index": "itemRecipe.Height-1"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 597545356442972,
+															"parameters": {
+																"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck\"), 0)",
+																"comparison": 1,
+																"second-value": "\"\""
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 437863387037939,
+															"parameters": {
+																"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck\"), 0)",
+																"comparison": 0,
+																"second-value": "itemInv.iSign"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 807740792586836,
+															"parameters": {
+																"first-value": "itemRecipe.At(1, loopindex(\"recipeCheck\"), 0)",
+																"comparison": 0,
+																"second-value": "item.iSign"
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Рецепт найден! Запоминаем данные",
+															"background-color": [
+																0.6901960784313725,
+																0.9098039215686274,
+																0.8156862745098039,
+																1
+															]
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "item",
+															"sid": 808735873331857,
+															"parameters": {
+																"instance-variable": "recipeRow",
+																"value": "loopindex(\"recipeCheck\")"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Показываем эффект над целевым предметом",
+															"background-color": [
+																0.6901960784313725,
+																0.9098039215686274,
+																0.8156862745098039,
+																1
+															]
+														},
+														{
+															"id": "spawn-another-object",
+															"objectClass": "item",
+															"sid": 542610372766702,
+															"parameters": {
+																"object": "recipeFX",
+																"layer": "\"ui\"",
+																"image-point": "0",
+																"create-hierarchy": false,
+																"template-name": "\"\""
+															}
+														},
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "recipeFX",
+															"sid": 544540115216971,
+															"parameters": {
+																"object": "item",
+																"image-point-optional": "0"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "recipeFX",
+															"sid": 257814045715066,
+															"parameters": {
+																"animation": "\"active\"",
+																"from": "beginning"
+															}
+														}
+													],
+													"sid": 905167088548483
+												},
+												{
+													"eventType": "comment",
+													"text": "Ищем рецепт в массиве (вариант 2: B+A)",
+													"background-color": [
+														0.67,
+														0.98,
+														0.79,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for",
+															"objectClass": "System",
+															"sid": 495946611622324,
+															"parameters": {
+																"name": "\"recipeCheck2\"",
+																"start-index": "0",
+																"end-index": "itemRecipe.Height-1"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 388830798195660,
+															"parameters": {
+																"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck2\"), 0)",
+																"comparison": 1,
+																"second-value": "\"\""
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 699538444292773,
+															"parameters": {
+																"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck2\"), 0)",
+																"comparison": 0,
+																"second-value": "item.iSign"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 788241121364748,
+															"parameters": {
+																"first-value": "itemRecipe.At(1, loopindex(\"recipeCheck2\"), 0)",
+																"comparison": 0,
+																"second-value": "itemInv.iSign"
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Рецепт найден! Запоминаем данные",
+															"background-color": [
+																0.6901960784313725,
+																0.9098039215686274,
+																0.8156862745098039,
+																1
+															]
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "item",
+															"sid": 198681950721273,
+															"parameters": {
+																"instance-variable": "recipeRow",
+																"value": "loopindex(\"recipeCheck2\")"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Показываем эффект над целевым предметом",
+															"background-color": [
+																0.6901960784313725,
+																0.9098039215686274,
+																0.8156862745098039,
+																1
+															]
+														},
+														{
+															"id": "spawn-another-object",
+															"objectClass": "item",
+															"sid": 185381751647618,
+															"parameters": {
+																"object": "recipeFX",
+																"layer": "\"ui\"",
+																"image-point": "0",
+																"create-hierarchy": false,
+																"template-name": "\"\""
+															}
+														},
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "recipeFX",
+															"sid": 249083565214862,
+															"parameters": {
+																"object": "item",
+																"image-point-optional": "0"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "recipeFX",
+															"sid": 507261504123862,
+															"parameters": {
+																"animation": "\"active\"",
+																"from": "beginning"
+															}
+														}
+													],
+													"sid": 374514287012877
+												},
+												{
+													"eventType": "comment",
+													"text": "рецепт выбран",
+													"background-color": [
+														0.803921568627451,
+														0.7725490196078432,
+														0.9686274509803922,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "item",
+															"sid": 937569599334539,
+															"parameters": {
+																"instance-variable": "recipeRow",
+																"comparison": 1,
+																"value": "-1"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 615188100270857,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "pick-nearestfurthest",
+																	"objectClass": "item",
+																	"sid": 280636263543983,
+																	"parameters": {
+																		"which": "nearest",
+																		"x": "itemInv.X",
+																		"y": "itemInv.Y"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aUI",
+																	"sid": 309633081106298,
+																	"parameters": {
+																		"instance-variable": "recipeRow",
+																		"value": "item.recipeRow"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aUI",
+																	"sid": 426413839157128,
+																	"parameters": {
+																		"instance-variable": "recipeItemUID",
+																		"value": "item.UID"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aUI",
+																	"sid": 972394711426658,
+																	"parameters": {
+																		"instance-variable": "resultSign",
+																		"value": "itemRecipe.At(2, aUI.recipeRow, 0)"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aUI",
+																	"sid": 622353931206136,
+																	"parameters": {
+																		"instance-variable": "resultQuant",
+																		"value": "itemRecipe.At(3, aUI.recipeRow, 0)"
+																	}
+																},
+																{
+																	"id": "append-text",
+																	"objectClass": "help",
+																	"sid": 763899874657206,
+																	"parameters": {
+																		"text": "item.recipeRow"
+																	}
+																}
+															],
+															"sid": 592940006030524
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "инвентарь одного предмета"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "inventory",
+									"sid": 368504619561909,
+									"parameters": {
+										"animation": "\"open\""
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 115809546179244,
+									"disabled": true,
+									"parameters": {
+										"first-value": "inventory.AnimationName",
+										"comparison": 0,
+										"second-value": "\"open\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-axes",
+									"objectClass": "itemInv",
+									"sid": 456827911862391,
+									"disabled": true,
+									"behaviorType": "DragDrop",
+									"parameters": {
+										"axes": "both"
+									}
+								}
+							],
+							"sid": 126015054976664,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "itemInv",
+											"sid": 122476685592324,
+											"parameters": {
+												"instance-variable": "iQuant",
+												"comparison": 4,
+												"value": "1"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "itemInv",
+											"sid": 424147624680989,
+											"parameters": {
+												"instance-variable": "split"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "itemInv",
+											"sid": 869010011030815,
+											"parameters": {
+												"instance-variable": "split",
+												"value": "true"
+											}
+										},
+										{
+											"id": "create-object",
+											"objectClass": "System",
+											"sid": 301127317979730,
+											"disabled": true,
+											"parameters": {
+												"object-to-create": "item",
+												"layer": "\"ui\"",
+												"x": "itemInv.invX-aUI.slide",
+												"y": "aUI.itemY",
+												"create-hierarchy": false,
+												"template-name": "\"\""
+											}
+										},
+										{
+											"id": "create-object",
+											"objectClass": "System",
+											"sid": 683088506831093,
+											"parameters": {
+												"object-to-create": "item",
+												"layer": "\"ui\"",
+												"x": "inventory.ImagePointX(1)",
+												"y": "inventory.ImagePointY(1)",
+												"create-hierarchy": false,
+												"template-name": "\"\""
+											}
+										},
+										{
+											"callFunction": "itemStay",
+											"sid": 251751607632034,
+											"parameters": [
+												"item.UID",
+												"itemInv.UID"
+											]
+										}
+									],
+									"sid": 839426484719293
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 220511307284209,
+											"parameters": {
+												"first-value": "cursor.Y",
+												"comparison": 3,
+												"second-value": "80"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "itemInv",
+											"sid": 253590213737661,
+											"disabled": true,
+											"parameters": {
+												"object": "inventory",
+												"image-point-optional": "1"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "itemInv",
+											"sid": 100949504153121,
+											"disabled": true,
+											"parameters": {
+												"scale": "0.8"
+											}
+										}
+									],
+									"sid": 286543472143808,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 870388332550372,
+											"parameters": {
+												"first-value": "cursor.Y",
+												"comparison": 4,
+												"second-value": "80"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-scale",
+											"objectClass": "itemInv",
+											"sid": 721928760059562,
+											"disabled": true,
+											"parameters": {
+												"scale": "0.4"
+											}
+										}
+									],
+									"sid": 524618823718045,
+									"disabled": true
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "\n\n\nманипуляции с горячим предметом",
+							"background-color": [
+								0.984313725490196,
+								0.7764705882352941,
+								0.5372549019607843,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-highestlowest",
+									"objectClass": "item",
+									"sid": 579112233159832,
+									"parameters": {
+										"which": "lowest",
+										"instance-variable": "cellN"
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "inventory",
+									"sid": 502610433328486,
+									"parameters": {
+										"animation": "\"openExtra\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 232539338300354,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "взят первый предмет"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "itemInv",
+											"sid": 282151646803293,
+											"parameters": {
+												"instance-variable": "cellN",
+												"comparison": 0,
+												"value": "item.cellN"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 233909059730711,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "горячий становится не горячим"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "itemInv",
+													"sid": 775143343135730,
+													"parameters": {
+														"instance-variable": "hot"
+													}
+												},
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 934625159830897,
+													"parameters": {
+														"first-value": "itemInv.X",
+														"comparison": 4,
+														"second-value": "aUI.inv0Hot+10"
+													}
+												},
+												{
+													"id": "compare-y",
+													"objectClass": "itemInv",
+													"sid": 564849077395656,
+													"parameters": {
+														"comparison": 0,
+														"y-co-ordinate": "aUI.itemY"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 932750524841938,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "trigger-once-while-true",
+															"objectClass": "System",
+															"sid": 583966628182116
+														}
+													],
+													"actions": [
+														{
+															"customAction": "unHotItem",
+															"objectClass": "aUI",
+															"sid": 938784525793687
+														}
+													],
+													"sid": 767070154588794
+												}
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "не горячий становится горячим"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 930905641067186
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "itemInv",
+													"sid": 439912997448302,
+													"parameters": {
+														"instance-variable": "hot"
+													},
+													"isInverted": true
+												},
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 786107738102205,
+													"parameters": {
+														"first-value": "itemInv.X",
+														"comparison": 2,
+														"second-value": "70"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 363796006144642,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "trigger-once-while-true",
+															"objectClass": "System",
+															"sid": 592705173043007
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "itemInv",
+															"sid": 743141313009465,
+															"parameters": {
+																"instance-variable": "overHot",
+																"value": "true"
+															}
+														},
+														{
+															"id": "set-animation-frame",
+															"objectClass": "inventory",
+															"sid": 860351991195543,
+															"parameters": {
+																"frame-number": "4"
+															}
+														}
+													],
+													"sid": 269886270977349
+												}
+											]
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "взят не первый предмет"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "itemInv",
+											"sid": 487029408798379,
+											"parameters": {
+												"instance-variable": "cellN",
+												"comparison": 1,
+												"value": "item.cellN"
+											}
+										},
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 661778903358811,
+											"parameters": {
+												"first-value": "itemInv.X-item.X",
+												"comparison": 2,
+												"second-value": "10"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 506397358727834,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "trigger-once-while-true",
+													"objectClass": "System",
+													"sid": 281683880354313
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "itemInv",
+													"sid": 885336790775085,
+													"parameters": {
+														"instance-variable": "overHot",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-animation-frame",
+													"objectClass": "inventory",
+													"sid": 934981329411564,
+													"parameters": {
+														"frame-number": "4"
+													}
+												},
+												{
+													"id": "set-opacity",
+													"objectClass": "item",
+													"sid": 369055080944783,
+													"parameters": {
+														"opacity": "33"
+													}
+												}
+											],
+											"sid": 119773050115198
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "взят не первый предмет, инвентарь сдвинут"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 434034709980706
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "itemInv",
+											"sid": 955834705636593,
+											"parameters": {
+												"instance-variable": "cellN",
+												"comparison": 1,
+												"value": "item.cellN"
+											}
+										},
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 617568717986718,
+											"parameters": {
+												"first-value": "itemInv.X",
+												"comparison": 2,
+												"second-value": "70"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 768709114341354,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "trigger-once-while-true",
+													"objectClass": "System",
+													"sid": 399516342680304
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "itemInv",
+													"sid": 241431133628676,
+													"parameters": {
+														"instance-variable": "overHot",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-animation-frame",
+													"objectClass": "inventory",
+													"sid": 927657961612477,
+													"parameters": {
+														"frame-number": "4"
+													}
+												},
+												{
+													"id": "set-opacity",
+													"objectClass": "item",
+													"sid": 600210880497113,
+													"parameters": {
+														"opacity": "33"
+													}
+												}
+											],
+											"sid": 274592938956720
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 636726231327635
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "itemInv",
+											"sid": 337116254569246,
+											"parameters": {
+												"instance-variable": "cellN",
+												"comparison": 1,
+												"value": "item.cellN"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 953450736311877,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "trigger-once-while-true",
+													"objectClass": "System",
+													"sid": 694262071745519
+												}
+											],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "itemInv",
+													"sid": 786712483301351,
+													"parameters": {
+														"instance-variable": "overHot",
+														"value": "false"
+													}
+												},
+												{
+													"id": "set-animation-frame",
+													"objectClass": "inventory",
+													"sid": 814751266949383,
+													"disabled": true,
+													"parameters": {
+														"frame-number": "2"
+													}
+												},
+												{
+													"id": "set-animation-frame",
+													"objectClass": "inventory",
+													"sid": 599636742833528,
+													"disabled": true,
+													"parameters": {
+														"frame-number": "6"
+													}
+												},
+												{
+													"id": "set-opacity",
+													"objectClass": "item",
+													"sid": 984214591617751,
+													"parameters": {
+														"opacity": "100"
+													}
+												}
+											],
+											"sid": 395717475066209
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "\n\n\n\n\n\nколлизия предмета с целью-реагентом",
+							"background-color": [
+								0.19607843137254902,
+								0.803921568627451,
+								0.6823529411764706,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "itemInv",
+									"sid": 559537957979819,
+									"parameters": {
+										"object": "person"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "point",
+									"sid": 270838685335552,
+									"parameters": {
+										"unique-id": "itemInv.UID"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 689893383974045,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "person",
+											"sid": 100694871644910,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "\"Bit\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "point",
+											"sid": 675331398672524,
+											"parameters": {
+												"instance-variable": "callR",
+												"comparison": 0,
+												"value": "\"useItem\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "callselffunction0",
+											"objectClass": "point",
+											"sid": 922238780208365,
+											"behaviorType": "sfPoint",
+											"parameters": {
+												"function_name:0": "\"yes\""
+											}
+										}
+									],
+									"sid": 903669372772400,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "itemInv",
+													"sid": 579952029585672,
+													"parameters": {
+														"instance-variable": "iSign",
+														"comparison": 0,
+														"value": "\"iMushInc\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 573629197560459,
+											"disabled": true
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
 					"text": "\n\nпри разделении инвентарного предмета перетаскиванием, созданный базовый фиксируется в инвентаре",
 					"background-color": [
 						0.5372549019607843,
@@ -14804,9 +16388,9 @@
 								{
 									"id": "set-scale",
 									"objectClass": "item",
-									"sid": 454810486847374,
+									"sid": 547499111929555,
 									"parameters": {
-										"scale": "0.6"
+										"scale": "0.65"
 									}
 								},
 								{
@@ -15153,1412 +16737,6 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "\n\n\n\n\nповедение инвентарных предметов в начале перетаскивания",
-					"background-color": [
-						0.611764705882353,
-						0.6235294117647059,
-						0.9686274509803922,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-drag-start",
-							"objectClass": "itemInv",
-							"sid": 206037968892360,
-							"behaviorType": "DragDrop"
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "itemInv",
-							"sid": 298112966692000,
-							"parameters": {
-								"instance-variable": "item"
-							},
-							"isInverted": true
-						}
-					],
-					"actions": [
-						{
-							"id": "move-to-top",
-							"objectClass": "itemInv",
-							"sid": 658475835474075
-						},
-						{
-							"id": "set-scale",
-							"objectClass": "itemInv",
-							"sid": 518064462544450,
-							"parameters": {
-								"scale": "0.8"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "itemInv",
-							"sid": 115286861954305,
-							"parameters": {
-								"instance-variable": "inv",
-								"value": "false"
-							}
-						}
-					],
-					"sid": 575552777503664
-				},
-				{
-					"eventType": "comment",
-					"text": "поведение ип при перетаскивании, создание перетаскиваемого экземпляра",
-					"background-color": [
-						0.611764705882353,
-						0.6235294117647059,
-						0.9686274509803922,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-dragging",
-							"objectClass": "itemInv",
-							"sid": 811061224492368,
-							"behaviorType": "DragDrop"
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "itemInv",
-							"sid": 820392384333589,
-							"parameters": {
-								"instance-variable": "onInventory"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 323744043501594,
-					"children": [
-						{
-							"eventType": "comment",
-							"text": "полностью открытый инвентарь"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-animation-playing",
-									"objectClass": "inventory",
-									"sid": 100768847644013,
-									"parameters": {
-										"animation": "\"openExtra\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 412924572527575,
-							"children": [
-								{
-									"eventType": "comment",
-									"text": "если количество предметов больше одного, делим предмет, забираем всегда один"
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "itemInv",
-											"sid": 202374482489229,
-											"parameters": {
-												"instance-variable": "iQuant",
-												"comparison": 4,
-												"value": "1"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "itemInv",
-											"sid": 309245982084682,
-											"parameters": {
-												"instance-variable": "split"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "itemInv",
-											"sid": 483533162291099,
-											"parameters": {
-												"instance-variable": "split",
-												"value": "true"
-											}
-										},
-										{
-											"type": "comment",
-											"text": "создаём предмет на замену основному"
-										},
-										{
-											"id": "create-object",
-											"objectClass": "System",
-											"sid": 169470715740013,
-											"parameters": {
-												"object-to-create": "item",
-												"layer": "\"ui\"",
-												"x": "itemInv.invX-aUI.slide",
-												"y": "aUI.itemY",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"callFunction": "itemStay",
-											"sid": 606961280197390,
-											"parameters": [
-												"item.UID",
-												"itemInv.UID"
-											]
-										}
-									],
-									"sid": 319787612862806
-								},
-								{
-									"eventType": "comment",
-									"text": "механика соединения предметов",
-									"background-color": [
-										0.803921568627451,
-										0.7725490196078432,
-										0.9686274509803922,
-										1
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "РЕЦЕПТЫ: ПОДСВЕТКА ПРИ ПЕРЕТАСКИВАНИИ",
-									"background-color": [
-										0.803921568627451,
-										0.7725490196078432,
-										0.9686274509803922,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "itemInv",
-											"sid": 198108867771663,
-											"parameters": {
-												"object": "item"
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "itemInv",
-											"sid": 875022654468060,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "inv"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUI",
-											"sid": 912891237111780,
-											"parameters": {
-												"instance-variable": "draggedSign",
-												"value": "itemInv.iSign"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUI",
-											"sid": 652260197390267,
-											"parameters": {
-												"instance-variable": "draggedUID",
-												"value": "itemInv.UID"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUI",
-											"sid": 351626108236749,
-											"parameters": {
-												"instance-variable": "recipeItemUID",
-												"value": "-1"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUI",
-											"sid": 567052163279890,
-											"parameters": {
-												"instance-variable": "recipeRow",
-												"value": "-1"
-											}
-										}
-									],
-									"sid": 923119226222053
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "item",
-											"sid": 221791303790728,
-											"parameters": {
-												"instance-variable": "recipeRow",
-												"comparison": 1,
-												"value": "-1"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 845103562318183,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-overlapping-another-object",
-													"objectClass": "itemInv",
-													"sid": 672243872921355,
-													"parameters": {
-														"object": "item"
-													},
-													"isInverted": true
-												}
-											],
-											"actions": [
-												{
-													"id": "append-text",
-													"objectClass": "help",
-													"sid": 973069346482400,
-													"parameters": {
-														"text": "\"D\""
-													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "item",
-													"sid": 700303642544536,
-													"parameters": {
-														"instance-variable": "recipeRow",
-														"value": "-1"
-													}
-												},
-												{
-													"id": "destroy",
-													"objectClass": "recipeFX",
-													"sid": 716172582778279,
-													"disabled": true
-												},
-												{
-													"id": "set-position",
-													"objectClass": "recipeFX",
-													"sid": 102535426236733,
-													"parameters": {
-														"x": "-3333",
-														"y": "-8888"
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "recipeFX",
-													"sid": 190685899741249,
-													"parameters": {
-														"animation": "\"zero\"",
-														"from": "beginning"
-													}
-												}
-											],
-											"sid": 204359407209600
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "Проверка перекрытия с другими предметами инвентаря",
-									"background-color": [
-										0.67,
-										0.98,
-										0.79,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "on-collision-with-another-object",
-											"objectClass": "itemInv",
-											"sid": 834957096543231,
-											"parameters": {
-												"object": "item"
-											}
-										},
-										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "itemInv",
-											"sid": 262291953635731,
-											"disabled": true,
-											"parameters": {
-												"object": "item"
-											}
-										},
-										{
-											"id": "pick-by-unique-id",
-											"objectClass": "item",
-											"sid": 245397798384392,
-											"parameters": {
-												"unique-id": "itemInv.UID"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [],
-									"sid": 975216549076383,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "item",
-													"sid": 491750696564675,
-													"parameters": {
-														"instance-variable": "recipeRow",
-														"comparison": 0,
-														"value": "-1"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 564903845295357,
-											"children": [
-												{
-													"eventType": "comment",
-													"text": "Ищем рецепт в массиве (вариант 1: A+B)",
-													"background-color": [
-														0.67,
-														0.98,
-														0.79,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "for",
-															"objectClass": "System",
-															"sid": 411682634194352,
-															"parameters": {
-																"name": "\"recipeCheck\"",
-																"start-index": "0",
-																"end-index": "itemRecipe.Height-1"
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 451229098428043,
-															"parameters": {
-																"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck\"), 0)",
-																"comparison": 1,
-																"second-value": "\"\""
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 608232668961880,
-															"parameters": {
-																"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck\"), 0)",
-																"comparison": 0,
-																"second-value": "itemInv.iSign"
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 801403191804702,
-															"parameters": {
-																"first-value": "itemRecipe.At(1, loopindex(\"recipeCheck\"), 0)",
-																"comparison": 0,
-																"second-value": "item.iSign"
-															}
-														}
-													],
-													"actions": [
-														{
-															"type": "comment",
-															"text": "Рецепт найден! Запоминаем данные",
-															"background-color": [
-																0.6901960784313725,
-																0.9098039215686274,
-																0.8156862745098039,
-																1
-															]
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "item",
-															"sid": 830005115652255,
-															"parameters": {
-																"instance-variable": "recipeRow",
-																"value": "loopindex(\"recipeCheck\")"
-															}
-														},
-														{
-															"type": "comment",
-															"text": "Показываем эффект над целевым предметом",
-															"background-color": [
-																0.6901960784313725,
-																0.9098039215686274,
-																0.8156862745098039,
-																1
-															]
-														},
-														{
-															"id": "spawn-another-object",
-															"objectClass": "item",
-															"sid": 923412844129883,
-															"parameters": {
-																"object": "recipeFX",
-																"layer": "\"ui\"",
-																"image-point": "0",
-																"create-hierarchy": false,
-																"template-name": "\"\""
-															}
-														},
-														{
-															"id": "set-position-to-another-object",
-															"objectClass": "recipeFX",
-															"sid": 854116249965791,
-															"parameters": {
-																"object": "item",
-																"image-point-optional": "0"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "recipeFX",
-															"sid": 572276962530997,
-															"parameters": {
-																"animation": "\"active\"",
-																"from": "beginning"
-															}
-														}
-													],
-													"sid": 475842635709282
-												},
-												{
-													"eventType": "comment",
-													"text": "Ищем рецепт в массиве (вариант 2: B+A)",
-													"background-color": [
-														0.67,
-														0.98,
-														0.79,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "for",
-															"objectClass": "System",
-															"sid": 856589930745255,
-															"parameters": {
-																"name": "\"recipeCheck2\"",
-																"start-index": "0",
-																"end-index": "itemRecipe.Height-1"
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 670639786774299,
-															"parameters": {
-																"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck2\"), 0)",
-																"comparison": 1,
-																"second-value": "\"\""
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 869262323669542,
-															"parameters": {
-																"first-value": "itemRecipe.At(0, loopindex(\"recipeCheck2\"), 0)",
-																"comparison": 0,
-																"second-value": "item.iSign"
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 996746421634784,
-															"parameters": {
-																"first-value": "itemRecipe.At(1, loopindex(\"recipeCheck2\"), 0)",
-																"comparison": 0,
-																"second-value": "itemInv.iSign"
-															}
-														}
-													],
-													"actions": [
-														{
-															"type": "comment",
-															"text": "Рецепт найден! Запоминаем данные",
-															"background-color": [
-																0.6901960784313725,
-																0.9098039215686274,
-																0.8156862745098039,
-																1
-															]
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "item",
-															"sid": 812517933496396,
-															"parameters": {
-																"instance-variable": "recipeRow",
-																"value": "loopindex(\"recipeCheck2\")"
-															}
-														},
-														{
-															"type": "comment",
-															"text": "Показываем эффект над целевым предметом",
-															"background-color": [
-																0.6901960784313725,
-																0.9098039215686274,
-																0.8156862745098039,
-																1
-															]
-														},
-														{
-															"id": "spawn-another-object",
-															"objectClass": "item",
-															"sid": 160001647403057,
-															"parameters": {
-																"object": "recipeFX",
-																"layer": "\"ui\"",
-																"image-point": "0",
-																"create-hierarchy": false,
-																"template-name": "\"\""
-															}
-														},
-														{
-															"id": "set-position-to-another-object",
-															"objectClass": "recipeFX",
-															"sid": 606083399834187,
-															"parameters": {
-																"object": "item",
-																"image-point-optional": "0"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "recipeFX",
-															"sid": 601613002415571,
-															"parameters": {
-																"animation": "\"active\"",
-																"from": "beginning"
-															}
-														}
-													],
-													"sid": 219458473869499
-												},
-												{
-													"eventType": "comment",
-													"text": "рецепт выбран",
-													"background-color": [
-														0.803921568627451,
-														0.7725490196078432,
-														0.9686274509803922,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "item",
-															"sid": 403751827413687,
-															"parameters": {
-																"instance-variable": "recipeRow",
-																"comparison": 1,
-																"value": "-1"
-															}
-														}
-													],
-													"actions": [],
-													"sid": 921461365997288,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "pick-nearestfurthest",
-																	"objectClass": "item",
-																	"sid": 906642618573826,
-																	"parameters": {
-																		"which": "nearest",
-																		"x": "itemInv.X",
-																		"y": "itemInv.Y"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "aUI",
-																	"sid": 442189044567331,
-																	"parameters": {
-																		"instance-variable": "recipeRow",
-																		"value": "item.recipeRow"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "aUI",
-																	"sid": 564719156044122,
-																	"parameters": {
-																		"instance-variable": "recipeItemUID",
-																		"value": "item.UID"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "aUI",
-																	"sid": 711414033747985,
-																	"parameters": {
-																		"instance-variable": "resultSign",
-																		"value": "itemRecipe.At(2, aUI.recipeRow, 0)"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "aUI",
-																	"sid": 728934119928020,
-																	"parameters": {
-																		"instance-variable": "resultQuant",
-																		"value": "itemRecipe.At(3, aUI.recipeRow, 0)"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "itemInv",
-																	"sid": 970282122629121,
-																	"parameters": {
-																		"instance-variable": "operationUID",
-																		"value": "item.UID"
-																	}
-																},
-																{
-																	"id": "append-text",
-																	"objectClass": "help",
-																	"sid": 392221625191363,
-																	"parameters": {
-																		"text": "item.recipeRow"
-																	}
-																}
-															],
-															"sid": 657331021998668
-														}
-													]
-												}
-											]
-										}
-									]
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "инвентарь одного предмета"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-animation-playing",
-									"objectClass": "inventory",
-									"sid": 815343802868062,
-									"parameters": {
-										"animation": "\"open\""
-									}
-								},
-								{
-									"id": "compare-two-values",
-									"objectClass": "System",
-									"sid": 924356957321023,
-									"disabled": true,
-									"parameters": {
-										"first-value": "inventory.AnimationName",
-										"comparison": 0,
-										"second-value": "\"open\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-axes",
-									"objectClass": "itemInv",
-									"sid": 903756960748568,
-									"disabled": true,
-									"behaviorType": "DragDrop",
-									"parameters": {
-										"axes": "both"
-									}
-								}
-							],
-							"sid": 556368190867360,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "itemInv",
-											"sid": 623720280675373,
-											"parameters": {
-												"instance-variable": "iQuant",
-												"comparison": 4,
-												"value": "1"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "itemInv",
-											"sid": 792938586458968,
-											"parameters": {
-												"instance-variable": "split"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "itemInv",
-											"sid": 190476028453270,
-											"parameters": {
-												"instance-variable": "split",
-												"value": "true"
-											}
-										},
-										{
-											"id": "create-object",
-											"objectClass": "System",
-											"sid": 848530685249858,
-											"disabled": true,
-											"parameters": {
-												"object-to-create": "item",
-												"layer": "\"ui\"",
-												"x": "itemInv.invX-aUI.slide",
-												"y": "aUI.itemY",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "create-object",
-											"objectClass": "System",
-											"sid": 327080521476450,
-											"parameters": {
-												"object-to-create": "item",
-												"layer": "\"ui\"",
-												"x": "inventory.ImagePointX(1)",
-												"y": "inventory.ImagePointY(1)",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"callFunction": "itemStay",
-											"sid": 543596048065197,
-											"parameters": [
-												"item.UID",
-												"itemInv.UID"
-											]
-										}
-									],
-									"sid": 716818820660764
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 970913281983875,
-											"parameters": {
-												"first-value": "cursor.Y",
-												"comparison": 3,
-												"second-value": "80"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-position-to-another-object",
-											"objectClass": "itemInv",
-											"sid": 999327284381548,
-											"disabled": true,
-											"parameters": {
-												"object": "inventory",
-												"image-point-optional": "1"
-											}
-										},
-										{
-											"id": "set-scale",
-											"objectClass": "itemInv",
-											"sid": 614698324843020,
-											"disabled": true,
-											"parameters": {
-												"scale": "0.8"
-											}
-										}
-									],
-									"sid": 728252752330693,
-									"disabled": true
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 528449457004260,
-											"parameters": {
-												"first-value": "cursor.Y",
-												"comparison": 4,
-												"second-value": "80"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-scale",
-											"objectClass": "itemInv",
-											"sid": 355687944853558,
-											"disabled": true,
-											"parameters": {
-												"scale": "0.4"
-											}
-										}
-									],
-									"sid": 943674598401400,
-									"disabled": true
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "\n\n\nманипуляции с горячим предметом",
-							"background-color": [
-								0.984313725490196,
-								0.7764705882352941,
-								0.5372549019607843,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "pick-highestlowest",
-									"objectClass": "item",
-									"sid": 695646149022210,
-									"parameters": {
-										"which": "lowest",
-										"instance-variable": "cellN"
-									}
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "inventory",
-									"sid": 190449892680723,
-									"parameters": {
-										"animation": "\"openExtra\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 146734732631882,
-							"children": [
-								{
-									"eventType": "comment",
-									"text": "взят первый предмет"
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "itemInv",
-											"sid": 121662276098016,
-											"parameters": {
-												"instance-variable": "cellN",
-												"comparison": 0,
-												"value": "item.cellN"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 122164486067511,
-									"children": [
-										{
-											"eventType": "comment",
-											"text": "горячий становится не горячим"
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "itemInv",
-													"sid": 996726814800843,
-													"parameters": {
-														"instance-variable": "hot"
-													}
-												},
-												{
-													"id": "compare-two-values",
-													"objectClass": "System",
-													"sid": 104215209029165,
-													"parameters": {
-														"first-value": "itemInv.X",
-														"comparison": 4,
-														"second-value": "aUI.inv0Hot+10"
-													}
-												},
-												{
-													"id": "compare-y",
-													"objectClass": "itemInv",
-													"sid": 642236489859245,
-													"parameters": {
-														"comparison": 0,
-														"y-co-ordinate": "aUI.itemY"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 222295863717602,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "trigger-once-while-true",
-															"objectClass": "System",
-															"sid": 909011582813892
-														}
-													],
-													"actions": [
-														{
-															"customAction": "unHotItem",
-															"objectClass": "aUI",
-															"sid": 510943452933325
-														}
-													],
-													"sid": 451468314954261
-												}
-											]
-										},
-										{
-											"eventType": "comment",
-											"text": "не горячий становится горячим"
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 340847120740187
-												},
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "itemInv",
-													"sid": 969163287758323,
-													"parameters": {
-														"instance-variable": "hot"
-													},
-													"isInverted": true
-												},
-												{
-													"id": "compare-two-values",
-													"objectClass": "System",
-													"sid": 965926080469259,
-													"parameters": {
-														"first-value": "itemInv.X",
-														"comparison": 2,
-														"second-value": "70"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 913094791518373,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "trigger-once-while-true",
-															"objectClass": "System",
-															"sid": 755583315187867
-														}
-													],
-													"actions": [
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "itemInv",
-															"sid": 465676941477843,
-															"parameters": {
-																"instance-variable": "overHot",
-																"value": "true"
-															}
-														},
-														{
-															"id": "set-animation-frame",
-															"objectClass": "inventory",
-															"sid": 601499737569442,
-															"parameters": {
-																"frame-number": "4"
-															}
-														}
-													],
-													"sid": 386687994587666
-												}
-											]
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "взят не первый предмет"
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "itemInv",
-											"sid": 655451223664269,
-											"parameters": {
-												"instance-variable": "cellN",
-												"comparison": 1,
-												"value": "item.cellN"
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 559714486039751,
-											"parameters": {
-												"first-value": "itemInv.X-item.X",
-												"comparison": 2,
-												"second-value": "10"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 207771373050013,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "trigger-once-while-true",
-													"objectClass": "System",
-													"sid": 607895660391738
-												}
-											],
-											"actions": [
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "itemInv",
-													"sid": 357600000903269,
-													"parameters": {
-														"instance-variable": "overHot",
-														"value": "true"
-													}
-												},
-												{
-													"id": "set-animation-frame",
-													"objectClass": "inventory",
-													"sid": 477168052508499,
-													"parameters": {
-														"frame-number": "4"
-													}
-												},
-												{
-													"id": "set-opacity",
-													"objectClass": "item",
-													"sid": 937651910878946,
-													"parameters": {
-														"opacity": "33"
-													}
-												}
-											],
-											"sid": 449469556252013
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "взят не первый предмет, инвентарь сдвинут"
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 796623600497357
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "itemInv",
-											"sid": 496914457972855,
-											"parameters": {
-												"instance-variable": "cellN",
-												"comparison": 1,
-												"value": "item.cellN"
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 938828757453015,
-											"parameters": {
-												"first-value": "itemInv.X",
-												"comparison": 2,
-												"second-value": "70"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 166154781313743,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "trigger-once-while-true",
-													"objectClass": "System",
-													"sid": 314564066546750
-												}
-											],
-											"actions": [
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "itemInv",
-													"sid": 946345853549119,
-													"parameters": {
-														"instance-variable": "overHot",
-														"value": "true"
-													}
-												},
-												{
-													"id": "set-animation-frame",
-													"objectClass": "inventory",
-													"sid": 530593924538441,
-													"parameters": {
-														"frame-number": "4"
-													}
-												},
-												{
-													"id": "set-opacity",
-													"objectClass": "item",
-													"sid": 511081009932209,
-													"parameters": {
-														"opacity": "33"
-													}
-												}
-											],
-											"sid": 171823655082513
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 431748328623455
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "itemInv",
-											"sid": 421370062529969,
-											"parameters": {
-												"instance-variable": "cellN",
-												"comparison": 1,
-												"value": "item.cellN"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 460190420049814,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "trigger-once-while-true",
-													"objectClass": "System",
-													"sid": 837677034979118
-												}
-											],
-											"actions": [
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "itemInv",
-													"sid": 565198581858662,
-													"parameters": {
-														"instance-variable": "overHot",
-														"value": "false"
-													}
-												},
-												{
-													"id": "set-animation-frame",
-													"objectClass": "inventory",
-													"sid": 394881669464102,
-													"disabled": true,
-													"parameters": {
-														"frame-number": "2"
-													}
-												},
-												{
-													"id": "set-animation-frame",
-													"objectClass": "inventory",
-													"sid": 859150748894920,
-													"disabled": true,
-													"parameters": {
-														"frame-number": "6"
-													}
-												},
-												{
-													"id": "set-opacity",
-													"objectClass": "item",
-													"sid": 179391111636789,
-													"parameters": {
-														"opacity": "100"
-													}
-												}
-											],
-											"sid": 615044715055810
-										}
-									]
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "\n\n\n\n\n\nколлизия предмета с целью-реагентом",
-							"background-color": [
-								0.19607843137254902,
-								0.803921568627451,
-								0.6823529411764706,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-collision-with-another-object",
-									"objectClass": "itemInv",
-									"sid": 387203553558388,
-									"parameters": {
-										"object": "person"
-									}
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "point",
-									"sid": 466357397888964,
-									"parameters": {
-										"unique-id": "itemInv.UID"
-									}
-								}
-							],
-							"actions": [],
-							"sid": 808808308908948,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "person",
-											"sid": 985690052907094,
-											"parameters": {
-												"instance-variable": "name",
-												"comparison": 0,
-												"value": "\"Bit\""
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "point",
-											"sid": 911748987013736,
-											"parameters": {
-												"instance-variable": "callR",
-												"comparison": 0,
-												"value": "\"useItem\""
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "callselffunction0",
-											"objectClass": "point",
-											"sid": 281431535506876,
-											"behaviorType": "sfPoint",
-											"parameters": {
-												"function_name:0": "\"yes\""
-											}
-										}
-									],
-									"sid": 269751679765770,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "itemInv",
-													"sid": 531122808896155,
-													"parameters": {
-														"instance-variable": "iSign",
-														"comparison": 0,
-														"value": "\"iMushInc\""
-													}
-												}
-											],
-											"actions": [],
-											"sid": 596798838929072,
-											"disabled": true
-										}
-									]
-								}
-							]
-						}
-					]
-				},
-				{
-					"eventType": "comment",
 					"text": "бросание инвентарного предмета",
 					"background-color": [
 						0.611764705882353,
@@ -16581,20 +16759,10 @@
 						{
 							"id": "set-axes",
 							"objectClass": "itemInv",
-							"sid": 188395162549957,
-							"disabled": true,
+							"sid": 674896607696032,
 							"behaviorType": "DragDrop",
 							"parameters": {
-								"axes": "horizontal-only"
-							}
-						},
-						{
-							"id": "set-text",
-							"objectClass": "help",
-							"sid": 992015252552848,
-							"disabled": true,
-							"parameters": {
-								"text": "\"0\""
+								"axes": "both"
 							}
 						}
 					],
@@ -17023,6 +17191,58 @@
 							"actions": [],
 							"sid": 886638069215476,
 							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "itemInv",
+											"sid": 981900451032491,
+											"parameters": {
+												"instance-variable": "iQuant",
+												"comparison": 4,
+												"value": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "itemInv",
+											"sid": 969546496569797,
+											"parameters": {
+												"instance-variable": "split",
+												"value": "true"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "создаём предмет на замену основному"
+										},
+										{
+											"id": "create-object",
+											"objectClass": "System",
+											"sid": 652770972143733,
+											"parameters": {
+												"object-to-create": "item",
+												"layer": "\"ui\"",
+												"x": "itemInv.startDragX",
+												"y": "aUI.itemY",
+												"create-hierarchy": false,
+												"template-name": "\"\""
+											}
+										},
+										{
+											"callFunction": "itemStay",
+											"sid": 253267145940982,
+											"parameters": [
+												"item.UID",
+												"itemInv.UID"
+											]
+										}
+									],
+									"sid": 130331737931511
+								},
 								{
 									"eventType": "variable",
 									"name": "targetCell",
@@ -17455,31 +17675,6 @@
 								}
 							],
 							"sid": 174771488026217
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-animation-playing",
-									"objectClass": "inventory",
-									"sid": 159649255114065,
-									"parameters": {
-										"animation": "\"open\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-group-active",
-									"objectClass": "System",
-									"sid": 607138823776549,
-									"parameters": {
-										"group-name": "\"itemDrag\"",
-										"state": "deactivated"
-									}
-								}
-							],
-							"sid": 907805891024236
 						}
 					]
 				},
@@ -18203,9 +18398,19 @@
 													"id": "compare-y",
 													"objectClass": "itemInv",
 													"sid": 387925640611121,
+													"disabled": true,
 													"parameters": {
 														"comparison": 4,
 														"y-co-ordinate": "aUI.itemY"
+													}
+												},
+												{
+													"id": "compare-y",
+													"objectClass": "itemInv",
+													"sid": 968567077649907,
+													"parameters": {
+														"comparison": 4,
+														"y-co-ordinate": "80"
 													}
 												}
 											],
@@ -18248,9 +18453,9 @@
 												{
 													"id": "set-scale",
 													"objectClass": "itemInv",
-													"sid": 740081929239106,
+													"sid": 303095815524033,
 													"parameters": {
-														"scale": "0.6"
+														"scale": "0.65"
 													}
 												},
 												{
@@ -18378,12 +18583,12 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 789154192980770
+											"sid": 504314486002838
 										},
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "itemInv",
-											"sid": 222525978304843,
+											"sid": 568390189577919,
 											"parameters": {
 												"instance-variable": "split"
 											}
@@ -18391,7 +18596,7 @@
 										{
 											"id": "pick-by-unique-id",
 											"objectClass": "item",
-											"sid": 581724243565925,
+											"sid": 544662145099639,
 											"parameters": {
 												"unique-id": "itemInv.splitUID"
 											}
@@ -18400,12 +18605,12 @@
 									"actions": [
 										{
 											"callFunction": "itemmerge",
-											"sid": 518141591790489
+											"sid": 916845049579426
 										},
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "item",
-											"sid": 830079602421698,
+											"sid": 728696943211253,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "split",
@@ -18415,7 +18620,7 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "item",
-											"sid": 529620428561963,
+											"sid": 194976007519681,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "splitUID",
@@ -18425,7 +18630,7 @@
 										{
 											"id": "add-to-instvar",
 											"objectClass": "item",
-											"sid": 234288570506218,
+											"sid": 190146692632093,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "iQuant",
@@ -18435,11 +18640,11 @@
 										{
 											"id": "destroy",
 											"objectClass": "itemInv",
-											"sid": 699862892095079,
+											"sid": 501897860024810,
 											"disabled": true
 										}
 									],
-									"sid": 357935840723679
+									"sid": 627523274825629
 								},
 								{
 									"eventType": "block",
@@ -18448,10 +18653,10 @@
 										{
 											"customAction": "inventorySort",
 											"objectClass": "aUI",
-											"sid": 355264380713267
+											"sid": 306129927477755
 										}
 									],
-									"sid": 404435421978767
+									"sid": 306413249445452
 								}
 							]
 						},
@@ -18569,9 +18774,9 @@
 												{
 													"id": "set-scale",
 													"objectClass": "itemInv",
-													"sid": 201047127079951,
+													"sid": 268838886203622,
 													"parameters": {
-														"scale": "0.6"
+														"scale": "0.65"
 													}
 												},
 												{
