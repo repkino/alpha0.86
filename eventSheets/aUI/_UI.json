@@ -1810,6 +1810,12 @@
 					"conditions": [],
 					"actions": [
 						{
+							"id": "unpin",
+							"objectClass": "quants",
+							"sid": 324776660045965,
+							"behaviorType": "Pin"
+						},
+						{
 							"id": "set-position",
 							"objectClass": "quants",
 							"sid": 819157448995590,
@@ -12578,7 +12584,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "\n\n\n\n\n предметы в инвентаре \nфункция сортировки при получении, потере предметов",
+					"text": "\n\n\n\n\n\n\n предметы в инвентаре \nфункция сортировки при получении, потере предметов",
 					"background-color": [
 						0.5098039215686274,
 						0.792156862745098,
@@ -17014,18 +17020,29 @@
 									}
 								}
 							],
-							"actions": [
-								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 925881896533740,
-									"parameters": {
-										"text": "1"
-									}
-								}
-							],
+							"actions": [],
 							"sid": 886638069215476,
 							"children": [
+								{
+									"eventType": "variable",
+									"name": "targetCell",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 258118605971860
+								},
+								{
+									"eventType": "variable",
+									"name": "targetSurvives",
+									"type": "boolean",
+									"initialValue": "false",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 840091817545683
+								},
 								{
 									"eventType": "comment",
 									"text": "СИНТЕЗ: Выполнение рецепта при броске",
@@ -17060,20 +17077,40 @@
 									],
 									"actions": [
 										{
-											"id": "append-text",
-											"objectClass": "help",
-											"sid": 480959573648316,
+											"type": "comment",
+											"text": "Запоминаем позицию нижнего предмета и выживет ли он",
+											"background-color": [
+												0.745,
+												0.996,
+												0.784,
+												1
+											]
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 564738291029384,
 											"parameters": {
-												"text": "2"
+												"variable": "targetCell",
+												"value": "item.cellN"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 102938475610293,
+											"parameters": {
+												"variable": "targetSurvives",
+												"value": "itemsQ.Get(item.iSign) > 1"
 											}
 										},
 										{
 											"type": "comment",
 											"text": "Рецепт найден - выполняем синтез!",
 											"background-color": [
-												0.7450980392156863,
-												0.996078431372549,
-												0.7843137254901961,
+												0.745,
+												0.996,
+												0.784,
 												1
 											]
 										},
@@ -17081,9 +17118,9 @@
 											"type": "comment",
 											"text": "Уменьшаем количество ингредиентов в словаре itemsQ",
 											"background-color": [
-												0.7450980392156863,
-												0.996078431372549,
-												0.7843137254901961,
+												0.745,
+												0.996,
+												0.784,
 												1
 											]
 										},
@@ -17099,6 +17136,39 @@
 											]
 										},
 										{
+											"id": "set-key",
+											"objectClass": "itemsQ",
+											"sid": 747730050776859,
+											"parameters": {
+												"key": "itemInv.iSign",
+												"value": "itemsQ.Get(itemInv.iSign)-1"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "giveItem уже уменьшило ключ item"
+										},
+										{
+											"id": "set-key",
+											"objectClass": "itemsQ",
+											"sid": 303424273536246,
+											"disabled": true,
+											"parameters": {
+												"key": "item.iSign",
+												"value": "itemsQ.Get(item.iSign)-1"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "Уничтожаем перетаскиваемый предмет",
+											"background-color": [
+												0.745,
+												0.996,
+												0.784,
+												1
+											]
+										},
+										{
 											"id": "destroy",
 											"objectClass": "itemInv",
 											"sid": 224119282255395
@@ -17107,17 +17177,17 @@
 											"type": "comment",
 											"text": "Создаём результирующий предмет",
 											"background-color": [
-												0.7450980392156863,
-												0.996078431372549,
-												0.7843137254901961,
+												0.745,
+												0.996,
+												0.784,
 												1
 											]
 										},
 										{
 											"callFunction": "getItem",
-											"sid": 715663974405700,
+											"sid": 611440856721719,
 											"parameters": [
-												true,
+												false,
 												"aUI.resultSign",
 												"\"use\"",
 												"0",
@@ -17129,9 +17199,9 @@
 											"type": "comment",
 											"text": "Эффект успешного синтеза",
 											"background-color": [
-												0.7450980392156863,
-												0.996078431372549,
-												0.7843137254901961,
+												0.745,
+												0.996,
+												0.784,
 												1
 											]
 										},
@@ -17143,46 +17213,6 @@
 												"animation": "\"success\"",
 												"from": "beginning"
 											}
-										},
-										{
-											"type": "comment",
-											"text": "Пересортировка инвентаря",
-											"background-color": [
-												0.7450980392156863,
-												0.996078431372549,
-												0.7843137254901961,
-												1
-											]
-										},
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 978626482967857,
-											"parameters": {
-												"seconds": "0",
-												"use-timescale": false
-											}
-										},
-										{
-											"callFunction": "invLimit",
-											"sid": 771553055707170
-										},
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 917702692369474,
-											"parameters": {
-												"seconds": "0",
-												"use-timescale": false
-											}
-										},
-										{
-											"callFunction": "items",
-											"sid": 540557183666952
-										},
-										{
-											"callFunction": "cellN",
-											"sid": 604234308524274
 										}
 									],
 									"sid": 219688666716268,
@@ -17245,9 +17275,111 @@
 													"parameters": {
 														"key": "item.iSign"
 													}
+												},
+												{
+													"id": "destroy",
+													"objectClass": "item",
+													"sid": 847561029384756
 												}
 											],
 											"sid": 930680068837137
+										},
+										{
+											"eventType": "comment",
+											"text": "Назначаем новому предмету место синтеза (если не режим одного предмета)",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame",
+													"objectClass": "inventory",
+													"sid": 666666666666666,
+													"parameters": {
+														"comparison": 1,
+														"number": "11"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "item",
+													"sid": 777777777777777,
+													"parameters": {
+														"instance-variable": "iSign",
+														"comparison": 0,
+														"value": "aUI.resultSign"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "попробовал ставить его слева, но тоже без толку"
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "item",
+													"sid": 139849133699228,
+													"parameters": {
+														"instance-variable": "cellN",
+														"value": "targetSurvives ? targetCell - 0.5 : targetCell"
+													}
+												}
+											],
+											"sid": 293847561029384
+										},
+										{
+											"eventType": "comment",
+											"text": "Пересортировка инвентаря",
+											"background-color": [
+												0.745,
+												0.996,
+												0.784,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 978626482967857,
+													"parameters": {
+														"seconds": "0",
+														"use-timescale": false
+													}
+												},
+												{
+													"callFunction": "invLimit",
+													"sid": 771553055707170
+												},
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 917702692369474,
+													"parameters": {
+														"seconds": "0",
+														"use-timescale": false
+													}
+												},
+												{
+													"callFunction": "items",
+													"sid": 349264216341943
+												},
+												{
+													"callFunction": "cellN",
+													"sid": 261469507093889
+												}
+											],
+											"sid": 102938475610293
 										}
 									]
 								},
