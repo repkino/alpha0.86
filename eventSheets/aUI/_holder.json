@@ -98,6 +98,15 @@
 					],
 					"actions": [
 						{
+							"id": "append-text",
+							"objectClass": "help",
+							"sid": 378166751861735,
+							"disabled": true,
+							"parameters": {
+								"text": "\"A\""
+							}
+						},
+						{
 							"callFunction": "holderOpen",
 							"sid": 414826943235930,
 							"parameters": [
@@ -826,6 +835,75 @@
 									"sid": 668613326599471
 								}
 							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 670795102214044
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 714902223989490,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Активация выбранной формы Скомпи",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aScompi",
+									"sid": 802804891119192,
+									"parameters": {
+										"instance-variable": "sState",
+										"value": "\"action\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aScompi",
+									"sid": 645228934737181,
+									"parameters": {
+										"instance-variable": "sLoc",
+										"value": "\"action\""
+									}
+								},
+								{
+									"id": "signal",
+									"objectClass": "System",
+									"sid": 980709638902118,
+									"parameters": {
+										"tag": "\"scompi_action_\" & holdAbil.hSign"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "Меняем иконку на коконе (rockAbil). Нужно будет добавить логику поиска нужного rockAbil по индексу кокона Скомпи.",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								}
+							],
+							"sid": 811421236956262
 						},
 						{
 							"eventType": "comment",
@@ -2195,6 +2273,242 @@
 															"disabled": true
 														}
 													]
+												}
+											]
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "для способностей Скомпи",
+									"background-color": [
+										0.5137254901960784,
+										0.8941176470588236,
+										0.48627450980392156,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 595790693627451
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 102667994471900,
+											"parameters": {
+												"variable": "abilName",
+												"comparison": 0,
+												"value": "\"scompi\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "clear",
+											"objectClass": "scompiAbils",
+											"sid": 152380066885298
+										}
+									],
+									"sid": 347900764407091,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "ШАГ 1: Копируем изученные формы Скомпи из dScompi",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-key",
+													"objectClass": "dScompi",
+													"sid": 727697576905117
+												}
+											],
+											"actions": [
+												{
+													"id": "add-key",
+													"objectClass": "scompiAbils",
+													"sid": 625594589869359,
+													"parameters": {
+														"key": "dScompi.CurrentKey",
+														"value": "dScompi.CurrentValue"
+													}
+												}
+											],
+											"sid": 503772846750562
+										},
+										{
+											"eventType": "comment",
+											"text": "ШАГ 2: Расчет позиции и перемещение базы",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 387191505035921,
+													"parameters": {
+														"variable": "hStartX",
+														"value": "640 + (((1+scompiAbils.KeyCount) * hSegmentWidth) / 2)"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "holder",
+													"sid": 287483523786136,
+													"parameters": {
+														"x": "hStartX",
+														"y": "360"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "hBody",
+													"sid": 784838341423254,
+													"parameters": {
+														"x": "holder.X",
+														"y": "holder.Y"
+													}
+												},
+												{
+													"id": "set-width",
+													"objectClass": "hBody",
+													"sid": 975721135703175,
+													"parameters": {
+														"width": "(1+scompiAbils.KeyCount) * hSegmentWidth"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "hCap",
+													"sid": 238660089221533,
+													"parameters": {
+														"x": "hBody.X - hBody.Width",
+														"y": "360"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "holder",
+													"sid": 683379015698699,
+													"parameters": {
+														"instance-variable": "openAbil",
+														"value": "\"scompi\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aUI",
+													"sid": 415314208409747,
+													"parameters": {
+														"instance-variable": "holder",
+														"value": "\"scompi\""
+													}
+												}
+											],
+											"sid": 941455687939054
+										},
+										{
+											"eventType": "comment",
+											"text": "ШАГ 3: Перемещение иконок форм Скомпи из банка на экран",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-key",
+													"objectClass": "scompiAbils",
+													"sid": 681268348972182
+												}
+											],
+											"actions": [],
+											"sid": 607692356571129,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-y",
+															"objectClass": "holdAbil",
+															"sid": 933098458385489,
+															"parameters": {
+																"comparison": 2,
+																"y-co-ordinate": "0"
+															}
+														},
+														{
+															"id": "pick-random-instance",
+															"objectClass": "System",
+															"sid": 626428608856527,
+															"parameters": {
+																"object": "holdAbil"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position",
+															"objectClass": "holdAbil",
+															"sid": 877037262983859,
+															"parameters": {
+																"x": "hStartX - 45 - (loopindex * hSegmentWidth) + (hSegmentWidth / 2)",
+																"y": "360"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "holdAbil",
+															"sid": 611316075763409,
+															"parameters": {
+																"animation": "scompiAbils.CurrentKey",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "holdAbil",
+															"sid": 821539292899871,
+															"parameters": {
+																"instance-variable": "hSign",
+																"value": "scompiAbils.CurrentKey"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "holdAbil",
+															"sid": 566500767973248,
+															"parameters": {
+																"instance-variable": "formEnergy",
+																"value": "scompiAbils.Get(scompiAbils.CurrentKey)"
+															}
+														}
+													],
+													"sid": 536985060267645
 												}
 											]
 										}
