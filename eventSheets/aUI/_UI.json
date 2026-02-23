@@ -870,7 +870,7 @@
 				{
 					"id": "wait",
 					"objectClass": "System",
-					"sid": 135156184982812,
+					"sid": 530133271140554,
 					"parameters": {
 						"seconds": "0.1",
 						"use-timescale": true
@@ -878,7 +878,7 @@
 				},
 				{
 					"callFunction": "abilinstantload",
-					"sid": 764656743081903,
+					"sid": 570984486527995,
 					"parameters": [
 						"\"bottom\"",
 						"\"active\""
@@ -8537,6 +8537,15 @@
 											}
 										},
 										{
+											"id": "set-boolean-instvar",
+											"objectClass": "item",
+											"sid": 536909538460142,
+											"parameters": {
+												"instance-variable": "add",
+												"value": "true"
+											}
+										},
+										{
 											"id": "set-instvar-value",
 											"objectClass": "item",
 											"sid": 931054695374318,
@@ -8636,12 +8645,25 @@
 											}
 										},
 										{
+											"type": "comment",
+											"text": "gic - global Item Counter"
+										},
+										{
 											"id": "set-instvar-value",
 											"objectClass": "item",
-											"sid": 272590713964686,
+											"sid": 913405706569260,
 											"parameters": {
 												"instance-variable": "iCount",
-												"value": "itemInv.Count+1"
+												"value": "aUI.gic"
+											}
+										},
+										{
+											"id": "add-to-instvar",
+											"objectClass": "aUI",
+											"sid": 577059598846108,
+											"parameters": {
+												"instance-variable": "gic",
+												"value": "1"
 											}
 										}
 									],
@@ -8742,9 +8764,17 @@
 													"id": "instance-signal",
 													"objectClass": "item",
 													"sid": 233379719278151,
+													"disabled": true,
 													"parameters": {
 														"tag": "\"rocketNewItem\""
 													}
+												},
+												{
+													"callFunction": "newOneItem",
+													"sid": 686722569109491,
+													"parameters": [
+														"item.UID"
+													]
 												}
 											],
 											"sid": 756782864855803
@@ -9397,6 +9427,15 @@
 									}
 								},
 								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 767756827088345,
+									"parameters": {
+										"instance-variable": "add",
+										"value": "true"
+									}
+								},
+								{
 									"id": "set-instvar-value",
 									"objectClass": "item",
 									"sid": 495149337719289,
@@ -9488,36 +9527,20 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "item",
-									"sid": 390516102382518,
-									"disabled": true,
+									"sid": 803514389545536,
 									"parameters": {
 										"instance-variable": "iCount",
-										"value": "itemInv.PickedCount+1"
+										"value": "aUI.gic"
 									}
 								},
 								{
-									"id": "set-instvar-value",
-									"objectClass": "item",
-									"sid": 356353874827421,
+									"id": "add-to-instvar",
+									"objectClass": "aUI",
+									"sid": 204942979366993,
 									"parameters": {
-										"instance-variable": "iCount",
-										"value": "itemInv.Count+1"
+										"instance-variable": "gic",
+										"value": "1"
 									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "item",
-									"sid": 641199118248260,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "cellN",
-										"value": "itemInv.PickedCount"
-									}
-								},
-								{
-									"callFunction": "cellN",
-									"sid": 395395183769543,
-									"disabled": true
 								}
 							],
 							"sid": 448684465152343,
@@ -9915,9 +9938,17 @@
 													"id": "instance-signal",
 													"objectClass": "item",
 													"sid": 144617672536198,
+													"disabled": true,
 													"parameters": {
 														"tag": "\"rocketNewItem\""
 													}
+												},
+												{
+													"callFunction": "newOneItem",
+													"sid": 639680271760926,
+													"parameters": [
+														"item.UID"
+													]
 												}
 											],
 											"sid": 762253579419405
@@ -10105,6 +10136,418 @@
 					"text": "\n\n\n\nкостыль, предмет для инвентаря-кокона с одним предметом"
 				},
 				{
+					"functionName": "newOneItem",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 669890456812219
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "item",
+							"sid": 681156127546256,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 217162298240365,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "itemInv",
+									"sid": 300881427844987,
+									"parameters": {
+										"instance-variable": "add"
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 884686005872958,
+									"parameters": {
+										"first-value": "itemInv.UID",
+										"comparison": 1,
+										"second-value": "item.UID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "itemInv",
+									"sid": 979003891145715,
+									"parameters": {
+										"x": "-3111",
+										"y": "-1113"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "itemInv",
+									"sid": 997207024406784,
+									"parameters": {
+										"collisions": "disabled"
+									}
+								}
+							],
+							"sid": 805221797554663
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "item",
+									"sid": 462315196004064,
+									"parameters": {
+										"object": "inventory",
+										"image-point-optional": "1"
+									}
+								},
+								{
+									"id": "move-to-object",
+									"objectClass": "item",
+									"sid": 136232626323572,
+									"parameters": {
+										"where": "in-front",
+										"object": "inventory"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "item",
+									"sid": 644158227178833,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "item",
+									"sid": 318817174369531,
+									"behaviorType": "DragDrop",
+									"parameters": {
+										"state": "enabled"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 861144803391252,
+									"parameters": {
+										"instance-variable": "onInventory",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 220742490134094,
+									"parameters": {
+										"instance-variable": "inv",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "ringFX",
+									"sid": 170213351089596,
+									"parameters": {
+										"scale": "1"
+									}
+								},
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "ringFX",
+									"sid": 414721494716512,
+									"parameters": {
+										"object": "item",
+										"image-point-optional": "0"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "ringFX",
+									"sid": 254843575860240,
+									"parameters": {
+										"animation": "\"note\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "ringFX",
+									"sid": 682858205000473,
+									"parameters": {
+										"speed": "16"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "ringFX",
+									"sid": 343579174025544,
+									"parameters": {
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 725066644956598,
+									"parameters": {
+										"instance-variable": "newSign",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 281276201175670,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": true
+									}
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "inventory",
+									"sid": 787988072855256,
+									"parameters": {
+										"frame-number": "8"
+									}
+								}
+							],
+							"sid": 980905087943974
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 620576821850057,
+									"parameters": {
+										"instance-variable": "iQuant",
+										"comparison": 4,
+										"value": "1"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 349260736323950,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "quants",
+											"sid": 624008901317652,
+											"parameters": {
+												"instance-variable": "on"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "quants",
+											"sid": 772617503827809,
+											"parameters": {
+												"instance-variable": "abil"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"customAction": "out",
+											"objectClass": "quants",
+											"sid": 476340526437923
+										}
+									],
+									"sid": 558093340903778
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "quants",
+											"sid": 507023234754760,
+											"parameters": {
+												"unique-id": "Functions.pickQuant"
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "добавляет содержимое ключа",
+											"background-color": [
+												0.7450980392156863,
+												0.9803921568627451,
+												0.996078431372549,
+												1
+											]
+										},
+										{
+											"id": "set-text",
+											"objectClass": "quants",
+											"sid": 237817021876381,
+											"disabled": true,
+											"parameters": {
+												"text": "itemsQ.Get(itemsQ.CurrentKey)"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "quants",
+											"sid": 661729627706246,
+											"parameters": {
+												"x": "item.X+15",
+												"y": "item.Y+15"
+											}
+										},
+										{
+											"id": "set-text",
+											"objectClass": "quants",
+											"sid": 350400812102167,
+											"parameters": {
+												"text": "item.iQuant"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "quants",
+											"sid": 308532874715223,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"value": "item.UID"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "quants",
+											"sid": 159843626862832,
+											"parameters": {
+												"instance-variable": "qSign",
+												"value": "item.iSign"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "item",
+											"sid": 107218397521748,
+											"parameters": {
+												"instance-variable": "quantUID",
+												"value": "quants.UID"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "quants",
+											"sid": 820292363705448,
+											"parameters": {
+												"where": "in-front",
+												"object": "item"
+											}
+										},
+										{
+											"id": "pin-to-object-properties",
+											"objectClass": "quants",
+											"sid": 621691578508799,
+											"behaviorType": "Pin",
+											"parameters": {
+												"pin-to": "item",
+												"x": true,
+												"y": true,
+												"angle": false,
+												"width-type": "no",
+												"height-type": "no",
+												"z": false
+											}
+										},
+										{
+											"type": "comment",
+											"text": "добавляет название ключа",
+											"background-color": [
+												0.7450980392156863,
+												0.9803921568627451,
+												0.996078431372549,
+												1
+											]
+										}
+									],
+									"sid": 724678401589457
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "itemInv",
+									"sid": 820475349671283,
+									"parameters": {
+										"instance-variable": "add"
+									}
+								},
+								{
+									"id": "pick-highestlowest",
+									"objectClass": "itemInv",
+									"sid": 768397680358710,
+									"parameters": {
+										"which": "lowest",
+										"instance-variable": "cellN"
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 784526444410287,
+									"parameters": {
+										"first-value": "itemInv.UID",
+										"comparison": 1,
+										"second-value": "item.UID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-y",
+									"objectClass": "itemInv",
+									"sid": 170338115334226,
+									"parameters": {
+										"y": "-19000"
+									}
+								}
+							],
+							"sid": 117984482648518
+						}
+					]
+				},
+				{
 					"eventType": "block",
 					"conditions": [
 						{
@@ -10116,131 +10559,173 @@
 							}
 						}
 					],
-					"actions": [
-						{
-							"id": "set-position-to-another-object",
-							"objectClass": "item",
-							"sid": 148171292463644,
-							"parameters": {
-								"object": "inventory",
-								"image-point-optional": "1"
-							}
-						},
-						{
-							"id": "move-to-object",
-							"objectClass": "item",
-							"sid": 198648423540614,
-							"parameters": {
-								"where": "in-front",
-								"object": "inventory"
-							}
-						},
-						{
-							"id": "set-collisions-enabled",
-							"objectClass": "item",
-							"sid": 845592923877181,
-							"parameters": {
-								"collisions": "enabled"
-							}
-						},
-						{
-							"id": "set-enabled",
-							"objectClass": "item",
-							"sid": 931634987767129,
-							"behaviorType": "DragDrop",
-							"parameters": {
-								"state": "enabled"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "item",
-							"sid": 275164976233554,
-							"parameters": {
-								"instance-variable": "onInventory",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "item",
-							"sid": 293470846902300,
-							"parameters": {
-								"instance-variable": "inv",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-scale",
-							"objectClass": "ringFX",
-							"sid": 997502787676849,
-							"parameters": {
-								"scale": "1"
-							}
-						},
-						{
-							"id": "set-position-to-another-object",
-							"objectClass": "ringFX",
-							"sid": 328588617970605,
-							"parameters": {
-								"object": "item",
-								"image-point-optional": "0"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "ringFX",
-							"sid": 848624560883199,
-							"parameters": {
-								"animation": "\"note\"",
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "set-animation-speed",
-							"objectClass": "ringFX",
-							"sid": 537089431707924,
-							"parameters": {
-								"speed": "16"
-							}
-						},
-						{
-							"id": "start-animation",
-							"objectClass": "ringFX",
-							"sid": 229145171423769,
-							"parameters": {
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aUI",
-							"sid": 991318171142527,
-							"parameters": {
-								"instance-variable": "newSign",
-								"value": "\"zero\""
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 850548870483999,
-							"parameters": {
-								"seconds": "0",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-animation-frame",
-							"objectClass": "inventory",
-							"sid": 669576059561163,
-							"parameters": {
-								"frame-number": "8"
-							}
-						}
-					],
+					"actions": [],
 					"sid": 275733611355478,
+					"disabled": true,
 					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "itemInv",
+									"sid": 171975413758185,
+									"parameters": {
+										"instance-variable": "add"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "itemInv",
+									"sid": 869295563772384,
+									"parameters": {
+										"x": "-3111",
+										"y": "-1113"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "itemInv",
+									"sid": 329028339033410,
+									"parameters": {
+										"collisions": "disabled"
+									}
+								}
+							],
+							"sid": 827214833853873,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "item",
+									"sid": 857107824889295,
+									"parameters": {
+										"object": "inventory",
+										"image-point-optional": "1"
+									}
+								},
+								{
+									"id": "move-to-object",
+									"objectClass": "item",
+									"sid": 712185404329581,
+									"parameters": {
+										"where": "in-front",
+										"object": "inventory"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "item",
+									"sid": 296221957030659,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "item",
+									"sid": 769050726508485,
+									"behaviorType": "DragDrop",
+									"parameters": {
+										"state": "enabled"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 173596525858563,
+									"parameters": {
+										"instance-variable": "onInventory",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 776266322724556,
+									"parameters": {
+										"instance-variable": "inv",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "ringFX",
+									"sid": 254764830310603,
+									"parameters": {
+										"scale": "1"
+									}
+								},
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "ringFX",
+									"sid": 188932879513480,
+									"parameters": {
+										"object": "item",
+										"image-point-optional": "0"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "ringFX",
+									"sid": 412329933065962,
+									"parameters": {
+										"animation": "\"note\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "ringFX",
+									"sid": 302024962370628,
+									"parameters": {
+										"speed": "16"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "ringFX",
+									"sid": 672449930797789,
+									"parameters": {
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 545526818894103,
+									"parameters": {
+										"instance-variable": "newSign",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 256772577774632,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": true
+									}
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "inventory",
+									"sid": 922900569095169,
+									"parameters": {
+										"frame-number": "8"
+									}
+								}
+							],
+							"sid": 835520291245340,
+							"disabled": true
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -10257,6 +10742,7 @@
 							],
 							"actions": [],
 							"sid": 371125572175688,
+							"disabled": true,
 							"children": [
 								{
 									"eventType": "block",
@@ -10286,7 +10772,8 @@
 											"sid": 212406240827418
 										}
 									],
-									"sid": 894051985064657
+									"sid": 894051985064657,
+									"disabled": true
 								},
 								{
 									"eventType": "block",
@@ -10399,7 +10886,8 @@
 											]
 										}
 									],
-									"sid": 869914693030830
+									"sid": 869914693030830,
+									"disabled": true
 								}
 							]
 						},
@@ -10421,7 +10909,7 @@
 								{
 									"id": "pick-highestlowest",
 									"objectClass": "itemInv",
-									"sid": 941305957541199,
+									"sid": 430970697156599,
 									"parameters": {
 										"which": "lowest",
 										"instance-variable": "cellN"
@@ -10430,7 +10918,7 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 781035457159785,
+									"sid": 442328337976551,
 									"parameters": {
 										"first-value": "itemInv.UID",
 										"comparison": 1,
@@ -10448,7 +10936,8 @@
 									}
 								}
 							],
-							"sid": 764804174698778
+							"sid": 764804174698778,
+							"disabled": true
 						}
 					]
 				},
@@ -16953,6 +17442,15 @@
 									}
 								},
 								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 378362984511743,
+									"parameters": {
+										"instance-variable": "add",
+										"value": "true"
+									}
+								},
+								{
 									"id": "set-instvar-value",
 									"objectClass": "item",
 									"sid": 939560058829134,
@@ -16985,6 +17483,15 @@
 									"sid": 547499111929555,
 									"parameters": {
 										"scale": "0.65"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 395305140336273,
+									"parameters": {
+										"instance-variable": "iCount",
+										"value": "itemInv.iCount"
 									}
 								},
 								{
@@ -18302,6 +18809,16 @@
 							]
 						},
 						{
+							"eventType": "comment",
+							"text": "",
+							"background-color": [
+								0.611764705882353,
+								0.6235294117647059,
+								0.9686274509803922,
+								1
+							]
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -18319,6 +18836,16 @@
 							],
 							"sid": 174771488026217
 						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.611764705882353,
+						0.6235294117647059,
+						0.9686274509803922,
+						1
 					]
 				},
 				{
