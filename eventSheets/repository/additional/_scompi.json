@@ -191,7 +191,7 @@
 					"disabled": false,
 					"title": "scompiBrain",
 					"description": "",
-					"isActiveOnStart": true,
+					"isActiveOnStart": false,
 					"children": [
 						{
 							"eventType": "comment",
@@ -458,6 +458,493 @@
 						}
 					],
 					"sid": 839201847561029
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "scompiInventory",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"eventType": "variable",
+							"name": "sPrevHotSign",
+							"type": "string",
+							"initialValue": "\"zero\"",
+							"comment": "Хранит предыдущий горячий предмет",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 785872899521990
+						},
+						{
+							"eventType": "comment",
+							"text": "КОРМЛЕНИЕ СКОМПИ: Игрок бросает предмет на Скомпи",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-drop",
+									"objectClass": "itemInv",
+									"sid": 903336002440288,
+									"behaviorType": "DragDrop"
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "itemInv",
+									"sid": 714473590260751,
+									"parameters": {
+										"object": "item"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 418566995150093,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "itemInv",
+									"sid": 280723339461627,
+									"parameters": {
+										"instance-variable": "class",
+										"comparison": 1,
+										"value": "\"inedible\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-key",
+									"objectClass": "itemsQ",
+									"sid": 184427860781491,
+									"parameters": {
+										"key": "itemInv.iSign",
+										"value": "itemsQ.Get(itemInv.iSign)-1"
+									}
+								},
+								{
+									"callFunction": "destroyItem",
+									"sid": 524598851318546,
+									"parameters": [
+										"itemInv.UID"
+									]
+								},
+								{
+									"id": "subtract-from-instvar",
+									"objectClass": "aScompi",
+									"sid": 585315807505900,
+									"parameters": {
+										"instance-variable": "sHunger",
+										"value": "20"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "item",
+									"sid": 572749686068432,
+									"parameters": {
+										"animation": "\"eat\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 385159126730894
+						},
+						{
+							"eventType": "comment",
+							"text": "Генерация семечка с шансом 20% после еды",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 654067026602621,
+									"parameters": {
+										"first-value": "random(100)",
+										"comparison": 2,
+										"second-value": "20"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "getItem",
+									"sid": 365093571558303,
+									"parameters": [
+										true,
+										"\"thornSeed\"",
+										"\"use\"",
+										"0",
+										"1",
+										"0",
+										"\"universal\""
+									]
+								}
+							],
+							"sid": 862810861968092
+						},
+						{
+							"eventType": "comment",
+							"text": "БРОСОК СКОМПИ НА КАРТУ (Вне UI)",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-drop",
+									"objectClass": "itemInv",
+									"sid": 714596244800237,
+									"behaviorType": "DragDrop"
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "itemInv",
+									"sid": 685421104033162,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 477897088407222,
+									"parameters": {
+										"first-value": "Mouse.Y(\"ui\")",
+										"comparison": 4,
+										"second-value": "150"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "destroyItem",
+									"sid": 414057740636629,
+									"parameters": [
+										"itemInv.UID"
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aScompi",
+									"sid": 359062639399095,
+									"parameters": {
+										"instance-variable": "sLoc",
+										"value": "\"map\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "aIns",
+									"sid": 564014423564584,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "5.0",
+										"type": "once",
+										"tag": "\"scompiReturn\""
+									}
+								}
+							],
+							"sid": 276820437554342
+						},
+						{
+							"eventType": "comment",
+							"text": "Возвращение Скомпи в инвентарь по таймеру",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "aIns",
+									"sid": 412504750885877,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"scompiReturn\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aScompi",
+									"sid": 686479366161742,
+									"parameters": {
+										"instance-variable": "sLoc",
+										"value": "\"inv\""
+									}
+								},
+								{
+									"callFunction": "getItem",
+									"sid": 907479672000831,
+									"parameters": [
+										true,
+										"\"scompi\"",
+										"\"pet\"",
+										"0",
+										"1",
+										"0",
+										"\"universal\""
+									]
+								}
+							],
+							"sid": 843707685782432
+						},
+						{
+							"eventType": "comment",
+							"text": "ВКЛИНИВАНИЕ: Скомпи прыгает между предметами",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"functionName": "scompiInsert",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "targetCount",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "iCount предмета, после которого встает Скомпи",
+									"sid": 997153356172862
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "itemInv",
+									"sid": 482558538451611,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 893149524917406,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "itemInv",
+									"sid": 407099994397286,
+									"parameters": {
+										"instance-variable": "iCount",
+										"value": "targetCount + 0.5"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 553560043361805,
+									"parameters": {
+										"instance-variable": "iCount",
+										"value": "targetCount + 0.5"
+									}
+								},
+								{
+									"callFunction": "cellN",
+									"sid": 645079603964410
+								},
+								{
+									"callFunction": "items",
+									"sid": 883519950487223
+								}
+							],
+							"sid": 785997912357697
+						},
+						{
+							"eventType": "comment",
+							"text": "ЗАХВАТ ГОРЯЧЕГО СЛОТА",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"functionName": "scompiSetHot",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 651032254339162,
+									"parameters": {
+										"instance-variable": "hotSign",
+										"comparison": 1,
+										"value": "\"scompi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 806921448344423,
+									"parameters": {
+										"variable": "sPrevHotSign",
+										"value": "aUI.hotSign"
+									}
+								},
+								{
+									"customAction": "unHotItem",
+									"objectClass": "aUI",
+									"sid": 223426951373110
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 884950777576932,
+									"parameters": {
+										"instance-variable": "hotSign",
+										"value": "\"scompi\""
+									}
+								},
+								{
+									"customAction": "hotItem",
+									"objectClass": "aUI",
+									"sid": 773822617201036
+								}
+							],
+							"sid": 626289349631778
+						},
+						{
+							"eventType": "comment",
+							"text": "ОСВОБОЖДЕНИЕ ГОРЯЧЕГО СЛОТА",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"functionName": "scompiRemoveHot",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 380835680417285,
+									"parameters": {
+										"instance-variable": "hotSign",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"customAction": "unHotItem",
+									"objectClass": "aUI",
+									"sid": 873505469789169
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 386290986392012,
+									"parameters": {
+										"instance-variable": "hotSign",
+										"value": "sPrevHotSign"
+									}
+								}
+							],
+							"sid": 933548252007619,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 575066447508325,
+											"parameters": {
+												"variable": "sPrevHotSign",
+												"comparison": 1,
+												"value": "\"zero\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "hotItem",
+											"objectClass": "aUI",
+											"sid": 950135188952002
+										}
+									],
+									"sid": 932460442194378
+								}
+							]
+						}
+					],
+					"sid": 530985257935699
 				}
 			],
 			"sid": 715233710309486
