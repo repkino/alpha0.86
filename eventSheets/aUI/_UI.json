@@ -1709,13 +1709,13 @@
 					"eventType": "function-block",
 					"conditions": [
 						{
-							"id": "is-boolean-instance-variable-set",
+							"id": "compare-x",
 							"objectClass": "itemInv",
-							"sid": 818754899861750,
+							"sid": 331482589485179,
 							"parameters": {
-								"instance-variable": "add"
-							},
-							"isInverted": true
+								"comparison": 2,
+								"x-co-ordinate": "0"
+							}
 						}
 					],
 					"actions": [],
@@ -1724,6 +1724,15 @@
 						{
 							"eventType": "block",
 							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "itemInv",
+									"sid": 124337903398134,
+									"parameters": {
+										"instance-variable": "add"
+									},
+									"isInverted": true
+								},
 								{
 									"id": "pick-random-instance",
 									"objectClass": "System",
@@ -2057,9 +2066,18 @@
 					"eventType": "function-block",
 					"conditions": [
 						{
+							"id": "compare-y",
+							"objectClass": "quants",
+							"sid": 464420434184797,
+							"parameters": {
+								"comparison": 2,
+								"y-co-ordinate": "0"
+							}
+						},
+						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "quants",
-							"sid": 567596192399633,
+							"sid": 803392635765270,
 							"parameters": {
 								"instance-variable": "on"
 							},
@@ -7159,32 +7177,7 @@
 					"actions": [
 						{
 							"type": "comment",
-							"text": "1. Сначала визуальный эффект и 'мягкое' удаление мирового объекта"
-						},
-						{
-							"id": "spawn-another-object",
-							"objectClass": "items",
-							"sid": 604949990293577,
-							"parameters": {
-								"object": "FXmini",
-								"layer": "\"ui\"",
-								"image-point": "0",
-								"create-hierarchy": false,
-								"template-name": "\"\""
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "FXmini",
-							"sid": 933383627886865,
-							"parameters": {
-								"animation": "\"use\"",
-								"from": "beginning"
-							}
-						},
-						{
-							"type": "comment",
-							"text": "Убираем коллизии и флаги, чтобы функции инвентаря не 'подцепили' этот объект"
+							"text": "1. Сначала  'мягкое' удаление мирового объекта"
 						},
 						{
 							"type": "comment",
@@ -7252,7 +7245,75 @@
 							]
 						}
 					],
-					"sid": 815819682583054
+					"sid": 815819682583054,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-outside-layout",
+									"objectClass": "FXmini",
+									"sid": 866307240014253
+								}
+							],
+							"actions": [],
+							"sid": 858125469496379,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 877248820155283,
+											"parameters": {
+												"object": "FXmini"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "FXmini",
+											"sid": 578808050850600,
+											"parameters": {
+												"x": "items.X",
+												"y": "items.Y+1"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "FXmini",
+											"sid": 253496886058972,
+											"parameters": {
+												"where": "in-front",
+												"object": "items"
+											}
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "FXmini",
+											"sid": 597422129086396,
+											"behaviorType": "EasyIsometric",
+											"parameters": {
+												"newState_": "enabled"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "FXmini",
+											"sid": 341471572399169,
+											"parameters": {
+												"animation": "\"use\"",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 299218610680436
+								}
+							]
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -10206,7 +10267,8 @@
 									}
 								}
 							],
-							"sid": 805221797554663
+							"sid": 805221797554663,
+							"disabled": true
 						},
 						{
 							"eventType": "block",
@@ -10544,400 +10606,6 @@
 								}
 							],
 							"sid": 117984482648518
-						}
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-instance-signal",
-							"objectClass": "item",
-							"sid": 140715490698388,
-							"parameters": {
-								"tag": "\"rocketNewItem\""
-							}
-						}
-					],
-					"actions": [],
-					"sid": 275733611355478,
-					"disabled": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "itemInv",
-									"sid": 171975413758185,
-									"parameters": {
-										"instance-variable": "add"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-position",
-									"objectClass": "itemInv",
-									"sid": 869295563772384,
-									"parameters": {
-										"x": "-3111",
-										"y": "-1113"
-									}
-								},
-								{
-									"id": "set-collisions-enabled",
-									"objectClass": "itemInv",
-									"sid": 329028339033410,
-									"parameters": {
-										"collisions": "disabled"
-									}
-								}
-							],
-							"sid": 827214833853873,
-							"disabled": true
-						},
-						{
-							"eventType": "block",
-							"conditions": [],
-							"actions": [
-								{
-									"id": "set-position-to-another-object",
-									"objectClass": "item",
-									"sid": 857107824889295,
-									"parameters": {
-										"object": "inventory",
-										"image-point-optional": "1"
-									}
-								},
-								{
-									"id": "move-to-object",
-									"objectClass": "item",
-									"sid": 712185404329581,
-									"parameters": {
-										"where": "in-front",
-										"object": "inventory"
-									}
-								},
-								{
-									"id": "set-collisions-enabled",
-									"objectClass": "item",
-									"sid": 296221957030659,
-									"parameters": {
-										"collisions": "enabled"
-									}
-								},
-								{
-									"id": "set-enabled",
-									"objectClass": "item",
-									"sid": 769050726508485,
-									"behaviorType": "DragDrop",
-									"parameters": {
-										"state": "enabled"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "item",
-									"sid": 173596525858563,
-									"parameters": {
-										"instance-variable": "onInventory",
-										"value": "true"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "item",
-									"sid": 776266322724556,
-									"parameters": {
-										"instance-variable": "inv",
-										"value": "true"
-									}
-								},
-								{
-									"id": "set-scale",
-									"objectClass": "ringFX",
-									"sid": 254764830310603,
-									"parameters": {
-										"scale": "1"
-									}
-								},
-								{
-									"id": "set-position-to-another-object",
-									"objectClass": "ringFX",
-									"sid": 188932879513480,
-									"parameters": {
-										"object": "item",
-										"image-point-optional": "0"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "ringFX",
-									"sid": 412329933065962,
-									"parameters": {
-										"animation": "\"note\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "ringFX",
-									"sid": 302024962370628,
-									"parameters": {
-										"speed": "16"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "ringFX",
-									"sid": 672449930797789,
-									"parameters": {
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "aUI",
-									"sid": 545526818894103,
-									"parameters": {
-										"instance-variable": "newSign",
-										"value": "\"zero\""
-									}
-								},
-								{
-									"id": "wait",
-									"objectClass": "System",
-									"sid": 256772577774632,
-									"parameters": {
-										"seconds": "0",
-										"use-timescale": true
-									}
-								},
-								{
-									"id": "set-animation-frame",
-									"objectClass": "inventory",
-									"sid": 922900569095169,
-									"parameters": {
-										"frame-number": "8"
-									}
-								}
-							],
-							"sid": 835520291245340,
-							"disabled": true
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "item",
-									"sid": 795769213395469,
-									"parameters": {
-										"instance-variable": "iQuant",
-										"comparison": 4,
-										"value": "1"
-									}
-								}
-							],
-							"actions": [],
-							"sid": 371125572175688,
-							"disabled": true,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "quants",
-											"sid": 849995343657482,
-											"parameters": {
-												"instance-variable": "on"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "quants",
-											"sid": 780836027908804,
-											"parameters": {
-												"instance-variable": "abil"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"customAction": "out",
-											"objectClass": "quants",
-											"sid": 212406240827418
-										}
-									],
-									"sid": 894051985064657,
-									"disabled": true
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "pick-by-unique-id",
-											"objectClass": "quants",
-											"sid": 524545587444690,
-											"parameters": {
-												"unique-id": "Functions.pickQuant"
-											}
-										}
-									],
-									"actions": [
-										{
-											"type": "comment",
-											"text": "добавляет содержимое ключа",
-											"background-color": [
-												0.7450980392156863,
-												0.9803921568627451,
-												0.996078431372549,
-												1
-											]
-										},
-										{
-											"id": "set-text",
-											"objectClass": "quants",
-											"sid": 489511858686166,
-											"disabled": true,
-											"parameters": {
-												"text": "itemsQ.Get(itemsQ.CurrentKey)"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "quants",
-											"sid": 668662242399950,
-											"parameters": {
-												"x": "item.X+15",
-												"y": "item.Y+15"
-											}
-										},
-										{
-											"id": "set-text",
-											"objectClass": "quants",
-											"sid": 762482254061231,
-											"parameters": {
-												"text": "item.iQuant"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "quants",
-											"sid": 226943301321647,
-											"parameters": {
-												"instance-variable": "hostUID",
-												"value": "item.UID"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "quants",
-											"sid": 985140096576407,
-											"parameters": {
-												"instance-variable": "qSign",
-												"value": "item.iSign"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "item",
-											"sid": 599526082417523,
-											"parameters": {
-												"instance-variable": "quantUID",
-												"value": "quants.UID"
-											}
-										},
-										{
-											"id": "move-to-object",
-											"objectClass": "quants",
-											"sid": 174687099892410,
-											"parameters": {
-												"where": "in-front",
-												"object": "item"
-											}
-										},
-										{
-											"id": "pin-to-object-properties",
-											"objectClass": "quants",
-											"sid": 882262416699588,
-											"behaviorType": "Pin",
-											"parameters": {
-												"pin-to": "item",
-												"x": true,
-												"y": true,
-												"angle": false,
-												"width-type": "no",
-												"height-type": "no",
-												"z": false
-											}
-										},
-										{
-											"type": "comment",
-											"text": "добавляет название ключа",
-											"background-color": [
-												0.7450980392156863,
-												0.9803921568627451,
-												0.996078431372549,
-												1
-											]
-										}
-									],
-									"sid": 869914693030830,
-									"disabled": true
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": ""
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "itemInv",
-									"sid": 554831754908105,
-									"parameters": {
-										"instance-variable": "add"
-									}
-								},
-								{
-									"id": "pick-highestlowest",
-									"objectClass": "itemInv",
-									"sid": 430970697156599,
-									"parameters": {
-										"which": "lowest",
-										"instance-variable": "cellN"
-									}
-								},
-								{
-									"id": "compare-two-values",
-									"objectClass": "System",
-									"sid": 442328337976551,
-									"parameters": {
-										"first-value": "itemInv.UID",
-										"comparison": 1,
-										"second-value": "item.UID"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-y",
-									"objectClass": "itemInv",
-									"sid": 458320080625971,
-									"parameters": {
-										"y": "-19000"
-									}
-								}
-							],
-							"sid": 764804174698778,
-							"disabled": true
 						}
 					]
 				},
@@ -11425,7 +11093,7 @@
 													"objectClass": "item",
 													"sid": 599867122905707,
 													"parameters": {
-														"object": "FXmini",
+														"object": "FXitem",
 														"layer": "\"ui\"",
 														"image-point": "0",
 														"create-hierarchy": false,
@@ -11434,7 +11102,7 @@
 												},
 												{
 													"id": "set-animation",
-													"objectClass": "FXmini",
+													"objectClass": "FXitem",
 													"sid": 963823283262372,
 													"parameters": {
 														"animation": "\"use\"",
@@ -11619,7 +11287,7 @@
 													"objectClass": "item",
 													"sid": 524671628107252,
 													"parameters": {
-														"object": "FXmini",
+														"object": "FXitem",
 														"layer": "\"ui\"",
 														"image-point": "0",
 														"create-hierarchy": false,
@@ -11628,7 +11296,7 @@
 												},
 												{
 													"id": "set-animation",
-													"objectClass": "FXmini",
+													"objectClass": "FXitem",
 													"sid": 974603028208016,
 													"parameters": {
 														"animation": "\"use\"",
@@ -11684,7 +11352,7 @@
 													"objectClass": "item",
 													"sid": 353578869068339,
 													"parameters": {
-														"object": "FXmini",
+														"object": "FXitem",
 														"layer": "\"ui\"",
 														"image-point": "0",
 														"create-hierarchy": false,
@@ -11693,7 +11361,7 @@
 												},
 												{
 													"id": "set-animation",
-													"objectClass": "FXmini",
+													"objectClass": "FXitem",
 													"sid": 339622063693485,
 													"parameters": {
 														"animation": "\"use\"",
@@ -21572,7 +21240,7 @@
 											"sid": 252042049359516,
 											"disabled": true,
 											"parameters": {
-												"object": "FXmini",
+												"object": "FXitem",
 												"layer": "\"ui\"",
 												"image-point": "0",
 												"create-hierarchy": false,
@@ -21581,7 +21249,7 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "FXmini",
+											"objectClass": "FXitem",
 											"sid": 941167480665138,
 											"disabled": true,
 											"parameters": {
@@ -21807,7 +21475,7 @@
 											"sid": 196549336851725,
 											"disabled": true,
 											"parameters": {
-												"object": "FXmini",
+												"object": "FXitem",
 												"layer": "\"ui\"",
 												"image-point": "0",
 												"create-hierarchy": false,
@@ -21816,7 +21484,7 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "FXmini",
+											"objectClass": "FXitem",
 											"sid": 281225920366448,
 											"disabled": true,
 											"parameters": {
@@ -21885,7 +21553,7 @@
 											"sid": 618935579920040,
 											"disabled": true,
 											"parameters": {
-												"object": "FXmini",
+												"object": "FXitem",
 												"layer": "\"ui\"",
 												"image-point": "0",
 												"create-hierarchy": false,
@@ -21894,7 +21562,7 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "FXmini",
+											"objectClass": "FXitem",
 											"sid": 781568013827444,
 											"disabled": true,
 											"parameters": {
@@ -22231,7 +21899,7 @@
 									"objectClass": "item",
 									"sid": 103930193268666,
 									"parameters": {
-										"object": "FXmini",
+										"object": "FXitem",
 										"layer": "\"ui\"",
 										"image-point": "0",
 										"create-hierarchy": false,
@@ -22240,7 +21908,7 @@
 								},
 								{
 									"id": "set-animation",
-									"objectClass": "FXmini",
+									"objectClass": "FXitem",
 									"sid": 231700251862349,
 									"parameters": {
 										"animation": "\"use\"",
@@ -22273,15 +21941,46 @@
 					"conditions": [
 						{
 							"id": "on-any-animation-finished",
+							"objectClass": "FXitem",
+							"sid": 628524845190759
+						}
+					],
+					"actions": [
+						{
+							"id": "destroy",
+							"objectClass": "FXitem",
+							"sid": 158078461914994
+						}
+					],
+					"sid": 455790928733063
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-animation-finished",
 							"objectClass": "FXmini",
 							"sid": 387179478540804
 						}
 					],
 					"actions": [
 						{
-							"id": "destroy",
+							"id": "set-position",
 							"objectClass": "FXmini",
-							"sid": 755966355191006
+							"sid": 666208536149761,
+							"parameters": {
+								"x": "-1000",
+								"y": "-1000"
+							}
+						},
+						{
+							"id": "set-enabled",
+							"objectClass": "FXmini",
+							"sid": 467782040776211,
+							"behaviorType": "EasyIsometric",
+							"parameters": {
+								"newState_": "disabled"
+							}
 						}
 					],
 					"sid": 355532100353466
