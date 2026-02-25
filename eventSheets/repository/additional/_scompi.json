@@ -57,7 +57,17 @@
 				{
 					"id": "set-group-active",
 					"objectClass": "System",
+					"sid": 701405418795110,
+					"parameters": {
+						"group-name": "\"scompiInventory\"",
+						"state": "activated"
+					}
+				},
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
 					"sid": 222884204278939,
+					"disabled": true,
 					"parameters": {
 						"group-name": "\"uiDialogs\"",
 						"state": "activated"
@@ -65,6 +75,294 @@
 				}
 			],
 			"sid": 913220744919309
+		},
+		{
+			"eventType": "comment",
+			"text": "проверка вклинивания"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "cursor-is-over-object",
+					"objectClass": "Mouse",
+					"sid": 163904950161012,
+					"parameters": {
+						"object": "itemInv"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "itemInv",
+					"sid": 887576150404055,
+					"parameters": {
+						"instance-variable": "iSign",
+						"comparison": 1,
+						"value": "\"scompi\""
+					}
+				},
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "aUIN",
+					"sid": 654783326079504,
+					"parameters": {
+						"instance-variable": "inventoryOn"
+					}
+				}
+			],
+			"actions": [],
+			"sid": 982153717198188,
+			"children": [
+				{
+					"eventType": "variable",
+					"name": "uid",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"isStatic": true,
+					"isConstant": false,
+					"sid": 902786880762526
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 459339834428433,
+							"parameters": {
+								"variable": "uid",
+								"comparison": 1,
+								"value": "aTools.cursorUID"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "aTools",
+							"sid": 201380433430867,
+							"parameters": {
+								"instance-variable": "cursorUID",
+								"comparison": 0,
+								"value": "itemInv.UID"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 723242398571559,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "перепрыгивание"
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 889220161247298,
+									"parameters": {
+										"text": "\"v\""
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 517401222899791,
+									"parameters": {
+										"variable": "uid",
+										"value": "aTools.cursorUID"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aScompi",
+									"sid": 680454870251421,
+									"parameters": {
+										"instance-variable": "insertUID",
+										"value": "uid"
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "aIns",
+									"sid": 180414646198245,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"scompiInsert\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "aIns",
+									"sid": 192123669976726,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "1",
+										"type": "once",
+										"tag": "\"scompiInsert\""
+									}
+								}
+							],
+							"sid": 569060978446447,
+							"disabled": true
+						},
+						{
+							"eventType": "comment",
+							"text": "уход и возвращение"
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 417604958276783,
+									"parameters": {
+										"text": "\"v\""
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 359839226200656,
+									"parameters": {
+										"variable": "uid",
+										"value": "aTools.cursorUID"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aScompi",
+									"sid": 749013902140037,
+									"parameters": {
+										"instance-variable": "insertUID",
+										"value": "uid"
+									}
+								},
+								{
+									"callFunction": "scompiOut",
+									"sid": 976669064889623
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "aIns",
+									"sid": 335274399285839,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"scompiInsert\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "aIns",
+									"sid": 384302257903152,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "1",
+										"type": "once",
+										"tag": "\"scompiInsert\""
+									}
+								}
+							],
+							"sid": 695300339092534
+						}
+					]
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "вызов вклинивания"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-timer",
+					"objectClass": "aIns",
+					"sid": 557320961816274,
+					"behaviorType": "Timer",
+					"parameters": {
+						"tag": "\"scompiInsert\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "append-text",
+					"objectClass": "help",
+					"sid": 749439298037747,
+					"parameters": {
+						"text": "\"t\""
+					}
+				}
+			],
+			"sid": 975594340465852,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "перепрыгивание"
+				},
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"callFunction": "scompiInsert",
+							"sid": 571459453739426,
+							"disabled": true,
+							"parameters": [
+								"aScompi.insertUID"
+							]
+						}
+					],
+					"sid": 992627855400768
+				},
+				{
+					"eventType": "comment",
+					"text": "уход и возвращение"
+				},
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"callFunction": "getItem",
+							"sid": 576799479083303,
+							"parameters": [
+								true,
+								"\"scompi\"",
+								"\"pet\"",
+								"0",
+								"1",
+								"0",
+								"\"universal\""
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 773035172218502,
+							"disabled": true,
+							"parameters": {
+								"seconds": "0",
+								"use-timescale": false
+							}
+						},
+						{
+							"callFunction": "scompiInsert",
+							"sid": 439779526408313,
+							"parameters": [
+								"aScompi.insertUID"
+							]
+						}
+					],
+					"sid": 232499273933241
+				}
+			]
 		},
 		{
 			"eventType": "comment",
@@ -482,6 +780,91 @@
 						},
 						{
 							"eventType": "comment",
+							"text": "ВКЛИНИВАНИЕ: Скомпи прыгает между предметами",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"functionName": "scompiInsert",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "uid",
+									"type": "number",
+									"initialValue": "-1",
+									"comment": "",
+									"sid": 186549257729929
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "itemInv",
+									"sid": 714278984665411,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 122845219035010,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 318762338425975,
+									"parameters": {
+										"text": "\"f\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 270092266157066,
+									"parameters": {
+										"instance-variable": "iCount",
+										"value": "itemInv.iCount-0.5"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "item",
+									"sid": 548204350393827,
+									"parameters": {
+										"x": "itemInv.X+10",
+										"y": "aUI.itemY"
+									}
+								},
+								{
+									"callFunction": "cellN",
+									"sid": 968562439242940
+								},
+								{
+									"callFunction": "items",
+									"sid": 162718631122682
+								}
+							],
+							"sid": 570686118987184
+						},
+						{
+							"eventType": "comment",
 							"text": "КОРМЛЕНИЕ СКОМПИ: Игрок бросает предмет на Скомпи",
 							"background-color": [
 								0.33,
@@ -605,7 +988,8 @@
 									]
 								}
 							],
-							"sid": 862810861968092
+							"sid": 862810861968092,
+							"disabled": true
 						},
 						{
 							"eventType": "comment",
@@ -649,25 +1033,13 @@
 							],
 							"actions": [
 								{
-									"callFunction": "destroyItem",
-									"sid": 414057740636629,
-									"parameters": [
-										"itemInv.UID"
-									]
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "aScompi",
-									"sid": 359062639399095,
-									"parameters": {
-										"instance-variable": "sLoc",
-										"value": "\"map\""
-									}
+									"callFunction": "scompiOut",
+									"sid": 296855041519608
 								},
 								{
 									"id": "start-timer",
 									"objectClass": "aIns",
-									"sid": 564014423564584,
+									"sid": 572951070603541,
 									"behaviorType": "Timer",
 									"parameters": {
 										"duration": "5.0",
@@ -677,6 +1049,59 @@
 								}
 							],
 							"sid": 276820437554342
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"functionName": "scompiOut",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "itemInv",
+									"sid": 795060666755388,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "destroyItem",
+									"sid": 784713509550007,
+									"parameters": [
+										"itemInv.UID"
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aScompi",
+									"sid": 900157136445131,
+									"parameters": {
+										"instance-variable": "sLoc",
+										"value": "\"map\""
+									}
+								},
+								{
+									"callFunction": "cellN",
+									"sid": 343023172452657
+								},
+								{
+									"callFunction": "items",
+									"sid": 146231701431191
+								}
+							],
+							"sid": 627147607460360
 						},
 						{
 							"eventType": "comment",
@@ -726,85 +1151,6 @@
 								}
 							],
 							"sid": 843707685782432
-						},
-						{
-							"eventType": "comment",
-							"text": "ВКЛИНИВАНИЕ: Скомпи прыгает между предметами",
-							"background-color": [
-								0.33,
-								0.73,
-								0.48,
-								1
-							]
-						},
-						{
-							"functionName": "scompiInsert",
-							"functionDescription": "",
-							"functionCategory": "",
-							"functionReturnType": "none",
-							"functionCopyPicked": false,
-							"functionIsAsync": false,
-							"functionParameters": [
-								{
-									"name": "targetCount",
-									"type": "number",
-									"initialValue": "0",
-									"comment": "iCount предмета, после которого встает Скомпи",
-									"sid": 997153356172862
-								}
-							],
-							"eventType": "function-block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "itemInv",
-									"sid": 482558538451611,
-									"parameters": {
-										"instance-variable": "iSign",
-										"comparison": 0,
-										"value": "\"scompi\""
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "item",
-									"sid": 893149524917406,
-									"parameters": {
-										"instance-variable": "iSign",
-										"comparison": 0,
-										"value": "\"scompi\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "itemInv",
-									"sid": 407099994397286,
-									"parameters": {
-										"instance-variable": "iCount",
-										"value": "targetCount + 0.5"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "item",
-									"sid": 553560043361805,
-									"parameters": {
-										"instance-variable": "iCount",
-										"value": "targetCount + 0.5"
-									}
-								},
-								{
-									"callFunction": "cellN",
-									"sid": 645079603964410
-								},
-								{
-									"callFunction": "items",
-									"sid": 883519950487223
-								}
-							],
-							"sid": 785997912357697
 						},
 						{
 							"eventType": "comment",
