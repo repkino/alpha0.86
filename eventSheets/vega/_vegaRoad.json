@@ -1,0 +1,191 @@
+{
+	"name": "_vegaRoad",
+	"events": [
+		{
+			"eventType": "comment",
+			"text": "\n\n\n   дороги Муклов \n\nГеймплей элементов, составляющих дороги, ведущие к местному городу Муклов (грибных персонажей). Помимо навигационной составляющей, являются дополнительным геймплеем движения по активным пятнам с различными реакциями, меняющими статус и положение героя в пространстве, содержащими ловушки, бонусы и т.п.\n"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-start-of-layout",
+					"objectClass": "System",
+					"sid": 790676722205119
+				}
+			],
+			"actions": [
+				{
+					"id": "signal",
+					"objectClass": "System",
+					"sid": 740062995916135,
+					"parameters": {
+						"tag": "\"vegaRoad\""
+					}
+				}
+			],
+			"sid": 430608982757468
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-signal",
+					"objectClass": "System",
+					"sid": 124066450428762,
+					"parameters": {
+						"tag": "\"vegaRoad\""
+					}
+				},
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "nSet",
+					"sid": 169662339253292,
+					"parameters": {
+						"instance-variable": "vegaRoad"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 356909745363314,
+					"parameters": {
+						"group-name": "\"vegaRoad\"",
+						"state": "activated"
+					}
+				}
+			],
+			"sid": 808319292661340
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "vegaRoad",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "base",
+							"sid": 554022038743147,
+							"parameters": {
+								"object": "vegaRoad"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 335664507944501,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-animation-frame",
+							"objectClass": "vegaRoad",
+							"sid": 331440084962759,
+							"parameters": {
+								"frame-number": "1"
+							}
+						},
+						{
+							"id": "stop-timer",
+							"objectClass": "vegaRoad",
+							"sid": 754742496711682,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"coolDown\""
+							}
+						},
+						{
+							"id": "start-timer",
+							"objectClass": "vegaRoad",
+							"sid": 497730980451605,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "Self.coolDown",
+								"type": "once",
+								"tag": "\"coolDown\""
+							}
+						}
+					],
+					"sid": 215395071223173,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-group-active",
+									"objectClass": "System",
+									"sid": 881715516850411,
+									"parameters": {
+										"group-name": "\"VRAct\""
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 673677026035870,
+									"parameters": {
+										"group-name": "\"VRAct\"",
+										"state": "activated"
+									}
+								}
+							],
+							"sid": 141454088617341
+						}
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "VRAct",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "vegaRoad",
+									"sid": 479538549981089,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"coolDown\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation-frame",
+									"objectClass": "vegaRoad",
+									"sid": 680316504363958,
+									"parameters": {
+										"frame-number": "0"
+									}
+								}
+							],
+							"sid": 831156497490153
+						}
+					],
+					"sid": 187356255784049
+				}
+			],
+			"sid": 988769628557275
+		}
+	],
+	"sid": 512450191859256
+}
