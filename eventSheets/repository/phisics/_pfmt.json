@@ -565,6 +565,15 @@
 										"\"zero\"",
 										"0"
 									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"sid": 448336961288771,
+									"parameters": {
+										"instance-variable": "pushAng",
+										"value": "Self.losPfmt.ReflectionAngle"
+									}
 								}
 							],
 							"sid": 286338209598747
@@ -600,15 +609,6 @@
 							"script": [
 								"init(runtime)"
 							]
-						},
-						{
-							"id": "add-obstacle",
-							"objectClass": "basis",
-							"sid": 750240771069915,
-							"behaviorType": "pf",
-							"parameters": {
-								"obstacle": "zoneStop"
-							}
 						},
 						{
 							"id": "add-obstacle",
@@ -670,7 +670,34 @@
 							}
 						}
 					],
-					"sid": 996353875452415
+					"sid": 996353875452415,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aTools",
+									"sid": 442267687467240,
+									"parameters": {
+										"instance-variable": "directMT"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-obstacle",
+									"objectClass": "basis",
+									"sid": 607052608688197,
+									"behaviorType": "pf",
+									"parameters": {
+										"obstacle": "zoneStop"
+									}
+								}
+							],
+							"sid": 423305717176326
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -3528,18 +3555,45 @@
 					],
 					"actions": [
 						{
-							"id": "move-to-position",
+							"id": "cast-ray",
 							"objectClass": "basis",
-							"sid": 119564999081967,
-							"behaviorType": "mt",
+							"sid": 388128629052155,
+							"behaviorType": "losPfmt",
 							"parameters": {
-								"x": "Self.X+10*cos(angle(zoneStop.X,zoneStop.Y,basis.X,basis.Y))",
-								"y": "Self.Y+10*sin(angle(zoneStop.X,zoneStop.Y,basis.X,basis.Y))",
-								"mode": "direct"
+								"from-x": "basis.X",
+								"from-y": "basis.Y",
+								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.Angle, 30), 0, \";\"))",
+								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.Angle, 30), 1, \";\"))",
+								"use-collision-cells": true
 							}
 						}
 					],
-					"sid": 102968314806150
+					"sid": 102968314806150,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 462100282365144,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 726528732396441,
+									"parameters": {
+										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 1.5 * dt)",
+										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 1.5 * dt)"
+									}
+								}
+							],
+							"sid": 533030557972789
+						}
+					]
 				},
 				{
 					"eventType": "block",
