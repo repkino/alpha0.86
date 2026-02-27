@@ -3584,16 +3584,76 @@
 								{
 									"id": "set-position",
 									"objectClass": "basis",
-									"sid": 726528732396441,
+									"sid": 971313565352871,
 									"parameters": {
-										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 1.5 * dt)",
-										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 1.5 * dt)"
+										"x": "Self.X + cos(abs(anglediff(Self.Angle, Self.losPfmt.ReflectionAngle)) > 160 ? Self.losPfmt.ReflectionAngle + 60 : Self.losPfmt.ReflectionAngle) * (Self.speedTotal * 1.5 * dt)",
+										"y": "Self.Y + sin(abs(anglediff(Self.Angle, Self.losPfmt.ReflectionAngle)) > 160 ? Self.losPfmt.ReflectionAngle + 60 : Self.losPfmt.ReflectionAngle) * (Self.speedTotal * 1.5 * dt)"
 									}
 								}
 							],
-							"sid": 533030557972789
+							"sid": 533030557972789,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 841732036013064,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 771928882531269,
+									"disabled": true,
+									"parameters": {
+										"x": "Self.X + cos(Self.losPfmt.ReflectionAngle + (angle(Self.X, Self.Y, Self.X + cos(Self.mt.MovingAngle), Self.Y + sin(Self.mt.MovingAngle)) > angle(Self.X, Self.Y, Self.X + cos(Self.losPfmt.ReflectionAngle), Self.Y + sin(Self.losPfmt.ReflectionAngle)) ? 90 : -90)) * (Self.speedTotal * 1.5 * dt)",
+										"y": "Self.Y + sin(Self.losPfmt.ReflectionAngle + (angle(Self.X, Self.Y, Self.X + cos(Self.mt.MovingAngle), Self.Y + sin(Self.mt.MovingAngle)) > angle(Self.X, Self.Y, Self.X + cos(Self.losPfmt.ReflectionAngle), Self.Y + sin(Self.losPfmt.ReflectionAngle)) ? 90 : -90)) * (Self.speedTotal * 1.5 * dt)"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 724353172370282,
+									"parameters": {
+										"x": "Self.X + cos(Self.losPfmt.ReflectionAngle + (sin(Self.mt.MovingAngle - Self.losPfmt.ReflectionAngle) > 0 ? 90 : -90)) * (Self.speedTotal * 1.5 * dt)",
+										"y": "Self.Y + sin(Self.losPfmt.ReflectionAngle + (sin(Self.mt.MovingAngle - Self.losPfmt.ReflectionAngle) > 0 ? 90 : -90)) * (Self.speedTotal * 1.5 * dt)"
+									}
+								}
+							],
+							"sid": 300857145106065
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 241683641127973
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 573037365906016,
+									"parameters": {
+										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 3 * dt)",
+										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 3 * dt)"
+									}
+								}
+							],
+							"sid": 225237251386991
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "    выталкивание изнутри препятствия "
 				},
 				{
 					"eventType": "block",
