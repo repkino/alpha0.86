@@ -620,16 +620,6 @@
 							}
 						},
 						{
-							"id": "addobstacle11",
-							"objectClass": "basis",
-							"sid": 695022601761914,
-							"disabled": true,
-							"behaviorType": "PushOutSolid",
-							"parameters": {
-								"obstacle0": "zoneStop"
-							}
-						},
-						{
 							"id": "add-obstacle",
 							"objectClass": "ath",
 							"sid": 698846065226593,
@@ -686,16 +676,74 @@
 							],
 							"actions": [
 								{
-									"id": "add-obstacle",
+									"id": "setenabled0",
 									"objectClass": "basis",
-									"sid": 607052608688197,
-									"behaviorType": "pf",
+									"sid": 160633618513925,
+									"behaviorType": "PushOutSolid",
 									"parameters": {
-										"obstacle": "zoneStop"
+										"state2": "enabled"
+									}
+								},
+								{
+									"id": "addobstacle11",
+									"objectClass": "basis",
+									"sid": 107591211471754,
+									"behaviorType": "PushOutSolid",
+									"parameters": {
+										"obstacle0": "zoneStop"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 129953760008957,
+									"parameters": {
+										"group-name": "\"pathScanner\"",
+										"state": "activated"
 									}
 								}
 							],
 							"sid": 423305717176326
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 360287512530147
+								}
+							],
+							"actions": [
+								{
+									"id": "add-obstacle",
+									"objectClass": "basis",
+									"sid": 313420835363342,
+									"behaviorType": "pf",
+									"parameters": {
+										"obstacle": "zoneStop"
+									}
+								},
+								{
+									"id": "setenabled0",
+									"objectClass": "basis",
+									"sid": 303946192594186,
+									"behaviorType": "PushOutSolid",
+									"parameters": {
+										"state2": "disabled"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 824311438401248,
+									"parameters": {
+										"group-name": "\"pathScanner\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 694907946293781
 						}
 					]
 				},
@@ -2703,6 +2751,17 @@
 												"y": "endY",
 												"mode": "direct"
 											}
+										},
+										{
+											"callFunction": "scanPath",
+											"sid": 975132513466135,
+											"parameters": [
+												"basis.UID",
+												"basis.X",
+												"basis.Y",
+												"endX",
+												"endY"
+											]
 										}
 									],
 									"sid": 261901569969929,
@@ -2907,6 +2966,1167 @@
 						}
 					],
 					"isOrBlock": true
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "pathScanner",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Движок панорамного сканирования препятствий (Raycast Sweeping)",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"functionName": "scanPath",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "uid",
+									"type": "number",
+									"initialValue": "-1",
+									"comment": "",
+									"sid": 455208924659884
+								},
+								{
+									"name": "startX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 813555099569539
+								},
+								{
+									"name": "startY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 932194588323834
+								},
+								{
+									"name": "targetX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 355007495142860
+								},
+								{
+									"name": "targetY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 519767184346730
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "basis",
+									"sid": 342772111605722,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 653890816171333,
+							"children": [
+								{
+									"eventType": "variable",
+									"name": "targetAng",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Угол к цели",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 802357221992493
+								},
+								{
+									"eventType": "variable",
+									"name": "mainUID",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "UID главного препятствия",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 269553914856481
+								},
+								{
+									"eventType": "variable",
+									"name": "obsX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Центр препятствия X",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 573060377870416
+								},
+								{
+									"eventType": "variable",
+									"name": "obsY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Центр препятствия Y",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 191097980876697
+								},
+								{
+									"eventType": "variable",
+									"name": "scanStep",
+									"type": "number",
+									"initialValue": "5",
+									"comment": "Шаг сканирования в градусах",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 300354769728944
+								},
+								{
+									"eventType": "variable",
+									"name": "lState",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "0: скан, 1: найден край, 2: заблокировано",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 186650691086980
+								},
+								{
+									"eventType": "variable",
+									"name": "rState",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "0: скан, 1: найден край, 2: заблокировано",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 213224545868752
+								},
+								{
+									"eventType": "variable",
+									"name": "lEdgeX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 264774233254881
+								},
+								{
+									"eventType": "variable",
+									"name": "lEdgeY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 940040116595254
+								},
+								{
+									"eventType": "variable",
+									"name": "rEdgeX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 536860692685483
+								},
+								{
+									"eventType": "variable",
+									"name": "rEdgeY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 226633169457383
+								},
+								{
+									"eventType": "variable",
+									"name": "lDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Дистанция до текущего препятствия",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 113186492008589
+								},
+								{
+									"eventType": "variable",
+									"name": "rDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 824019002484309
+								},
+								{
+									"eventType": "variable",
+									"name": "lBlockDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Дистанция до блокирующего препятствия",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 755524788192118
+								},
+								{
+									"eventType": "variable",
+									"name": "rBlockDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 802234188111749
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 497145116459348,
+											"parameters": {
+												"variable": "targetAng",
+												"value": "angle(startX, startY, targetX, targetY)"
+											}
+										},
+										{
+											"id": "cast-ray",
+											"objectClass": "basis",
+											"sid": 759315750625365,
+											"behaviorType": "losPfmt",
+											"parameters": {
+												"from-x": "startX",
+												"from-y": "startY",
+												"to-x": "targetX",
+												"to-y": "targetY",
+												"use-collision-cells": true
+											}
+										}
+									],
+									"sid": 918845382539180,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "ray-intersected",
+													"objectClass": "basis",
+													"sid": 810020055982609,
+													"behaviorType": "losPfmt"
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Препятствие на линии. Начинаем сканирование."
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 952672889820529,
+													"parameters": {
+														"variable": "mainUID",
+														"value": "zoneStop.UID"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 482661883650337,
+													"parameters": {
+														"variable": "obsX",
+														"value": "zoneStop.X"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 940362630930949,
+													"parameters": {
+														"variable": "obsY",
+														"value": "zoneStop.Y"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 955325591772648,
+													"parameters": {
+														"variable": "lDist",
+														"value": "basis.losPfmt.HitDistance"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 501624911699566,
+													"parameters": {
+														"variable": "rDist",
+														"value": "basis.losPfmt.HitDistance"
+													}
+												}
+											],
+											"sid": 449521934308949,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for",
+															"objectClass": "System",
+															"sid": 218593401318432,
+															"parameters": {
+																"name": "\"scan\"",
+																"start-index": "1",
+																"end-index": "36"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 751385945533958,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "--- ЛЕВАЯ СТОРОНА ---",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 763039272102203,
+																	"parameters": {
+																		"variable": "lState",
+																		"comparison": 0,
+																		"value": "0"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "cast-ray",
+																	"objectClass": "basis",
+																	"sid": 867923623413226,
+																	"behaviorType": "losPfmt",
+																	"parameters": {
+																		"from-x": "startX",
+																		"from-y": "startY",
+																		"to-x": "startX + cos(targetAng - loopindex * scanStep) * 2000",
+																		"to-y": "startY + sin(targetAng - loopindex * scanStep) * 2000",
+																		"use-collision-cells": true
+																	}
+																}
+															],
+															"sid": 509127687186117,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "ray-intersected",
+																			"objectClass": "basis",
+																			"sid": 266234345153738,
+																			"behaviorType": "losPfmt"
+																		}
+																	],
+																	"actions": [],
+																	"sid": 795852414763194,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "compare-two-values",
+																					"objectClass": "System",
+																					"sid": 913961438778316,
+																					"parameters": {
+																						"first-value": "zoneStop.UID",
+																						"comparison": 0,
+																						"second-value": "mainUID"
+																					}
+																				}
+																			],
+																			"actions": [
+																				{
+																					"type": "comment",
+																					"text": "Всё ещё наше препятствие. Обновляем крайние точки."
+																				},
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 216243916710680,
+																					"parameters": {
+																						"variable": "lEdgeX",
+																						"value": "basis.losPfmt.HitX"
+																					}
+																				},
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 437542007893300,
+																					"parameters": {
+																						"variable": "lEdgeY",
+																						"value": "basis.losPfmt.HitY"
+																					}
+																				},
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 615968125557827,
+																					"parameters": {
+																						"variable": "lDist",
+																						"value": "basis.losPfmt.HitDistance"
+																					}
+																				}
+																			],
+																			"sid": 467980644995014
+																		},
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "else",
+																					"objectClass": "System",
+																					"sid": 443517178231234
+																				}
+																			],
+																			"actions": [],
+																			"sid": 309948191868552,
+																			"children": [
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "compare-two-values",
+																							"objectClass": "System",
+																							"sid": 361050411505122,
+																							"parameters": {
+																								"first-value": "basis.losPfmt.HitDistance",
+																								"comparison": 2,
+																								"second-value": "lDist"
+																							}
+																						}
+																					],
+																					"actions": [
+																						{
+																							"type": "comment",
+																							"text": "Наткнулись на другое препятствие БЛИЖЕ. Сторона заблокирована."
+																						},
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 825005432055886,
+																							"parameters": {
+																								"variable": "lState",
+																								"value": "2"
+																							}
+																						},
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 618442479528768,
+																							"parameters": {
+																								"variable": "lBlockDist",
+																								"value": "basis.losPfmt.HitDistance"
+																							}
+																						}
+																					],
+																					"sid": 388289842110367
+																				},
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "else",
+																							"objectClass": "System",
+																							"sid": 937922284467987
+																						}
+																					],
+																					"actions": [
+																						{
+																							"type": "comment",
+																							"text": "Другое препятствие ДАЛЬШЕ. Значит мы нашли край."
+																						},
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 548777934258652,
+																							"parameters": {
+																								"variable": "lState",
+																								"value": "1"
+																							}
+																						}
+																					],
+																					"sid": 672134193058862
+																				}
+																			]
+																		}
+																	]
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "else",
+																			"objectClass": "System",
+																			"sid": 195295564050191
+																		}
+																	],
+																	"actions": [
+																		{
+																			"type": "comment",
+																			"text": "Луч прошел свободно. Край найден."
+																		},
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 748913939299716,
+																			"parameters": {
+																				"variable": "lState",
+																				"value": "1"
+																			}
+																		}
+																	],
+																	"sid": 657184502183495
+																}
+															]
+														},
+														{
+															"eventType": "comment",
+															"text": "--- ПРАВАЯ СТОРОНА ---",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 925916876035678,
+																	"parameters": {
+																		"variable": "rState",
+																		"comparison": 0,
+																		"value": "0"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "cast-ray",
+																	"objectClass": "basis",
+																	"sid": 695355789199239,
+																	"behaviorType": "losPfmt",
+																	"parameters": {
+																		"from-x": "startX",
+																		"from-y": "startY",
+																		"to-x": "startX + cos(targetAng + loopindex * scanStep) * 2000",
+																		"to-y": "startY + sin(targetAng + loopindex * scanStep) * 2000",
+																		"use-collision-cells": true
+																	}
+																}
+															],
+															"sid": 690160963834358,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "ray-intersected",
+																			"objectClass": "basis",
+																			"sid": 794270580336609,
+																			"behaviorType": "losPfmt"
+																		}
+																	],
+																	"actions": [],
+																	"sid": 541781634161293,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "compare-two-values",
+																					"objectClass": "System",
+																					"sid": 809456812942415,
+																					"parameters": {
+																						"first-value": "zoneStop.UID",
+																						"comparison": 0,
+																						"second-value": "mainUID"
+																					}
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 311022113532032,
+																					"parameters": {
+																						"variable": "rEdgeX",
+																						"value": "basis.losPfmt.HitX"
+																					}
+																				},
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 785537916992438,
+																					"parameters": {
+																						"variable": "rEdgeY",
+																						"value": "basis.losPfmt.HitY"
+																					}
+																				},
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 609031700061534,
+																					"parameters": {
+																						"variable": "rDist",
+																						"value": "basis.losPfmt.HitDistance"
+																					}
+																				}
+																			],
+																			"sid": 307415403923771
+																		},
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "else",
+																					"objectClass": "System",
+																					"sid": 839846838414720
+																				}
+																			],
+																			"actions": [],
+																			"sid": 416825005078477,
+																			"children": [
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "compare-two-values",
+																							"objectClass": "System",
+																							"sid": 322691296688276,
+																							"parameters": {
+																								"first-value": "basis.losPfmt.HitDistance",
+																								"comparison": 2,
+																								"second-value": "rDist"
+																							}
+																						}
+																					],
+																					"actions": [
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 483853111269000,
+																							"parameters": {
+																								"variable": "rState",
+																								"value": "2"
+																							}
+																						},
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 164128438430067,
+																							"parameters": {
+																								"variable": "rBlockDist",
+																								"value": "basis.losPfmt.HitDistance"
+																							}
+																						}
+																					],
+																					"sid": 236369044851506
+																				},
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "else",
+																							"objectClass": "System",
+																							"sid": 228058333262368
+																						}
+																					],
+																					"actions": [
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 733642418108068,
+																							"parameters": {
+																								"variable": "rState",
+																								"value": "1"
+																							}
+																						}
+																					],
+																					"sid": 549035737592966
+																				}
+																			]
+																		}
+																	]
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "else",
+																			"objectClass": "System",
+																			"sid": 882733138513344
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 723875746973434,
+																			"parameters": {
+																				"variable": "rState",
+																				"value": "1"
+																			}
+																		}
+																	],
+																	"sid": 523183158467024
+																}
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 623052898133695,
+																	"parameters": {
+																		"variable": "lState",
+																		"comparison": 1,
+																		"value": "0"
+																	}
+																},
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 170633313280381,
+																	"parameters": {
+																		"variable": "rState",
+																		"comparison": 1,
+																		"value": "0"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Обе стороны завершили сканирование (нашли край или тупик). Прерываем цикл."
+																},
+																{
+																	"id": "stop-loop",
+																	"objectClass": "System",
+																	"sid": 421183549143622
+																}
+															],
+															"sid": 372008481454823
+														}
+													]
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 343074400153857
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Путь чист. Идем напрямую."
+												},
+												{
+													"id": "move-to-position",
+													"objectClass": "basis",
+													"sid": 707597257247483,
+													"behaviorType": "mt",
+													"parameters": {
+														"x": "targetX",
+														"y": "targetY",
+														"mode": "direct"
+													}
+												}
+											],
+											"sid": 997727871594138
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "--- АНАЛИЗ РЕЗУЛЬТАТОВ СКАНИРОВАНИЯ ---",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 182588906086928,
+											"parameters": {
+												"variable": "mainUID",
+												"comparison": 1,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 846044046479999,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 661115428432700,
+													"parameters": {
+														"variable": "lState",
+														"comparison": 0,
+														"value": "2"
+													}
+												},
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 829427074076952,
+													"parameters": {
+														"variable": "rState",
+														"comparison": 0,
+														"value": "2"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Обе стороны заблокированы. Выбираем дальнюю, добавляем 40 и идем напролом (без флага обхода)."
+												},
+												{
+													"id": "move-to-position",
+													"objectClass": "basis",
+													"sid": 755278333165253,
+													"behaviorType": "mt",
+													"parameters": {
+														"x": "startX + cos(targetAng) * (max(lBlockDist, rBlockDist) + 40)",
+														"y": "startY + sin(targetAng) * (max(lBlockDist, rBlockDist) + 40)",
+														"mode": "direct"
+													}
+												}
+											],
+											"sid": 398310392098854
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 232221493890033
+												}
+											],
+											"actions": [],
+											"sid": 604326520306188,
+											"children": [
+												{
+													"eventType": "variable",
+													"name": "finalEdgeX",
+													"type": "number",
+													"initialValue": "0",
+													"comment": "",
+													"isStatic": false,
+													"isConstant": false,
+													"sid": 650583845843293
+												},
+												{
+													"eventType": "variable",
+													"name": "finalEdgeY",
+													"type": "number",
+													"initialValue": "0",
+													"comment": "",
+													"isStatic": false,
+													"isConstant": false,
+													"sid": 560618170131054
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 471161647315615,
+															"parameters": {
+																"variable": "lState",
+																"comparison": 0,
+																"value": "1"
+															}
+														},
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 424109039513066,
+															"parameters": {
+																"variable": "rState",
+																"comparison": 0,
+																"value": "2"
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Право заблокировано, идем влево."
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 894119158222153,
+															"parameters": {
+																"variable": "finalEdgeX",
+																"value": "lEdgeX"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 143032099392746,
+															"parameters": {
+																"variable": "finalEdgeY",
+																"value": "lEdgeY"
+															}
+														}
+													],
+													"sid": 169426700414449
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 125832018953052,
+															"parameters": {
+																"variable": "rState",
+																"comparison": 0,
+																"value": "1"
+															}
+														},
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 818838682414007,
+															"parameters": {
+																"variable": "lState",
+																"comparison": 0,
+																"value": "2"
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Лево заблокировано, идем вправо."
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 487357319242854,
+															"parameters": {
+																"variable": "finalEdgeX",
+																"value": "rEdgeX"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 493148819443538,
+															"parameters": {
+																"variable": "finalEdgeY",
+																"value": "rEdgeY"
+															}
+														}
+													],
+													"sid": 392749739108172
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 612936189158303,
+															"parameters": {
+																"variable": "lState",
+																"comparison": 0,
+																"value": "1"
+															}
+														},
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 388849690978880,
+															"parameters": {
+																"variable": "rState",
+																"comparison": 0,
+																"value": "1"
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Обе стороны свободны. Выбираем ту, что ближе к цели."
+														}
+													],
+													"sid": 941577583414010,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 910616191953016,
+																	"parameters": {
+																		"first-value": "distance(lEdgeX, lEdgeY, targetX, targetY)",
+																		"comparison": 2,
+																		"second-value": "distance(rEdgeX, rEdgeY, targetX, targetY)"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 733848015864410,
+																	"parameters": {
+																		"variable": "finalEdgeX",
+																		"value": "lEdgeX"
+																	}
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 558135330877212,
+																	"parameters": {
+																		"variable": "finalEdgeY",
+																		"value": "lEdgeY"
+																	}
+																}
+															],
+															"sid": 377816523435106
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 506273567916060
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 756963855658209,
+																	"parameters": {
+																		"variable": "finalEdgeX",
+																		"value": "rEdgeX"
+																	}
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 113273460240707,
+																	"parameters": {
+																		"variable": "finalEdgeY",
+																		"value": "rEdgeY"
+																	}
+																}
+															],
+															"sid": 536926614222407
+														}
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Отодвигаем точку от центра препятствия (на 40 пикселей) и идем туда."
+														},
+														{
+															"id": "move-to-position",
+															"objectClass": "basis",
+															"sid": 524892800519767,
+															"behaviorType": "mt",
+															"parameters": {
+																"x": "finalEdgeX + cos(angle(obsX, obsY, finalEdgeX, finalEdgeY)) * 40",
+																"y": "finalEdgeY + sin(angle(obsX, obsY, finalEdgeX, finalEdgeY)) * 40",
+																"mode": "direct"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Здесь можно включить флаг обхода (например, aIns.isPathfinding = true), чтобы по прибытии запустить скан снова."
+														}
+													],
+													"sid": 858756207602016
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					],
+					"sid": 273627147564416
+				},
+				{
+					"eventType": "comment",
+					"text": ""
 				},
 				{
 					"eventType": "block",
@@ -3655,525 +4875,6 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "Оптимизированное выталкивание: используем MovingAngle для луча и расчет тангенса для плавного скольжения",
-					"background-color": [
-						0.33,
-						0.73,
-						0.48,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aTools",
-							"sid": 498005654801321,
-							"parameters": {
-								"instance-variable": "directMT"
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "basis",
-							"sid": 532706622674756,
-							"parameters": {
-								"instance-variable": "move"
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "basis",
-							"sid": 944761448176440,
-							"parameters": {
-								"object": "zoneStop"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "cast-ray",
-							"objectClass": "basis",
-							"sid": 742905995053226,
-							"behaviorType": "losPfmt",
-							"parameters": {
-								"from-x": "Self.X",
-								"from-y": "Self.Y",
-								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 0, \";\"))",
-								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 1, \";\"))",
-								"use-collision-cells": true
-							}
-						}
-					],
-					"sid": 613487638648507,
-					"disabled": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "ray-intersected",
-									"objectClass": "basis",
-									"sid": 837165687184484,
-									"behaviorType": "losPfmt"
-								}
-							],
-							"actions": [
-								{
-									"type": "comment",
-									"text": "Вычисляем нормаль и выбираем сторону скольжения, которая ближе к вектору движения"
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 355611819817296,
-									"parameters": {
-										"x": "Self.X + cos(((Self.losPfmt.ReflectionAngle + Self.mt.MovingAngle + 180) / 2) + (sin(Self.mt.MovingAngle - ((Self.losPfmt.ReflectionAngle + Self.mt.MovingAngle + 180) / 2)) > 0 ? 80 : -80)) * (Self.speedTotal * 1.1 * dt)",
-										"y": "Self.Y + sin(((Self.losPfmt.ReflectionAngle + Self.mt.MovingAngle + 180) / 2) + (sin(Self.mt.MovingAngle - ((Self.losPfmt.ReflectionAngle + Self.mt.MovingAngle + 180) / 2)) > 0 ? 80 : -80)) * (Self.speedTotal * 1.1 * dt)"
-									}
-								}
-							],
-							"sid": 391722534841737,
-							"disabled": true
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 215883014835914
-								}
-							],
-							"actions": [
-								{
-									"type": "comment",
-									"text": "Мягкое выталкивание, если луч не нашел стену (скорость снижена для естественности)"
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 558390997280190,
-									"disabled": true,
-									"parameters": {
-										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 3 * dt)",
-										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 3 * dt)"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 189801180726523,
-									"parameters": {
-										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 1.5 * dt)",
-										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 1.5 * dt)"
-									}
-								}
-							],
-							"sid": 143801721001541,
-							"disabled": true
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "Исправленное выталкивание: убраны кавычки из чисел внутри выражений, исправлен выбор направления обхода",
-					"background-color": [
-						0.33,
-						0.98,
-						0.79,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aTools",
-							"sid": 774201848753268,
-							"parameters": {
-								"instance-variable": "directMT"
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "basis",
-							"sid": 271976217045646,
-							"parameters": {
-								"instance-variable": "move"
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "basis",
-							"sid": 539240146328961,
-							"parameters": {
-								"object": "zoneStop"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "cast-ray",
-							"objectClass": "basis",
-							"sid": 236113886472149,
-							"disabled": true,
-							"behaviorType": "losPfmt",
-							"parameters": {
-								"from-x": "Self.X",
-								"from-y": "Self.Y",
-								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 0, \";\"))",
-								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 1, \";\"))",
-								"use-collision-cells": true
-							}
-						},
-						{
-							"id": "cast-ray",
-							"objectClass": "basis",
-							"sid": 633923999172271,
-							"behaviorType": "losPfmt",
-							"parameters": {
-								"from-x": "Self.X",
-								"from-y": "Self.Y",
-								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.Angle, 30), 0, \";\"))",
-								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.Angle, 30), 1, \";\"))",
-								"use-collision-cells": true
-							}
-						},
-						{
-							"id": "set-position-to-another-object",
-							"objectClass": "testSprite",
-							"sid": 883349617389982,
-							"parameters": {
-								"object": "basis",
-								"image-point-optional": "0"
-							}
-						}
-					],
-					"sid": 673544948258014,
-					"disabled": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "ray-intersected",
-									"objectClass": "basis",
-									"sid": 816931429564280,
-									"behaviorType": "losPfmt"
-								}
-							],
-							"actions": [
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 909999396487960,
-									"parameters": {
-										"x": "Self.X + cos(anglelerp((abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle + 90)) < abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle - 90)) ? Self.losPfmt.ReflectionAngle + 90 : Self.losPfmt.ReflectionAngle - 90), Self.losPfmt.ReflectionAngle, 0.15)) * (Self.speedTotal * 1.2 * dt)",
-										"y": "Self.Y + sin(anglelerp((abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle + 90)) < abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle - 90)) ? Self.losPfmt.ReflectionAngle + 90 : Self.losPfmt.ReflectionAngle - 90), Self.losPfmt.ReflectionAngle, 0.15)) * (Self.speedTotal * 1.2 * dt)"
-									}
-								},
-								{
-									"id": "set-angle",
-									"objectClass": "testSprite",
-									"sid": 423479506051292,
-									"parameters": {
-										"angle": "basis.losPfmt.ReflectionAngle"
-									}
-								}
-							],
-							"sid": 796660122508919,
-							"disabled": true
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 844410319357726
-								}
-							],
-							"actions": [
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 781232753634031,
-									"parameters": {
-										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 5 * dt)",
-										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 5 * dt)"
-									}
-								},
-								{
-									"id": "set-angle",
-									"objectClass": "testSprite",
-									"sid": 204849411368202,
-									"parameters": {
-										"angle": "basis.losPfmt.ReflectionAngle"
-									}
-								}
-							],
-							"sid": 744348899499425,
-							"disabled": true
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "ФИНАЛЬНОЕ ИСПРАВЛЕНИЕ: Расчет тангенса через (Ray+Ref)/2. Устраняет движение 'задом наперед' и 'не в ту сторону'.",
-					"background-color": [
-						0.33,
-						0.73,
-						0.48,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aTools",
-							"sid": 959548432994524,
-							"parameters": {
-								"instance-variable": "directMT"
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "basis",
-							"sid": 545409832957482,
-							"parameters": {
-								"instance-variable": "move"
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "basis",
-							"sid": 495363173878523,
-							"parameters": {
-								"object": "zoneStop"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "cast-ray",
-							"objectClass": "basis",
-							"sid": 192378415606225,
-							"behaviorType": "losPfmt",
-							"parameters": {
-								"from-x": "Self.X",
-								"from-y": "Self.Y",
-								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 0, \";\"))",
-								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 1, \";\"))",
-								"use-collision-cells": true
-							}
-						}
-					],
-					"sid": 416921296748004,
-					"disabled": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "ray-intersected",
-									"objectClass": "basis",
-									"sid": 638368753532815,
-									"behaviorType": "losPfmt"
-								}
-							],
-							"actions": [
-								{
-									"type": "comment",
-									"text": "1. Находим угол стены. 2. Выбираем сторону 'вперед'. 3. Смешиваем с вектором отражения для мягкого отскока."
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "basis",
-									"sid": 982849760817076,
-									"parameters": {
-										"instance-variable": "pushAng",
-										"value": "abs(anglediff(Self.mt.MovingAngle, (Self.mt.MovingAngle + Self.losPfmt.ReflectionAngle) / 2)) < 90 ? (Self.mt.MovingAngle + Self.losPfmt.ReflectionAngle) / 2 : (Self.mt.MovingAngle + Self.losPfmt.ReflectionAngle) / 2 + 180"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 214412549930544,
-									"parameters": {
-										"x": "Self.X + cos(anglelerp(Self.pushAng, Self.losPfmt.ReflectionAngle, 0.1)) * (Self.speedTotal * dt)",
-										"y": "Self.Y + sin(anglelerp(Self.pushAng, Self.losPfmt.ReflectionAngle, 0.1)) * (Self.speedTotal * dt)"
-									}
-								}
-							],
-							"sid": 357786955696565,
-							"disabled": true
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 358705227828380
-								}
-							],
-							"actions": [
-								{
-									"type": "comment",
-									"text": "Если луч не попал (уже внутри), выталкиваем от центра. Множитель 2.5 достаточен для компенсации directMT."
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 821790623439353,
-									"parameters": {
-										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 2.5 * dt)",
-										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 2.5 * dt)"
-									}
-								}
-							],
-							"sid": 650759461860009,
-							"disabled": true
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "ФИНАЛЬНОЕ РЕШЕНИЕ: Силовое скольжение. Луч из-за спины + двойная скорость выталкивания.",
-					"background-color": [
-						0.33,
-						0.73,
-						0.48,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aTools",
-							"sid": 849409760892832,
-							"parameters": {
-								"instance-variable": "directMT"
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "basis",
-							"sid": 621229128484051,
-							"parameters": {
-								"instance-variable": "move"
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "basis",
-							"sid": 603302087879110,
-							"parameters": {
-								"object": "zoneStop"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "cast-ray",
-							"objectClass": "basis",
-							"sid": 402174990005145,
-							"behaviorType": "losPfmt",
-							"parameters": {
-								"from-x": "Self.X - cos(Self.mt.MovingAngle) * 15",
-								"from-y": "Self.Y - sin(Self.mt.MovingAngle) * 15",
-								"to-x": "Self.X + cos(Self.mt.MovingAngle) * 40",
-								"to-y": "Self.Y + sin(Self.mt.MovingAngle) * 40",
-								"use-collision-cells": true
-							}
-						}
-					],
-					"sid": 223627745062632,
-					"disabled": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "ray-intersected",
-									"objectClass": "basis",
-									"sid": 543418934332603,
-									"behaviorType": "losPfmt"
-								}
-							],
-							"actions": [
-								{
-									"type": "comment",
-									"text": "Вычисляем нормаль (pushAng) и выбираем тангенс обхода, который не противоречит движению."
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "basis",
-									"sid": 688561536299578,
-									"parameters": {
-										"instance-variable": "pushAng",
-										"value": "(Self.mt.MovingAngle + Self.losPfmt.ReflectionAngle) / 2"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 588098402731187,
-									"parameters": {
-										"x": "Self.X + cos(anglelerp((abs(anglediff(Self.pushAng + 90, Self.mt.MovingAngle)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90), Self.losPfmt.ReflectionAngle, 0.2)) * (Self.speedTotal * 2.0 * dt)",
-										"y": "Self.Y + sin(anglelerp((abs(anglediff(Self.pushAng + 90, Self.mt.MovingAngle)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90), Self.losPfmt.ReflectionAngle, 0.2)) * (Self.speedTotal * 2.0 * dt)"
-									}
-								},
-								{
-									"id": "set-moving-angle",
-									"objectClass": "basis",
-									"sid": 877304866393309,
-									"behaviorType": "mt",
-									"parameters": {
-										"angle": "abs(anglediff(Self.pushAng + 90, Self.mt.MovingAngle)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90"
-									}
-								}
-							],
-							"sid": 245909948495126,
-							"disabled": true
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 889544176233191
-								}
-							],
-							"actions": [
-								{
-									"type": "comment",
-									"text": "Критическое выталкивание: если мы застряли глубоко, выбрасываем героя наружу на огромной скорости."
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 553912789269540,
-									"parameters": {
-										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 8.0 * dt)",
-										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 8.0 * dt)"
-									}
-								}
-							],
-							"sid": 384131684079364
-						}
-					]
-				},
-				{
-					"eventType": "comment",
 					"text": "ШАГ 1: Только выталкивание. Возвращаем героя на границу стены, если он зашел внутрь.",
 					"background-color": [
 						0.33,
@@ -4188,7 +4889,7 @@
 						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "aTools",
-							"sid": 966932973961340,
+							"sid": 639662927478865,
 							"parameters": {
 								"instance-variable": "directMT"
 							}
@@ -4196,7 +4897,7 @@
 						{
 							"id": "is-overlapping-another-object",
 							"objectClass": "basis",
-							"sid": 705860436519524,
+							"sid": 291371091516814,
 							"parameters": {
 								"object": "zoneStop"
 							}
@@ -4206,7 +4907,7 @@
 						{
 							"id": "cast-ray",
 							"objectClass": "basis",
-							"sid": 122886473105891,
+							"sid": 394858027561223,
 							"behaviorType": "losPfmt",
 							"parameters": {
 								"from-x": "Self.X - cos(Self.mt.MovingAngle) * 50",
@@ -4217,7 +4918,7 @@
 							}
 						}
 					],
-					"sid": 705564427531209,
+					"sid": 855773389607482,
 					"disabled": true,
 					"children": [
 						{
@@ -4226,7 +4927,7 @@
 								{
 									"id": "ray-intersected",
 									"objectClass": "basis",
-									"sid": 126396634520013,
+									"sid": 359100288966448,
 									"behaviorType": "losPfmt"
 								}
 							],
@@ -4238,14 +4939,14 @@
 								{
 									"id": "set-position",
 									"objectClass": "basis",
-									"sid": 278773577103510,
+									"sid": 715462745960118,
 									"parameters": {
 										"x": "Self.losPfmt.HitX + cos(Self.losPfmt.ReflectionAngle) * 2",
 										"y": "Self.losPfmt.HitY + sin(Self.losPfmt.ReflectionAngle) * 2"
 									}
 								}
 							],
-							"sid": 372462952201027,
+							"sid": 434765203159239,
 							"disabled": true
 						}
 					]
@@ -4346,122 +5047,6 @@
 								}
 							],
 							"sid": 612728011496195,
-							"disabled": true
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "МАТЕМАТИЧЕСКОЕ СКОЛЬЖЕНИЕ (Векторная проекция): расчет нормали и проекции скорости на тангенс стены.",
-					"background-color": [
-						0.33,
-						0.73,
-						0.48,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aTools",
-							"sid": 294410713724617,
-							"parameters": {
-								"instance-variable": "directMT"
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "basis",
-							"sid": 624541016215707,
-							"parameters": {
-								"object": "zoneStop"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "cast-ray",
-							"objectClass": "basis",
-							"sid": 599707288343706,
-							"behaviorType": "losPfmt",
-							"parameters": {
-								"from-x": "Self.X - cos(Self.mt.MovingAngle) * 50",
-								"from-y": "Self.Y - sin(Self.mt.MovingAngle) * 50",
-								"to-x": "Self.X",
-								"to-y": "Self.Y",
-								"use-collision-cells": true
-							}
-						}
-					],
-					"sid": 325534023697773,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "ray-intersected",
-									"objectClass": "basis",
-									"sid": 474386889448010,
-									"behaviorType": "losPfmt"
-								}
-							],
-							"actions": [
-								{
-									"type": "comment",
-									"text": "1. Вычисляем нормаль стены (pushAng)"
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "basis",
-									"sid": 521654279623403,
-									"parameters": {
-										"instance-variable": "pushAng",
-										"value": "(Self.mt.MovingAngle + 180 + Self.losPfmt.ReflectionAngle) / 2"
-									}
-								},
-								{
-									"type": "comment",
-									"text": "2. Одним действием: ставим на грань + сдвиг по нормали + проекция движения вдоль стены"
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 626628544812438,
-									"parameters": {
-										"x": "Self.losPfmt.HitX + cos(Self.pushAng) * 1 + cos(abs(anglediff(Self.mt.MovingAngle, Self.pushAng + 90)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90) * (Self.speedTotal * cos(anglediff(Self.mt.MovingAngle, (abs(anglediff(Self.mt.MovingAngle, Self.pushAng + 90)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90))) * dt)",
-										"y": "Self.losPfmt.HitY + sin(Self.pushAng) * 1 + sin(abs(anglediff(Self.mt.MovingAngle, Self.pushAng + 90)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90) * (Self.speedTotal * cos(anglediff(Self.mt.MovingAngle, (abs(anglediff(Self.mt.MovingAngle, Self.pushAng + 90)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90))) * dt)"
-									}
-								}
-							],
-							"sid": 749210814349777
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 206202421754063
-								}
-							],
-							"actions": [
-								{
-									"type": "comment",
-									"text": "Если луч не нашел стену (мы внутри), выталкиваем от центра. Множитель 5 для подавления MoveTo."
-								},
-								{
-									"id": "set-position",
-									"objectClass": "basis",
-									"sid": 975014324432288,
-									"parameters": {
-										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 5 * dt)",
-										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 5 * dt)"
-									}
-								}
-							],
-							"sid": 901563919025502,
 							"disabled": true
 						}
 					]
