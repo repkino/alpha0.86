@@ -3569,6 +3569,7 @@
 						}
 					],
 					"sid": 102968314806150,
+					"disabled": true,
 					"children": [
 						{
 							"eventType": "block",
@@ -3591,8 +3592,7 @@
 									}
 								}
 							],
-							"sid": 533030557972789,
-							"disabled": true
+							"sid": 533030557972789
 						},
 						{
 							"eventType": "block",
@@ -3625,7 +3625,8 @@
 									}
 								}
 							],
-							"sid": 300857145106065
+							"sid": 300857145106065,
+							"disabled": true
 						},
 						{
 							"eventType": "block",
@@ -3647,13 +3648,827 @@
 									}
 								}
 							],
-							"sid": 225237251386991
+							"sid": 225237251386991,
+							"disabled": true
 						}
 					]
 				},
 				{
 					"eventType": "comment",
-					"text": "    выталкивание изнутри препятствия "
+					"text": "Оптимизированное выталкивание: используем MovingAngle для луча и расчет тангенса для плавного скольжения",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aTools",
+							"sid": 498005654801321,
+							"parameters": {
+								"instance-variable": "directMT"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "basis",
+							"sid": 532706622674756,
+							"parameters": {
+								"instance-variable": "move"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 944761448176440,
+							"parameters": {
+								"object": "zoneStop"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "cast-ray",
+							"objectClass": "basis",
+							"sid": 742905995053226,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X",
+								"from-y": "Self.Y",
+								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 0, \";\"))",
+								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 1, \";\"))",
+								"use-collision-cells": true
+							}
+						}
+					],
+					"sid": 613487638648507,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 837165687184484,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Вычисляем нормаль и выбираем сторону скольжения, которая ближе к вектору движения"
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 355611819817296,
+									"parameters": {
+										"x": "Self.X + cos(((Self.losPfmt.ReflectionAngle + Self.mt.MovingAngle + 180) / 2) + (sin(Self.mt.MovingAngle - ((Self.losPfmt.ReflectionAngle + Self.mt.MovingAngle + 180) / 2)) > 0 ? 80 : -80)) * (Self.speedTotal * 1.1 * dt)",
+										"y": "Self.Y + sin(((Self.losPfmt.ReflectionAngle + Self.mt.MovingAngle + 180) / 2) + (sin(Self.mt.MovingAngle - ((Self.losPfmt.ReflectionAngle + Self.mt.MovingAngle + 180) / 2)) > 0 ? 80 : -80)) * (Self.speedTotal * 1.1 * dt)"
+									}
+								}
+							],
+							"sid": 391722534841737,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 215883014835914
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Мягкое выталкивание, если луч не нашел стену (скорость снижена для естественности)"
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 558390997280190,
+									"disabled": true,
+									"parameters": {
+										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 3 * dt)",
+										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 3 * dt)"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 189801180726523,
+									"parameters": {
+										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 1.5 * dt)",
+										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 1.5 * dt)"
+									}
+								}
+							],
+							"sid": 143801721001541,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Исправленное выталкивание: убраны кавычки из чисел внутри выражений, исправлен выбор направления обхода",
+					"background-color": [
+						0.33,
+						0.98,
+						0.79,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aTools",
+							"sid": 774201848753268,
+							"parameters": {
+								"instance-variable": "directMT"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "basis",
+							"sid": 271976217045646,
+							"parameters": {
+								"instance-variable": "move"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 539240146328961,
+							"parameters": {
+								"object": "zoneStop"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "cast-ray",
+							"objectClass": "basis",
+							"sid": 236113886472149,
+							"disabled": true,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X",
+								"from-y": "Self.Y",
+								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 0, \";\"))",
+								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 1, \";\"))",
+								"use-collision-cells": true
+							}
+						},
+						{
+							"id": "cast-ray",
+							"objectClass": "basis",
+							"sid": 633923999172271,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X",
+								"from-y": "Self.Y",
+								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.Angle, 30), 0, \";\"))",
+								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.Angle, 30), 1, \";\"))",
+								"use-collision-cells": true
+							}
+						},
+						{
+							"id": "set-position-to-another-object",
+							"objectClass": "testSprite",
+							"sid": 883349617389982,
+							"parameters": {
+								"object": "basis",
+								"image-point-optional": "0"
+							}
+						}
+					],
+					"sid": 673544948258014,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 816931429564280,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 909999396487960,
+									"parameters": {
+										"x": "Self.X + cos(anglelerp((abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle + 90)) < abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle - 90)) ? Self.losPfmt.ReflectionAngle + 90 : Self.losPfmt.ReflectionAngle - 90), Self.losPfmt.ReflectionAngle, 0.15)) * (Self.speedTotal * 1.2 * dt)",
+										"y": "Self.Y + sin(anglelerp((abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle + 90)) < abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle - 90)) ? Self.losPfmt.ReflectionAngle + 90 : Self.losPfmt.ReflectionAngle - 90), Self.losPfmt.ReflectionAngle, 0.15)) * (Self.speedTotal * 1.2 * dt)"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "testSprite",
+									"sid": 423479506051292,
+									"parameters": {
+										"angle": "basis.losPfmt.ReflectionAngle"
+									}
+								}
+							],
+							"sid": 796660122508919,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 844410319357726
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 781232753634031,
+									"parameters": {
+										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 5 * dt)",
+										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 5 * dt)"
+									}
+								},
+								{
+									"id": "set-angle",
+									"objectClass": "testSprite",
+									"sid": 204849411368202,
+									"parameters": {
+										"angle": "basis.losPfmt.ReflectionAngle"
+									}
+								}
+							],
+							"sid": 744348899499425,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "ФИНАЛЬНОЕ ИСПРАВЛЕНИЕ: Расчет тангенса через (Ray+Ref)/2. Устраняет движение 'задом наперед' и 'не в ту сторону'.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aTools",
+							"sid": 959548432994524,
+							"parameters": {
+								"instance-variable": "directMT"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "basis",
+							"sid": 545409832957482,
+							"parameters": {
+								"instance-variable": "move"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 495363173878523,
+							"parameters": {
+								"object": "zoneStop"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "cast-ray",
+							"objectClass": "basis",
+							"sid": 192378415606225,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X",
+								"from-y": "Self.Y",
+								"to-x": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 0, \";\"))",
+								"to-y": "float(tokenat(Functions.getPos(Self.X, Self.Y, Self.mt.MovingAngle, 30), 1, \";\"))",
+								"use-collision-cells": true
+							}
+						}
+					],
+					"sid": 416921296748004,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 638368753532815,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "1. Находим угол стены. 2. Выбираем сторону 'вперед'. 3. Смешиваем с вектором отражения для мягкого отскока."
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"sid": 982849760817076,
+									"parameters": {
+										"instance-variable": "pushAng",
+										"value": "abs(anglediff(Self.mt.MovingAngle, (Self.mt.MovingAngle + Self.losPfmt.ReflectionAngle) / 2)) < 90 ? (Self.mt.MovingAngle + Self.losPfmt.ReflectionAngle) / 2 : (Self.mt.MovingAngle + Self.losPfmt.ReflectionAngle) / 2 + 180"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 214412549930544,
+									"parameters": {
+										"x": "Self.X + cos(anglelerp(Self.pushAng, Self.losPfmt.ReflectionAngle, 0.1)) * (Self.speedTotal * dt)",
+										"y": "Self.Y + sin(anglelerp(Self.pushAng, Self.losPfmt.ReflectionAngle, 0.1)) * (Self.speedTotal * dt)"
+									}
+								}
+							],
+							"sid": 357786955696565,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 358705227828380
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Если луч не попал (уже внутри), выталкиваем от центра. Множитель 2.5 достаточен для компенсации directMT."
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 821790623439353,
+									"parameters": {
+										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 2.5 * dt)",
+										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 2.5 * dt)"
+									}
+								}
+							],
+							"sid": 650759461860009,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "ФИНАЛЬНОЕ РЕШЕНИЕ: Силовое скольжение. Луч из-за спины + двойная скорость выталкивания.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aTools",
+							"sid": 849409760892832,
+							"parameters": {
+								"instance-variable": "directMT"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "basis",
+							"sid": 621229128484051,
+							"parameters": {
+								"instance-variable": "move"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 603302087879110,
+							"parameters": {
+								"object": "zoneStop"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "cast-ray",
+							"objectClass": "basis",
+							"sid": 402174990005145,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X - cos(Self.mt.MovingAngle) * 15",
+								"from-y": "Self.Y - sin(Self.mt.MovingAngle) * 15",
+								"to-x": "Self.X + cos(Self.mt.MovingAngle) * 40",
+								"to-y": "Self.Y + sin(Self.mt.MovingAngle) * 40",
+								"use-collision-cells": true
+							}
+						}
+					],
+					"sid": 223627745062632,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 543418934332603,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Вычисляем нормаль (pushAng) и выбираем тангенс обхода, который не противоречит движению."
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"sid": 688561536299578,
+									"parameters": {
+										"instance-variable": "pushAng",
+										"value": "(Self.mt.MovingAngle + Self.losPfmt.ReflectionAngle) / 2"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 588098402731187,
+									"parameters": {
+										"x": "Self.X + cos(anglelerp((abs(anglediff(Self.pushAng + 90, Self.mt.MovingAngle)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90), Self.losPfmt.ReflectionAngle, 0.2)) * (Self.speedTotal * 2.0 * dt)",
+										"y": "Self.Y + sin(anglelerp((abs(anglediff(Self.pushAng + 90, Self.mt.MovingAngle)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90), Self.losPfmt.ReflectionAngle, 0.2)) * (Self.speedTotal * 2.0 * dt)"
+									}
+								},
+								{
+									"id": "set-moving-angle",
+									"objectClass": "basis",
+									"sid": 877304866393309,
+									"behaviorType": "mt",
+									"parameters": {
+										"angle": "abs(anglediff(Self.pushAng + 90, Self.mt.MovingAngle)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90"
+									}
+								}
+							],
+							"sid": 245909948495126,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 889544176233191
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Критическое выталкивание: если мы застряли глубоко, выбрасываем героя наружу на огромной скорости."
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 553912789269540,
+									"parameters": {
+										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 8.0 * dt)",
+										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 8.0 * dt)"
+									}
+								}
+							],
+							"sid": 384131684079364
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "ШАГ 1: Только выталкивание. Возвращаем героя на границу стены, если он зашел внутрь.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aTools",
+							"sid": 966932973961340,
+							"parameters": {
+								"instance-variable": "directMT"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 705860436519524,
+							"parameters": {
+								"object": "zoneStop"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "cast-ray",
+							"objectClass": "basis",
+							"sid": 122886473105891,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X - cos(Self.mt.MovingAngle) * 50",
+								"from-y": "Self.Y - sin(Self.mt.MovingAngle) * 50",
+								"to-x": "Self.X",
+								"to-y": "Self.Y",
+								"use-collision-cells": true
+							}
+						}
+					],
+					"sid": 705564427531209,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 126396634520013,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Мгновенно возвращаем в точку контакта + 2 пикселя наружу"
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 278773577103510,
+									"parameters": {
+										"x": "Self.losPfmt.HitX + cos(Self.losPfmt.ReflectionAngle) * 2",
+										"y": "Self.losPfmt.HitY + sin(Self.losPfmt.ReflectionAngle) * 2"
+									}
+								}
+							],
+							"sid": 372462952201027,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "ШАГ 2: Исправлено обращение к переменной pushAng. Добавлено скольжение вдоль стены.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aTools",
+							"sid": 471280466287898,
+							"parameters": {
+								"instance-variable": "directMT"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 484901228340533,
+							"parameters": {
+								"object": "zoneStop"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "cast-ray",
+							"objectClass": "basis",
+							"sid": 175060392432273,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X - cos(Self.mt.MovingAngle) * 50",
+								"from-y": "Self.Y - sin(Self.mt.MovingAngle) * 50",
+								"to-x": "Self.X",
+								"to-y": "Self.Y",
+								"use-collision-cells": true
+							}
+						}
+					],
+					"sid": 991738732544076,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 363495872134911,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "1. Выталкиваем на границу. 2. Выбираем лучший угол скольжения (pushAng)."
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 422428454119774,
+									"parameters": {
+										"x": "Self.losPfmt.HitX + cos(Self.losPfmt.ReflectionAngle) * 2",
+										"y": "Self.losPfmt.HitY + sin(Self.losPfmt.ReflectionAngle) * 2"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"sid": 211355203617932,
+									"parameters": {
+										"instance-variable": "pushAng",
+										"value": "abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle + 90)) < abs(anglediff(Self.mt.MovingAngle, Self.losPfmt.ReflectionAngle - 90)) ? Self.losPfmt.ReflectionAngle + 90 : Self.losPfmt.ReflectionAngle - 90"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "Двигаемся вдоль стены с небольшим вектором 'от неё' (anglelerp)"
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 743179636078571,
+									"parameters": {
+										"x": "Self.X + cos(anglelerp(Self.pushAng, Self.losPfmt.ReflectionAngle, 0.15)) * (Self.speedTotal * dt)",
+										"y": "Self.Y + sin(anglelerp(Self.pushAng, Self.losPfmt.ReflectionAngle, 0.15)) * (Self.speedTotal * dt)"
+									}
+								}
+							],
+							"sid": 612728011496195,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "МАТЕМАТИЧЕСКОЕ СКОЛЬЖЕНИЕ (Векторная проекция): расчет нормали и проекции скорости на тангенс стены.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aTools",
+							"sid": 294410713724617,
+							"parameters": {
+								"instance-variable": "directMT"
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 624541016215707,
+							"parameters": {
+								"object": "zoneStop"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "cast-ray",
+							"objectClass": "basis",
+							"sid": 599707288343706,
+							"behaviorType": "losPfmt",
+							"parameters": {
+								"from-x": "Self.X - cos(Self.mt.MovingAngle) * 50",
+								"from-y": "Self.Y - sin(Self.mt.MovingAngle) * 50",
+								"to-x": "Self.X",
+								"to-y": "Self.Y",
+								"use-collision-cells": true
+							}
+						}
+					],
+					"sid": 325534023697773,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "ray-intersected",
+									"objectClass": "basis",
+									"sid": 474386889448010,
+									"behaviorType": "losPfmt"
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "1. Вычисляем нормаль стены (pushAng)"
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "basis",
+									"sid": 521654279623403,
+									"parameters": {
+										"instance-variable": "pushAng",
+										"value": "(Self.mt.MovingAngle + 180 + Self.losPfmt.ReflectionAngle) / 2"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "2. Одним действием: ставим на грань + сдвиг по нормали + проекция движения вдоль стены"
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 626628544812438,
+									"parameters": {
+										"x": "Self.losPfmt.HitX + cos(Self.pushAng) * 1 + cos(abs(anglediff(Self.mt.MovingAngle, Self.pushAng + 90)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90) * (Self.speedTotal * cos(anglediff(Self.mt.MovingAngle, (abs(anglediff(Self.mt.MovingAngle, Self.pushAng + 90)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90))) * dt)",
+										"y": "Self.losPfmt.HitY + sin(Self.pushAng) * 1 + sin(abs(anglediff(Self.mt.MovingAngle, Self.pushAng + 90)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90) * (Self.speedTotal * cos(anglediff(Self.mt.MovingAngle, (abs(anglediff(Self.mt.MovingAngle, Self.pushAng + 90)) < 90 ? Self.pushAng + 90 : Self.pushAng - 90))) * dt)"
+									}
+								}
+							],
+							"sid": 749210814349777
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 206202421754063
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Если луч не нашел стену (мы внутри), выталкиваем от центра. Множитель 5 для подавления MoveTo."
+								},
+								{
+									"id": "set-position",
+									"objectClass": "basis",
+									"sid": 975014324432288,
+									"parameters": {
+										"x": "Self.X + cos(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 5 * dt)",
+										"y": "Self.Y + sin(angle(zoneStop.X, zoneStop.Y, Self.X, Self.Y)) * (Self.speedTotal * 5 * dt)"
+									}
+								}
+							],
+							"sid": 901563919025502,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\n    выталкивание изнутри препятствия "
 				},
 				{
 					"eventType": "block",
