@@ -273,39 +273,19 @@
 											"id": "stop",
 											"objectClass": "ath",
 											"sid": 132684094021814,
+											"disabled": true,
 											"behaviorType": "mt"
 										},
 										{
-											"id": "move-to-position",
-											"objectClass": "ath",
-											"sid": 617597083467038,
-											"behaviorType": "mt",
-											"parameters": {
-												"x": "goX",
-												"y": "goY",
-												"mode": "direct"
-											}
-										},
-										{
-											"callFunction": "scanPath",
-											"sid": 197161526381291,
-											"disabled": true,
+											"callFunction": "scanPathAth",
+											"sid": 509765918638102,
 											"parameters": [
-												"basis.UID",
-												"basis.X",
-												"basis.Y",
-												"basis.goX",
-												"basis.goY"
+												"ath.UID",
+												"ath.X",
+												"ath.Y",
+												"ath.goX",
+												"ath.goY"
 											]
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "ath",
-											"sid": 215149023385999,
-											"parameters": {
-												"instance-variable": "move",
-												"value": "true"
-											}
 										},
 										{
 											"id": "set-boolean-instvar",
@@ -376,7 +356,1419 @@
 					"title": "pathScanAth",
 					"description": "",
 					"isActiveOnStart": false,
-					"children": [],
+					"children": [
+						{
+							"functionName": "scanPathAth",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "uid",
+									"type": "number",
+									"initialValue": "-1",
+									"comment": "",
+									"sid": 385670248450871
+								},
+								{
+									"name": "startX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 244855108721764
+								},
+								{
+									"name": "startY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 440402969868913
+								},
+								{
+									"name": "targetX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 997434602858395
+								},
+								{
+									"name": "targetY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 122474753248629
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "ath",
+									"sid": 125421632600196,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 847477456206870,
+							"children": [
+								{
+									"eventType": "variable",
+									"name": "targetAng",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Угол к цели",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 308340455657781
+								},
+								{
+									"eventType": "variable",
+									"name": "targetDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Дистанция до цели",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 118606239556939
+								},
+								{
+									"eventType": "variable",
+									"name": "mainUID",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "UID главного препятствия",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 723399929368165
+								},
+								{
+									"eventType": "variable",
+									"name": "obsX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Центр препятствия X",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 259133756556007
+								},
+								{
+									"eventType": "variable",
+									"name": "obsY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Центр препятствия Y",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 715465219939498
+								},
+								{
+									"eventType": "variable",
+									"name": "scanStep",
+									"type": "number",
+									"initialValue": "5",
+									"comment": "Шаг сканирования в градусах",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 755943932484427
+								},
+								{
+									"eventType": "variable",
+									"name": "lState",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "0: скан, 1: край, 2: блок",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 371635239516749
+								},
+								{
+									"eventType": "variable",
+									"name": "rState",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "0: скан, 1: край, 2: блок",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 959294285360121
+								},
+								{
+									"eventType": "variable",
+									"name": "lRayAng",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Угол последнего попадания",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 503749262227956
+								},
+								{
+									"eventType": "variable",
+									"name": "rRayAng",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Угол последнего попадания",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 918557246509603
+								},
+								{
+									"eventType": "variable",
+									"name": "lDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Дистанция до края",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 588653167832994
+								},
+								{
+									"eventType": "variable",
+									"name": "rDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Дистанция до края",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 152538117213881
+								},
+								{
+									"eventType": "variable",
+									"name": "lBlockDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Дистанция тупика",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 736629029977947
+								},
+								{
+									"eventType": "variable",
+									"name": "rBlockDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Дистанция тупика",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 998147837002858
+								},
+								{
+									"eventType": "variable",
+									"name": "finalAng",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 492145507736777
+								},
+								{
+									"eventType": "variable",
+									"name": "finalDist",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 353967018471709
+								},
+								{
+									"eventType": "variable",
+									"name": "tempX",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Временная точка на луче",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 823755375832794
+								},
+								{
+									"eventType": "variable",
+									"name": "tempY",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Временная точка на луче",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 215523834916289
+								},
+								{
+									"eventType": "variable",
+									"name": "pushDir",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "Направление выталкивания (-1 лево, 1 право)",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 327754787308367
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 222287971145113,
+											"parameters": {
+												"variable": "targetAng",
+												"value": "angle(startX, startY, targetX, targetY)"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 836001108341562,
+											"parameters": {
+												"variable": "targetDist",
+												"value": "distance(startX, startY, targetX, targetY)"
+											}
+										},
+										{
+											"type": "comment",
+											"text": "Пускаем луч чуть из-за спины, чтобы пробить коллизию, если мы уже внутри"
+										},
+										{
+											"id": "cast-ray",
+											"objectClass": "ath",
+											"sid": 893133495408141,
+											"behaviorType": "losPfmt",
+											"parameters": {
+												"from-x": "startX - cos(targetAng)*10",
+												"from-y": "startY - sin(targetAng)*10",
+												"to-x": "targetX",
+												"to-y": "targetY",
+												"use-collision-cells": true
+											}
+										}
+									],
+									"sid": 896254353779056,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "ray-intersected",
+													"objectClass": "ath",
+													"sid": 792804175615635,
+													"behaviorType": "losPfmt"
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Препятствие на линии. Запоминаем его UID и центр."
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 323014925355880,
+													"parameters": {
+														"variable": "mainUID",
+														"value": "ath.losPfmt.HitUID"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 150974184887390,
+													"parameters": {
+														"variable": "lRayAng",
+														"value": "targetAng"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 705980287152456,
+													"parameters": {
+														"variable": "rRayAng",
+														"value": "targetAng"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 917610804310145,
+													"parameters": {
+														"variable": "lDist",
+														"value": "ath.losPfmt.HitDistance"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 643713960705884,
+													"parameters": {
+														"variable": "rDist",
+														"value": "ath.losPfmt.HitDistance"
+													}
+												}
+											],
+											"sid": 629274052880793,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "zoneStop",
+															"sid": 295554542889073,
+															"parameters": {
+																"unique-id": "mainUID"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 644358085449296,
+															"parameters": {
+																"variable": "obsX",
+																"value": "zoneStop.X"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 570029296304758,
+															"parameters": {
+																"variable": "obsY",
+																"value": "zoneStop.Y"
+															}
+														}
+													],
+													"sid": 456396253206808
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "zoneStopTh",
+															"sid": 369063601928420,
+															"parameters": {
+																"unique-id": "mainUID"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 262160776236832,
+															"parameters": {
+																"variable": "obsX",
+																"value": "zoneStopTh.X"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 110293531375598,
+															"parameters": {
+																"variable": "obsY",
+																"value": "zoneStopTh.Y"
+															}
+														}
+													],
+													"sid": 161985370810866
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for",
+															"objectClass": "System",
+															"sid": 164391629366869,
+															"parameters": {
+																"name": "\"scan\"",
+																"start-index": "1",
+																"end-index": "36"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 472486803543349,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "--- ЛЕВАЯ СТОРОНА ---",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 567467415083807,
+																	"parameters": {
+																		"variable": "lState",
+																		"comparison": 0,
+																		"value": "0"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "cast-ray",
+																	"objectClass": "ath",
+																	"sid": 411613520656053,
+																	"behaviorType": "losPfmt",
+																	"parameters": {
+																		"from-x": "startX - cos(targetAng)*10",
+																		"from-y": "startY - sin(targetAng)*10",
+																		"to-x": "startX + cos(targetAng - loopindex * scanStep) * 2000",
+																		"to-y": "startY + sin(targetAng - loopindex * scanStep) * 2000",
+																		"use-collision-cells": true
+																	}
+																}
+															],
+															"sid": 374959142611391,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "ray-intersected",
+																			"objectClass": "ath",
+																			"sid": 577941581527222,
+																			"behaviorType": "losPfmt"
+																		}
+																	],
+																	"actions": [],
+																	"sid": 111618716479223,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "compare-two-values",
+																					"objectClass": "System",
+																					"sid": 258205651087815,
+																					"parameters": {
+																						"first-value": "ath.losPfmt.HitUID",
+																						"comparison": 0,
+																						"second-value": "mainUID"
+																					}
+																				}
+																			],
+																			"actions": [
+																				{
+																					"type": "comment",
+																					"text": "Всё ещё наше препятствие. Обновляем крайние точки."
+																				},
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 593017445827134,
+																					"parameters": {
+																						"variable": "lRayAng",
+																						"value": "targetAng - loopindex * scanStep"
+																					}
+																				},
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 272441793742909,
+																					"parameters": {
+																						"variable": "lDist",
+																						"value": "ath.losPfmt.HitDistance"
+																					}
+																				}
+																			],
+																			"sid": 884018818924377
+																		},
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "else",
+																					"objectClass": "System",
+																					"sid": 566448828022295
+																				}
+																			],
+																			"actions": [],
+																			"sid": 783355092489128,
+																			"children": [
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "compare-two-values",
+																							"objectClass": "System",
+																							"sid": 162493930089102,
+																							"parameters": {
+																								"first-value": "ath.losPfmt.HitDistance",
+																								"comparison": 2,
+																								"second-value": "lDist + 20"
+																							}
+																						}
+																					],
+																					"actions": [
+																						{
+																							"type": "comment",
+																							"text": "Наткнулись на другое препятствие БЛИЖЕ. Сторона заблокирована."
+																						},
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 715918382663202,
+																							"parameters": {
+																								"variable": "lState",
+																								"value": "2"
+																							}
+																						},
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 955716457924056,
+																							"parameters": {
+																								"variable": "lBlockDist",
+																								"value": "ath.losPfmt.HitDistance"
+																							}
+																						}
+																					],
+																					"sid": 265475444561904
+																				},
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "else",
+																							"objectClass": "System",
+																							"sid": 969838242561229
+																						}
+																					],
+																					"actions": [
+																						{
+																							"type": "comment",
+																							"text": "Другое препятствие ДАЛЬШЕ. Значит мы нашли край."
+																						},
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 473543249949306,
+																							"parameters": {
+																								"variable": "lState",
+																								"value": "1"
+																							}
+																						}
+																					],
+																					"sid": 464073683103933
+																				}
+																			]
+																		}
+																	]
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "else",
+																			"objectClass": "System",
+																			"sid": 543127749485916
+																		}
+																	],
+																	"actions": [
+																		{
+																			"type": "comment",
+																			"text": "Луч прошел свободно. Край найден."
+																		},
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 706219842529268,
+																			"parameters": {
+																				"variable": "lState",
+																				"value": "1"
+																			}
+																		}
+																	],
+																	"sid": 600444435238505
+																}
+															]
+														},
+														{
+															"eventType": "comment",
+															"text": "--- ПРАВАЯ СТОРОНА ---",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 272559081432627,
+																	"parameters": {
+																		"variable": "rState",
+																		"comparison": 0,
+																		"value": "0"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "cast-ray",
+																	"objectClass": "ath",
+																	"sid": 563660620253213,
+																	"behaviorType": "losPfmt",
+																	"parameters": {
+																		"from-x": "startX - cos(targetAng)*10",
+																		"from-y": "startY - sin(targetAng)*10",
+																		"to-x": "startX + cos(targetAng + loopindex * scanStep) * 2000",
+																		"to-y": "startY + sin(targetAng + loopindex * scanStep) * 2000",
+																		"use-collision-cells": true
+																	}
+																}
+															],
+															"sid": 930171388109980,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "ray-intersected",
+																			"objectClass": "ath",
+																			"sid": 122455367568826,
+																			"behaviorType": "losPfmt"
+																		}
+																	],
+																	"actions": [],
+																	"sid": 410753448349032,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "compare-two-values",
+																					"objectClass": "System",
+																					"sid": 865152259260448,
+																					"parameters": {
+																						"first-value": "ath.losPfmt.HitUID",
+																						"comparison": 0,
+																						"second-value": "mainUID"
+																					}
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 645475200442151,
+																					"parameters": {
+																						"variable": "rRayAng",
+																						"value": "targetAng + loopindex * scanStep"
+																					}
+																				},
+																				{
+																					"id": "set-eventvar-value",
+																					"objectClass": "System",
+																					"sid": 721076909860153,
+																					"parameters": {
+																						"variable": "rDist",
+																						"value": "ath.losPfmt.HitDistance"
+																					}
+																				}
+																			],
+																			"sid": 349963470153575
+																		},
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "else",
+																					"objectClass": "System",
+																					"sid": 814295252199655
+																				}
+																			],
+																			"actions": [],
+																			"sid": 989605666650480,
+																			"children": [
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "compare-two-values",
+																							"objectClass": "System",
+																							"sid": 170399058903240,
+																							"parameters": {
+																								"first-value": "ath.losPfmt.HitDistance",
+																								"comparison": 2,
+																								"second-value": "rDist + 20"
+																							}
+																						}
+																					],
+																					"actions": [
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 714955568941413,
+																							"parameters": {
+																								"variable": "rState",
+																								"value": "2"
+																							}
+																						},
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 312150153907445,
+																							"parameters": {
+																								"variable": "rBlockDist",
+																								"value": "ath.losPfmt.HitDistance"
+																							}
+																						}
+																					],
+																					"sid": 411879345106151
+																				},
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "else",
+																							"objectClass": "System",
+																							"sid": 804280428408998
+																						}
+																					],
+																					"actions": [
+																						{
+																							"id": "set-eventvar-value",
+																							"objectClass": "System",
+																							"sid": 376704626798643,
+																							"parameters": {
+																								"variable": "rState",
+																								"value": "1"
+																							}
+																						}
+																					],
+																					"sid": 163022663953174
+																				}
+																			]
+																		}
+																	]
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "else",
+																			"objectClass": "System",
+																			"sid": 280076926794935
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 998042754740751,
+																			"parameters": {
+																				"variable": "rState",
+																				"value": "1"
+																			}
+																		}
+																	],
+																	"sid": 432843237219087
+																}
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 998067997021913,
+																	"parameters": {
+																		"variable": "lState",
+																		"comparison": 1,
+																		"value": "0"
+																	}
+																},
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 601398365500172,
+																	"parameters": {
+																		"variable": "rState",
+																		"comparison": 1,
+																		"value": "0"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Обе стороны завершили сканирование. Прерываем цикл."
+																},
+																{
+																	"id": "stop-loop",
+																	"objectClass": "System",
+																	"sid": 431088628874070
+																}
+															],
+															"sid": 230927198378110
+														}
+													]
+												}
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "--- АНАЛИЗ РЕЗУЛЬТАТОВ СКАНИРОВАНИЯ ---",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 223267426601721,
+													"parameters": {
+														"variable": "mainUID",
+														"comparison": 1,
+														"value": "0"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 866813569013213,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 325525354455610,
+															"parameters": {
+																"variable": "lState",
+																"comparison": 0,
+																"value": "2"
+															}
+														},
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 559712914749552,
+															"parameters": {
+																"variable": "rState",
+																"comparison": 0,
+																"value": "2"
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Обе стороны заблокированы. Идем напролом.",
+															"background-color": [
+																0.33,
+																0.73,
+																0.48,
+																1
+															]
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "ath",
+															"sid": 574341217006766,
+															"parameters": {
+																"instance-variable": "move",
+																"value": "true"
+															}
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "ath",
+															"sid": 739851602398998,
+															"parameters": {
+																"instance-variable": "startMove",
+																"value": "true"
+															}
+														},
+														{
+															"id": "instance-signal",
+															"objectClass": "ath",
+															"sid": 514880823977186,
+															"parameters": {
+																"tag": "\"startMove\""
+															}
+														},
+														{
+															"id": "move-to-position",
+															"objectClass": "ath",
+															"sid": 716084399043136,
+															"behaviorType": "mt",
+															"parameters": {
+																"x": "startX + cos(targetAng) * (max(lBlockDist, rBlockDist) + 40)",
+																"y": "startY + sin(targetAng) * (max(lBlockDist, rBlockDist) + 40)",
+																"mode": "direct"
+															}
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "ath",
+															"sid": 221962699462420,
+															"parameters": {
+																"instance-variable": "move",
+																"value": "true"
+															}
+														}
+													],
+													"sid": 139368702490045
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 566836032902882
+														}
+													],
+													"actions": [],
+													"sid": 884849059465868,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 716007200435299,
+																	"parameters": {
+																		"variable": "lState",
+																		"comparison": 0,
+																		"value": "1"
+																	}
+																},
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 838380605369636,
+																	"parameters": {
+																		"variable": "rState",
+																		"comparison": 0,
+																		"value": "2"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Право заблокировано, идем влево.",
+																	"background-color": [
+																		0.33,
+																		0.73,
+																		0.48,
+																		1
+																	]
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 308670202527819,
+																	"parameters": {
+																		"variable": "finalAng",
+																		"value": "lRayAng - scanStep"
+																	}
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 302404008436470,
+																	"parameters": {
+																		"variable": "finalDist",
+																		"value": "lDist"
+																	}
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 577926451077620,
+																	"parameters": {
+																		"variable": "pushDir",
+																		"value": "-1"
+																	}
+																}
+															],
+															"sid": 414696997796872
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 820981016419330,
+																	"parameters": {
+																		"variable": "rState",
+																		"comparison": 0,
+																		"value": "1"
+																	}
+																},
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 587446015480198,
+																	"parameters": {
+																		"variable": "lState",
+																		"comparison": 0,
+																		"value": "2"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Лево заблокировано, идем вправо.",
+																	"background-color": [
+																		0.33,
+																		0.73,
+																		0.48,
+																		1
+																	]
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 951774247609620,
+																	"parameters": {
+																		"variable": "finalAng",
+																		"value": "rRayAng + scanStep"
+																	}
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 448381457593813,
+																	"parameters": {
+																		"variable": "finalDist",
+																		"value": "rDist"
+																	}
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 265677763289657,
+																	"parameters": {
+																		"variable": "pushDir",
+																		"value": "1"
+																	}
+																}
+															],
+															"sid": 778512956326043
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 141621416177111,
+																	"parameters": {
+																		"variable": "lState",
+																		"comparison": 0,
+																		"value": "1"
+																	}
+																},
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 403898507619514,
+																	"parameters": {
+																		"variable": "rState",
+																		"comparison": 0,
+																		"value": "1"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Обе стороны свободны. Выбираем ту, чей 'чистый' луч ближе к цели.",
+																	"background-color": [
+																		0.33,
+																		0.73,
+																		0.48,
+																		1
+																	]
+																}
+															],
+															"sid": 295672218475135,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "compare-two-values",
+																			"objectClass": "System",
+																			"sid": 907925762862063,
+																			"parameters": {
+																				"first-value": "abs(anglediff(targetAng, lRayAng - scanStep))",
+																				"comparison": 2,
+																				"second-value": "abs(anglediff(targetAng, rRayAng + scanStep))"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 815998403152020,
+																			"parameters": {
+																				"variable": "finalAng",
+																				"value": "lRayAng - scanStep"
+																			}
+																		},
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 499395485931303,
+																			"parameters": {
+																				"variable": "finalDist",
+																				"value": "lDist"
+																			}
+																		},
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 836851891890905,
+																			"parameters": {
+																				"variable": "pushDir",
+																				"value": "-1"
+																			}
+																		}
+																	],
+																	"sid": 578406930916350
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "else",
+																			"objectClass": "System",
+																			"sid": 580852389369938
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 532628426840893,
+																			"parameters": {
+																				"variable": "finalAng",
+																				"value": "rRayAng + scanStep"
+																			}
+																		},
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 676361939232858,
+																			"parameters": {
+																				"variable": "finalDist",
+																				"value": "rDist"
+																			}
+																		},
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 284542661633052,
+																			"parameters": {
+																				"variable": "pushDir",
+																				"value": "1"
+																			}
+																		}
+																	],
+																	"sid": 801267014972560
+																}
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "1. Находим точку на чистом луче (с запасом 50px для обхода угла).",
+																	"background-color": [
+																		0.33,
+																		0.73,
+																		0.48,
+																		1
+																	]
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 572575042244687,
+																	"parameters": {
+																		"variable": "tempX",
+																		"value": "startX + cos(finalAng) * min(finalDist + 50, targetDist)"
+																	}
+																},
+																{
+																	"id": "set-eventvar-value",
+																	"objectClass": "System",
+																	"sid": 290753307836553,
+																	"parameters": {
+																		"variable": "tempY",
+																		"value": "startY + sin(finalAng) * min(finalDist + 50, targetDist)"
+																	}
+																},
+																{
+																	"type": "comment",
+																	"text": "2. Сдвигаем эту точку перпендикулярно лучу на 30px (с учетом изометрии!).",
+																	"background-color": [
+																		0.33,
+																		0.73,
+																		0.48,
+																		1
+																	]
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "ath",
+																	"sid": 339501566702767,
+																	"parameters": {
+																		"instance-variable": "move",
+																		"value": "true"
+																	}
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "ath",
+																	"sid": 326043110163523,
+																	"parameters": {
+																		"instance-variable": "startMove",
+																		"value": "true"
+																	}
+																},
+																{
+																	"id": "instance-signal",
+																	"objectClass": "ath",
+																	"sid": 512435597519828,
+																	"parameters": {
+																		"tag": "\"startMove\""
+																	}
+																},
+																{
+																	"id": "move-to-position",
+																	"objectClass": "ath",
+																	"sid": 197767817345523,
+																	"behaviorType": "mt",
+																	"parameters": {
+																		"x": "float(tokenat(Functions.getPos(tempX, tempY, finalAng + 90 * pushDir, 30), 0, \";\"))",
+																		"y": "float(tokenat(Functions.getPos(tempX, tempY, finalAng + 90 * pushDir, 30), 1, \";\"))",
+																		"mode": "direct"
+																	}
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "ath",
+																	"sid": 221962699462420,
+																	"parameters": {
+																		"instance-variable": "move",
+																		"value": "true"
+																	}
+																}
+															],
+															"sid": 331772317707572
+														}
+													]
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 421623909128567
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Путь чист. Идем напрямую к цели."
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ath",
+													"sid": 250251721565298,
+													"parameters": {
+														"instance-variable": "move",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ath",
+													"sid": 193836861131456,
+													"parameters": {
+														"instance-variable": "startMove",
+														"value": "true"
+													}
+												},
+												{
+													"id": "instance-signal",
+													"objectClass": "ath",
+													"sid": 581895679497034,
+													"parameters": {
+														"tag": "\"startMove\""
+													}
+												},
+												{
+													"id": "move-to-position",
+													"objectClass": "ath",
+													"sid": 524285172220695,
+													"behaviorType": "mt",
+													"parameters": {
+														"x": "ath.goX",
+														"y": "ath.goY",
+														"mode": "direct"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ath",
+													"sid": 221962699462420,
+													"parameters": {
+														"instance-variable": "move",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 102051586760401
+										}
+									]
+								}
+							]
+						}
+					],
 					"sid": 352439261827993
 				},
 				{
@@ -764,15 +2156,14 @@
 											"text": "Мы пришли в точку обхода, но до финиша (goX/goY) еще больше 10 пикселей. Сканируем путь дальше!"
 										},
 										{
-											"callFunction": "scanPath",
-											"sid": 518896856783385,
-											"disabled": true,
+											"callFunction": "scanPathAth",
+											"sid": 630614703429969,
 											"parameters": [
-												"basis.UID",
-												"basis.X",
-												"basis.Y",
-												"basis.goX",
-												"basis.goY"
+												"ath.UID",
+												"ath.X",
+												"ath.Y",
+												"ath.goX",
+												"ath.goY"
 											]
 										}
 									],
