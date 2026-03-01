@@ -252,6 +252,24 @@
 									],
 									"actions": [
 										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 301859725980715,
+											"parameters": {
+												"instance-variable": "goX",
+												"value": "goX"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 938379130227386,
+											"parameters": {
+												"instance-variable": "goY",
+												"value": "goY"
+											}
+										},
+										{
 											"id": "stop",
 											"objectClass": "ath",
 											"sid": 132684094021814,
@@ -267,6 +285,18 @@
 												"y": "goY",
 												"mode": "direct"
 											}
+										},
+										{
+											"callFunction": "scanPath",
+											"sid": 197161526381291,
+											"disabled": true,
+											"parameters": [
+												"basis.UID",
+												"basis.X",
+												"basis.Y",
+												"basis.goX",
+												"basis.goY"
+											]
 										},
 										{
 											"id": "set-boolean-instvar",
@@ -329,6 +359,25 @@
 							]
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Сканирование препятствий без поиска пути для терний",
+					"background-color": [
+						0.7803921568627451,
+						0.8156862745098039,
+						1,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "pathScanAth",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [],
+					"sid": 352439261827993
 				},
 				{
 					"eventType": "comment",
@@ -684,26 +733,82 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 156856179015087,
+							"children": [
 								{
-									"id": "instance-signal",
-									"objectClass": "ath",
-									"sid": 802431173174862,
-									"disabled": true,
-									"parameters": {
-										"tag": "\"stop\""
-									}
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aTools",
+											"sid": 463652015834650,
+											"parameters": {
+												"instance-variable": "directMT"
+											}
+										},
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 185009685544394,
+											"parameters": {
+												"first-value": "distance(ath.X, ath.Y, ath.goX, ath.goY)",
+												"comparison": 4,
+												"second-value": "10"
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Мы пришли в точку обхода, но до финиша (goX/goY) еще больше 10 пикселей. Сканируем путь дальше!"
+										},
+										{
+											"callFunction": "scanPath",
+											"sid": 518896856783385,
+											"disabled": true,
+											"parameters": [
+												"basis.UID",
+												"basis.X",
+												"basis.Y",
+												"basis.goX",
+												"basis.goY"
+											]
+										}
+									],
+									"sid": 175038643798240
 								},
 								{
-									"callFunction": "stopThorns",
-									"sid": 183790752063445,
-									"parameters": [
-										"ath.UID",
-										true
-									]
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 470532965389156
+										}
+									],
+									"actions": [
+										{
+											"id": "instance-signal",
+											"objectClass": "ath",
+											"sid": 834833643628214,
+											"disabled": true,
+											"parameters": {
+												"tag": "\"stop\""
+											}
+										},
+										{
+											"callFunction": "stopThorns",
+											"sid": 770204734468980,
+											"parameters": [
+												"ath.UID",
+												true
+											]
+										}
+									],
+									"sid": 118166240067656
 								}
-							],
-							"sid": 156856179015087
+							]
 						}
 					]
 				},
