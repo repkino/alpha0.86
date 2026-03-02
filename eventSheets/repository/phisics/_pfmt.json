@@ -3165,7 +3165,7 @@
 									"eventType": "variable",
 									"name": "stepCoeff",
 									"type": "number",
-									"initialValue": "20",
+									"initialValue": "40",
 									"comment": "Коэфф. шага (чем меньше, тем больше шаг)",
 									"isStatic": false,
 									"isConstant": false,
@@ -3398,6 +3398,15 @@
 													}
 												},
 												{
+													"id": "set-instvar-value",
+													"objectClass": "basis",
+													"sid": 483130693530921,
+													"parameters": {
+														"instance-variable": "bypassUID",
+														"value": "basis.losPfmt.HitUID"
+													}
+												},
+												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
 													"sid": 466753213399077,
@@ -3468,7 +3477,7 @@
 														{
 															"id": "compare-eventvar",
 															"objectClass": "System",
-															"sid": 956476115972804,
+															"sid": 424606951807493,
 															"parameters": {
 																"variable": "hitDist",
 																"comparison": 2,
@@ -4483,6 +4492,15 @@
 													"text": "Путь чист. Идем напрямую к цели."
 												},
 												{
+													"id": "set-instvar-value",
+													"objectClass": "basis",
+													"sid": 412160564156306,
+													"parameters": {
+														"instance-variable": "bypassUID",
+														"value": "-1"
+													}
+												},
+												{
 													"id": "set-boolean-instvar",
 													"objectClass": "basis",
 													"sid": 126383298419467,
@@ -4522,6 +4540,136 @@
 												}
 											],
 											"sid": 111736519609774
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "радар",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "every-x-seconds",
+									"objectClass": "System",
+									"sid": 358883268444708,
+									"parameters": {
+										"interval-seconds": "0.1"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "basis",
+									"sid": 878567227352678,
+									"parameters": {
+										"instance-variable": "bypassUID",
+										"comparison": 1,
+										"value": "-1"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 928374019283741,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 102938475610293,
+											"parameters": {
+												"object": "basis"
+											}
+										},
+										{
+											"id": "is-moving",
+											"objectClass": "basis",
+											"sid": 583920184729102,
+											"behaviorType": "mt"
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "zoneStop",
+											"sid": 293847561029384,
+											"parameters": {
+												"unique-id": "basis.bypassUID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "cast-ray",
+											"objectClass": "basis",
+											"sid": 847561029384756,
+											"behaviorType": "losPfmt",
+											"parameters": {
+												"from-x": "basis.X",
+												"from-y": "basis.Y",
+												"to-x": "zoneStop.X",
+												"to-y": "zoneStop.Y",
+												"use-collision-cells": true
+											}
+										}
+									],
+									"sid": 102938475610295,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "ray-intersected",
+													"objectClass": "basis",
+													"sid": 561029384756102,
+													"behaviorType": "losPfmt"
+												},
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 562405696284881,
+													"parameters": {
+														"first-value": "basis.losPfmt.HitDistance",
+														"comparison": 2,
+														"second-value": "35"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Слишком близко к препятствию во время обхода! Пересчитываем путь.",
+													"background-color": [
+														0.33,
+														0.73,
+														0.48,
+														1
+													]
+												},
+												{
+													"callFunction": "scanPath",
+													"sid": 102938475610296,
+													"parameters": [
+														"basis.UID",
+														"basis.X",
+														"basis.Y",
+														"basis.goX",
+														"basis.goY"
+													]
+												}
+											],
+											"sid": 475610293847561,
+											"disabled": true
 										}
 									]
 								}
