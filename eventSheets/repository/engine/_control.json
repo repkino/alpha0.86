@@ -5473,11 +5473,6 @@
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 540931598794253
-												},
-												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "map",
 													"sid": 971021736675301,
@@ -8330,26 +8325,11 @@
 																			"id": "set-instvar-value",
 																			"objectClass": "Nordik",
 																			"sid": 646882215230616,
+																			"disabled": true,
 																			"parameters": {
 																				"instance-variable": "moveType",
 																				"value": "\"walk\""
 																			}
-																		},
-																		{
-																			"callFunction": "pfmt",
-																			"sid": 228069701312520,
-																			"parameters": [
-																				"0",
-																				"aBook.hero",
-																				"0",
-																				"0",
-																				"speedIso>1.5?1.5:speedIso",
-																				"1",
-																				"1",
-																				"\"zero\"",
-																				"element.UID",
-																				"0"
-																			]
 																		},
 																		{
 																			"id": "set-animation",
@@ -8398,7 +8378,163 @@
 																			}
 																		}
 																	],
-																	"sid": 250149349800013
+																	"sid": 250149349800013,
+																	"children": [
+																		{
+																			"eventType": "comment",
+																			"text": "клик по скрытой на дороге запретной зоне"
+																		},
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "compare-instance-variable",
+																					"objectClass": "aTools",
+																					"sid": 184397527628876,
+																					"parameters": {
+																						"instance-variable": "zoneStopUID",
+																						"comparison": 1,
+																						"value": "-1"
+																					}
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "set-position",
+																					"objectClass": "mtMark",
+																					"sid": 530171982227920,
+																					"parameters": {
+																						"x": "Mouse.X",
+																						"y": "Mouse.Y"
+																					}
+																				}
+																			],
+																			"sid": 272664705334245,
+																			"children": [
+																				{
+																					"eventType": "variable",
+																					"name": "cd",
+																					"type": "number",
+																					"initialValue": "10",
+																					"comment": "",
+																					"isStatic": false,
+																					"isConstant": false,
+																					"sid": 402559977925294
+																				},
+																				{
+																					"eventType": "block",
+																					"conditions": [
+																						{
+																							"id": "while",
+																							"objectClass": "System",
+																							"sid": 996532969414701
+																						}
+																					],
+																					"actions": [],
+																					"sid": 379697813977636,
+																					"children": [
+																						{
+																							"eventType": "block",
+																							"conditions": [
+																								{
+																									"id": "is-overlapping-another-object",
+																									"objectClass": "mtMark",
+																									"sid": 466233676183885,
+																									"parameters": {
+																										"object": "zoneStop"
+																									}
+																								}
+																							],
+																							"actions": [
+																								{
+																									"id": "add-to-eventvar",
+																									"objectClass": "System",
+																									"sid": 192547035119868,
+																									"parameters": {
+																										"variable": "cd",
+																										"value": "5"
+																									}
+																								},
+																								{
+																									"id": "set-position",
+																									"objectClass": "mtMark",
+																									"sid": 601152523105512,
+																									"parameters": {
+																										"x": "Mouse.X + cos(zoneStop.Angle + loopindex *90) *cd",
+																										"y": "Mouse.Y+ sin(zoneStop.Angle + loopindex *90) *cd"
+																									}
+																								}
+																							],
+																							"sid": 159871959384177
+																						},
+																						{
+																							"eventType": "block",
+																							"conditions": [
+																								{
+																									"id": "else",
+																									"objectClass": "System",
+																									"sid": 567540029658980
+																								}
+																							],
+																							"actions": [
+																								{
+																									"id": "stop-loop",
+																									"objectClass": "System",
+																									"sid": 112281873056856
+																								},
+																								{
+																									"callFunction": "pfmt",
+																									"sid": 831721358208098,
+																									"parameters": [
+																										"0",
+																										"aBook.hero",
+																										"mtMark.X",
+																										"mtMark.Y",
+																										"1",
+																										"1",
+																										"1",
+																										"\"zero\"",
+																										"aTools.groundUID",
+																										"0"
+																									]
+																								}
+																							],
+																							"sid": 137800904186618
+																						}
+																					]
+																				}
+																			]
+																		},
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "else",
+																					"objectClass": "System",
+																					"sid": 136136291574652
+																				}
+																			],
+																			"actions": [
+																				{
+																					"callFunction": "pfmt",
+																					"sid": 862114833506621,
+																					"parameters": [
+																						"0",
+																						"aBook.hero",
+																						"0",
+																						"0",
+																						"speedIso>1.5?1.5:speedIso",
+																						"1",
+																						"1",
+																						"\"zero\"",
+																						"element.UID",
+																						"0"
+																					]
+																				}
+																			],
+																			"sid": 355338056047393
+																		}
+																	]
 																}
 															]
 														},
@@ -11570,35 +11706,114 @@
 												"comparison": 1,
 												"value": "-1"
 											}
-										},
-										{
-											"id": "pick-by-unique-id",
-											"objectClass": "zoneStop",
-											"sid": 612045239795506,
-											"parameters": {
-												"unique-id": "aTools.zoneStopUID"
-											}
 										}
 									],
 									"actions": [
 										{
-											"callFunction": "pfmt",
-											"sid": 840515614058577,
-											"parameters": [
-												"0",
-												"aBook.hero",
-												"Mouse.X-zoneStop.Y",
-												"Mouse.Y-zoneStop.Y",
-												"1",
-												"1",
-												"1",
-												"\"zero\"",
-												"aTools.groundUID",
-												"0"
-											]
+											"id": "set-position",
+											"objectClass": "mtMark",
+											"sid": 771934272961406,
+											"parameters": {
+												"x": "Mouse.X",
+												"y": "Mouse.Y"
+											}
 										}
 									],
-									"sid": 449090936696935
+									"sid": 449090936696935,
+									"children": [
+										{
+											"eventType": "variable",
+											"name": "cd",
+											"type": "number",
+											"initialValue": "10",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 770045138003359
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "while",
+													"objectClass": "System",
+													"sid": 510827990114862
+												}
+											],
+											"actions": [],
+											"sid": 208873659079868,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-overlapping-another-object",
+															"objectClass": "mtMark",
+															"sid": 635005442704354,
+															"parameters": {
+																"object": "zoneStop"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "add-to-eventvar",
+															"objectClass": "System",
+															"sid": 846672731489507,
+															"parameters": {
+																"variable": "cd",
+																"value": "5"
+															}
+														},
+														{
+															"id": "set-position",
+															"objectClass": "mtMark",
+															"sid": 605767678881809,
+															"parameters": {
+																"x": "Mouse.X + cos(zoneStop.Angle + loopindex *90) *cd",
+																"y": "Mouse.Y+ sin(zoneStop.Angle + loopindex *90) *cd"
+															}
+														}
+													],
+													"sid": 828869739105488
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 635870370141360
+														}
+													],
+													"actions": [
+														{
+															"id": "stop-loop",
+															"objectClass": "System",
+															"sid": 775863747822393
+														},
+														{
+															"callFunction": "pfmt",
+															"sid": 318403518705314,
+															"parameters": [
+																"0",
+																"aBook.hero",
+																"mtMark.X",
+																"mtMark.Y",
+																"1",
+																"1",
+																"1",
+																"\"zero\"",
+																"aTools.groundUID",
+																"0"
+															]
+														}
+													],
+													"sid": 142518843618437
+												}
+											]
+										}
+									]
 								},
 								{
 									"eventType": "comment",
@@ -12074,35 +12289,114 @@
 										"comparison": 1,
 										"value": "-1"
 									}
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "zoneStop",
-									"sid": 856473555153814,
-									"parameters": {
-										"unique-id": "aTools.zoneStopUID"
-									}
 								}
 							],
 							"actions": [
 								{
-									"callFunction": "pfmt",
-									"sid": 989837549714242,
-									"parameters": [
-										"0",
-										"aBook.hero",
-										"Mouse.X-zoneStop.Y",
-										"Mouse.X-zoneStop.Y",
-										"0",
-										"map.impuls*2",
-										"map.impulsEnd*2",
-										"\"zero\"",
-										"0",
-										"0"
-									]
+									"id": "set-position",
+									"objectClass": "mtMark",
+									"sid": 497045881721296,
+									"parameters": {
+										"x": "Mouse.X",
+										"y": "Mouse.Y"
+									}
 								}
 							],
-							"sid": 334985981704076
+							"sid": 334985981704076,
+							"children": [
+								{
+									"eventType": "variable",
+									"name": "cd",
+									"type": "number",
+									"initialValue": "10",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 338057749223010
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "while",
+											"objectClass": "System",
+											"sid": 770798894762382
+										}
+									],
+									"actions": [],
+									"sid": 617742052119200,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-overlapping-another-object",
+													"objectClass": "mtMark",
+													"sid": 139476298773638,
+													"parameters": {
+														"object": "zoneStop"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "add-to-eventvar",
+													"objectClass": "System",
+													"sid": 481586917425643,
+													"parameters": {
+														"variable": "cd",
+														"value": "5"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "mtMark",
+													"sid": 408547068865608,
+													"parameters": {
+														"x": "Mouse.X + cos(zoneStop.Angle + loopindex *90) *cd",
+														"y": "Mouse.Y+ sin(zoneStop.Angle + loopindex *90) *cd"
+													}
+												}
+											],
+											"sid": 707208533189274
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 109239335599024
+												}
+											],
+											"actions": [
+												{
+													"id": "stop-loop",
+													"objectClass": "System",
+													"sid": 159253367576896
+												},
+												{
+													"callFunction": "pfmt",
+													"sid": 549999994027863,
+													"parameters": [
+														"0",
+														"aBook.hero",
+														"mtMark.X",
+														"mtMark.Y",
+														"0",
+														"map.impuls*2",
+														"map.impulsEnd*2",
+														"\"zero\"",
+														"0",
+														"0"
+													]
+												}
+											],
+											"sid": 303533099692631
+										}
+									]
+								}
+							]
 						},
 						{
 							"eventType": "block",
@@ -12230,6 +12524,14 @@
 						{
 							"id": "set-text",
 							"objectClass": "help",
+							"sid": 190289631270927,
+							"parameters": {
+								"text": "\"pfmtRoad\""
+							}
+						},
+						{
+							"id": "set-text",
+							"objectClass": "help",
 							"sid": 296991274110890,
 							"disabled": true,
 							"parameters": {
@@ -12348,35 +12650,114 @@
 										"comparison": 1,
 										"value": "-1"
 									}
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "zoneStop",
-									"sid": 482707532157769,
-									"parameters": {
-										"unique-id": "aTools.zoneStopUID"
-									}
 								}
 							],
 							"actions": [
 								{
-									"callFunction": "pfmt",
-									"sid": 143638236973787,
-									"parameters": [
-										"0",
-										"aBook.hero",
-										"Mouse.X-zoneStop.Y",
-										"Mouse.Y-zoneStop.Y",
-										"1",
-										"1",
-										"1",
-										"\"zero\"",
-										"aTools.groundUID",
-										"0"
-									]
+									"id": "set-position",
+									"objectClass": "mtMark",
+									"sid": 829351347178552,
+									"parameters": {
+										"x": "Mouse.X",
+										"y": "Mouse.Y"
+									}
 								}
 							],
-							"sid": 208364020621809
+							"sid": 208364020621809,
+							"children": [
+								{
+									"eventType": "variable",
+									"name": "cd",
+									"type": "number",
+									"initialValue": "10",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 998649130457339
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "while",
+											"objectClass": "System",
+											"sid": 539785708911453
+										}
+									],
+									"actions": [],
+									"sid": 340303926588416,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-overlapping-another-object",
+													"objectClass": "mtMark",
+													"sid": 238425765855537,
+													"parameters": {
+														"object": "zoneStop"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "add-to-eventvar",
+													"objectClass": "System",
+													"sid": 239449957801064,
+													"parameters": {
+														"variable": "cd",
+														"value": "5"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "mtMark",
+													"sid": 512965805390461,
+													"parameters": {
+														"x": "Mouse.X + cos(zoneStop.Angle + loopindex *90) *cd",
+														"y": "Mouse.Y+ sin(zoneStop.Angle + loopindex *90) *cd"
+													}
+												}
+											],
+											"sid": 290195290680767
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 408277857473076
+												}
+											],
+											"actions": [
+												{
+													"id": "stop-loop",
+													"objectClass": "System",
+													"sid": 464122573530955
+												},
+												{
+													"callFunction": "pfmt",
+													"sid": 538598236893266,
+													"parameters": [
+														"0",
+														"aBook.hero",
+														"mtMark.X",
+														"mtMark.Y",
+														"1",
+														"1",
+														"1",
+														"\"zero\"",
+														"aTools.groundUID",
+														"0"
+													]
+												}
+											],
+											"sid": 563796602769355
+										}
+									]
+								}
+							]
 						},
 						{
 							"eventType": "block",
