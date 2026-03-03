@@ -4679,6 +4679,40 @@
 					"sid": 658898874051818
 				},
 				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "basis",
+							"sid": 504879718287498,
+							"parameters": {
+								"object": "zoneStop"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"sid": 508141263423943,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "append-text",
+							"objectClass": "help",
+							"sid": 115032776060491,
+							"parameters": {
+								"text": "\"Z\""
+							}
+						}
+					],
+					"sid": 790697912801288
+				},
+				{
 					"eventType": "comment",
 					"text": ""
 				},
@@ -5157,6 +5191,34 @@
 							"parameters": {
 								"instance-variable": "move",
 								"value": "false"
+							}
+						},
+						{
+							"type": "comment",
+							"text": "Сброс сторожевого пса",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "basis",
+							"sid": 621888186562016,
+							"parameters": {
+								"instance-variable": "wdX",
+								"value": "0"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "basis",
+							"sid": 247909893950089,
+							"parameters": {
+								"instance-variable": "wdY",
+								"value": "0"
 							}
 						}
 					],
@@ -6746,6 +6808,283 @@
 				}
 			],
 			"sid": 541321801084026
+		},
+		{
+			"eventType": "comment",
+			"text": ""
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "watchDog",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 192837461928374,
+							"parameters": {
+								"interval-seconds": "0.25"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 748192384719234,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "basis",
+									"sid": 372356181712303,
+									"parameters": {
+										"instance-variable": "move"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 928374619283746,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 486978972946171,
+											"parameters": {
+												"object": "basis"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 937508308687309,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 941628657954643,
+													"parameters": {
+														"first-value": "distance(basis.X, basis.Y, basis.wdX, basis.wdY)",
+														"comparison": 2,
+														"second-value": "3"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "basis",
+													"sid": 286399800535658,
+													"parameters": {
+														"instance-variable": "wdX",
+														"comparison": 1,
+														"value": "0"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "basis",
+													"sid": 170384154152606,
+													"parameters": {
+														"instance-variable": "speedTotal",
+														"comparison": 4,
+														"value": "10"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "База застряла! Принудительная остановка.",
+													"background-color": [
+														0.33,
+														0.73,
+														0.48,
+														1
+													]
+												},
+												{
+													"callFunction": "baseStop",
+													"sid": 490663841217232
+												}
+											],
+											"sid": 599373263324106
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Обновляем координаты для следующей проверки",
+													"background-color": [
+														0.33,
+														0.73,
+														0.48,
+														1
+													]
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "basis",
+													"sid": 739793590814348,
+													"parameters": {
+														"instance-variable": "wdX",
+														"value": "basis.X"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "basis",
+													"sid": 737832738891478,
+													"parameters": {
+														"instance-variable": "wdY",
+														"value": "basis.Y"
+													}
+												}
+											],
+											"sid": 636248777538598
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ath",
+									"sid": 263757725055331,
+									"parameters": {
+										"instance-variable": "move"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 124803963527788,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 631869740747381,
+											"parameters": {
+												"object": "ath"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 988997233007573,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 124468731400764,
+													"parameters": {
+														"first-value": "distance(ath.X, ath.Y, ath.wdX, ath.wdY)",
+														"comparison": 2,
+														"second-value": "3"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "ath",
+													"sid": 613708564260239,
+													"parameters": {
+														"instance-variable": "wdX",
+														"comparison": 1,
+														"value": "0"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "ath",
+													"sid": 219257726430174,
+													"parameters": {
+														"instance-variable": "speedTotal",
+														"comparison": 4,
+														"value": "10"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "База застряла! Принудительная остановка.",
+													"background-color": [
+														0.33,
+														0.73,
+														0.48,
+														1
+													]
+												},
+												{
+													"callFunction": "stopThorns",
+													"sid": 921119787528250,
+													"parameters": [
+														" ath.UID",
+														true
+													]
+												}
+											],
+											"sid": 591321049427872
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Обновляем координаты для следующей проверки",
+													"background-color": [
+														0.33,
+														0.73,
+														0.48,
+														1
+													]
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ath",
+													"sid": 169081019419866,
+													"parameters": {
+														"instance-variable": "wdX",
+														"value": "ath.X"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ath",
+													"sid": 583267570865815,
+													"parameters": {
+														"instance-variable": "wdY",
+														"value": "ath.Y"
+													}
+												}
+											],
+											"sid": 774958647334613
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			],
+			"sid": 421082073868338
 		}
 	],
 	"sid": 415764788921674
