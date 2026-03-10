@@ -3,7 +3,7 @@
 	"events": [
 		{
 			"eventType": "comment",
-			"text": "\n\n\n\nЛист атаки \"Бросок снаряда\": мицелиевого шара, энерго-сферы и так далее. \nКое-что надо модернизировать.\n\n"
+			"text": "\n\n\n\nЛист атаки \"Бросок снаряда\": snowball или ball (мицелиевого шара, энерго-сферы и так далее). \nКое-что надо модернизировать.\n\n"
 		},
 		{
 			"eventType": "group",
@@ -12,6 +12,174 @@
 			"description": "",
 			"isActiveOnStart": true,
 			"children": [
+				{
+					"eventType": "comment",
+					"text": "клик по враждебному объекту"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "point",
+							"sid": 704239034681325,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"attackMe\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 520404159972023,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "point",
+									"sid": 771222923312258,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "ballTarget"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBook",
+									"sid": 163198864768102,
+									"parameters": {
+										"instance-variable": "mod",
+										"comparison": 1,
+										"value": "\"noMouse\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBook",
+									"sid": 438639366083778,
+									"parameters": {
+										"instance-variable": "mod",
+										"comparison": 1,
+										"value": "\"onlyJump\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aBook",
+									"sid": 403710834535626,
+									"parameters": {
+										"instance-variable": "keyboard"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aGame",
+									"sid": 754802348067571,
+									"parameters": {
+										"instance-variable": "noGun"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aaa",
+									"sid": 696998235373126,
+									"parameters": {
+										"instance-variable": "controlBlock"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aBook",
+									"sid": 637924255491289,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "hero",
+										"comparison": 0,
+										"value": "\"Bit\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aBook",
+									"sid": 176323814017660,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "keyboard"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 750851545629007,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aGame",
+											"sid": 745458110626728,
+											"parameters": {
+												"instance-variable": "snowBall"
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "attack",
+											"sid": 411068236923078,
+											"parameters": [
+												false,
+												false,
+												false,
+												"\"zero\"",
+												true,
+												"point.UID"
+											]
+										}
+									],
+									"sid": 164138241870478
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 323630830180213
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aGame",
+											"sid": 252651243405852,
+											"parameters": {
+												"instance-variable": "snowBall"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "attack",
+											"sid": 922723416773751,
+											"parameters": [
+												false,
+												false,
+												false,
+												"\"zero\"",
+												true,
+												"point.UID"
+											]
+										}
+									],
+									"sid": 498354828486752
+								}
+							]
+						}
+					]
+				},
 				{
 					"eventType": "comment",
 					"text": "\n\n\n атака снарядами - новая функция"
@@ -58,6 +226,13 @@
 							"initialValue": "true",
 							"comment": "",
 							"sid": 827923528293265
+						},
+						{
+							"name": "attackUID",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 533544516722492
 						}
 					],
 					"eventType": "function-block",
@@ -608,18 +783,79 @@
 												"instance-variable": "gunDirectTarget",
 												"value": "1"
 											}
-										},
-										{
-											"callFunction": "gun",
-											"sid": 481197790863038,
-											"parameters": [
-												false,
-												true,
-												"-1"
-											]
 										}
 									],
-									"sid": 570146807479152
+									"sid": 570146807479152,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 390116312597507,
+													"parameters": {
+														"variable": "attackUID",
+														"comparison": 4,
+														"value": "0"
+													}
+												},
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "point",
+													"sid": 305591655791475,
+													"parameters": {
+														"unique-id": "attackUID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "start-timer",
+													"objectClass": "aIns",
+													"sid": 671563040395860,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.1",
+														"type": "once",
+														"tag": "\"attackMe\""
+													}
+												},
+												{
+													"callFunction": "gun",
+													"sid": 436042195437108,
+													"parameters": [
+														false,
+														false,
+														"attackUID"
+													]
+												}
+											],
+											"sid": 190124179412312
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 719218435094161
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "gun",
+													"sid": 989066959370363,
+													"parameters": [
+														false,
+														true,
+														"-1"
+													]
+												}
+											],
+											"sid": 504374723420338
+										}
+									]
 								},
 								{
 									"eventType": "block",
@@ -754,18 +990,79 @@
 														"type": "once",
 														"tag": "\"preBall\""
 													}
-												},
-												{
-													"callFunction": "ball",
-													"sid": 571595276423338,
-													"parameters": [
-														"\"targetBall\"",
-														"Mouse.X",
-														"Mouse.Y"
-													]
 												}
 											],
-											"sid": 430192504997564
+											"sid": 430192504997564,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 196467735726385,
+															"parameters": {
+																"variable": "attackUID",
+																"comparison": 4,
+																"value": "0"
+															}
+														},
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "point",
+															"sid": 242748744974452,
+															"parameters": {
+																"unique-id": "attackUID"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "start-timer",
+															"objectClass": "aIns",
+															"sid": 511892993111372,
+															"behaviorType": "Timer",
+															"parameters": {
+																"duration": "0.1",
+																"type": "once",
+																"tag": "\"attackMe\""
+															}
+														},
+														{
+															"callFunction": "ball",
+															"sid": 457965783972897,
+															"parameters": [
+																"\"targetBall\"",
+																"point.X",
+																"point.Y"
+															]
+														}
+													],
+													"sid": 625272790624785
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 685279319632388
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "ball",
+															"sid": 668087665188366,
+															"parameters": [
+																"\"targetBall\"",
+																"Mouse.X",
+																"Mouse.Y"
+															]
+														}
+													],
+													"sid": 170465595210610
+												}
+											]
 										}
 									]
 								}
