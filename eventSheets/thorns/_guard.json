@@ -393,6 +393,15 @@
 							"parameters": {
 								"instance-variable": "roninGuard"
 							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "guard",
+							"sid": 736613452922737,
+							"parameters": {
+								"instance-variable": "destroed"
+							},
+							"isInverted": true
 						}
 					],
 					"actions": [],
@@ -407,6 +416,14 @@
 									"sid": 136733637725337,
 									"parameters": {
 										"instance-variable": "on"
+									}
+								},
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 352205442179430,
+									"parameters": {
+										"object": "guard"
 									}
 								}
 							],
@@ -447,7 +464,16 @@
 											}
 										}
 									],
-									"actions": [],
+									"actions": [
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 501457269655194,
+											"parameters": {
+												"text": "\"ф\""
+											}
+										}
+									],
 									"sid": 466034560133734,
 									"children": [
 										{
@@ -735,6 +761,16 @@
 					]
 				},
 				{
+					"eventType": "comment",
+					"text": "\nстражи ронины активированы",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
 					"eventType": "group",
 					"disabled": false,
 					"title": "guardRCore",
@@ -786,6 +822,15 @@
 									"parameters": {
 										"unique-id": "uid"
 									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "guard",
+									"sid": 196996327503768,
+									"parameters": {
+										"instance-variable": "destroed"
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [
@@ -3978,7 +4023,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "\nстражи",
+					"text": "\nстражи охранники активированы",
 					"background-color": [
 						0.7372549019607844,
 						0.7568627450980392,
@@ -9530,6 +9575,354 @@
 								}
 							],
 							"sid": 337197626642329
+						},
+						{
+							"eventType": "comment",
+							"text": "Энергия стража истощена",
+							"background-color": [
+								0.7372549019607844,
+								0.7568627450980392,
+								0.8431372549019608,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "guard",
+									"sid": 434958381910515,
+									"parameters": {
+										"instance-variable": "energy",
+										"comparison": 3,
+										"value": "0.5"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "stop-all-timers",
+									"objectClass": "guard",
+									"sid": 129541240438395,
+									"behaviorType": "Timer"
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "guard",
+									"sid": 962498185736108,
+									"parameters": {
+										"instance-variable": "destroed",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "guard",
+									"sid": 363678761080398,
+									"parameters": {
+										"animation": "\"dead\"&Self.a",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 135127897200338
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Страж превращается",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "guard",
+							"sid": 920236823956299,
+							"parameters": {
+								"animation": "\"dead\"&Self.a"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-animation",
+							"objectClass": "guard",
+							"sid": 289591068571093,
+							"parameters": {
+								"animation": "\"zero\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "guard",
+							"sid": 993318024494379,
+							"parameters": {
+								"collisions": "disabled"
+							}
+						},
+						{
+							"id": "set-text",
+							"objectClass": "help",
+							"sid": 345890107638478,
+							"parameters": {
+								"text": "1"
+							}
+						}
+					],
+					"sid": 660550859299059,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "воздушный превращается в череп-преследователь",
+							"background-color": [
+								0.7372549019607844,
+								0.7568627450980392,
+								0.8431372549019608,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "guard",
+									"sid": 592351085925673,
+									"parameters": {
+										"instance-variable": "air"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "guardScull",
+									"sid": 703600114800613,
+									"parameters": {
+										"unique-id": "Functions.pickOutside(\"guardScul\")"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 336141280505135,
+									"parameters": {
+										"text": "2"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "guardScull",
+									"sid": 569513842896992,
+									"parameters": {
+										"animation": "\"fly\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "guardScull",
+									"sid": 882064153100142,
+									"parameters": {
+										"scale": "guard.sizeC"
+									}
+								},
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "guardScull",
+									"sid": 281914623629787,
+									"parameters": {
+										"object": "guard",
+										"image-point-optional": "1"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "guardScull",
+									"sid": 552792788935021,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								}
+							],
+							"sid": 874235398155771
+						},
+						{
+							"eventType": "comment",
+							"text": "наземный превращается в летающего шпиона",
+							"background-color": [
+								0.7372549019607844,
+								0.7568627450980392,
+								0.8431372549019608,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 113756279860238
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "spy",
+									"sid": 279589404526721,
+									"parameters": {
+										"unique-id": "Functions.pickOutside(\"spy\")"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 890204987761576,
+									"parameters": {
+										"text": "3"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "spy",
+									"sid": 983624241142532,
+									"parameters": {
+										"animation": "\"fly\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "spy",
+									"sid": 110574917710859,
+									"parameters": {
+										"scale": "guard.sizeC"
+									}
+								},
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "spy",
+									"sid": 756536189513377,
+									"parameters": {
+										"object": "guard",
+										"image-point-optional": "1"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 466638677895160,
+									"parameters": {
+										"group-name": "\"spy\"",
+										"state": "activated"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "spy",
+									"sid": 645920443782073,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "spy",
+									"sid": 156559868310221,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "spy",
+									"sid": 158379227255661,
+									"behaviorType": "Bullet",
+									"parameters": {
+										"state": "enabled"
+									}
+								},
+								{
+									"type": "comment",
+									"text": ""
+								},
+								{
+									"id": "move-to-layer",
+									"objectClass": "spy",
+									"sid": 105307750652203,
+									"parameters": {
+										"layer": "\"front\""
+									}
+								}
+							],
+							"sid": 655202142823412,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "эффект",
+									"background-color": [
+										0.7372549019607844,
+										0.7568627450980392,
+										0.8431372549019608,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "tFX",
+											"sid": 797353336612875,
+											"parameters": {
+												"unique-id": "Functions.pickOutside(\"tFX\")"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "tFX",
+											"sid": 187586885673414,
+											"parameters": {
+												"animation": "\"fx2\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "tFX",
+											"sid": 861314988324150,
+											"parameters": {
+												"object": "spy",
+												"image-point-optional": "0"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "tFX",
+											"sid": 170202131253225,
+											"parameters": {
+												"where": "behind",
+												"object": "spy"
+											}
+										}
+									],
+									"sid": 601503473598847
+								}
+							]
 						}
 					]
 				},
