@@ -39,7 +39,6 @@
 				}
 			],
 			"sid": 408633399973751,
-			"disabled": true,
 			"isOrBlock": true
 		},
 		{
@@ -2702,6 +2701,23 @@
 								"instance-variable": "up",
 								"value": "false"
 							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "octoPoint",
+							"sid": 401792608516610,
+							"parameters": {
+								"collisions": "enabled"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "octoPoint",
+							"sid": 705917869048807,
+							"parameters": {
+								"instance-variable": "state",
+								"value": "\"grabEnd\""
+							}
 						}
 					],
 					"sid": 678583802109153,
@@ -3534,596 +3550,6 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "\nшипы на ловушке",
-					"background-color": [
-						0.6823529411764706,
-						0.7176470588235294,
-						0.7607843137254902,
-						1
-					]
-				},
-				{
-					"eventType": "variable",
-					"name": "TargetCount",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"isStatic": false,
-					"isConstant": false,
-					"sid": 488423268747867
-				},
-				{
-					"eventType": "variable",
-					"name": "LocalIntensity",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"isStatic": false,
-					"isConstant": false,
-					"sid": 565040269538509
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "every-x-seconds",
-							"objectClass": "System",
-							"sid": 936582391605022,
-							"parameters": {
-								"interval-seconds": "0.1"
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "octoPoint",
-							"sid": 287447816307549,
-							"parameters": {
-								"instance-variable": "close"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 272040387869163,
-					"disabled": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "octoPoint",
-									"sid": 482815277318298,
-									"parameters": {
-										"instance-variable": "sleep"
-									},
-									"isInverted": true
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "octoPoint",
-									"sid": 832859715102597,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "act"
-									},
-									"isInverted": true
-								}
-							],
-							"actions": [],
-							"sid": 797986994940124,
-							"disabled": true,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "for-each",
-											"objectClass": "System",
-											"sid": 477652216151425,
-											"parameters": {
-												"object": "octoPoint"
-											}
-										}
-									],
-									"actions": [
-										{
-											"type": "script",
-											"language": "javascript",
-											"script": [
-												"// Так как мы повесили её на window, вызываем через window или напрямую",
-												"window.ManageSpikes(",
-												"    octoPoint.octoUID, ",
-												"    octoPoint.distToBase, ",
-												"    octoPoint.alarmStart, ",
-												"    octoPoint.alarmEnd, ",
-												"    70",
-												")",
-												""
-											]
-										},
-										{
-											"id": "set-eventvar-value",
-											"objectClass": "System",
-											"sid": 836154502885145,
-											"disabled": true,
-											"parameters": {
-												"variable": "LocalIntensity",
-												"value": "clamp(1 - (octoPoint.distToBase - octoPoint.alarmEnd) / (octoPoint.alarmStart - octoPoint.alarmEnd), 0, 1)"
-											}
-										},
-										{
-											"type": "script",
-											"language": "javascript",
-											"script": [
-												"ManageSpikes(octoPoint.octoUID, octoPoint.distToBase, octoPoint.alarmStart, octoPoint.alarmEnd, octoPoint.radius)",
-												""
-											],
-											"disabled": true
-										},
-										{
-											"id": "set-eventvar-value",
-											"objectClass": "System",
-											"sid": 840455834389116,
-											"disabled": true,
-											"parameters": {
-												"variable": "TargetCount",
-												"value": "floor(octoPoint.Nspikes * LocalIntensity)"
-											}
-										}
-									],
-									"sid": 292356243389689,
-									"disabled": true,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-child-count",
-													"objectClass": "octo",
-													"sid": 632329436514619,
-													"parameters": {
-														"which": "own",
-														"comparison": 2,
-														"count": "TargetCount"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 723683757440403,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "repeat",
-															"objectClass": "System",
-															"sid": 123570882330878,
-															"parameters": {
-																"count": "(TargetCount - octo.ChildCount)"
-															}
-														}
-													],
-													"actions": [],
-													"sid": 441801119566911,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "is-outside-layout",
-																	"objectClass": "trapSpike",
-																	"sid": 204315870685180
-																}
-															],
-															"actions": [],
-															"sid": 505956671109735,
-															"children": [
-																{
-																	"eventType": "block",
-																	"conditions": [
-																		{
-																			"id": "pick-random-instance",
-																			"objectClass": "System",
-																			"sid": 686248837357184,
-																			"parameters": {
-																				"object": "trapSpike"
-																			}
-																		}
-																	],
-																	"actions": [
-																		{
-																			"id": "set-mirrored",
-																			"objectClass": "trapSpike",
-																			"sid": 263876704879110,
-																			"parameters": {
-																				"state": "not-mirrored"
-																			}
-																		},
-																		{
-																			"id": "set-position",
-																			"objectClass": "trapSpike",
-																			"sid": 852379931800371,
-																			"parameters": {
-																				"x": "octo.X",
-																				"y": "octo.Y"
-																			}
-																		},
-																		{
-																			"id": "add-child",
-																			"objectClass": "octo",
-																			"sid": 235268113647719,
-																			"parameters": {
-																				"child": "trapSpike",
-																				"transform-x": true,
-																				"transform-y": true,
-																				"transform-w": false,
-																				"transform-h": false,
-																				"transform-a": false,
-																				"transform-o": false,
-																				"transform-z-elevation": false,
-																				"transform-visibility": false,
-																				"destroy-with-parent": false
-																			}
-																		},
-																		{
-																			"id": "set-boolean-instvar",
-																			"objectClass": "trapSpike",
-																			"sid": 876976328064139,
-																			"parameters": {
-																				"instance-variable": "isNew",
-																				"value": "true"
-																			}
-																		},
-																		{
-																			"id": "set-animation",
-																			"objectClass": "trapSpike",
-																			"sid": 993855809568206,
-																			"disabled": true,
-																			"parameters": {
-																				"animation": "\"full\"",
-																				"from": "beginning"
-																			}
-																		},
-																		{
-																			"id": "set-animation-speed",
-																			"objectClass": "trapSpike",
-																			"sid": 452547073400330,
-																			"disabled": true,
-																			"parameters": {
-																				"speed": "0"
-																			}
-																		},
-																		{
-																			"id": "start-animation",
-																			"objectClass": "trapSpike",
-																			"sid": 727638418304408,
-																			"disabled": true,
-																			"parameters": {
-																				"from": "beginning"
-																			}
-																		}
-																	],
-																	"sid": 455439884289557,
-																	"children": [
-																		{
-																			"eventType": "block",
-																			"conditions": [
-																				{
-																					"id": "ChancePercent",
-																					"objectClass": "Utils",
-																					"sid": 405212711022785,
-																					"parameters": {
-																						"chance": "50"
-																					}
-																				}
-																			],
-																			"actions": [
-																				{
-																					"id": "set-mirrored",
-																					"objectClass": "trapSpike",
-																					"sid": 730764182873143,
-																					"parameters": {
-																						"state": "mirrored"
-																					}
-																				}
-																			],
-																			"sid": 300957694853179
-																		}
-																	]
-																}
-															]
-														}
-													]
-												}
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 121561573055039
-												},
-												{
-													"id": "compare-child-count",
-													"objectClass": "octo",
-													"sid": 349014131098799,
-													"parameters": {
-														"which": "own",
-														"comparison": 4,
-														"count": "TargetCount"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 461011587617650,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "pick-children",
-															"objectClass": "octo",
-															"sid": 935745151241791,
-															"parameters": {
-																"child": "trapSpike",
-																"which": "all"
-															}
-														}
-													],
-													"actions": [],
-													"sid": 489589436433480,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "pick-nth-child",
-																	"objectClass": "octo",
-																	"sid": 249857496081762,
-																	"parameters": {
-																		"child": "trapSpike",
-																		"index-type": "all",
-																		"instance": "0"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "remove-from-parent",
-																	"objectClass": "trapSpike",
-																	"sid": 628354946650898
-																},
-																{
-																	"id": "set-position",
-																	"objectClass": "trapSpike",
-																	"sid": 747770918760771,
-																	"parameters": {
-																		"x": "-9599",
-																		"y": "-9799"
-																	}
-																}
-															],
-															"sid": 924047803687289
-														}
-													]
-												}
-											]
-										}
-									]
-								}
-							]
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "",
-					"background-color": [
-						0.6823529411764706,
-						0.7176470588235294,
-						0.7607843137254902,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-animation-frame-changed",
-							"objectClass": "octo",
-							"sid": 858661681506588
-						},
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "octoPoint",
-							"sid": 530197337155585,
-							"disabled": true,
-							"parameters": {
-								"unique-id": "octo.trapPointUID"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 307910072355633,
-					"disabled": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-animation-playing",
-									"objectClass": "octo",
-									"sid": 827487334660259,
-									"parameters": {
-										"animation": "\"idle\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 458802602809191,
-							"disabled": true,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "octoPoint",
-											"sid": 671511250729305,
-											"parameters": {
-												"instance-variable": "move"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 403913304213688,
-									"disabled": true,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "ChancePercent",
-													"objectClass": "Utils",
-													"sid": 400380171007017,
-													"parameters": {
-														"chance": "70"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "spawn-another-object",
-													"objectClass": "octo",
-													"sid": 427402035810393,
-													"parameters": {
-														"object": "trapSpike",
-														"layer": "\"element\"",
-														"image-point": "choose(1,2,3,4,5,6,7,0,1,2,3,4,5,6,7,0,0,1,2,3,4,5,6,7,0,1,0)",
-														"create-hierarchy": false,
-														"template-name": "\"\""
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "trapSpike",
-													"sid": 798891247627403,
-													"parameters": {
-														"animation": "choose(\"full\",\"mid\",\"mid\",\"short\",\"short\",\"short\")",
-														"from": "beginning"
-													}
-												}
-											],
-											"sid": 422843095329408,
-											"disabled": true
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 759620456700565
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "octoPoint",
-											"sid": 111203466788187,
-											"parameters": {
-												"instance-variable": "close"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "spawn-another-object",
-											"objectClass": "octo",
-											"sid": 300277705593909,
-											"parameters": {
-												"object": "trapSpike",
-												"layer": "\"element\"",
-												"image-point": "choose(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "trapSpike",
-											"sid": 280033680220647,
-											"parameters": {
-												"animation": "choose(\"full\",\"mid\",\"mid\",\"short\",\"short\",\"short\")",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 193622174787445,
-									"disabled": true
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 467357559208233
-										}
-									],
-									"actions": [],
-									"sid": 720492687796712,
-									"disabled": true,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "ChancePercent",
-													"objectClass": "Utils",
-													"sid": 333118059195679,
-													"parameters": {
-														"chance": "5"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "spawn-another-object",
-													"objectClass": "octo",
-													"sid": 356949265523755,
-													"parameters": {
-														"object": "trapSpike",
-														"layer": "\"element\"",
-														"image-point": "choose(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19)",
-														"create-hierarchy": false,
-														"template-name": "\"\""
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "trapSpike",
-													"sid": 436239934868015,
-													"parameters": {
-														"animation": "choose(\"full\",\"mid\",\"mid\",\"short\",\"short\",\"short\")",
-														"from": "beginning"
-													}
-												}
-											],
-											"sid": 695690102909229,
-											"disabled": true
-										}
-									]
-								}
-							],
-							"isOrBlock": true
-						}
-					]
-				},
-				{
-					"eventType": "comment",
 					"text": "дополнительная реакция во время проглатывания",
 					"background-color": [
 						0.6588235294117647,
@@ -4133,78 +3559,44 @@
 					]
 				},
 				{
-					"eventType": "group",
-					"disabled": false,
-					"title": "octoGrabReact",
-					"description": "",
-					"isActiveOnStart": false,
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-frame-changed",
+							"objectClass": "octo",
+							"sid": 172934410913143
+						},
+						{
+							"id": "is-animation-playing",
+							"objectClass": "octo",
+							"sid": 140761024318788,
+							"parameters": {
+								"animation": "\"grab\""
+							}
+						},
+						{
+							"id": "compare-animation-frame-tag",
+							"objectClass": "octo",
+							"sid": 404457716150749,
+							"parameters": {
+								"comparison": 0,
+								"tag": "\"cross\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 297402968579213,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "on-animation-frame-changed",
-									"objectClass": "octo",
-									"sid": 287591519978341
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "octo",
-									"sid": 660679567051196,
+									"id": "Chance",
+									"objectClass": "Utils",
+									"sid": 671093383623418,
 									"parameters": {
-										"animation": "\"grab\""
-									}
-								},
-								{
-									"id": "compare-animation-frame-tag",
-									"objectClass": "octo",
-									"sid": 394991175455205,
-									"parameters": {
-										"comparison": 0,
-										"tag": "\"cross\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 869099966977635,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "Chance",
-											"objectClass": "Utils",
-											"sid": 268742526379427,
-											"parameters": {
-												"chance": "1",
-												"outof": "2"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation",
-											"objectClass": "octo",
-											"sid": 619766318706362,
-											"parameters": {
-												"animation": "\"spikes\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 101112230380714
-								}
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-animation-finished",
-									"objectClass": "octo",
-									"sid": 343345204235618,
-									"parameters": {
-										"animation": "\"spikes\""
+										"chance": "1",
+										"outof": "3"
 									}
 								}
 							],
@@ -4212,61 +3604,57 @@
 								{
 									"id": "set-animation",
 									"objectClass": "octo",
-									"sid": 923564034498156,
+									"sid": 853210231510513,
 									"parameters": {
-										"animation": "\"grab\"",
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-animation-frame",
-									"objectClass": "octo",
-									"sid": 675958426424802,
-									"parameters": {
-										"frame-number": "7"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "octo",
-									"sid": 998939902685453,
-									"parameters": {
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-group-active",
-									"objectClass": "System",
-									"sid": 152403465490110,
-									"parameters": {
-										"group-name": "\"octoGrabReact\"",
-										"state": "deactivated"
+										"animation": "\"spikes\"",
+										"from": "beginning"
 									}
 								}
 							],
-							"sid": 570815272818400
+							"sid": 455194512504777
 						}
-					],
-					"sid": 736694650635401
+					]
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "on-any-animation-finished",
-							"objectClass": "trapSpike",
-							"sid": 820196870936178
+							"id": "on-animation-finished",
+							"objectClass": "octo",
+							"sid": 757998439359520,
+							"parameters": {
+								"animation": "\"spikes\""
+							}
 						}
 					],
 					"actions": [
 						{
-							"id": "destroy",
-							"objectClass": "trapSpike",
-							"sid": 492415080344158
+							"id": "set-animation",
+							"objectClass": "octo",
+							"sid": 958035901693348,
+							"parameters": {
+								"animation": "\"grab\"",
+								"from": "current-frame"
+							}
+						},
+						{
+							"id": "set-animation-frame",
+							"objectClass": "octo",
+							"sid": 239089828519555,
+							"parameters": {
+								"frame-number": "7"
+							}
+						},
+						{
+							"id": "start-animation",
+							"objectClass": "octo",
+							"sid": 856079417159003,
+							"parameters": {
+								"from": "current-frame"
+							}
 						}
 					],
-					"sid": 729956192322321,
-					"disabled": true
+					"sid": 580918521056776
 				},
 				{
 					"eventType": "comment",
@@ -4316,6 +3704,23 @@
 							"parameters": {
 								"instance-variable": "up",
 								"value": "false"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "octoPoint",
+							"sid": 133153585906234,
+							"parameters": {
+								"collisions": "enabled"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "octoPoint",
+							"sid": 501015055156098,
+							"parameters": {
+								"instance-variable": "state",
+								"value": "\"grabEnd\""
 							}
 						}
 					],
@@ -5423,13 +4828,78 @@
 							}
 						}
 					],
-					"actions": [
+					"actions": [],
+					"sid": 450428975021074,
+					"children": [
 						{
-							"callFunction": "\"octoCheck\"",
-							"sid": 677382369975461
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-nearestfurthest",
+									"objectClass": "basis",
+									"sid": 415219395566082,
+									"parameters": {
+										"which": "nearest",
+										"x": "octoPoint.X",
+										"y": "octoPoint.Y"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 368588742774470,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "basis",
+											"sid": 367362753555441,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "\"Bit\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "\"octoCheck\"",
+											"sid": 203234227699498,
+											"parameters": [
+												true,
+												"basis.UID",
+												"octoPoint.UID"
+											]
+										}
+									],
+									"sid": 830016566481423
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 573144422305558
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "\"octoCheck\"",
+											"sid": 497150529180515,
+											"parameters": [
+												false,
+												"basis.UID",
+												"octoPoint.UID"
+											]
+										}
+									],
+									"sid": 257951995831013
+								}
+							]
 						}
-					],
-					"sid": 450428975021074
+					]
 				},
 				{
 					"eventType": "block",
@@ -5443,13 +4913,59 @@
 							}
 						}
 					],
-					"actions": [
+					"actions": [],
+					"sid": 134304613123494,
+					"children": [
 						{
-							"callFunction": "\"octoCheck\"",
-							"sid": 358860400348025
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "basis",
+									"sid": 732885700042200,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "\"octoCheck\"",
+									"sid": 482792934861061,
+									"parameters": [
+										true,
+										"basis.UID",
+										"octoPoint.UID"
+									]
+								}
+							],
+							"sid": 328549712531942
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 391764345308112
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "\"octoCheck\"",
+									"sid": 511596114460497,
+									"parameters": [
+										false,
+										"basis.UID",
+										"octoPoint.UID"
+									]
+								}
+							],
+							"sid": 163755211208048
 						}
-					],
-					"sid": 134304613123494
+					]
 				},
 				{
 					"eventType": "comment",
@@ -5466,11 +4982,50 @@
 					"functionDescription": "",
 					"functionCategory": "",
 					"functionReturnType": "none",
-					"functionCopyPicked": true,
+					"functionCopyPicked": false,
 					"functionIsAsync": false,
-					"functionParameters": [],
+					"functionParameters": [
+						{
+							"name": "hero",
+							"type": "boolean",
+							"initialValue": "true",
+							"comment": "",
+							"sid": 477001072199814
+						},
+						{
+							"name": "basisUID",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 651102671504634
+						},
+						{
+							"name": "octoPUID",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 657898180434268
+						}
+					],
 					"eventType": "function-block",
-					"conditions": [],
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "basis",
+							"sid": 425645291660388,
+							"parameters": {
+								"unique-id": "basisUID"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "octoPoint",
+							"sid": 455408479147291,
+							"parameters": {
+								"unique-id": "octoPUID"
+							}
+						}
+					],
 					"actions": [],
 					"sid": 397116828470008,
 					"children": [
@@ -5494,33 +5049,6 @@
 										"instance-variable": "inTrap"
 									},
 									"isInverted": true
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "basis",
-									"sid": 958500047194184,
-									"parameters": {
-										"instance-variable": "respawn"
-									},
-									"isInverted": true
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "ioTarget",
-									"sid": 604514568426667,
-									"parameters": {
-										"unique-id": "basis.UID"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "person",
-									"sid": 393408681866179,
-									"parameters": {
-										"instance-variable": "name",
-										"comparison": 0,
-										"value": "basis.name"
-									}
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
@@ -5575,98 +5103,9 @@
 										"instance-variable": "up"
 									},
 									"isInverted": true
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "aBit",
-									"sid": 792420363868266,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "respawn"
-									},
-									"isInverted": true
 								}
 							],
-							"actions": [
-								{
-									"id": "callselffunction0",
-									"objectClass": "basis",
-									"sid": 564198165952984,
-									"behaviorType": "sf",
-									"parameters": {
-										"function_name:0": "\"stop\""
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "basis",
-									"sid": 603769952513797,
-									"parameters": {
-										"instance-variable": "freeToMove",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "basis",
-									"sid": 970261064854478,
-									"parameters": {
-										"instance-variable": "inTrap",
-										"value": "true"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "basis",
-									"sid": 309280150272156,
-									"parameters": {
-										"instance-variable": "respawn",
-										"value": "true"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "ioTarget",
-									"sid": 525558019083409,
-									"parameters": {
-										"instance-variable": "gravityTarget",
-										"value": "false"
-									}
-								},
-								{
-									"callFunction": "ioTargetNoGravity",
-									"sid": 185539499543567
-								},
-								{
-									"id": "move-to-object",
-									"objectClass": "basis",
-									"sid": 780247311213071,
-									"behaviorType": "mt",
-									"parameters": {
-										"object": "octoPoint",
-										"image-point": "0",
-										"mode": "direct"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "octoPoint",
-									"sid": 894888345336160,
-									"parameters": {
-										"instance-variable": "grabUID",
-										"value": "basis.UID"
-									}
-								},
-								{
-									"id": "set-group-active",
-									"objectClass": "System",
-									"sid": 535662276787625,
-									"parameters": {
-										"group-name": "\"serpTrap\"",
-										"state": "activated"
-									}
-								}
-							],
+							"actions": [],
 							"sid": 784695639433473,
 							"children": [
 								{
@@ -5674,67 +5113,679 @@
 									"conditions": [
 										{
 											"id": "pick-by-unique-id",
-											"objectClass": "octo",
-											"sid": 744234291623839,
-											"disabled": true,
+											"objectClass": "ioTarget",
+											"sid": 241753776422583,
 											"parameters": {
-												"unique-id": "octoPoint.octoUID"
-											}
-										},
-										{
-											"id": "pick-nearestfurthest",
-											"objectClass": "octo",
-											"sid": 372644992975063,
-											"disabled": true,
-											"parameters": {
-												"which": "furthest",
-												"x": "basis.X",
-												"y": "basis.Y"
-											}
-										},
-										{
-											"id": "pick-nearestfurthest",
-											"objectClass": "octo",
-											"sid": 554959235461744,
-											"disabled": true,
-											"parameters": {
-												"which": "nearest",
-												"x": "octoPoint.X",
-												"y": "octoPoint.Y"
+												"unique-id": "basis.UID"
 											}
 										}
 									],
 									"actions": [
 										{
-											"id": "set-position",
-											"objectClass": "octo",
-											"sid": 480637706393638,
-											"disabled": true,
+											"id": "set-boolean-instvar",
+											"objectClass": "ioTarget",
+											"sid": 274733549268432,
 											"parameters": {
-												"x": "octoPoint.X",
-												"y": "octoPoint.Y-1"
+												"instance-variable": "gravityTarget",
+												"value": "false"
+											}
+										}
+									],
+									"sid": 715309446162909
+								},
+								{
+									"eventType": "comment",
+									"text": ""
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 477216754389725,
+											"parameters": {
+												"variable": "hero"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "basis",
+											"sid": 660770651005916,
+											"parameters": {
+												"instance-variable": "respawn"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 417157457009626,
+											"parameters": {
+												"instance-variable": "respawn"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 484130420275929,
+											"parameters": {
+												"instance-variable": "intersept"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "person",
+											"sid": 944544459481386,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "basis.name"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "heroStop",
+											"objectClass": "aIns",
+											"sid": 641278671331911,
+											"parameters": [
+												true
+											]
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 692670356819339,
+											"parameters": {
+												"instance-variable": "freeToMove",
+												"value": "false"
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "basis",
+											"sid": 847109547441490,
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"stop\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 349660922670223,
+											"parameters": {
+												"instance-variable": "inTrap",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 144190202117867,
+											"parameters": {
+												"instance-variable": "respawn",
+												"value": "true"
+											}
+										},
+										{
+											"callFunction": "ioTargetNoGravity",
+											"sid": 498295927370769
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "octoPoint",
+											"sid": 722376126620012,
+											"parameters": {
+												"instance-variable": "grabUID",
+												"value": "basis.UID"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "octoPoint",
+											"sid": 420397654481312,
+											"parameters": {
+												"instance-variable": "trap",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 454267151039572,
+											"parameters": {
+												"instance-variable": "move",
+												"value": "false"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "basis",
+											"sid": 861501586443532,
+											"behaviorType": "mt",
+											"parameters": {
+												"object": "octoPoint",
+												"image-point": "0",
+												"mode": "direct"
+											}
+										},
+										{
+											"id": "set-max-speed",
+											"objectClass": "basis",
+											"sid": 548061730300735,
+											"behaviorType": "mt",
+											"parameters": {
+												"max-speed": "800"
+											}
+										},
+										{
+											"id": "start-timer",
+											"objectClass": "basis",
+											"sid": 353157135534646,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "0.1",
+												"type": "once",
+												"tag": "\"trapGrab\""
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 451890915871733,
+											"parameters": {
+												"group-name": "\"serpTrap\"",
+												"state": "activated"
+											}
+										},
+										{
+											"type": "comment",
+											"text": ""
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aIns",
+											"sid": 745290085605175,
+											"parameters": {
+												"instance-variable": "gunDisable",
+												"value": "true"
+											}
+										},
+										{
+											"customAction": "NoControl",
+											"objectClass": "aIns",
+											"sid": 585971700241056,
+											"parameters": [
+												true,
+												true,
+												"0"
+											]
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aBit",
+											"sid": 478173606854482,
+											"parameters": {
+												"instance-variable": "intersept",
+												"value": "true"
 											}
 										},
 										{
 											"id": "set-instvar-value",
-											"objectClass": "octo",
-											"sid": 312824276710066,
+											"objectClass": "aBit",
+											"sid": 688943585130172,
+											"parameters": {
+												"instance-variable": "interseptor",
+												"value": "\"octo\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aBit",
+											"sid": 527309254734829,
 											"disabled": true,
 											"parameters": {
-												"instance-variable": "trapPointUID",
-												"value": "octoPoint.UID"
+												"instance-variable": "respawn",
+												"value": "true"
+											}
+										},
+										{
+											"id": "stop-timer",
+											"objectClass": "person",
+											"sid": 822235511740093,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"impact\""
+											}
+										},
+										{
+											"id": "stop-timer",
+											"objectClass": "person",
+											"sid": 890820780851077,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"impactEm\""
+											}
+										},
+										{
+											"id": "stop-timer",
+											"objectClass": "person",
+											"sid": 610891193414064,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"impactStart\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBook",
+											"sid": 216915649997398,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "mod",
+												"value": "\"noMouse\""
+											}
+										},
+										{
+											"customAction": "NoMOUSE",
+											"objectClass": "aIns",
+											"sid": 946331233560159,
+											"parameters": [
+												true,
+												true,
+												true,
+												true,
+												"0"
+											]
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBook",
+											"sid": 741225260287799,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "mod",
+												"value": "\"onlyRoad\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aMico",
+											"sid": 134588743355699,
+											"parameters": {
+												"instance-variable": "BitSerpStatus",
+												"value": "\"trapHit\""
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "cursor",
+											"sid": 905745518120226,
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"deCharge\""
 											}
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "octo",
-											"sid": 402347291253597,
-											"disabled": true,
+											"objectClass": "person",
+											"sid": 258218106789179,
 											"parameters": {
-												"animation": "\"fast\"",
+												"animation": "\"falling\"",
 												"from": "beginning"
 											}
 										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "aIns",
+											"sid": 440199298176119,
+											"disabled": true,
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"serpGetBit\""
+											}
+										},
+										{
+											"type": "comment",
+											"text": "?"
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aIns",
+											"sid": 975697922765853,
+											"parameters": {
+												"instance-variable": "serpentStrikeUID",
+												"value": "0"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aIns",
+											"sid": 346778303433310,
+											"parameters": {
+												"instance-variable": "serpentWinerUID",
+												"value": "0"
+											}
+										}
+									],
+									"sid": 424307121582778,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "basis",
+													"sid": 248882042706682,
+													"parameters": {
+														"instance-variable": "puffFog"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "base",
+													"sid": 940885683726673,
+													"parameters": {
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "aBook.hero"
+													}
+												}
+											],
+											"actions": [
+												{
+													"customAction": "puffOff",
+													"objectClass": "base",
+													"sid": 294081662417836
+												}
+											],
+											"sid": 789415871717499
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "basis",
+													"sid": 744932440092482,
+													"parameters": {
+														"instance-variable": "jumpHi",
+														"comparison": 4,
+														"value": "150"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "jumper",
+													"sid": 172183669960231,
+													"parameters": {
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "basis.name"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "spawn-another-object",
+													"objectClass": "person",
+													"sid": 442933209788266,
+													"disabled": true,
+													"parameters": {
+														"object": "serpGrab",
+														"layer": "\"iso\"",
+														"image-point": "\"center\"",
+														"create-hierarchy": false,
+														"template-name": "\"\""
+													}
+												},
+												{
+													"id": "unpin",
+													"objectClass": "serpGrab",
+													"sid": 976613206025398,
+													"behaviorType": "Pin"
+												},
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "serpGrab",
+													"sid": 530215417012836,
+													"parameters": {
+														"object": "person",
+														"image-point-optional": "\"center\""
+													}
+												},
+												{
+													"id": "set-visible",
+													"objectClass": "serpGrab",
+													"sid": 522483907479561,
+													"parameters": {
+														"visibility": "visible"
+													}
+												},
+												{
+													"id": "pin-to-object-properties",
+													"objectClass": "serpGrab",
+													"sid": 100137929129560,
+													"behaviorType": "Pin",
+													"parameters": {
+														"pin-to": "person",
+														"x": true,
+														"y": true,
+														"angle": false,
+														"width-type": "no",
+														"height-type": "no",
+														"z": false
+													}
+												},
+												{
+													"id": "set-opacity",
+													"objectClass": "serpGrab",
+													"sid": 684273924141351,
+													"parameters": {
+														"opacity": "100"
+													}
+												},
+												{
+													"id": "set-fade-out-time",
+													"objectClass": "serpGrab",
+													"sid": 735765208081272,
+													"disabled": true,
+													"behaviorType": "Fade",
+													"parameters": {
+														"fade-out-time": "basis.jumpHi/600"
+													}
+												},
+												{
+													"id": "set-fade-out-time",
+													"objectClass": "serpGrab",
+													"sid": 507670695078322,
+													"behaviorType": "Fade",
+													"parameters": {
+														"fade-out-time": "basis.jumpHi/800"
+													}
+												},
+												{
+													"id": "start-fade",
+													"objectClass": "serpGrab",
+													"sid": 470930718890754,
+													"disabled": true,
+													"behaviorType": "Fade"
+												},
+												{
+													"id": "restart-fade",
+													"objectClass": "serpGrab",
+													"sid": 551982796987371,
+													"behaviorType": "Fade"
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "serpGrab",
+													"sid": 764049625072068,
+													"disabled": true,
+													"parameters": {
+														"angle": "0"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "jumper",
+													"sid": 432336480022907,
+													"parameters": {
+														"instance-variable": "gravity",
+														"value": "Self.gravity*2.5"
+													}
+												}
+											],
+											"sid": 994550357898879
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": ""
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 659530842214226
+										},
+										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 503867060620125,
+											"parameters": {
+												"variable": "hero"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "person",
+											"sid": 399817588590486,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "basis.name"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "callselffunction0",
+											"objectClass": "basis",
+											"sid": 405985973969934,
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"stop\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 504139630461879,
+											"parameters": {
+												"instance-variable": "freeToMove",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 415155664900308,
+											"parameters": {
+												"instance-variable": "inTrap",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 577970139180729,
+											"parameters": {
+												"instance-variable": "respawn",
+												"value": "true"
+											}
+										},
+										{
+											"callFunction": "ioTargetNoGravity",
+											"sid": 781197837521362
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 433588113044828,
+											"parameters": {
+												"instance-variable": "move",
+												"value": "false"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "basis",
+											"sid": 452397988161173,
+											"behaviorType": "mt",
+											"parameters": {
+												"object": "octoPoint",
+												"image-point": "0",
+												"mode": "direct"
+											}
+										},
+										{
+											"id": "set-max-speed",
+											"objectClass": "basis",
+											"sid": 239650139783985,
+											"behaviorType": "mt",
+											"parameters": {
+												"max-speed": "1000"
+											}
+										},
+										{
+											"id": "start-timer",
+											"objectClass": "basis",
+											"sid": 571497061319781,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "0.1",
+												"type": "once",
+												"tag": "\"trapGrab\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "octoPoint",
+											"sid": 723157966009729,
+											"parameters": {
+												"instance-variable": "grabUID",
+												"value": "basis.UID"
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 226293238645172,
+											"parameters": {
+												"group-name": "\"serpTrap\"",
+												"state": "activated"
+											}
+										}
+									],
+									"sid": 949748225361657
+								},
+								{
+									"eventType": "comment",
+									"text": ""
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
 										{
 											"id": "set-animation",
 											"objectClass": "octo",
@@ -5758,25 +5809,6 @@
 											"sid": 774328207439489,
 											"parameters": {
 												"from": "current-frame"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "octo",
-											"sid": 579331095106686,
-											"disabled": true,
-											"parameters": {
-												"speed": "12"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "octoPoint",
-											"sid": 948127365809626,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "octoUID",
-												"value": "octo.UID"
 											}
 										},
 										{
@@ -5815,25 +5847,11 @@
 											}
 										},
 										{
-											"type": "comment",
-											"text": "?"
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aIns",
-											"sid": 144294336674805,
+											"id": "set-collisions-enabled",
+											"objectClass": "octoPoint",
+											"sid": 412799956139245,
 											"parameters": {
-												"instance-variable": "serpentStrikeUID",
-												"value": "0"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aIns",
-											"sid": 100811429648699,
-											"parameters": {
-												"instance-variable": "serpentWinerUID",
-												"value": "0"
+												"collisions": "disabled"
 											}
 										},
 										{
@@ -5863,281 +5881,6 @@
 										}
 									],
 									"sid": 208846030655067
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "basis",
-											"sid": 744786099810317,
-											"parameters": {
-												"instance-variable": "name",
-												"comparison": 0,
-												"value": "aBook.hero"
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "person",
-											"sid": 305255438066142,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "name",
-												"comparison": 0,
-												"value": "aBook.hero"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "aIns",
-											"sid": 963031561521980,
-											"parameters": {
-												"instance-variable": "gunDisable",
-												"value": "true"
-											}
-										},
-										{
-											"customAction": "NoControl",
-											"objectClass": "aIns",
-											"sid": 317881923046358,
-											"parameters": [
-												true,
-												true,
-												"0"
-											]
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "aBit",
-											"sid": 565078224830280,
-											"parameters": {
-												"instance-variable": "respawn",
-												"value": "true"
-											}
-										},
-										{
-											"id": "stop-timer",
-											"objectClass": "person",
-											"sid": 785823435591426,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"impact\""
-											}
-										},
-										{
-											"id": "stop-timer",
-											"objectClass": "person",
-											"sid": 404472422398767,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"impactEm\""
-											}
-										},
-										{
-											"id": "stop-timer",
-											"objectClass": "person",
-											"sid": 987485628445889,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"impactStart\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aBook",
-											"sid": 182084956606721,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "mod",
-												"value": "\"noMouse\""
-											}
-										},
-										{
-											"customAction": "NoMOUSE",
-											"objectClass": "aIns",
-											"sid": 645462261479384,
-											"parameters": [
-												true,
-												true,
-												true,
-												true,
-												"0"
-											]
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aBook",
-											"sid": 285171870558212,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "mod",
-												"value": "\"onlyRoad\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aMico",
-											"sid": 282830011976814,
-											"parameters": {
-												"instance-variable": "BitSerpStatus",
-												"value": "\"trapHit\""
-											}
-										},
-										{
-											"id": "callselffunction0",
-											"objectClass": "cursor",
-											"sid": 590271941871957,
-											"behaviorType": "sf",
-											"parameters": {
-												"function_name:0": "\"deCharge\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "person",
-											"sid": 938919147513279,
-											"parameters": {
-												"animation": "\"falling\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "callselffunction0",
-											"objectClass": "aIns",
-											"sid": 356636415045015,
-											"disabled": true,
-											"behaviorType": "sf",
-											"parameters": {
-												"function_name:0": "\"serpGetBit\""
-											}
-										}
-									],
-									"sid": 555171038088975,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "basis",
-													"sid": 319294774561513,
-													"parameters": {
-														"instance-variable": "puffFog"
-													}
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "base",
-													"sid": 453143375738702,
-													"parameters": {
-														"instance-variable": "name",
-														"comparison": 0,
-														"value": "aBook.hero"
-													}
-												}
-											],
-											"actions": [
-												{
-													"customAction": "puffOff",
-													"objectClass": "base",
-													"sid": 800281076455945
-												}
-											],
-											"sid": 521821565892583
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 572830067571647
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "basis",
-											"sid": 906973598152449,
-											"parameters": {
-												"instance-variable": "name",
-												"comparison": 1,
-												"value": "aBook.hero"
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "person",
-											"sid": 306540839698707,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "name",
-												"comparison": 0,
-												"value": "basis.name"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 133109577992064
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "basis",
-											"sid": 609406032769121,
-											"parameters": {
-												"instance-variable": "jumpHi",
-												"comparison": 4,
-												"value": "130"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "spawn-another-object",
-											"objectClass": "person",
-											"sid": 949783104231328,
-											"parameters": {
-												"object": "serpGrab",
-												"layer": "\"iso\"",
-												"image-point": "\"center\"",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "jumper",
-											"sid": 323402431004142,
-											"parameters": {
-												"instance-variable": "gravity",
-												"value": "Self.gravity*2"
-											}
-										},
-										{
-											"id": "set-fade-out-time",
-											"objectClass": "serpGrab",
-											"sid": 638713870698655,
-											"behaviorType": "Fade",
-											"parameters": {
-												"fade-out-time": "basis.jumpHi/600"
-											}
-										},
-										{
-											"id": "set-angle",
-											"objectClass": "serpGrab",
-											"sid": 559687020366811,
-											"parameters": {
-												"angle": "0"
-											}
-										}
-									],
-									"sid": 934538453764803
 								}
 							]
 						}
@@ -6162,692 +5905,236 @@
 					"children": [
 						{
 							"eventType": "comment",
-							"text": "кто-то в ловушке",
-							"background-color": [
-								0.6588235294117647,
-								0.6705882352941176,
-								1,
-								1
-							]
+							"text": ""
 						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "is-overlapping-another-object",
+									"id": "on-timer",
 									"objectClass": "basis",
-									"sid": 809962874976752,
-									"parameters": {
-										"object": "octoPoint"
-									}
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "basis",
-									"sid": 679845307022929,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "serpentTarget"
-									}
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "basis",
-									"sid": 965532141309325,
-									"parameters": {
-										"instance-variable": "inTrap"
-									}
-								},
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "basis",
-									"sid": 465436201252762,
-									"parameters": {
-										"unique-id": "octoPoint.grabUID"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "person",
-									"sid": 296354285302222,
-									"parameters": {
-										"instance-variable": "name",
-										"comparison": 0,
-										"value": "basis.name"
-									}
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "octoPoint",
-									"sid": 390450139708246,
-									"parameters": {
-										"instance-variable": "sleep"
-									},
-									"isInverted": true
-								},
-								{
-									"id": "is-timer-running",
-									"objectClass": "octoPoint",
-									"sid": 201984049493473,
+									"sid": 881059224108696,
 									"behaviorType": "Timer",
 									"parameters": {
-										"tag": "\"start\""
-									},
-									"isInverted": true
+										"tag": "\"trapGrab\""
+									}
 								}
 							],
 							"actions": [
 								{
-									"callFunction": "stopThorns",
-									"sid": 755700761677305,
-									"parameters": [
-										"octoPoint.UID",
-										true
-									]
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "octoPoint",
-									"sid": 173382962128049,
-									"parameters": {
-										"instance-variable": "freeToGo",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "octoPoint",
-									"sid": 261517692109971,
-									"parameters": {
-										"instance-variable": "up",
-										"value": "true"
-									}
-								},
-								{
-									"id": "wait",
-									"objectClass": "System",
-									"sid": 735392292291640,
-									"parameters": {
-										"seconds": "0",
-										"use-timescale": true
-									}
-								},
-								{
-									"id": "stop",
-									"objectClass": "octoPoint",
-									"sid": 374333415407204,
-									"behaviorType": "mt"
-								},
-								{
-									"id": "set-boolean-instvar",
+									"id": "instance-signal",
 									"objectClass": "basis",
-									"sid": 906815868753679,
+									"sid": 808292507442324,
 									"parameters": {
-										"instance-variable": "respawn",
-										"value": "true"
+										"tag": "\"trapGrab\""
 									}
 								}
 							],
-							"sid": 683146303275742,
+							"sid": 148345463983711
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-instance-signal",
+									"objectClass": "basis",
+									"sid": 240760739835641,
+									"parameters": {
+										"tag": "\"trapGrab\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "octoPoint",
+									"sid": 990684913050152,
+									"parameters": {
+										"instance-variable": "trap"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 469920008229673,
 							"children": [
-								{
-									"eventType": "comment",
-									"text": "?"
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "basis",
-											"sid": 107685976978060,
-											"parameters": {
-												"instance-variable": "puffFog"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation",
-											"objectClass": "puffballFog",
-											"sid": 214062965966446,
-											"parameters": {
-												"animation": "\"fogEnd\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 267003612997491
-								},
-								{
-									"eventType": "comment",
-									"text": "кто-то в ловушке",
-									"background-color": [
-										0.6588235294117647,
-										0.6705882352941176,
-										1,
-										1
-									]
-								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "octoPoint",
-											"sid": 519585111061594,
+											"sid": 451134880599580,
 											"parameters": {
-												"instance-variable": "state",
+												"instance-variable": "grabUID",
 												"comparison": 0,
-												"value": "\"grab\""
+												"value": "basis.UID"
 											}
 										},
 										{
-											"id": "pick-nearestfurthest",
-											"objectClass": "octoPoint",
-											"sid": 703726755055035,
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "basis",
+											"sid": 225916145533738,
 											"parameters": {
-												"which": "nearest",
-												"x": "basis.X",
-												"y": "basis.Y"
+												"instance-variable": "inTrap"
 											}
 										},
 										{
-											"id": "pick-by-unique-id",
-											"objectClass": "octo",
-											"sid": 299255238304176,
-											"disabled": true,
+											"id": "compare-instance-variable",
+											"objectClass": "person",
+											"sid": 728573754609103,
 											"parameters": {
-												"unique-id": "octoPoint.octoUID"
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "basis.name"
 											}
 										}
 									],
-									"actions": [],
-									"sid": 483324269991060,
+									"actions": [
+										{
+											"callFunction": "stopThorns",
+											"sid": 633248271724550,
+											"parameters": [
+												"octoPoint.UID",
+												true
+											]
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "octoPoint",
+											"sid": 863483299036828,
+											"parameters": {
+												"instance-variable": "freeToGo",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "octoPoint",
+											"sid": 752824583499353,
+											"parameters": {
+												"instance-variable": "up",
+												"value": "true"
+											}
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 529185146464656,
+											"parameters": {
+												"seconds": "0",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "stop",
+											"objectClass": "octoPoint",
+											"sid": 945001316034248,
+											"behaviorType": "mt"
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 981490420371170,
+											"parameters": {
+												"instance-variable": "move",
+												"value": "false"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "basis",
+											"sid": 189669320389836,
+											"behaviorType": "mt",
+											"parameters": {
+												"object": "octoPoint",
+												"image-point": "0",
+												"mode": "direct"
+											}
+										},
+										{
+											"id": "set-max-speed",
+											"objectClass": "basis",
+											"sid": 958906485719539,
+											"behaviorType": "mt",
+											"parameters": {
+												"max-speed": "2000"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "basis",
+											"sid": 851513650842583,
+											"parameters": {
+												"instance-variable": "inTrap",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 149788100926869,
 									"children": [
 										{
-											"eventType": "comment",
-											"text": "притягивается в центр",
-											"background-color": [
-												0.6588235294117647,
-												0.6705882352941176,
-												1,
-												1
-											]
-										},
-										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "compare-two-values",
-													"objectClass": "System",
-													"sid": 306000830245233,
-													"parameters": {
-														"first-value": "distance(basis.X,basis.Y,octoPoint.X,octoPoint.Y)",
-														"comparison": 4,
-														"second-value": "octoPoint.grabRadius"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-instvar-value",
-													"objectClass": "aBook",
-													"sid": 154654361453614,
-													"disabled": true,
-													"parameters": {
-														"instance-variable": "mod",
-														"value": "\"noControl\""
-													}
-												},
-												{
-													"id": "move-at-angle",
+													"id": "compare-instance-variable",
 													"objectClass": "basis",
-													"sid": 599127317000614,
+													"sid": 594010147250636,
 													"parameters": {
-														"angle": "angle(Self.X,Self.Y,octoPoint.X,octoPoint.Y)",
-														"distance": "8"
-													}
-												}
-											],
-											"sid": 793515941998957
-										},
-										{
-											"eventType": "comment",
-											"text": "в центре",
-											"background-color": [
-												0.6588235294117647,
-												0.6705882352941176,
-												1,
-												1
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-two-values",
-													"objectClass": "System",
-													"sid": 160046263611882,
-													"parameters": {
-														"first-value": "distance(basis.X,basis.Y,octoPoint.X,octoPoint.Y)",
-														"comparison": 3,
-														"second-value": "octoPoint.grabRadius"
-													}
-												},
-												{
-													"id": "compare-animation-frame-tag",
-													"objectClass": "octo",
-													"sid": 145885354986817,
-													"parameters": {
-														"comparison": 1,
-														"tag": "\"open\""
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "aBook.hero"
 													}
 												}
 											],
 											"actions": [
 												{
-													"id": "set-instvar-value",
-													"objectClass": "aBook",
-													"sid": 598000919146535,
-													"disabled": true,
+													"id": "set-animation",
+													"objectClass": "person",
+													"sid": 548437417298999,
 													"parameters": {
-														"instance-variable": "mod",
-														"value": "\"noControl\""
-													}
-												}
-											],
-											"sid": 850066261218351,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "trigger-once-while-true",
-															"objectClass": "System",
-															"sid": 719360838505671
-														}
-													],
-													"actions": [
-														{
-															"id": "set-animation",
-															"objectClass": "person",
-															"sid": 843913595895226,
-															"disabled": true,
-															"parameters": {
-																"animation": "\"shake\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "person",
-															"sid": 161252819269752,
-															"parameters": {
-																"animation": "\"falling\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "basis",
-															"sid": 856200876801425,
-															"parameters": {
-																"instance-variable": "inTrap",
-																"value": "true"
-															}
-														}
-													],
-													"sid": 713902306369308,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "compare-instance-variable",
-																	"objectClass": "basis",
-																	"sid": 798862836683994,
-																	"parameters": {
-																		"instance-variable": "name",
-																		"comparison": 0,
-																		"value": "aBook.hero"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-animation",
-																	"objectClass": "indiAnim",
-																	"sid": 802660963867337,
-																	"parameters": {
-																		"animation": "\"thorns\"",
-																		"from": "beginning"
-																	}
-																},
-																{
-																	"id": "set-animation-speed",
-																	"objectClass": "indiAnim",
-																	"sid": 789836678380120,
-																	"parameters": {
-																		"speed": "6"
-																	}
-																}
-															],
-															"sid": 261872179909016
-														}
-													]
-												}
-											]
-										},
-										{
-											"eventType": "comment",
-											"text": "проглатывание",
-											"background-color": [
-												0.6588235294117647,
-												0.6705882352941176,
-												1,
-												1
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-two-values",
-													"objectClass": "System",
-													"sid": 591801454724722,
-													"parameters": {
-														"first-value": "distance(basis.X,basis.Y,octoPoint.X,octoPoint.Y)",
-														"comparison": 3,
-														"second-value": "octoPoint.grabRadius"
+														"animation": "\"falling\"",
+														"from": "beginning"
 													}
 												},
 												{
-													"id": "compare-animation-frame-tag",
-													"objectClass": "octo",
-													"sid": 196377593263046,
+													"id": "set-animation",
+													"objectClass": "indiAnim",
+													"sid": 875207861909514,
 													"parameters": {
-														"comparison": 0,
-														"tag": "\"open\""
+														"animation": "\"thorns\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation-speed",
+													"objectClass": "indiAnim",
+													"sid": 108840817112568,
+													"parameters": {
+														"speed": "6"
 													}
 												}
 											],
-											"actions": [],
-											"sid": 726441711401728,
+											"sid": 653331360050174,
 											"children": [
 												{
 													"eventType": "block",
 													"conditions": [
 														{
 															"id": "compare-instance-variable",
-															"objectClass": "shad",
-															"sid": 859347879564014,
-															"parameters": {
-																"instance-variable": "name",
-																"comparison": 0,
-																"value": "basis.name"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "aBook",
-															"sid": 634371163952113,
-															"disabled": true,
-															"parameters": {
-																"instance-variable": "mod",
-																"value": "\"noControl\""
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "octoPoint",
-															"sid": 912656716389587,
-															"parameters": {
-																"instance-variable": "state",
-																"value": "\"grab\""
-															}
-														},
-														{
-															"customAction": "hitBit",
-															"objectClass": "aIns",
-															"sid": 255189136041647
-														},
-														{
-															"id": "callselffunction0",
 															"objectClass": "basis",
-															"sid": 724558911333778,
-															"behaviorType": "sf",
-															"parameters": {
-																"function_name:0": "\"stop\""
-															}
-														},
-														{
-															"id": "set-position-to-another-object",
-															"objectClass": "basis",
-															"sid": 520112859771406,
-															"parameters": {
-																"object": "octoPoint",
-																"image-point-optional": "0"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "person",
-															"sid": 125886942993995,
-															"disabled": true,
-															"parameters": {
-																"animation": "\"shake\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-visible",
-															"objectClass": "person",
-															"sid": 283862636838574,
-															"parameters": {
-																"visibility": "invisible"
-															}
-														},
-														{
-															"id": "set-visible",
-															"objectClass": "shad",
-															"sid": 836236983041425,
-															"parameters": {
-																"visibility": "invisible"
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "serpHit",
-															"sid": 117558783325541,
-															"parameters": {
-																"instance-variable": "on",
-																"value": "0"
-															}
-														},
-														{
-															"id": "unpin",
-															"objectClass": "serpHit",
-															"sid": 811128264857634,
-															"behaviorType": "Pin"
-														},
-														{
-															"id": "set-position",
-															"objectClass": "serpHit",
-															"sid": 587133740996688,
-															"parameters": {
-																"x": "-7333",
-																"y": "-7333"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "octo",
-															"sid": 393188664787883,
-															"parameters": {
-																"animation": "\"grab\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-group-active",
-															"objectClass": "System",
-															"sid": 229105352301797,
-															"parameters": {
-																"group-name": "\"octoGrabReact\"",
-																"state": "activated"
-															}
-														},
-														{
-															"id": "callselffunction0",
-															"objectClass": "basis",
-															"sid": 295147783601036,
-															"behaviorType": "sf",
-															"parameters": {
-																"function_name:0": "\"trap\""
-															}
-														},
-														{
-															"callFunction": "blockUI",
-															"sid": 751788787636144,
-															"parameters": [
-																true,
-																"\"zero\"",
-																"1",
-																false
-															]
-														},
-														{
-															"id": "wait",
-															"objectClass": "System",
-															"sid": 413316889142313,
-															"disabled": true,
-															"parameters": {
-																"seconds": "3",
-																"use-timescale": true
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "octoPoint",
-															"sid": 880777323570646,
-															"disabled": true,
-															"parameters": {
-																"instance-variable": "state",
-																"value": "\"down\""
-															}
-														},
-														{
-															"customAction": "heroMicoRespawn",
-															"objectClass": "aIns",
-															"sid": 765917605554758,
-															"disabled": true
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "octo",
-															"sid": 858059882937940,
-															"disabled": true,
-															"parameters": {
-																"animation": "\"up\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "wait",
-															"objectClass": "System",
-															"sid": 355349779090200,
-															"disabled": true,
-															"parameters": {
-																"seconds": "1.1",
-																"use-timescale": true
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "octo",
-															"sid": 691556888957119,
-															"disabled": true,
-															"parameters": {
-																"animation": "\"up\"",
-																"from": "current-frame"
-															}
-														},
-														{
-															"id": "set-animation-frame",
-															"objectClass": "octo",
-															"sid": 652744967519998,
-															"disabled": true,
-															"parameters": {
-																"frame-number": "14"
-															}
-														},
-														{
-															"id": "set-animation-speed",
-															"objectClass": "octo",
-															"sid": 906017434178938,
-															"disabled": true,
-															"parameters": {
-																"speed": "-12"
-															}
-														},
-														{
-															"id": "start-animation",
-															"objectClass": "octo",
-															"sid": 384295660409197,
-															"disabled": true,
-															"parameters": {
-																"from": "current-frame"
-															}
-														},
-														{
-															"id": "wait",
-															"objectClass": "System",
-															"sid": 406171023605777,
-															"disabled": true,
-															"parameters": {
-																"seconds": "1",
-																"use-timescale": true
-															}
-														},
-														{
-															"customAction": "BitRespawn",
-															"objectClass": "aIns",
-															"sid": 571957902025173,
-															"disabled": true
-														}
-													],
-													"sid": 187140880127980
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "basis",
-															"sid": 894828157902778,
+															"sid": 633273002998385,
 															"parameters": {
 																"instance-variable": "jumpHi",
 																"comparison": 4,
-																"value": "31"
-															}
-														},
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "person",
-															"sid": 347882084036583,
-															"parameters": {
-																"instance-variable": "name",
-																"comparison": 0,
-																"value": "basis.name"
+																"value": "200"
 															}
 														},
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "jumper",
-															"sid": 222144599860288,
+															"sid": 321910784226085,
 															"parameters": {
 																"instance-variable": "name",
 																"comparison": 0,
@@ -6857,283 +6144,18 @@
 													],
 													"actions": [
 														{
-															"id": "wait",
-															"objectClass": "System",
-															"sid": 910153416296733,
-															"parameters": {
-																"seconds": "2",
-																"use-timescale": true
-															}
-														},
-														{
-															"customAction": "stop",
+															"id": "start-timer",
 															"objectClass": "basis",
-															"sid": 265406834777252
-														},
-														{
-															"id": "set-y",
-															"objectClass": "jumper",
-															"sid": 963925971187561,
+															"sid": 291035800423202,
+															"behaviorType": "Timer",
 															"parameters": {
-																"y": "shad.Y+person.hi"
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "jumper",
-															"sid": 797479738733679,
-															"parameters": {
-																"instance-variable": "speed",
-																"value": "0"
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "jumper",
-															"sid": 203278260714798,
-															"parameters": {
-																"instance-variable": "airJump",
-																"value": "1"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "jumper",
-															"sid": 934376584915939,
-															"parameters": {
-																"instance-variable": "jump",
-																"value": "false"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "basis",
-															"sid": 335756382068927,
-															"parameters": {
-																"instance-variable": "jump",
-																"value": "false"
-															}
-														},
-														{
-															"id": "callselffunction0",
-															"objectClass": "basis",
-															"sid": 460951377344449,
-															"behaviorType": "sf",
-															"parameters": {
-																"function_name:0": "\"land\""
-															}
-														},
-														{
-															"id": "callselffunction0",
-															"objectClass": "basis",
-															"sid": 889664140009681,
-															"behaviorType": "sf",
-															"parameters": {
-																"function_name:0": "\"groundUID\""
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "jumper",
-															"sid": 658917354667941,
-															"parameters": {
-																"instance-variable": "state",
-																"value": "\"land\""
-															}
-														},
-														{
-															"id": "monitorstr1",
-															"objectClass": "vm",
-															"sid": 361800604799557,
-															"parameters": {
-																"tag0": "\"land\"",
-																"string1": "jumper.state"
-															}
-														},
-														{
-															"id": "callselffunction0",
-															"objectClass": "jumper",
-															"sid": 962873628995471,
-															"behaviorType": "sf",
-															"parameters": {
-																"function_name:0": "\"land\""
-															}
-														},
-														{
-															"id": "monitorstr1",
-															"objectClass": "vm",
-															"sid": 727424665532201,
-															"parameters": {
-																"tag0": "\"land\"",
-																"string1": "\"zero\""
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "basis",
-															"sid": 822948542583906,
-															"parameters": {
-																"instance-variable": "controlMove",
-																"value": "true"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "person",
-															"sid": 436462101924159,
-															"parameters": {
-																"instance-variable": "jumpFly",
-																"value": "false"
-															}
-														},
-														{
-															"id": "instance-signal",
-															"objectClass": "basis",
-															"sid": 587411864549832,
-															"parameters": {
-																"tag": "\"landAll\""
-															}
-														},
-														{
-															"id": "signal",
-															"objectClass": "System",
-															"sid": 685793836972344,
-															"parameters": {
-																"tag": "\"land\""
-															}
-														},
-														{
-															"id": "signal",
-															"objectClass": "System",
-															"sid": 109082987797298,
-															"parameters": {
-																"tag": "jumper.name&\"Land\""
-															}
-														},
-														{
-															"id": "set-angle",
-															"objectClass": "person",
-															"sid": 839121038613883,
-															"parameters": {
-																"angle": "0"
+																"duration": "0.1*(basis.jumpHi/70)",
+																"type": "once",
+																"tag": "\"trapGrabEnd\""
 															}
 														}
 													],
-													"sid": 223173587104319,
-													"disabled": true
-												},
-												{
-													"eventType": "comment",
-													"text": "если в ловушку попал герой",
-													"background-color": [
-														0.6588235294117647,
-														0.6705882352941176,
-														1,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "basis",
-															"sid": 665662044015328,
-															"parameters": {
-																"instance-variable": "name",
-																"comparison": 0,
-																"value": "aBook.hero"
-															}
-														}
-													],
-													"actions": [
-														{
-															"customAction": "heroDeath",
-															"objectClass": "aaa",
-															"sid": 469108806443197,
-															"parameters": [
-																"aBit.tragicDeath"
-															]
-														},
-														{
-															"customAction": "NoMOUSE",
-															"objectClass": "aIns",
-															"sid": 554758459990528,
-															"parameters": [
-																true,
-																true,
-																true,
-																true,
-																"0"
-															]
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "aMico",
-															"sid": 239815683911884,
-															"parameters": {
-																"instance-variable": "BitSerpStatus",
-																"value": "\"trapHit\""
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "aBit",
-															"sid": 557670048823683,
-															"parameters": {
-																"instance-variable": "respawn",
-																"value": "true"
-															}
-														},
-														{
-															"callFunction": "respawn",
-															"sid": 977474505460708,
-															"parameters": [
-																true,
-																"aBit.actualRespInd",
-																"3"
-															]
-														},
-														{
-															"id": "wait",
-															"objectClass": "System",
-															"sid": 217608249136979,
-															"parameters": {
-																"seconds": "3",
-																"use-timescale": true
-															}
-														},
-														{
-															"callFunction": "respawn",
-															"sid": 292393721284064,
-															"disabled": true,
-															"parameters": [
-																true,
-																"0",
-																"0"
-															]
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "basis",
-															"sid": 874296825939833,
-															"parameters": {
-																"instance-variable": "inTrap",
-																"value": "false"
-															}
-														}
-													],
-													"sid": 250583874527196
-												},
-												{
-													"eventType": "comment",
-													"text": "если в ловушку попал мукл или двойник",
-													"background-color": [
-														0.6588235294117647,
-														0.6705882352941176,
-														1,
-														1
-													]
+													"sid": 222674053928657
 												},
 												{
 													"eventType": "block",
@@ -7141,134 +6163,265 @@
 														{
 															"id": "else",
 															"objectClass": "System",
-															"sid": 372667575072353
+															"sid": 568797723950882
 														}
 													],
 													"actions": [
 														{
-															"customAction": "muklaTrap",
-															"objectClass": "ats",
-															"sid": 323201961476761,
-															"parameters": [
-																"octoPoint.UID",
-																"basis.UID"
-															]
+															"id": "start-timer",
+															"objectClass": "basis",
+															"sid": 702286828018461,
+															"behaviorType": "Timer",
+															"parameters": {
+																"duration": "0.15",
+																"type": "once",
+																"tag": "\"trapGrabEnd\""
+															}
 														}
 													],
-													"sid": 960756197272248
+													"sid": 787825958787489
 												}
 											]
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "захват в прыжке, визуализация",
-									"background-color": [
-										0.6588235294117647,
-										0.6705882352941176,
-										1,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [],
-									"actions": [
-										{
-											"id": "set-position-to-another-object",
-											"objectClass": "serpGrab",
-											"sid": 218697162724691,
-											"parameters": {
-												"object": "person",
-												"image-point-optional": "\"center\""
-											}
 										},
 										{
-											"id": "move-to-object",
-											"objectClass": "serpGrab",
-											"sid": 166000821321297,
-											"parameters": {
-												"where": "in-front",
-												"object": "person"
-											}
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 341831685230664
+												}
+											],
+											"actions": [
+												{
+													"id": "start-timer",
+													"objectClass": "basis",
+													"sid": 635840547145752,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.15",
+														"type": "once",
+														"tag": "\"trapGrabEnd\""
+													}
+												}
+											],
+											"sid": 620498733326983
+										},
+										{
+											"eventType": "comment",
+											"text": "?"
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "basis",
+													"sid": 831525909121956,
+													"parameters": {
+														"instance-variable": "puffFog"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-animation",
+													"objectClass": "puffballFog",
+													"sid": 615274912256067,
+													"parameters": {
+														"animation": "\"fogEnd\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 717190183163435
 										}
-									],
-									"sid": 163537605959675
+									]
 								}
 							]
 						},
 						{
 							"eventType": "comment",
-							"text": "в ловушке никого уже нет",
-							"background-color": [
-								0.6588235294117647,
-								0.6705882352941176,
-								1,
-								1
-							]
+							"text": ""
 						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 568606594505956
+									"id": "on-timer",
+									"objectClass": "basis",
+									"sid": 621546196679845,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"trapGrabEnd\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "instance-signal",
+									"objectClass": "basis",
+									"sid": 554916544742543,
+									"parameters": {
+										"tag": "\"trapGrabEnd\""
+									}
+								}
+							],
+							"sid": 670333464669471
+						},
+						{
+							"eventType": "comment",
+							"text": ""
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-instance-signal",
+									"objectClass": "basis",
+									"sid": 943011380917720,
+									"parameters": {
+										"tag": "\"trapGrabEnd\""
+									}
 								},
 								{
-									"id": "compare-instance-variable",
+									"id": "is-boolean-instance-variable-set",
 									"objectClass": "octoPoint",
-									"sid": 535207294674585,
+									"sid": 637418110355691,
 									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"up\""
+										"instance-variable": "trap"
 									}
 								}
 							],
 							"actions": [],
-							"sid": 449852667660422,
+							"sid": 952707454345392,
 							"children": [
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "basis",
-											"sid": 210665462421304,
+											"id": "compare-instance-variable",
+											"objectClass": "octoPoint",
+											"sid": 578785786929808,
 											"parameters": {
-												"object": "octoPoint"
-											},
-											"isInverted": true
+												"instance-variable": "grabUID",
+												"comparison": 0,
+												"value": "basis.UID"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "basis",
+											"sid": 788403136071832,
+											"parameters": {
+												"instance-variable": "inTrap"
+											}
 										},
 										{
 											"id": "compare-instance-variable",
-											"objectClass": "octoPoint",
-											"sid": 307267875056942,
-											"disabled": true,
+											"objectClass": "person",
+											"sid": 601274943156034,
 											"parameters": {
-												"instance-variable": "octoUID",
-												"comparison": 4,
-												"value": "-1"
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "basis.name"
 											}
 										},
 										{
-											"id": "pick-by-unique-id",
-											"objectClass": "octo",
-											"sid": 622430815691235,
-											"disabled": true,
+											"id": "compare-instance-variable",
+											"objectClass": "shad",
+											"sid": 370172373328427,
 											"parameters": {
-												"unique-id": "octoPoint.octoUID"
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "basis.name"
 											}
 										}
 									],
-									"actions": [],
-									"sid": 814096018550236,
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBook",
+											"sid": 451363629905344,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "mod",
+												"value": "\"noControl\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "octoPoint",
+											"sid": 257456437394671,
+											"parameters": {
+												"instance-variable": "state",
+												"value": "\"grab\""
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "basis",
+											"sid": 539648456936577,
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"stop\""
+											}
+										},
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "basis",
+											"sid": 340937364864668,
+											"parameters": {
+												"object": "octoPoint",
+												"image-point-optional": "0"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "person",
+											"sid": 883010464568491,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "shad",
+											"sid": 881816964037132,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "octo",
+											"sid": 478929753460649,
+											"parameters": {
+												"animation": "\"grab\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "basis",
+											"sid": 746032102247302,
+											"behaviorType": "sf",
+											"parameters": {
+												"function_name:0": "\"trap\""
+											}
+										},
+										{
+											"id": "unpin",
+											"objectClass": "serpGrab",
+											"sid": 972025201976938,
+											"behaviorType": "Pin"
+										}
+									],
+									"sid": 836538730607821,
 									"children": [
 										{
 											"eventType": "comment",
-											"text": "ловушка уходит вниз",
+											"text": "если в ловушку попал герой",
 											"background-color": [
 												0.6588235294117647,
 												0.6705882352941176,
@@ -7280,134 +6433,181 @@
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "for-each",
-													"objectClass": "System",
-													"sid": 872070843023316,
+													"id": "compare-instance-variable",
+													"objectClass": "basis",
+													"sid": 269269104467448,
 													"parameters": {
-														"object": "octoPoint"
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "aBook.hero"
 													}
 												}
 											],
 											"actions": [
 												{
+													"callFunction": "blockUI",
+													"sid": 126640075960207,
+													"parameters": [
+														true,
+														"\"zero\"",
+														"1",
+														false
+													]
+												},
+												{
 													"id": "set-instvar-value",
+													"objectClass": "serpHit",
+													"sid": 611281059404881,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "0"
+													}
+												},
+												{
+													"id": "unpin",
+													"objectClass": "serpHit",
+													"sid": 742487358651201,
+													"behaviorType": "Pin"
+												},
+												{
+													"id": "set-position",
+													"objectClass": "serpHit",
+													"sid": 780477461210490,
+													"parameters": {
+														"x": "-7333",
+														"y": "-7333"
+													}
+												},
+												{
+													"customAction": "hitBit",
+													"objectClass": "aIns",
+													"sid": 872907689226752
+												},
+												{
+													"customAction": "heroDeath",
+													"objectClass": "aaa",
+													"sid": 468077123962611,
+													"parameters": [
+														"aBit.tragicDeath"
+													]
+												},
+												{
+													"customAction": "NoMOUSE",
+													"objectClass": "aIns",
+													"sid": 453479832521186,
+													"parameters": [
+														true,
+														true,
+														true,
+														true,
+														"0"
+													]
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aMico",
+													"sid": 636846934878175,
+													"parameters": {
+														"instance-variable": "BitSerpStatus",
+														"value": "\"trapHit\""
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "basis",
+													"sid": 425490656198681,
+													"parameters": {
+														"instance-variable": "respawn",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "aBit",
+													"sid": 484581367587759,
+													"parameters": {
+														"instance-variable": "respawn",
+														"value": "true"
+													}
+												},
+												{
+													"callFunction": "respawn",
+													"sid": 890287206289192,
+													"parameters": [
+														true,
+														"aBit.actualRespInd",
+														"3"
+													]
+												},
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 394373977631091,
+													"parameters": {
+														"seconds": "3",
+														"use-timescale": true
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "basis",
+													"sid": 272981305529871,
+													"parameters": {
+														"instance-variable": "inTrap",
+														"value": "false"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
 													"objectClass": "octoPoint",
-													"sid": 821320356638812,
+													"sid": 836234771961730,
 													"parameters": {
-														"instance-variable": "state",
-														"value": "\"down\""
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "octo",
-													"sid": 941447393944130,
-													"parameters": {
-														"animation": "\"up\"",
-														"from": "current-frame"
-													}
-												},
-												{
-													"id": "set-animation-frame",
-													"objectClass": "octo",
-													"sid": 589716495333381,
-													"parameters": {
-														"frame-number": "17"
-													}
-												},
-												{
-													"id": "set-animation-speed",
-													"objectClass": "octo",
-													"sid": 282131205599153,
-													"parameters": {
-														"speed": "-12"
-													}
-												},
-												{
-													"id": "start-animation",
-													"objectClass": "octo",
-													"sid": 861383369673043,
-													"parameters": {
-														"from": "current-frame"
-													}
-												},
-												{
-													"id": "set-animation-speed",
-													"objectClass": "serpTrapFront",
-													"sid": 515777595851923,
-													"parameters": {
-														"speed": "-24"
+														"instance-variable": "trap",
+														"value": "false"
 													}
 												}
 											],
-											"sid": 699687142527994
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "basis",
-											"sid": 484153656437085,
-											"parameters": {
-												"instance-variable": "name",
-												"comparison": 0,
-												"value": "aBook.hero"
-											}
+											"sid": 491894903547302
 										},
 										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "basis",
-											"sid": 248543081932212,
-											"parameters": {
-												"instance-variable": "respawn"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
+											"eventType": "comment",
+											"text": "если в ловушку попал мукл или двойник",
+											"background-color": [
+												0.6588235294117647,
+												0.6705882352941176,
+												1,
+												1
+											]
+										},
 										{
-											"id": "set-instvar-value",
-											"objectClass": "aBook",
-											"sid": 186991777598237,
-											"parameters": {
-												"instance-variable": "mod",
-												"value": "\"\""
-											}
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 802333186314723
+												}
+											],
+											"actions": [
+												{
+													"customAction": "muklaTrap",
+													"objectClass": "ats",
+													"sid": 884583642148120,
+													"parameters": [
+														"octoPoint.UID",
+														"basis.UID"
+													]
+												}
+											],
+											"sid": 929463262058663
 										}
-									],
-									"sid": 351489721525543,
-									"disabled": true
-								},
-								{
-									"eventType": "comment",
-									"text": "отключение группы захвата",
-									"background-color": [
-										0.6588235294117647,
-										0.6705882352941176,
-										1,
-										1
 									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [],
-									"actions": [
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 928328145428179,
-											"parameters": {
-												"group-name": "\"serpTrap\"",
-												"state": "deactivated"
-											}
-										}
-									],
-									"sid": 533678783474434
 								}
 							]
+						},
+						{
+							"eventType": "comment",
+							"text": "\n\n\n"
 						},
 						{
 							"eventType": "comment",
@@ -7506,12 +6706,190 @@
 									"id": "destroy",
 									"objectClass": "person",
 									"sid": 226252449302033
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "octoPoint",
+									"sid": 750239830478970,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "octoPoint",
+									"sid": 475941545992907,
+									"parameters": {
+										"instance-variable": "trap",
+										"value": "false"
+									}
 								}
 							],
 							"sid": 153264973504722
 						}
 					],
 					"sid": 321453314302649
+				},
+				{
+					"eventType": "comment",
+					"text": "?"
+				},
+				{
+					"eventType": "comment",
+					"text": "в ловушке никого нет",
+					"background-color": [
+						0.6588235294117647,
+						0.6705882352941176,
+						1,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 411408113333990,
+							"parameters": {
+								"interval-seconds": "0.1"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "octoPoint",
+							"sid": 959564473844920,
+							"parameters": {
+								"instance-variable": "state",
+								"comparison": 0,
+								"value": "\"up\""
+							}
+						},
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "octoPoint",
+							"sid": 160220471067141,
+							"parameters": {
+								"object": "basis"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 365727841631446,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "ловушка уходит вниз",
+							"background-color": [
+								0.6588235294117647,
+								0.6705882352941176,
+								1,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 388544523142069,
+									"parameters": {
+										"object": "octoPoint"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "octoPoint",
+									"sid": 730990740557803,
+									"parameters": {
+										"instance-variable": "state",
+										"value": "\"down\""
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "octoPoint",
+									"sid": 499140251757317,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "octo",
+									"sid": 763181164627762,
+									"parameters": {
+										"animation": "\"up\"",
+										"from": "current-frame"
+									}
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "octo",
+									"sid": 349404459653924,
+									"parameters": {
+										"frame-number": "17"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "octo",
+									"sid": 350079746494767,
+									"parameters": {
+										"speed": "-12"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "octo",
+									"sid": 886023626854938,
+									"parameters": {
+										"from": "current-frame"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "serpTrapFront",
+									"sid": 903021936421419,
+									"parameters": {
+										"speed": "-24"
+									}
+								}
+							],
+							"sid": 769530110540839
+						},
+						{
+							"eventType": "comment",
+							"text": "отключение группы захвата",
+							"background-color": [
+								0.6588235294117647,
+								0.6705882352941176,
+								1,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 426332170417223,
+									"parameters": {
+										"group-name": "\"serpTrap\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 205163823242264,
+							"disabled": true
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -8095,6 +7473,14 @@
 									"parameters": {
 										"animation": "\"strike\""
 									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "octo",
+									"sid": 740374546271200,
+									"parameters": {
+										"animation": "\"shock\""
+									}
 								}
 							],
 							"actions": [],
@@ -8139,6 +7525,15 @@
 											"parameters": {
 												"layer": "\"element\""
 											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "octoPoint",
+											"sid": 577946103799922,
+											"disabled": true,
+											"parameters": {
+												"collisions": "enabled"
+											}
 										}
 									],
 									"sid": 285830235448709
@@ -8155,6 +7550,7 @@
 											"id": "compare-animation-frame-tag",
 											"objectClass": "octo",
 											"sid": 346247007801190,
+											"disabled": true,
 											"parameters": {
 												"comparison": 0,
 												"tag": "\"sortStart\""
@@ -8164,6 +7560,7 @@
 											"id": "compare-animation-frame-tag",
 											"objectClass": "octo",
 											"sid": 983992752553100,
+											"disabled": true,
 											"parameters": {
 												"comparison": 0,
 												"tag": "\"cross\""
@@ -8207,6 +7604,12 @@
 											"parameters": {
 												"newState_": "enabled"
 											}
+										},
+										{
+											"id": "refresh",
+											"objectClass": "octo",
+											"sid": 460061259112175,
+											"behaviorType": "EasyIsometric"
 										}
 									],
 									"sid": 961889695102028
@@ -8268,7 +7671,8 @@
 											}
 										}
 									],
-									"sid": 214331920281700
+									"sid": 214331920281700,
+									"disabled": true
 								}
 							],
 							"isOrBlock": true
@@ -8308,6 +7712,15 @@
 									"sid": 910047844665088,
 									"parameters": {
 										"layer": "\"element\""
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "octoPoint",
+									"sid": 280576638591040,
+									"disabled": true,
+									"parameters": {
+										"collisions": "enabled"
 									}
 								}
 							],
