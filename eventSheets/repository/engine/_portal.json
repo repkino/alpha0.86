@@ -1137,6 +1137,1207 @@
 		},
 		{
 			"eventType": "comment",
+			"text": "\n\n\n   телепорт к объекту по клику"
+		},
+		{
+			"functionName": "telePortal",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": true,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "portalUID",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 963664139524470
+				},
+				{
+					"name": "x",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 965009438447647
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 705573353060165
+				}
+			],
+			"eventType": "function-block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "hero",
+					"sid": 243448161157173,
+					"parameters": {
+						"instance-variable": "heroName",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "basis",
+					"sid": 766144451913214,
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "shad",
+					"sid": 630464213286436,
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				},
+				{
+					"id": "pick-by-unique-id",
+					"objectClass": "port",
+					"sid": 140209325903454,
+					"parameters": {
+						"unique-id": "portalUID"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aBook",
+					"sid": 120214052086514,
+					"disabled": true,
+					"parameters": {
+						"instance-variable": "mod",
+						"comparison": 1,
+						"value": "\"noControl\""
+					}
+				}
+			],
+			"actions": [],
+			"sid": 429920746667108,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "телепорт к другому объекту"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "port",
+							"sid": 672515130615362,
+							"parameters": {
+								"instance-variable": "teleportToUID",
+								"comparison": 4,
+								"value": "0"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "map",
+							"sid": 587645067991920,
+							"parameters": {
+								"unique-id": "port.teleportToUID"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 526698671502735,
+							"parameters": {
+								"variable": "x",
+								"value": "map.X"
+							}
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 465273093905551,
+							"parameters": {
+								"variable": "y",
+								"value": "map.y"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "map",
+							"sid": 762531984477470,
+							"parameters": {
+								"collisions": "enabled"
+							}
+						}
+					],
+					"sid": 992673609208008,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "если другой объект - hold портал с ожиданием сигнала"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "map",
+									"sid": 898128485680892,
+									"parameters": {
+										"instance-variable": "holdPortal"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 826896363286839,
+									"parameters": {
+										"seconds": "0.21",
+										"use-timescale": true
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aBook",
+									"sid": 214142522731919,
+									"parameters": {
+										"instance-variable": "mod",
+										"value": "\"noControl\""
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 921098204491629,
+									"parameters": {
+										"group-name": "\"portalHold\"",
+										"state": "activated"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aMico",
+									"sid": 269247252524414,
+									"parameters": {
+										"instance-variable": "holdPortal",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aMico",
+									"sid": 218747801326700,
+									"parameters": {
+										"instance-variable": "holdPortalNextUID",
+										"value": "map.UID"
+									}
+								},
+								{
+									"id": "signal",
+									"objectClass": "System",
+									"sid": 688334487850083,
+									"parameters": {
+										"tag": "\"portalHoldTeleport\""
+									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 241452267247017,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": true
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 757353904380047,
+									"parameters": {
+										"group-name": "\"portal\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 616931918251256,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "стандартная portToMe"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-overlapping-another-object",
+							"objectClass": "basis",
+							"sid": 135697089667606,
+							"parameters": {
+								"object": "port"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 274298275787336,
+							"parameters": {
+								"instance-variable": "teleport",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 843464527145218,
+							"parameters": {
+								"instance-variable": "mod",
+								"value": "\"noControl\""
+							}
+						},
+						{
+							"id": "set-position-to-another-object",
+							"objectClass": "teleportFX",
+							"sid": 482146251734011,
+							"parameters": {
+								"object": "hero",
+								"image-point-optional": "2"
+							}
+						},
+						{
+							"id": "set-angle-toward-position",
+							"objectClass": "teleportFX",
+							"sid": 362302162443431,
+							"disabled": true,
+							"parameters": {
+								"x": "x",
+								"y": "y-hero.Height/2"
+							}
+						},
+						{
+							"id": "set-angle-toward-position",
+							"objectClass": "teleportFX",
+							"sid": 108708037805779,
+							"parameters": {
+								"x": "port.X",
+								"y": "port.Y-hero.Height/2"
+							}
+						},
+						{
+							"id": "set-scale",
+							"objectClass": "teleportFX",
+							"sid": 679324738836990,
+							"parameters": {
+								"scale": "basis.zScale*Self.startScaleCoeff*aBook.heroScaleCoeff"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "teleportFX",
+							"sid": 511310038706438,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "teleportFX",
+							"sid": 253959020350371,
+							"parameters": {
+								"animation": "\"fx\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-angle-toward-position",
+							"objectClass": "basis",
+							"sid": 860660569587947,
+							"parameters": {
+								"x": "port.X",
+								"y": "port.Y"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "basis",
+							"sid": 692582320552390,
+							"parameters": {
+								"instance-variable": "direct",
+								"value": "int(((Self.Angle+360+22.5) %360)/45)"
+							}
+						},
+						{
+							"id": "callselffunction0",
+							"objectClass": "basis",
+							"sid": 172443615650647,
+							"behaviorType": "sf",
+							"parameters": {
+								"function_name:0": "\"stop\""
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "hero",
+							"sid": 111750848245717,
+							"parameters": {
+								"visibility": "invisible"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "shad",
+							"sid": 382971458553034,
+							"parameters": {
+								"visibility": "invisible"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 452040408903959,
+							"parameters": {
+								"instance-variable": "move",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "port",
+							"sid": 725769725998724,
+							"parameters": {
+								"collisions": "disabled"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "port",
+							"sid": 412727412710438,
+							"parameters": {
+								"instance-variable": "active",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "basis",
+							"sid": 366326096434286,
+							"disabled": true,
+							"parameters": {
+								"x": "port.X",
+								"y": "port.Y"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "basis",
+							"sid": 212042130603478,
+							"parameters": {
+								"x": "x>0?x:port.X",
+								"y": "y>0?y:port.Y"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 871345023321589,
+							"parameters": {
+								"instance-variable": "heroTask",
+								"value": "\"goToPort\""
+							}
+						},
+						{
+							"id": "monitorstr1",
+							"objectClass": "vm",
+							"sid": 771924090910966,
+							"parameters": {
+								"tag0": "\"portal\"",
+								"string1": "aBook.heroTask"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 550106579156839,
+							"parameters": {
+								"seconds": "0.21",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 100319701117904,
+							"parameters": {
+								"instance-variable": "move",
+								"value": "false"
+							}
+						},
+						{
+							"id": "callselffunction0",
+							"objectClass": "basis",
+							"sid": 695830690433942,
+							"behaviorType": "sf",
+							"parameters": {
+								"function_name:0": "\"stop\""
+							}
+						},
+						{
+							"id": "callselffunction0",
+							"objectClass": "basis",
+							"sid": 786570726827518,
+							"disabled": true,
+							"behaviorType": "sf",
+							"parameters": {
+								"function_name:0": "\"zScale\""
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "hero",
+							"sid": 971797179434577,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "shad",
+							"sid": 789169125036887,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 526965448092973,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 521580432360200,
+							"parameters": {
+								"instance-variable": "mod",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 265771502247154,
+							"parameters": {
+								"instance-variable": "heroTask",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "port",
+							"sid": 673153577193529,
+							"parameters": {
+								"instance-variable": "active",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "port",
+							"sid": 424082841287221,
+							"parameters": {
+								"collisions": "enabled"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 382082433846054,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 507747635943073,
+							"parameters": {
+								"instance-variable": "teleport",
+								"value": "false"
+							}
+						}
+					],
+					"sid": 216998283595327
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 850586303483236
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "port",
+							"sid": 395539818910116,
+							"parameters": {
+								"instance-variable": "active"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "port",
+							"sid": 640827000943652,
+							"parameters": {
+								"instance-variable": "charge",
+								"comparison": 0,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"customAction": "portCharge",
+							"objectClass": "aaa",
+							"sid": 255579323691719,
+							"parameters": [
+								"basis.name",
+								"port.UID"
+							]
+						}
+					],
+					"sid": 830768376717895
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": ""
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-animation-finished",
+					"objectClass": "hero",
+					"sid": 761759531434661,
+					"parameters": {
+						"animation": "\"portalLevitation\""
+					}
+				},
+				{
+					"id": "compare-animation-speed",
+					"objectClass": "hero",
+					"sid": 725912778716155,
+					"parameters": {
+						"comparison": 4,
+						"number": "0"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-animation",
+					"objectClass": "hero",
+					"sid": 715255835375365,
+					"parameters": {
+						"animation": "\"rotateLevitation\"",
+						"from": "beginning"
+					}
+				}
+			],
+			"sid": 385665945888355
+		},
+		{
+			"eventType": "comment",
+			"text": "\n\n\nТелепортация героя к точке координат. Например, телепортация из портала к курсору."
+		},
+		{
+			"aceType": "action",
+			"aceName": "teleRoad",
+			"objectClass": "aaa",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "x",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 250258789911842
+				},
+				{
+					"name": "y",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 379467661649017
+				},
+				{
+					"name": "levitation",
+					"type": "boolean",
+					"initialValue": "false",
+					"comment": "",
+					"sid": 257264540005732
+				}
+			],
+			"eventType": "custom-ace-block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "basis",
+					"sid": 586096125633394,
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "person",
+					"sid": 178186135138862,
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "shad",
+					"sid": 618326472178312,
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "hero",
+					"sid": 342161735513002,
+					"parameters": {
+						"instance-variable": "heroName",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aBook",
+					"sid": 578695129515752,
+					"disabled": true,
+					"parameters": {
+						"instance-variable": "mod",
+						"comparison": 1,
+						"value": "\"noControl\""
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aBook",
+					"sid": 438445616798135,
+					"disabled": true,
+					"parameters": {
+						"instance-variable": "mod",
+						"comparison": 1,
+						"value": "\"noMouse\""
+					}
+				},
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "aaa",
+					"sid": 377583159412705,
+					"disabled": true,
+					"parameters": {
+						"instance-variable": "controlBlock"
+					},
+					"isInverted": true
+				},
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "basis",
+					"sid": 619506036216526,
+					"parameters": {
+						"instance-variable": "teleport"
+					},
+					"isInverted": true
+				}
+			],
+			"actions": [],
+			"sid": 725755956702469,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 310226162970171,
+							"parameters": {
+								"instance-variable": "teleport",
+								"value": "true"
+							}
+						},
+						{
+							"customAction": "rotateTo",
+							"objectClass": "basis",
+							"sid": 769645744790417,
+							"parameters": [
+								"basis.name",
+								"x",
+								"y",
+								false,
+								"-1",
+								false,
+								"0"
+							]
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 483113667544817,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "mod",
+								"value": "\"noControl\""
+							}
+						},
+						{
+							"customAction": "NoControl",
+							"objectClass": "aIns",
+							"sid": 450395227132297,
+							"parameters": [
+								true,
+								true,
+								"0"
+							]
+						},
+						{
+							"id": "set-position-to-another-object",
+							"objectClass": "teleportFX",
+							"sid": 650736799135368,
+							"parameters": {
+								"object": "hero",
+								"image-point-optional": "2"
+							}
+						},
+						{
+							"id": "set-angle-toward-position",
+							"objectClass": "teleportFX",
+							"sid": 479706945488821,
+							"parameters": {
+								"x": "x",
+								"y": "y-hero.Height/2"
+							}
+						},
+						{
+							"id": "set-scale",
+							"objectClass": "teleportFX",
+							"sid": 695694763746590,
+							"parameters": {
+								"scale": "basis.zScale*Self.startScaleCoeff*aBook.heroScaleCoeff"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "teleportFX",
+							"sid": 298346757989871,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "teleportFX",
+							"sid": 593767295207768,
+							"parameters": {
+								"animation": "\"fx\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-angle-toward-position",
+							"objectClass": "basis",
+							"sid": 569960741148385,
+							"disabled": true,
+							"parameters": {
+								"x": "x",
+								"y": "y"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "basis",
+							"sid": 383281234196005,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "direct",
+								"value": "int(((Self.Angle+360+22.5) %360)/45)"
+							}
+						},
+						{
+							"id": "callselffunction0",
+							"objectClass": "basis",
+							"sid": 980390852877351,
+							"behaviorType": "sf",
+							"parameters": {
+								"function_name:0": "\"stop\""
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "hero",
+							"sid": 108693858204193,
+							"parameters": {
+								"visibility": "invisible"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "shad",
+							"sid": 356691686380798,
+							"parameters": {
+								"visibility": "invisible"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 656098937564324,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "move",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "basis",
+							"sid": 864088555566194,
+							"parameters": {
+								"x": "x",
+								"y": "y"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 229686907402520,
+							"parameters": {
+								"instance-variable": "heroTask",
+								"value": "\"goToRoad\""
+							}
+						},
+						{
+							"id": "monitorstr1",
+							"objectClass": "vm",
+							"sid": 588083235757858,
+							"parameters": {
+								"tag0": "\"portal\"",
+								"string1": "aBook.heroTask"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "person",
+							"sid": 780616976688171,
+							"parameters": {
+								"instance-variable": "animPriority",
+								"value": "0"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 758847622051994,
+							"parameters": {
+								"seconds": "0.21",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 643768438502369,
+							"parameters": {
+								"instance-variable": "move",
+								"value": "false"
+							}
+						},
+						{
+							"id": "callselffunction0",
+							"objectClass": "basis",
+							"sid": 473773460775030,
+							"behaviorType": "sf",
+							"parameters": {
+								"function_name:0": "\"stop\""
+							}
+						},
+						{
+							"id": "callselffunction0",
+							"objectClass": "basis",
+							"sid": 568642409549123,
+							"behaviorType": "sf",
+							"parameters": {
+								"function_name:0": "\"zScale\""
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "hero",
+							"sid": 893636227979273,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "shad",
+							"sid": 431325956435628,
+							"parameters": {
+								"visibility": "visible"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "person",
+							"sid": 670908611661229,
+							"parameters": {
+								"instance-variable": "animPriority",
+								"value": "0"
+							}
+						}
+					],
+					"sid": 553513197714926
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 690960641861786,
+							"parameters": {
+								"variable": "levitation"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "animPers",
+							"sid": 674230917495147,
+							"parameters": [
+								"hero.UID",
+								"\"portalLevitation\"",
+								"1",
+								"0",
+								"777",
+								"0"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 502808506545555,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 284954739031881,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "mod",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"customAction": "controlBack",
+							"objectClass": "aIns",
+							"sid": 189241726351822,
+							"parameters": [
+								true,
+								true
+							]
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 714154630162167,
+							"parameters": {
+								"instance-variable": "heroTask",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 149194166793992,
+							"parameters": {
+								"instance-variable": "heroState",
+								"value": "\"postLevitation\""
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 547089596604501,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 725038913655051,
+							"parameters": {
+								"instance-variable": "teleport",
+								"value": "false"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 228427509270730,
+							"parameters": {
+								"seconds": "2",
+								"use-timescale": true
+							}
+						},
+						{
+							"callFunction": "animPers",
+							"sid": 217759865913870,
+							"parameters": [
+								"hero.UID",
+								"\"au\"",
+								"0",
+								"0",
+								"777",
+								"0"
+							]
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 608119708406537,
+							"parameters": {
+								"instance-variable": "heroState",
+								"value": "\"stop\""
+							}
+						}
+					],
+					"sid": 553385854648091
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 948792171901674
+						}
+					],
+					"actions": [
+						{
+							"customAction": "controlBack",
+							"objectClass": "aIns",
+							"sid": 500199541716787,
+							"parameters": [
+								true,
+								true
+							]
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 879764480761876,
+							"parameters": {
+								"instance-variable": "heroTask",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 430831935797386,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "basis",
+							"sid": 133527497498342,
+							"parameters": {
+								"instance-variable": "teleport",
+								"value": "false"
+							}
+						}
+					],
+					"sid": 182236270125797
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "\n\n\n"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-animation-finished",
+					"objectClass": "teleportFX",
+					"sid": 525341572386007,
+					"parameters": {
+						"animation": "\"fx\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-visible",
+					"objectClass": "teleportFX",
+					"sid": 803791453887453,
+					"parameters": {
+						"visibility": "invisible"
+					}
+				}
+			],
+			"sid": 481016224470820
+		},
+		{
+			"eventType": "comment",
 			"text": "\n\n\n\n\n\n\n\n\n\n"
 		},
 		{
@@ -1190,17 +2391,7 @@
 					}
 				}
 			],
-			"actions": [
-				{
-					"id": "set-text",
-					"objectClass": "help",
-					"sid": 301815530451055,
-					"disabled": true,
-					"parameters": {
-						"text": "\"coliz\""
-					}
-				}
-			],
+			"actions": [],
 			"sid": 223301438447440,
 			"disabled": true,
 			"children": [
@@ -1359,15 +2550,6 @@
 									"parameters": [
 										"0"
 									]
-								},
-								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 721413107172308,
-									"disabled": true,
-									"parameters": {
-										"text": "\"  P\""
-									}
 								}
 							],
 							"sid": 483083501611917,
@@ -1379,133 +2561,82 @@
 			]
 		},
 		{
-			"eventType": "comment",
-			"text": "\n\n\n можно сделать!  прыжок на портал и клик по порталу-кнопке\n\n",
-			"background-color": [
-				0.7450980392156863,
-				0.7529411764705882,
-				0.996078431372549,
-				1
-			]
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "onselffunction0",
-					"objectClass": "basis",
-					"sid": 409528073234861,
-					"behaviorType": "sf",
-					"parameters": {
-						"function_name:0": "\"land\""
-					}
-				},
-				{
-					"id": "on-object-clicked",
-					"objectClass": "Mouse",
-					"sid": 518279305131736,
-					"parameters": {
-						"mouse-button": "left",
-						"click-type": "clicked",
-						"object-clicked": "portal"
-					}
-				}
-			],
-			"actions": [],
-			"sid": 259878745577890,
+			"eventType": "group",
 			"disabled": true,
+			"title": "portal",
+			"description": "",
+			"isActiveOnStart": false,
 			"children": [
+				{
+					"eventType": "comment",
+					"text": "\n\n\n можно сделать!  прыжок на портал и клик по порталу-кнопке\n\n",
+					"background-color": [
+						0.7450980392156863,
+						0.7529411764705882,
+						0.996078431372549,
+						1
+					]
+				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "portal",
-							"sid": 463996193486439,
-							"parameters": {
-								"instance-variable": "mType",
-								"comparison": 1,
-								"value": "\"button\""
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
+							"id": "onselffunction0",
 							"objectClass": "basis",
-							"sid": 529823696110885,
+							"sid": 657265788963101,
+							"behaviorType": "sf",
 							"parameters": {
-								"object": "portal"
+								"function_name:0": "\"land\""
 							}
 						},
 						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aGame",
-							"sid": 215153709615352,
+							"id": "on-object-clicked",
+							"objectClass": "Mouse",
+							"sid": 312148922538501,
 							"parameters": {
-								"instance-variable": "blackout"
-							},
-							"isInverted": true
+								"mouse-button": "left",
+								"click-type": "clicked",
+								"object-clicked": "portal"
+							}
 						}
 					],
 					"actions": [],
-					"sid": 351877879649317,
+					"sid": 404587751055706,
 					"disabled": true,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
+									"id": "compare-instance-variable",
+									"objectClass": "portal",
+									"sid": 481318531332992,
+									"parameters": {
+										"instance-variable": "mType",
+										"comparison": 1,
+										"value": "\"button\""
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "basis",
+									"sid": 501672854204367,
+									"parameters": {
+										"object": "portal"
+									}
+								},
+								{
 									"id": "is-boolean-instance-variable-set",
-									"objectClass": "portal",
-									"sid": 888018064183863,
+									"objectClass": "aGame",
+									"sid": 753106855995975,
 									"parameters": {
-										"instance-variable": "active"
-									}
-								},
-								{
-									"id": "is-timer-running",
-									"objectClass": "portal",
-									"sid": 412584060069530,
-									"behaviorType": "Timer",
-									"parameters": {
-										"tag": "\"recharge\""
+										"instance-variable": "blackout"
 									},
 									"isInverted": true
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "basis",
-									"sid": 956483993318247,
-									"parameters": {
-										"instance-variable": "task",
-										"comparison": 0,
-										"value": "\"portal\""
-									},
-									"isInverted": true
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "basis",
-									"sid": 596286852274329,
-									"parameters": {
-										"instance-variable": "task",
-										"comparison": 0,
-										"value": "\"portalEnd\""
-									},
-									"isInverted": true
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "person",
-									"sid": 653108342680068,
-									"parameters": {
-										"instance-variable": "name",
-										"comparison": 0,
-										"value": "basis.name"
-									}
 								}
 							],
 							"actions": [],
-							"sid": 428580451961691,
+							"sid": 998121134248340,
 							"disabled": true,
 							"children": [
 								{
@@ -1514,66 +2645,121 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "portal",
-											"sid": 903200393561613,
+											"sid": 985767516009648,
 											"parameters": {
-												"instance-variable": "holdPortal"
+												"instance-variable": "active"
+											}
+										},
+										{
+											"id": "is-timer-running",
+											"objectClass": "portal",
+											"sid": 689344751870331,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"recharge\""
 											},
 											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "person",
-											"sid": 795818678576349,
-											"parameters": {
-												"instance-variable": "animPriority",
-												"value": "0"
-											}
 										},
 										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 293873895090427,
-											"parameters": {
-												"group-name": "\"portal\"",
-												"state": "activated"
-											}
-										},
-										{
-											"id": "set-instvar-value",
+											"id": "compare-instance-variable",
 											"objectClass": "basis",
-											"sid": 856856050194435,
+											"sid": 540318356726917,
 											"parameters": {
 												"instance-variable": "task",
-												"value": "\"jumpToPortal\""
-											}
+												"comparison": 0,
+												"value": "\"portal\""
+											},
+											"isInverted": true
 										},
 										{
-											"callFunction": "portal",
-											"sid": 179630260018560,
-											"parameters": [
-												"0"
-											]
+											"id": "compare-instance-variable",
+											"objectClass": "basis",
+											"sid": 531055881846600,
+											"parameters": {
+												"instance-variable": "task",
+												"comparison": 0,
+												"value": "\"portalEnd\""
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "person",
+											"sid": 533150274264597,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "basis.name"
+											}
 										}
 									],
-									"sid": 583868480680451,
-									"disabled": true
+									"actions": [],
+									"sid": 796449431368331,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "portal",
+													"sid": 858933050847325,
+													"parameters": {
+														"instance-variable": "holdPortal"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "person",
+													"sid": 919948602190375,
+													"parameters": {
+														"instance-variable": "animPriority",
+														"value": "0"
+													}
+												},
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
+													"sid": 849359120461669,
+													"parameters": {
+														"group-name": "\"portal\"",
+														"state": "activated"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "basis",
+													"sid": 419593242937662,
+													"parameters": {
+														"instance-variable": "task",
+														"value": "\"jumpToPortal\""
+													}
+												},
+												{
+													"callFunction": "portal",
+													"sid": 936740440017392,
+													"parameters": [
+														"0"
+													]
+												}
+											],
+											"sid": 910177954367806,
+											"disabled": true
+										}
+									]
 								}
 							]
 						}
-					]
-				}
-			],
-			"isOrBlock": true
-		},
-		{
-			"eventType": "group",
-			"disabled": true,
-			"title": "portal",
-			"description": "",
-			"isActiveOnStart": false,
-			"children": [
+					],
+					"isOrBlock": true
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\n\n"
+				},
 				{
 					"functionName": "portal",
 					"functionDescription": "",
@@ -2006,15 +3192,6 @@
 									}
 								},
 								{
-									"id": "set-text",
-									"objectClass": "help",
-									"sid": 297334903880792,
-									"disabled": true,
-									"parameters": {
-										"text": "basis.portalUID"
-									}
-								},
-								{
 									"id": "wait",
 									"objectClass": "System",
 									"sid": 260896345809868,
@@ -2417,17 +3594,7 @@
 									}
 								}
 							],
-							"actions": [
-								{
-									"id": "set-text",
-									"objectClass": "help",
-									"sid": 868163215423141,
-									"disabled": true,
-									"parameters": {
-										"text": "basis.portalUID"
-									}
-								}
-							],
+							"actions": [],
 							"sid": 850504127905084,
 							"disabled": true,
 							"children": [
@@ -3088,905 +4255,247 @@
 							"disabled": true
 						}
 					]
-				}
-			],
-			"sid": 793755450165895
-		},
-		{
-			"eventType": "comment",
-			"text": "\n\n\n   телепорт к объекту по клику"
-		},
-		{
-			"functionName": "telePortal",
-			"functionDescription": "",
-			"functionCategory": "",
-			"functionReturnType": "none",
-			"functionCopyPicked": true,
-			"functionIsAsync": false,
-			"functionParameters": [
-				{
-					"name": "portalUID",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"sid": 963664139524470
 				},
-				{
-					"name": "x",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"sid": 965009438447647
-				},
-				{
-					"name": "y",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"sid": 705573353060165
-				}
-			],
-			"eventType": "function-block",
-			"conditions": [
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "hero",
-					"sid": 698617507896520,
-					"parameters": {
-						"instance-variable": "heroName",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "basis",
-					"sid": 215012646673731,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "shad",
-					"sid": 326503747928504,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "pick-by-unique-id",
-					"objectClass": "port",
-					"sid": 727466111890494,
-					"parameters": {
-						"unique-id": "portalUID"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "aBook",
-					"sid": 229059340989938,
-					"disabled": true,
-					"parameters": {
-						"instance-variable": "mod",
-						"comparison": 1,
-						"value": "\"noControl\""
-					}
-				}
-			],
-			"actions": [],
-			"sid": 210411391097982,
-			"children": [
 				{
 					"eventType": "comment",
-					"text": "телепорт к другому объекту"
+					"text": ""
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "port",
-							"sid": 649502900749069,
+							"id": "on-timer",
+							"objectClass": "portal",
+							"sid": 626018701991578,
+							"behaviorType": "Timer",
 							"parameters": {
-								"instance-variable": "teleportToUID",
-								"comparison": 4,
-								"value": "0"
-							}
-						},
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "map",
-							"sid": 223440459751904,
-							"parameters": {
-								"unique-id": "port.teleportToUID"
+								"tag": "\"noActive\""
 							}
 						}
 					],
 					"actions": [
 						{
-							"id": "set-text",
-							"objectClass": "help",
-							"sid": 997547361411389,
+							"id": "set-boolean-instvar",
+							"objectClass": "portal",
+							"sid": 851787480826971,
+							"parameters": {
+								"instance-variable": "active",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "portal",
+							"sid": 282820387576168,
 							"disabled": true,
 							"parameters": {
-								"text": "\"hold\""
-							}
-						},
-						{
-							"id": "set-eventvar-value",
-							"objectClass": "System",
-							"sid": 655185280396228,
-							"parameters": {
-								"variable": "x",
-								"value": "map.X"
-							}
-						},
-						{
-							"id": "set-eventvar-value",
-							"objectClass": "System",
-							"sid": 854380810883423,
-							"parameters": {
-								"variable": "y",
-								"value": "map.y"
-							}
-						},
-						{
-							"id": "set-collisions-enabled",
-							"objectClass": "map",
-							"sid": 467746595364103,
-							"parameters": {
-								"collisions": "enabled"
+								"visibility": "visible"
 							}
 						}
 					],
-					"sid": 560017304280425,
-					"children": [
+					"sid": 312483213353313,
+					"disabled": true
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\nмигание"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
 						{
-							"eventType": "comment",
-							"text": "если другой объект - hold портал с ожиданием сигнала"
-						},
+							"id": "is-visible",
+							"objectClass": "portal",
+							"sid": 535627220037059,
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 976930303415958,
+					"disabled": true,
+					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "map",
-									"sid": 462029370260933,
-									"parameters": {
-										"instance-variable": "holdPortal"
-									}
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 921340474659031
 								}
 							],
 							"actions": [
 								{
-									"id": "set-text",
-									"objectClass": "help",
-									"sid": 366305486475065,
-									"disabled": true,
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 952220860758460,
 									"parameters": {
-										"text": "\"hold\""
+										"seconds": "0.1",
+										"use-timescale": true
 									}
 								},
 								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 299741262667911,
-									"disabled": true,
+									"id": "set-visible",
+									"objectClass": "portal",
+									"sid": 935175990886955,
 									"parameters": {
-										"text": "\"P\""
+										"visibility": "visible"
+									}
+								},
+								{
+									"id": "set-opacity",
+									"objectClass": "portal",
+									"sid": 672630727738392,
+									"parameters": {
+										"opacity": "70"
 									}
 								},
 								{
 									"id": "wait",
 									"objectClass": "System",
-									"sid": 965123444948969,
+									"sid": 367227444979280,
 									"parameters": {
-										"seconds": "0.21",
+										"seconds": "0.3",
 										"use-timescale": true
 									}
 								},
 								{
-									"id": "set-instvar-value",
-									"objectClass": "aBook",
-									"sid": 238220195889493,
+									"id": "set-opacity",
+									"objectClass": "portal",
+									"sid": 962826751192896,
 									"parameters": {
-										"instance-variable": "mod",
-										"value": "\"noControl\""
-									}
-								},
-								{
-									"id": "set-group-active",
-									"objectClass": "System",
-									"sid": 960538542394736,
-									"parameters": {
-										"group-name": "\"portalHold\"",
-										"state": "activated"
-									}
-								},
-								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 917887943373142,
-									"disabled": true,
-									"parameters": {
-										"text": "\"O\""
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "aMico",
-									"sid": 629788636173341,
-									"parameters": {
-										"instance-variable": "holdPortal",
-										"value": "true"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "aMico",
-									"sid": 262452356153898,
-									"parameters": {
-										"instance-variable": "holdPortalNextUID",
-										"value": "map.UID"
-									}
-								},
-								{
-									"id": "signal",
-									"objectClass": "System",
-									"sid": 898674158719362,
-									"parameters": {
-										"tag": "\"portalHoldTeleport\""
-									}
-								},
-								{
-									"id": "wait",
-									"objectClass": "System",
-									"sid": 575883731975921,
-									"parameters": {
-										"seconds": "0",
-										"use-timescale": true
-									}
-								},
-								{
-									"id": "set-group-active",
-									"objectClass": "System",
-									"sid": 129625842492783,
-									"parameters": {
-										"group-name": "\"portal\"",
-										"state": "deactivated"
+										"opacity": "100"
 									}
 								}
 							],
-							"sid": 123808085885588,
+							"sid": 674861475558778,
 							"disabled": true
 						}
 					]
 				},
 				{
 					"eventType": "comment",
-					"text": "стандартная portToMe"
+					"text": "\n\n\nперетаскивание особых порталов"
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "basis",
-							"sid": 951678397964688,
+							"id": "on-drag-start",
+							"objectClass": "portal",
+							"sid": 591277015377052,
+							"behaviorType": "DragDrop"
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "portal",
+							"sid": 601136646829725,
 							"parameters": {
-								"object": "port"
+								"instance-variable": "dragNdrop"
 							},
 							"isInverted": true
 						}
 					],
 					"actions": [
 						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 213891111707530,
+							"id": "set-enabled",
+							"objectClass": "portal",
+							"sid": 647551495400579,
+							"behaviorType": "DragDrop",
 							"parameters": {
-								"instance-variable": "teleport",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 740891707329955,
-							"parameters": {
-								"instance-variable": "mod",
-								"value": "\"noControl\""
-							}
-						},
-						{
-							"id": "set-position-to-another-object",
-							"objectClass": "teleportFX",
-							"sid": 715267553583203,
-							"parameters": {
-								"object": "hero",
-								"image-point-optional": "2"
-							}
-						},
-						{
-							"id": "set-angle-toward-position",
-							"objectClass": "teleportFX",
-							"sid": 913687296671076,
-							"disabled": true,
-							"parameters": {
-								"x": "x",
-								"y": "y-hero.Height/2"
-							}
-						},
-						{
-							"id": "set-angle-toward-position",
-							"objectClass": "teleportFX",
-							"sid": 913335845689617,
-							"parameters": {
-								"x": "port.X",
-								"y": "port.Y-hero.Height/2"
-							}
-						},
-						{
-							"id": "set-scale",
-							"objectClass": "teleportFX",
-							"sid": 980182408377762,
-							"parameters": {
-								"scale": "basis.zScale*Self.startScaleCoeff*aBook.heroScaleCoeff"
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "teleportFX",
-							"sid": 168516876881704,
-							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "teleportFX",
-							"sid": 922484170571859,
-							"parameters": {
-								"animation": "\"fx\"",
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "set-angle-toward-position",
-							"objectClass": "basis",
-							"sid": 940778731281687,
-							"parameters": {
-								"x": "port.X",
-								"y": "port.Y"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "basis",
-							"sid": 718460281474841,
-							"parameters": {
-								"instance-variable": "direct",
-								"value": "int(((Self.Angle+360+22.5) %360)/45)"
-							}
-						},
-						{
-							"id": "callselffunction0",
-							"objectClass": "basis",
-							"sid": 427019031078174,
-							"behaviorType": "sf",
-							"parameters": {
-								"function_name:0": "\"stop\""
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "hero",
-							"sid": 607995399785891,
-							"parameters": {
-								"visibility": "invisible"
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "shad",
-							"sid": 309992677420341,
-							"parameters": {
-								"visibility": "invisible"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 850319959284459,
-							"parameters": {
-								"instance-variable": "move",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-collisions-enabled",
-							"objectClass": "port",
-							"sid": 144881249407466,
-							"parameters": {
-								"collisions": "disabled"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "port",
-							"sid": 324243792294128,
-							"parameters": {
-								"instance-variable": "active",
-								"value": "false"
-							}
-						},
-						{
-							"id": "set-position",
-							"objectClass": "basis",
-							"sid": 364252290243597,
-							"disabled": true,
-							"parameters": {
-								"x": "port.X",
-								"y": "port.Y"
-							}
-						},
-						{
-							"id": "set-position",
-							"objectClass": "basis",
-							"sid": 335312678929167,
-							"parameters": {
-								"x": "x>0?x:port.X",
-								"y": "y>0?y:port.Y"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 460439997187014,
-							"parameters": {
-								"instance-variable": "heroTask",
-								"value": "\"goToPort\""
-							}
-						},
-						{
-							"id": "monitorstr1",
-							"objectClass": "vm",
-							"sid": 534733303222860,
-							"parameters": {
-								"tag0": "\"portal\"",
-								"string1": "aBook.heroTask"
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 469111588467669,
-							"parameters": {
-								"seconds": "0.21",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 402873681730774,
-							"parameters": {
-								"instance-variable": "move",
-								"value": "false"
-							}
-						},
-						{
-							"id": "callselffunction0",
-							"objectClass": "basis",
-							"sid": 456191342086781,
-							"behaviorType": "sf",
-							"parameters": {
-								"function_name:0": "\"stop\""
-							}
-						},
-						{
-							"id": "callselffunction0",
-							"objectClass": "basis",
-							"sid": 606918096289395,
-							"disabled": true,
-							"behaviorType": "sf",
-							"parameters": {
-								"function_name:0": "\"zScale\""
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "hero",
-							"sid": 880636329226562,
-							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "shad",
-							"sid": 152728518799361,
-							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 333705343681147,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 506858770602954,
-							"parameters": {
-								"instance-variable": "mod",
-								"value": "\"zero\""
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 233711260991458,
-							"parameters": {
-								"instance-variable": "heroTask",
-								"value": "\"zero\""
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "port",
-							"sid": 992876718607616,
-							"parameters": {
-								"instance-variable": "active",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-collisions-enabled",
-							"objectClass": "port",
-							"sid": 254272914865370,
-							"parameters": {
-								"collisions": "enabled"
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 862945969855981,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 980907097429015,
-							"parameters": {
-								"instance-variable": "teleport",
-								"value": "false"
+								"state": "disabled"
 							}
 						}
 					],
-					"sid": 620956823048609
+					"sid": 311273040603031,
+					"disabled": true
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "else",
-							"objectClass": "System",
-							"sid": 805276013808973
+							"id": "on-drop",
+							"objectClass": "portal",
+							"sid": 897970342741484,
+							"behaviorType": "DragDrop"
+						}
+					],
+					"actions": [
+						{
+							"id": "set-enabled",
+							"objectClass": "portal",
+							"sid": 298143937060522,
+							"behaviorType": "DragDrop",
+							"parameters": {
+								"state": "disabled"
+							}
 						},
 						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "port",
-							"sid": 483627235731593,
+							"id": "set-instvar-value",
+							"objectClass": "portal",
+							"sid": 310267951992300,
 							"parameters": {
-								"instance-variable": "active"
+								"instance-variable": "selfX",
+								"value": "Self.X"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "portal",
+							"sid": 358052954676130,
+							"parameters": {
+								"instance-variable": "selfY",
+								"value": "Self.Y"
+							}
+						}
+					],
+					"sid": 974755023373522,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-start-of-layout",
+							"objectClass": "System",
+							"sid": 720465667918014
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "portal",
+							"sid": 847417131479449,
+							"parameters": {
+								"instance-variable": "selfX",
+								"comparison": 1,
+								"value": "0"
 							}
 						},
 						{
 							"id": "compare-instance-variable",
-							"objectClass": "port",
-							"sid": 473183338299922,
+							"objectClass": "aTools",
+							"sid": 866727097135204,
 							"parameters": {
-								"instance-variable": "charge",
+								"instance-variable": "n",
 								"comparison": 0,
-								"value": "0"
+								"value": "frame.n"
 							}
 						}
 					],
 					"actions": [
 						{
-							"customAction": "portCharge",
-							"objectClass": "aaa",
-							"sid": 547332298625463,
-							"parameters": [
-								"basis.name",
-								"port.UID"
-							]
-						}
-					],
-					"sid": 279223142396764
-				}
-			]
-		},
-		{
-			"eventType": "comment",
-			"text": "\n\n\n"
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-animation-finished",
-					"objectClass": "teleportFX",
-					"sid": 178425454045278,
-					"parameters": {
-						"animation": "\"fx\""
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-visible",
-					"objectClass": "teleportFX",
-					"sid": 859452365462477,
-					"parameters": {
-						"visibility": "invisible"
-					}
-				}
-			],
-			"sid": 765373500300661
-		},
-		{
-			"eventType": "comment",
-			"text": ""
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-timer",
-					"objectClass": "portal",
-					"sid": 869617099155110,
-					"behaviorType": "Timer",
-					"parameters": {
-						"tag": "\"noActive\""
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-boolean-instvar",
-					"objectClass": "portal",
-					"sid": 764152119324860,
-					"parameters": {
-						"instance-variable": "active",
-						"value": "true"
-					}
-				},
-				{
-					"id": "set-visible",
-					"objectClass": "portal",
-					"sid": 431360477914816,
-					"disabled": true,
-					"parameters": {
-						"visibility": "visible"
-					}
-				}
-			],
-			"sid": 448577121351794,
-			"disabled": true
-		},
-		{
-			"eventType": "comment",
-			"text": "\n\n\nмигание"
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "is-visible",
-					"objectClass": "portal",
-					"sid": 778296101107787,
-					"isInverted": true
-				}
-			],
-			"actions": [],
-			"sid": 728928719204683,
-			"disabled": true,
-			"children": [
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "trigger-once-while-true",
-							"objectClass": "System",
-							"sid": 326689392198645
-						}
-					],
-					"actions": [
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 935099083446870,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-visible",
+							"id": "set-position",
 							"objectClass": "portal",
-							"sid": 120629604903401,
+							"sid": 605867138935984,
 							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "set-opacity",
-							"objectClass": "portal",
-							"sid": 345220333747630,
-							"parameters": {
-								"opacity": "70"
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 828497473241708,
-							"parameters": {
-								"seconds": "0.3",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-opacity",
-							"objectClass": "portal",
-							"sid": 664711608316737,
-							"parameters": {
-								"opacity": "100"
+								"x": "Self.selfX",
+								"y": "Self.selfY"
 							}
 						}
 					],
-					"sid": 608811437511585,
+					"sid": 211786309093795,
 					"disabled": true
 				}
-			]
-		},
-		{
-			"eventType": "comment",
-			"text": "\n\n\nперетаскивание особых порталов"
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-drag-start",
-					"objectClass": "portal",
-					"sid": 456068329368521,
-					"behaviorType": "DragDrop"
-				},
-				{
-					"id": "is-boolean-instance-variable-set",
-					"objectClass": "portal",
-					"sid": 571750108153234,
-					"parameters": {
-						"instance-variable": "dragNdrop"
-					},
-					"isInverted": true
-				}
 			],
-			"actions": [
-				{
-					"id": "set-enabled",
-					"objectClass": "portal",
-					"sid": 762313022240719,
-					"behaviorType": "DragDrop",
-					"parameters": {
-						"state": "disabled"
-					}
-				}
-			],
-			"sid": 646662757689128,
-			"disabled": true
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-drop",
-					"objectClass": "portal",
-					"sid": 748708002749099,
-					"behaviorType": "DragDrop"
-				}
-			],
-			"actions": [
-				{
-					"id": "set-enabled",
-					"objectClass": "portal",
-					"sid": 942952760696573,
-					"behaviorType": "DragDrop",
-					"parameters": {
-						"state": "disabled"
-					}
-				},
-				{
-					"id": "set-instvar-value",
-					"objectClass": "portal",
-					"sid": 952766009703220,
-					"parameters": {
-						"instance-variable": "selfX",
-						"value": "Self.X"
-					}
-				},
-				{
-					"id": "set-instvar-value",
-					"objectClass": "portal",
-					"sid": 233016996476668,
-					"parameters": {
-						"instance-variable": "selfY",
-						"value": "Self.Y"
-					}
-				}
-			],
-			"sid": 783978503988553,
-			"disabled": true
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-start-of-layout",
-					"objectClass": "System",
-					"sid": 368733449089234
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "portal",
-					"sid": 672678152233267,
-					"parameters": {
-						"instance-variable": "selfX",
-						"comparison": 1,
-						"value": "0"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "aTools",
-					"sid": 975104509643972,
-					"parameters": {
-						"instance-variable": "n",
-						"comparison": 0,
-						"value": "frame.n"
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-position",
-					"objectClass": "portal",
-					"sid": 921615701222546,
-					"parameters": {
-						"x": "Self.selfX",
-						"y": "Self.selfY"
-					}
-				}
-			],
-			"sid": 192507657454584,
-			"disabled": true
+			"sid": 793755450165895
 		},
 		{
 			"eventType": "comment",
@@ -4009,7 +4518,7 @@
 						{
 							"id": "onselffunction0",
 							"objectClass": "portButt",
-							"sid": 284707643984107,
+							"sid": 413015300025791,
 							"behaviorType": "sfPoint",
 							"parameters": {
 								"function_name:0": "\"portLevel\""
@@ -4018,7 +4527,7 @@
 						{
 							"id": "compare-instance-variable",
 							"objectClass": "basis",
-							"sid": 981724456047381,
+							"sid": 825251540561438,
 							"parameters": {
 								"instance-variable": "name",
 								"comparison": 0,
@@ -4028,14 +4537,14 @@
 						{
 							"id": "pick-by-unique-id",
 							"objectClass": "portal",
-							"sid": 215095511303983,
+							"sid": 931325871174969,
 							"parameters": {
 								"unique-id": "portButt.index"
 							}
 						}
 					],
 					"actions": [],
-					"sid": 278746331560446,
+					"sid": 694204678802458,
 					"disabled": true,
 					"children": [
 						{
@@ -4044,7 +4553,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "point",
-									"sid": 657934349914050,
+									"sid": 292570071806373,
 									"parameters": {
 										"instance-variable": "index",
 										"comparison": 0,
@@ -4054,7 +4563,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aMico",
-									"sid": 833918465153476,
+									"sid": 797825276756053,
 									"parameters": {
 										"instance-variable": "holdPortal"
 									}
@@ -4064,7 +4573,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "point",
-									"sid": 839446656259957,
+									"sid": 188605463093364,
 									"parameters": {
 										"instance-variable": "on",
 										"value": "false"
@@ -4073,7 +4582,7 @@
 								{
 									"id": "set-animation-frame",
 									"objectClass": "point",
-									"sid": 192211645988846,
+									"sid": 478097973323894,
 									"parameters": {
 										"frame-number": "0"
 									}
@@ -4081,7 +4590,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "portButt",
-									"sid": 286919030981246,
+									"sid": 779154337347728,
 									"parameters": {
 										"instance-variable": "on",
 										"value": "true"
@@ -4090,7 +4599,7 @@
 								{
 									"id": "set-animation-frame",
 									"objectClass": "portButt",
-									"sid": 613072985758654,
+									"sid": 346892127438022,
 									"parameters": {
 										"frame-number": "1"
 									}
@@ -4098,7 +4607,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "portal",
-									"sid": 697086136002383,
+									"sid": 945771815654405,
 									"parameters": {
 										"instance-variable": "portToUID",
 										"value": "portButt.targetPortalUID"
@@ -4107,7 +4616,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "portal",
-									"sid": 373927536576899,
+									"sid": 964697807238286,
 									"parameters": {
 										"instance-variable": "goToFrame",
 										"value": "portButt.targetPortalFrame"
@@ -4116,7 +4625,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "portal",
-									"sid": 524297878229473,
+									"sid": 579975537229788,
 									"parameters": {
 										"instance-variable": "portToTag",
 										"value": "portButt.targetPortalTag"
@@ -4125,7 +4634,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "basis",
-									"sid": 395130624616582,
+									"sid": 341987444237911,
 									"parameters": {
 										"instance-variable": "portalUID",
 										"value": "portal.portToUID"
@@ -4134,7 +4643,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "basis",
-									"sid": 484656435632277,
+									"sid": 719475644027980,
 									"parameters": {
 										"instance-variable": "portToFrame",
 										"value": "portal.goToFrame"
@@ -4143,7 +4652,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aTools",
-									"sid": 525073448052676,
+									"sid": 257897731669546,
 									"parameters": {
 										"instance-variable": "portalUID",
 										"value": "portal.portToUID"
@@ -4152,7 +4661,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aTools",
-									"sid": 765336029998612,
+									"sid": 619377040316157,
 									"disabled": true,
 									"parameters": {
 										"instance-variable": "portToFrame",
@@ -4162,7 +4671,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aTools",
-									"sid": 894297295511554,
+									"sid": 809800045382626,
 									"parameters": {
 										"instance-variable": "portToFrame",
 										"value": "portButt.targetPortalFrame"
@@ -4171,7 +4680,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aTools",
-									"sid": 892371065383826,
+									"sid": 159684035202444,
 									"parameters": {
 										"instance-variable": "portName",
 										"value": "basis.name"
@@ -4180,7 +4689,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aMico",
-									"sid": 309904402813752,
+									"sid": 906985741165390,
 									"parameters": {
 										"instance-variable": "holdPortalNextUID",
 										"value": "portal.portToUID"
@@ -4189,7 +4698,7 @@
 								{
 									"id": "signal",
 									"objectClass": "System",
-									"sid": 122905961104791,
+									"sid": 742037430038297,
 									"parameters": {
 										"tag": "\"portalHoldRun\""
 									}
@@ -4197,7 +4706,7 @@
 								{
 									"id": "wait",
 									"objectClass": "System",
-									"sid": 226688847085887,
+									"sid": 674540869293684,
 									"parameters": {
 										"seconds": "0.1",
 										"use-timescale": true
@@ -4206,24 +4715,15 @@
 								{
 									"id": "signal",
 									"objectClass": "System",
-									"sid": 826758373351299,
+									"sid": 137248935046525,
 									"parameters": {
 										"tag": "portal.holdSignal"
 									}
 								},
 								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 371757538579675,
-									"disabled": true,
-									"parameters": {
-										"text": "portal.holdSignal"
-									}
-								},
-								{
 									"id": "wait",
 									"objectClass": "System",
-									"sid": 159816659664041,
+									"sid": 261907655957482,
 									"parameters": {
 										"seconds": "0.1",
 										"use-timescale": true
@@ -4232,22 +4732,13 @@
 								{
 									"id": "signal",
 									"objectClass": "System",
-									"sid": 848945177245812,
+									"sid": 692634517661471,
 									"parameters": {
 										"tag": "portal.holdSignalRun"
 									}
-								},
-								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 592615090689452,
-									"disabled": true,
-									"parameters": {
-										"text": "portal.holdSignalRun"
-									}
 								}
 							],
-							"sid": 524286117573123,
+							"sid": 438826835078618,
 							"disabled": true
 						},
 						{
@@ -4256,7 +4747,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aMico",
-									"sid": 709321210882593,
+									"sid": 141439718891693,
 									"parameters": {
 										"instance-variable": "holdPortal"
 									},
@@ -4267,7 +4758,7 @@
 								{
 									"id": "set-animation-frame",
 									"objectClass": "portButt",
-									"sid": 159202702473291,
+									"sid": 126857951989085,
 									"parameters": {
 										"frame-number": "1"
 									}
@@ -4275,7 +4766,7 @@
 								{
 									"id": "wait",
 									"objectClass": "System",
-									"sid": 252408921064698,
+									"sid": 214037616076626,
 									"parameters": {
 										"seconds": "0.1",
 										"use-timescale": true
@@ -4284,7 +4775,7 @@
 								{
 									"id": "set-animation-frame",
 									"objectClass": "portButt",
-									"sid": 621517400013024,
+									"sid": 810253892205008,
 									"parameters": {
 										"frame-number": "0"
 									}
@@ -4292,7 +4783,7 @@
 								{
 									"id": "wait",
 									"objectClass": "System",
-									"sid": 910724018870595,
+									"sid": 358756609596326,
 									"parameters": {
 										"seconds": "0.1",
 										"use-timescale": true
@@ -4301,7 +4792,7 @@
 								{
 									"id": "set-animation-frame",
 									"objectClass": "portButt",
-									"sid": 466136553155579,
+									"sid": 925390368305155,
 									"parameters": {
 										"frame-number": "1"
 									}
@@ -4309,7 +4800,7 @@
 								{
 									"id": "wait",
 									"objectClass": "System",
-									"sid": 365714371816054,
+									"sid": 948966673593144,
 									"parameters": {
 										"seconds": "0.1",
 										"use-timescale": true
@@ -4318,13 +4809,13 @@
 								{
 									"id": "set-animation-frame",
 									"objectClass": "portButt",
-									"sid": 175032120462087,
+									"sid": 904792018035732,
 									"parameters": {
 										"frame-number": "0"
 									}
 								}
 							],
-							"sid": 256404624768686,
+							"sid": 715844322720496,
 							"disabled": true
 						}
 					]
@@ -4339,7 +4830,7 @@
 						{
 							"id": "on-signal",
 							"objectClass": "System",
-							"sid": 931064234432726,
+							"sid": 586522064043082,
 							"parameters": {
 								"tag": "\"portalHoldArrival\""
 							}
@@ -4347,14 +4838,14 @@
 						{
 							"id": "on-signal",
 							"objectClass": "System",
-							"sid": 340738069715733,
+							"sid": 557353666479032,
 							"parameters": {
 								"tag": "\"portalHoldTeleport\""
 							}
 						}
 					],
 					"actions": [],
-					"sid": 574394283599239,
+					"sid": 804922867850969,
 					"disabled": true,
 					"children": [
 						{
@@ -4363,7 +4854,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "hero",
-									"sid": 253190553492952,
+									"sid": 377450038354736,
 									"parameters": {
 										"instance-variable": "heroName",
 										"comparison": 0,
@@ -4373,7 +4864,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "basis",
-									"sid": 939224618112332,
+									"sid": 329438599851350,
 									"parameters": {
 										"instance-variable": "name",
 										"comparison": 0,
@@ -4383,7 +4874,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "shad",
-									"sid": 519980883779313,
+									"sid": 207388079285401,
 									"parameters": {
 										"instance-variable": "name",
 										"comparison": 0,
@@ -4393,7 +4884,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aMico",
-									"sid": 798436677878476,
+									"sid": 103961194457058,
 									"parameters": {
 										"instance-variable": "holdPortal"
 									}
@@ -4401,7 +4892,7 @@
 								{
 									"id": "pick-by-unique-id",
 									"objectClass": "portal",
-									"sid": 414753747215081,
+									"sid": 201018046892168,
 									"parameters": {
 										"unique-id": "aMico.holdPortalNextUID"
 									}
@@ -4411,7 +4902,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "basis",
-									"sid": 229285439153665,
+									"sid": 225221982230728,
 									"disabled": true,
 									"parameters": {
 										"instance-variable": "task",
@@ -4421,7 +4912,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "aMico",
-									"sid": 456004575159762,
+									"sid": 619168462818535,
 									"disabled": true,
 									"parameters": {
 										"instance-variable": "holdPortal",
@@ -4431,7 +4922,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aBook",
-									"sid": 703392831069677,
+									"sid": 939260233691591,
 									"parameters": {
 										"instance-variable": "mod",
 										"value": "\"noControl\""
@@ -4440,7 +4931,7 @@
 								{
 									"id": "callselffunction0",
 									"objectClass": "basis",
-									"sid": 429089675773781,
+									"sid": 556363126698807,
 									"behaviorType": "sf",
 									"parameters": {
 										"function_name:0": "\"stop\""
@@ -4449,7 +4940,7 @@
 								{
 									"id": "set-visible",
 									"objectClass": "shad",
-									"sid": 411523207209524,
+									"sid": 266113394229316,
 									"parameters": {
 										"visibility": "invisible"
 									}
@@ -4457,7 +4948,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "basis",
-									"sid": 907719268908466,
+									"sid": 197673750436133,
 									"parameters": {
 										"instance-variable": "move",
 										"value": "true"
@@ -4466,7 +4957,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "portal",
-									"sid": 515133625499515,
+									"sid": 992339836946270,
 									"parameters": {
 										"instance-variable": "active",
 										"value": "false"
@@ -4475,7 +4966,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aBook",
-									"sid": 166409757524180,
+									"sid": 459784470340073,
 									"parameters": {
 										"instance-variable": "heroTask",
 										"value": "\"goToPort\""
@@ -4484,7 +4975,7 @@
 								{
 									"id": "monitorstr1",
 									"objectClass": "vm",
-									"sid": 869532144414026,
+									"sid": 641124508419114,
 									"parameters": {
 										"tag0": "\"portal\"",
 										"string1": "aBook.heroTask"
@@ -4493,7 +4984,7 @@
 								{
 									"id": "wait",
 									"objectClass": "System",
-									"sid": 541985165350960,
+									"sid": 961781201398613,
 									"disabled": true,
 									"parameters": {
 										"seconds": "0.21",
@@ -4503,7 +4994,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "basis",
-									"sid": 101456039338390,
+									"sid": 384718048677874,
 									"parameters": {
 										"instance-variable": "portal",
 										"value": "true"
@@ -4512,7 +5003,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "basis",
-									"sid": 957587913668524,
+									"sid": 799083128537060,
 									"parameters": {
 										"instance-variable": "move",
 										"value": "false"
@@ -4521,7 +5012,7 @@
 								{
 									"id": "callselffunction0",
 									"objectClass": "basis",
-									"sid": 626169802365714,
+									"sid": 120121568004011,
 									"behaviorType": "sf",
 									"parameters": {
 										"function_name:0": "\"stop\""
@@ -4533,7 +5024,7 @@
 								},
 								{
 									"callFunction": "animPers",
-									"sid": 826040085668704,
+									"sid": 589436769175151,
 									"parameters": [
 										"hero.UID",
 										"portal.holdAnimation",
@@ -4546,7 +5037,7 @@
 								{
 									"id": "set-visible",
 									"objectClass": "hero",
-									"sid": 192158505464471,
+									"sid": 905913050226047,
 									"parameters": {
 										"visibility": "visible"
 									}
@@ -4554,7 +5045,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aMico",
-									"sid": 473625485268594,
+									"sid": 845136575781723,
 									"parameters": {
 										"instance-variable": "holdPortalUID",
 										"value": "Self.holdPortalNextUID"
@@ -4563,7 +5054,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aMico",
-									"sid": 626881628801343,
+									"sid": 680122620627197,
 									"parameters": {
 										"instance-variable": "holdPortalNextUID",
 										"value": "-1"
@@ -4571,7 +5062,7 @@
 								},
 								{
 									"callFunction": "animPers",
-									"sid": 662879882274616,
+									"sid": 648309181030767,
 									"parameters": [
 										"hero.UID",
 										"portal.holdAnimation",
@@ -4582,7 +5073,7 @@
 									]
 								}
 							],
-							"sid": 349146639947921,
+							"sid": 660443133773079,
 							"disabled": true
 						}
 					],
@@ -4594,7 +5085,7 @@
 						{
 							"id": "on-signal",
 							"objectClass": "System",
-							"sid": 854129930443612,
+							"sid": 164465346992543,
 							"parameters": {
 								"tag": "\"portalHoldRun\""
 							}
@@ -4602,7 +5093,7 @@
 						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "aMico",
-							"sid": 543349583192630,
+							"sid": 724726424786639,
 							"parameters": {
 								"instance-variable": "holdPortal"
 							}
@@ -4610,7 +5101,7 @@
 						{
 							"id": "compare-instance-variable",
 							"objectClass": "hero",
-							"sid": 427689391054813,
+							"sid": 928534228573625,
 							"parameters": {
 								"instance-variable": "heroName",
 								"comparison": 0,
@@ -4622,7 +5113,7 @@
 						{
 							"id": "set-instvar-value",
 							"objectClass": "aMico",
-							"sid": 592446782387830,
+							"sid": 387006608159223,
 							"disabled": true,
 							"parameters": {
 								"instance-variable": "holdPortalNextUID",
@@ -4632,7 +5123,7 @@
 						{
 							"id": "signal",
 							"objectClass": "System",
-							"sid": 399589004565191,
+							"sid": 639562447458870,
 							"parameters": {
 								"tag": "\"groundAnimationOut\""
 							}
@@ -4640,13 +5131,13 @@
 						{
 							"id": "set-visible",
 							"objectClass": "hero",
-							"sid": 272472167058635,
+							"sid": 537843319127352,
 							"parameters": {
 								"visibility": "invisible"
 							}
 						}
 					],
-					"sid": 749750726169543,
+					"sid": 177419653096913,
 					"disabled": true
 				},
 				{
@@ -4655,7 +5146,7 @@
 						{
 							"id": "on-signal",
 							"objectClass": "System",
-							"sid": 654146640507480,
+							"sid": 607198129330337,
 							"parameters": {
 								"tag": "\"portalHoldOut\""
 							}
@@ -4663,7 +5154,7 @@
 						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "aMico",
-							"sid": 862758709374364,
+							"sid": 531167665058687,
 							"parameters": {
 								"instance-variable": "holdPortal"
 							}
@@ -4671,7 +5162,7 @@
 						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "aMico",
-							"sid": 919841771775044,
+							"sid": 670431596940108,
 							"parameters": {
 								"instance-variable": "portalLimit"
 							},
@@ -4682,7 +5173,7 @@
 						{
 							"id": "set-boolean-instvar",
 							"objectClass": "portButt",
-							"sid": 115980288452685,
+							"sid": 659260736057787,
 							"parameters": {
 								"instance-variable": "on",
 								"value": "false"
@@ -4691,7 +5182,7 @@
 						{
 							"id": "set-animation-frame",
 							"objectClass": "portButt",
-							"sid": 288122746218786,
+							"sid": 198497450416897,
 							"parameters": {
 								"frame-number": "0"
 							}
@@ -4699,7 +5190,7 @@
 						{
 							"id": "monitorstr1",
 							"objectClass": "vm",
-							"sid": 521153377852173,
+							"sid": 298603590899902,
 							"parameters": {
 								"tag0": "\"portal\"",
 								"string1": "basis.task"
@@ -4708,7 +5199,7 @@
 						{
 							"id": "set-group-active",
 							"objectClass": "System",
-							"sid": 273834892235268,
+							"sid": 327971822283305,
 							"parameters": {
 								"group-name": "\"gotoLocation\"",
 								"state": "activated"
@@ -4717,7 +5208,7 @@
 						{
 							"id": "set-instvar-value",
 							"objectClass": "aTools",
-							"sid": 280386882966170,
+							"sid": 409254865098610,
 							"parameters": {
 								"instance-variable": "n",
 								"value": "Self.portToFrame"
@@ -4725,7 +5216,7 @@
 						},
 						{
 							"callFunction": "gotoLayout",
-							"sid": 593860735080671,
+							"sid": 754324116020006,
 							"parameters": [
 								"\"\"",
 								"\"\"",
@@ -4738,7 +5229,7 @@
 						{
 							"id": "set-boolean-instvar",
 							"objectClass": "aMico",
-							"sid": 258185132852921,
+							"sid": 985573941820756,
 							"parameters": {
 								"instance-variable": "portalLimit",
 								"value": "true"
@@ -4747,605 +5238,17 @@
 						{
 							"id": "signal",
 							"objectClass": "System",
-							"sid": 405204960967277,
+							"sid": 637049570186834,
 							"parameters": {
 								"tag": "\"groundAnimationIn\""
 							}
 						}
 					],
-					"sid": 304631186169918,
+					"sid": 939241818910703,
 					"disabled": true
 				}
 			],
-			"sid": 975095766680799
-		},
-		{
-			"eventType": "comment",
-			"text": ""
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-animation-finished",
-					"objectClass": "hero",
-					"sid": 437626126069146,
-					"parameters": {
-						"animation": "\"portalLevitation\""
-					}
-				},
-				{
-					"id": "compare-animation-speed",
-					"objectClass": "hero",
-					"sid": 118276936155115,
-					"parameters": {
-						"comparison": 4,
-						"number": "0"
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-animation",
-					"objectClass": "hero",
-					"sid": 103770801079760,
-					"parameters": {
-						"animation": "\"rotateLevitation\"",
-						"from": "beginning"
-					}
-				}
-			],
-			"sid": 454487267884631
-		},
-		{
-			"eventType": "comment",
-			"text": "\n\n\nТелепортация героя к точке координат. Например, телепортация из портала к курсору."
-		},
-		{
-			"aceType": "action",
-			"aceName": "teleRoad",
-			"objectClass": "aaa",
-			"functionDescription": "",
-			"functionCategory": "",
-			"functionReturnType": "none",
-			"functionCopyPicked": false,
-			"functionIsAsync": false,
-			"functionParameters": [
-				{
-					"name": "x",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"sid": 250258789911842
-				},
-				{
-					"name": "y",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"sid": 379467661649017
-				},
-				{
-					"name": "levitation",
-					"type": "boolean",
-					"initialValue": "false",
-					"comment": "",
-					"sid": 257264540005732
-				}
-			],
-			"eventType": "custom-ace-block",
-			"conditions": [
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "basis",
-					"sid": 886825749787237,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "person",
-					"sid": 354608637582970,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "shad",
-					"sid": 499745821867856,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "hero",
-					"sid": 985720266901855,
-					"parameters": {
-						"instance-variable": "heroName",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "aBook",
-					"sid": 504912199865069,
-					"disabled": true,
-					"parameters": {
-						"instance-variable": "mod",
-						"comparison": 1,
-						"value": "\"noControl\""
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "aBook",
-					"sid": 288720516276406,
-					"disabled": true,
-					"parameters": {
-						"instance-variable": "mod",
-						"comparison": 1,
-						"value": "\"noMouse\""
-					}
-				},
-				{
-					"id": "is-boolean-instance-variable-set",
-					"objectClass": "aaa",
-					"sid": 184003644853908,
-					"disabled": true,
-					"parameters": {
-						"instance-variable": "controlBlock"
-					},
-					"isInverted": true
-				},
-				{
-					"id": "is-boolean-instance-variable-set",
-					"objectClass": "basis",
-					"sid": 250234388408961,
-					"parameters": {
-						"instance-variable": "teleport"
-					},
-					"isInverted": true
-				}
-			],
-			"actions": [],
-			"sid": 449521508210955,
-			"children": [
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 617250249524422,
-							"parameters": {
-								"instance-variable": "teleport",
-								"value": "true"
-							}
-						},
-						{
-							"customAction": "rotateTo",
-							"objectClass": "basis",
-							"sid": 943610784237998,
-							"parameters": [
-								"basis.name",
-								"x",
-								"y",
-								false,
-								"-1",
-								false,
-								"0"
-							]
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 655831648263939,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "mod",
-								"value": "\"noControl\""
-							}
-						},
-						{
-							"customAction": "NoControl",
-							"objectClass": "aIns",
-							"sid": 634101865727077,
-							"parameters": [
-								true,
-								true,
-								"0"
-							]
-						},
-						{
-							"id": "set-position-to-another-object",
-							"objectClass": "teleportFX",
-							"sid": 787168656178624,
-							"parameters": {
-								"object": "hero",
-								"image-point-optional": "2"
-							}
-						},
-						{
-							"id": "set-angle-toward-position",
-							"objectClass": "teleportFX",
-							"sid": 534584294447017,
-							"parameters": {
-								"x": "x",
-								"y": "y-hero.Height/2"
-							}
-						},
-						{
-							"id": "set-scale",
-							"objectClass": "teleportFX",
-							"sid": 820898135888687,
-							"parameters": {
-								"scale": "basis.zScale*Self.startScaleCoeff*aBook.heroScaleCoeff"
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "teleportFX",
-							"sid": 644276783793422,
-							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "teleportFX",
-							"sid": 512305692429212,
-							"parameters": {
-								"animation": "\"fx\"",
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "set-angle-toward-position",
-							"objectClass": "basis",
-							"sid": 328864766483442,
-							"disabled": true,
-							"parameters": {
-								"x": "x",
-								"y": "y"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "basis",
-							"sid": 236428421053965,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "direct",
-								"value": "int(((Self.Angle+360+22.5) %360)/45)"
-							}
-						},
-						{
-							"id": "callselffunction0",
-							"objectClass": "basis",
-							"sid": 950466444423248,
-							"behaviorType": "sf",
-							"parameters": {
-								"function_name:0": "\"stop\""
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "hero",
-							"sid": 381440740217107,
-							"parameters": {
-								"visibility": "invisible"
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "shad",
-							"sid": 951999207363896,
-							"parameters": {
-								"visibility": "invisible"
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 321393592492637,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "move",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-position",
-							"objectClass": "basis",
-							"sid": 284714226039812,
-							"parameters": {
-								"x": "x",
-								"y": "y"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 259971377830878,
-							"parameters": {
-								"instance-variable": "heroTask",
-								"value": "\"goToRoad\""
-							}
-						},
-						{
-							"id": "monitorstr1",
-							"objectClass": "vm",
-							"sid": 644675116763004,
-							"parameters": {
-								"tag0": "\"portal\"",
-								"string1": "aBook.heroTask"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "person",
-							"sid": 989324430454726,
-							"parameters": {
-								"instance-variable": "animPriority",
-								"value": "0"
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 621532829237307,
-							"parameters": {
-								"seconds": "0.21",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 264283040043611,
-							"parameters": {
-								"instance-variable": "move",
-								"value": "false"
-							}
-						},
-						{
-							"id": "callselffunction0",
-							"objectClass": "basis",
-							"sid": 291761962158943,
-							"behaviorType": "sf",
-							"parameters": {
-								"function_name:0": "\"stop\""
-							}
-						},
-						{
-							"id": "callselffunction0",
-							"objectClass": "basis",
-							"sid": 760888687925088,
-							"behaviorType": "sf",
-							"parameters": {
-								"function_name:0": "\"zScale\""
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "hero",
-							"sid": 648487810630460,
-							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "set-visible",
-							"objectClass": "shad",
-							"sid": 635006704718892,
-							"parameters": {
-								"visibility": "visible"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "person",
-							"sid": 192592869170411,
-							"parameters": {
-								"instance-variable": "animPriority",
-								"value": "0"
-							}
-						}
-					],
-					"sid": 865321625058622
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "compare-boolean-eventvar",
-							"objectClass": "System",
-							"sid": 969819408502122,
-							"parameters": {
-								"variable": "levitation"
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "animPers",
-							"sid": 831623579427687,
-							"parameters": [
-								"hero.UID",
-								"\"portalLevitation\"",
-								"1",
-								"0",
-								"777",
-								"0"
-							]
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 573742682354250,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 522753334962840,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "mod",
-								"value": "\"zero\""
-							}
-						},
-						{
-							"customAction": "controlBack",
-							"objectClass": "aIns",
-							"sid": 142457196682767,
-							"parameters": [
-								true,
-								true
-							]
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 348765219627903,
-							"parameters": {
-								"instance-variable": "heroTask",
-								"value": "\"zero\""
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 247203005973405,
-							"parameters": {
-								"instance-variable": "heroState",
-								"value": "\"postLevitation\""
-							}
-						},
-						{
-							"id": "set-text",
-							"objectClass": "info",
-							"sid": 712978789202147,
-							"disabled": true,
-							"parameters": {
-								"text": "basis.Angle"
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 220267182413963,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 556703954028594,
-							"parameters": {
-								"instance-variable": "teleport",
-								"value": "false"
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 639312592246506,
-							"parameters": {
-								"seconds": "2",
-								"use-timescale": true
-							}
-						},
-						{
-							"callFunction": "animPers",
-							"sid": 271692599891938,
-							"parameters": [
-								"hero.UID",
-								"\"au\"",
-								"0",
-								"0",
-								"777",
-								"0"
-							]
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 153964565155994,
-							"parameters": {
-								"instance-variable": "heroState",
-								"value": "\"stop\""
-							}
-						}
-					],
-					"sid": 496942694048334
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "else",
-							"objectClass": "System",
-							"sid": 577309386367275
-						}
-					],
-					"actions": [
-						{
-							"customAction": "controlBack",
-							"objectClass": "aIns",
-							"sid": 991754987018260,
-							"parameters": [
-								true,
-								true
-							]
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aBook",
-							"sid": 359171561306747,
-							"parameters": {
-								"instance-variable": "heroTask",
-								"value": "\"zero\""
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 250287144620990,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "basis",
-							"sid": 133415283534975,
-							"parameters": {
-								"instance-variable": "teleport",
-								"value": "false"
-							}
-						}
-					],
-					"sid": 843986814599423
-				}
-			]
+			"sid": 100298556936332
 		}
 	],
 	"sid": 463296444124415

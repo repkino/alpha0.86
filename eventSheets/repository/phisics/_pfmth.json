@@ -225,17 +225,7 @@
 									}
 								}
 							],
-							"actions": [
-								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 457472717450275,
-									"disabled": true,
-									"parameters": {
-										"text": "1"
-									}
-								}
-							],
+							"actions": [],
 							"sid": 935586906948765,
 							"children": [
 								{
@@ -2608,16 +2598,44 @@
 								{
 									"id": "move-to-position",
 									"objectClass": "ath",
-									"sid": 178692381338065,
+									"sid": 565175397608585,
 									"behaviorType": "mt",
 									"parameters": {
-										"x": "Self.X+10*cos(angle(zoneStop.X,zoneStopTh.Y,ath.X,ath.Y))",
-										"y": "Self.Y+10*sin(angle(zoneStop.X,zoneStopTh.Y,ath.X,ath.Y))",
+										"x": "Self.X+10*cos(angle(zoneStopTh.X,zoneStopTh.Y,ath.X,ath.Y))",
+										"y": "Self.Y+10*sin(angle(zoneStopTh.X,zoneStopTh.Y,ath.X,ath.Y))",
 										"mode": "direct"
 									}
 								}
 							],
 							"sid": 266720040313926
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "ath",
+									"sid": 713035284923987,
+									"parameters": {
+										"object": "vegaRoad"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "move-to-position",
+									"objectClass": "ath",
+									"sid": 972633002316436,
+									"behaviorType": "mt",
+									"parameters": {
+										"x": "Self.X+10*cos(angle(vegaRoad.X,vegaRoad.Y,ath.X,ath.Y))",
+										"y": "Self.Y+10*sin(angle(vegaRoad.X,vegaRoad.Y,ath.X,ath.Y))",
+										"mode": "direct"
+									}
+								}
+							],
+							"sid": 859393192018275,
+							"disabled": true
 						}
 					]
 				},
@@ -2699,16 +2717,52 @@
 								{
 									"id": "move-to-position",
 									"objectClass": "ath",
-									"sid": 554000255653293,
+									"sid": 716994408780774,
 									"behaviorType": "mt",
 									"parameters": {
-										"x": "Self.X+10*cos(angle(zoneStop.X,zoneStopTh.Y,ath.X,ath.Y))",
-										"y": "Self.Y+10*sin(angle(zoneStop.X,zoneStopTh.Y,ath.X,ath.Y))",
+										"x": "Self.X+10*cos(angle(zoneStopTh.X,zoneStopTh.Y,ath.X,ath.Y))",
+										"y": "Self.Y+10*sin(angle(zoneStopTh.X,zoneStopTh.Y,ath.X,ath.Y))",
 										"mode": "direct"
 									}
 								}
 							],
 							"sid": 538156162358176
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-collision-with-another-object",
+									"objectClass": "ath",
+									"sid": 881300762749800,
+									"parameters": {
+										"object": "vegaRoad"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "ath",
+									"sid": 277163087085825,
+									"parameters": {
+										"instance-variable": "freeToGo"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "move-to-position",
+									"objectClass": "ath",
+									"sid": 371685247538332,
+									"behaviorType": "mt",
+									"parameters": {
+										"x": "Self.X+10*cos(angle(vegaRoad.X,vegaRoad.Y,ath.X,ath.Y))",
+										"y": "Self.Y+10*sin(angle(vegaRoad.X,vegaRoad.Y,ath.X,ath.Y))",
+										"mode": "direct"
+									}
+								}
+							],
+							"sid": 592088553587807,
+							"disabled": true
 						}
 					]
 				},
@@ -2908,14 +2962,6 @@
 										"instance-variable": "direct",
 										"value": "int(((Self.vAng+360+22.5) %360)/45)"
 									}
-								},
-								{
-									"id": "set-mirrored",
-									"objectClass": "tChick",
-									"sid": 146633494124117,
-									"parameters": {
-										"state": "not-mirrored"
-									}
 								}
 							],
 							"sid": 203020376499705,
@@ -2924,13 +2970,13 @@
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-between-values",
-											"objectClass": "System",
-											"sid": 141647939430038,
+											"id": "compare-instance-variable",
+											"objectClass": "tChick",
+											"sid": 305155158344572,
 											"parameters": {
-												"value": "ath.direct",
-												"lower-bound": "3",
-												"upper-bound": "5"
+												"instance-variable": "baseUID",
+												"comparison": 0,
+												"value": "ath.UID"
 											}
 										}
 									],
@@ -2938,13 +2984,41 @@
 										{
 											"id": "set-mirrored",
 											"objectClass": "tChick",
-											"sid": 566627032785068,
+											"sid": 913103603150252,
 											"parameters": {
-												"state": "mirrored"
+												"state": "not-mirrored"
 											}
 										}
 									],
-									"sid": 977431239951473
+									"sid": 840663005048362,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-between-values",
+													"objectClass": "System",
+													"sid": 847778665946413,
+													"parameters": {
+														"value": "ath.direct",
+														"lower-bound": "3",
+														"upper-bound": "5"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-mirrored",
+													"objectClass": "tChick",
+													"sid": 576230211688036,
+													"parameters": {
+														"state": "mirrored"
+													}
+												}
+											],
+											"sid": 628346797282734
+										}
+									]
 								}
 							]
 						}
@@ -3260,6 +3334,74 @@
 							"sid": 975163091533567,
 							"children": [
 								{
+									"eventType": "comment",
+									"text": "Выталкивание из vegaRoad. Чем ближе к центру, тем сильнее (unlerp от 100 до 0).",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "ath",
+											"sid": 784145276498268,
+											"parameters": {
+												"object": "vegaRoad"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "ath",
+											"sid": 453926866246505,
+											"parameters": {
+												"x": "Self.X + (Self.pushOut * 2 * unlerp(100, 0, distance(vegaRoad.X, vegaRoad.Y, Self.X, Self.Y)) * vegaRoad.pushCoeff) * cos(angle(vegaRoad.X, vegaRoad.Y, Self.X, Self.Y)) * dt",
+												"y": "Self.Y + (Self.pushOut * 2 * unlerp(100, 0, distance(vegaRoad.X, vegaRoad.Y, Self.X, Self.Y)) * vegaRoad.pushCoeff) * sin(angle(vegaRoad.X, vegaRoad.Y, Self.X, Self.Y)) * dt"
+											}
+										}
+									],
+									"sid": 330936808945655
+								},
+								{
+									"eventType": "comment",
+									"text": ""
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "ath",
+											"sid": 429987826352401,
+											"parameters": {
+												"object": "zoneStopTh"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "ath",
+											"sid": 269865233157016,
+											"parameters": {
+												"x": "Self.X + Self.pushOut*2 * cos(angle(zoneStopTh.X, zoneStopTh.Y, Self.X, Self.Y)) * dt",
+												"y": "Self.Y + Self.pushOut*2 * sin(angle(zoneStopTh.X, zoneStopTh.Y, Self.X, Self.Y)) * dt"
+											}
+										}
+									],
+									"sid": 712895384702314
+								},
+								{
+									"eventType": "comment",
+									"text": ""
+								},
+								{
 									"eventType": "block",
 									"conditions": [
 										{
@@ -3283,31 +3425,6 @@
 										}
 									],
 									"sid": 374501529776592
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-overlapping-another-object",
-											"objectClass": "ath",
-											"sid": 701584073819132,
-											"parameters": {
-												"object": "zoneStopTh"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-position",
-											"objectClass": "ath",
-											"sid": 198721590741980,
-											"parameters": {
-												"x": "Self.X + Self.pushOut*2 * cos(angle(zoneStopTh.X, zoneStopTh.Y, Self.X, Self.Y)) * dt",
-												"y": "Self.Y + Self.pushOut*2 * sin(angle(zoneStopTh.X, zoneStopTh.Y, Self.X, Self.Y)) * dt"
-											}
-										}
-									],
-									"sid": 711339692769306
 								}
 							]
 						}
