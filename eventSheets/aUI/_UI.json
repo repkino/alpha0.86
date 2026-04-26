@@ -1040,11 +1040,11 @@
 						},
 						{
 							"callFunction": "getItem",
-							"sid": 170193593978849,
+							"sid": 500859626692787,
 							"parameters": [
 								true,
 								"\"energoBall\"",
-								"\"\"",
+								"\"use\"",
 								"0",
 								"12",
 								"1",
@@ -1062,11 +1062,11 @@
 						},
 						{
 							"callFunction": "getItem",
-							"sid": 492965153476811,
+							"sid": 929229483111743,
 							"parameters": [
 								false,
 								"\"energoBall\"",
-								"\"\"",
+								"\"use\"",
 								"0",
 								"12",
 								"1",
@@ -1075,11 +1075,11 @@
 						},
 						{
 							"callFunction": "getItem",
-							"sid": 312597489046129,
+							"sid": 689849885341278,
 							"parameters": [
 								false,
 								"\"scompi\"",
-								"\"\"",
+								"\"use\"",
 								"0",
 								"1",
 								"1",
@@ -2840,7 +2840,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "энерго индикатор и пополнение",
+					"text": "\n\nэнерго-индикатор, изменения энергии, эффекты",
 					"text-color": [
 						1,
 						1,
@@ -2950,7 +2950,7 @@
 									"sid": 650761797071302,
 									"disabled": true,
 									"parameters": {
-										"instance-variable": "energy",
+										"instance-variable": "energy360",
 										"comparison": 4,
 										"value": "0"
 									}
@@ -2972,7 +2972,7 @@
 									"objectClass": "aaa",
 									"sid": 661630065060496,
 									"parameters": {
-										"instance-variable": "energy",
+										"instance-variable": "energy360",
 										"value": "round(aBit.energo/3)"
 									}
 								},
@@ -2992,7 +2992,7 @@
 									"sid": 316436473640437,
 									"parameters": {
 										"instance-variable": "oldEnergy",
-										"value": "Self.energy"
+										"value": "Self.energy360"
 									}
 								},
 								{
@@ -3001,7 +3001,7 @@
 									"sid": 608328777190970,
 									"parameters": {
 										"variable": "loopS",
-										"value": "ceil(aaa.energy/5)"
+										"value": "ceil(aaa.energy360/5)"
 									}
 								},
 								{
@@ -3010,7 +3010,7 @@
 									"sid": 220847436316141,
 									"disabled": true,
 									"parameters": {
-										"text": "aaa.energy"
+										"text": "aaa.energy360"
 									}
 								},
 								{
@@ -3267,7 +3267,7 @@
 									"objectClass": "aaa",
 									"sid": 891470870758097,
 									"parameters": {
-										"instance-variable": "energy",
+										"instance-variable": "energy360",
 										"value": "round(aBit.energoOld/3)"
 									}
 								},
@@ -3277,7 +3277,7 @@
 									"sid": 344759108119830,
 									"parameters": {
 										"variable": "loopS",
-										"value": "ceil(aaa.energy/5)"
+										"value": "ceil(aaa.energy360/5)"
 									}
 								}
 							],
@@ -3291,7 +3291,7 @@
 											"objectClass": "aaa",
 											"sid": 694808412244221,
 											"parameters": {
-												"instance-variable": "energy",
+												"instance-variable": "energy360",
 												"comparison": 1,
 												"value": "0"
 											}
@@ -3306,9 +3306,9 @@
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 796790485172350,
+													"sid": 797420074527742,
 													"parameters": {
-														"first-value": "ceil(clamp(aaa.energy-sub,0,360)/5)",
+														"first-value": "ceil(clamp(aaa.energy360-(sub/3),0,360)/5)",
 														"comparison": 3,
 														"second-value": "0"
 													}
@@ -3344,11 +3344,11 @@
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 332168817960502,
+													"sid": 699452085286065,
 													"parameters": {
-														"first-value": "ceil(clamp(aaa.energy-sub,0,360)/5)",
+														"first-value": "ceil(clamp(aaa.energy360-(sub/3),0,360)/5)",
 														"comparison": 2,
-														"second-value": "ceil(aaa.energy/5)"
+														"second-value": "ceil(aaa.energy360/5)"
 													}
 												},
 												{
@@ -3381,7 +3381,7 @@
 															"parameters": {
 																"name": "\"sub\"",
 																"start-index": "1",
-																"end-index": "ceil(aaa.energy/5)"
+																"end-index": "ceil(aaa.energy360/5)"
 															}
 														}
 													],
@@ -3499,10 +3499,19 @@
 												{
 													"id": "subtract-from-instvar",
 													"objectClass": "aaa",
-													"sid": 121083273102432,
+													"sid": 547641891884454,
 													"parameters": {
-														"instance-variable": "energy",
-														"value": "sub"
+														"instance-variable": "energy360",
+														"value": "ceil(sub/3)"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aaa",
+													"sid": 542532356522843,
+													"parameters": {
+														"instance-variable": "energy360",
+														"value": "clamp(Self.energy360,0,360)"
 													}
 												},
 												{
@@ -3526,7 +3535,7 @@
 											"objectClass": "aaa",
 											"sid": 154648836314205,
 											"parameters": {
-												"instance-variable": "energy",
+												"instance-variable": "energy360",
 												"comparison": 0,
 												"value": "0"
 											}
@@ -3596,6 +3605,97 @@
 											"disabled": true
 										}
 									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "digitalB",
+											"sid": 443734506829217,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 477615054695052,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 993493374162946,
+													"parameters": {
+														"object": "digitalB"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-text",
+													"objectClass": "digitalB",
+													"sid": 358730898845553,
+													"parameters": {
+														"text": "\"-\"&sub"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "digitalB",
+													"sid": 455581719650037,
+													"parameters": {
+														"x": "indiCentr.X",
+														"y": "indiCentr.Y"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "digitalB",
+													"sid": 402126726144939,
+													"parameters": {
+														"scale": "0.3+sub/300"
+													}
+												},
+												{
+													"id": "tween-two-properties",
+													"objectClass": "digitalB",
+													"sid": 460189355017077,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"up\"",
+														"property": "position",
+														"end-x": "Self.X+random(-10,10)-sub/10",
+														"end-y": "Self.Y-random(20,40)-sub/5",
+														"time": "0.8+sub/1000",
+														"ease": "easeoutquad",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												},
+												{
+													"id": "move-to-top",
+													"objectClass": "digitalB",
+													"sid": 754910413734591
+												},
+												{
+													"id": "set-z-elevation",
+													"objectClass": "digitalB",
+													"sid": 968449710978944,
+													"disabled": true,
+													"parameters": {
+														"z": "sub/1000"
+													}
+												}
+											],
+											"sid": 208236300035526
+										}
+									]
 								}
 							]
 						},
@@ -3628,7 +3728,7 @@
 									"objectClass": "aaa",
 									"sid": 974976779692711,
 									"parameters": {
-										"instance-variable": "energy",
+										"instance-variable": "energy360",
 										"value": "round(aBit.energoOld/3)"
 									}
 								},
@@ -3638,16 +3738,16 @@
 									"sid": 816423414311413,
 									"parameters": {
 										"variable": "loopS",
-										"value": "ceil(aaa.energy/5)"
+										"value": "ceil(aaa.energy360/5)"
 									}
 								},
 								{
 									"id": "set-eventvar-value",
 									"objectClass": "System",
-									"sid": 200597732867543,
+									"sid": 460591211067748,
 									"parameters": {
 										"variable": "loopA",
-										"value": "ceil(clamp(aaa.energy+add,0,380)/5)"
+										"value": "ceil(clamp(aaa.energy360+(add/3),0,360)/5)"
 									}
 								},
 								{
@@ -3656,7 +3756,7 @@
 									"sid": 691764153197799,
 									"parameters": {
 										"variable": "current",
-										"value": "aaa.energy"
+										"value": "aaa.energy360"
 									}
 								},
 								{
@@ -3927,10 +4027,19 @@
 										{
 											"id": "add-to-instvar",
 											"objectClass": "aaa",
-											"sid": 991664404270822,
+											"sid": 460399048162745,
 											"parameters": {
-												"instance-variable": "energy",
-												"value": "add"
+												"instance-variable": "energy360",
+												"value": "ceil(add/3)"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aaa",
+											"sid": 408136200445213,
+											"parameters": {
+												"instance-variable": "energy360",
+												"value": "clamp(Self.energy360,0,360)"
 											}
 										},
 										{
@@ -3939,7 +4048,7 @@
 											"sid": 583952113333154,
 											"disabled": true,
 											"parameters": {
-												"text": "aaa.energy"
+												"text": "aaa.energy360"
 											}
 										},
 										{
@@ -3987,7 +4096,7 @@
 													"objectClass": "aaa",
 													"sid": 564407071886393,
 													"parameters": {
-														"instance-variable": "energy",
+														"instance-variable": "energy360",
 														"comparison": 4,
 														"value": "270"
 													}
@@ -4062,7 +4171,7 @@
 													"objectClass": "aaa",
 													"sid": 975670319457572,
 													"parameters": {
-														"instance-variable": "energy",
+														"instance-variable": "energy360",
 														"comparison": 5,
 														"value": "360"
 													}
@@ -4122,6 +4231,97 @@
 											"sid": 364469666334983
 										}
 									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "digitalW",
+											"sid": 852690934652398,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 592280713033446,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 284645885259056,
+													"parameters": {
+														"object": "digitalW"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-text",
+													"objectClass": "digitalW",
+													"sid": 664022809963533,
+													"parameters": {
+														"text": "\"+\"&add"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "digitalW",
+													"sid": 167669453397107,
+													"parameters": {
+														"x": "indiCentr.X",
+														"y": "indiCentr.Y"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "digitalW",
+													"sid": 138345926445898,
+													"parameters": {
+														"scale": "0.3+add/300"
+													}
+												},
+												{
+													"id": "tween-two-properties",
+													"objectClass": "digitalW",
+													"sid": 197965177140400,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"up\"",
+														"property": "position",
+														"end-x": "Self.X+random(-10,10)-add/10",
+														"end-y": "Self.Y-random(20,40)-add/5",
+														"time": "0.8+add/1000",
+														"ease": "easeoutquad",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												},
+												{
+													"id": "move-to-top",
+													"objectClass": "digitalW",
+													"sid": 952160828629412
+												},
+												{
+													"id": "set-z-elevation",
+													"objectClass": "digitalW",
+													"sid": 113617032130471,
+													"disabled": true,
+													"parameters": {
+														"z": "add/1000"
+													}
+												}
+											],
+											"sid": 787492401296053
+										}
+									]
 								}
 							]
 						},
@@ -4137,7 +4337,7 @@
 									"objectClass": "aaa",
 									"sid": 354926809886815,
 									"parameters": {
-										"instance-variable": "energy",
+										"instance-variable": "energy360",
 										"comparison": 3,
 										"value": "0"
 									}
@@ -4147,16 +4347,126 @@
 								{
 									"id": "set-text",
 									"objectClass": "indiEnergo360",
-									"sid": 900009112760107,
-									"disabled": true,
+									"sid": 294871018892237,
 									"parameters": {
-										"text": "aaa.energy"
+										"text": "0"
 									}
 								}
 							],
 							"sid": 480767065661478
 						}
 					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-click",
+							"objectClass": "Mouse",
+							"sid": 304197054860707,
+							"parameters": {
+								"mouse-button": "button-4",
+								"click-type": "clicked"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "energo",
+							"sid": 360089007259776,
+							"parameters": [
+								"0",
+								"int(random(3,133))",
+								false,
+								"\"zero\""
+							]
+						}
+					],
+					"sid": 652163729178209,
+					"isOrBlock": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-click",
+							"objectClass": "Mouse",
+							"sid": 838107166092594,
+							"parameters": {
+								"mouse-button": "button-5",
+								"click-type": "clicked"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "energo",
+							"sid": 409394289429298,
+							"parameters": [
+								"int(random(3,133))",
+								"0",
+								false,
+								"\"zero\""
+							]
+						}
+					],
+					"sid": 110389710049679
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "digitalB",
+							"sid": 338433163164448,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"up\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "digitalB",
+							"sid": 787254976711012,
+							"parameters": {
+								"x": "-10101",
+								"y": "-10101"
+							}
+						}
+					],
+					"sid": 478541987377390
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "digitalW",
+							"sid": 615227721937357,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"up\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "digitalW",
+							"sid": 879184352935234,
+							"parameters": {
+								"x": "-10101",
+								"y": "-10101"
+							}
+						}
+					],
+					"sid": 290889101521408
 				},
 				{
 					"eventType": "comment",
@@ -22023,6 +22333,62 @@
 								}
 							],
 							"sid": 816934319893673
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 469846955358625,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "\"energoBall\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "energo",
+									"sid": 237618215748800,
+									"parameters": [
+										"0",
+										"100",
+										false,
+										"\"zero\""
+									]
+								}
+							],
+							"sid": 695917858850407
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 142729470239483,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "\"Scompi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "energo",
+									"sid": 834565117755453,
+									"parameters": [
+										"50",
+										"0",
+										false,
+										"\"zero\""
+									]
+								}
+							],
+							"sid": 458287967167992
 						},
 						{
 							"eventType": "block",
