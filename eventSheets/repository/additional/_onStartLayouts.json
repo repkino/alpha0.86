@@ -85,32 +85,6 @@
 					"disabled": true
 				},
 				{
-					"eventType": "group",
-					"disabled": false,
-					"title": "onStartSession",
-					"description": "",
-					"isActiveOnStart": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [],
-							"actions": [
-								{
-									"id": "set-group-active",
-									"objectClass": "System",
-									"sid": 590717470772039,
-									"parameters": {
-										"group-name": "\"onStartSession\"",
-										"state": "deactivated"
-									}
-								}
-							],
-							"sid": 476092968934978
-						}
-					],
-					"sid": 429425224366522
-				},
-				{
 					"eventType": "block",
 					"conditions": [
 						{
@@ -137,8 +111,262 @@
 						}
 					],
 					"sid": 935684616798298
+				},
+				{
+					"eventType": "comment",
+					"text": "однократное событие на старте"
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "onStartOnes",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 248710427582287,
+									"parameters": {
+										"group-name": "\"onStartOnes\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 950808993152649
+						}
+					],
+					"sid": 848594503237957
 				}
 			]
+		},
+		{
+			"eventType": "comment",
+			"text": "однократное событие после старта"
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "onStartSession",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "позиционирование шкалы индикатора"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "for",
+							"objectClass": "System",
+							"sid": 378989367127193,
+							"parameters": {
+								"name": "\"sl\"",
+								"start-index": "1",
+								"end-index": "72"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 275464290906677,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-x",
+									"objectClass": "indiEnergo",
+									"sid": 689165940732824,
+									"parameters": {
+										"comparison": 2,
+										"x-co-ordinate": "0"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 114462225260289,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 642811854080629,
+											"parameters": {
+												"object": "indiEnergo"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "indiEnergo",
+											"sid": 750985668014895,
+											"parameters": {
+												"object": "indicator",
+												"image-point-optional": "0"
+											}
+										},
+										{
+											"id": "set-angle",
+											"objectClass": "indiEnergo",
+											"sid": 165642363090415,
+											"parameters": {
+												"angle": "90+(loopindex(\"sl\")-1)*2.5"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "indiEnergo",
+											"sid": 460850130613038,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "indiEnergo",
+											"sid": 501223864315011,
+											"parameters": {
+												"where": "behind",
+												"object": "indiCentr"
+											}
+										}
+									],
+									"sid": 586130637318903
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "for",
+							"objectClass": "System",
+							"sid": 840565920386497,
+							"parameters": {
+								"name": "\"sr\"",
+								"start-index": "1",
+								"end-index": "72"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 483477688925537,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-x",
+									"objectClass": "indiEnergo",
+									"sid": 830598248139290,
+									"parameters": {
+										"comparison": 2,
+										"x-co-ordinate": "0"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 496855103995268,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 490096160209317,
+											"parameters": {
+												"object": "indiEnergo"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "indiEnergo",
+											"sid": 621686403584212,
+											"parameters": {
+												"object": "indicator",
+												"image-point-optional": "0"
+											}
+										},
+										{
+											"id": "set-height",
+											"objectClass": "indiEnergo",
+											"sid": 295633366566548,
+											"parameters": {
+												"height": "-Self.Height"
+											}
+										},
+										{
+											"id": "set-angle",
+											"objectClass": "indiEnergo",
+											"sid": 184863017115075,
+											"parameters": {
+												"angle": "90-(loopindex(\"sr\")-1)*2.5"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "indiEnergo",
+											"sid": 246291484230731,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "indiEnergo",
+											"sid": 293970732726647,
+											"parameters": {
+												"where": "behind",
+												"object": "indiCentr"
+											}
+										}
+									],
+									"sid": 511780564065820
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 590717470772039,
+							"parameters": {
+								"group-name": "\"onStartSession\"",
+								"state": "deactivated"
+							}
+						}
+					],
+					"sid": 476092968934978
+				}
+			],
+			"sid": 429425224366522
+		},
+		{
+			"eventType": "comment",
+			"text": ""
 		},
 		{
 			"eventType": "block",
