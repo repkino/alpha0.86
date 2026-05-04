@@ -202,10 +202,10 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aBit",
-									"sid": 243962310737626,
+									"sid": 569901470732053,
 									"parameters": {
 										"instance-variable": "energo",
-										"value": "clamp(Self.energo,0,1080)"
+										"value": "clamp(Self.energo,0,1000)"
 									}
 								},
 								{
@@ -1261,11 +1261,11 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "aBit",
-											"sid": 605813513960005,
+											"sid": 897752055348458,
 											"parameters": {
 												"instance-variable": "energo",
 												"comparison": 0,
-												"value": "1080"
+												"value": "1000"
 											}
 										}
 									],
@@ -1452,10 +1452,10 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "aBit",
-											"sid": 906852268346830,
+											"sid": 500113657272134,
 											"parameters": {
 												"instance-variable": "energo",
-												"value": "clamp(Self.energo,0,1080)"
+												"value": "clamp(Self.energo,0,1000)"
 											}
 										},
 										{
@@ -1525,12 +1525,41 @@
 											"id": "signal",
 											"objectClass": "System",
 											"sid": 890874108362651,
+											"disabled": true,
 											"parameters": {
 												"tag": "aBit.energo>108?\"pulsBit\":\"BitHibernation\""
 											}
 										}
 									],
-									"sid": 130072474824599
+									"sid": 130072474824599,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aBit",
+													"sid": 260896262491081,
+													"parameters": {
+														"instance-variable": "energo",
+														"comparison": 2,
+														"value": "108"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "signal",
+													"objectClass": "System",
+													"sid": 493427603243465,
+													"parameters": {
+														"tag": "\"BitHibernation\""
+													}
+												}
+											],
+											"sid": 437416723099888
+										}
+									]
 								},
 								{
 									"eventType": "block",
@@ -1538,11 +1567,11 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "aBit",
-											"sid": 346734877124184,
+											"sid": 437064250140272,
 											"parameters": {
 												"instance-variable": "energo",
 												"comparison": 5,
-												"value": "1080"
+												"value": "1000"
 											}
 										},
 										{
@@ -1869,6 +1898,58 @@
 											]
 										}
 									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 177156029888257
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 627114086548127,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "freeToMove"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 989719278867824,
+											"parameters": {
+												"instance-variable": "intersept"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 826172694828046,
+											"parameters": {
+												"instance-variable": "energo",
+												"comparison": 4,
+												"value": "Self.energoOld"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "energoEm",
+											"objectClass": "aaa",
+											"sid": 891774854167642,
+											"parameters": [
+												"aBit.energo-aBit.energoOld",
+												false,
+												"\"zero\"",
+												"0"
+											]
+										}
+									],
+									"sid": 636652350621851
 								},
 								{
 									"eventType": "block",
@@ -2874,7 +2955,7 @@
 								{
 									"id": "compare-eventvar",
 									"objectClass": "System",
-									"sid": 318994059183128,
+									"sid": 989755778856997,
 									"parameters": {
 										"variable": "add",
 										"comparison": 2,
@@ -2882,56 +2963,137 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 730788534192123,
+							"children": [
 								{
-									"id": "create-object",
-									"objectClass": "System",
-									"sid": 196501710095826,
-									"parameters": {
-										"object-to-create": "ePlus",
-										"layer": "\"iso\"",
-										"x": "Bit.ImagePointX(\"dialog\")+random(-20,20)",
-										"y": "Bit.ImagePointY(\"dialog\")-random(10,30)",
-										"create-hierarchy": false,
-										"template-name": "\"\""
-									}
-								},
-								{
-									"id": "set-scale",
-									"objectClass": "ePlus",
-									"sid": 929349040181149,
-									"parameters": {
-										"scale": "0.3*add"
-									}
-								},
-								{
-									"id": "set-angle",
-									"objectClass": "ePlus",
-									"sid": 577973471328414,
-									"parameters": {
-										"angle": "random(360)"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "ePlus",
-									"sid": 628486904898751,
-									"parameters": {
-										"animation": "\"dust\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-enabled",
-									"objectClass": "ePlus",
-									"sid": 796410070026229,
-									"behaviorType": "Bullet",
-									"parameters": {
-										"state": "disabled"
-									}
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "ePlus",
+											"sid": 250352475765920,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 813580311904099,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 906703097295739,
+													"parameters": {
+														"object": "ePlus"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": ""
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ePlus",
+													"sid": 756632708126834,
+													"parameters": {
+														"animation": "\"dust\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ePlus",
+													"sid": 458335965804106,
+													"parameters": {
+														"scale": "0.3*add"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "ePlus",
+													"sid": 407987392423353,
+													"parameters": {
+														"angle": "random(360)"
+													}
+												},
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "ePlus",
+													"sid": 464582100144621,
+													"parameters": {
+														"object": "Bit",
+														"image-point-optional": "\"dialog\""
+													}
+												},
+												{
+													"id": "move-at-angle",
+													"objectClass": "ePlus",
+													"sid": 325659861853854,
+													"parameters": {
+														"angle": "270",
+														"distance": "20"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ePlus",
+													"sid": 732867311812296,
+													"parameters": {
+														"instance-variable": "tx",
+														"value": "random(-10,10)"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ePlus",
+													"sid": 776082916514433,
+													"parameters": {
+														"instance-variable": "ty",
+														"value": "random(20,40)"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ePlus",
+													"sid": 647241325617431,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "ePlus",
+													"sid": 780333718158730,
+													"parameters": {
+														"angle": "random(360)"
+													}
+												},
+												{
+													"id": "start-timer",
+													"objectClass": "ePlus",
+													"sid": 995970933115446,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.8+add/1000",
+														"type": "once",
+														"tag": "\"on\""
+													}
+												}
+											],
+											"sid": 533569789034447
+										}
+									]
 								}
-							],
-							"sid": 232900738865511
+							]
 						},
 						{
 							"eventType": "comment",
@@ -2949,7 +3111,7 @@
 								{
 									"id": "compare-eventvar",
 									"objectClass": "System",
-									"sid": 692141047306133,
+									"sid": 712429488275468,
 									"parameters": {
 										"variable": "add",
 										"comparison": 5,
@@ -2957,81 +3119,179 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 548491704782844,
+							"children": [
 								{
-									"id": "create-object",
-									"objectClass": "System",
-									"sid": 364676610666174,
-									"parameters": {
-										"object-to-create": "ePlus",
-										"layer": "\"iso\"",
-										"x": "Bit.ImagePointX(\"dialog\")",
-										"y": "Bit.ImagePointY(\"dialog\")-5",
-										"create-hierarchy": false,
-										"template-name": "\"\""
-									}
-								},
-								{
-									"id": "set-scale",
-									"objectClass": "ePlus",
-									"sid": 640395623970469,
-									"parameters": {
-										"scale": "1"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "ePlus",
-									"sid": 386779945859509,
-									"parameters": {
-										"animation": "\"light\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "ePlus",
-									"sid": 880275417122909,
-									"disabled": true,
-									"parameters": {
-										"animation": "\"plus\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-animation-frame",
-									"objectClass": "ePlus",
-									"sid": 777846311522534,
-									"parameters": {
-										"frame-number": "clamp(round(add/2),0,10)-1"
-									}
-								},
-								{
-									"id": "set-scale",
-									"objectClass": "ePlus",
-									"sid": 362639239364865,
-									"disabled": true,
-									"parameters": {
-										"scale": "0.3+0.1*add"
-									}
-								},
-								{
-									"id": "set-angle-of-motion",
-									"objectClass": "ePlus",
-									"sid": 517669122813871,
-									"behaviorType": "Bullet",
-									"parameters": {
-										"angle": "270"
-									}
-								},
-								{
-									"id": "start-fade",
-									"objectClass": "ePlus",
-									"sid": 786898732112855,
-									"behaviorType": "Fade"
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "ePlus",
+											"sid": 742642895408121,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 229295641630165,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 894975617845967,
+													"parameters": {
+														"object": "ePlus"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "start-fade",
+													"objectClass": "ePlus",
+													"sid": 631648978131034,
+													"disabled": true,
+													"behaviorType": "Fade"
+												},
+												{
+													"type": "comment",
+													"text": ""
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "ePlus",
+													"sid": 290473454330931,
+													"parameters": {
+														"animation": "\"plus\"",
+														"from": "current-frame"
+													}
+												},
+												{
+													"id": "set-animation-frame",
+													"objectClass": "ePlus",
+													"sid": 581423843328143,
+													"parameters": {
+														"frame-number": "clamp(round(add/2),0,10)-1"
+													}
+												},
+												{
+													"id": "start-animation",
+													"objectClass": "ePlus",
+													"sid": 344373562426024,
+													"parameters": {
+														"from": "current-frame"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ePlus",
+													"sid": 241476261876251,
+													"disabled": true,
+													"parameters": {
+														"scale": "1"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ePlus",
+													"sid": 123238625777982,
+													"disabled": true,
+													"parameters": {
+														"scale": "0.3+0.1*add"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ePlus",
+													"sid": 491690830490182,
+													"parameters": {
+														"scale": "0.6+add/300"
+													}
+												},
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "ePlus",
+													"sid": 659687620925506,
+													"parameters": {
+														"object": "Bit",
+														"image-point-optional": "\"dialog\""
+													}
+												},
+												{
+													"id": "move-at-angle",
+													"objectClass": "ePlus",
+													"sid": 592886419668460,
+													"parameters": {
+														"angle": "270",
+														"distance": "20"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "ePlus",
+													"sid": 661343464215819,
+													"disabled": true,
+													"parameters": {
+														"scale": "1"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ePlus",
+													"sid": 754830154419914,
+													"parameters": {
+														"instance-variable": "tx",
+														"value": "random(-10,10)"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ePlus",
+													"sid": 498741122623593,
+													"parameters": {
+														"instance-variable": "ty",
+														"value": "random(30,60)"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ePlus",
+													"sid": 841643824851035,
+													"parameters": {
+														"instance-variable": "on",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-animation-frame",
+													"objectClass": "ePlus",
+													"sid": 507874080742079,
+													"parameters": {
+														"frame-number": "clamp(round(add/2),0,10)-1"
+													}
+												},
+												{
+													"id": "start-timer",
+													"objectClass": "ePlus",
+													"sid": 751879844003920,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.8+add/1000",
+														"type": "once",
+														"tag": "\"on\""
+													}
+												}
+											],
+											"sid": 726459852762845
+										}
+									]
 								}
-							],
-							"sid": 786606660187107
+							]
 						},
 						{
 							"eventType": "comment",
@@ -3049,7 +3309,7 @@
 								{
 									"id": "compare-boolean-eventvar",
 									"objectClass": "System",
-									"sid": 410539387337856,
+									"sid": 321778138046603,
 									"parameters": {
 										"variable": "lights"
 									}
@@ -3059,14 +3319,14 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "aBit",
-									"sid": 426595105878821,
+									"sid": 522610842113391,
 									"parameters": {
 										"instance-variable": "eLight",
 										"value": "true"
 									}
 								}
 							],
-							"sid": 335556269428254,
+							"sid": 717851860403304,
 							"children": [
 								{
 									"eventType": "block",
@@ -3074,7 +3334,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "aBit",
-											"sid": 141483267391142,
+											"sid": 512282808039430,
 											"parameters": {
 												"instance-variable": "energyType",
 												"comparison": 0,
@@ -3084,7 +3344,7 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 676057295968500,
+											"sid": 927674273620588,
 											"parameters": {
 												"variable": "energyType",
 												"comparison": 0,
@@ -3093,7 +3353,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 779072102921745,
+									"sid": 820441858827777,
 									"children": [
 										{
 											"eventType": "block",
@@ -3101,150 +3361,158 @@
 												{
 													"id": "repeat",
 													"objectClass": "System",
-													"sid": 435075612626100,
+													"sid": 538204606500690,
 													"parameters": {
 														"count": "add"
 													}
 												}
 											],
-											"actions": [
-												{
-													"id": "wait",
-													"objectClass": "System",
-													"sid": 672013840541063,
-													"parameters": {
-														"seconds": "(1/add)*loopindex",
-														"use-timescale": true
-													}
-												},
-												{
-													"id": "create-object",
-													"objectClass": "System",
-													"sid": 333056840054403,
-													"disabled": true,
-													"parameters": {
-														"object-to-create": "ePlus",
-														"layer": "\"iso\"",
-														"x": "Bit.ImagePointX(\"dialog\")",
-														"y": "Bit.ImagePointY(\"dialog\")",
-														"create-hierarchy": false,
-														"template-name": "\"\""
-													}
-												},
-												{
-													"id": "create-object",
-													"objectClass": "System",
-													"sid": 512431374564955,
-													"parameters": {
-														"object-to-create": "ePlus",
-														"layer": "\"iso\"",
-														"x": "Bit.ImagePointX(\"center\")",
-														"y": "Bit.ImagePointY(\"center\")",
-														"create-hierarchy": false,
-														"template-name": "\"\""
-													}
-												},
-												{
-													"id": "pin-to-object-imagepoint",
-													"objectClass": "ePlus",
-													"sid": 811789418742491,
-													"behaviorType": "Pin",
-													"parameters": {
-														"pin-to": "Bit",
-														"image-point": "\"center\"",
-														"angle": false,
-														"width-type": "no",
-														"height-type": "no",
-														"z": false
-													}
-												},
-												{
-													"id": "set-scale",
-													"objectClass": "ePlus",
-													"sid": 621042620759647,
-													"disabled": true,
-													"parameters": {
-														"scale": "random(0.5,1)"
-													}
-												},
-												{
-													"id": "set-scale",
-													"objectClass": "ePlus",
-													"sid": 674797903248407,
-													"parameters": {
-														"scale": "add<6? clamp(random(0.3,0.3+0.055*add),0.3,1.2) : clamp(random(0.6,0.3+0.02*add),0.6,1.2)"
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "ePlus",
-													"sid": 671095908607537,
-													"parameters": {
-														"animation": "\"bolt\"",
-														"from": "beginning"
-													}
-												},
-												{
-													"id": "set-angle",
-													"objectClass": "ePlus",
-													"sid": 812739892614368,
-													"disabled": true,
-													"parameters": {
-														"angle": "random(30,330)"
-													}
-												},
-												{
-													"id": "set-angle",
-													"objectClass": "ePlus",
-													"sid": 790993806718118,
-													"parameters": {
-														"angle": "random(360)"
-													}
-												},
-												{
-													"id": "set-enabled",
-													"objectClass": "ePlus",
-													"sid": 857493143746414,
-													"behaviorType": "Bullet",
-													"parameters": {
-														"state": "disabled"
-													}
-												},
-												{
-													"id": "set-mirrored",
-													"objectClass": "ePlus",
-													"sid": 950290219787233,
-													"parameters": {
-														"state": "not-mirrored"
-													}
-												}
-											],
-											"sid": 537831469109731,
+											"actions": [],
+											"sid": 774510829469056,
 											"children": [
 												{
 													"eventType": "block",
 													"conditions": [
 														{
-															"id": "Chance",
-															"objectClass": "Utils",
-															"sid": 196665749919337,
-															"parameters": {
-																"chance": "1",
-																"outof": "2"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-mirrored",
+															"id": "compare-x",
 															"objectClass": "ePlus",
-															"sid": 817893563915533,
+															"sid": 418739258299385,
 															"parameters": {
-																"state": "mirrored"
+																"comparison": 2,
+																"x-co-ordinate": "0"
 															}
 														}
 													],
-													"sid": 451775568169694
+													"actions": [],
+													"sid": 205147552103360,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "pick-random-instance",
+																	"objectClass": "System",
+																	"sid": 749962386100110,
+																	"parameters": {
+																		"object": "ePlus"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "wait",
+																	"objectClass": "System",
+																	"sid": 502152809709174,
+																	"parameters": {
+																		"seconds": "(1/add)*loopindex",
+																		"use-timescale": true
+																	}
+																},
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "ePlus",
+																	"sid": 312403206188718,
+																	"parameters": {
+																		"object": "Bit",
+																		"image-point-optional": "\"center\""
+																	}
+																},
+																{
+																	"id": "pin-to-object-imagepoint",
+																	"objectClass": "ePlus",
+																	"sid": 958620586848512,
+																	"behaviorType": "Pin",
+																	"parameters": {
+																		"pin-to": "Bit",
+																		"image-point": "\"center\"",
+																		"angle": false,
+																		"width-type": "no",
+																		"height-type": "no",
+																		"z": false
+																	}
+																},
+																{
+																	"id": "set-scale",
+																	"objectClass": "ePlus",
+																	"sid": 798476402881995,
+																	"disabled": true,
+																	"parameters": {
+																		"scale": "random(0.5,1)"
+																	}
+																},
+																{
+																	"id": "set-scale",
+																	"objectClass": "ePlus",
+																	"sid": 851055267405652,
+																	"parameters": {
+																		"scale": "add<6? clamp(random(0.3,0.3+0.055*add),0.3,1.2) : clamp(random(0.6,0.3+0.02*add),0.6,1.2)"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "ePlus",
+																	"sid": 856806586750155,
+																	"parameters": {
+																		"animation": "\"bolt\"",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-angle",
+																	"objectClass": "ePlus",
+																	"sid": 989627614114082,
+																	"disabled": true,
+																	"parameters": {
+																		"angle": "random(30,330)"
+																	}
+																},
+																{
+																	"id": "set-angle",
+																	"objectClass": "ePlus",
+																	"sid": 582779414659856,
+																	"parameters": {
+																		"angle": "random(360)"
+																	}
+																},
+																{
+																	"id": "set-mirrored",
+																	"objectClass": "ePlus",
+																	"sid": 119913750400216,
+																	"parameters": {
+																		"state": "not-mirrored"
+																	}
+																}
+															],
+															"sid": 344292577850316,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "Chance",
+																			"objectClass": "Utils",
+																			"sid": 741414131860128,
+																			"parameters": {
+																				"chance": "1",
+																				"outof": "2"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-mirrored",
+																			"objectClass": "ePlus",
+																			"sid": 815133389357051,
+																			"parameters": {
+																				"state": "mirrored"
+																			}
+																		}
+																	],
+																	"sid": 313336236626851
+																}
+															]
+														}
+													]
 												}
 											]
 										}
@@ -3755,6 +4023,149 @@
 				},
 				{
 					"eventType": "comment",
+					"text": "плюсы следуют за Битом",
+					"background-color": [
+						0.40784313725490196,
+						0.9921568627450981,
+						0.5529411764705883,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "ePlus",
+							"sid": 321428970650149,
+							"parameters": {
+								"instance-variable": "on"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "ePlus",
+							"sid": 371055293701393,
+							"parameters": {
+								"x": "lerp(Self.X,Bit.X+Self.tx,3.6*dt)",
+								"y": "lerp(Self.Y,Bit.ImagePointY(\"dialog\")-Self.ty,6*dt)"
+							}
+						}
+					],
+					"sid": 962744215610202
+				},
+				{
+					"eventType": "comment",
+					"text": "плюсы покидают локацию",
+					"background-color": [
+						0.40784313725490196,
+						0.9921568627450981,
+						0.5529411764705883,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-timer",
+							"objectClass": "ePlus",
+							"sid": 627567904973687,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"on\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "ePlus",
+							"sid": 378910816013316,
+							"parameters": {
+								"instance-variable": "on",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "ePlus",
+							"sid": 343726173253823,
+							"parameters": {
+								"x": "-10101",
+								"y": "-10101"
+							}
+						},
+						{
+							"id": "set-angle",
+							"objectClass": "ePlus",
+							"sid": 134914756082895,
+							"parameters": {
+								"angle": "0"
+							}
+						}
+					],
+					"sid": 355212800773679
+				},
+				{
+					"eventType": "comment",
+					"text": "молнии (символы) уходят с локации",
+					"background-color": [
+						0.40784313725490196,
+						0.9921568627450981,
+						0.5529411764705883,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-animation-finished",
+							"objectClass": "ePlus",
+							"sid": 228446115404302
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "ePlus",
+							"sid": 632383666855715,
+							"parameters": {
+								"instance-variable": "on",
+								"value": "false"
+							}
+						},
+						{
+							"id": "unpin",
+							"objectClass": "ePlus",
+							"sid": 107683161333018,
+							"behaviorType": "Pin"
+						},
+						{
+							"id": "set-position",
+							"objectClass": "ePlus",
+							"sid": 718904691891017,
+							"parameters": {
+								"x": "-10101",
+								"y": "-10101"
+							}
+						},
+						{
+							"id": "set-angle",
+							"objectClass": "ePlus",
+							"sid": 326218897579240,
+							"parameters": {
+								"angle": "0"
+							}
+						}
+					],
+					"sid": 773055890822000
+				},
+				{
+					"eventType": "comment",
 					"text": "\nискры уходят с локации",
 					"background-color": [
 						0.40784313725490196,
@@ -3793,174 +4204,6 @@
 						}
 					],
 					"sid": 886271393981645
-				},
-				{
-					"eventType": "comment",
-					"text": "молнии (символы) уничтожаются",
-					"background-color": [
-						0.40784313725490196,
-						0.9921568627450981,
-						0.5529411764705883,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-any-animation-finished",
-							"objectClass": "ePlus",
-							"sid": 429329127487268
-						}
-					],
-					"actions": [
-						{
-							"id": "unpin",
-							"objectClass": "ePlus",
-							"sid": 924115191654173,
-							"behaviorType": "Pin"
-						},
-						{
-							"id": "destroy",
-							"objectClass": "ePlus",
-							"sid": 610503926602077
-						}
-					],
-					"sid": 771385913539451,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-animation-playing",
-									"objectClass": "ePlus",
-									"sid": 453884230601250,
-									"parameters": {
-										"animation": "\"ll\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 325675474598517,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "pick-all",
-											"objectClass": "System",
-											"sid": 551728508403399,
-											"parameters": {
-												"object": "ePlus"
-											}
-										},
-										{
-											"id": "is-animation-playing",
-											"objectClass": "ePlus",
-											"sid": 528017120319024,
-											"parameters": {
-												"animation": "\"shock\""
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation",
-											"objectClass": "ePlus",
-											"sid": 576296379804165,
-											"parameters": {
-												"animation": "\"shock\"",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 296630261966597,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-animation-playing",
-													"objectClass": "ePlus",
-													"sid": 261981931634121,
-													"parameters": {
-														"animation": "\"shock\""
-													}
-												}
-											],
-											"actions": [],
-											"sid": 163486416800504
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 979540390977313
-										}
-									],
-									"actions": [
-										{
-											"id": "create-object",
-											"objectClass": "System",
-											"sid": 904332080901578,
-											"parameters": {
-												"object-to-create": "ePlus",
-												"layer": "\"iso\"",
-												"x": "Bit.ImagePointX(\"center\")",
-												"y": "Bit.ImagePointY(\"center\")",
-												"create-hierarchy": false,
-												"template-name": "\"\""
-											}
-										},
-										{
-											"id": "pin-to-object-imagepoint",
-											"objectClass": "ePlus",
-											"sid": 343667008869643,
-											"behaviorType": "Pin",
-											"parameters": {
-												"pin-to": "Bit",
-												"image-point": "\"center\"",
-												"angle": false,
-												"width-type": "no",
-												"height-type": "no",
-												"z": false
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "ePlus",
-											"sid": 263187202797849,
-											"parameters": {
-												"animation": "\"shock\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-angle",
-											"objectClass": "ePlus",
-											"sid": 422648489236502,
-											"parameters": {
-												"angle": "0"
-											}
-										},
-										{
-											"id": "set-scale",
-											"objectClass": "ePlus",
-											"sid": 679738673111910,
-											"parameters": {
-												"scale": "0.5"
-											}
-										}
-									],
-									"sid": 159266576586261
-								}
-							]
-						}
-					]
 				},
 				{
 					"eventType": "comment",
@@ -4041,11 +4284,11 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "aBit",
-									"sid": 180134413148752,
+									"sid": 906982398352881,
 									"parameters": {
 										"instance-variable": "energo",
 										"comparison": 2,
-										"value": "1080"
+										"value": "1000"
 									}
 								}
 							],
