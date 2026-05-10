@@ -550,6 +550,14 @@
 										"comparison": 2,
 										"value": "0"
 									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "puffballFog",
+									"sid": 342098002868207,
+									"parameters": {
+										"instance-variable": "main"
+									}
 								}
 							],
 							"actions": [
@@ -855,6 +863,14 @@
 								"instance-variable": "fog"
 							},
 							"isInverted": true
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "puffballFog",
+							"sid": 232958461987171,
+							"parameters": {
+								"instance-variable": "main"
+							}
 						}
 					],
 					"actions": [
@@ -988,6 +1004,10 @@
 							"sid": 409162511715880,
 							"children": [
 								{
+									"eventType": "comment",
+									"text": "если героя преследовали серпенты"
+								},
+								{
 									"eventType": "block",
 									"conditions": [
 										{
@@ -999,27 +1019,63 @@
 												"comparison": 0,
 												"value": "base.UID"
 											}
+										}
+									],
+									"actions": [],
+									"sid": 544730427476579,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "если серпент уже летит к герою, не останавливаем"
 										},
 										{
-											"id": "for-each",
-											"objectClass": "System",
-											"sid": 623445783838195,
-											"parameters": {
-												"object": "ser"
-											}
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "ser",
+													"sid": 807225614769442,
+													"parameters": {
+														"instance-variable": "status",
+														"comparison": 1,
+														"value": "\"dartForm\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 256206243849608,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "иначе они перестают его видеть"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for-each",
+															"objectClass": "System",
+															"sid": 791259598560055,
+															"parameters": {
+																"object": "ser"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "instance-signal",
+															"objectClass": "ser",
+															"sid": 769827885230396,
+															"parameters": {
+																"tag": "\"reset\""
+															}
+														}
+													],
+													"sid": 294491259311105
+												}
+											]
 										}
-									],
-									"actions": [
-										{
-											"id": "instance-signal",
-											"objectClass": "ser",
-											"sid": 902144241424925,
-											"parameters": {
-												"tag": "\"reset\""
-											}
-										}
-									],
-									"sid": 544730427476579
+									]
 								}
 							]
 						},
@@ -1031,6 +1087,7 @@
 									"id": "create-object",
 									"objectClass": "System",
 									"sid": 353754341126322,
+									"disabled": true,
 									"parameters": {
 										"object-to-create": "puffballSpray",
 										"layer": "\"iso\"",
@@ -1112,14 +1169,13 @@
 									}
 								},
 								{
-									"id": "pin-to-object-properties",
+									"id": "pin-to-object-imagepoint",
 									"objectClass": "puffballFog",
-									"sid": 811385202014539,
+									"sid": 750268540722958,
 									"behaviorType": "Pin",
 									"parameters": {
 										"pin-to": "person",
-										"x": true,
-										"y": true,
+										"image-point": "\"center\"",
 										"angle": false,
 										"width-type": "no",
 										"height-type": "no",
@@ -1144,7 +1200,175 @@
 									}
 								}
 							],
-							"sid": 816352868612242
+							"sid": 816352868612242,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "puffballSpray",
+											"sid": 286398872312573,
+											"parameters": {
+												"unique-id": "Functions.pickOutside(\"puffballSpray\")"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-mirrored",
+											"objectClass": "puffballSpray",
+											"sid": 322766895743015,
+											"parameters": {
+												"state": "not-mirrored"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "puffballSpray",
+											"sid": 540181386074679,
+											"parameters": {
+												"animation": "\"puff\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "puffballSpray",
+											"sid": 771522360532920,
+											"parameters": {
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "puffballSpray",
+											"sid": 485138849235464,
+											"parameters": {
+												"x": "puffball.X",
+												"y": "puffball.Y-10"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "puffballSpray",
+											"sid": 550317924876917,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"value": "puffball.UID"
+											}
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "puffballSpray",
+											"sid": 103766307716622,
+											"behaviorType": "EasyIsometric",
+											"parameters": {
+												"newState_": "enabled"
+											}
+										},
+										{
+											"id": "refresh",
+											"objectClass": "puffballSpray",
+											"sid": 373233400495193,
+											"behaviorType": "EasyIsometric"
+										}
+									],
+									"sid": 290947177216315
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "puffballSpray",
+											"sid": 339216920913129,
+											"parameters": {
+												"unique-id": "Functions.pickOutside(\"puffballSpray\")"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-mirrored",
+											"objectClass": "puffballSpray",
+											"sid": 863068120659487,
+											"parameters": {
+												"state": "mirrored"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "puffballSpray",
+											"sid": 869274544261658,
+											"parameters": {
+												"animation": "\"zero\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "puffballSpray",
+											"sid": 437492246602517,
+											"parameters": {
+												"x": "puffball.X",
+												"y": "puffball.Y+20"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "puffballSpray",
+											"sid": 653805565058665,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"value": "puffball.UID"
+											}
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "puffballSpray",
+											"sid": 174076496609084,
+											"behaviorType": "EasyIsometric",
+											"parameters": {
+												"newState_": "enabled"
+											}
+										},
+										{
+											"id": "refresh",
+											"objectClass": "puffballSpray",
+											"sid": 973216145156371,
+											"behaviorType": "EasyIsometric"
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 910214235983814,
+											"parameters": {
+												"seconds": "0.15",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "puffballSpray",
+											"sid": 681655304591698,
+											"parameters": {
+												"animation": "\"puff\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "puffballSpray",
+											"sid": 819475461555678,
+											"parameters": {
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 801554730876785
+								}
+							]
 						},
 						{
 							"eventType": "block",
@@ -1201,7 +1425,8 @@
 									}
 								}
 							],
-							"sid": 758074793338362
+							"sid": 758074793338362,
+							"disabled": true
 						},
 						{
 							"eventType": "block",
@@ -1555,7 +1780,54 @@
 											}
 										}
 									],
-									"sid": 207249924055436
+									"sid": 207249924055436,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "puffballSpray",
+													"sid": 633606662158941,
+													"parameters": {
+														"instance-variable": "hostUID",
+														"comparison": 0,
+														"value": "puffball.UID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-animation",
+													"objectClass": "puffballSpray",
+													"sid": 792215943501631,
+													"parameters": {
+														"animation": "\"zero\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "puffballSpray",
+													"sid": 173446307553033,
+													"parameters": {
+														"x": "-3421",
+														"y": "-7645"
+													}
+												},
+												{
+													"id": "set-enabled",
+													"objectClass": "puffballSpray",
+													"sid": 425614883675076,
+													"behaviorType": "EasyIsometric",
+													"parameters": {
+														"newState_": "disabled"
+													}
+												}
+											],
+											"sid": 596014028688838
+										}
+									]
 								}
 							]
 						}
@@ -1595,30 +1867,131 @@
 							}
 						}
 					],
-					"actions": [
+					"actions": [],
+					"sid": 306451110094216,
+					"disabled": true,
+					"children": [
 						{
-							"id": "create-object",
-							"objectClass": "System",
-							"sid": 653638477829699,
-							"parameters": {
-								"object-to-create": "puffballSpray",
-								"layer": "\"iso\"",
-								"x": "puffball.X",
-								"y": "puffball.Y+5",
-								"create-hierarchy": false,
-								"template-name": "\"\""
-							}
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "puffballSpray",
+									"sid": 417652956036138,
+									"parameters": {
+										"unique-id": "Functions.pickOutside(\"puffballSpray\")"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-mirrored",
+									"objectClass": "puffballSpray",
+									"sid": 142405952323329,
+									"parameters": {
+										"state": "not-mirrored"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "puffballSpray",
+									"sid": 774113482811193,
+									"parameters": {
+										"animation": "\"puff\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "puffballSpray",
+									"sid": 934018620539093,
+									"parameters": {
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "puffballSpray",
+									"sid": 708118799956421,
+									"parameters": {
+										"x": "puffball.X",
+										"y": "puffball.Y-10"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "puffballSpray",
+									"sid": 840229980794094,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "puffball.UID"
+									}
+								}
+							],
+							"sid": 495275721646328,
+							"disabled": true
 						},
 						{
-							"id": "start-animation",
-							"objectClass": "puffballSpray",
-							"sid": 358630368776167,
-							"parameters": {
-								"from": "beginning"
-							}
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "puffballSpray",
+									"sid": 168679244028926,
+									"parameters": {
+										"unique-id": "Functions.pickOutside(\"puffballSpray\")"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-mirrored",
+									"objectClass": "puffballSpray",
+									"sid": 732370738960346,
+									"parameters": {
+										"state": "mirrored"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "puffballSpray",
+									"sid": 177260123341413,
+									"parameters": {
+										"animation": "\"puff\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "puffballSpray",
+									"sid": 941823700225334,
+									"parameters": {
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "puffballSpray",
+									"sid": 616297678813334,
+									"parameters": {
+										"x": "puffball.X",
+										"y": "puffball.Y+20"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "puffballSpray",
+									"sid": 672824741298831,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "puffball.UID"
+									}
+								}
+							],
+							"sid": 963154237014180,
+							"disabled": true
 						}
-					],
-					"sid": 306451110094216
+					]
 				},
 				{
 					"eventType": "comment",
@@ -1700,7 +2073,16 @@
 					"functionIsAsync": false,
 					"functionParameters": [],
 					"eventType": "custom-ace-block",
-					"conditions": [],
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "puffballFog",
+							"sid": 752460173411470,
+							"parameters": {
+								"instance-variable": "main"
+							}
+						}
+					],
 					"actions": [
 						{
 							"id": "unpin",
@@ -1790,58 +2172,6 @@
 						}
 					],
 					"sid": 343393109811572
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-on-screen",
-							"objectClass": "puffballSpray",
-							"sid": 188244899774234
-						},
-						{
-							"id": "is-on-screen",
-							"objectClass": "puffballFog",
-							"sid": 411800612123463
-						}
-					],
-					"actions": [],
-					"sid": 580349182936359,
-					"isOrBlock": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "else",
-							"objectClass": "System",
-							"sid": 722668985012117
-						}
-					],
-					"actions": [],
-					"sid": 140388454273590
-				},
-				{
-					"eventType": "comment",
-					"text": ""
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-any-animation-finished",
-							"objectClass": "puffballSpray",
-							"sid": 471821280192690
-						}
-					],
-					"actions": [
-						{
-							"id": "destroy",
-							"objectClass": "puffballSpray",
-							"sid": 487690792247060
-						}
-					],
-					"sid": 987676683840091
 				},
 				{
 					"eventType": "comment",
@@ -1946,21 +2276,21 @@
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "is-outside-layout",
+							"id": "is-on-screen",
 							"objectClass": "puffballSpray",
-							"sid": 490351777880012,
-							"isInverted": true
+							"sid": 421241952005884,
+							"disabled": true
 						},
 						{
 							"id": "is-outside-layout",
 							"objectClass": "puffballFog",
-							"sid": 434993401382550,
+							"sid": 163890382655572,
 							"isInverted": true
 						},
 						{
 							"id": "is-animation-playing",
 							"objectClass": "vegaMush",
-							"sid": 110584556240932,
+							"sid": 455220623196020,
 							"parameters": {
 								"animation": "\"actSmoke\""
 							}
