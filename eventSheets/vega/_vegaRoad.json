@@ -8389,6 +8389,15 @@
 												"object": "vegaRoad",
 												"image-point-optional": "0"
 											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 922063285301731,
+											"parameters": {
+												"instance-variable": "heroClick",
+												"value": "\"vegaPort\""
+											}
 										}
 									],
 									"sid": 687976337435303
@@ -9617,6 +9626,15 @@
 																"object": "vegaRoad",
 																"image-point-optional": "0"
 															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aBit",
+															"sid": 899377483228521,
+															"parameters": {
+																"instance-variable": "heroClick",
+																"value": "\"vegaPort\""
+															}
 														}
 													],
 													"sid": 631965222118877
@@ -10690,10 +10708,10 @@
 								{
 									"customAction": "pilobulus",
 									"objectClass": "aaa",
-									"sid": 984400579231601,
+									"sid": 875439525256742,
 									"parameters": [
 										"base.UID",
-										"1",
+										"2",
 										"vegaRoad.X",
 										"vegaRoad.Y",
 										"base.X",
@@ -10961,7 +10979,7 @@
 								{
 									"id": "pick-by-unique-id",
 									"objectClass": "vegaRoad",
-									"sid": 696998803653283,
+									"sid": 996201892415768,
 									"parameters": {
 										"unique-id": "vrUID"
 									}
@@ -10971,7 +10989,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "vegaRoad",
-									"sid": 338985110106752,
+									"sid": 321634674243988,
 									"parameters": {
 										"instance-variable": "type",
 										"value": "trapTag"
@@ -10980,7 +10998,7 @@
 								{
 									"id": "set-animation",
 									"objectClass": "vegaRoad",
-									"sid": 536564020723821,
+									"sid": 935565827284710,
 									"parameters": {
 										"animation": "\"trap\"",
 										"from": "current-frame"
@@ -10989,7 +11007,7 @@
 								{
 									"id": "set-animation-frame",
 									"objectClass": "vegaRoad",
-									"sid": 160045049103196,
+									"sid": 159077111812265,
 									"parameters": {
 										"frame-number": "1"
 									}
@@ -10997,7 +11015,7 @@
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 216769309154934,
+									"sid": 863370516242339,
 									"parameters": {
 										"group-name": "\"spiker\"",
 										"state": "activated"
@@ -11005,7 +11023,8 @@
 								},
 								{
 									"callFunction": "addSpiker",
-									"sid": 517835798828337,
+									"sid": 550728854559600,
+									"disabled": true,
 									"parameters": [
 										"vegaRoad.X",
 										"vegaRoad.Y-1",
@@ -11016,7 +11035,7 @@
 								{
 									"id": "start-timer",
 									"objectClass": "vegaRoad",
-									"sid": 458566669479987,
+									"sid": 245738770262529,
 									"behaviorType": "Timer",
 									"parameters": {
 										"duration": "1.2",
@@ -11025,15 +11044,80 @@
 									}
 								}
 							],
-							"sid": 693315859986215,
+							"sid": 341354110175105,
 							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-outside-layout",
+											"objectClass": "shokoSpiker",
+											"sid": 247781032151512
+										}
+									],
+									"actions": [],
+									"sid": 172123340030584,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 166357267214366,
+													"parameters": {
+														"object": "shokoSpiker"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "shokoSpiker",
+													"sid": 494840426421364,
+													"parameters": {
+														"object": "vegaRoad",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "shokoSpiker",
+													"sid": 636655930500258,
+													"parameters": {
+														"animation": "\"attack\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "spikeDart",
+													"sid": 195924841931776,
+													"parameters": {
+														"object": "vegaRoad",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-spraying",
+													"objectClass": "spikeDart",
+													"sid": 773545071869598,
+													"parameters": {
+														"state": "spraying"
+													}
+												}
+											],
+											"sid": 874637541216544
+										}
+									]
+								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 661293654274570,
+											"sid": 743180601121005,
 											"parameters": {
 												"variable": "trapTag",
 												"comparison": 0,
@@ -11042,9 +11126,51 @@
 										}
 									],
 									"actions": [],
-									"sid": 922599652662125
+									"sid": 544154554783080
 								}
 							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-animation-finished",
+									"objectClass": "shokoSpiker",
+									"sid": 470870786418812,
+									"parameters": {
+										"animation": "\"attack\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "shokoSpiker",
+									"sid": 994896518542781,
+									"parameters": {
+										"animation": "\"zero\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "shokoSpiker",
+									"sid": 886657688971571,
+									"parameters": {
+										"x": "-4222",
+										"y": "-3555"
+									}
+								},
+								{
+									"id": "set-spraying",
+									"objectClass": "spikeDart",
+									"sid": 616522753056610,
+									"parameters": {
+										"state": "not-spraying"
+									}
+								}
+							],
+							"sid": 511942921765198
 						}
 					],
 					"sid": 675124223800080
