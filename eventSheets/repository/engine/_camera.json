@@ -111,7 +111,7 @@
 		},
 		{
 			"eventType": "comment",
-			"text": ""
+			"text": "границы камеры"
 		},
 		{
 			"functionName": "reClamp",
@@ -120,33 +120,54 @@
 			"functionReturnType": "none",
 			"functionCopyPicked": false,
 			"functionIsAsync": false,
-			"functionParameters": [],
+			"functionParameters": [
+				{
+					"name": "borders",
+					"type": "boolean",
+					"initialValue": "true",
+					"comment": "",
+					"sid": 323134618311943
+				}
+			],
 			"eventType": "function-block",
-			"conditions": [],
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "camera",
+					"sid": 669790112335152,
+					"parameters": {
+						"instance-variable": "index",
+						"comparison": 0,
+						"value": "aTools.camindex"
+					}
+				}
+			],
 			"actions": [],
 			"sid": 482598895822456,
 			"children": [
 				{
+					"eventType": "comment",
+					"text": "если камера ограничена объектом frame"
+				},
+				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "frame",
-							"sid": 491579589948027,
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 997265397092215,
 							"parameters": {
-								"instance-variable": "n",
-								"comparison": 0,
-								"value": "frameN"
+								"variable": "borders"
 							}
 						},
 						{
 							"id": "compare-instance-variable",
-							"objectClass": "camera",
-							"sid": 130559855113462,
+							"objectClass": "frame",
+							"sid": 516525260179314,
 							"parameters": {
-								"instance-variable": "index",
+								"instance-variable": "n",
 								"comparison": 0,
-								"value": "aTools.camindex"
+								"value": "frameN"
 							}
 						}
 					],
@@ -154,7 +175,7 @@
 						{
 							"id": "set-eventvar-value",
 							"objectClass": "System",
-							"sid": 583749949643322,
+							"sid": 783995148904047,
 							"parameters": {
 								"variable": "clampL",
 								"value": "frame.BBoxLeft+ViewportWidth(8)/2"
@@ -163,7 +184,7 @@
 						{
 							"id": "set-eventvar-value",
 							"objectClass": "System",
-							"sid": 493088779776832,
+							"sid": 383065644594434,
 							"parameters": {
 								"variable": "clampR",
 								"value": "frame.BBoxRight-ViewportWidth(8)/2"
@@ -172,7 +193,7 @@
 						{
 							"id": "set-eventvar-value",
 							"objectClass": "System",
-							"sid": 635794850823960,
+							"sid": 645421035624001,
 							"parameters": {
 								"variable": "clampT",
 								"value": "frame.BBoxTop+ViewportHeight(8)/2"
@@ -181,7 +202,7 @@
 						{
 							"id": "set-eventvar-value",
 							"objectClass": "System",
-							"sid": 315070668464946,
+							"sid": 549156776822634,
 							"parameters": {
 								"variable": "clampD",
 								"value": "frame.BBoxBottom-ViewportHeight(8)/2"
@@ -190,7 +211,7 @@
 						{
 							"id": "scroll-to-x",
 							"objectClass": "System",
-							"sid": 345440408190802,
+							"sid": 554382133407074,
 							"parameters": {
 								"x": "lerp(scrollx,clamp(camera.X,clampL,clampR),0.9)"
 							}
@@ -198,7 +219,7 @@
 						{
 							"id": "scroll-to-y",
 							"objectClass": "System",
-							"sid": 755853074340902,
+							"sid": 233892672549754,
 							"parameters": {
 								"y": "lerp(scrolly,clamp(camera.Y,clampT,clampD),0.9)"
 							}
@@ -206,7 +227,7 @@
 						{
 							"id": "wait",
 							"objectClass": "System",
-							"sid": 981056993792097,
+							"sid": 973047738235535,
 							"disabled": true,
 							"parameters": {
 								"seconds": "0.1",
@@ -214,13 +235,46 @@
 							}
 						}
 					],
-					"sid": 402249897799623
+					"sid": 488916476347705
+				},
+				{
+					"eventType": "comment",
+					"text": "иначе камера ограничена макетом"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 601399107619270
+						}
+					],
+					"actions": [
+						{
+							"id": "scroll-to-x",
+							"objectClass": "System",
+							"sid": 255838088248585,
+							"parameters": {
+								"x": "lerp(scrollx,camera.X,0.9)"
+							}
+						},
+						{
+							"id": "scroll-to-y",
+							"objectClass": "System",
+							"sid": 425298372401826,
+							"parameters": {
+								"y": "lerp(scrolly,camera.Y,0.9)"
+							}
+						}
+					],
+					"sid": 149375591466579
 				}
 			]
 		},
 		{
 			"eventType": "comment",
-			"text": ""
+			"text": "зум камеры"
 		},
 		{
 			"functionName": "reZoom",
@@ -231,31 +285,44 @@
 			"functionIsAsync": false,
 			"functionParameters": [],
 			"eventType": "function-block",
-			"conditions": [],
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "camera",
+					"sid": 239982736600235,
+					"parameters": {
+						"instance-variable": "index",
+						"comparison": 0,
+						"value": "aTools.n"
+					}
+				}
+			],
 			"actions": [],
 			"sid": 961234027302399,
 			"children": [
 				{
+					"eventType": "comment",
+					"text": "камера ограничена объектом frame"
+				},
+				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "frame",
-							"sid": 844912780261792,
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "camera",
+							"sid": 316326294446028,
 							"parameters": {
-								"instance-variable": "n",
-								"comparison": 0,
-								"value": "frameN"
+								"instance-variable": "borders"
 							}
 						},
 						{
 							"id": "compare-instance-variable",
-							"objectClass": "camera",
-							"sid": 726908650010278,
+							"objectClass": "frame",
+							"sid": 350918833890186,
 							"parameters": {
-								"instance-variable": "index",
+								"instance-variable": "n",
 								"comparison": 0,
-								"value": "aTools.n"
+								"value": "frameN"
 							}
 						}
 					],
@@ -263,7 +330,7 @@
 						{
 							"id": "set-eventvar-value",
 							"objectClass": "System",
-							"sid": 844191131358216,
+							"sid": 634204100141279,
 							"parameters": {
 								"variable": "zoomMin",
 								"value": "max(OriginalViewportWidth/(Frame.BBoxRight-Frame.BBoxLeft),\nOriginalViewportHeight/(Frame.BBoxBottom-Frame.BBoxTop))"
@@ -276,14 +343,14 @@
 						{
 							"id": "set-eventvar-value",
 							"objectClass": "System",
-							"sid": 805823876832813,
+							"sid": 388433666314145,
 							"parameters": {
 								"variable": "zoomMin",
 								"value": "clamp(zoomMin,camera.zoomLimitDown,camera.zoomLimitUp)"
 							}
 						}
 					],
-					"sid": 551008268115750,
+					"sid": 193797798020961,
 					"children": [
 						{
 							"eventType": "block",
@@ -291,7 +358,7 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 750915298220143,
+									"sid": 369796482664471,
 									"parameters": {
 										"first-value": "zoomMax",
 										"comparison": 3,
@@ -303,14 +370,14 @@
 								{
 									"id": "set-eventvar-value",
 									"objectClass": "System",
-									"sid": 970476012618054,
+									"sid": 526870046024096,
 									"parameters": {
 										"variable": "zoomMax",
 										"value": "zoomMin+0.1"
 									}
 								}
 							],
-							"sid": 220344442673577
+							"sid": 844873358739766
 						},
 						{
 							"eventType": "block",
@@ -318,7 +385,7 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 103151620923306,
+									"sid": 238392388238548,
 									"parameters": {
 										"first-value": "zoom",
 										"comparison": 2,
@@ -328,7 +395,7 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 609371277128798,
+									"sid": 503251704685117,
 									"parameters": {
 										"first-value": "zoom",
 										"comparison": 4,
@@ -340,7 +407,7 @@
 								{
 									"id": "set-eventvar-value",
 									"objectClass": "System",
-									"sid": 510696315298688,
+									"sid": 415711927860200,
 									"parameters": {
 										"variable": "zoom",
 										"value": "clamp(zoom,zoomMin,zoomMax)"
@@ -353,7 +420,7 @@
 								{
 									"id": "tween-value",
 									"objectClass": "camera",
-									"sid": 100561437952332,
+									"sid": 745460424004063,
 									"behaviorType": "Tween",
 									"parameters": {
 										"tags": "\"zoomCorr\"",
@@ -370,7 +437,7 @@
 								{
 									"id": "tween-value",
 									"objectClass": "camera",
-									"sid": 492845996404118,
+									"sid": 410184087984628,
 									"disabled": true,
 									"behaviorType": "Tween",
 									"parameters": {
@@ -386,7 +453,7 @@
 									}
 								}
 							],
-							"sid": 886143018746233,
+							"sid": 110046863218788,
 							"isOrBlock": true
 						},
 						{
@@ -395,24 +462,171 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 193325575305374
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "camera",
-									"sid": 872396589254353,
-									"parameters": {
-										"instance-variable": "borders"
-									}
+									"sid": 992873200599004
 								}
 							],
 							"actions": [
 								{
 									"callFunction": "reClamp",
-									"sid": 874358269070624
+									"sid": 929183592642915,
+									"parameters": [
+										true
+									]
 								}
 							],
-							"sid": 172364220305079
+							"sid": 724564757985654
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "камера ограничена макетом"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 189815828243645
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 485360528452461,
+							"parameters": {
+								"variable": "zoomMin",
+								"value": "max(OriginalViewportWidth/LayoutWidth,\nOriginalViewportHeight/LayoutHeight)"
+							}
+						}
+					],
+					"sid": 587084238769044,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 170322699442068,
+									"parameters": {
+										"first-value": "zoomMax",
+										"comparison": 3,
+										"second-value": "zoomMin"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 587622149604248,
+									"parameters": {
+										"variable": "zoomMax",
+										"value": "zoomMin+0.1"
+									}
+								}
+							],
+							"sid": 828712971860753
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 611895168660655,
+									"parameters": {
+										"first-value": "zoom",
+										"comparison": 2,
+										"second-value": "zoomMin"
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 564284104789236,
+									"parameters": {
+										"first-value": "zoom",
+										"comparison": 4,
+										"second-value": "zoomMax"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 964606064266316,
+									"parameters": {
+										"variable": "zoom",
+										"value": "clamp(zoom,zoomMin,zoomMax)"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "?"
+								},
+								{
+									"id": "tween-value",
+									"objectClass": "camera",
+									"sid": 863627709431679,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"zoomCorr\"",
+										"start-value": "LayoutScale",
+										"end-value": "zoom",
+										"time": "0",
+										"ease": "noease",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "tween-value",
+									"objectClass": "camera",
+									"sid": 758468599183733,
+									"disabled": true,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"zoom\"",
+										"start-value": "LayoutScale",
+										"end-value": "zoom",
+										"time": "0",
+										"ease": "noease",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								}
+							],
+							"sid": 935963555282217,
+							"isOrBlock": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 920968014106727
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "reClamp",
+									"sid": 332277190666293,
+									"parameters": [
+										false
+									]
+								}
+							],
+							"sid": 740057351234249
 						}
 					]
 				}
@@ -420,7 +634,7 @@
 		},
 		{
 			"eventType": "comment",
-			"text": "  загрузка локации"
+			"text": "\n\n\n\n  загрузка локации"
 		},
 		{
 			"functionName": "gotoFrame",
@@ -1984,7 +2198,8 @@
 						}
 					],
 					"actions": [],
-					"sid": 106929857597413
+					"sid": 106929857597413,
+					"disabled": true
 				},
 				{
 					"eventType": "comment",
@@ -6080,7 +6295,7 @@
 		{
 			"eventType": "group",
 			"disabled": false,
-			"title": "processCamLoc",
+			"title": "cExec",
 			"description": "",
 			"isActiveOnStart": true,
 			"children": [
@@ -6096,7 +6311,7 @@
 					"comment": "",
 					"isStatic": true,
 					"isConstant": false,
-					"sid": 530395740006546
+					"sid": 627353559165434
 				},
 				{
 					"eventType": "variable",
@@ -6106,7 +6321,7 @@
 					"comment": "",
 					"isStatic": true,
 					"isConstant": false,
-					"sid": 438799018387414
+					"sid": 842441276400686
 				},
 				{
 					"eventType": "variable",
@@ -6116,699 +6331,115 @@
 					"comment": "",
 					"isStatic": true,
 					"isConstant": false,
-					"sid": 188581795046332
+					"sid": 682253573663521
 				},
 				{
-					"eventType": "comment",
-					"text": "\n\n\n\n\n\n\n\n\n\nколесо мыши - зум",
-					"background-color": [
-						0.7450980392156863,
-						0.9215686274509803,
-						0.996078431372549,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-mouse-wheel",
-							"objectClass": "Mouse",
-							"sid": 865678029349411,
-							"parameters": {
-								"direction": "down"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "camera",
-							"sid": 798923876036916,
-							"parameters": {
-								"instance-variable": "index",
-								"comparison": 0,
-								"value": "aTools.n"
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "camera",
-							"sid": 377165157213373,
-							"parameters": {
-								"instance-variable": "noMouseWheel"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "compare-eventvar",
-							"objectClass": "System",
-							"sid": 930342208637234,
-							"parameters": {
-								"variable": "zoom",
-								"comparison": 5,
-								"value": "camera.zoomLimitDown"
-							}
-						},
-						{
-							"id": "mouse-button-is-down",
-							"objectClass": "Mouse",
-							"sid": 534397144935805,
-							"parameters": {
-								"mouse-button": "middle"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "aIns",
-							"sid": 987285897650202,
-							"parameters": {
-								"instance-variable": "gameState",
-								"comparison": 0,
-								"value": "\"play\""
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aIns",
-							"sid": 473602625694148,
-							"parameters": {
-								"instance-variable": "onChangeLocation"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aaa",
-							"sid": 872291943120367,
-							"parameters": {
-								"instance-variable": "controlBlock"
-							},
-							"isInverted": true
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aIns",
-							"sid": 406899294513343,
-							"parameters": {
-								"instance-variable": "wheelStatus",
-								"value": "\"down\""
-							}
-						}
-					],
-					"sid": 281575892931230,
+					"eventType": "group",
+					"disabled": false,
+					"title": "processCamLoc",
+					"description": "",
+					"isActiveOnStart": true,
 					"children": [
 						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "camera",
-									"sid": 653856821472305,
-									"parameters": {
-										"instance-variable": "linearWheel"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "stop-tweens",
-									"objectClass": "camera",
-									"sid": 153216459934361,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\""
-									}
-								},
-								{
-									"id": "tween-value",
-									"objectClass": "camera",
-									"sid": 319442203070847,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\"",
-										"start-value": "LayoutScale",
-										"end-value": "clamp(LayoutScale-Self.zoomStep*zoom,zoomMin,zoomMax)",
-										"time": "1",
-										"ease": "noease",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
-								}
-							],
-							"sid": 352063746660397
+							"eventType": "comment",
+							"text": "\n\n\n\n\n\n\n\n\n\nколесо мыши - зум",
+							"background-color": [
+								0.7450980392156863,
+								0.9215686274509803,
+								0.996078431372549,
+								1
+							]
 						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 429021618647492
-								},
-								{
-									"id": "is-playing",
-									"objectClass": "camera",
-									"sid": 300737090222993,
-									"behaviorType": "Tween",
+									"id": "on-mouse-wheel",
+									"objectClass": "Mouse",
+									"sid": 384266562752396,
 									"parameters": {
-										"tags": "\"zoom\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "stop-tweens",
-									"objectClass": "camera",
-									"sid": 240357466868550,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\""
+										"direction": "down"
 									}
 								},
-								{
-									"id": "tween-value",
-									"objectClass": "camera",
-									"sid": 566203227391180,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\"",
-										"start-value": "LayoutScale",
-										"end-value": "clamp(LayoutScale-Self.zoomStep*zoom,zoomMin,zoomMax)",
-										"time": "1",
-										"ease": "easeoutsine",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
-								},
-								{
-									"id": "tween-value",
-									"objectClass": "camera",
-									"sid": 650204452878878,
-									"disabled": true,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\"",
-										"start-value": "LayoutScale",
-										"end-value": "clamp(LayoutScale-Self.zoomStep,zoomMin,zoomMax)",
-										"time": "1",
-										"ease": "easeoutsine",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
-								}
-							],
-							"sid": 112051416972781
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 352474874734969
-								}
-							],
-							"actions": [
-								{
-									"id": "tween-value",
-									"objectClass": "camera",
-									"sid": 701475089684982,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\"",
-										"start-value": "LayoutScale",
-										"end-value": "clamp(LayoutScale-Self.zoomStep*zoom,zoomMin,zoomMax)",
-										"time": "1",
-										"ease": "easeinoutsine",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
-								}
-							],
-							"sid": 368398866573723
-						},
-						{
-							"eventType": "block",
-							"conditions": [
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "camera",
-									"sid": 761834031091278,
+									"sid": 715669512711958,
 									"parameters": {
-										"instance-variable": "followerMod",
+										"instance-variable": "index",
 										"comparison": 0,
-										"value": "\"hero\""
+										"value": "aTools.n"
 									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "camera",
-									"sid": 828406080871794,
-									"parameters": {
-										"instance-variable": "lerpZoomScroll",
-										"value": "true"
-									}
-								}
-							],
-							"sid": 383856380345930
-						}
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-mouse-wheel",
-							"objectClass": "Mouse",
-							"sid": 236922162213781,
-							"parameters": {
-								"direction": "up"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "camera",
-							"sid": 214078914289114,
-							"parameters": {
-								"instance-variable": "index",
-								"comparison": 0,
-								"value": "aTools.n"
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "camera",
-							"sid": 391070314501282,
-							"parameters": {
-								"instance-variable": "noMouseWheel"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "compare-eventvar",
-							"objectClass": "System",
-							"sid": 825120408599830,
-							"parameters": {
-								"variable": "zoom",
-								"comparison": 3,
-								"value": "camera.zoomLimitUp"
-							}
-						},
-						{
-							"id": "mouse-button-is-down",
-							"objectClass": "Mouse",
-							"sid": 530746207269584,
-							"parameters": {
-								"mouse-button": "middle"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "aIns",
-							"sid": 765460116846657,
-							"parameters": {
-								"instance-variable": "gameState",
-								"comparison": 0,
-								"value": "\"play\""
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aIns",
-							"sid": 950136047814184,
-							"parameters": {
-								"instance-variable": "onChangeLocation"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aaa",
-							"sid": 266905462092599,
-							"parameters": {
-								"instance-variable": "controlBlock"
-							},
-							"isInverted": true
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aIns",
-							"sid": 843083970503836,
-							"parameters": {
-								"instance-variable": "wheelStatus",
-								"value": "\"up\""
-							}
-						}
-					],
-					"sid": 619907451716000,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
+								},
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "camera",
-									"sid": 173192018683328,
+									"sid": 171108464390148,
 									"parameters": {
-										"instance-variable": "linearWheel"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "stop-tweens",
-									"objectClass": "camera",
-									"sid": 670210044088014,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\""
-									}
+										"instance-variable": "noMouseWheel"
+									},
+									"isInverted": true
 								},
 								{
-									"id": "tween-value",
-									"objectClass": "camera",
-									"sid": 583077689877488,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\"",
-										"start-value": "LayoutScale",
-										"end-value": "clamp(LayoutScale+Self.zoomStep*zoom,zoomMin,zoomMax)",
-										"time": "1",
-										"ease": "noease",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
-								}
-							],
-							"sid": 421976266029000
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
+									"id": "compare-eventvar",
 									"objectClass": "System",
-									"sid": 787735267692024
-								},
-								{
-									"id": "is-playing",
-									"objectClass": "camera",
-									"sid": 849038229948811,
-									"behaviorType": "Tween",
+									"sid": 908425758788233,
 									"parameters": {
-										"tags": "\"zoom\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "stop-tweens",
-									"objectClass": "camera",
-									"sid": 822911408031259,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\""
+										"variable": "zoom",
+										"comparison": 5,
+										"value": "camera.zoomLimitDown"
 									}
 								},
 								{
-									"id": "tween-value",
-									"objectClass": "camera",
-									"sid": 971461575335522,
-									"behaviorType": "Tween",
+									"id": "mouse-button-is-down",
+									"objectClass": "Mouse",
+									"sid": 821829563164977,
 									"parameters": {
-										"tags": "\"zoom\"",
-										"start-value": "LayoutScale",
-										"end-value": "clamp(LayoutScale+Self.zoomStep*zoom,zoomMin,zoomMax)",
-										"time": "1",
-										"ease": "easeoutsine",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
+										"mouse-button": "middle"
+									},
+									"isInverted": true
 								},
-								{
-									"id": "tween-value",
-									"objectClass": "camera",
-									"sid": 128091890473204,
-									"disabled": true,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\"",
-										"start-value": "LayoutScale",
-										"end-value": "clamp(LayoutScale+Self.zoomStep,zoomMin,zoomMax)",
-										"time": "1",
-										"ease": "easeoutsine",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
-								}
-							],
-							"sid": 715531225354209
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 874235036762545
-								}
-							],
-							"actions": [
-								{
-									"id": "tween-value",
-									"objectClass": "camera",
-									"sid": 905227302664111,
-									"behaviorType": "Tween",
-									"parameters": {
-										"tags": "\"zoom\"",
-										"start-value": "LayoutScale",
-										"end-value": "clamp(LayoutScale+Self.zoomStep*zoom,zoomMin,zoomMax)",
-										"time": "1",
-										"ease": "easeinoutsine",
-										"destroy-on-complete": "no",
-										"loop": "no",
-										"ping-pong": "no",
-										"repeat-count": "1"
-									}
-								}
-							],
-							"sid": 223308676569662
-						},
-						{
-							"eventType": "block",
-							"conditions": [
 								{
 									"id": "compare-instance-variable",
-									"objectClass": "camera",
-									"sid": 525246054990551,
+									"objectClass": "aIns",
+									"sid": 731184426388153,
 									"parameters": {
-										"instance-variable": "followerMod",
+										"instance-variable": "gameState",
 										"comparison": 0,
-										"value": "\"hero\""
+										"value": "\"play\""
 									}
-								}
-							],
-							"actions": [
+								},
 								{
-									"id": "set-boolean-instvar",
-									"objectClass": "camera",
-									"sid": 379248319673467,
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aIns",
+									"sid": 431744036044949,
 									"parameters": {
-										"instance-variable": "lerpZoomScroll",
-										"value": "true"
-									}
+										"instance-variable": "onChangeLocation"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aaa",
+									"sid": 695064705444993,
+									"parameters": {
+										"instance-variable": "controlBlock"
+									},
+									"isInverted": true
 								}
 							],
-							"sid": 447071958770097
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "",
-					"text-color": [
-						0.7058823529411765,
-						0.6588235294117647,
-						0.8431372549019608,
-						1
-					],
-					"background-color": [
-						0.35294117647058826,
-						0.4470588235294118,
-						0.27450980392156865,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-playing",
-							"objectClass": "camera",
-							"sid": 202991695158981,
-							"behaviorType": "Tween",
-							"parameters": {
-								"tags": "\"zoom\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-layout-scale",
-							"objectClass": "System",
-							"sid": 541740331287415,
-							"disabled": true,
-							"parameters": {
-								"scale": "camera.Tween.Value(\"zoom\")"
-							}
-						},
-						{
-							"id": "set-eventvar-value",
-							"objectClass": "System",
-							"sid": 819521016551252,
-							"disabled": true,
-							"parameters": {
-								"variable": "zoom",
-								"value": "camera.Tween.Value(\"zoom\")"
-							}
-						},
-						{
-							"id": "set-eventvar-value",
-							"objectClass": "System",
-							"sid": 779976434062121,
-							"parameters": {
-								"variable": "zoom",
-								"value": "camera.Tween.Value(\"zoom\")"
-							}
-						},
-						{
-							"id": "set-layout-scale",
-							"objectClass": "System",
-							"sid": 206719928690414,
-							"parameters": {
-								"scale": "zoom"
-							}
-						}
-					],
-					"sid": 344229720617501,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [],
 							"actions": [
 								{
 									"id": "set-instvar-value",
-									"objectClass": "cursor",
-									"sid": 557550893457599,
+									"objectClass": "aIns",
+									"sid": 172381548099631,
 									"parameters": {
-										"instance-variable": "totalScale",
-										"value": "Self.sizeCoeff*camera.heroScaleCoeff*(Self.magicN+LayoutScale*Self.magicN)"
-									}
-								},
-								{
-									"id": "set-scale",
-									"objectClass": "cursor",
-									"sid": 980974008388093,
-									"parameters": {
-										"scale": "Self.totalScale"
+										"instance-variable": "wheelStatus",
+										"value": "\"down\""
 									}
 								}
 							],
-							"sid": 321779484368939
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "camera",
-									"sid": 140543311699276,
-									"parameters": {
-										"instance-variable": "borders"
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "reClamp",
-									"sid": 691969268948904
-								}
-							],
-							"sid": 751680081004291
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-two-values",
-									"objectClass": "System",
-									"sid": 664406702736528,
-									"parameters": {
-										"first-value": "LayoutScale",
-										"comparison": 2,
-										"second-value": "zoomMin"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-layout-scale",
-									"objectClass": "System",
-									"sid": 697512949067021,
-									"parameters": {
-										"scale": "zoomMin"
-									}
-								}
-							],
-							"sid": 590884272723750
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-two-values",
-									"objectClass": "System",
-									"sid": 929876190012368,
-									"parameters": {
-										"first-value": "round(zoom*1000)",
-										"comparison": 0,
-										"second-value": "round(LayoutScale*1000)"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-layout-scale",
-									"objectClass": "System",
-									"sid": 248996778749708,
-									"parameters": {
-										"scale": "zoom"
-									}
-								}
-							],
-							"sid": 982962890137256,
-							"disabled": true,
+							"sid": 847378766551285,
 							"children": [
 								{
 									"eventType": "block",
@@ -6816,7 +6447,525 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "camera",
-											"sid": 637061148267159,
+											"sid": 928515190725144,
+											"parameters": {
+												"instance-variable": "linearWheel"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-tweens",
+											"objectClass": "camera",
+											"sid": 580432351242133,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\""
+											}
+										},
+										{
+											"id": "tween-value",
+											"objectClass": "camera",
+											"sid": 622882945809476,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\"",
+												"start-value": "LayoutScale",
+												"end-value": "clamp(LayoutScale-Self.zoomStep*zoom,zoomMin,zoomMax)",
+												"time": "1",
+												"ease": "noease",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 415034825767949
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 843214713147354
+										},
+										{
+											"id": "is-playing",
+											"objectClass": "camera",
+											"sid": 518513834339017,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-tweens",
+											"objectClass": "camera",
+											"sid": 738931421240943,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\""
+											}
+										},
+										{
+											"id": "tween-value",
+											"objectClass": "camera",
+											"sid": 670257144476109,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\"",
+												"start-value": "LayoutScale",
+												"end-value": "clamp(LayoutScale-Self.zoomStep*zoom,zoomMin,zoomMax)",
+												"time": "1",
+												"ease": "easeoutsine",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										},
+										{
+											"id": "tween-value",
+											"objectClass": "camera",
+											"sid": 655280060619083,
+											"disabled": true,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\"",
+												"start-value": "LayoutScale",
+												"end-value": "clamp(LayoutScale-Self.zoomStep,zoomMin,zoomMax)",
+												"time": "1",
+												"ease": "easeoutsine",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 352785149427825
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 136275939735657
+										}
+									],
+									"actions": [
+										{
+											"id": "tween-value",
+											"objectClass": "camera",
+											"sid": 839728012550596,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\"",
+												"start-value": "LayoutScale",
+												"end-value": "clamp(LayoutScale-Self.zoomStep*zoom,zoomMin,zoomMax)",
+												"time": "1",
+												"ease": "easeinoutsine",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 284390196650420
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "camera",
+											"sid": 425828174293796,
+											"parameters": {
+												"instance-variable": "followerMod",
+												"comparison": 0,
+												"value": "\"hero\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "camera",
+											"sid": 756379308936680,
+											"parameters": {
+												"instance-variable": "lerpZoomScroll",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 189963481141485
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-mouse-wheel",
+									"objectClass": "Mouse",
+									"sid": 485518248145030,
+									"parameters": {
+										"direction": "up"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "camera",
+									"sid": 996669079560002,
+									"parameters": {
+										"instance-variable": "index",
+										"comparison": 0,
+										"value": "aTools.n"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "camera",
+									"sid": 225104050907106,
+									"parameters": {
+										"instance-variable": "noMouseWheel"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 675273865972217,
+									"parameters": {
+										"variable": "zoom",
+										"comparison": 3,
+										"value": "camera.zoomLimitUp"
+									}
+								},
+								{
+									"id": "mouse-button-is-down",
+									"objectClass": "Mouse",
+									"sid": 456656304395774,
+									"parameters": {
+										"mouse-button": "middle"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aIns",
+									"sid": 672782818569716,
+									"parameters": {
+										"instance-variable": "gameState",
+										"comparison": 0,
+										"value": "\"play\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aIns",
+									"sid": 430487984309545,
+									"parameters": {
+										"instance-variable": "onChangeLocation"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aaa",
+									"sid": 359852390144812,
+									"parameters": {
+										"instance-variable": "controlBlock"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aIns",
+									"sid": 279312864057408,
+									"parameters": {
+										"instance-variable": "wheelStatus",
+										"value": "\"up\""
+									}
+								}
+							],
+							"sid": 850843992706690,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "camera",
+											"sid": 344825284067983,
+											"parameters": {
+												"instance-variable": "linearWheel"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-tweens",
+											"objectClass": "camera",
+											"sid": 274071204734684,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\""
+											}
+										},
+										{
+											"id": "tween-value",
+											"objectClass": "camera",
+											"sid": 377338677932628,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\"",
+												"start-value": "LayoutScale",
+												"end-value": "clamp(LayoutScale+Self.zoomStep*zoom,zoomMin,zoomMax)",
+												"time": "1",
+												"ease": "noease",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 619320481884148
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 468776869967097
+										},
+										{
+											"id": "is-playing",
+											"objectClass": "camera",
+											"sid": 101120848277408,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-tweens",
+											"objectClass": "camera",
+											"sid": 113517926273910,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\""
+											}
+										},
+										{
+											"id": "tween-value",
+											"objectClass": "camera",
+											"sid": 923069176848753,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\"",
+												"start-value": "LayoutScale",
+												"end-value": "clamp(LayoutScale+Self.zoomStep*zoom,zoomMin,zoomMax)",
+												"time": "1",
+												"ease": "easeoutsine",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										},
+										{
+											"id": "tween-value",
+											"objectClass": "camera",
+											"sid": 238499240495287,
+											"disabled": true,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\"",
+												"start-value": "LayoutScale",
+												"end-value": "clamp(LayoutScale+Self.zoomStep,zoomMin,zoomMax)",
+												"time": "1",
+												"ease": "easeoutsine",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 674414706085369
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 751684429310054
+										}
+									],
+									"actions": [
+										{
+											"id": "tween-value",
+											"objectClass": "camera",
+											"sid": 223331443367011,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"zoom\"",
+												"start-value": "LayoutScale",
+												"end-value": "clamp(LayoutScale+Self.zoomStep*zoom,zoomMin,zoomMax)",
+												"time": "1",
+												"ease": "easeinoutsine",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 884914775153349
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "camera",
+											"sid": 166207946211773,
+											"parameters": {
+												"instance-variable": "followerMod",
+												"comparison": 0,
+												"value": "\"hero\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "camera",
+											"sid": 660139757120121,
+											"parameters": {
+												"instance-variable": "lerpZoomScroll",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 182527078856631
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								0.7058823529411765,
+								0.6588235294117647,
+								0.8431372549019608,
+								1
+							],
+							"background-color": [
+								0.35294117647058826,
+								0.4470588235294118,
+								0.27450980392156865,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-playing",
+									"objectClass": "camera",
+									"sid": 309818921945266,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"zoom\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-layout-scale",
+									"objectClass": "System",
+									"sid": 394620436951502,
+									"disabled": true,
+									"parameters": {
+										"scale": "camera.Tween.Value(\"zoom\")"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 253820479069358,
+									"disabled": true,
+									"parameters": {
+										"variable": "zoom",
+										"value": "camera.Tween.Value(\"zoom\")"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 922382908516050,
+									"parameters": {
+										"variable": "zoom",
+										"value": "camera.Tween.Value(\"zoom\")"
+									}
+								},
+								{
+									"id": "set-layout-scale",
+									"objectClass": "System",
+									"sid": 499596530083652,
+									"parameters": {
+										"scale": "zoom"
+									}
+								}
+							],
+							"sid": 167570356808652,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cursor",
+											"sid": 120512893921051,
+											"parameters": {
+												"instance-variable": "totalScale",
+												"value": "Self.sizeCoeff*camera.heroScaleCoeff*(Self.magicN+LayoutScale*Self.magicN)"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "cursor",
+											"sid": 870147094196607,
+											"parameters": {
+												"scale": "Self.totalScale"
+											}
+										}
+									],
+									"sid": 970130346943476
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "camera",
+											"sid": 374363149820888,
 											"parameters": {
 												"instance-variable": "borders"
 											}
@@ -6825,29 +6974,137 @@
 									"actions": [
 										{
 											"callFunction": "reClamp",
-											"sid": 607302148580834
+											"sid": 214122774506623,
+											"parameters": [
+												true
+											]
 										}
 									],
-									"sid": 144357825052286,
-									"disabled": true
+									"sid": 962829840002388
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 743068998806252
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "reClamp",
+											"sid": 742488736634951,
+											"parameters": [
+												false
+											]
+										}
+									],
+									"sid": 888617952643132
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 293748851393286,
+											"parameters": {
+												"first-value": "LayoutScale",
+												"comparison": 2,
+												"second-value": "zoomMin"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-layout-scale",
+											"objectClass": "System",
+											"sid": 933365269379418,
+											"parameters": {
+												"scale": "zoomMin"
+											}
+										}
+									],
+									"sid": 197403502072391
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 553504797480964,
+											"parameters": {
+												"first-value": "round(zoom*1000)",
+												"comparison": 0,
+												"second-value": "round(LayoutScale*1000)"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-layout-scale",
+											"objectClass": "System",
+											"sid": 485372079007527,
+											"parameters": {
+												"scale": "zoom"
+											}
+										}
+									],
+									"sid": 801515253389474,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "camera",
+													"sid": 789055549653477,
+													"parameters": {
+														"instance-variable": "borders"
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "reClamp",
+													"sid": 958218696883640,
+													"parameters": [
+														true
+													]
+												}
+											],
+											"sid": 212813591566930,
+											"disabled": true
+										}
+									]
 								}
 							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								0.7058823529411765,
+								0.6588235294117647,
+								0.8431372549019608,
+								1
+							],
+							"background-color": [
+								0.35294117647058826,
+								0.4470588235294118,
+								0.27450980392156865,
+								1
+							]
 						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "",
-					"text-color": [
-						0.7058823529411765,
-						0.6588235294117647,
-						0.8431372549019608,
-						1
 					],
+					"sid": 532475413831286,
 					"background-color": [
-						0.35294117647058826,
-						0.4470588235294118,
-						0.27450980392156865,
+						0.8666666666666667,
+						0.796078431372549,
+						0.9058823529411765,
 						1
 					]
 				},
@@ -6872,7 +7129,7 @@
 								{
 									"id": "is-playing",
 									"objectClass": "camera",
-									"sid": 697391363541099,
+									"sid": 253044569281604,
 									"behaviorType": "Tween",
 									"parameters": {
 										"tags": "\"x\""
@@ -6882,13 +7139,16 @@
 							"actions": [
 								{
 									"callFunction": "reClamp",
-									"sid": 965741756235792,
-									"disabled": true
+									"sid": 983559365300000,
+									"disabled": true,
+									"parameters": [
+										true
+									]
 								},
 								{
 									"id": "set-x",
 									"objectClass": "camera",
-									"sid": 559915876436959,
+									"sid": 606709047925363,
 									"parameters": {
 										"x": "Self.Tween.Value(\"x\")"
 									}
@@ -6896,14 +7156,14 @@
 								{
 									"id": "set-x",
 									"objectClass": "camera",
-									"sid": 334834547004158,
+									"sid": 458419183411089,
 									"disabled": true,
 									"parameters": {
 										"x": "clamp(Self.Tween.Value(\"x\"),clampL,clampR)"
 									}
 								}
 							],
-							"sid": 719208793179684
+							"sid": 448825384589186
 						},
 						{
 							"eventType": "block",
@@ -6911,7 +7171,7 @@
 								{
 									"id": "is-playing",
 									"objectClass": "camera",
-									"sid": 791165214477906,
+									"sid": 910198085126600,
 									"behaviorType": "Tween",
 									"parameters": {
 										"tags": "\"y\""
@@ -6922,7 +7182,7 @@
 								{
 									"id": "set-y",
 									"objectClass": "camera",
-									"sid": 350317397962079,
+									"sid": 191468303118470,
 									"parameters": {
 										"y": "Self.Tween.Value(\"y\")"
 									}
@@ -6930,14 +7190,14 @@
 								{
 									"id": "set-y",
 									"objectClass": "camera",
-									"sid": 568269419231561,
+									"sid": 787930517946511,
 									"disabled": true,
 									"parameters": {
 										"y": "clamp(Self.Tween.Value(\"y\"),clampT,clampD)"
 									}
 								}
 							],
-							"sid": 838975485901952
+							"sid": 571328298158527
 						},
 						{
 							"eventType": "comment",
@@ -6949,7 +7209,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "camera",
-									"sid": 379341328226403,
+									"sid": 688828340713309,
 									"parameters": {
 										"instance-variable": "index",
 										"comparison": 0,
@@ -6959,7 +7219,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "basis",
-									"sid": 951756851294021,
+									"sid": 562214568614197,
 									"parameters": {
 										"instance-variable": "name",
 										"comparison": 0,
@@ -6968,7 +7228,7 @@
 								}
 							],
 							"actions": [],
-							"sid": 487571780939539,
+							"sid": 834475814525044,
 							"children": [
 								{
 									"eventType": "block",
@@ -6976,7 +7236,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "camera",
-											"sid": 161261023002645,
+											"sid": 683466416823597,
 											"parameters": {
 												"instance-variable": "borders"
 											}
@@ -6986,7 +7246,7 @@
 										{
 											"id": "scroll-to-x",
 											"objectClass": "System",
-											"sid": 931450441585178,
+											"sid": 629723171185660,
 											"parameters": {
 												"x": "clamp(camera.X,clampL,clampR)"
 											}
@@ -6994,7 +7254,7 @@
 										{
 											"id": "scroll-to-y",
 											"objectClass": "System",
-											"sid": 536383350351127,
+											"sid": 461338879865380,
 											"parameters": {
 												"y": "clamp(camera.Y,clampT,clampD)"
 											}
@@ -7002,7 +7262,7 @@
 										{
 											"id": "scroll-to-x",
 											"objectClass": "System",
-											"sid": 320592230030729,
+											"sid": 413079018682395,
 											"disabled": true,
 											"parameters": {
 												"x": "lerp(scrollx,clamp(camera.X,clampL,clampR),1-0.03^dt)"
@@ -7011,14 +7271,14 @@
 										{
 											"id": "scroll-to-y",
 											"objectClass": "System",
-											"sid": 145331186452890,
+											"sid": 681129598117101,
 											"disabled": true,
 											"parameters": {
 												"y": "lerp(scrolly,clamp(camera.Y,clampT,clampD),1-0.03^dt)"
 											}
 										}
 									],
-									"sid": 612017412410422
+									"sid": 818257663960885
 								},
 								{
 									"eventType": "block",
@@ -7026,14 +7286,14 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 990247283996717
+											"sid": 902620357870058
 										}
 									],
 									"actions": [
 										{
 											"id": "scroll-to-x",
 											"objectClass": "System",
-											"sid": 832476768507373,
+											"sid": 456110489761319,
 											"parameters": {
 												"x": "camera.X"
 											}
@@ -7041,13 +7301,13 @@
 										{
 											"id": "scroll-to-y",
 											"objectClass": "System",
-											"sid": 199745149101054,
+											"sid": 838030987024935,
 											"parameters": {
 												"y": "camera.Y"
 											}
 										}
 									],
-									"sid": 742833111248996
+									"sid": 119476666624392
 								},
 								{
 									"eventType": "comment",
@@ -7059,7 +7319,7 @@
 										{
 											"id": "is-playing",
 											"objectClass": "camera",
-											"sid": 289219928269071,
+											"sid": 589513125328175,
 											"behaviorType": "Tween",
 											"parameters": {
 												"tags": "\"x\""
@@ -7069,7 +7329,7 @@
 										{
 											"id": "is-playing",
 											"objectClass": "camera",
-											"sid": 391085208863253,
+											"sid": 394162128661445,
 											"behaviorType": "Tween",
 											"parameters": {
 												"tags": "\"y\""
@@ -7078,7 +7338,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 335938260087654,
+									"sid": 546557894669541,
 									"children": [
 										{
 											"eventType": "comment",
@@ -7090,7 +7350,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "camera",
-													"sid": 758419245230232,
+													"sid": 698720428605888,
 													"parameters": {
 														"instance-variable": "state",
 														"comparison": 0,
@@ -7102,7 +7362,7 @@
 												{
 													"id": "set-position",
 													"objectClass": "camera",
-													"sid": 112841598564502,
+													"sid": 633395873358933,
 													"disabled": true,
 													"parameters": {
 														"x": "lerp(camera.X,basis.X,6*dt)",
@@ -7112,14 +7372,14 @@
 												{
 													"id": "set-position",
 													"objectClass": "camera",
-													"sid": 164396395373704,
+													"sid": 233874435406840,
 													"parameters": {
 														"x": "lerp(camera.X,basis.X,0.1)",
 														"y": "lerp(camera.Y,basis.Y,0.1)"
 													}
 												}
 											],
-											"sid": 788884949010709,
+											"sid": 432935236760521,
 											"disabled": true,
 											"children": [
 												{
@@ -7128,14 +7388,14 @@
 														{
 															"id": "trigger-once-while-true",
 															"objectClass": "System",
-															"sid": 388859299354287
+															"sid": 588794113692324
 														}
 													],
 													"actions": [
 														{
 															"id": "wait",
 															"objectClass": "System",
-															"sid": 997278488545896,
+															"sid": 881530859414011,
 															"parameters": {
 																"seconds": "3",
 																"use-timescale": true
@@ -7144,14 +7404,14 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "camera",
-															"sid": 297189445890513,
+															"sid": 272498391846684,
 															"parameters": {
 																"instance-variable": "state",
 																"value": "\"zero\""
 															}
 														}
 													],
-													"sid": 597126928591373,
+													"sid": 283229153967100,
 													"disabled": true
 												}
 											]
@@ -7166,7 +7426,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "camera",
-													"sid": 528854207104524,
+													"sid": 752269938989995,
 													"parameters": {
 														"instance-variable": "followerMod",
 														"comparison": 0,
@@ -7176,7 +7436,7 @@
 												{
 													"id": "is-playing",
 													"objectClass": "camera",
-													"sid": 831258704216991,
+													"sid": 767365659591423,
 													"behaviorType": "Tween",
 													"parameters": {
 														"tags": "\"zoom\""
@@ -7188,7 +7448,7 @@
 												{
 													"id": "set-position",
 													"objectClass": "camera",
-													"sid": 881317878861628,
+													"sid": 319937700485618,
 													"disabled": true,
 													"parameters": {
 														"x": "lerp(camera.X,basis.X,1-0.06^dt)",
@@ -7198,7 +7458,7 @@
 												{
 													"id": "set-position",
 													"objectClass": "camera",
-													"sid": 389124070475824,
+													"sid": 363891495751873,
 													"disabled": true,
 													"parameters": {
 														"x": "lerp(camera.X,basis.X,0.03)",
@@ -7208,7 +7468,7 @@
 												{
 													"id": "set-position",
 													"objectClass": "camera",
-													"sid": 546372304017941,
+													"sid": 300591724870035,
 													"parameters": {
 														"x": "clamp(lerp(camera.X,basis.X,0.03),clampL,clampR)",
 														"y": "  clamp(lerp(camera.Y,basis.Y-Self.yMinus,0.03),clampT,clampD)"
@@ -7217,7 +7477,7 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 652644886727848,
+													"sid": 328381425056514,
 													"disabled": true,
 													"parameters": {
 														"variable": "lerpCoeff",
@@ -7227,14 +7487,14 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 306013248415327,
+													"sid": 114965208572326,
 													"parameters": {
 														"variable": "lerpCoeff",
 														"value": "lerp(lerpCoeff,0.05,0.1)"
 													}
 												}
 											],
-											"sid": 627413670324004,
+											"sid": 182060687178936,
 											"children": [
 												{
 													"eventType": "block",
@@ -7242,21 +7502,21 @@
 														{
 															"id": "trigger-once-while-true",
 															"objectClass": "System",
-															"sid": 960098654716348
+															"sid": 796608599201567
 														}
 													],
 													"actions": [
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 606986826032134,
+															"sid": 779115344511263,
 															"parameters": {
 																"variable": "c",
 																"value": "10"
 															}
 														}
 													],
-													"sid": 855948028896090
+													"sid": 370077447903094
 												}
 											]
 										},
@@ -7270,7 +7530,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "camera",
-													"sid": 616158118137105,
+													"sid": 767659395657629,
 													"parameters": {
 														"instance-variable": "followerMod",
 														"comparison": 0,
@@ -7280,7 +7540,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "frame",
-													"sid": 994027870599627,
+													"sid": 656178849113867,
 													"parameters": {
 														"instance-variable": "n",
 														"comparison": 0,
@@ -7290,7 +7550,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "camera",
-													"sid": 991824983929220,
+													"sid": 947521536060915,
 													"parameters": {
 														"instance-variable": "subMod",
 														"comparison": 1,
@@ -7300,7 +7560,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "aBook",
-													"sid": 531699888245989,
+													"sid": 513785506760592,
 													"parameters": {
 														"instance-variable": "mod",
 														"comparison": 1,
@@ -7310,7 +7570,7 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "aaa",
-													"sid": 134110969773389,
+													"sid": 129805408204325,
 													"parameters": {
 														"instance-variable": "controlBlock"
 													},
@@ -7318,7 +7578,7 @@
 												}
 											],
 											"actions": [],
-											"sid": 158856533676894,
+											"sid": 912096585492378,
 											"children": [
 												{
 													"eventType": "block",
@@ -7326,21 +7586,21 @@
 														{
 															"id": "trigger-once-while-true",
 															"objectClass": "System",
-															"sid": 985176073218858
+															"sid": 561928565563883
 														}
 													],
 													"actions": [
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 687232622720203,
+															"sid": 206437606323459,
 															"parameters": {
 																"variable": "c",
 																"value": "20"
 															}
 														}
 													],
-													"sid": 647382057298625
+													"sid": 390088643767586
 												},
 												{
 													"eventType": "comment",
@@ -7352,7 +7612,7 @@
 														{
 															"id": "compare-two-values",
 															"objectClass": "System",
-															"sid": 747641660419282,
+															"sid": 255416151834778,
 															"parameters": {
 																"first-value": "basis.X-ViewportLeft(\"iso\")",
 																"comparison": 2,
@@ -7362,7 +7622,7 @@
 														{
 															"id": "compare-two-values",
 															"objectClass": "System",
-															"sid": 941743811413724,
+															"sid": 389960209992581,
 															"parameters": {
 																"first-value": "basis.X-ViewportLeft(\"iso\")",
 																"comparison": 4,
@@ -7372,7 +7632,7 @@
 														{
 															"id": "compare-two-values",
 															"objectClass": "System",
-															"sid": 163292539799280,
+															"sid": 896054635514384,
 															"parameters": {
 																"first-value": "basis.Y-ViewportTop(\"iso\")",
 																"comparison": 2,
@@ -7382,7 +7642,7 @@
 														{
 															"id": "compare-two-values",
 															"objectClass": "System",
-															"sid": 440402841775477,
+															"sid": 958367096669938,
 															"parameters": {
 																"first-value": "basis.Y-ViewportTop(\"iso\")",
 																"comparison": 4,
@@ -7391,7 +7651,7 @@
 														}
 													],
 													"actions": [],
-													"sid": 719957400429875,
+													"sid": 394476964368368,
 													"children": [
 														{
 															"eventType": "block",
@@ -7399,14 +7659,14 @@
 																{
 																	"id": "trigger-once-while-true",
 																	"objectClass": "System",
-																	"sid": 650704396121054
+																	"sid": 727981716496583
 																}
 															],
 															"actions": [
 																{
 																	"id": "set-eventvar-value",
 																	"objectClass": "System",
-																	"sid": 141770187091012,
+																	"sid": 372236614067137,
 																	"parameters": {
 																		"variable": "lerpCoeff",
 																		"value": "0.001"
@@ -7415,14 +7675,14 @@
 																{
 																	"id": "set-instvar-value",
 																	"objectClass": "camera",
-																	"sid": 416823522097275,
+																	"sid": 363828828390313,
 																	"parameters": {
 																		"instance-variable": "state",
 																		"value": "\"hero\""
 																	}
 																}
 															],
-															"sid": 580779671924821
+															"sid": 796318911808855
 														},
 														{
 															"eventType": "block",
@@ -7430,7 +7690,7 @@
 																{
 																	"id": "is-playing",
 																	"objectClass": "camera",
-																	"sid": 282392601025016,
+																	"sid": 731339344992815,
 																	"behaviorType": "Tween",
 																	"parameters": {
 																		"tags": "\"zoom\""
@@ -7439,7 +7699,7 @@
 																}
 															],
 															"actions": [],
-															"sid": 842827702923258,
+															"sid": 436134208920721,
 															"children": [
 																{
 																	"eventType": "block",
@@ -7447,21 +7707,21 @@
 																		{
 																			"id": "trigger-once-while-true",
 																			"objectClass": "System",
-																			"sid": 269034410407328
+																			"sid": 493540958931143
 																		}
 																	],
 																	"actions": [
 																		{
 																			"id": "set-eventvar-value",
 																			"objectClass": "System",
-																			"sid": 561673693043663,
+																			"sid": 598648435597173,
 																			"parameters": {
 																				"variable": "lerpCoeff",
 																				"value": "0.001"
 																			}
 																		}
 																	],
-																	"sid": 441160934602130
+																	"sid": 920875869102542
 																},
 																{
 																	"eventType": "block",
@@ -7470,7 +7730,7 @@
 																		{
 																			"id": "set-eventvar-value",
 																			"objectClass": "System",
-																			"sid": 179895503367581,
+																			"sid": 271920640113035,
 																			"disabled": true,
 																			"parameters": {
 																				"variable": "lerpCoeff",
@@ -7480,7 +7740,7 @@
 																		{
 																			"id": "set-eventvar-value",
 																			"objectClass": "System",
-																			"sid": 338231950321179,
+																			"sid": 465896858602078,
 																			"parameters": {
 																				"variable": "lerpCoeff",
 																				"value": "lerp(lerpCoeff,0.01,0.1)"
@@ -7489,14 +7749,14 @@
 																		{
 																			"id": "set-position",
 																			"objectClass": "camera",
-																			"sid": 314018108040852,
+																			"sid": 520528726036511,
 																			"parameters": {
 																				"x": "lerp(camera.X,basis.X,lerpCoeff)",
 																				"y": "lerp(camera.Y,basis.Y,lerpCoeff)"
 																			}
 																		}
 																	],
-																	"sid": 876219326764783
+																	"sid": 497710748377009
 																}
 															]
 														}
@@ -7513,12 +7773,12 @@
 														{
 															"id": "else",
 															"objectClass": "System",
-															"sid": 817183886483433
+															"sid": 680049607862958
 														},
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "camera",
-															"sid": 136233835103452,
+															"sid": 408996707583344,
 															"parameters": {
 																"instance-variable": "state",
 																"comparison": 0,
@@ -7528,7 +7788,7 @@
 														}
 													],
 													"actions": [],
-													"sid": 285273585088208,
+													"sid": 577321793745314,
 													"children": [
 														{
 															"eventType": "block",
@@ -7536,7 +7796,7 @@
 																{
 																	"id": "is-boolean-instance-variable-set",
 																	"objectClass": "basis",
-																	"sid": 207413689633859,
+																	"sid": 916729622848708,
 																	"parameters": {
 																		"instance-variable": "move"
 																	}
@@ -7546,7 +7806,7 @@
 																{
 																	"id": "set-eventvar-value",
 																	"objectClass": "System",
-																	"sid": 483413679994507,
+																	"sid": 245369803837159,
 																	"disabled": true,
 																	"parameters": {
 																		"variable": "lerpCoeff",
@@ -7556,14 +7816,14 @@
 																{
 																	"id": "set-eventvar-value",
 																	"objectClass": "System",
-																	"sid": 545137228036606,
+																	"sid": 161142284926181,
 																	"parameters": {
 																		"variable": "lerpCoeff",
 																		"value": "lerp(lerpCoeff,0.005,0.2)"
 																	}
 																}
 															],
-															"sid": 411348112543026
+															"sid": 300216763797646
 														},
 														{
 															"eventType": "block",
@@ -7571,7 +7831,7 @@
 																{
 																	"id": "is-boolean-instance-variable-set",
 																	"objectClass": "basis",
-																	"sid": 302904360263240,
+																	"sid": 545573913289087,
 																	"parameters": {
 																		"instance-variable": "move"
 																	},
@@ -7582,7 +7842,7 @@
 																{
 																	"id": "set-eventvar-value",
 																	"objectClass": "System",
-																	"sid": 815136182549531,
+																	"sid": 716159018364455,
 																	"disabled": true,
 																	"parameters": {
 																		"variable": "lerpCoeff",
@@ -7592,14 +7852,14 @@
 																{
 																	"id": "set-eventvar-value",
 																	"objectClass": "System",
-																	"sid": 244949158764356,
+																	"sid": 751760879186693,
 																	"parameters": {
 																		"variable": "lerpCoeff",
 																		"value": "lerp(lerpCoeff,0.05,0.1)"
 																	}
 																}
 															],
-															"sid": 222937680592442
+															"sid": 428089719497168
 														}
 													]
 												}
@@ -7615,7 +7875,7 @@
 												{
 													"id": "is-playing",
 													"objectClass": "camera",
-													"sid": 994942709567604,
+													"sid": 641367841435945,
 													"behaviorType": "Tween",
 													"parameters": {
 														"tags": "\"zoom\""
@@ -7624,7 +7884,7 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "camera",
-													"sid": 400014480220891,
+													"sid": 868066229233161,
 													"parameters": {
 														"instance-variable": "lerpZoomScroll"
 													}
@@ -7632,7 +7892,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "camera",
-													"sid": 687366798328385,
+													"sid": 242465404815657,
 													"parameters": {
 														"instance-variable": "state",
 														"comparison": 0,
@@ -7642,7 +7902,7 @@
 												}
 											],
 											"actions": [],
-											"sid": 847916347537175,
+											"sid": 842162926457874,
 											"children": [
 												{
 													"eventType": "block",
@@ -7650,14 +7910,14 @@
 														{
 															"id": "trigger-once-while-true",
 															"objectClass": "System",
-															"sid": 829248438160201
+															"sid": 849873130758823
 														}
 													],
 													"actions": [
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 364902046491217,
+															"sid": 510109482100465,
 															"parameters": {
 																"variable": "lerpCoeff",
 																"value": "0.02"
@@ -7666,14 +7926,14 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "camera",
-															"sid": 787405690199936,
+															"sid": 307007228474858,
 															"parameters": {
 																"instance-variable": "state",
 																"value": "\"zoom\""
 															}
 														}
 													],
-													"sid": 230189533769079
+													"sid": 609231194356059
 												},
 												{
 													"eventType": "block",
@@ -7681,7 +7941,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "camera",
-															"sid": 727156162864332,
+															"sid": 944262101680167,
 															"parameters": {
 																"instance-variable": "followerMod",
 																"comparison": 0,
@@ -7693,7 +7953,7 @@
 														{
 															"id": "set-position",
 															"objectClass": "camera",
-															"sid": 132048990320518,
+															"sid": 859408240134457,
 															"disabled": true,
 															"parameters": {
 																"x": "lerp(camera.X,basis.X,1-0.06^dt)",
@@ -7703,7 +7963,7 @@
 														{
 															"id": "set-position",
 															"objectClass": "camera",
-															"sid": 516485592666448,
+															"sid": 404383106111750,
 															"disabled": true,
 															"parameters": {
 																"x": "lerp(camera.X,basis.X,0.03)",
@@ -7713,7 +7973,7 @@
 														{
 															"id": "set-position",
 															"objectClass": "camera",
-															"sid": 847459051129889,
+															"sid": 138240013447025,
 															"disabled": true,
 															"parameters": {
 																"x": "lerp(Self.X,Mouse.X,0.03)",
@@ -7723,7 +7983,7 @@
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 306361871868857,
+															"sid": 790493286829605,
 															"parameters": {
 																"variable": "lerpCoeff",
 																"value": "lerp(lerpCoeff,0.07,60*dt*camera.lm)"
@@ -7732,7 +7992,7 @@
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 858056031287072,
+															"sid": 528784696437792,
 															"disabled": true,
 															"parameters": {
 																"variable": "lerpCoeff",
@@ -7740,7 +8000,7 @@
 															}
 														}
 													],
-													"sid": 550114020238089,
+													"sid": 300241719513374,
 													"children": [
 														{
 															"eventType": "block",
@@ -7748,7 +8008,7 @@
 																{
 																	"id": "compare-instance-variable",
 																	"objectClass": "camera",
-																	"sid": 409117182392046,
+																	"sid": 526499738637614,
 																	"parameters": {
 																		"instance-variable": "subMod",
 																		"comparison": 0,
@@ -7760,14 +8020,14 @@
 																{
 																	"id": "set-position",
 																	"objectClass": "camera",
-																	"sid": 246972879876838,
+																	"sid": 365472068339006,
 																	"parameters": {
 																		"x": "lerp(Self.X,Mouse.X,0.02)",
 																		"y": "lerp(Self.Y,Mouse.Y,0.02)"
 																	}
 																}
 															],
-															"sid": 722788105772167
+															"sid": 922965968538214
 														},
 														{
 															"eventType": "block",
@@ -7775,7 +8035,7 @@
 																{
 																	"id": "compare-instance-variable",
 																	"objectClass": "camera",
-																	"sid": 353881079990451,
+																	"sid": 658617385296856,
 																	"parameters": {
 																		"instance-variable": "subMod",
 																		"comparison": 0,
@@ -7787,14 +8047,14 @@
 																{
 																	"id": "set-position",
 																	"objectClass": "camera",
-																	"sid": 649956503443942,
+																	"sid": 507344386989412,
 																	"parameters": {
 																		"x": "lerp(Self.X,Self.selfX,0.03)",
 																		"y": "lerp(Self.Y,Self.selfY,0.03)"
 																	}
 																}
 															],
-															"sid": 888695449455716
+															"sid": 673842909715367
 														}
 													]
 												},
@@ -7804,7 +8064,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "camera",
-															"sid": 527965570207557,
+															"sid": 924531461746349,
 															"parameters": {
 																"instance-variable": "followerMod",
 																"comparison": 0,
@@ -7816,7 +8076,7 @@
 														{
 															"id": "set-position",
 															"objectClass": "camera",
-															"sid": 930528720832272,
+															"sid": 551867605118141,
 															"disabled": true,
 															"parameters": {
 																"x": "lerp(camera.X,basis.X,1-0.06^dt)",
@@ -7826,7 +8086,7 @@
 														{
 															"id": "set-position",
 															"objectClass": "camera",
-															"sid": 154146668288907,
+															"sid": 672014040497681,
 															"parameters": {
 																"x": "lerp(camera.X,basis.X,0.03*camera.lm)",
 																"y": "lerp(camera.Y,basis.Y-Self.yMinus,0.03*camera.lm)"
@@ -7835,7 +8095,7 @@
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 983720094649853,
+															"sid": 736852417698242,
 															"parameters": {
 																"variable": "lerpCoeff",
 																"value": "lerp(lerpCoeff,0.07,60*dt)"
@@ -7844,7 +8104,7 @@
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 664545815608035,
+															"sid": 840504131055174,
 															"disabled": true,
 															"parameters": {
 																"variable": "lerpCoeff",
@@ -7852,7 +8112,7 @@
 															}
 														}
 													],
-													"sid": 484982335760997,
+													"sid": 814074298736201,
 													"children": [
 														{
 															"eventType": "block",
@@ -7860,7 +8120,7 @@
 																{
 																	"id": "compare-eventvar",
 																	"objectClass": "System",
-																	"sid": 137344744287567,
+																	"sid": 391864083264080,
 																	"parameters": {
 																		"variable": "zoom",
 																		"comparison": 4,
@@ -7872,14 +8132,14 @@
 																{
 																	"id": "set-instvar-value",
 																	"objectClass": "camera",
-																	"sid": 645475600524337,
+																	"sid": 234915191708457,
 																	"parameters": {
 																		"instance-variable": "yMinus",
 																		"value": "Self.yMinusConst/zoom"
 																	}
 																}
 															],
-															"sid": 419626219314901
+															"sid": 404371053553518
 														}
 													]
 												},
@@ -7889,7 +8149,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "camera",
-															"sid": 783999288167586,
+															"sid": 889242911817661,
 															"parameters": {
 																"instance-variable": "followerMod",
 																"comparison": 0,
@@ -7901,7 +8161,7 @@
 														{
 															"id": "set-position",
 															"objectClass": "camera",
-															"sid": 262055204853879,
+															"sid": 746150509138308,
 															"parameters": {
 																"x": "lerp(Self.X,aIns.markCamFollowX,0.03*camera.lm)",
 																"y": "lerp(Self.Y,aIns.markCamFollowY,0.03*camera.lm)"
@@ -7910,14 +8170,14 @@
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 507271384110478,
+															"sid": 517642782999686,
 															"parameters": {
 																"variable": "lerpCoeff",
 																"value": "lerp(lerpCoeff,0.07,60*dt)"
 															}
 														}
 													],
-													"sid": 878691851777493
+													"sid": 145502450762763
 												}
 											]
 										},
@@ -7931,7 +8191,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "camera",
-													"sid": 959483916931646,
+													"sid": 193229935864509,
 													"parameters": {
 														"instance-variable": "followerMod",
 														"comparison": 0,
@@ -7941,7 +8201,7 @@
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "camera",
-													"sid": 298019126766203,
+													"sid": 437195816294440,
 													"parameters": {
 														"instance-variable": "lerpZoomScroll"
 													}
@@ -7951,7 +8211,7 @@
 												{
 													"id": "set-position",
 													"objectClass": "camera",
-													"sid": 857079527437172,
+													"sid": 271255648926069,
 													"parameters": {
 														"x": "lerp(camera.X,aIns.markCamFollowX,0.03)",
 														"y": "lerp(camera.Y,aIns.markCamFollowY-Self.yMinus,0.03)"
@@ -7960,14 +8220,14 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 981226594498329,
+													"sid": 698630152693479,
 													"parameters": {
 														"variable": "lerpCoeff",
 														"value": "lerp(lerpCoeff,0.05,0.1)"
 													}
 												}
 											],
-											"sid": 554937869634541,
+											"sid": 153664031646131,
 											"disabled": true
 										},
 										{
@@ -7980,7 +8240,7 @@
 												{
 													"id": "is-between-values",
 													"objectClass": "System",
-													"sid": 969570246274859,
+													"sid": 928513282971295,
 													"parameters": {
 														"value": "Mouse.X(\"cursor\")",
 														"lower-bound": "20",
@@ -7991,7 +8251,7 @@
 												{
 													"id": "is-between-values",
 													"objectClass": "System",
-													"sid": 501903054031389,
+													"sid": 314159708201200,
 													"parameters": {
 														"value": "Mouse.Y(\"cursor\")",
 														"lower-bound": "20",
@@ -8001,7 +8261,7 @@
 												}
 											],
 											"actions": [],
-											"sid": 588826429243214,
+											"sid": 854516501479456,
 											"children": [
 												{
 													"eventType": "block",
@@ -8009,7 +8269,7 @@
 														{
 															"id": "is-playing",
 															"objectClass": "camera",
-															"sid": 981693697027852,
+															"sid": 295991367784691,
 															"behaviorType": "Tween",
 															"parameters": {
 																"tags": "\"zoom\""
@@ -8018,14 +8278,14 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "camera",
-															"sid": 371233624735140,
+															"sid": 832988731298520,
 															"parameters": {
 																"instance-variable": "noMouseScrollPerZoom"
 															}
 														}
 													],
 													"actions": [],
-													"sid": 357390999165642
+													"sid": 215948083796334
 												},
 												{
 													"eventType": "block",
@@ -8033,12 +8293,12 @@
 														{
 															"id": "else",
 															"objectClass": "System",
-															"sid": 458588626523101
+															"sid": 686980858947055
 														},
 														{
 															"id": "is-group-active",
 															"objectClass": "System",
-															"sid": 949614859092550,
+															"sid": 941965327207505,
 															"parameters": {
 																"group-name": "\"mouseScrolling\""
 															},
@@ -8047,7 +8307,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "camera",
-															"sid": 475981273780548,
+															"sid": 151325175175738,
 															"parameters": {
 																"instance-variable": "state",
 																"comparison": 0,
@@ -8058,7 +8318,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "aBook",
-															"sid": 587618793863053,
+															"sid": 962627549626585,
 															"parameters": {
 																"instance-variable": "mod",
 																"comparison": 1,
@@ -8068,7 +8328,7 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "aaa",
-															"sid": 637310069739591,
+															"sid": 753474383396528,
 															"parameters": {
 																"instance-variable": "controlBlock"
 															},
@@ -8079,7 +8339,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "camera",
-															"sid": 376692185048826,
+															"sid": 601162513078571,
 															"parameters": {
 																"instance-variable": "state",
 																"value": "\"manual\""
@@ -8088,7 +8348,7 @@
 														{
 															"id": "set-group-active",
 															"objectClass": "System",
-															"sid": 906126029239655,
+															"sid": 324895391648719,
 															"parameters": {
 																"group-name": "\"mouseScrolling\"",
 																"state": "activated"
@@ -8097,7 +8357,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "camera",
-															"sid": 200523032011618,
+															"sid": 224381578436977,
 															"disabled": true,
 															"parameters": {
 																"instance-variable": "followerMod",
@@ -8107,7 +8367,7 @@
 														{
 															"id": "set-position",
 															"objectClass": "screenGumX",
-															"sid": 511979683657637,
+															"sid": 581916230726759,
 															"disabled": true,
 															"parameters": {
 																"x": "cursor.X>640?1280:0",
@@ -8117,7 +8377,7 @@
 														{
 															"id": "set-angle",
 															"objectClass": "screenGumX",
-															"sid": 148213714218366,
+															"sid": 655316194316674,
 															"disabled": true,
 															"parameters": {
 																"angle": "cursor.X>640?180:0"
@@ -8126,7 +8386,7 @@
 														{
 															"id": "set-animation",
 															"objectClass": "screenGumX",
-															"sid": 514362524835628,
+															"sid": 101686771757094,
 															"disabled": true,
 															"parameters": {
 																"animation": "\"gum\"",
@@ -8134,7 +8394,7 @@
 															}
 														}
 													],
-													"sid": 458688933413786
+													"sid": 464636360634870
 												}
 											],
 											"isOrBlock": true
@@ -8149,12 +8409,12 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 873126743627355
+													"sid": 371560381974752
 												},
 												{
 													"id": "is-group-active",
 													"objectClass": "System",
-													"sid": 354062830152198,
+													"sid": 751060697080896,
 													"parameters": {
 														"group-name": "\"mouseScrolling\""
 													}
@@ -8164,7 +8424,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "camera",
-													"sid": 456311147200942,
+													"sid": 387300975182803,
 													"parameters": {
 														"instance-variable": "state",
 														"value": "\"hero\""
@@ -8173,7 +8433,7 @@
 												{
 													"id": "set-group-active",
 													"objectClass": "System",
-													"sid": 507043461466387,
+													"sid": 493171664184038,
 													"parameters": {
 														"group-name": "\"mouseScrolling\"",
 														"state": "deactivated"
@@ -8182,7 +8442,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "camera",
-													"sid": 309454711654590,
+													"sid": 418848239308678,
 													"disabled": true,
 													"parameters": {
 														"instance-variable": "followerMod",
@@ -8192,7 +8452,7 @@
 												{
 													"id": "set-animation",
 													"objectClass": "screenGumX",
-													"sid": 209246912194488,
+													"sid": 450895533854800,
 													"disabled": true,
 													"parameters": {
 														"animation": "\"zero\"",
@@ -8200,7 +8460,7 @@
 													}
 												}
 											],
-											"sid": 992420045142360
+											"sid": 259986904680487
 										}
 									],
 									"isOrBlock": true
@@ -8224,7 +8484,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "camera",
-											"sid": 539226112400492,
+											"sid": 594106155195931,
 											"parameters": {
 												"instance-variable": "index",
 												"comparison": 0,
@@ -8234,7 +8494,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 227248692725166,
+											"sid": 521197757420185,
 											"parameters": {
 												"object": "indiCocoon"
 											},
@@ -8242,7 +8502,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 807489096060058,
+									"sid": 565024008157824,
 									"disabled": true,
 									"children": [
 										{
@@ -8251,7 +8511,7 @@
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 588435156367275,
+													"sid": 774988469525235,
 													"parameters": {
 														"first-value": "Mouse.X(\"cursor\")",
 														"comparison": 2,
@@ -8261,7 +8521,7 @@
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 362972651593541,
+													"sid": 761242527321106,
 													"parameters": {
 														"first-value": "Mouse.X(\"cursor\")",
 														"comparison": 4,
@@ -8271,7 +8531,7 @@
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 568461036975626,
+													"sid": 718187036930203,
 													"parameters": {
 														"first-value": "Mouse.Y(\"cursor\")",
 														"comparison": 2,
@@ -8281,7 +8541,7 @@
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 706369201250803,
+													"sid": 231366988507787,
 													"parameters": {
 														"first-value": "Mouse.Y(\"cursor\")",
 														"comparison": 4,
@@ -8293,14 +8553,14 @@
 												{
 													"id": "set-position",
 													"objectClass": "camera",
-													"sid": 591557493227385,
+													"sid": 855811239669655,
 													"parameters": {
 														"x": "lerp(camera.X,Mouse.X,1.4*dt)",
 														"y": "lerp(camera.Y,Mouse.Y,1.4*dt)"
 													}
 												}
 											],
-											"sid": 782012133730472,
+											"sid": 945086044616164,
 											"disabled": true,
 											"isOrBlock": true
 										}
@@ -8312,7 +8572,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "camera",
-											"sid": 928405406273113,
+											"sid": 746966495505480,
 											"parameters": {
 												"instance-variable": "index",
 												"comparison": 0,
@@ -8322,7 +8582,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aUIN",
-											"sid": 929932274627894,
+											"sid": 415889485787285,
 											"parameters": {
 												"instance-variable": "noMouseScrolling"
 											},
@@ -8331,7 +8591,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aTools",
-											"sid": 644075968670496,
+											"sid": 234779125145473,
 											"parameters": {
 												"instance-variable": "mouseScrolling"
 											}
@@ -8339,7 +8599,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 288054663707229,
+											"sid": 970516849327927,
 											"parameters": {
 												"object": "cocobutton"
 											},
@@ -8348,7 +8608,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 908124642986018,
+											"sid": 176369634898196,
 											"parameters": {
 												"object": "panelGradient"
 											},
@@ -8357,7 +8617,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 375787938751921,
+											"sid": 833709788362746,
 											"parameters": {
 												"object": "buttSetup"
 											},
@@ -8366,7 +8626,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 609953477983936,
+											"sid": 919229445262351,
 											"parameters": {
 												"object": "indiCocoon"
 											},
@@ -8375,7 +8635,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 381469512067417,
+											"sid": 974826193822239,
 											"parameters": {
 												"object": "buttonRocket"
 											},
@@ -8384,7 +8644,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 331485074231516,
+											"sid": 658001043027003,
 											"disabled": true,
 											"parameters": {
 												"object": "inventory"
@@ -8394,7 +8654,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 670825155313425,
+											"sid": 547270904394483,
 											"disabled": true,
 											"parameters": {
 												"object": "onion"
@@ -8404,7 +8664,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 754811475096021,
+											"sid": 901325318355648,
 											"disabled": true,
 											"parameters": {
 												"object": "onionR"
@@ -8414,7 +8674,7 @@
 										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
-											"sid": 946345586351091,
+											"sid": 423215573960744,
 											"disabled": true,
 											"parameters": {
 												"object": "onionR"
@@ -8424,7 +8684,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "aTools",
-											"sid": 203034039763678,
+											"sid": 675016694688734,
 											"disabled": true,
 											"parameters": {
 												"instance-variable": "pointType",
@@ -8435,7 +8695,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "camera",
-											"sid": 573391423973494,
+											"sid": 786703976016583,
 											"parameters": {
 												"instance-variable": "subMod",
 												"comparison": 1,
@@ -8445,7 +8705,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "aBook",
-											"sid": 753605934339199,
+											"sid": 765509094447381,
 											"parameters": {
 												"instance-variable": "mod",
 												"comparison": 1,
@@ -8455,7 +8715,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aaa",
-											"sid": 720997492786618,
+											"sid": 248813459317743,
 											"parameters": {
 												"instance-variable": "controlBlock"
 											},
@@ -8463,7 +8723,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 889179644841969,
+									"sid": 555247923449203,
 									"children": [
 										{
 											"eventType": "block",
@@ -8471,7 +8731,7 @@
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 317049836438882,
+													"sid": 810632587497837,
 													"parameters": {
 														"first-value": "cursor.X",
 														"comparison": 2,
@@ -8483,7 +8743,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "camera",
-													"sid": 677275054496363,
+													"sid": 766038161820244,
 													"disabled": true,
 													"parameters": {
 														"instance-variable": "followerMod",
@@ -8493,7 +8753,7 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 559769741556398,
+													"sid": 600587400490767,
 													"parameters": {
 														"variable": "xx",
 														"value": "(20-clamp(cursor.X,0,1280))/camera.scrollSlowCoeff"
@@ -8502,13 +8762,13 @@
 												{
 													"id": "set-x",
 													"objectClass": "camera",
-													"sid": 105187862510000,
+													"sid": 107556000089228,
 													"parameters": {
 														"x": "lerp(camera.X,Mouse.X,xx*dt)"
 													}
 												}
 											],
-											"sid": 133824306047662
+											"sid": 121960007455046
 										},
 										{
 											"eventType": "block",
@@ -8516,12 +8776,12 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 250788877606932
+													"sid": 553559002683624
 												},
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 257114997566410,
+													"sid": 163428564289363,
 													"parameters": {
 														"first-value": "cursor.X",
 														"comparison": 4,
@@ -8533,7 +8793,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "camera",
-													"sid": 877349031264545,
+													"sid": 871201927708519,
 													"disabled": true,
 													"parameters": {
 														"instance-variable": "followerMod",
@@ -8543,7 +8803,7 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 165197055760718,
+													"sid": 575208432203405,
 													"parameters": {
 														"variable": "xx",
 														"value": "abs(1260-clamp(cursor.X,0,1280))/camera.scrollSlowCoeff"
@@ -8552,13 +8812,13 @@
 												{
 													"id": "set-x",
 													"objectClass": "camera",
-													"sid": 868590601730331,
+													"sid": 863592766270276,
 													"parameters": {
 														"x": "lerp(camera.X,Mouse.X,xx*dt)"
 													}
 												}
 											],
-											"sid": 239369286661357
+											"sid": 233752195014491
 										},
 										{
 											"eventType": "block",
@@ -8566,13 +8826,13 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 790041847062378,
+													"sid": 537893095175533,
 													"disabled": true
 												},
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 555667687972203,
+													"sid": 156017227782062,
 													"parameters": {
 														"first-value": "cursor.y",
 														"comparison": 2,
@@ -8584,7 +8844,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "camera",
-													"sid": 418489713775023,
+													"sid": 600834238195359,
 													"disabled": true,
 													"parameters": {
 														"instance-variable": "followerMod",
@@ -8594,7 +8854,7 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 401508936849037,
+													"sid": 589437693366601,
 													"parameters": {
 														"variable": "yy",
 														"value": "(20-clamp(cursor.Y,0,720))/camera.scrollSlowCoeff"
@@ -8603,13 +8863,13 @@
 												{
 													"id": "set-y",
 													"objectClass": "camera",
-													"sid": 604490359222171,
+													"sid": 207823228483863,
 													"parameters": {
 														"y": "lerp(camera.Y,Mouse.Y,yy*dt)"
 													}
 												}
 											],
-											"sid": 588780608484378
+											"sid": 317941406109868
 										},
 										{
 											"eventType": "block",
@@ -8617,12 +8877,12 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 875716047712175
+													"sid": 400962576418544
 												},
 												{
 													"id": "compare-two-values",
 													"objectClass": "System",
-													"sid": 634534501760518,
+													"sid": 642279931957102,
 													"parameters": {
 														"first-value": "cursor.Y",
 														"comparison": 4,
@@ -8634,7 +8894,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "camera",
-													"sid": 183465339690548,
+													"sid": 703297266322044,
 													"disabled": true,
 													"parameters": {
 														"instance-variable": "followerMod",
@@ -8644,7 +8904,7 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 592321134573300,
+													"sid": 951733724216859,
 													"parameters": {
 														"variable": "yy",
 														"value": "abs(700-clamp(cursor.Y,0,720))/camera.scrollSlowCoeff"
@@ -8653,21 +8913,21 @@
 												{
 													"id": "set-y",
 													"objectClass": "camera",
-													"sid": 935951933796671,
+													"sid": 363760815890400,
 													"parameters": {
 														"y": "lerp(camera.Y,Mouse.Y,yy*dt)"
 													}
 												}
 											],
-											"sid": 331169742978648
+											"sid": 695734786424746
 										}
 									]
 								}
 							],
-							"sid": 597394245023089
+							"sid": 410436108047287
 						}
 					],
-					"sid": 549099305652733,
+					"sid": 223808041592594,
 					"background-color": [
 						0.8666666666666667,
 						0.796078431372549,
@@ -8676,13 +8936,7 @@
 					]
 				}
 			],
-			"sid": 302481250850277,
-			"background-color": [
-				0.8666666666666667,
-				0.796078431372549,
-				0.9058823529411765,
-				1
-			]
+			"sid": 436916719350294
 		},
 		{
 			"eventType": "comment",
@@ -8999,7 +9253,10 @@
 								},
 								{
 									"callFunction": "reClamp",
-									"sid": 949486862091102
+									"sid": 949486862091102,
+									"parameters": [
+										true
+									]
 								}
 							],
 							"sid": 249439653186044
