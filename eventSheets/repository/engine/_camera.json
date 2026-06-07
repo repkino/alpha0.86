@@ -223,16 +223,6 @@
 							"parameters": {
 								"y": "lerp(scrolly,clamp(camera.Y,clampT,clampD),0.9)"
 							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 973047738235535,
-							"disabled": true,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
 						}
 					],
 					"sid": 488916476347705
@@ -650,6 +640,40 @@
 					]
 				}
 			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [],
+			"actions": [
+				{
+					"id": "set-text",
+					"objectClass": "help",
+					"sid": 962343287590610,
+					"disabled": true,
+					"parameters": {
+						"text": "clampL"
+					}
+				},
+				{
+					"id": "set-text",
+					"objectClass": "help",
+					"sid": 421894287795344,
+					"disabled": true,
+					"parameters": {
+						"text": "zoom&newline&clampL&newline&clampR&newline&clampT&newline&clampD"
+					}
+				},
+				{
+					"id": "set-text",
+					"objectClass": "help",
+					"sid": 132937742325794,
+					"parameters": {
+						"text": "zoom"
+					}
+				}
+			],
+			"sid": 261937955021095,
+			"disabled": true
 		},
 		{
 			"eventType": "comment",
@@ -6419,6 +6443,15 @@
 										"instance-variable": "wheelStatus",
 										"value": "\"down\""
 									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "camera",
+									"sid": 508428227104618,
+									"parameters": {
+										"instance-variable": "lm",
+										"value": "0.3"
+									}
 								}
 							],
 							"sid": 847378766551285,
@@ -6676,6 +6709,15 @@
 									"parameters": {
 										"instance-variable": "wheelStatus",
 										"value": "\"up\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "camera",
+									"sid": 300164434871906,
+									"parameters": {
+										"instance-variable": "lm",
+										"value": "0.3"
 									}
 								}
 							],
@@ -7515,10 +7557,10 @@
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 881224863489964,
+															"sid": 595576141152280,
 															"parameters": {
 																"variable": "lerpCoeff",
-																"value": "lerp(lerpCoeff,0.05,0.1)"
+																"value": "lerp(lerpCoeff, 0.05, 0.1)"
 															}
 														}
 													],
@@ -8092,6 +8134,210 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "camera",
+															"sid": 438972317281785,
+															"parameters": {
+																"instance-variable": "followerMod",
+																"comparison": 0,
+																"value": "\"hero\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position",
+															"objectClass": "camera",
+															"sid": 869549566116663,
+															"disabled": true,
+															"parameters": {
+																"x": "lerp(camera.X,basis.X,1-0.06^dt)",
+																"y": "lerp(camera.Y,basis.Y-60,1-0.06^dt)"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Лечение болезни: убран множитель camera.lm, который занулял скорость слежения при зуме колесиком мыши.",
+															"background-color": [
+																0.33,
+																0.73,
+																0.48,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "camera",
+															"sid": 944798854597878,
+															"parameters": {
+																"x": "lerp(camera.X,basis.X,0.03)",
+																"y": "lerp(camera.Y,basis.Y-Self.yMinus,0.03)"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 683973681789841,
+															"parameters": {
+																"variable": "lerpCoeff",
+																"value": "lerp(lerpCoeff,0.07,60*dt)"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 931071352783098,
+															"disabled": true,
+															"parameters": {
+																"variable": "lerpCoeff",
+																"value": "lerp(lerpCoeff,0.07,0.12)"
+															}
+														}
+													],
+													"sid": 659044432619592,
+													"disabled": true,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 756983941310440,
+																	"parameters": {
+																		"variable": "zoom",
+																		"comparison": 4,
+																		"value": "1"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "camera",
+																	"sid": 581671461741629,
+																	"parameters": {
+																		"instance-variable": "yMinus",
+																		"value": "Self.yMinusConst/zoom"
+																	}
+																}
+															],
+															"sid": 167509174515262,
+															"disabled": true
+														}
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 459003064146371
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "camera",
+															"sid": 804208004489209,
+															"parameters": {
+																"instance-variable": "followerMod",
+																"comparison": 0,
+																"value": "\"hero\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position",
+															"objectClass": "camera",
+															"sid": 219829737240984,
+															"disabled": true,
+															"parameters": {
+																"x": "lerp(camera.X, basis.X, 1-0.06^dt)",
+																"y": "lerp(camera.Y, basis.Y-60, 1-0.06^dt)"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Защита от camera.lm = 0. Используем camera.X, чтобы тянуть скролл к герою сквозь границы макета.",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "camera",
+															"sid": 677757153046133,
+															"parameters": {
+																"x": "lerp(camera.X, basis.X, 0.03 * (camera.lm = 0 ? 1 : camera.lm))",
+																"y": "lerp(camera.Y, basis.Y - Self.yMinus, 0.03 * (camera.lm = 0 ? 1 : camera.lm))"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 501633767726016,
+															"parameters": {
+																"variable": "lerpCoeff",
+																"value": "lerp(lerpCoeff, 0.07, 60*dt)"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 878972367099422,
+															"disabled": true,
+															"parameters": {
+																"variable": "lerpCoeff",
+																"value": "lerp(lerpCoeff, 0.07, 0.12)"
+															}
+														}
+													],
+													"sid": 249262255574257,
+													"disabled": true,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 522167849691911,
+																	"parameters": {
+																		"variable": "zoom",
+																		"comparison": 4,
+																		"value": "1"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "camera",
+																	"sid": 841636592716823,
+																	"parameters": {
+																		"instance-variable": "yMinus",
+																		"value": "Self.yMinusConst/zoom"
+																	}
+																}
+															],
+															"sid": 951728512227941,
+															"disabled": true
+														}
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 568630407617998
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "camera",
 															"sid": 924531461746349,
 															"parameters": {
 																"instance-variable": "followerMod",
@@ -8138,6 +8384,15 @@
 																"variable": "lerpCoeff",
 																"value": "lerp(lerpCoeff,0.07,0.12)"
 															}
+														},
+														{
+															"id": "set-text",
+															"objectClass": "help",
+															"sid": 545365222131858,
+															"disabled": true,
+															"parameters": {
+																"text": "zoom"
+															}
 														}
 													],
 													"sid": 814074298736201,
@@ -8174,6 +8429,11 @@
 												{
 													"eventType": "block",
 													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 391490187518111
+														},
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "camera",
@@ -11489,7 +11749,18 @@
 														},
 														{
 															"eventType": "block",
-															"conditions": [],
+															"conditions": [
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "map",
+																	"sid": 458555004709322,
+																	"parameters": {
+																		"instance-variable": "hill",
+																		"comparison": 0,
+																		"value": "-1"
+																	}
+																}
+															],
 															"actions": [
 																{
 																	"id": "set-instvar-value",
@@ -11502,6 +11773,38 @@
 																}
 															],
 															"sid": 860634538693954
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 207987999904122
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "basis",
+																	"sid": 557884217519732,
+																	"parameters": {
+																		"instance-variable": "hi",
+																		"value": "map.mHi - distance(map.X,map.Y,basis.X,basis.Y)*map.hill"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "basis",
+																	"sid": 551744852840251,
+																	"disabled": true,
+																	"parameters": {
+																		"instance-variable": "hi",
+																		"value": "map.mHi - Functions.getIsoDist(map.X,map.Y,basis.X,basis.Y)*map.hill"
+																	}
+																}
+															],
+															"sid": 842755045563641
 														}
 													]
 												}
@@ -11709,170 +12012,179 @@
 					]
 				},
 				{
-					"eventType": "comment",
-					"text": "    масштабирование каркаса персонажа в движении"
-				},
-				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "basis",
-							"sid": 519008084034669,
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 986089297039735,
 							"parameters": {
-								"instance-variable": "base"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "aTools",
-							"sid": 527308317309254,
-							"parameters": {
-								"instance-variable": "cameraType",
-								"comparison": 0,
-								"value": "\"cameraPerspective\""
+								"interval-seconds": "0.1"
 							}
 						}
 					],
 					"actions": [],
-					"sid": 642217102521021,
+					"sid": 965611447302579,
 					"children": [
+						{
+							"eventType": "comment",
+							"text": "    масштабирование каркаса персонажа в движении"
+						},
 						{
 							"eventType": "block",
 							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aTools",
+									"sid": 667839933795672,
+									"parameters": {
+										"instance-variable": "cameraType",
+										"comparison": 0,
+										"value": "\"cameraPerspective\""
+									}
+								},
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "basis",
-									"sid": 358921013673788,
+									"sid": 316151078458823,
 									"parameters": {
-										"instance-variable": "move"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "jumper",
-									"sid": 472763098648409,
-									"parameters": {
-										"instance-variable": "name",
-										"comparison": 0,
-										"value": "basis.name"
-									}
-								},
-								{
-									"id": "every-x-seconds",
-									"objectClass": "System",
-									"sid": 665975442676514,
-									"parameters": {
-										"interval-seconds": "0.1"
+										"instance-variable": "base"
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 526830512462744,
+							"children": [
 								{
-									"id": "set-size",
-									"objectClass": "jumper",
-									"sid": 927769882374491,
-									"disabled": true,
-									"parameters": {
-										"width": "Self.w*basis.zScale",
-										"height": "Self.h*basis.zScale"
-									}
-								},
-								{
-									"id": "set-size",
-									"objectClass": "jumper",
-									"sid": 532906626995704,
-									"parameters": {
-										"width": "Self.w*basis.fullScale",
-										"height": "Self.h*basis.fullScale"
-									}
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "basis",
+											"sid": 129520525739698,
+											"parameters": {
+												"instance-variable": "move"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "jumper",
+											"sid": 433529084677129,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "basis.name"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-size",
+											"objectClass": "jumper",
+											"sid": 606540139498310,
+											"disabled": true,
+											"parameters": {
+												"width": "Self.w*basis.zScale",
+												"height": "Self.h*basis.zScale"
+											}
+										},
+										{
+											"id": "set-size",
+											"objectClass": "jumper",
+											"sid": 917686632936083,
+											"parameters": {
+												"width": "Self.w*basis.fullScale",
+												"height": "Self.h*basis.fullScale"
+											}
+										}
+									],
+									"sid": 732287664480460
 								}
-							],
-							"sid": 585382850311139
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "  секретность дороги исчезает под ногами гг"
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "basis",
-							"sid": 720232950816327,
-							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "aBook.hero"
-							}
+							]
 						},
 						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "basis",
-							"sid": 899142341540722,
-							"parameters": {
-								"object": "map"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 205288084482076,
-					"children": [
+							"eventType": "comment",
+							"text": "  секретность дороги исчезает под ногами гг"
+						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "compare-instance-variable",
-									"objectClass": "map",
-									"sid": 283762718694429,
-									"disabled": true,
+									"objectClass": "basis",
+									"sid": 186751720564201,
 									"parameters": {
-										"instance-variable": "mType",
+										"instance-variable": "name",
 										"comparison": 0,
-										"value": "\"road\""
+										"value": "aBook.hero"
 									}
 								},
 								{
-									"id": "compare-instance-variable",
-									"objectClass": "map",
-									"sid": 505408434442948,
+									"id": "is-overlapping-another-object",
+									"objectClass": "basis",
+									"sid": 450643299256318,
 									"parameters": {
-										"instance-variable": "secret",
-										"comparison": 3,
-										"value": "2"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "map",
-									"sid": 857778988096194,
-									"parameters": {
-										"instance-variable": "secret",
-										"comparison": 4,
-										"value": "0"
-									}
-								},
-								{
-									"id": "trigger-once-while-true",
-									"objectClass": "System",
-									"sid": 608296639226955
-								}
-							],
-							"actions": [
-								{
-									"id": "subtract-from-instvar",
-									"objectClass": "map",
-									"sid": 452519612395086,
-									"parameters": {
-										"instance-variable": "secret",
-										"value": "1"
+										"object": "map"
 									}
 								}
 							],
-							"sid": 600903022722106
+							"actions": [],
+							"sid": 771920099777128,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "map",
+											"sid": 538065821573433,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "mType",
+												"comparison": 0,
+												"value": "\"road\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "map",
+											"sid": 328311228579466,
+											"parameters": {
+												"instance-variable": "secret",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "map",
+											"sid": 281371692356208,
+											"parameters": {
+												"instance-variable": "secret",
+												"comparison": 3,
+												"value": "2"
+											}
+										},
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 279971337790138
+										}
+									],
+									"actions": [
+										{
+											"id": "subtract-from-instvar",
+											"objectClass": "map",
+											"sid": 971288337777383,
+											"parameters": {
+												"instance-variable": "secret",
+												"value": "1"
+											}
+										}
+									],
+									"sid": 803474514043915
+								}
+							]
 						}
 					]
 				}
@@ -12099,6 +12411,40 @@
 				}
 			],
 			"sid": 282957914677707
+		},
+		{
+			"eventType": "block",
+			"conditions": [],
+			"actions": [
+				{
+					"id": "set-text",
+					"objectClass": "help",
+					"sid": 540590681991312,
+					"disabled": true,
+					"parameters": {
+						"text": "clampL"
+					}
+				},
+				{
+					"id": "set-text",
+					"objectClass": "help",
+					"sid": 725332277059475,
+					"parameters": {
+						"text": "zoom&newline&clampL&newline&clampR&newline&clampT&newline&clampD"
+					}
+				},
+				{
+					"id": "set-text",
+					"objectClass": "help",
+					"sid": 196750847037889,
+					"disabled": true,
+					"parameters": {
+						"text": "zoom"
+					}
+				}
+			],
+			"sid": 780115748647241,
+			"disabled": true
 		}
 	],
 	"sid": 475257564465595
