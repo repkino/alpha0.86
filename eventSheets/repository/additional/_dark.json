@@ -1,0 +1,389 @@
+{
+	"name": "_dark",
+	"events": [
+		{
+			"eventType": "comment",
+			"text": ""
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-x-seconds",
+					"objectClass": "System",
+					"sid": 468909201026049,
+					"disabled": true,
+					"parameters": {
+						"interval-seconds": "0.1"
+					}
+				}
+			],
+			"actions": [],
+			"sid": 659729307990378,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-on-screen",
+							"objectClass": "darkRoad",
+							"sid": 531063184456848
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 801122755210407,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "darkRoad",
+							"sid": 234875416341236,
+							"parameters": {
+								"instance-variable": "dist",
+								"value": "Functions.getIsoDist(base.X,base.Y,darkRoad.X,darkRoad.Y)"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "darkRoad",
+							"sid": 274104465765236,
+							"parameters": {
+								"instance-variable": "opac",
+								"value": "100 - clamp((Self.dist/7),0,100)"
+							}
+						},
+						{
+							"id": "set-opacity",
+							"objectClass": "darkRoad",
+							"sid": 870062765278960,
+							"parameters": {
+								"opacity": "Self.opac"
+							}
+						}
+					],
+					"sid": 645594579441066,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "dark",
+									"sid": 141674463103388,
+									"parameters": {
+										"object": "darkRoad"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-opacity",
+									"objectClass": "dark",
+									"sid": 532329889648796,
+									"parameters": {
+										"opacity": "darkRoad.opac"
+									}
+								}
+							],
+							"sid": 312249981333209
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-highestlowest",
+									"objectClass": "darkRoad",
+									"sid": 720283734481419,
+									"parameters": {
+										"which": "highest",
+										"instance-variable": "opac"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-layer-opacity",
+									"objectClass": "System",
+									"sid": 430737622802158,
+									"parameters": {
+										"layer": "\"ui\"",
+										"opacity": "darkRoad.opac"
+									}
+								},
+								{
+									"id": "set-layer-opacity",
+									"objectClass": "System",
+									"sid": 992422274731532,
+									"parameters": {
+										"layer": "\"uir\"",
+										"opacity": "darkRoad.opac"
+									}
+								},
+								{
+									"id": "set-layer-opacity",
+									"objectClass": "System",
+									"sid": 215495676016468,
+									"parameters": {
+										"layer": "\"inventory\"",
+										"opacity": "darkRoad.opac"
+									}
+								},
+								{
+									"id": "set-layer-opacity",
+									"objectClass": "System",
+									"sid": 964941957512644,
+									"disabled": true,
+									"parameters": {
+										"layer": "\"iso\"",
+										"opacity": "darkRoad.opac+darkRoad.opac/2"
+									}
+								},
+								{
+									"id": "set-layer-opacity",
+									"objectClass": "System",
+									"sid": 622813024845901,
+									"disabled": true,
+									"parameters": {
+										"layer": "\"iso\"",
+										"opacity": "darkRoad.opac*2"
+									}
+								},
+								{
+									"id": "set-layer-opacity",
+									"objectClass": "System",
+									"sid": 719785328710758,
+									"parameters": {
+										"layer": "\"iso\"",
+										"opacity": "darkRoad.opac+22"
+									}
+								}
+							],
+							"sid": 609054384280254
+						}
+					]
+				}
+			]
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "darkCycle",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "\n\n\nПри появлении на экране новых ячеек, их элементы берутся из банка или у самых дальних от героя",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"functionName": "pickDark",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "number",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "darkRoad",
+							"sid": 956729943312133,
+							"parameters": {
+								"instance-variable": "working"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 866899630311156,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "из банка",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-x",
+									"objectClass": "vegaR",
+									"sid": 614027785276031,
+									"parameters": {
+										"comparison": 2,
+										"x-co-ordinate": "0"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 553787311057549,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 630241050116191,
+											"parameters": {
+												"object": "vegaR"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-function-return-value",
+											"objectClass": "Functions",
+											"sid": 588491921297064,
+											"parameters": {
+												"value": "dark.UID"
+											}
+										}
+									],
+									"sid": 649111793709028,
+									"disabled": true
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "иначе с локации вне экрана",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 590720422809015
+								},
+								{
+									"id": "is-on-screen",
+									"objectClass": "vegaR",
+									"sid": 507322940862643,
+									"isInverted": true
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 128707129771254,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "aBook.hero"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 965619369202685,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "vegaR",
+											"sid": 536078517141936,
+											"parameters": {
+												"instance-variable": "vrUID",
+												"comparison": 4,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 446210008702557,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-nearestfurthest",
+													"objectClass": "vegaR",
+													"sid": 817865522430355,
+													"parameters": {
+														"which": "furthest",
+														"x": "base.X",
+														"y": "base.Y"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 418670256773194,
+											"disabled": true,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "vegaRoad",
+															"sid": 167414534224429,
+															"parameters": {
+																"unique-id": "vegaR.vrUID"
+															}
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "vegaRoadOff",
+															"sid": 125017242182627,
+															"parameters": [
+																"vegaRoad.UID"
+															]
+														},
+														{
+															"id": "set-function-return-value",
+															"objectClass": "Functions",
+															"sid": 506815771926735,
+															"parameters": {
+																"value": "vegaR.UID"
+															}
+														}
+													],
+													"sid": 667908077416698,
+													"disabled": true
+												}
+											]
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			],
+			"sid": 375926171911054
+		}
+	],
+	"sid": 701722418307233
+}
