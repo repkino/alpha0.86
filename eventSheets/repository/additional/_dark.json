@@ -831,7 +831,7 @@
 		},
 		{
 			"eventType": "comment",
-			"text": "",
+			"text": "лифт-портал",
 			"background-color": [
 				0.7450980392156863,
 				0.8274509803921568,
@@ -955,12 +955,12 @@
 				{
 					"id": "tween-value",
 					"objectClass": "Bit",
-					"sid": 808403413969241,
+					"sid": 989380002812910,
 					"behaviorType": "Tween",
 					"parameters": {
 						"tags": "\"liftX\"",
 						"start-value": "base.X",
-						"end-value": "base.X-60",
+						"end-value": "base.X-70",
 						"time": "3",
 						"ease": "easeincubic",
 						"destroy-on-complete": "no",
@@ -968,17 +968,40 @@
 						"ping-pong": "no",
 						"repeat-count": "1"
 					}
+				},
+				{
+					"type": "comment",
+					"text": "переменная может быть -1, 0, 100 и промежуточное число. 100 отправляет по vegaPortUID, 0 не нуждается в UID и отправляет в случайную иффи ячейку, промежуточное число делает выбор между обоими вариантами, с процентом в пользу UID, иначе рандом. -1 позволяет работать обычному порталу."
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aPortals",
+					"sid": 319812946791992,
+					"parameters": {
+						"instance-variable": "vegaRandom",
+						"value": "darkRoad.randomVP"
+					}
 				}
 			],
 			"sid": 452725559771878,
 			"children": [
+				{
+					"eventType": "comment",
+					"text": "лифт отправляет на другой макет",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
 							"id": "compare-instance-variable",
 							"objectClass": "darkRoad",
-							"sid": 237804557235660,
+							"sid": 336135667192528,
 							"parameters": {
 								"instance-variable": "nTarg",
 								"comparison": 0,
@@ -990,13 +1013,101 @@
 						{
 							"id": "load-layout-images",
 							"objectClass": "System",
-							"sid": 293456442795639,
+							"sid": 472173052120137,
 							"parameters": {
 								"layout": "mission7"
 							}
 						}
 					],
-					"sid": 360271696773938
+					"sid": 739763118279372
+				},
+				{
+					"eventType": "comment",
+					"text": "по координатам",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "darkRoad",
+							"sid": 957205202928784,
+							"parameters": {
+								"instance-variable": "arX",
+								"comparison": 1,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aPortals",
+							"sid": 615681571040231,
+							"parameters": {
+								"instance-variable": "arX",
+								"value": "darkRoad.arX"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aPortals",
+							"sid": 929659228633872,
+							"parameters": {
+								"instance-variable": "arY",
+								"value": "darkRoad.arY"
+							}
+						}
+					],
+					"sid": 640999251737766
+				},
+				{
+					"eventType": "comment",
+					"text": "либо в ячейку иффи по UID или рандомно",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 631821106038697
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "darkRoad",
+							"sid": 599285861845777,
+							"parameters": {
+								"instance-variable": "vegaPortUID",
+								"comparison": 1,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aPortals",
+							"sid": 355338745201348,
+							"parameters": {
+								"instance-variable": "vegaPortUID",
+								"value": "darkRoad.vegaPortUID"
+							}
+						}
+					],
+					"sid": 714104267095290
 				}
 			]
 		},
@@ -1122,6 +1233,7 @@
 					"id": "set-text",
 					"objectClass": "help",
 					"sid": 382075437724120,
+					"disabled": true,
 					"parameters": {
 						"text": "\"E\""
 					}
@@ -1144,13 +1256,22 @@
 					}
 				},
 				{
+					"id": "set-instvar-value",
+					"objectClass": "aTools",
+					"sid": 433460651911482,
+					"parameters": {
+						"instance-variable": "testS",
+						"value": "\"-\""
+					}
+				},
+				{
 					"callFunction": "go",
-					"sid": 174252964383386,
+					"sid": 253876399154479,
 					"parameters": [
 						"217",
 						"-1",
-						"333",
-						"333"
+						"0",
+						"0"
 					]
 				},
 				{
@@ -1654,9 +1775,9 @@
 																{
 																	"id": "set-scale",
 																	"objectClass": "oasis",
-																	"sid": 967784734213122,
+																	"sid": 216667222032587,
 																	"parameters": {
-																		"scale": "darkRoad.size*2"
+																		"scale": "darkRoad.size*2.4"
 																	}
 																}
 															],
