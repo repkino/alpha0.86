@@ -781,7 +781,8 @@
 							"objectClass": "darkRoad",
 							"sid": 570278686961750,
 							"parameters": [
-								"Self.UID"
+								"Self.UID",
+								false
 							]
 						}
 					],
@@ -855,6 +856,13 @@
 					"initialValue": "0",
 					"comment": "",
 					"sid": 251236626093325
+				},
+				{
+					"name": "arrival",
+					"type": "boolean",
+					"initialValue": "false",
+					"comment": "",
+					"sid": 226075628497873
 				}
 			],
 			"eventType": "custom-ace-block",
@@ -882,7 +890,7 @@
 				{
 					"customAction": "NoMOUSE",
 					"objectClass": "aIns",
-					"sid": 350365020220197,
+					"sid": 877610109158743,
 					"parameters": [
 						true,
 						true,
@@ -894,41 +902,15 @@
 				{
 					"customAction": "heroStop",
 					"objectClass": "aIns",
-					"sid": 414416099967603,
+					"sid": 896176673354650,
 					"parameters": [
 						true
 					]
 				},
 				{
-					"id": "set-boolean-instvar",
-					"objectClass": "darkRoad",
-					"sid": 529968010273105,
-					"parameters": {
-						"instance-variable": "lift",
-						"value": "true"
-					}
-				},
-				{
-					"id": "set-scale",
-					"objectClass": "darkRoad",
-					"sid": 895073674247612,
-					"parameters": {
-						"scale": "10"
-					}
-				},
-				{
-					"id": "set-position",
-					"objectClass": "base",
-					"sid": 945905615136633,
-					"parameters": {
-						"x": "darkRoad.X-2",
-						"y": "darkRoad.Y+3"
-					}
-				},
-				{
 					"id": "set-effect-enabled",
 					"objectClass": "Bit",
-					"sid": 634997184335895,
+					"sid": 131996537580513,
 					"parameters": {
 						"mode": "enable",
 						"effect": "\"Inverse\""
@@ -937,57 +919,27 @@
 				{
 					"id": "set-animation",
 					"objectClass": "Bit",
-					"sid": 196499029064118,
+					"sid": 247908966701314,
 					"parameters": {
 						"animation": "\"rotateLevitation3\"",
 						"from": "beginning"
 					}
 				},
 				{
-					"id": "tween-value",
-					"objectClass": "Bit",
-					"sid": 892473255234809,
-					"behaviorType": "Tween",
+					"id": "set-boolean-instvar",
+					"objectClass": "darkRoad",
+					"sid": 621569445736277,
 					"parameters": {
-						"tags": "\"lift\"",
-						"start-value": "0",
-						"end-value": "1000",
-						"time": "2.5",
-						"ease": "easeincubic",
-						"destroy-on-complete": "no",
-						"loop": "no",
-						"ping-pong": "no",
-						"repeat-count": "1"
+						"instance-variable": "lift",
+						"value": "true"
 					}
 				},
 				{
-					"id": "tween-value",
-					"objectClass": "Bit",
-					"sid": 596887806808957,
-					"behaviorType": "Tween",
+					"id": "set-scale",
+					"objectClass": "darkRoad",
+					"sid": 435888753055505,
 					"parameters": {
-						"tags": "\"liftX\"",
-						"start-value": "base.X",
-						"end-value": "base.X-70",
-						"time": "2.5",
-						"ease": "easeincubic",
-						"destroy-on-complete": "no",
-						"loop": "no",
-						"ping-pong": "no",
-						"repeat-count": "1"
-					}
-				},
-				{
-					"type": "comment",
-					"text": "переменная может быть -1, 0, 100 и промежуточное число. 100 отправляет по vegaPortUID, 0 не нуждается в UID и отправляет в случайную иффи ячейку, промежуточное число делает выбор между обоими вариантами, с процентом в пользу UID, иначе рандом. -1 позволяет работать обычному порталу."
-				},
-				{
-					"id": "set-instvar-value",
-					"objectClass": "aPortals",
-					"sid": 319812946791992,
-					"parameters": {
-						"instance-variable": "vegaRandom",
-						"value": "darkRoad.randomVP"
+						"scale": "10"
 					}
 				}
 			],
@@ -995,7 +947,7 @@
 			"children": [
 				{
 					"eventType": "comment",
-					"text": "лифт отправляет на другой макет",
+					"text": "прибытие",
 					"background-color": [
 						0.7450980392156863,
 						0.8274509803921568,
@@ -1007,49 +959,11 @@
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "compare-instance-variable",
-							"objectClass": "darkRoad",
-							"sid": 336135667192528,
-							"parameters": {
-								"instance-variable": "nTarg",
-								"comparison": 0,
-								"value": "217"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "load-layout-images",
+							"id": "compare-boolean-eventvar",
 							"objectClass": "System",
-							"sid": 472173052120137,
+							"sid": 478364773919678,
 							"parameters": {
-								"layout": "mission7"
-							}
-						}
-					],
-					"sid": 739763118279372
-				},
-				{
-					"eventType": "comment",
-					"text": "по координатам",
-					"background-color": [
-						0.7450980392156863,
-						0.8274509803921568,
-						0.996078431372549,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "darkRoad",
-							"sid": 957205202928784,
-							"parameters": {
-								"instance-variable": "arX",
-								"comparison": 1,
-								"value": "0"
+								"variable": "arrival"
 							}
 						}
 					],
@@ -1057,27 +971,70 @@
 						{
 							"id": "set-instvar-value",
 							"objectClass": "aPortals",
-							"sid": 615681571040231,
+							"sid": 366116510108540,
 							"parameters": {
-								"instance-variable": "arX",
-								"value": "darkRoad.arX"
+								"instance-variable": "vegaPortUID",
+								"value": "0"
 							}
 						},
 						{
 							"id": "set-instvar-value",
 							"objectClass": "aPortals",
-							"sid": 929659228633872,
+							"sid": 808156323268445,
 							"parameters": {
-								"instance-variable": "arY",
-								"value": "darkRoad.arY"
+								"instance-variable": "darkUID",
+								"value": "0"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "base",
+							"sid": 748497809312422,
+							"parameters": {
+								"x": "darkRoad.X-70",
+								"y": "darkRoad.Y+3"
+							}
+						},
+						{
+							"id": "tween-value",
+							"objectClass": "Bit",
+							"sid": 319318902790459,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"liftArr\"",
+								"start-value": "1000",
+								"end-value": "0",
+								"time": "2",
+								"ease": "easeoutbounce",
+								"destroy-on-complete": "no",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						},
+						{
+							"id": "tween-value",
+							"objectClass": "Bit",
+							"sid": 302834539880956,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"liftArrX\"",
+								"start-value": "base.X-70",
+								"end-value": "base.X",
+								"time": "2",
+								"ease": "easeoutbounce",
+								"destroy-on-complete": "no",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
 							}
 						}
 					],
-					"sid": 640999251737766
+					"sid": 772238025853252
 				},
 				{
 					"eventType": "comment",
-					"text": "либо в ячейку иффи по UID или рандомно",
+					"text": "отправление",
 					"background-color": [
 						0.7450980392156863,
 						0.8274509803921568,
@@ -1091,31 +1048,213 @@
 						{
 							"id": "else",
 							"objectClass": "System",
-							"sid": 631821106038697
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "darkRoad",
-							"sid": 599285861845777,
-							"parameters": {
-								"instance-variable": "vegaPortUID",
-								"comparison": 1,
-								"value": "0"
-							}
+							"sid": 407879517674890
 						}
 					],
 					"actions": [
 						{
+							"id": "set-boolean-instvar",
+							"objectClass": "darkRoad",
+							"sid": 147355243309839,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "lift",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-scale",
+							"objectClass": "darkRoad",
+							"sid": 729725107096709,
+							"disabled": true,
+							"parameters": {
+								"scale": "10"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "base",
+							"sid": 353254610642924,
+							"parameters": {
+								"x": "darkRoad.X-2",
+								"y": "darkRoad.Y+3"
+							}
+						},
+						{
+							"id": "tween-value",
+							"objectClass": "Bit",
+							"sid": 386845996375227,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"lift\"",
+								"start-value": "0",
+								"end-value": "1000",
+								"time": "2.5",
+								"ease": "easeincubic",
+								"destroy-on-complete": "no",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						},
+						{
+							"id": "tween-value",
+							"objectClass": "Bit",
+							"sid": 561262311333810,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"liftX\"",
+								"start-value": "base.X",
+								"end-value": "base.X-70",
+								"time": "2.5",
+								"ease": "easeincubic",
+								"destroy-on-complete": "no",
+								"loop": "no",
+								"ping-pong": "no",
+								"repeat-count": "1"
+							}
+						},
+						{
+							"type": "comment",
+							"text": "переменная может быть -1, 0, 100 и промежуточное число. 100 отправляет по vegaPortUID, 0 не нуждается в UID и отправляет в случайную иффи ячейку, промежуточное число делает выбор между обоими вариантами, с процентом в пользу UID, иначе рандом. -1 позволяет работать обычному порталу."
+						},
+						{
 							"id": "set-instvar-value",
 							"objectClass": "aPortals",
-							"sid": 355338745201348,
+							"sid": 764351476937447,
 							"parameters": {
-								"instance-variable": "vegaPortUID",
-								"value": "darkRoad.vegaPortUID"
+								"instance-variable": "vegaRandom",
+								"value": "darkRoad.randomVP"
 							}
 						}
 					],
-					"sid": 714104267095290
+					"sid": 990749273284888,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "лифт отправляет на другой макет",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 809999200067359,
+									"parameters": {
+										"instance-variable": "nSector",
+										"comparison": 0,
+										"value": "217"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "load-layout-images",
+									"objectClass": "System",
+									"sid": 880280657747852,
+									"parameters": {
+										"layout": "mission7"
+									}
+								}
+							],
+							"sid": 918901657978514
+						},
+						{
+							"eventType": "comment",
+							"text": "по координатам",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 809227348141056,
+									"parameters": {
+										"instance-variable": "arX",
+										"comparison": 1,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aPortals",
+									"sid": 674701795883555,
+									"parameters": {
+										"instance-variable": "arX",
+										"value": "darkRoad.arX"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aPortals",
+									"sid": 649378514193737,
+									"parameters": {
+										"instance-variable": "arY",
+										"value": "darkRoad.arY"
+									}
+								}
+							],
+							"sid": 177682465760449
+						},
+						{
+							"eventType": "comment",
+							"text": "либо в ячейку иффи по UID или рандомно",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 871146938953582
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 168533360747946,
+									"parameters": {
+										"instance-variable": "vegaPortUID",
+										"comparison": 1,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aPortals",
+									"sid": 413132228852769,
+									"parameters": {
+										"instance-variable": "vegaPortUID",
+										"value": "darkRoad.vegaPortUID"
+									}
+								}
+							],
+							"sid": 342265231321389
+						}
+					]
 				}
 			]
 		},
@@ -1202,7 +1341,7 @@
 							"sid": 305223475486908,
 							"parameters": {
 								"instance-variable": "n",
-								"value": "darkRoad.nTarg"
+								"value": "darkRoad.nSector"
 							}
 						},
 						{
@@ -1222,6 +1361,174 @@
 					"disabled": true
 				}
 			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-playing",
+					"objectClass": "Bit",
+					"sid": 226969614420277,
+					"behaviorType": "Tween",
+					"parameters": {
+						"tags": "\"liftArr\""
+					}
+				},
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "darkRoad",
+					"sid": 168244923019105,
+					"parameters": {
+						"instance-variable": "lift"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "base",
+					"sid": 786530272577512,
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "jumper",
+					"sid": 740945304477723,
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "darkRoad",
+					"sid": 577266020867694,
+					"parameters": {
+						"instance-variable": "mHi",
+						"value": "Bit.Tween.Value(\"liftArr\")"
+					}
+				},
+				{
+					"id": "set-x",
+					"objectClass": "base",
+					"sid": 704441751886932,
+					"parameters": {
+						"x": "Bit.Tween.Value(\"liftArrX\")"
+					}
+				}
+			],
+			"sid": 196756992863534,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 542054640057382,
+							"parameters": {
+								"first-value": "Bit.Tween.Progress(\"lift\")",
+								"comparison": 5,
+								"second-value": "0.7"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aTools",
+							"sid": 150824146709717,
+							"parameters": {
+								"instance-variable": "n",
+								"value": "darkRoad.nSector"
+							}
+						},
+						{
+							"callFunction": "gotoLayout",
+							"sid": 520895217221827,
+							"parameters": [
+								"\"\"",
+								"\"\"",
+								"-1",
+								"\"\"",
+								"0",
+								"0"
+							]
+						}
+					],
+					"sid": 975566388851921,
+					"disabled": true
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-tweens-finished",
+					"objectClass": "Bit",
+					"sid": 680724913964467,
+					"behaviorType": "Tween",
+					"parameters": {
+						"tags": "\"liftArr\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "wait",
+					"objectClass": "System",
+					"sid": 865979529614930,
+					"parameters": {
+						"seconds": "1",
+						"use-timescale": true
+					}
+				},
+				{
+					"id": "set-effect-enabled",
+					"objectClass": "Bit",
+					"sid": 497928449072384,
+					"parameters": {
+						"mode": "disable",
+						"effect": "\"Inverse\""
+					}
+				},
+				{
+					"customAction": "mouseBack",
+					"objectClass": "aIns",
+					"sid": 826310044961077,
+					"parameters": [
+						true,
+						true,
+						true,
+						true
+					]
+				},
+				{
+					"id": "set-boolean-instvar",
+					"objectClass": "aBit",
+					"sid": 848747878223557,
+					"parameters": {
+						"instance-variable": "intersept",
+						"value": "false"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aBit",
+					"sid": 142432822141686,
+					"parameters": {
+						"instance-variable": "interseptor",
+						"value": "\"zero\""
+					}
+				}
+			],
+			"sid": 156541247415607
 		},
 		{
 			"eventType": "block",
@@ -1250,6 +1557,7 @@
 					"id": "set-position",
 					"objectClass": "help",
 					"sid": 765238995060938,
+					"disabled": true,
 					"parameters": {
 						"x": "Mouse.X",
 						"y": "Mouse.Y+55"
@@ -1259,6 +1567,7 @@
 					"id": "set-font-color",
 					"objectClass": "help",
 					"sid": 905380470048250,
+					"disabled": true,
 					"parameters": {
 						"color": "rgbEx(222, 155, 11)"
 					}

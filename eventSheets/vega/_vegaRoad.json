@@ -8384,6 +8384,25 @@
 																			"parameters": {
 																				"from": "beginning"
 																			}
+																		},
+																		{
+																			"type": "comment",
+																			"text": "Синхронизируем actor с ячейкой",
+																			"background-color": [
+																				0.33,
+																				0.73,
+																				0.48,
+																				1
+																			]
+																		},
+																		{
+																			"id": "set-instvar-value",
+																			"objectClass": "vegaIffy",
+																			"sid": 278692836602418,
+																			"parameters": {
+																				"instance-variable": "actor",
+																				"value": "vegaRoad.iffyCurrent"
+																			}
 																		}
 																	],
 																	"sid": 380582239866242
@@ -8731,6 +8750,14 @@
 										{
 											"eventType": "block",
 											"conditions": [
+												{
+													"id": "pick-all",
+													"objectClass": "System",
+													"sid": 291036197467879,
+													"parameters": {
+														"object": "vegaRoad"
+													}
+												},
 												{
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "vegaRoad",
@@ -10774,9 +10801,29 @@
 																"comparison": 0,
 																"value": "\"yum\""
 															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "vegaIffy",
+															"sid": 255355550033314,
+															"parameters": {
+																"instance-variable": "actor",
+																"comparison": 0,
+																"value": "\"arrival\""
+															}
 														}
 													],
 													"actions": [
+														{
+															"type": "comment",
+															"text": "Сбрасываем Иффи после yum или arrival",
+															"background-color": [
+																0.33,
+																0.73,
+																0.48,
+																1
+															]
+														},
 														{
 															"id": "set-boolean-instvar",
 															"objectClass": "vegaIffy",
@@ -10805,7 +10852,8 @@
 															}
 														}
 													],
-													"sid": 183277599512588
+													"sid": 183277599512588,
+													"isOrBlock": true
 												}
 											]
 										}
@@ -11122,7 +11170,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "",
+							"text": "проглатывание и выплевывание героя",
 							"background-color": [
 								0.9490196078431372,
 								0.6901960784313725,
@@ -11181,6 +11229,16 @@
 							"sid": 612869797621363,
 							"children": [
 								{
+									"eventType": "comment",
+									"text": "проглатывание для перехода на другую локацию",
+									"background-color": [
+										0.9490196078431372,
+										0.6901960784313725,
+										0.6901960784313725,
+										1
+									]
+								},
+								{
 									"eventType": "block",
 									"conditions": [
 										{
@@ -11199,6 +11257,16 @@
 											"sid": 161640369088082,
 											"parameters": {
 												"object": "vegaRoad"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "shad",
+											"sid": 393563777139547,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "\"Bit\""
 											}
 										}
 									],
@@ -11249,9 +11317,35 @@
 													}
 												},
 												{
+													"id": "set-instvar-value",
+													"objectClass": "aPortals",
+													"sid": 712752692713122,
+													"parameters": {
+														"instance-variable": "nSector",
+														"value": "aTools.n"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aPortals",
+													"sid": 564044783315775,
+													"parameters": {
+														"instance-variable": "darkUID",
+														"value": "vegaRoad.darkUID"
+													}
+												},
+												{
 													"id": "set-visible",
 													"objectClass": "Bit",
 													"sid": 899251099712673,
+													"parameters": {
+														"visibility": "invisible"
+													}
+												},
+												{
+													"id": "set-visible",
+													"objectClass": "shad",
+													"sid": 294315190683600,
 													"parameters": {
 														"visibility": "invisible"
 													}
@@ -11267,48 +11361,30 @@
 														true,
 														"0"
 													]
+												},
+												{
+													"callFunction": "go",
+													"sid": 608066876789985,
+													"parameters": [
+														"1000",
+														"-1",
+														"0",
+														"0"
+													]
 												}
 											],
 											"sid": 533957530439181,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "shad",
-															"sid": 771505927319903,
-															"parameters": {
-																"instance-variable": "name",
-																"comparison": 0,
-																"value": "\"Bit\""
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-visible",
-															"objectClass": "shad",
-															"sid": 914602739835156,
-															"parameters": {
-																"visibility": "invisible"
-															}
-														}
-													],
-													"sid": 212512027552379
-												}
-											],
 											"isOrBlock": true
 										}
 									]
 								},
 								{
 									"eventType": "comment",
-									"text": "прыжок после прибытия",
+									"text": "прыжок после прибытия с другой локации",
 									"background-color": [
-										0.403921568627451,
-										0.7333333333333333,
-										0.8156862745098039,
+										0.9490196078431372,
+										0.6901960784313725,
+										0.6901960784313725,
 										1
 									]
 								},
@@ -11450,6 +11526,24 @@
 													]
 												},
 												{
+													"id": "set-instvar-value",
+													"objectClass": "aPortals",
+													"sid": 938046464114709,
+													"parameters": {
+														"instance-variable": "vegaPortUID",
+														"value": "0"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aPortals",
+													"sid": 751476939246443,
+													"parameters": {
+														"instance-variable": "darkUID",
+														"value": "0"
+													}
+												},
+												{
 													"id": "wait",
 													"objectClass": "System",
 													"sid": 672482141216523,
@@ -11465,6 +11559,15 @@
 													"parameters": {
 														"instance-variable": "blockHI",
 														"value": "false"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "vegaRoad",
+													"sid": 850629919055415,
+													"parameters": {
+														"instance-variable": "iffyCurrent",
+														"value": "\"zero\""
 													}
 												}
 											],
@@ -13178,7 +13281,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "иффи запускает способность",
+							"text": "\n\n\n\nиффи запускает способность",
 							"background-color": [
 								0.47843137254901963,
 								0.9411764705882353,
@@ -13701,6 +13804,14 @@
 												"instance-variable": "working",
 												"value": "true"
 											}
+										},
+										{
+											"id": "load-layout-images",
+											"objectClass": "System",
+											"sid": 562550013467839,
+											"parameters": {
+												"layout": "dark"
+											}
 										}
 									],
 									"sid": 890437642766458
@@ -14066,6 +14177,16 @@
 									"disabled": true
 								},
 								{
+									"eventType": "comment",
+									"text": "",
+									"background-color": [
+										0.403921568627451,
+										0.8156862745098039,
+										0.48627450980392156,
+										1
+									]
+								},
+								{
 									"eventType": "block",
 									"conditions": [
 										{
@@ -14174,16 +14295,6 @@
 									"disabled": true
 								},
 								{
-									"eventType": "comment",
-									"text": "",
-									"background-color": [
-										0.403921568627451,
-										0.8156862745098039,
-										0.48627450980392156,
-										1
-									]
-								},
-								{
 									"eventType": "block",
 									"conditions": [
 										{
@@ -14272,7 +14383,117 @@
 											}
 										}
 									],
-									"sid": 538828572467550
+									"sid": 538828572467550,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "vegaIffy",
+											"sid": 517547533514140,
+											"parameters": {
+												"instance-variable": "actor",
+												"comparison": 0,
+												"value": "\"arrival\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Запускаем прибытие: sporeStart",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "vegaRoad",
+											"sid": 856949606736585,
+											"parameters": {
+												"instance-variable": "iffy",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "vegaRoad",
+											"sid": 452784437840590,
+											"parameters": {
+												"instance-variable": "iffyTarget",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "vegaIffy",
+											"sid": 431740064159341,
+											"parameters": {
+												"instance-variable": "anim",
+												"value": "\"sporeStart\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "vegaIffy",
+											"sid": 704491833432328,
+											"parameters": {
+												"animation": "\"sporeStart\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "vegaIffy",
+											"sid": 151605199120368,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"arrival\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "vegaIffy",
+											"sid": 336729715171809,
+											"parameters": {
+												"instance-variable": "work",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "vegaRoad",
+											"sid": 207548263960511,
+											"parameters": {
+												"instance-variable": "working",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "Bit",
+											"sid": 276686242261604,
+											"disabled": true,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "shad",
+											"sid": 117122880504019,
+											"disabled": true,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										}
+									],
+									"sid": 651657580409435
 								}
 							]
 						},
