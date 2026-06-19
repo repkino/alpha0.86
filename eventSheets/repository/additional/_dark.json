@@ -22,6 +22,28 @@
 			],
 			"actions": [
 				{
+					"customAction": "mouseBack",
+					"objectClass": "aIns",
+					"sid": 173286715499547,
+					"parameters": [
+						true,
+						true,
+						true,
+						true
+					]
+				},
+				{
+					"customAction": "NoControl",
+					"objectClass": "aIns",
+					"sid": 739352343486594,
+					"parameters": [
+						true,
+						true,
+						"0",
+						false
+					]
+				},
+				{
 					"id": "set-layer-opacity",
 					"objectClass": "System",
 					"sid": 422927056470672,
@@ -382,11 +404,11 @@
 			"children": [
 				{
 					"eventType": "comment",
-					"text": "ФИКС 1: Защита формулы от деления на 0 (fish)",
+					"text": "",
 					"background-color": [
-						0.33,
-						0.73,
-						0.48,
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
 						1
 					]
 				},
@@ -406,7 +428,7 @@
 						{
 							"id": "set-instvar-value",
 							"objectClass": "darkRoad",
-							"sid": 604771718772321,
+							"sid": 708762496141833,
 							"parameters": {
 								"instance-variable": "dist",
 								"value": "Functions.getIsoDist(base.X,base.Y,darkRoad.X,darkRoad.Y)"
@@ -415,35 +437,25 @@
 						{
 							"id": "set-instvar-value",
 							"objectClass": "darkRoad",
-							"sid": 258464776494574,
+							"sid": 282992004608945,
 							"parameters": {
 								"instance-variable": "opac",
-								"value": "100 - clamp(((Self.dist-Self.bright)/(9*Self.fish)),0,100)"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "darkRoad",
-							"sid": 931650217632699,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "dist",
-								"value": "Functions.getIsoDist(base.X,base.Y,darkRoad.X,darkRoad.Y)"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "darkRoad",
-							"sid": 763888009380588,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "opac",
-								"value": "100 - clamp(((Self.dist-Self.bright)/(9 * max(1, Self.fish))), 0, 100)"
+								"value": "100 - clamp(((Self.dist-Self.bright)/(9*(1+Self.fish))),0,100)"
 							}
 						}
 					],
 					"sid": 666738136399239,
 					"children": [
+						{
+							"eventType": "comment",
+							"text": "",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -527,6 +539,15 @@
 					],
 					"actions": [
 						{
+							"id": "set-instvar-value",
+							"objectClass": "darkWorldSet",
+							"sid": 995739918096192,
+							"parameters": {
+								"instance-variable": "opac",
+								"value": "darkRoad.opac"
+							}
+						},
+						{
 							"id": "set-layer-opacity",
 							"objectClass": "System",
 							"sid": 727774068758392,
@@ -582,7 +603,44 @@
 							}
 						}
 					],
-					"sid": 604720165931118
+					"sid": 604720165931118,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 575976304775406,
+									"parameters": {
+										"instance-variable": "opac",
+										"comparison": 0,
+										"value": "0"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "darkWorldSet",
+									"sid": 696319421710001,
+									"parameters": {
+										"instance-variable": "fullDark"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"customAction": "fullDark",
+									"objectClass": "aaa",
+									"sid": 832031951121946,
+									"parameters": [
+										"0"
+									]
+								}
+							],
+							"sid": 265609349995839
+						}
+					]
 				},
 				{
 					"eventType": "block",
@@ -686,6 +744,489 @@
 			]
 		},
 		{
+			"aceType": "action",
+			"aceName": "fullDark",
+			"objectClass": "aaa",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": true,
+			"functionParameters": [
+				{
+					"name": "step",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 356490952239333
+				}
+			],
+			"eventType": "custom-ace-block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "base",
+					"sid": 337998677795019,
+					"parameters": {
+						"instance-variable": "name",
+						"comparison": 0,
+						"value": "aBook.hero"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-boolean-instvar",
+					"objectClass": "darkWorldSet",
+					"sid": 474535028866798,
+					"parameters": {
+						"instance-variable": "fullDark",
+						"value": "true"
+					}
+				},
+				{
+					"id": "append-text",
+					"objectClass": "help",
+					"sid": 759851694847239,
+					"parameters": {
+						"text": "1"
+					}
+				}
+			],
+			"sid": 846527266575069,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 126313703896813,
+							"parameters": {
+								"variable": "step",
+								"comparison": 0,
+								"value": "0"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "darkBeast",
+							"sid": 349281093471499,
+							"parameters": {
+								"instance-variable": "ind",
+								"comparison": 0,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "darkBeast",
+							"sid": 982633543303317,
+							"parameters": {
+								"x": "base.X+(random(200,400))",
+								"y": "base.Y-(random(-200,200))"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "darkBeast",
+							"sid": 240454886689375,
+							"parameters": {
+								"animation": "\"a\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "darkBeast",
+							"sid": 920562334529778,
+							"parameters": {
+								"instance-variable": "on",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 168228484527406,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "Chance",
+									"objectClass": "Utils",
+									"sid": 851757963343063,
+									"parameters": {
+										"chance": "1",
+										"outof": "2"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "darkBeast",
+									"sid": 765495737780474,
+									"parameters": {
+										"x": "base.X+(random(200,400))",
+										"y": "base.Y+(random(100,200))"
+									}
+								}
+							],
+							"sid": 433184500159555,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 478175106450479
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "darkBeast",
+									"sid": 539995793204660,
+									"parameters": {
+										"x": "base.X-(random(200,400))",
+										"y": "base.Y-(random(100,200))"
+									}
+								}
+							],
+							"sid": 401730654729577,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 327824246048411
+						},
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 409222897049078,
+							"parameters": {
+								"variable": "step",
+								"comparison": 0,
+								"value": "1"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "darkBeast",
+							"sid": 320844844379260,
+							"parameters": {
+								"instance-variable": "ind",
+								"comparison": 0,
+								"value": "1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "darkBeast",
+							"sid": 790834864552784,
+							"parameters": {
+								"x": "base.X-(random(200,400))",
+								"y": "base.Y-(random(-200,200))"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "darkBeast",
+							"sid": 497352791342379,
+							"parameters": {
+								"animation": "\"b\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "darkBeast",
+							"sid": 809517713956736,
+							"parameters": {
+								"instance-variable": "on",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 385903379485462
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-animation-finished",
+					"objectClass": "darkBeast",
+					"sid": 221460921120920,
+					"parameters": {
+						"animation": "\"a\""
+					}
+				}
+			],
+			"actions": [],
+			"sid": 625844018662143,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "darkWorldSet",
+							"sid": 553901699444538,
+							"parameters": {
+								"instance-variable": "opac",
+								"comparison": 2,
+								"value": "0.1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"customAction": "fullDark",
+							"objectClass": "aaa",
+							"sid": 861455577091699,
+							"parameters": [
+								"1"
+							]
+						}
+					],
+					"sid": 405412949483886
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 226988569586441
+						}
+					],
+					"actions": [],
+					"sid": 274869111328988
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-animation-finished",
+					"objectClass": "darkBeast",
+					"sid": 274960794661994,
+					"parameters": {
+						"animation": "\"b\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"customAction": "fullDark",
+					"objectClass": "aaa",
+					"sid": 926381884860556,
+					"disabled": true,
+					"parameters": [
+						"1"
+					]
+				}
+			],
+			"sid": 997671112492028,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "darkWorldSet",
+							"sid": 425071224613247,
+							"parameters": {
+								"instance-variable": "opac",
+								"comparison": 2,
+								"value": "0.1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "VideoDW",
+							"sid": 163630199944242,
+							"disabled": true,
+							"parameters": {
+								"x": "0",
+								"y": "0"
+							}
+						},
+						{
+							"id": "set-width",
+							"objectClass": "VideoDW",
+							"sid": 727483415851737,
+							"disabled": true,
+							"parameters": {
+								"width": "1280"
+							}
+						},
+						{
+							"id": "set-height",
+							"objectClass": "VideoDW",
+							"sid": 673930080673182,
+							"disabled": true,
+							"parameters": {
+								"height": "720"
+							}
+						},
+						{
+							"id": "play",
+							"objectClass": "VideoDW",
+							"sid": 137905738476992,
+							"disabled": true
+						},
+						{
+							"customAction": "NoMOUSE",
+							"objectClass": "aIns",
+							"sid": 191129887889296,
+							"parameters": [
+								true,
+								true,
+								true,
+								true,
+								"0"
+							]
+						},
+						{
+							"customAction": "heroStop",
+							"objectClass": "aIns",
+							"sid": 604342668085681,
+							"parameters": [
+								true
+							]
+						},
+						{
+							"id": "start-animation",
+							"objectClass": "darkBeasts",
+							"sid": 956800777228660,
+							"parameters": {
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "darkBeasts",
+							"sid": 310895483782870,
+							"parameters": {
+								"x": "0",
+								"y": "0"
+							}
+						},
+						{
+							"id": "set-scale",
+							"objectClass": "darkBeasts",
+							"sid": 231424029880983,
+							"parameters": {
+								"scale": "2"
+							}
+						},
+						{
+							"id": "start-timer",
+							"objectClass": "aaa",
+							"sid": 803077716943371,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "2.5",
+								"type": "once",
+								"tag": "\"darkBeasts\""
+							}
+						}
+					],
+					"sid": 819037896008143
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 378593888094940
+						}
+					],
+					"actions": [],
+					"sid": 622111724744207
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "",
+			"background-color": [
+				0.7450980392156863,
+				0.8274509803921568,
+				0.996078431372549,
+				1
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-timer",
+					"objectClass": "aaa",
+					"sid": 872393611621910,
+					"behaviorType": "Timer",
+					"parameters": {
+						"tag": "\"darkBeasts\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"callFunction": "respawn",
+					"sid": 461741606265568,
+					"disabled": true,
+					"parameters": [
+						true,
+						"0",
+						false,
+						"0"
+					]
+				},
+				{
+					"callFunction": "go",
+					"sid": 929481522205527,
+					"parameters": [
+						"aTools.nOld",
+						true,
+						false,
+						"0",
+						"0",
+						"-1"
+					]
+				}
+			],
+			"sid": 810406096831477
+		},
+		{
+			"eventType": "comment",
+			"text": "",
+			"background-color": [
+				0.7450980392156863,
+				0.8274509803921568,
+				0.996078431372549,
+				1
+			]
+		},
+		{
 			"eventType": "block",
 			"conditions": [
 				{
@@ -707,870 +1248,139 @@
 			"sid": 641719903498467
 		},
 		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "every-x-seconds",
-					"objectClass": "System",
-					"sid": 146678758022650,
-					"parameters": {
-						"interval-seconds": "0.05"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "base",
-					"sid": 442528358520587,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				}
-			],
-			"actions": [],
-			"sid": 131403336440667,
-			"disabled": true,
+			"eventType": "group",
+			"disabled": false,
+			"title": "darkAbils",
+			"description": "",
+			"isActiveOnStart": true,
 			"children": [
 				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "for-each",
-							"objectClass": "System",
-							"sid": 186030637316394,
-							"parameters": {
-								"object": "darkRoad"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "darkRoad",
-							"sid": 471832182132531,
-							"parameters": {
-								"instance-variable": "dist",
-								"value": "Functions.getIsoDist(base.X,base.Y,darkRoad.X,darkRoad.Y)"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "darkRoad",
-							"sid": 918902223790662,
-							"parameters": {
-								"instance-variable": "opac",
-								"value": "100 - clamp(((Self.dist-Self.bright)/(9*Self.fish)),0,100)"
-							}
-						}
-					],
-					"sid": 773836877345135,
-					"disabled": true,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-on-screen",
-									"objectClass": "darkRoad",
-									"sid": 810521924878499
-								}
-							],
-							"actions": [],
-							"sid": 845944512298529,
-							"disabled": true,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "dark",
-											"sid": 171313756744693,
-											"parameters": {
-												"instance-variable": "hostUID",
-												"comparison": 0,
-												"value": "darkRoad.UID"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-opacity",
-											"objectClass": "dark",
-											"sid": 208091905244735,
-											"parameters": {
-												"opacity": "darkRoad.opac"
-											}
-										}
-									],
-									"sid": 629618054540295,
-									"disabled": true
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "tCage",
-											"sid": 354511562297193,
-											"parameters": {
-												"instance-variable": "hostUID",
-												"comparison": 0,
-												"value": "darkRoad.UID"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-opacity",
-											"objectClass": "tCage",
-											"sid": 535307944387450,
-											"parameters": {
-												"opacity": "darkRoad.opac"
-											}
-										}
-									],
-									"sid": 255141394202710,
-									"disabled": true
-								}
-							]
-						}
+					"eventType": "comment",
+					"text": "клик по оазису",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
 					]
 				},
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "pick-highestlowest",
+							"id": "onselffunction0",
 							"objectClass": "darkRoad",
-							"sid": 596999553820226,
+							"sid": 263378152256681,
+							"behaviorType": "sf",
 							"parameters": {
-								"which": "highest",
-								"instance-variable": "opac"
+								"function_name:0": "\"darkRoad\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 939661947914453,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
 							}
 						}
 					],
-					"actions": [
-						{
-							"id": "set-layer-opacity",
-							"objectClass": "System",
-							"sid": 827696787270048,
-							"parameters": {
-								"layer": "\"ui\"",
-								"opacity": "darkRoad.opac"
-							}
-						},
-						{
-							"id": "set-layer-opacity",
-							"objectClass": "System",
-							"sid": 910858965966983,
-							"parameters": {
-								"layer": "\"uir\"",
-								"opacity": "darkRoad.opac"
-							}
-						},
-						{
-							"id": "set-layer-opacity",
-							"objectClass": "System",
-							"sid": 506774100682822,
-							"parameters": {
-								"layer": "\"inventory\"",
-								"opacity": "darkRoad.opac"
-							}
-						},
-						{
-							"id": "set-layer-opacity",
-							"objectClass": "System",
-							"sid": 115627725647408,
-							"parameters": {
-								"layer": "\"media\"",
-								"opacity": "darkRoad.opac"
-							}
-						},
-						{
-							"id": "set-layer-opacity",
-							"objectClass": "System",
-							"sid": 575297837914224,
-							"disabled": true,
-							"parameters": {
-								"layer": "\"iso\"",
-								"opacity": "darkRoad.opac+20"
-							}
-						},
-						{
-							"id": "set-layer-opacity",
-							"objectClass": "System",
-							"sid": 844085292351073,
-							"parameters": {
-								"layer": "\"iso\"",
-								"opacity": "darkRoad.opac"
-							}
-						}
-					],
-					"sid": 340770353622941,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "darkRoad",
-							"sid": 420708356758315,
-							"parameters": {
-								"instance-variable": "fishOn"
-							}
-						},
-						{
-							"id": "is-pinned",
-							"objectClass": "fish",
-							"sid": 495079329004896,
-							"behaviorType": "Pin"
-						}
-					],
-					"actions": [
-						{
-							"id": "set-opacity",
-							"objectClass": "fish",
-							"sid": 403321926236006,
-							"parameters": {
-								"opacity": "darkRoad.opac+5"
-							}
-						}
-					],
-					"sid": 142052732723297,
-					"disabled": true,
+					"actions": [],
+					"sid": 209309159651905,
 					"children": [
+						{
+							"eventType": "comment",
+							"text": "получение светящейся рыбки",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "darkRoad",
-									"sid": 106380394413787,
+									"sid": 609106228821299,
+									"parameters": {
+										"instance-variable": "set",
+										"comparison": 0,
+										"value": "\"pillar\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "darkRoad",
+									"sid": 926299811946988,
+									"parameters": {
+										"instance-variable": "fishOn"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 313313903520209,
 									"parameters": {
 										"instance-variable": "opac",
-										"comparison": 0,
+										"comparison": 4,
 										"value": "0"
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "unpin",
-									"objectClass": "fish",
-									"sid": 412648558638445,
-									"behaviorType": "Pin"
-								},
-								{
-									"id": "move-to-layer",
-									"objectClass": "fish",
-									"sid": 940642710203343,
+									"id": "set-boolean-instvar",
+									"objectClass": "darkRoad",
+									"sid": 533535135677170,
 									"parameters": {
-										"layer": "\"fx\""
-									}
-								},
-								{
-									"id": "set-opacity",
-									"objectClass": "fish",
-									"sid": 691460968079960,
-									"parameters": {
-										"opacity": "55"
+										"instance-variable": "fishOn",
+										"value": "true"
 									}
 								},
 								{
 									"id": "set-animation",
 									"objectClass": "fish",
-									"sid": 963994597983689,
+									"sid": 281988312164024,
 									"parameters": {
-										"animation": "\"crash\"",
+										"animation": "\"run\"",
 										"from": "beginning"
 									}
 								},
 								{
-									"id": "set-boolean-instvar",
-									"objectClass": "darkRoad",
-									"sid": 302640447798606,
+									"id": "set-position-to-another-object",
+									"objectClass": "fish",
+									"sid": 863602273706946,
 									"parameters": {
-										"instance-variable": "fishOn",
-										"value": "false"
+										"object": "base",
+										"image-point-optional": "0"
 									}
 								},
 								{
-									"id": "set-instvar-value",
-									"objectClass": "darkRoad",
-									"sid": 957453518201432,
+									"id": "pin-to-object-imagepoint",
+									"objectClass": "fish",
+									"sid": 471276799832497,
+									"behaviorType": "Pin",
 									"parameters": {
-										"instance-variable": "fish",
-										"value": "1"
+										"pin-to": "base",
+										"image-point": "0",
+										"angle": false,
+										"width-type": "no",
+										"height-type": "no",
+										"z": false
 									}
 								}
 							],
-							"sid": 891284190178684,
-							"disabled": true
-						}
-					]
-				}
-			]
-		},
-		{
-			"eventType": "comment",
-			"text": "",
-			"background-color": [
-				0.7450980392156863,
-				0.8274509803921568,
-				0.996078431372549,
-				1
-			]
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "onselffunction0",
-					"objectClass": "darkRoad",
-					"sid": 766235049254822,
-					"behaviorType": "sf",
-					"parameters": {
-						"function_name:0": "\"darkRoad\""
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "base",
-					"sid": 684886466362727,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				}
-			],
-			"actions": [],
-			"sid": 351636860772324,
-			"children": [
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "darkRoad",
-							"sid": 847306125537463,
-							"parameters": {
-								"instance-variable": "set",
-								"comparison": 0,
-								"value": "\"pillar\""
-							}
+							"sid": 804715937407287
 						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "darkRoad",
-							"sid": 971573787275365,
-							"parameters": {
-								"instance-variable": "fishOn"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "darkRoad",
-							"sid": 373403247745961,
-							"parameters": {
-								"instance-variable": "opac",
-								"comparison": 4,
-								"value": "0"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "darkRoad",
-							"sid": 688176021269513,
-							"parameters": {
-								"instance-variable": "fishOn",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "darkRoad",
-							"sid": 722451300900946,
-							"parameters": {
-								"instance-variable": "fish",
-								"value": "2"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "fish",
-							"sid": 178053872783580,
-							"parameters": {
-								"animation": "\"run\"",
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "set-position-to-another-object",
-							"objectClass": "fish",
-							"sid": 841533518182363,
-							"parameters": {
-								"object": "base",
-								"image-point-optional": "0"
-							}
-						},
-						{
-							"id": "pin-to-object-imagepoint",
-							"objectClass": "fish",
-							"sid": 489051224413906,
-							"behaviorType": "Pin",
-							"parameters": {
-								"pin-to": "base",
-								"image-point": "0",
-								"angle": false,
-								"width-type": "no",
-								"height-type": "no",
-								"z": false
-							}
-						}
-					],
-					"sid": 228534748840169
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "darkRoad",
-							"sid": 222784937583303,
-							"parameters": {
-								"instance-variable": "set",
-								"comparison": 0,
-								"value": "\"lift\""
-							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "Bit",
-							"sid": 615727293132000,
-							"parameters": {
-								"object": "darkRoad"
-							}
-						},
-						{
-							"id": "compare-two-values",
-							"objectClass": "System",
-							"sid": 346495499269298,
-							"parameters": {
-								"first-value": "distance(base.X,base.Y,darkRoad.X,darkRoad.Y)",
-								"comparison": 2,
-								"second-value": "60"
-							}
-						}
-					],
-					"actions": [
-						{
-							"customAction": "lift",
-							"objectClass": "darkRoad",
-							"sid": 570278686961750,
-							"parameters": [
-								"Self.UID",
-								false
-							]
-						}
-					],
-					"sid": 474632057852089
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "else",
-							"objectClass": "System",
-							"sid": 577979862084636
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "darkRoad",
-							"sid": 398516366941089,
-							"parameters": {
-								"instance-variable": "set",
-								"comparison": 0,
-								"value": "\"lift\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "pfmt",
-							"sid": 250975287319118,
-							"parameters": [
-								"0",
-								"\"Bit\"",
-								"darkRoad.X-2",
-								"darkRoad.Y+2",
-								"1",
-								"1",
-								"1",
-								"\"zero\"",
-								"-1",
-								"0",
-								"0"
-							]
-						}
-					],
-					"sid": 511435759429315
-				}
-			]
-		},
-		{
-			"eventType": "comment",
-			"text": "лифт-портал",
-			"background-color": [
-				0.7450980392156863,
-				0.8274509803921568,
-				0.996078431372549,
-				1
-			]
-		},
-		{
-			"aceType": "action",
-			"aceName": "lift",
-			"objectClass": "darkRoad",
-			"functionDescription": "",
-			"functionCategory": "",
-			"functionReturnType": "none",
-			"functionCopyPicked": false,
-			"functionIsAsync": false,
-			"functionParameters": [
-				{
-					"name": "uid",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"sid": 251236626093325
-				},
-				{
-					"name": "arrival",
-					"type": "boolean",
-					"initialValue": "false",
-					"comment": "",
-					"sid": 226075628497873
-				}
-			],
-			"eventType": "custom-ace-block",
-			"conditions": [
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "base",
-					"sid": 912280562648904,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "pick-by-unique-id",
-					"objectClass": "darkRoad",
-					"sid": 900100850424370,
-					"parameters": {
-						"unique-id": "uid"
-					}
-				}
-			],
-			"actions": [
-				{
-					"customAction": "NoMOUSE",
-					"objectClass": "aIns",
-					"sid": 877610109158743,
-					"parameters": [
-						true,
-						true,
-						true,
-						true,
-						"0"
-					]
-				},
-				{
-					"customAction": "heroStop",
-					"objectClass": "aIns",
-					"sid": 896176673354650,
-					"parameters": [
-						true
-					]
-				},
-				{
-					"id": "set-effect-enabled",
-					"objectClass": "Bit",
-					"sid": 131996537580513,
-					"parameters": {
-						"mode": "enable",
-						"effect": "\"Inverse\""
-					}
-				},
-				{
-					"id": "set-animation",
-					"objectClass": "Bit",
-					"sid": 247908966701314,
-					"parameters": {
-						"animation": "\"rotateLevitation3\"",
-						"from": "beginning"
-					}
-				},
-				{
-					"id": "set-boolean-instvar",
-					"objectClass": "darkRoad",
-					"sid": 621569445736277,
-					"parameters": {
-						"instance-variable": "lift",
-						"value": "true"
-					}
-				},
-				{
-					"id": "set-scale",
-					"objectClass": "darkRoad",
-					"sid": 435888753055505,
-					"parameters": {
-						"scale": "10"
-					}
-				}
-			],
-			"sid": 452725559771878,
-			"children": [
-				{
-					"eventType": "comment",
-					"text": "прибытие",
-					"background-color": [
-						0.7450980392156863,
-						0.8274509803921568,
-						0.996078431372549,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "compare-boolean-eventvar",
-							"objectClass": "System",
-							"sid": 478364773919678,
-							"parameters": {
-								"variable": "arrival"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aPortals",
-							"sid": 366116510108540,
-							"parameters": {
-								"instance-variable": "vegaPortUID",
-								"value": "0"
-							}
-						},
-						{
-							"id": "set-position",
-							"objectClass": "base",
-							"sid": 748497809312422,
-							"parameters": {
-								"x": "darkRoad.X-70",
-								"y": "darkRoad.Y+3"
-							}
-						},
-						{
-							"id": "tween-value",
-							"objectClass": "Bit",
-							"sid": 319318902790459,
-							"behaviorType": "Tween",
-							"parameters": {
-								"tags": "\"liftArr\"",
-								"start-value": "1000",
-								"end-value": "0",
-								"time": "2",
-								"ease": "easeoutbounce",
-								"destroy-on-complete": "no",
-								"loop": "no",
-								"ping-pong": "no",
-								"repeat-count": "1"
-							}
-						},
-						{
-							"id": "tween-value",
-							"objectClass": "Bit",
-							"sid": 154897200236410,
-							"behaviorType": "Tween",
-							"parameters": {
-								"tags": "\"liftArrX\"",
-								"start-value": "base.X",
-								"end-value": "base.X+70",
-								"time": "2",
-								"ease": "easeoutbounce",
-								"destroy-on-complete": "no",
-								"loop": "no",
-								"ping-pong": "no",
-								"repeat-count": "1"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aPortals",
-							"sid": 503836306666181,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "nSector",
-								"value": "0"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aPortals",
-							"sid": 938138959950187,
-							"parameters": {
-								"instance-variable": "nSector",
-								"value": "-1"
-							}
-						},
-						{
-							"customAction": "zoomTo",
-							"objectClass": "aIns",
-							"sid": 575576089497678,
-							"parameters": [
-								false,
-								false,
-								false,
-								"-1",
-								false,
-								false,
-								false,
-								"camera.toZoomStart",
-								"darkRoad.X",
-								"darkRoad.Y",
-								"2",
-								"2",
-								false,
-								false,
-								"0.01",
-								false,
-								"-1",
-								"\"hero\"",
-								false,
-								false,
-								false,
-								false,
-								true,
-								false,
-								false,
-								"0",
-								"\"\""
-							]
-						}
-					],
-					"sid": 772238025853252
-				},
-				{
-					"eventType": "comment",
-					"text": "отправление",
-					"background-color": [
-						0.7450980392156863,
-						0.8274509803921568,
-						0.996078431372549,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "else",
-							"objectClass": "System",
-							"sid": 407879517674890
-						}
-					],
-					"actions": [
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "darkRoad",
-							"sid": 147355243309839,
-							"disabled": true,
-							"parameters": {
-								"instance-variable": "lift",
-								"value": "true"
-							}
-						},
-						{
-							"id": "set-scale",
-							"objectClass": "darkRoad",
-							"sid": 729725107096709,
-							"disabled": true,
-							"parameters": {
-								"scale": "10"
-							}
-						},
-						{
-							"id": "set-position",
-							"objectClass": "base",
-							"sid": 353254610642924,
-							"parameters": {
-								"x": "darkRoad.X-2",
-								"y": "darkRoad.Y+3"
-							}
-						},
-						{
-							"id": "tween-value",
-							"objectClass": "Bit",
-							"sid": 386845996375227,
-							"behaviorType": "Tween",
-							"parameters": {
-								"tags": "\"lift\"",
-								"start-value": "0",
-								"end-value": "1000",
-								"time": "2.5",
-								"ease": "easeincubic",
-								"destroy-on-complete": "no",
-								"loop": "no",
-								"ping-pong": "no",
-								"repeat-count": "1"
-							}
-						},
-						{
-							"id": "tween-value",
-							"objectClass": "Bit",
-							"sid": 561262311333810,
-							"behaviorType": "Tween",
-							"parameters": {
-								"tags": "\"liftX\"",
-								"start-value": "base.X",
-								"end-value": "base.X-70",
-								"time": "2.5",
-								"ease": "easeincubic",
-								"destroy-on-complete": "no",
-								"loop": "no",
-								"ping-pong": "no",
-								"repeat-count": "1"
-							}
-						},
-						{
-							"type": "comment",
-							"text": "переменная может быть -1, 0, 100 и промежуточное число. 100 отправляет по vegaPortUID, 0 не нуждается в UID и отправляет в случайную иффи ячейку, промежуточное число делает выбор между обоими вариантами, с процентом в пользу UID, иначе рандом. -1 позволяет работать обычному порталу."
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aPortals",
-							"sid": 764351476937447,
-							"parameters": {
-								"instance-variable": "vegaRandom",
-								"value": "darkRoad.randomVP"
-							}
-						}
-					],
-					"sid": 990749273284888,
-					"children": [
 						{
 							"eventType": "comment",
-							"text": "лифт отправляет на другой макет",
+							"text": "лифт на другую локацию",
 							"background-color": [
 								0.7450980392156863,
 								0.8274509803921568,
@@ -1584,75 +1394,87 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "darkRoad",
-									"sid": 809999200067359,
+									"sid": 687273710699613,
+									"parameters": {
+										"instance-variable": "set",
+										"comparison": 0,
+										"value": "\"lift\""
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "Bit",
+									"sid": 253286338089060,
+									"parameters": {
+										"object": "darkRoad"
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 980021775882569,
+									"parameters": {
+										"first-value": "distance(base.X,base.Y,darkRoad.X,darkRoad.Y)",
+										"comparison": 2,
+										"second-value": "60"
+									}
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "определяет локацию отправления n"
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aPortals",
+									"sid": 538743167499590,
 									"parameters": {
 										"instance-variable": "nSector",
-										"comparison": 0,
-										"value": "217"
+										"value": "darkRoad.nSector"
 									}
-								}
-							],
-							"actions": [
+								},
 								{
-									"id": "load-layout-images",
-									"objectClass": "System",
-									"sid": 880280657747852,
-									"parameters": {
-										"layout": "mission7"
-									}
-								}
-							],
-							"sid": 918901657978514
-						},
-						{
-							"eventType": "comment",
-							"text": "по координатам",
-							"background-color": [
-								0.7450980392156863,
-								0.8274509803921568,
-								0.996078431372549,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "darkRoad",
-									"sid": 809227348141056,
-									"parameters": {
-										"instance-variable": "arX",
-										"comparison": 1,
-										"value": "0"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "aPortals",
-									"sid": 674701795883555,
-									"parameters": {
-										"instance-variable": "arX",
-										"value": "darkRoad.arX"
-									}
+									"type": "comment",
+									"text": "определяет привязанную ячейку vegaRoad"
 								},
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aPortals",
-									"sid": 649378514193737,
+									"sid": 164702316599242,
 									"parameters": {
-										"instance-variable": "arY",
-										"value": "darkRoad.arY"
+										"instance-variable": "vegaPortUID",
+										"value": "darkRoad.vegaPortUID"
 									}
+								},
+								{
+									"type": "comment",
+									"text": "определяет шанс игнорировать привязанную ячейку и выбрать случайную"
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aPortals",
+									"sid": 201149118236261,
+									"parameters": {
+										"instance-variable": "vegaRandom",
+										"value": "darkRoad.randomVP"
+									}
+								},
+								{
+									"customAction": "lift",
+									"objectClass": "darkRoad",
+									"sid": 611031963714498,
+									"parameters": [
+										"Self.UID",
+										false
+									]
 								}
 							],
-							"sid": 177682465760449
+							"sid": 781303304234499
 						},
 						{
 							"eventType": "comment",
-							"text": "либо в ячейку иффи по UID или рандомно",
+							"text": "движение к лифту",
 							"background-color": [
 								0.7450980392156863,
 								0.8274509803921568,
@@ -1666,16 +1488,176 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 871146938953582
+									"sid": 229461392027804
 								},
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "darkRoad",
-									"sid": 168533360747946,
+									"sid": 233750397440731,
 									"parameters": {
-										"instance-variable": "vegaPortUID",
-										"comparison": 1,
-										"value": "0"
+										"instance-variable": "set",
+										"comparison": 0,
+										"value": "\"lift\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "pfmt",
+									"sid": 567450004841243,
+									"parameters": [
+										"0",
+										"\"Bit\"",
+										"darkRoad.X-2",
+										"darkRoad.Y+2",
+										"1",
+										"1",
+										"1",
+										"\"zero\"",
+										"-1",
+										"0",
+										"0"
+									]
+								}
+							],
+							"sid": 757517223427017
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "лифт-портал (столб света)",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "lift",
+					"objectClass": "darkRoad",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 251236626093325
+						},
+						{
+							"name": "arrival",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 226075628497873
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 914353166068758,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "darkRoad",
+							"sid": 103609501359489,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						}
+					],
+					"actions": [
+						{
+							"customAction": "NoMOUSE",
+							"objectClass": "aIns",
+							"sid": 846000013360872,
+							"parameters": [
+								true,
+								true,
+								true,
+								true,
+								"0"
+							]
+						},
+						{
+							"customAction": "heroStop",
+							"objectClass": "aIns",
+							"sid": 942521315204745,
+							"parameters": [
+								true
+							]
+						},
+						{
+							"id": "set-effect-enabled",
+							"objectClass": "Bit",
+							"sid": 298329804014416,
+							"parameters": {
+								"mode": "enable",
+								"effect": "\"Inverse\""
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "Bit",
+							"sid": 914122021900712,
+							"parameters": {
+								"animation": "\"rotateLevitation3\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "darkRoad",
+							"sid": 296866316701949,
+							"parameters": {
+								"instance-variable": "lift",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-scale",
+							"objectClass": "darkRoad",
+							"sid": 425417807845491,
+							"parameters": {
+								"scale": "10"
+							}
+						}
+					],
+					"sid": 839964611889139,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "прибытие",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 230085545369567,
+									"parameters": {
+										"variable": "arrival"
 									}
 								}
 							],
@@ -1683,609 +1665,801 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aPortals",
-									"sid": 413132228852769,
+									"sid": 413783268726904,
 									"parameters": {
 										"instance-variable": "vegaPortUID",
-										"value": "darkRoad.vegaPortUID"
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "base",
+									"sid": 409258116853616,
+									"parameters": {
+										"x": "darkRoad.X-70",
+										"y": "darkRoad.Y+3"
+									}
+								},
+								{
+									"id": "tween-value",
+									"objectClass": "Bit",
+									"sid": 638104110437757,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"liftArr\"",
+										"start-value": "1000",
+										"end-value": "0",
+										"time": "2",
+										"ease": "easeoutbounce",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "tween-value",
+									"objectClass": "Bit",
+									"sid": 459642048698106,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"liftArrX\"",
+										"start-value": "base.X",
+										"end-value": "base.X+70",
+										"time": "2",
+										"ease": "easeoutbounce",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aPortals",
+									"sid": 513962379883215,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "nSector",
+										"value": "0"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aPortals",
+									"sid": 289109032401339,
+									"parameters": {
+										"instance-variable": "nSector",
+										"value": "-1"
+									}
+								},
+								{
+									"customAction": "zoomTo",
+									"objectClass": "aIns",
+									"sid": 194330072728600,
+									"parameters": [
+										false,
+										false,
+										false,
+										"-1",
+										false,
+										false,
+										false,
+										"camera.toZoomStart",
+										"darkRoad.X",
+										"darkRoad.Y",
+										"2",
+										"2",
+										false,
+										false,
+										"0.01",
+										false,
+										"-1",
+										"\"hero\"",
+										false,
+										false,
+										false,
+										false,
+										true,
+										false,
+										false,
+										"0",
+										"\"\""
+									]
+								}
+							],
+							"sid": 878821642738396
+						},
+						{
+							"eventType": "comment",
+							"text": "отправление",
+							"background-color": [
+								0.7450980392156863,
+								0.8274509803921568,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 624190147789975
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "darkRoad",
+									"sid": 736645822765538,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "lift",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "darkRoad",
+									"sid": 298010860821684,
+									"disabled": true,
+									"parameters": {
+										"scale": "10"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "base",
+									"sid": 434720235801216,
+									"parameters": {
+										"x": "darkRoad.X-2",
+										"y": "darkRoad.Y+3"
+									}
+								},
+								{
+									"id": "tween-value",
+									"objectClass": "Bit",
+									"sid": 478014601898911,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"lift\"",
+										"start-value": "0",
+										"end-value": "1000",
+										"time": "2.5",
+										"ease": "easeincubic",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "tween-value",
+									"objectClass": "Bit",
+									"sid": 267273964935525,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"liftX\"",
+										"start-value": "base.X",
+										"end-value": "base.X-70",
+										"time": "2.5",
+										"ease": "easeincubic",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "переменная может быть -1, 0, 100 и промежуточное число. 100 отправляет по vegaPortUID, 0 не нуждается в UID и отправляет в случайную иффи ячейку, промежуточное число делает выбор между обоими вариантами, с процентом в пользу UID, иначе рандом. -1 позволяет работать обычному порталу."
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aPortals",
+									"sid": 318097039520094,
+									"parameters": {
+										"instance-variable": "vegaRandom",
+										"value": "darkRoad.randomVP"
 									}
 								}
 							],
-							"sid": 342265231321389
+							"sid": 590491622027969,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "лифт отправляет на другой макет",
+									"background-color": [
+										0.7450980392156863,
+										0.8274509803921568,
+										0.996078431372549,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "darkRoad",
+											"sid": 245990205977913,
+											"parameters": {
+												"instance-variable": "nSector",
+												"comparison": 0,
+												"value": "217"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "load-layout-images",
+											"objectClass": "System",
+											"sid": 141070062933016,
+											"parameters": {
+												"layout": "mission7"
+											}
+										}
+									],
+									"sid": 683433353172461
+								},
+								{
+									"eventType": "comment",
+									"text": "по координатам",
+									"background-color": [
+										0.7450980392156863,
+										0.8274509803921568,
+										0.996078431372549,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "darkRoad",
+											"sid": 528711090328110,
+											"parameters": {
+												"instance-variable": "arX",
+												"comparison": 1,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aPortals",
+											"sid": 956925751719118,
+											"parameters": {
+												"instance-variable": "arX",
+												"value": "darkRoad.arX"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aPortals",
+											"sid": 243372373395429,
+											"parameters": {
+												"instance-variable": "arY",
+												"value": "darkRoad.arY"
+											}
+										}
+									],
+									"sid": 352595871808709
+								},
+								{
+									"eventType": "comment",
+									"text": "либо в ячейку иффи по UID или рандомно",
+									"background-color": [
+										0.7450980392156863,
+										0.8274509803921568,
+										0.996078431372549,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 384709195551732
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "darkRoad",
+											"sid": 240028463613386,
+											"parameters": {
+												"instance-variable": "vegaPortUID",
+												"comparison": 1,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aPortals",
+											"sid": 362302158702181,
+											"parameters": {
+												"instance-variable": "vegaPortUID",
+												"value": "darkRoad.vegaPortUID"
+											}
+										}
+									],
+									"sid": 774232097757442
+								}
+							]
 						}
 					]
-				}
-			]
-		},
-		{
-			"eventType": "comment",
-			"text": "",
-			"background-color": [
-				0.7450980392156863,
-				0.8274509803921568,
-				0.996078431372549,
-				1
-			]
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "is-playing",
-					"objectClass": "Bit",
-					"sid": 513862942077168,
-					"behaviorType": "Tween",
-					"parameters": {
-						"tags": "\"lift\""
-					}
 				},
 				{
-					"id": "is-boolean-instance-variable-set",
-					"objectClass": "darkRoad",
-					"sid": 105865584140927,
-					"parameters": {
-						"instance-variable": "lift"
-					}
+					"eventType": "comment",
+					"text": "взлетание в лифте света",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
 				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "base",
-					"sid": 669155993084384,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-instvar-value",
-					"objectClass": "darkRoad",
-					"sid": 819525597615767,
-					"parameters": {
-						"instance-variable": "mHi",
-						"value": "Bit.Tween.Value(\"lift\")"
-					}
-				},
-				{
-					"id": "set-x",
-					"objectClass": "base",
-					"sid": 561363647066030,
-					"parameters": {
-						"x": "Bit.Tween.Value(\"liftX\")"
-					}
-				}
-			],
-			"sid": 421705918252839,
-			"children": [
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "compare-two-values",
-							"objectClass": "System",
-							"sid": 525912722310506,
+							"id": "is-playing",
+							"objectClass": "Bit",
+							"sid": 369003048796241,
+							"behaviorType": "Tween",
 							"parameters": {
-								"first-value": "Bit.Tween.Progress(\"lift\")",
-								"comparison": 5,
-								"second-value": "0.7"
+								"tags": "\"lift\""
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "darkRoad",
+							"sid": 379562682437033,
+							"parameters": {
+								"instance-variable": "lift"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 442586652070287,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
 							}
 						}
 					],
 					"actions": [
 						{
 							"id": "set-instvar-value",
-							"objectClass": "aTools",
-							"sid": 305223475486908,
+							"objectClass": "darkRoad",
+							"sid": 102528560548044,
 							"parameters": {
-								"instance-variable": "n",
-								"value": "darkRoad.nSector"
+								"instance-variable": "mHi",
+								"value": "Bit.Tween.Value(\"lift\")"
 							}
 						},
 						{
-							"callFunction": "gotoLayout",
-							"sid": 187010292848404,
-							"parameters": [
-								"\"\"",
-								"\"\"",
-								"-1",
-								"\"\"",
-								"0",
-								"0"
-							]
+							"id": "set-x",
+							"objectClass": "base",
+							"sid": 358955802449996,
+							"parameters": {
+								"x": "Bit.Tween.Value(\"liftX\")"
+							}
 						}
 					],
-					"sid": 684075921499016,
-					"disabled": true
-				}
-			]
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "is-playing",
-					"objectClass": "Bit",
-					"sid": 226969614420277,
-					"behaviorType": "Tween",
-					"parameters": {
-						"tags": "\"liftArr\""
-					}
+					"sid": 859274883186628,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 959833956765852,
+									"parameters": {
+										"first-value": "Bit.Tween.Progress(\"lift\")",
+										"comparison": 5,
+										"second-value": "0.7"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aTools",
+									"sid": 794600913101830,
+									"parameters": {
+										"instance-variable": "n",
+										"value": "darkRoad.nSector"
+									}
+								},
+								{
+									"callFunction": "gotoLayout",
+									"sid": 628917651525193,
+									"parameters": [
+										"\"\"",
+										"\"\"",
+										"-1",
+										"\"\"",
+										"0",
+										"0"
+									]
+								}
+							],
+							"sid": 758409954824290,
+							"disabled": true
+						}
+					]
 				},
 				{
-					"id": "is-boolean-instance-variable-set",
-					"objectClass": "darkRoad",
-					"sid": 168244923019105,
-					"parameters": {
-						"instance-variable": "lift"
-					}
+					"eventType": "comment",
+					"text": "опускание в лифте света",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
 				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "base",
-					"sid": 786530272577512,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				},
-				{
-					"id": "compare-instance-variable",
-					"objectClass": "jumper",
-					"sid": 740945304477723,
-					"parameters": {
-						"instance-variable": "name",
-						"comparison": 0,
-						"value": "aBook.hero"
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-instvar-value",
-					"objectClass": "darkRoad",
-					"sid": 577266020867694,
-					"parameters": {
-						"instance-variable": "mHi",
-						"value": "Bit.Tween.Value(\"liftArr\")"
-					}
-				},
-				{
-					"id": "set-x",
-					"objectClass": "base",
-					"sid": 704441751886932,
-					"parameters": {
-						"x": "Bit.Tween.Value(\"liftArrX\")"
-					}
-				}
-			],
-			"sid": 196756992863534,
-			"children": [
 				{
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "compare-two-values",
-							"objectClass": "System",
-							"sid": 542054640057382,
+							"id": "is-playing",
+							"objectClass": "Bit",
+							"sid": 870218619557626,
+							"behaviorType": "Tween",
 							"parameters": {
-								"first-value": "Bit.Tween.Progress(\"lift\")",
-								"comparison": 5,
-								"second-value": "0.7"
+								"tags": "\"liftArr\""
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "darkRoad",
+							"sid": 408806261152669,
+							"parameters": {
+								"instance-variable": "lift"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 755442356969066,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "jumper",
+							"sid": 530228163245090,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
 							}
 						}
 					],
 					"actions": [
 						{
 							"id": "set-instvar-value",
-							"objectClass": "aTools",
-							"sid": 150824146709717,
+							"objectClass": "darkRoad",
+							"sid": 653029878921552,
 							"parameters": {
-								"instance-variable": "n",
-								"value": "darkRoad.nSector"
+								"instance-variable": "mHi",
+								"value": "Bit.Tween.Value(\"liftArr\")"
 							}
 						},
 						{
-							"callFunction": "gotoLayout",
-							"sid": 520895217221827,
+							"id": "set-x",
+							"objectClass": "base",
+							"sid": 269626706397720,
+							"parameters": {
+								"x": "Bit.Tween.Value(\"liftArrX\")"
+							}
+						}
+					],
+					"sid": 489198919357623,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 420351191065881,
+									"parameters": {
+										"first-value": "Bit.Tween.Progress(\"lift\")",
+										"comparison": 5,
+										"second-value": "0.7"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aTools",
+									"sid": 425551650226520,
+									"parameters": {
+										"instance-variable": "n",
+										"value": "darkRoad.nSector"
+									}
+								},
+								{
+									"callFunction": "gotoLayout",
+									"sid": 632203064484167,
+									"parameters": [
+										"\"\"",
+										"\"\"",
+										"-1",
+										"\"\"",
+										"0",
+										"0"
+									]
+								}
+							],
+							"sid": 830488017222321,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "приземление в лифте",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "Bit",
+							"sid": 832642002146427,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"liftArr\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 280930547380845,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-effect-enabled",
+							"objectClass": "Bit",
+							"sid": 772437509583004,
+							"parameters": {
+								"mode": "disable",
+								"effect": "\"Inverse\""
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "Bit",
+							"sid": 741764501831326,
+							"parameters": {
+								"instance-variable": "animPriority",
+								"value": "0"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aPortals",
+							"sid": 844102112391366,
+							"parameters": {
+								"instance-variable": "darkUID",
+								"value": "0"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "aBit",
+							"sid": 398550417834858,
+							"parameters": {
+								"instance-variable": "intersept",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBit",
+							"sid": 229197930101920,
+							"parameters": {
+								"instance-variable": "interseptor",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"customAction": "mouseBack",
+							"objectClass": "aIns",
+							"sid": 497930446584256,
+							"disabled": true,
 							"parameters": [
-								"\"\"",
-								"\"\"",
-								"-1",
-								"\"\"",
-								"0",
-								"0"
+								true,
+								true,
+								true,
+								true
+							]
+						},
+						{
+							"id": "signal",
+							"objectClass": "System",
+							"sid": 778653646400302,
+							"disabled": true,
+							"parameters": {
+								"tag": "\"mapFunc\""
+							}
+						},
+						{
+							"customAction": "controlBack",
+							"objectClass": "aIns",
+							"sid": 324575953678625,
+							"parameters": [
+								true,
+								true
 							]
 						}
 					],
-					"sid": 975566388851921,
-					"disabled": true
-				}
-			]
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-tweens-finished",
-					"objectClass": "Bit",
-					"sid": 680724913964467,
-					"behaviorType": "Tween",
-					"parameters": {
-						"tags": "\"liftArr\""
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "wait",
-					"objectClass": "System",
-					"sid": 865979529614930,
-					"parameters": {
-						"seconds": "1",
-						"use-timescale": true
-					}
+					"sid": 964389597474416
 				},
 				{
-					"id": "set-effect-enabled",
-					"objectClass": "Bit",
-					"sid": 497928449072384,
-					"parameters": {
-						"mode": "disable",
-						"effect": "\"Inverse\""
-					}
-				},
-				{
-					"id": "set-instvar-value",
-					"objectClass": "aPortals",
-					"sid": 103551900527111,
-					"parameters": {
-						"instance-variable": "darkUID",
-						"value": "0"
-					}
-				},
-				{
-					"customAction": "mouseBack",
-					"objectClass": "aIns",
-					"sid": 826310044961077,
-					"parameters": [
-						true,
-						true,
-						true,
-						true
+					"eventType": "comment",
+					"text": "окончание взлета в лифте",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
 					]
 				},
 				{
-					"id": "set-boolean-instvar",
-					"objectClass": "aBit",
-					"sid": 848747878223557,
-					"parameters": {
-						"instance-variable": "intersept",
-						"value": "false"
-					}
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "Bit",
+							"sid": 598774780729497,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"lift\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "signal",
+							"objectClass": "System",
+							"sid": 795720733442635,
+							"parameters": {
+								"tag": "\"darkLift\""
+							}
+						}
+					],
+					"sid": 742953439144829
 				},
 				{
-					"id": "set-instvar-value",
-					"objectClass": "aBit",
-					"sid": 142432822141686,
-					"parameters": {
-						"instance-variable": "interseptor",
-						"value": "\"zero\""
-					}
-				}
-			],
-			"sid": 156541247415607
-		},
-		{
-			"eventType": "comment",
-			"text": "ФИКС 2: Полная разморозка и возврат видимости после приземления",
-			"background-color": [
-				0.33,
-				0.73,
-				0.48,
-				1
-			]
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-tweens-finished",
-					"objectClass": "Bit",
-					"sid": 436861607288793,
-					"behaviorType": "Tween",
-					"parameters": {
-						"tags": "\"liftArr\""
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-visible",
-					"objectClass": "Bit",
-					"sid": 712539629018221,
-					"parameters": {
-						"visibility": "visible"
-					}
-				},
-				{
-					"id": "set-visible",
-					"objectClass": "shad",
-					"sid": 462252556010259,
-					"parameters": {
-						"visibility": "visible"
-					}
-				},
-				{
-					"id": "set-instvar-value",
-					"objectClass": "aBook",
-					"sid": 493242904279588,
-					"parameters": {
-						"instance-variable": "mod",
-						"value": "\"zero\""
-					}
-				},
-				{
-					"id": "set-boolean-instvar",
-					"objectClass": "aBit",
-					"sid": 327382396861699,
-					"parameters": {
-						"instance-variable": "intersept",
-						"value": "false"
-					}
-				},
-				{
-					"id": "set-instvar-value",
-					"objectClass": "aBit",
-					"sid": 884591260549347,
-					"parameters": {
-						"instance-variable": "interseptor",
-						"value": "\"zero\""
-					}
-				},
-				{
-					"id": "wait",
-					"objectClass": "System",
-					"sid": 530716434694019,
-					"parameters": {
-						"seconds": "1",
-						"use-timescale": true
-					}
-				},
-				{
-					"id": "set-effect-enabled",
-					"objectClass": "Bit",
-					"sid": 225921088852134,
-					"parameters": {
-						"mode": "disable",
-						"effect": "\"Inverse\""
-					}
-				},
-				{
-					"customAction": "mouseBack",
-					"objectClass": "aIns",
-					"sid": 756897244607012,
-					"parameters": [
-						true,
-						true,
-						true,
-						true
-					]
-				}
-			],
-			"sid": 971298010536842,
-			"disabled": true
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-tweens-finished",
-					"objectClass": "Bit",
-					"sid": 283920041134188,
-					"behaviorType": "Tween",
-					"parameters": {
-						"tags": "\"lift\""
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "signal",
-					"objectClass": "System",
-					"sid": 192699201654135,
-					"parameters": {
-						"tag": "\"darkLift\""
-					}
-				}
-			],
-			"sid": 105698683246294
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-signal",
-					"objectClass": "System",
-					"sid": 397563701908785,
-					"parameters": {
-						"tag": "\"darkLift\""
-					}
-				}
-			],
-			"actions": [
-				{
-					"id": "set-text",
-					"objectClass": "help",
-					"sid": 791968049354530,
-					"disabled": true,
-					"parameters": {
-						"text": "\"E\""
-					}
-				},
-				{
-					"id": "set-position",
-					"objectClass": "help",
-					"sid": 651185052552376,
-					"disabled": true,
-					"parameters": {
-						"x": "Mouse.X",
-						"y": "Mouse.Y+55"
-					}
-				},
-				{
-					"id": "set-font-color",
-					"objectClass": "help",
-					"sid": 909008394215238,
-					"disabled": true,
-					"parameters": {
-						"color": "rgbEx(222, 155, 11)"
-					}
-				},
-				{
-					"id": "add-to-instvar",
-					"objectClass": "aTools",
-					"sid": 213953367986649,
-					"disabled": true,
-					"parameters": {
-						"instance-variable": "testS",
-						"value": "\"_callGo_\""
-					}
-				},
-				{
-					"id": "set-text",
-					"objectClass": "help",
-					"sid": 266813006135841,
-					"disabled": true,
-					"parameters": {
-						"text": "aTools.testS"
-					}
-				},
-				{
-					"id": "set-instvar-value",
-					"objectClass": "aPortals",
-					"sid": 222126747558433,
-					"disabled": true,
-					"parameters": {
-						"instance-variable": "vegaPortUID",
-						"value": "5211"
-					}
-				},
-				{
-					"id": "set-instvar-value",
-					"objectClass": "aPortals",
-					"sid": 273955051562355,
-					"disabled": true,
-					"parameters": {
-						"instance-variable": "vegaRandom",
-						"value": "100"
-					}
-				},
-				{
-					"callFunction": "go",
-					"sid": 551803113299279,
-					"parameters": [
-						"217",
-						"-1",
-						"0",
-						"0"
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
 					]
 				},
 				{
-					"id": "set-instvar-value",
-					"objectClass": "aTools",
-					"sid": 919492072313775,
-					"disabled": true,
-					"parameters": {
-						"instance-variable": "n",
-						"value": "217"
-					}
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 855521714571490,
+							"parameters": {
+								"tag": "\"darkLift\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "go",
+							"sid": 382700566344122,
+							"parameters": [
+								"aPortals.nSector",
+								false,
+								false,
+								"0",
+								"0",
+								"-1"
+							]
+						}
+					],
+					"sid": 773894327184801
 				},
 				{
-					"id": "go-to-layout",
-					"objectClass": "System",
-					"sid": 642014088718477,
-					"disabled": true,
-					"parameters": {
-						"layout": "mission7"
-					}
-				},
-				{
-					"callFunction": "gotoLayout",
-					"sid": 707914125220864,
-					"disabled": true,
-					"parameters": [
-						"\"\"",
-						"\"\"",
-						"-1",
-						"\"\"",
-						"0",
-						"0"
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
 					]
-				}
-			],
-			"sid": 138271105969145
-		},
-		{
-			"eventType": "comment",
-			"text": "",
-			"background-color": [
-				0.7450980392156863,
-				0.8274509803921568,
-				0.996078431372549,
-				1
-			]
-		},
-		{
-			"eventType": "block",
-			"conditions": [
+				},
 				{
-					"id": "on-collision-with-another-object",
-					"objectClass": "base",
-					"sid": 936510352390043,
-					"parameters": {
-						"object": "darkRoad"
-					}
-				}
-			],
-			"actions": [],
-			"sid": 646824526289230
-		},
-		{
-			"eventType": "comment",
-			"text": "",
-			"background-color": [
-				0.7450980392156863,
-				0.8274509803921568,
-				0.996078431372549,
-				1
-			]
-		},
-		{
-			"eventType": "block",
-			"conditions": [
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "base",
+							"sid": 763668138900453,
+							"parameters": {
+								"object": "darkRoad"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 988415354759427
+				},
 				{
-					"id": "on-animation-finished",
-					"objectClass": "fish",
-					"sid": 332313636342669,
-					"parameters": {
-						"animation": "\"crash\""
-					}
-				}
-			],
-			"actions": [
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
 				{
-					"id": "set-animation",
-					"objectClass": "fish",
-					"sid": 119903197550330,
-					"parameters": {
-						"animation": "\"zero\"",
-						"from": "beginning"
-					}
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "fish",
+							"sid": 926759963129725,
+							"parameters": {
+								"animation": "\"crash\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-animation",
+							"objectClass": "fish",
+							"sid": 337464193971800,
+							"parameters": {
+								"animation": "\"zero\"",
+								"from": "beginning"
+							}
+						}
+					],
+					"sid": 753345627757079
 				}
 			],
-			"sid": 744444917132661
+			"sid": 499656183225873
 		},
 		{
 			"eventType": "comment",
@@ -3301,6 +3475,70 @@
 				}
 			],
 			"sid": 630915684404946
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-click",
+					"objectClass": "Mouse",
+					"sid": 851417967209123,
+					"parameters": {
+						"mouse-button": "right",
+						"click-type": "clicked"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "play",
+					"objectClass": "VideoDW",
+					"sid": 839180309036328
+				},
+				{
+					"id": "set-source-2",
+					"objectClass": "Video",
+					"sid": 404267905929305,
+					"parameters": {
+						"primary-source": "\"start3\"",
+						"primary-format": "webm-vp8",
+						"secondary-source": "\"start3\"",
+						"secondary-format": "webm-vp9"
+					}
+				},
+				{
+					"id": "set-position",
+					"objectClass": "Video",
+					"sid": 718871412464974,
+					"parameters": {
+						"x": "Bit.X",
+						"y": "Bit.Y"
+					}
+				},
+				{
+					"id": "set-width",
+					"objectClass": "Video",
+					"sid": 350345928292657,
+					"parameters": {
+						"width": "1280"
+					}
+				},
+				{
+					"id": "set-height",
+					"objectClass": "Video",
+					"sid": 425457593582010,
+					"parameters": {
+						"height": "720"
+					}
+				},
+				{
+					"id": "play",
+					"objectClass": "Video",
+					"sid": 178170529367262
+				}
+			],
+			"sid": 406958999849410,
+			"disabled": true
 		}
 	],
 	"sid": 701722418307233

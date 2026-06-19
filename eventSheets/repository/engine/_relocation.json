@@ -44,11 +44,18 @@
 							"sid": 827504287695565
 						},
 						{
-							"name": "portalUID",
-							"type": "number",
-							"initialValue": "-1",
+							"name": "respawnFirst",
+							"type": "boolean",
+							"initialValue": "false",
 							"comment": "",
-							"sid": 454529773097675
+							"sid": 287454225772214
+						},
+						{
+							"name": "respawnCurrent",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 171534742041556
 						},
 						{
 							"name": "arrX",
@@ -63,6 +70,13 @@
 							"initialValue": "0",
 							"comment": "",
 							"sid": 378721092341249
+						},
+						{
+							"name": "portalUID",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 454529773097675
 						}
 					],
 					"eventType": "function-block",
@@ -87,30 +101,21 @@
 							}
 						},
 						{
+							"id": "set-instvar-value",
+							"objectClass": "aPortals",
+							"sid": 855346957286766,
+							"parameters": {
+								"instance-variable": "respawn",
+								"value": "respawnFirst=1?1:respawnCurrent=1?2:0"
+							}
+						},
+						{
 							"id": "set-group-active",
 							"objectClass": "System",
 							"sid": 278945749329089,
 							"parameters": {
 								"group-name": "\"gotoLocation\"",
 								"state": "activated"
-							}
-						},
-						{
-							"id": "add-to-instvar",
-							"objectClass": "aTools",
-							"sid": 482600464172982,
-							"parameters": {
-								"instance-variable": "testS",
-								"value": "\"_go\"&n&\"_\""
-							}
-						},
-						{
-							"id": "set-text",
-							"objectClass": "help",
-							"sid": 173097682243033,
-							"disabled": true,
-							"parameters": {
-								"text": "aTools.testS"
 							}
 						},
 						{
@@ -1684,6 +1689,308 @@
 									"conditions": [
 										{
 											"id": "compare-instance-variable",
+											"objectClass": "aPortals",
+											"sid": 745533835169186,
+											"parameters": {
+												"instance-variable": "respawn",
+												"comparison": 4,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 860775928253490,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aPortals",
+													"sid": 588287887243262,
+													"parameters": {
+														"instance-variable": "respawn",
+														"comparison": 0,
+														"value": "1"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "mResp",
+													"sid": 322734423141759,
+													"parameters": {
+														"instance-variable": "startResp"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "camera",
+													"sid": 630238363968746,
+													"parameters": {
+														"instance-variable": "index",
+														"comparison": 0,
+														"value": "aTools.n"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "heroArrival",
+													"sid": 846841927429665,
+													"parameters": {
+														"x": "mResp.X",
+														"y": "mResp.Y+1.1"
+													}
+												},
+												{
+													"customAction": "heroStop",
+													"objectClass": "aIns",
+													"sid": 934608523568083,
+													"parameters": [
+														true
+													]
+												},
+												{
+													"callFunction": "respawn",
+													"sid": 243861372595051,
+													"parameters": [
+														true,
+														"1",
+														false,
+														"mResp.UID"
+													]
+												},
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 596435959595952,
+													"parameters": {
+														"seconds": "0.1",
+														"use-timescale": true
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "camera",
+													"sid": 627653527360586,
+													"parameters": {
+														"x": "mResp.X",
+														"y": "mResp.Y-100"
+													}
+												},
+												{
+													"customAction": "zoomTo",
+													"objectClass": "aIns",
+													"sid": 983938251212474,
+													"parameters": [
+														false,
+														false,
+														false,
+														"-1",
+														false,
+														false,
+														false,
+														"0",
+														"mResp.X",
+														"mResp.Y",
+														"0",
+														"-1",
+														false,
+														false,
+														"0.01",
+														true,
+														"-1",
+														"\"zero\"",
+														false,
+														false,
+														false,
+														false,
+														true,
+														true,
+														false,
+														"0",
+														"\"\""
+													]
+												}
+											],
+											"sid": 718657350480152
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 608918418453644
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aPortals",
+													"sid": 625404594411162,
+													"parameters": {
+														"instance-variable": "respawn",
+														"comparison": 0,
+														"value": "2"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "mResp",
+													"sid": 240338480430203,
+													"parameters": {
+														"instance-variable": "open"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "camera",
+													"sid": 278230454220475,
+													"parameters": {
+														"instance-variable": "index",
+														"comparison": 0,
+														"value": "aTools.n"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 181337795728382,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "aPortals",
+															"sid": 467591155310345,
+															"parameters": {
+																"instance-variable": "respIndex",
+																"comparison": 0,
+																"value": "0"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "mResp",
+															"sid": 894889015509284,
+															"parameters": {
+																"instance-variable": "startResp"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position",
+															"objectClass": "heroArrival",
+															"sid": 499088148371157,
+															"parameters": {
+																"x": "mResp.X",
+																"y": "mResp.Y+1.1"
+															}
+														},
+														{
+															"customAction": "heroStop",
+															"objectClass": "aIns",
+															"sid": 526383088998788,
+															"parameters": [
+																true
+															]
+														},
+														{
+															"callFunction": "respawn",
+															"sid": 922995067459535,
+															"parameters": [
+																true,
+																"0.1",
+																false,
+																"mResp.UID"
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "camera",
+															"sid": 104084675340486,
+															"parameters": {
+																"x": "mResp.X",
+																"y": "mResp.Y+50"
+															}
+														}
+													],
+													"sid": 546152899640510
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 453850999869509
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "mResp",
+															"sid": 224064020461969,
+															"parameters": {
+																"instance-variable": "index",
+																"comparison": 0,
+																"value": "aPortals.respIndex"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position",
+															"objectClass": "heroArrival",
+															"sid": 722950851129451,
+															"parameters": {
+																"x": "mResp.X",
+																"y": "mResp.Y+1.1"
+															}
+														},
+														{
+															"customAction": "heroStop",
+															"objectClass": "aIns",
+															"sid": 502439350320972,
+															"parameters": [
+																true
+															]
+														},
+														{
+															"callFunction": "respawn",
+															"sid": 908028915294596,
+															"parameters": [
+																true,
+																"0.1",
+																false,
+																"mResp.UID"
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "camera",
+															"sid": 410533011531960,
+															"parameters": {
+																"x": "mResp.X",
+																"y": "mResp.Y+50"
+															}
+														}
+													],
+													"sid": 305501797989085
+												}
+											]
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 681987985476536
+										},
+										{
+											"id": "compare-instance-variable",
 											"objectClass": "aTools",
 											"sid": 424352216999206,
 											"parameters": {
@@ -1714,15 +2021,6 @@
 										}
 									],
 									"actions": [
-										{
-											"id": "append-text",
-											"objectClass": "help",
-											"sid": 518615994879809,
-											"disabled": true,
-											"parameters": {
-												"text": "4"
-											}
-										},
 										{
 											"id": "set-eventvar-value",
 											"objectClass": "System",
@@ -1832,26 +2130,7 @@
 											}
 										}
 									],
-									"actions": [
-										{
-											"id": "append-text",
-											"objectClass": "help",
-											"sid": 109214538797384,
-											"disabled": true,
-											"parameters": {
-												"text": "5"
-											}
-										},
-										{
-											"id": "append-text",
-											"objectClass": "help",
-											"sid": 101944484188657,
-											"disabled": true,
-											"parameters": {
-												"text": "1"
-											}
-										}
-									],
+									"actions": [],
 									"sid": 989692791113854,
 									"children": [
 										{
@@ -1894,15 +2173,6 @@
 														"Self.UID",
 														true
 													]
-												},
-												{
-													"id": "append-text",
-													"objectClass": "help",
-													"sid": 231194647233229,
-													"disabled": true,
-													"parameters": {
-														"text": "2"
-													}
 												}
 											],
 											"sid": 547027883924833
@@ -1926,17 +2196,7 @@
 													}
 												}
 											],
-											"actions": [
-												{
-													"id": "append-text",
-													"objectClass": "help",
-													"sid": 713693733967277,
-													"disabled": true,
-													"parameters": {
-														"text": "3"
-													}
-												}
-											],
+											"actions": [],
 											"sid": 886010042968278,
 											"children": [
 												{
@@ -1951,17 +2211,7 @@
 															}
 														}
 													],
-													"actions": [
-														{
-															"id": "append-text",
-															"objectClass": "help",
-															"sid": 621790103534736,
-															"disabled": true,
-															"parameters": {
-																"text": "4"
-															}
-														}
-													],
+													"actions": [],
 													"sid": 322614008366434,
 													"children": [
 														{
@@ -1976,17 +2226,7 @@
 																	}
 																}
 															],
-															"actions": [
-																{
-																	"id": "append-text",
-																	"objectClass": "help",
-																	"sid": 920690867714429,
-																	"disabled": true,
-																	"parameters": {
-																		"text": "5"
-																	}
-																}
-															],
+															"actions": [],
 															"sid": 376937332116371,
 															"children": [
 																{
@@ -2856,15 +3096,6 @@
 									"parameters": {
 										"instance-variable": "testS",
 										"value": "\"_sf4_\""
-									}
-								},
-								{
-									"id": "set-text",
-									"objectClass": "help",
-									"sid": 808316603575851,
-									"disabled": true,
-									"parameters": {
-										"text": "aTools.testS"
 									}
 								},
 								{
@@ -5374,6 +5605,213 @@
 				{
 					"eventType": "comment",
 					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 192710562262345,
+							"parameters": {
+								"tag": "\"mapFunc\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 904002450792195,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"road\"",
+								"function": "road"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 996040643571519,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"call\"",
+								"function": "call"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 555606983143654,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"selfPerson\"",
+								"function": "selfPerson"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 196416711925268,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"pfmtImpuls\"",
+								"function": "pfmtImpuls"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 244535339308395,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"pfmtJump\"",
+								"function": "pfmtJump"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 420151153018664,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"hero\"",
+								"function": "hero"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 795131223263142,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"port\"",
+								"function": "port"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 558072941165838,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"zoneStop\"",
+								"function": "zoneStop"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 984435022787953,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"abil\"",
+								"function": "abil"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 691661764711202,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"inventory\"",
+								"function": "inventory"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 326293037013881,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"transformation\"",
+								"function": "transformation"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 453641583480164,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"meditation\"",
+								"function": "meditationNordik"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 249095716527702,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"indicator\"",
+								"function": "indicator"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 313773788635445,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"map\"",
+								"function": "map"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 813984590179914,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"menu\"",
+								"function": "menu"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 634835229429481,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"pickItem\"",
+								"function": "pickItem"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 706865609626431,
+							"disabled": true,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"cellRoad\"",
+								"function": "cellRoad"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 556133193413382,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"grabItem\"",
+								"function": "grabItem"
+							}
+						},
+						{
+							"id": "map-function",
+							"objectClass": "Functions",
+							"sid": 586014715841853,
+							"parameters": {
+								"name": "\"clickMap\"",
+								"string": "\"useItem\"",
+								"function": "useItem"
+							}
+						}
+					],
+					"sid": 724347623742221
 				},
 				{
 					"eventType": "block",
