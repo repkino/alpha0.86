@@ -83,6 +83,7 @@
 					"id": "set-layer-opacity",
 					"objectClass": "System",
 					"sid": 449409804225477,
+					"disabled": true,
 					"parameters": {
 						"layer": "\"iso\"",
 						"opacity": "0"
@@ -353,7 +354,7 @@
 		},
 		{
 			"eventType": "comment",
-			"text": "Явная расстановка оазисов по сигналу startFrame — надёжнее, чем is-on-screen триггер при загрузке макета",
+			"text": "Прибытие на dark: форсированно показываем только оазис, куда приземляется герой. Остальное — после стабилизации камеры.",
 			"background-color": [
 				0.49,
 				0.7,
@@ -367,125 +368,343 @@
 				{
 					"id": "on-signal",
 					"objectClass": "System",
-					"sid": 178948570310021,
+					"sid": 962699596356178,
 					"parameters": {
 						"tag": "\"startFrame\""
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "frame",
+					"sid": 800162004025024,
+					"parameters": {
+						"instance-variable": "locationName",
+						"comparison": 0,
+						"value": "aTools.location"
 					}
 				}
 			],
 			"actions": [
 				{
-					"id": "set-text",
-					"objectClass": "help",
-					"sid": 824444793993629,
+					"id": "start-timer",
+					"objectClass": "aIns",
+					"sid": 856266553264396,
+					"behaviorType": "Timer",
 					"parameters": {
-						"text": "\"ыа\""
-					}
-				},
-				{
-					"id": "wait",
-					"objectClass": "System",
-					"sid": 370743640930144,
-					"parameters": {
-						"seconds": "0",
-						"use-timescale": false
+						"duration": "1.0",
+						"type": "once",
+						"tag": "\"DHack\""
 					}
 				}
 			],
-			"sid": 147179074307408,
+			"sid": 859224926628444,
 			"children": [
 				{
+					"eventType": "comment",
+					"text": "Шаг 2: отложенный запуск остальных систем — когда камера уже не дёргается",
+					"background-color": [
+						0.49,
+						0.7,
+						0.38,
+						1
+					]
+				},
+				{
 					"eventType": "block",
-					"conditions": [
-						{
-							"id": "is-on-screen",
-							"objectClass": "darkRoad",
-							"sid": 104046589808855
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "darkRoad",
-							"sid": 133586382295112,
-							"parameters": {
-								"instance-variable": "on"
-							},
-							"isInverted": true
-						},
-						{
-							"id": "for-each",
-							"objectClass": "System",
-							"sid": 246202385790659,
-							"parameters": {
-								"object": "darkRoad"
-							}
-						}
-					],
+					"conditions": [],
 					"actions": [
 						{
-							"type": "comment",
-							"text": "Принудительно размещаем оазис, не дожидаясь is-on-screen триггера",
-							"background-color": [
-								0.49,
-								0.7,
-								0.38,
-								1
-							]
-						},
-						{
-							"callFunction": "oasisOn",
-							"sid": 458870384600025,
-							"parameters": [
-								"darkRoad.UID"
-							]
-						},
-						{
 							"id": "wait",
 							"objectClass": "System",
-							"sid": 203244859143085,
-							"disabled": true,
+							"sid": 883595583744333,
 							"parameters": {
-								"seconds": "0",
+								"seconds": "2.1",
 								"use-timescale": true
 							}
 						},
 						{
-							"id": "set-group-active",
-							"objectClass": "System",
-							"sid": 259287929090953,
-							"disabled": true,
+							"id": "set-boolean-instvar",
+							"objectClass": "darkWorldSet",
+							"sid": 134670759669240,
 							"parameters": {
-								"group-name": "\"darkCycle\"",
-								"state": "activated"
-							}
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 877025439779909,
-							"disabled": true,
-							"parameters": {
-								"seconds": "0",
-								"use-timescale": true
-							}
-						},
-						{
-							"id": "set-group-active",
-							"objectClass": "System",
-							"sid": 813860385975556,
-							"disabled": true,
-							"parameters": {
-								"group-name": "\"toDark\"",
-								"state": "activated"
+								"instance-variable": "startToDark",
+								"value": "true"
 							}
 						},
 						{
 							"customAction": "darkCycle",
 							"objectClass": "aaa",
-							"sid": 989336836317012,
-							"disabled": true
+							"sid": 982639745213103
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 294374786200331,
+							"parameters": {
+								"group-name": "\"toBlack\"",
+								"state": "activated"
+							}
 						}
 					],
-					"sid": 831412186926638
+					"sid": 724587939405737
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "хак для проблемного старта",
+			"background-color": [
+				0.7450980392156863,
+				0.8274509803921568,
+				0.996078431372549,
+				1
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-timer-running",
+					"objectClass": "aIns",
+					"sid": 199817989360190,
+					"behaviorType": "Timer",
+					"parameters": {
+						"tag": "\"DHack\""
+					}
+				}
+			],
+			"actions": [],
+			"sid": 466125616503427,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "darkRoad",
+							"sid": 582925059432999,
+							"parameters": {
+								"unique-id": "aPortals.darkUID"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 455139122328444,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "oasis",
+									"sid": 505748004235830,
+									"parameters": {
+										"unique-id": "darkRoad.oasisUID"
+									}
+								},
+								{
+									"id": "compare-x",
+									"objectClass": "oasis",
+									"sid": 526758334836658,
+									"parameters": {
+										"comparison": 2,
+										"x-co-ordinate": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkRoad",
+									"sid": 955770103354601,
+									"parameters": {
+										"instance-variable": "oasisUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "oasis",
+									"sid": 955434088587331,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "-1"
+									}
+								}
+							],
+							"sid": 475300405562552
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "darkDrops",
+									"sid": 367258994615115,
+									"parameters": {
+										"unique-id": "darkRoad.dDropUID"
+									}
+								},
+								{
+									"id": "compare-x",
+									"objectClass": "darkDrops",
+									"sid": 911764138969232,
+									"parameters": {
+										"comparison": 2,
+										"x-co-ordinate": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkRoad",
+									"sid": 611887253997923,
+									"parameters": {
+										"instance-variable": "dDropUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkDrops",
+									"sid": 920207082689903,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "-1"
+									}
+								}
+							],
+							"sid": 589812600287001
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "darkRoad",
+									"sid": 950270244773538,
+									"parameters": {
+										"instance-variable": "cage"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "tCage",
+									"sid": 408390424400888,
+									"parameters": {
+										"unique-id": "darkRoad.cageUID"
+									}
+								},
+								{
+									"id": "compare-x",
+									"objectClass": "tCage",
+									"sid": 990778212071637,
+									"parameters": {
+										"comparison": 2,
+										"x-co-ordinate": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkRoad",
+									"sid": 293719802994975,
+									"parameters": {
+										"instance-variable": "cageUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tCage",
+									"sid": 462643525062066,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "-1"
+									}
+								}
+							],
+							"sid": 140473562011992
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "darkRoad",
+									"sid": 420076278568080,
+									"parameters": {
+										"instance-variable": "on"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 446153699219205,
+									"parameters": {
+										"instance-variable": "oasisUID",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 933903714588038,
+									"parameters": {
+										"instance-variable": "dDropUID",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 542075529660007,
+									"parameters": {
+										"instance-variable": "cageUID",
+										"comparison": 4,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 961992653291442
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 479430909291874
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "darkRoad",
+									"sid": 791064254477361,
+									"parameters": {
+										"instance-variable": "set",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "oasisOn",
+									"sid": 659963037740121,
+									"parameters": [
+										"darkRoad.UID",
+										true
+									]
+								}
+							],
+							"sid": 455485516954177
+						}
+					]
 				}
 			]
 		},
@@ -502,7 +721,7 @@
 		{
 			"eventType": "group",
 			"disabled": false,
-			"title": "toDark",
+			"title": "toBlack",
 			"description": "",
 			"isActiveOnStart": false,
 			"children": [
@@ -971,6 +1190,7 @@
 					"id": "append-text",
 					"objectClass": "help",
 					"sid": 759851694847239,
+					"disabled": true,
 					"parameters": {
 						"text": "1"
 					}
@@ -1432,7 +1652,7 @@
 		{
 			"eventType": "group",
 			"disabled": false,
-			"title": "darkAbils",
+			"title": "dAbils",
 			"description": "",
 			"isActiveOnStart": true,
 			"children": [
@@ -2263,6 +2483,15 @@
 							"parameters": {
 								"x": "Bit.Tween.Value(\"liftX\")"
 							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aPortals",
+							"sid": 397105908532644,
+							"parameters": {
+								"instance-variable": "darkUID",
+								"value": "0"
+							}
 						}
 					],
 					"sid": 859274883186628,
@@ -2475,15 +2704,6 @@
 							}
 						},
 						{
-							"id": "set-instvar-value",
-							"objectClass": "aPortals",
-							"sid": 844102112391366,
-							"parameters": {
-								"instance-variable": "darkUID",
-								"value": "0"
-							}
-						},
-						{
 							"id": "set-boolean-instvar",
 							"objectClass": "aBit",
 							"sid": 398550417834858,
@@ -2683,7 +2903,7 @@
 		{
 			"eventType": "group",
 			"disabled": false,
-			"title": "darkCycle",
+			"title": "dOasis",
 			"description": "",
 			"isActiveOnStart": true,
 			"children": [
@@ -2795,6 +3015,131 @@
 					]
 				},
 				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "darkWorldSet",
+							"sid": 766796050714214,
+							"parameters": {
+								"instance-variable": "startToDark"
+							}
+						},
+						{
+							"id": "is-on-screen",
+							"objectClass": "darkRoad",
+							"sid": 485475759594623
+						}
+					],
+					"actions": [],
+					"sid": 157324386917481,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 416946421042665,
+									"parameters": {
+										"object": "darkRoad"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 634846984077470,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "darkRoad",
+											"sid": 484717951666095,
+											"parameters": {
+												"instance-variable": "on"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "darkRoad",
+											"sid": 348113045305325,
+											"parameters": {
+												"instance-variable": "oasisUID",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "darkRoad",
+											"sid": 592667525831469,
+											"parameters": {
+												"instance-variable": "dDropUID",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "darkRoad",
+											"sid": 182994786921168,
+											"parameters": {
+												"instance-variable": "cageUID",
+												"comparison": 4,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 815429668188284
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 157804667605478
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "darkRoad",
+											"sid": 821034334493038,
+											"parameters": {
+												"instance-variable": "set",
+												"comparison": 1,
+												"value": "\"zero\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "oasisOn",
+											"sid": 713360728318937,
+											"parameters": [
+												"darkRoad.UID",
+												false
+											]
+										}
+									],
+									"sid": 487883046698241
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
+				{
 					"functionName": "oasisOn",
 					"functionDescription": "",
 					"functionCategory": "",
@@ -2808,6 +3153,13 @@
 							"initialValue": "0",
 							"comment": "",
 							"sid": 626170656471312
+						},
+						{
+							"name": "start",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 875995426510691
 						}
 					],
 					"eventType": "function-block",
@@ -2830,10 +3182,43 @@
 								"instance-variable": "on",
 								"value": "true"
 							}
+						},
+						{
+							"id": "append-text",
+							"objectClass": "help",
+							"sid": 314644558753961,
+							"parameters": {
+								"text": "\"o\""
+							}
 						}
 					],
 					"sid": 969787880638080,
 					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 654028408355269,
+									"parameters": {
+										"variable": "start"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkRoad",
+									"sid": 517167250429992,
+									"parameters": {
+										"instance-variable": "opac",
+										"value": "100"
+									}
+								}
+							],
+							"sid": 898604891212005
+						},
 						{
 							"eventType": "comment",
 							"text": "",
@@ -2867,6 +3252,14 @@
 								}
 							],
 							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 396086229032826,
+									"parameters": {
+										"text": "\"a\""
+									}
+								},
 								{
 									"id": "set-instvar-value",
 									"objectClass": "darkRoad",
@@ -3000,6 +3393,30 @@
 									"eventType": "block",
 									"conditions": [
 										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 469096242959084,
+											"parameters": {
+												"variable": "start"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-opacity",
+											"objectClass": "oasis",
+											"sid": 114017427783038,
+											"parameters": {
+												"opacity": "100"
+											}
+										}
+									],
+									"sid": 633486421323815
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
 											"id": "Chance",
 											"objectClass": "Utils",
 											"sid": 249878855842184,
@@ -3048,7 +3465,16 @@
 									}
 								}
 							],
-							"actions": [],
+							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 440003219536123,
+									"parameters": {
+										"text": "\"s\""
+									}
+								}
+							],
 							"sid": 230841253223570,
 							"children": [
 								{
@@ -3090,6 +3516,14 @@
 												}
 											],
 											"actions": [
+												{
+													"id": "append-text",
+													"objectClass": "help",
+													"sid": 720113162325352,
+													"parameters": {
+														"text": "\"s\""
+													}
+												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "darkRoad",
@@ -3265,6 +3699,30 @@
 														}
 													],
 													"sid": 822292643857098
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-boolean-eventvar",
+															"objectClass": "System",
+															"sid": 957671973491589,
+															"parameters": {
+																"variable": "start"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-opacity",
+															"objectClass": "darkDrops",
+															"sid": 569262790062171,
+															"parameters": {
+																"opacity": "100"
+															}
+														}
+													],
+													"sid": 515083943255001
 												}
 											]
 										}
@@ -3296,6 +3754,14 @@
 								}
 							],
 							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 848128376456624,
+									"parameters": {
+										"text": "\"i\""
+									}
+								},
 								{
 									"id": "set-instvar-value",
 									"objectClass": "darkRoad",
@@ -3430,7 +3896,33 @@
 											"behaviorType": "EasyIsometric"
 										}
 									],
-									"sid": 597262186082013
+									"sid": 597262186082013,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-boolean-eventvar",
+													"objectClass": "System",
+													"sid": 153136169349328,
+													"parameters": {
+														"variable": "start"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-opacity",
+													"objectClass": "tCage",
+													"sid": 722597519562470,
+													"parameters": {
+														"opacity": "100"
+													}
+												}
+											],
+											"sid": 584174403598424
+										}
+									]
 								}
 							]
 						}
@@ -3450,28 +3942,45 @@
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "is-on-screen",
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "darkWorldSet",
+							"sid": 131248094409058,
+							"parameters": {
+								"instance-variable": "startToDark"
+							}
+						},
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 429002372508680,
+							"parameters": {
+								"interval-seconds": "0.1"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
 							"objectClass": "darkRoad",
-							"sid": 853369523707114
+							"sid": 602493149364348,
+							"parameters": {
+								"instance-variable": "on"
+							}
 						}
 					],
 					"actions": [],
-					"sid": 309102170972150,
+					"sid": 883621059702663,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "for-each",
-									"objectClass": "System",
-									"sid": 195171336015338,
-									"parameters": {
-										"object": "darkRoad"
-									}
+									"id": "is-on-screen",
+									"objectClass": "darkRoad",
+									"sid": 559325577773415,
+									"isInverted": true
 								}
 							],
 							"actions": [],
-							"sid": 894581981730365,
+							"sid": 305067952857700,
 							"children": [
 								{
 									"eventType": "block",
@@ -3479,74 +3988,50 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "darkRoad",
-											"sid": 708941119981118,
+											"sid": 374880864663744,
 											"parameters": {
-												"instance-variable": "on"
-											}
+												"instance-variable": "working"
+											},
+											"isInverted": true
 										},
 										{
-											"id": "compare-instance-variable",
+											"id": "is-boolean-instance-variable-set",
 											"objectClass": "darkRoad",
-											"sid": 235335653516587,
+											"sid": 702205698563564,
+											"disabled": true,
 											"parameters": {
-												"instance-variable": "oasisUID",
-												"comparison": 4,
-												"value": "0"
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "darkRoad",
-											"sid": 115404023176905,
-											"parameters": {
-												"instance-variable": "dDropUID",
-												"comparison": 4,
-												"value": "0"
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "darkRoad",
-											"sid": 374883290633532,
-											"parameters": {
-												"instance-variable": "cageUID",
-												"comparison": 4,
-												"value": "0"
-											}
+												"instance-variable": "active"
+											},
+											"isInverted": true
 										}
 									],
 									"actions": [],
-									"sid": 875934479413605
-								},
-								{
-									"eventType": "block",
-									"conditions": [
+									"sid": 162792487704185,
+									"children": [
 										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 479548926646910
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "darkRoad",
-											"sid": 756522999161596,
-											"parameters": {
-												"instance-variable": "set",
-												"comparison": 1,
-												"value": "\"zero\""
-											}
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 276057030383636,
+													"parameters": {
+														"object": "darkRoad"
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "darkRoadOff",
+													"sid": 295209251577490,
+													"parameters": [
+														"darkRoad.UID"
+													]
+												}
+											],
+											"sid": 831865640600698
 										}
-									],
-									"actions": [
-										{
-											"callFunction": "oasisOn",
-											"sid": 667261196463244,
-											"parameters": [
-												"darkRoad.UID"
-											]
-										}
-									],
-									"sid": 699006939284537
+									]
 								}
 							]
 						}
@@ -3904,107 +4389,6 @@
 								}
 							],
 							"sid": 427400871196858
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "",
-					"background-color": [
-						0.7450980392156863,
-						0.8274509803921568,
-						0.996078431372549,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "every-x-seconds",
-							"objectClass": "System",
-							"sid": 663322611844931,
-							"parameters": {
-								"interval-seconds": "0.1"
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "darkRoad",
-							"sid": 326257124901762,
-							"parameters": {
-								"instance-variable": "on"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 203970502809287,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-on-screen",
-									"objectClass": "darkRoad",
-									"sid": 267413109589060,
-									"isInverted": true
-								}
-							],
-							"actions": [],
-							"sid": 487897081673037,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "darkRoad",
-											"sid": 848327634927756,
-											"parameters": {
-												"instance-variable": "working"
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "darkRoad",
-											"sid": 480119284657111,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "active"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [],
-									"sid": 791273239603682,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "for-each",
-													"objectClass": "System",
-													"sid": 556109131304544,
-													"parameters": {
-														"object": "darkRoad"
-													}
-												}
-											],
-											"actions": [
-												{
-													"callFunction": "darkRoadOff",
-													"sid": 112910252853186,
-													"parameters": [
-														"darkRoad.UID"
-													]
-												}
-											],
-											"sid": 849993413746468
-										}
-									]
-								}
-							]
 						}
 					]
 				}
