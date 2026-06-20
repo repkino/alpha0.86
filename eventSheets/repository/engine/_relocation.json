@@ -1727,13 +1727,119 @@
 														"comparison": 0,
 														"value": "aTools.n"
 													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "basis",
+													"sid": 695867880478227,
+													"parameters": {
+														"instance-variable": "name",
+														"comparison": 0,
+														"value": "aBook.hero"
+													}
 												}
 											],
 											"actions": [
 												{
+													"type": "comment",
+													"text": "Фиксируем камеру на точке респауна через mark-режим — чтобы follower не уводил её в сторону",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aIns",
+													"sid": 91001,
+													"disabled": true,
+													"parameters": {
+														"instance-variable": "markCamFollowX",
+														"value": "mResp.X"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aIns",
+													"sid": 91002,
+													"disabled": true,
+													"parameters": {
+														"instance-variable": "markCamFollowY",
+														"value": "mResp.Y"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "camera",
+													"sid": 91003,
+													"disabled": true,
+													"parameters": {
+														"instance-variable": "followerMod",
+														"value": "\"mark\""
+													}
+												},
+												{
+													"type": "comment",
+													"text": "zoomTo с mark=true: камера летит к точке респауна по диагонали. timeZoom=1.5 держит zoom-скроллинг активным, zoomTo=LayoutScale — без изменения зума. После завершения переключится на hero",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
+													"customAction": "zoomTo",
+													"objectClass": "aIns",
+													"sid": 91004,
+													"disabled": true,
+													"parameters": [
+														false,
+														false,
+														false,
+														"-1",
+														false,
+														true,
+														false,
+														"LayoutScale",
+														"mResp.X",
+														"mResp.Y",
+														"1.5",
+														"-1",
+														false,
+														true,
+														"1",
+														false,
+														"-1",
+														"\"hero\"",
+														false,
+														false,
+														false,
+														false,
+														true,
+														true,
+														false,
+														"0",
+														"\"\""
+													]
+												},
+												{
+													"type": "comment",
+													"text": "Позиционируем героя и запускаем респаун",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
 													"id": "set-position",
 													"objectClass": "heroArrival",
-													"sid": 846841927429665,
+													"sid": 91005,
+													"disabled": true,
 													"parameters": {
 														"x": "mResp.X",
 														"y": "mResp.Y+1.1"
@@ -1742,14 +1848,16 @@
 												{
 													"customAction": "heroStop",
 													"objectClass": "aIns",
-													"sid": 934608523568083,
+													"sid": 91006,
+													"disabled": true,
 													"parameters": [
 														true
 													]
 												},
 												{
 													"callFunction": "respawn",
-													"sid": 243861372595051,
+													"sid": 91007,
+													"disabled": true,
 													"parameters": [
 														true,
 														"1",
@@ -1760,42 +1868,164 @@
 												{
 													"id": "wait",
 													"objectClass": "System",
-													"sid": 596435959595952,
+													"sid": 91008,
+													"disabled": true,
 													"parameters": {
 														"seconds": "0.1",
 														"use-timescale": true
 													}
 												},
 												{
+													"type": "comment",
+													"text": ""
+												},
+												{
+													"id": "set-text",
+													"objectClass": "help",
+													"sid": 893766489710317,
+													"disabled": true,
+													"parameters": {
+														"text": "\"гкф\""
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "heroArrival",
+													"sid": 846841927429665,
+													"disabled": true,
+													"parameters": {
+														"x": "mResp.X",
+														"y": "mResp.Y+1.1"
+													}
+												},
+												{
+													"customAction": "heroStop",
+													"objectClass": "aIns",
+													"sid": 934608523568083,
+													"disabled": true,
+													"parameters": [
+														true
+													]
+												},
+												{
+													"callFunction": "respawn",
+													"sid": 243861372595051,
+													"disabled": true,
+													"parameters": [
+														true,
+														"1",
+														false,
+														"mResp.UID"
+													]
+												},
+												{
 													"id": "set-position",
 													"objectClass": "camera",
-													"sid": 627653527360586,
+													"sid": 534433307876541,
+													"disabled": true,
 													"parameters": {
 														"x": "mResp.X",
 														"y": "mResp.Y-100"
 													}
 												},
 												{
+													"type": "comment",
+													"text": ""
+												},
+												{
+													"type": "comment",
+													"text": "respawn=2: та же логика — камера мгновенно на герое через обход фолловера",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "aPortals",
+													"sid": 818272335077593,
+													"parameters": {
+														"instance-variable": "startSpecialCamera",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "heroArrival",
+													"sid": 92011,
+													"parameters": {
+														"x": "mResp.X",
+														"y": "mResp.Y+1.1"
+													}
+												},
+												{
+													"customAction": "heroStop",
+													"objectClass": "aIns",
+													"sid": 92012,
+													"parameters": [
+														true
+													]
+												},
+												{
+													"callFunction": "respawn",
+													"sid": 92013,
+													"parameters": [
+														true,
+														"0.1",
+														false,
+														"mResp.UID"
+													]
+												},
+												{
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 92014,
+													"parameters": {
+														"seconds": "0",
+														"use-timescale": true
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "camera",
+													"sid": 92015,
+													"parameters": {
+														"x": "basis.X",
+														"y": "basis.Y-camera.yMinus"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "camera",
+													"sid": 92016,
+													"parameters": {
+														"instance-variable": "followerMod",
+														"value": "\"hero\""
+													}
+												},
+												{
 													"customAction": "zoomTo",
 													"objectClass": "aIns",
-													"sid": 983938251212474,
+													"sid": 340720739494464,
 													"parameters": [
 														false,
-														false,
-														false,
-														"-1",
-														false,
-														false,
-														false,
-														"0",
-														"mResp.X",
-														"mResp.Y",
-														"0",
-														"-1",
-														false,
-														false,
-														"0.01",
 														true,
+														false,
+														"-1",
+														false,
+														false,
+														false,
+														"1",
+														"0",
+														"0",
+														"2",
+														"-1",
+														false,
+														true,
+														"1",
+														false,
 														"-1",
 														"\"zero\"",
 														false,
@@ -1808,6 +2038,15 @@
 														"0",
 														"\"\""
 													]
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aPortals",
+													"sid": 813508275946443,
+													"parameters": {
+														"instance-variable": "respawn",
+														"value": "0"
+													}
 												}
 											],
 											"sid": 718657350480152
@@ -1876,9 +2115,146 @@
 													],
 													"actions": [
 														{
+															"type": "comment",
+															"text": "Фиксируем камеру на точке респауна через mark-режим",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "aPortals",
+															"sid": 285682336668909,
+															"parameters": {
+																"instance-variable": "startSpecialCamera",
+																"value": "true"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aIns",
+															"sid": 91011,
+															"parameters": {
+																"instance-variable": "markCamFollowX",
+																"value": "mResp.X"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aIns",
+															"sid": 91012,
+															"parameters": {
+																"instance-variable": "markCamFollowY",
+																"value": "mResp.Y"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "camera",
+															"sid": 91013,
+															"parameters": {
+																"instance-variable": "followerMod",
+																"value": "\"mark\""
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Плавный наезд камеры на точку респауна, после завершения — переключение на hero",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"customAction": "zoomTo",
+															"objectClass": "aIns",
+															"sid": 733800416265472,
+															"parameters": [
+																false,
+																false,
+																false,
+																"-1",
+																false,
+																false,
+																false,
+																"LayoutScale",
+																"mResp.X",
+																"mResp.Y",
+																"2",
+																"-1",
+																false,
+																true,
+																"1",
+																false,
+																"-1",
+																"\"hero\"",
+																false,
+																false,
+																false,
+																false,
+																true,
+																true,
+																false,
+																"0",
+																"\"\""
+															]
+														},
+														{
+															"type": "comment",
+															"text": "Позиционируем героя и запускаем респаун",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "heroArrival",
+															"sid": 91015,
+															"parameters": {
+																"x": "mResp.X",
+																"y": "mResp.Y+1.1"
+															}
+														},
+														{
+															"customAction": "heroStop",
+															"objectClass": "aIns",
+															"sid": 91016,
+															"parameters": [
+																true
+															]
+														},
+														{
+															"callFunction": "respawn",
+															"sid": 91017,
+															"parameters": [
+																true,
+																"0.1",
+																false,
+																"mResp.UID"
+															]
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aPortals",
+															"sid": 536598530693833,
+															"parameters": {
+																"instance-variable": "respawn",
+																"value": "0"
+															}
+														},
+														{
 															"id": "set-position",
 															"objectClass": "heroArrival",
 															"sid": 499088148371157,
+															"disabled": true,
 															"parameters": {
 																"x": "mResp.X",
 																"y": "mResp.Y+1.1"
@@ -1888,6 +2264,7 @@
 															"customAction": "heroStop",
 															"objectClass": "aIns",
 															"sid": 526383088998788,
+															"disabled": true,
 															"parameters": [
 																true
 															]
@@ -1895,6 +2272,7 @@
 														{
 															"callFunction": "respawn",
 															"sid": 922995067459535,
+															"disabled": true,
 															"parameters": [
 																true,
 																"0.1",
@@ -1906,6 +2284,7 @@
 															"id": "set-position",
 															"objectClass": "camera",
 															"sid": 104084675340486,
+															"disabled": true,
 															"parameters": {
 																"x": "mResp.X",
 																"y": "mResp.Y+50"
@@ -1938,6 +2317,7 @@
 															"id": "set-position",
 															"objectClass": "heroArrival",
 															"sid": 722950851129451,
+															"disabled": true,
 															"parameters": {
 																"x": "mResp.X",
 																"y": "mResp.Y+1.1"
@@ -1947,6 +2327,7 @@
 															"customAction": "heroStop",
 															"objectClass": "aIns",
 															"sid": 502439350320972,
+															"disabled": true,
 															"parameters": [
 																true
 															]
@@ -1954,6 +2335,7 @@
 														{
 															"callFunction": "respawn",
 															"sid": 908028915294596,
+															"disabled": true,
 															"parameters": [
 																true,
 																"0.1",
@@ -1965,9 +2347,146 @@
 															"id": "set-position",
 															"objectClass": "camera",
 															"sid": 410533011531960,
+															"disabled": true,
 															"parameters": {
 																"x": "mResp.X",
 																"y": "mResp.Y+50"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Фиксируем камеру на точке респауна через mark-режим",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "aPortals",
+															"sid": 171508980756052,
+															"parameters": {
+																"instance-variable": "startSpecialCamera",
+																"value": "true"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aIns",
+															"sid": 847484151623999,
+															"parameters": {
+																"instance-variable": "markCamFollowX",
+																"value": "mResp.X"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aIns",
+															"sid": 679664454149243,
+															"parameters": {
+																"instance-variable": "markCamFollowY",
+																"value": "mResp.Y"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "camera",
+															"sid": 890361088023695,
+															"parameters": {
+																"instance-variable": "followerMod",
+																"value": "\"mark\""
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Плавный наезд камеры на точку респауна, после завершения — переключение на hero",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"customAction": "zoomTo",
+															"objectClass": "aIns",
+															"sid": 883126469544586,
+															"parameters": [
+																false,
+																false,
+																false,
+																"-1",
+																false,
+																true,
+																false,
+																"LayoutScale",
+																"mResp.X",
+																"mResp.Y",
+																"2",
+																"-1",
+																false,
+																true,
+																"1",
+																false,
+																"-1",
+																"\"hero\"",
+																false,
+																false,
+																false,
+																false,
+																true,
+																true,
+																false,
+																"0",
+																"\"\""
+															]
+														},
+														{
+															"type": "comment",
+															"text": "Позиционируем героя и запускаем респаун",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
+															"id": "set-position",
+															"objectClass": "heroArrival",
+															"sid": 665382772600502,
+															"parameters": {
+																"x": "mResp.X",
+																"y": "mResp.Y+1.1"
+															}
+														},
+														{
+															"customAction": "heroStop",
+															"objectClass": "aIns",
+															"sid": 282809049860944,
+															"parameters": [
+																true
+															]
+														},
+														{
+															"callFunction": "respawn",
+															"sid": 316158124412437,
+															"parameters": [
+																true,
+																"0.1",
+																false,
+																"mResp.UID"
+															]
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aPortals",
+															"sid": 677467574106966,
+															"parameters": {
+																"instance-variable": "respawn",
+																"value": "0"
 															}
 														}
 													],
