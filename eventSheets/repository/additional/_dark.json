@@ -353,6 +353,144 @@
 		},
 		{
 			"eventType": "comment",
+			"text": "Явная расстановка оазисов по сигналу startFrame — надёжнее, чем is-on-screen триггер при загрузке макета",
+			"background-color": [
+				0.49,
+				0.7,
+				0.38,
+				1
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-signal",
+					"objectClass": "System",
+					"sid": 178948570310021,
+					"parameters": {
+						"tag": "\"startFrame\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-text",
+					"objectClass": "help",
+					"sid": 824444793993629,
+					"parameters": {
+						"text": "\"ыа\""
+					}
+				},
+				{
+					"id": "wait",
+					"objectClass": "System",
+					"sid": 370743640930144,
+					"parameters": {
+						"seconds": "0",
+						"use-timescale": false
+					}
+				}
+			],
+			"sid": 147179074307408,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-on-screen",
+							"objectClass": "darkRoad",
+							"sid": 104046589808855
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "darkRoad",
+							"sid": 133586382295112,
+							"parameters": {
+								"instance-variable": "on"
+							},
+							"isInverted": true
+						},
+						{
+							"id": "for-each",
+							"objectClass": "System",
+							"sid": 246202385790659,
+							"parameters": {
+								"object": "darkRoad"
+							}
+						}
+					],
+					"actions": [
+						{
+							"type": "comment",
+							"text": "Принудительно размещаем оазис, не дожидаясь is-on-screen триггера",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"callFunction": "oasisOn",
+							"sid": 458870384600025,
+							"parameters": [
+								"darkRoad.UID"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 203244859143085,
+							"disabled": true,
+							"parameters": {
+								"seconds": "0",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 259287929090953,
+							"disabled": true,
+							"parameters": {
+								"group-name": "\"darkCycle\"",
+								"state": "activated"
+							}
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 877025439779909,
+							"disabled": true,
+							"parameters": {
+								"seconds": "0",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 813860385975556,
+							"disabled": true,
+							"parameters": {
+								"group-name": "\"toDark\"",
+								"state": "activated"
+							}
+						},
+						{
+							"customAction": "darkCycle",
+							"objectClass": "aaa",
+							"sid": 989336836317012,
+							"disabled": true
+						}
+					],
+					"sid": 831412186926638
+				}
+			]
+		},
+		{
+			"eventType": "comment",
 			"text": "темнота сгущается при удалении от оазисов\n",
 			"background-color": [
 				0.7450980392156863,
@@ -1465,6 +1603,33 @@
 								}
 							],
 							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 191075229299196,
+									"parameters": {
+										"group-name": "\"darkCycle\"",
+										"state": "deactivated"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 856510083744558,
+									"parameters": {
+										"group-name": "\"toDark\"",
+										"state": "deactivated"
+									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 207373523031128,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": true
+									}
+								},
 								{
 									"type": "comment",
 									"text": "определяет локацию отправления n"
@@ -3632,15 +3797,6 @@
 							],
 							"actions": [
 								{
-									"id": "set-instvar-value",
-									"objectClass": "darkRoad",
-									"sid": 432137513989086,
-									"parameters": {
-										"instance-variable": "cageUID",
-										"value": "-1"
-									}
-								},
-								{
 									"id": "set-boolean-instvar",
 									"objectClass": "tCage",
 									"sid": 760039149961231,
@@ -3695,6 +3851,59 @@
 								}
 							],
 							"sid": 914477563958492
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Сброс UID-ов размещённых объектов, чтобы при следующем oasisOn они выбрались заново из банка",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkRoad",
+									"sid": 770955963662262,
+									"parameters": {
+										"instance-variable": "oasisUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkRoad",
+									"sid": 956409450043890,
+									"parameters": {
+										"instance-variable": "dDropUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkRoad",
+									"sid": 636658963485779,
+									"parameters": {
+										"instance-variable": "cageUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "darkRoad",
+									"sid": 624072611652043,
+									"parameters": {
+										"instance-variable": "cageUID",
+										"value": "-1"
+									}
+								}
+							],
+							"sid": 427400871196858
 						}
 					]
 				},
