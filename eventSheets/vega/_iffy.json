@@ -877,6 +877,84 @@
 				},
 				{
 					"eventType": "comment",
+					"text": "\n\n\n\nперетасовка способностей иффи",
+					"background-color": [
+						0.403921568627451,
+						0.7333333333333333,
+						0.8156862745098039,
+						1
+					]
+				},
+				{
+					"functionName": "iffyDeck",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "set-size",
+							"objectClass": "iffyAbilsDeck",
+							"sid": 899316965939736,
+							"parameters": {
+								"width": "0",
+								"height": "1",
+								"depth": "1"
+							}
+						},
+						{
+							"id": "createPermutationTable",
+							"objectClass": "AdvancedRandom",
+							"sid": 757170120651836,
+							"parameters": {
+								"length": "iffyAbils.Width",
+								"offset": "0"
+							}
+						},
+						{
+							"id": "shufflePermutationTable",
+							"objectClass": "AdvancedRandom",
+							"sid": 295057919952347
+						}
+					],
+					"sid": 549437987452522,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for",
+									"objectClass": "System",
+									"sid": 246398508689320,
+									"parameters": {
+										"name": "\"deckLoop\"",
+										"start-index": "0",
+										"end-index": "iffyAbils.Width - 1"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "push",
+									"objectClass": "iffyAbilsDeck",
+									"sid": 449651509448826,
+									"parameters": {
+										"where": "back",
+										"value": "iffyAbils.At(AdvancedRandom.Permutation(loopindex))",
+										"axis": "x"
+									}
+								}
+							],
+							"sid": 705406740110928
+						}
+					]
+				},
+				{
+					"eventType": "comment",
 					"text": "\n══════════════════════════════════════\n  УСТАНОВЩИКИ ФЛАГА iffy\n  (паттерн _isoSort: сигнал / интервал / каждый тик)\n══════════════════════════════════════\n",
 					"background-color": [
 						0.49,
@@ -1015,6 +1093,410 @@
 						}
 					],
 					"sid": 496780357885642
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\n\nиффи имеет высоту для Бита и делает его недосягаемым для терний",
+					"background-color": [
+						0.403921568627451,
+						0.7333333333333333,
+						0.8156862745098039,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "vegaIffy",
+							"sid": 331876408634075,
+							"parameters": {
+								"instance-variable": "state",
+								"comparison": 1,
+								"value": "\"zero\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 526089221201217,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 748155566671001,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "base",
+									"sid": 543668037227954,
+									"parameters": {
+										"object": "vegaIffy"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "vegaRoad",
+									"sid": 660141249353816,
+									"parameters": {
+										"unique-id": "vegaIffy.vrUID"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 582975985543457,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "base",
+											"sid": 767773004808683,
+											"parameters": {
+												"object": "vegaRoad"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 725476273066954,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "vegaIffy",
+													"sid": 606900125452395,
+													"parameters": {
+														"instance-variable": "actor",
+														"comparison": 0,
+														"value": "\"boom\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Если Бит в прыжке, игнорируем высоту Иффи, чтобы не прервать полет",
+													"background-color": [
+														0.33,
+														0.73,
+														0.48,
+														1
+													]
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "vegaRoad",
+													"sid": 634583005689477,
+													"parameters": {
+														"instance-variable": "mHi",
+														"value": "base.jump ? 0 : vegaIffy.AnimationFrameTag"
+													}
+												}
+											],
+											"sid": 260237669405201,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "base",
+															"sid": 779838893961520,
+															"parameters": {
+																"instance-variable": "jump"
+															},
+															"isInverted": true
+														},
+														{
+															"id": "trigger-once-while-true",
+															"objectClass": "System",
+															"sid": 646405712830266
+														}
+													],
+													"actions": [
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 437236419719965,
+															"parameters": {
+																"variable": "interseptor",
+																"value": "\"iffy\""
+															}
+														},
+														{
+															"id": "set-position",
+															"objectClass": "base",
+															"sid": 754228531166903,
+															"parameters": {
+																"x": "vegaRoad.X",
+																"y": "vegaRoad.Y+1"
+															}
+														}
+													],
+													"sid": 789871684320591
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 750135560766160
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "vegaIffy",
+													"sid": 540015477775001,
+													"parameters": {
+														"instance-variable": "blockHI"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "vegaRoad",
+													"sid": 228935769179363,
+													"parameters": {
+														"instance-variable": "mHi",
+														"value": "vegaIffy.AnimationFrameTag"
+													}
+												}
+											],
+											"sid": 722518287016364,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "trigger-once-while-true",
+															"objectClass": "System",
+															"sid": 687715485364138
+														}
+													],
+													"actions": [
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 426812788731400,
+															"parameters": {
+																"variable": "interseptor",
+																"value": "\"iffy\""
+															}
+														},
+														{
+															"id": "set-position",
+															"objectClass": "base",
+															"sid": 545541334963160,
+															"parameters": {
+																"x": "vegaRoad.X",
+																"y": "vegaRoad.Y+1"
+															}
+														}
+													],
+													"sid": 854336439430910
+												}
+											]
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 737867536420377
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 367982704345174,
+											"parameters": {
+												"variable": "interseptor",
+												"comparison": 0,
+												"value": "\"iffy\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 144116511895091,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "trigger-once-while-true",
+													"objectClass": "System",
+													"sid": 341464900299988
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "vegaRoad",
+													"sid": 963284119408467,
+													"parameters": {
+														"instance-variable": "mHi",
+														"value": "0"
+													}
+												},
+												{
+													"id": "reset-eventvar",
+													"objectClass": "System",
+													"sid": 275771620186952,
+													"parameters": {
+														"variable": "interseptor"
+													}
+												}
+											],
+											"sid": 486732407142406
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 108228867650489
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 375089060086865,
+									"parameters": {
+										"variable": "interseptor",
+										"comparison": 0,
+										"value": "\"iffy\""
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "base",
+									"sid": 280474873069858,
+									"parameters": {
+										"object": "vegaIffy"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [],
+							"sid": 720518097941437,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 190574087485434
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "vegaRoad",
+											"sid": 158165711342244,
+											"parameters": {
+												"instance-variable": "mHi",
+												"value": "0"
+											}
+										},
+										{
+											"id": "reset-eventvar",
+											"objectClass": "System",
+											"sid": 409264992610619,
+											"parameters": {
+												"variable": "interseptor"
+											}
+										}
+									],
+									"sid": 416156943799534
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 112050767168933
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 878200687527145,
+									"parameters": {
+										"variable": "interseptor",
+										"comparison": 0,
+										"value": "\"teleport\""
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "base",
+									"sid": 418709516907965,
+									"parameters": {
+										"object": "vegaIffy"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [],
+							"sid": 470575655681338,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 576023420300442
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "vegaRoad",
+											"sid": 859124790277469,
+											"parameters": {
+												"instance-variable": "mHi",
+												"value": "0"
+											}
+										},
+										{
+											"id": "reset-eventvar",
+											"objectClass": "System",
+											"sid": 664131853727105,
+											"parameters": {
+												"variable": "interseptor"
+											}
+										}
+									],
+									"sid": 196793618287891
+								}
+							]
+						}
+					]
 				}
 			],
 			"sid": 910000000000
