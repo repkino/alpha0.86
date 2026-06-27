@@ -84,15 +84,6 @@
 							],
 							"actions": [
 								{
-									"id": "set-boolean-instvar",
-									"objectClass": "vegaIffy",
-									"sid": 898350016614907,
-									"parameters": {
-										"instance-variable": "follower",
-										"value": "false"
-									}
-								},
-								{
 									"id": "set-instvar-value",
 									"objectClass": "vegaIffy",
 									"sid": 220922404302417,
@@ -189,6 +180,15 @@
 													"parameters": {
 														"instance-variable": "state",
 														"value": "\"run\""
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "vegaIffy",
+													"sid": 103763423756103,
+													"parameters": {
+														"instance-variable": "follower",
+														"value": "true"
 													}
 												},
 												{
@@ -1101,54 +1101,98 @@
 							"parameters": {
 								"animation": "\"lookDown\""
 							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "vegaIffy",
-							"sid": 166170455735710,
-							"parameters": {
-								"instance-variable": "follower"
-							}
 						}
 					],
-					"actions": [
+					"actions": [],
+					"sid": 873120582291996,
+					"children": [
 						{
-							"id": "set-instvar-value",
-							"objectClass": "vegaIffy",
-							"sid": 200328275755510,
-							"parameters": {
-								"instance-variable": "anim",
-								"value": "choose(\"down\",\"down1\")"
-							}
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 814810940672245,
+									"parameters": {
+										"instance-variable": "state",
+										"comparison": 0,
+										"value": "\"ready\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "vegaIffy",
+									"sid": 199269356389691,
+									"parameters": {
+										"instance-variable": "act"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "iffyChoose",
+									"sid": 569655979263621
+								}
+							],
+							"sid": 706803830677176
 						},
 						{
-							"id": "set-animation",
-							"objectClass": "vegaIffy",
-							"sid": 928212970002830,
-							"parameters": {
-								"animation": "Self.anim",
-								"from": "beginning"
-							}
-						},
-						{
-							"id": "set-animation-speed",
-							"objectClass": "vegaIffy",
-							"sid": 276103830910091,
-							"disabled": true,
-							"parameters": {
-								"speed": "20"
-							}
-						},
-						{
-							"id": "start-animation",
-							"objectClass": "vegaIffy",
-							"sid": 997205438868537,
-							"parameters": {
-								"from": "beginning"
-							}
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 235509668849140
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "vegaIffy",
+									"sid": 807343883167901,
+									"parameters": {
+										"instance-variable": "follower"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "vegaIffy",
+									"sid": 201478941769013,
+									"parameters": {
+										"instance-variable": "anim",
+										"value": "choose(\"down\",\"down1\")"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "vegaIffy",
+									"sid": 372046368396561,
+									"parameters": {
+										"animation": "Self.anim",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "vegaIffy",
+									"sid": 539342556927529,
+									"disabled": true,
+									"parameters": {
+										"speed": "20"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "vegaIffy",
+									"sid": 977193748557806,
+									"parameters": {
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 338089900377922
 						}
-					],
-					"sid": 873120582291996
+					]
 				},
 				{
 					"eventType": "comment",
@@ -1520,73 +1564,6 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "Клик по Иффи (self-функция \"iffy\") → заглушка для способностей (этап 2)",
-					"background-color": [
-						0.67,
-						0.98,
-						0.79,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "onselffunction0",
-							"objectClass": "vegaIffy",
-							"sid": 910000000710,
-							"behaviorType": "sfPoint",
-							"parameters": {
-								"function_name:0": "\"iffy\""
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "vegaIffy",
-							"sid": 910000000711,
-							"parameters": {
-								"instance-variable": "state",
-								"comparison": 0,
-								"value": "\"ready\""
-							}
-						},
-						{
-							"id": "compare-boolean-eventvar",
-							"objectClass": "System",
-							"sid": 910000000712,
-							"parameters": {
-								"variable": "respawn"
-							},
-							"isInverted": true
-						}
-					],
-					"actions": [
-						{
-							"id": "set-boolean-eventvar",
-							"objectClass": "System",
-							"sid": 910000000713,
-							"parameters": {
-								"variable": "iffy",
-								"value": "true"
-							}
-						}
-					],
-					"sid": 910000000714,
-					"children": [
-						{
-							"eventType": "comment",
-							"text": "Здесь будет: выбор способности из iffyAbilsDeck → iffyExecute(actor)\nДобавляется на втором этапе",
-							"background-color": [
-								0.33,
-								0.73,
-								0.48,
-								1
-							]
-						}
-					]
-				},
-				{
-					"eventType": "comment",
 					"text": "Сигнал \"iffyDespawn\" от vegaRoadOff → деспаун Иффи в банк",
 					"background-color": [
 						0.67,
@@ -1690,6 +1667,753 @@
 								}
 							],
 							"sid": 705406740110928
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "═══ БЛОК 1: Клик по Иффи — выбор способности (замена заглушки) ═══",
+					"background-color": [
+						0.49,
+						0.7,
+						0.38,
+						1
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Клик только сохраняет actor. Выполнение — в iffyTick по пересечению с героем.",
+					"background-color": [
+						0.67,
+						0.98,
+						0.79,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "vegaIffy",
+							"sid": 179885401114414,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"iffy\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "vegaIffy",
+							"sid": 851190197246634,
+							"parameters": {
+								"instance-variable": "state",
+								"comparison": 0,
+								"value": "\"ready\""
+							}
+						},
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 226500706629726,
+							"parameters": {
+								"variable": "respawn"
+							},
+							"isInverted": true
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 166587832478730,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 369662667040476,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Если колода пуста — перетасовать",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 647452852540993,
+									"parameters": {
+										"first-value": "iffyAbilsDeck.Width",
+										"comparison": 0,
+										"second-value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "iffyDeck",
+									"sid": 673400854549850
+								}
+							],
+							"sid": 158346565431537
+						},
+						{
+							"eventType": "comment",
+							"text": "Если все способности использованы — перетасовать и сбросить шаг",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 548634379234108
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 504332302743912,
+									"parameters": {
+										"first-value": "aMico.iffyRandomStep",
+										"comparison": 4,
+										"second-value": "iffyAbilsDeck.Width"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "iffyDeck",
+									"sid": 629118920492080
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aMico",
+									"sid": 324333701428802,
+									"parameters": {
+										"instance-variable": "iffyRandomStep",
+										"value": "0"
+									}
+								}
+							],
+							"sid": 226815673935263
+						},
+						{
+							"eventType": "comment",
+							"text": "Сохраняем actor, инкрементируем шаг. Выполнение — в iffyTick.",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "actor = iffyAbilsDeck.At(aMico.iffyRandomStep)",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "vegaIffy",
+									"sid": 872474809341311,
+									"parameters": {
+										"instance-variable": "actor",
+										"value": "iffyAbilsDeck.At(aMico.iffyRandomStep)"
+									}
+								},
+								{
+									"id": "add-to-instvar",
+									"objectClass": "aMico",
+									"sid": 894443281413138,
+									"parameters": {
+										"instance-variable": "iffyRandomStep",
+										"value": "1"
+									}
+								},
+								{
+									"id": "set-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 282412982075087,
+									"parameters": {
+										"variable": "iffy",
+										"value": "true"
+									}
+								},
+								{
+									"callFunction": "iffyChoose",
+									"sid": 146624812253918
+								}
+							],
+							"sid": 823271710488479
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "менеджер способностей",
+					"background-color": [
+						0.403921568627451,
+						0.7333333333333333,
+						0.8156862745098039,
+						1
+					]
+				},
+				{
+					"functionName": "iffyChoose",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "vegaIffy",
+							"sid": 497144582936850,
+							"parameters": {
+								"instance-variable": "state",
+								"comparison": 0,
+								"value": "\"ready\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 304486619494082,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "vegaRoad",
+							"sid": 187296674270655,
+							"parameters": {
+								"unique-id": "vegaIffy.vrUID"
+							}
+						},
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 863266137868496,
+							"parameters": {
+								"variable": "respawn"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 790553418564026,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 277938538630746,
+									"parameters": {
+										"instance-variable": "actor",
+										"comparison": 0,
+										"value": "\"boom\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 122674870547051,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "base",
+											"sid": 887445830539994,
+											"parameters": {
+												"object": "vegaRoad"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "vegaIffy",
+											"sid": 212345306306561,
+											"parameters": {
+												"instance-variable": "act",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 619074578721883,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "vegaIffy",
+													"sid": 512669611708554,
+													"parameters": {
+														"instance-variable": "anim",
+														"comparison": 0,
+														"value": "\"look\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "vegaIffy",
+													"sid": 597193837515317,
+													"parameters": {
+														"instance-variable": "anim",
+														"value": "\"lookDown\""
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "vegaIffy",
+													"sid": 758730353920390,
+													"parameters": {
+														"animation": "Self.anim",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "vegaIffy",
+													"sid": 413490236894650,
+													"parameters": {
+														"animation": "\"lookDown\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 663493398487402
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 508218147667314
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "vegaIffy",
+													"sid": 444092300187777,
+													"parameters": {
+														"instance-variable": "anim",
+														"comparison": 0,
+														"value": "\"goLook\""
+													}
+												},
+												{
+													"id": "compare-animation-frame",
+													"objectClass": "vegaIffy",
+													"sid": 356339772519315,
+													"parameters": {
+														"comparison": 1,
+														"number": "0"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "vegaIffy",
+													"sid": 203239055274512,
+													"parameters": {
+														"instance-variable": "anim",
+														"value": "\"lookDown\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "vegaIffy",
+													"sid": 137051748062372,
+													"parameters": {
+														"instance-variable": "frame",
+														"value": "Self.AnimationFrameCount-1-Self.AnimationFrame"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "vegaIffy",
+													"sid": 234337557966149,
+													"parameters": {
+														"animation": "Self.anim",
+														"from": "current-frame"
+													}
+												},
+												{
+													"id": "set-animation-frame",
+													"objectClass": "vegaIffy",
+													"sid": 805924605787786,
+													"parameters": {
+														"frame-number": "Self.frame"
+													}
+												},
+												{
+													"id": "start-animation",
+													"objectClass": "vegaIffy",
+													"sid": 860438995349018,
+													"parameters": {
+														"from": "current-frame"
+													}
+												}
+											],
+											"sid": 903708633257897
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 862362439687855
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "vegaIffy",
+													"sid": 175037992783613,
+													"parameters": {
+														"instance-variable": "anim",
+														"comparison": 0,
+														"value": "\"lookDown\""
+													}
+												},
+												{
+													"id": "compare-animation-frame",
+													"objectClass": "vegaIffy",
+													"sid": 969337992203887,
+													"parameters": {
+														"comparison": 1,
+														"number": "0"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 927635214244658
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 149808565644770
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "iffyAct",
+													"sid": 119052404756641
+												}
+											],
+											"sid": 869216891187739
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 265843914666274
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "pfmt",
+											"sid": 595304584421880,
+											"parameters": [
+												"0",
+												"\"Bit\"",
+												"vegaRoad.X",
+												"vegaRoad.Y+1",
+												"1",
+												"1",
+												"2",
+												"\"zero\"",
+												"-1",
+												"0",
+												"0"
+											]
+										}
+									],
+									"sid": 693071193391124
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 941906454882357,
+									"parameters": {
+										"instance-variable": "actor",
+										"comparison": 0,
+										"value": "\"yum\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 167139239716768
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "старт выполнения способностей",
+					"background-color": [
+						0.403921568627451,
+						0.7333333333333333,
+						0.8156862745098039,
+						1
+					]
+				},
+				{
+					"functionName": "iffyAct",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "vegaIffy",
+							"sid": 238786104004773,
+							"parameters": {
+								"instance-variable": "state",
+								"comparison": 0,
+								"value": "\"ready\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 377249125601272,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "aBook.hero"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "vegaRoad",
+							"sid": 387369194226640,
+							"parameters": {
+								"unique-id": "vegaIffy.vrUID"
+							}
+						},
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 643614171529200,
+							"parameters": {
+								"variable": "respawn"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "vegaIffy",
+							"sid": 408198769562876,
+							"parameters": {
+								"instance-variable": "state",
+								"value": "\"work\""
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "vegaRoad",
+							"sid": 152142291284458,
+							"parameters": {
+								"instance-variable": "working",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 874664400824993,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 827698651993986,
+									"parameters": {
+										"instance-variable": "actor",
+										"comparison": 0,
+										"value": "\"boom\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "base",
+									"sid": 363877226559408,
+									"parameters": {
+										"x": "vegaRoad.X",
+										"y": "vegaRoad.Y+1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "vegaIffy",
+									"sid": 779103856941864,
+									"parameters": {
+										"instance-variable": "anim",
+										"value": "\"boom\""
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "vegaIffy",
+									"sid": 438802104794467,
+									"parameters": {
+										"animation": "\"boom\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "vegaIffy",
+									"sid": 758485144502694,
+									"parameters": {
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 550104831764423,
+									"parameters": {
+										"group-name": "\"pilobu\"",
+										"state": "activated"
+									}
+								},
+								{
+									"customAction": "pilobulus",
+									"objectClass": "aaa",
+									"sid": 743857268411694,
+									"parameters": [
+										"base.UID",
+										"0.1",
+										"vegaIffy.X",
+										"vegaIffy.Y",
+										"-1",
+										"-1",
+										"300",
+										"0",
+										"\"zero\""
+									]
+								}
+							],
+							"sid": 464121722535786
+						},
+						{
+							"eventType": "comment",
+							"text": "─── sur / am / yum / energy / spore / chooseCell — будут добавлены на следующих этапах ───",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Защита от unknown actor: сбрасываем в ready (не должно происходить, но страховка)",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 213663435343653
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "vegaIffy",
+									"sid": 126002472308816,
+									"parameters": {
+										"instance-variable": "state",
+										"value": "\"ready\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "vegaIffy",
+									"sid": 349403666276367,
+									"parameters": {
+										"instance-variable": "actor",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "set-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 203084527407129,
+									"parameters": {
+										"variable": "iffy",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 736529836466979
 						}
 					]
 				},
