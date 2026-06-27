@@ -84,15 +84,6 @@
 							],
 							"actions": [
 								{
-									"id": "set-instvar-value",
-									"objectClass": "vegaIffy",
-									"sid": 310380548399838,
-									"parameters": {
-										"instance-variable": "state",
-										"value": "\"ready\""
-									}
-								},
-								{
 									"id": "set-boolean-instvar",
 									"objectClass": "vegaIffy",
 									"sid": 898350016614907,
@@ -206,16 +197,6 @@
 													"sid": 129808448940938,
 													"parameters": {
 														"instance-variable": "zEnable",
-														"value": "true"
-													}
-												},
-												{
-													"id": "set-boolean-eventvar",
-													"objectClass": "System",
-													"sid": 174802771726929,
-													"disabled": true,
-													"parameters": {
-														"variable": "zSort",
 														"value": "true"
 													}
 												}
@@ -665,7 +646,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "\n─── iffyReset ───\nСброс из любого состояния → ready на своей ячейке\nВызывается по сигналу \"road\" (клик по земле)\n",
+					"text": "\n─── iffyReset ───\nСброс из любого состояния → ready\nВызывается по сигналу \"road\"\nrun — не ломаем! Анимация доиграет и сама перейдёт в ready\nwork/rest — прерываем, сбрасываем таймеры\n",
 					"background-color": [
 						0.67,
 						0.98,
@@ -687,16 +668,70 @@
 					"sid": 910000000500,
 					"children": [
 						{
+							"eventType": "comment",
+							"text": "zero / run — ничего не делаем (run сам дойдёт до ready)",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "vegaIffy",
-									"sid": 910000000501,
+									"sid": 358535604995988,
 									"parameters": {
-										"instance-variable": "vrUID",
-										"comparison": 4,
-										"value": "0"
+										"instance-variable": "state",
+										"comparison": 0,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 657489622483738
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 152105594003445,
+									"parameters": {
+										"instance-variable": "state",
+										"comparison": 0,
+										"value": "\"run\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 657917687939631
+						},
+						{
+							"eventType": "comment",
+							"text": "work → прерываем способность",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 446479035776292,
+									"parameters": {
+										"instance-variable": "state",
+										"comparison": 0,
+										"value": "\"work\""
 									}
 								}
 							],
@@ -704,26 +739,16 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "vegaIffy",
-									"sid": 910000000502,
+									"sid": 700484869805350,
 									"parameters": {
 										"instance-variable": "state",
 										"value": "\"ready\""
 									}
 								},
 								{
-									"id": "set-instvar-value",
-									"objectClass": "vegaIffy",
-									"sid": 169533253352563,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "state",
-										"value": "\"run\""
-									}
-								},
-								{
 									"id": "set-boolean-instvar",
 									"objectClass": "vegaIffy",
-									"sid": 910000000503,
+									"sid": 494014902127806,
 									"parameters": {
 										"instance-variable": "follower",
 										"value": "false"
@@ -732,14 +757,106 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "vegaIffy",
-									"sid": 910000000504,
+									"sid": 600896621866742,
 									"parameters": {
 										"instance-variable": "actor",
 										"value": "\"zero\""
 									}
 								}
 							],
-							"sid": 910000000505
+							"sid": 816936164228346
+						},
+						{
+							"eventType": "comment",
+							"text": "rest → прерываем кулдаун, стопаем таймер",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 837448770629380,
+									"parameters": {
+										"instance-variable": "state",
+										"comparison": 0,
+										"value": "\"rest\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "vegaIffy",
+									"sid": 997720483425421,
+									"parameters": {
+										"instance-variable": "state",
+										"value": "\"ready\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "vegaIffy",
+									"sid": 900828226088450,
+									"parameters": {
+										"instance-variable": "follower",
+										"value": "false"
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "vegaIffy",
+									"sid": 376731122235694,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"rest\""
+									}
+								}
+							],
+							"sid": 583624110842583
+						},
+						{
+							"eventType": "comment",
+							"text": "ready → просто чистим actor на всякий случай",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 738705996284571,
+									"parameters": {
+										"instance-variable": "state",
+										"comparison": 0,
+										"value": "\"ready\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "vegaIffy",
+									"sid": 440661624280025,
+									"parameters": {
+										"instance-variable": "actor",
+										"value": "\"zero\""
+									}
+								}
+							],
+							"sid": 381991934390632
 						}
 					]
 				},
@@ -914,23 +1031,11 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-instance-variable",
+									"id": "is-boolean-instance-variable-set",
 									"objectClass": "vegaIffy",
-									"sid": 325736099967846,
+									"sid": 159928780885971,
 									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"run\""
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "vegaIffy",
-									"sid": 141141422714612,
-									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"ready\""
+										"instance-variable": "follower"
 									}
 								}
 							],
@@ -971,8 +1076,7 @@
 									}
 								}
 							],
-							"sid": 286136860751274,
-							"isOrBlock": true
+							"sid": 286136860751274
 						}
 					],
 					"isOrBlock": true
@@ -997,13 +1101,21 @@
 							"parameters": {
 								"animation": "\"lookDown\""
 							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "vegaIffy",
+							"sid": 166170455735710,
+							"parameters": {
+								"instance-variable": "follower"
+							}
 						}
 					],
 					"actions": [
 						{
 							"id": "set-instvar-value",
 							"objectClass": "vegaIffy",
-							"sid": 524151203461457,
+							"sid": 200328275755510,
 							"parameters": {
 								"instance-variable": "anim",
 								"value": "choose(\"down\",\"down1\")"
@@ -1012,7 +1124,7 @@
 						{
 							"id": "set-animation",
 							"objectClass": "vegaIffy",
-							"sid": 832733280372114,
+							"sid": 928212970002830,
 							"parameters": {
 								"animation": "Self.anim",
 								"from": "beginning"
@@ -1021,7 +1133,7 @@
 						{
 							"id": "set-animation-speed",
 							"objectClass": "vegaIffy",
-							"sid": 434491252823905,
+							"sid": 276103830910091,
 							"disabled": true,
 							"parameters": {
 								"speed": "20"
@@ -1030,43 +1142,13 @@
 						{
 							"id": "start-animation",
 							"objectClass": "vegaIffy",
-							"sid": 904983518973150,
+							"sid": 997205438868537,
 							"parameters": {
 								"from": "beginning"
 							}
 						}
 					],
-					"sid": 873120582291996,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "vegaIffy",
-									"sid": 528580660390069,
-									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"run\""
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "vegaIffy",
-									"sid": 845108229866380,
-									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"ready\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 123471476815318,
-							"isOrBlock": true
-						}
-					]
+					"sid": 873120582291996
 				},
 				{
 					"eventType": "comment",
@@ -1105,23 +1187,11 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-instance-variable",
+									"id": "is-boolean-instance-variable-set",
 									"objectClass": "vegaIffy",
-									"sid": 696874634350173,
+									"sid": 991485626489133,
 									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"run\""
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "vegaIffy",
-									"sid": 563288355812002,
-									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"ready\""
+										"instance-variable": "follower"
 									}
 								}
 							],
@@ -1307,8 +1377,7 @@
 										}
 									]
 								}
-							],
-							"isOrBlock": true
+							]
 						}
 					],
 					"isOrBlock": true
@@ -1333,103 +1402,81 @@
 							"parameters": {
 								"animation": "\"goLook\""
 							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "vegaIffy",
+							"sid": 393328089435293,
+							"parameters": {
+								"instance-variable": "follower"
+							}
 						}
 					],
-					"actions": [],
-					"sid": 741469925186826,
-					"children": [
+					"actions": [
 						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "vegaIffy",
-									"sid": 843349222531658,
-									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"run\""
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "vegaIffy",
-									"sid": 458645386247074,
-									"parameters": {
-										"instance-variable": "state",
-										"comparison": 0,
-										"value": "\"ready\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "vegaIffy",
-									"sid": 178947677915259,
-									"parameters": {
-										"instance-variable": "state",
-										"value": "\"ready\""
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "vegaIffy",
-									"sid": 580118415332353,
-									"parameters": {
-										"instance-variable": "follower",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "vegaIffy",
-									"sid": 542512644239266,
-									"parameters": {
-										"instance-variable": "anim",
-										"value": "\"look\""
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "vegaIffy",
-									"sid": 281668478611348,
-									"parameters": {
-										"animation": "\"look\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "vegaIffy",
-									"sid": 369532105537857,
-									"disabled": true,
-									"parameters": {
-										"speed": "12"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "vegaIffy",
-									"sid": 678060945392725,
-									"parameters": {
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-boolean-eventvar",
-									"objectClass": "System",
-									"sid": 521766496229312,
-									"parameters": {
-										"variable": "iffy",
-										"value": "true"
-									}
-								}
-							],
-							"sid": 937566940611072,
-							"isOrBlock": true
+							"id": "set-instvar-value",
+							"objectClass": "vegaIffy",
+							"sid": 861412306384916,
+							"parameters": {
+								"instance-variable": "state",
+								"value": "\"ready\""
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "vegaIffy",
+							"sid": 852900448340057,
+							"parameters": {
+								"instance-variable": "follower",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "vegaIffy",
+							"sid": 514566975881767,
+							"parameters": {
+								"instance-variable": "anim",
+								"value": "\"look\""
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "vegaIffy",
+							"sid": 261159666764862,
+							"parameters": {
+								"animation": "\"look\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-animation-speed",
+							"objectClass": "vegaIffy",
+							"sid": 990169614894860,
+							"disabled": true,
+							"parameters": {
+								"speed": "12"
+							}
+						},
+						{
+							"id": "start-animation",
+							"objectClass": "vegaIffy",
+							"sid": 213978465079213,
+							"parameters": {
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 410730617685890,
+							"parameters": {
+								"variable": "iffy",
+								"value": "true"
+							}
 						}
-					]
+					],
+					"sid": 741469925186826
 				},
 				{
 					"eventType": "comment",
@@ -1645,6 +1692,144 @@
 							"sid": 705406740110928
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\nТриггер: boom finished → rest (кулдаун 3 сек)\n",
+					"background-color": [
+						0.67,
+						0.98,
+						0.79,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-finished",
+							"objectClass": "vegaIffy",
+							"sid": 115869209361665,
+							"parameters": {
+								"animation": "\"boom\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "vegaIffy",
+							"sid": 503822446897891,
+							"parameters": {
+								"instance-variable": "state",
+								"comparison": 0,
+								"value": "\"work\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "vegaIffy",
+							"sid": 795649431260990,
+							"parameters": {
+								"instance-variable": "actor",
+								"comparison": 0,
+								"value": "\"boom\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "vegaIffy",
+							"sid": 811330682885926,
+							"parameters": {
+								"instance-variable": "state",
+								"value": "\"rest\""
+							}
+						},
+						{
+							"id": "start-timer",
+							"objectClass": "vegaIffy",
+							"sid": 695241134600411,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "3",
+								"type": "once",
+								"tag": "\"rest\""
+							}
+						},
+						{
+							"id": "set-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 962877430736584,
+							"parameters": {
+								"variable": "iffy",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 882278750138611
+				},
+				{
+					"eventType": "comment",
+					"text": "\nТаймер rest → ready\n",
+					"background-color": [
+						0.67,
+						0.98,
+						0.79,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-timer",
+							"objectClass": "vegaIffy",
+							"sid": 121183202267156,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"rest\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "vegaIffy",
+							"sid": 645055857500513,
+							"parameters": {
+								"instance-variable": "state",
+								"value": "\"ready\""
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "vegaIffy",
+							"sid": 470809582859780,
+							"parameters": {
+								"instance-variable": "follower",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "vegaIffy",
+							"sid": 497993602208061,
+							"parameters": {
+								"instance-variable": "actor",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"id": "set-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 975756603352010,
+							"parameters": {
+								"variable": "iffy",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 356326060203567
 				},
 				{
 					"eventType": "comment",
