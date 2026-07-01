@@ -1,0 +1,555 @@
+{
+	"name": "_informer",
+	"events": [
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "informer",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "sours - inventory, indicator, Owly, Tornik, center. В зависимости от источника выбирается область экрана для отображения."
+				},
+				{
+					"eventType": "comment",
+					"text": "big - для информера в центре градации размера"
+				},
+				{
+					"eventType": "comment",
+					"text": "timer - время жизни информера"
+				},
+				{
+					"eventType": "comment",
+					"text": "pause - игра ставится на паузу"
+				},
+				{
+					"functionName": "informer",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "sours",
+							"type": "string",
+							"initialValue": "inventory",
+							"comment": "inventory indicator Owly Tornik center",
+							"sid": 893460317828856
+						},
+						{
+							"name": "big",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 940055747207018
+						},
+						{
+							"name": "pause",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 626481948361828
+						},
+						{
+							"name": "timer",
+							"type": "number",
+							"initialValue": "3",
+							"comment": "",
+							"sid": 794516871526391
+						},
+						{
+							"name": "iSign",
+							"type": "string",
+							"initialValue": "",
+							"comment": "",
+							"sid": 555433196080733
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "set-text",
+							"objectClass": "help",
+							"sid": 907390682342260,
+							"parameters": {
+								"text": "\"flag\""
+							}
+						}
+					],
+					"sid": 239751477053331,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 429552312074053,
+									"parameters": {
+										"variable": "sours",
+										"comparison": 0,
+										"value": "\"inventory\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 526918110175518,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "inf",
+											"sid": 985324440664164,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-timer",
+											"objectClass": "inf",
+											"sid": 282528864158728,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"endInf\""
+											}
+										},
+										{
+											"id": "start-timer",
+											"objectClass": "inf",
+											"sid": 355908965474006,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "timer",
+												"type": "once",
+												"tag": "\"endInf\""
+											}
+										}
+									],
+									"sid": 105968004317698,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 162040646429343,
+													"parameters": {
+														"variable": "big",
+														"comparison": 0,
+														"value": "1"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "inf",
+													"sid": 729749536946254,
+													"parameters": {
+														"x": "640",
+														"y": "350"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "inf",
+													"sid": 325597026596200,
+													"parameters": {
+														"animation": "\"big\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 762227744621018,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 951380368679952,
+															"parameters": {
+																"variable": "pause",
+																"comparison": 1,
+																"value": "0"
+															}
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "gamePause",
+															"sid": 633344047076149,
+															"parameters": [
+																"\"informer\""
+															]
+														}
+													],
+													"sid": 662764436033708
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 487778563877211
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "inf",
+													"sid": 330825659472275,
+													"parameters": {
+														"x": "180",
+														"y": "170"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "inf",
+													"sid": 751987425073298,
+													"parameters": {
+														"animation": "\"star\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 583011780277991
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "informer",
+											"sid": 601943205438925,
+											"disabled": true,
+											"parameters": {
+												"unique-id": "Functions.pickOutside(\"informer\")"
+											}
+										},
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 670427565323097,
+											"parameters": {
+												"object": "informer"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "informer",
+											"sid": 803429956529830,
+											"parameters": {
+												"animation": "iSign",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "informer",
+											"sid": 545731800599489,
+											"parameters": {
+												"animation": "\"cBoom\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "informer",
+											"sid": 808876621256284,
+											"parameters": {
+												"object": "inf",
+												"image-point-optional": "0"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "informer",
+											"sid": 259939054340579,
+											"parameters": {
+												"visibility": "visible"
+											}
+										},
+										{
+											"id": "set-opacity",
+											"objectClass": "informer",
+											"sid": 310280631200027,
+											"parameters": {
+												"opacity": "100"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "informer",
+											"sid": 417085471449746,
+											"parameters": {
+												"where": "in-front",
+												"object": "inf"
+											}
+										}
+									],
+									"sid": 310426475678457
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-timer",
+							"objectClass": "inf",
+							"sid": 792900528119929,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"endInf\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "callselffunction0",
+							"objectClass": "inf",
+							"sid": 800449435860065,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"inf\""
+							}
+						}
+					],
+					"sid": 433157141162266
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "inf",
+							"sid": 561560301178154,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"inf\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "inf",
+							"sid": 760338373296054,
+							"parameters": {
+								"collisions": "disabled"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "inf",
+							"sid": 467956851836727,
+							"parameters": {
+								"animation": "\"zero\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "inf",
+							"sid": 998360308702004,
+							"parameters": {
+								"x": "-833",
+								"y": "833"
+							}
+						}
+					],
+					"sid": 921163505582778,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "layer-is-interactive",
+									"objectClass": "System",
+									"sid": 434590049443119,
+									"parameters": {
+										"layer": "\"ui\""
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "gamePause",
+									"sid": 342048354044718,
+									"parameters": [
+										"\"play\""
+									]
+								}
+							],
+							"sid": 749609908401118
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "informer",
+									"sid": 111755116883894,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"comparison": 0,
+										"value": "inf.UID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "informer",
+									"sid": 235617234399120,
+									"parameters": {
+										"animation": "\"zero\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "informer",
+									"sid": 530973668918544,
+									"parameters": {
+										"x": "-1800",
+										"y": "1800"
+									}
+								}
+							],
+							"sid": 361902268683169
+						},
+						{
+							"eventType": "variable",
+							"name": "iSign",
+							"type": "string",
+							"initialValue": "dust",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 246441391806477
+						},
+						{
+							"eventType": "variable",
+							"name": "val",
+							"type": "string",
+							"initialValue": "universal",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 689571094236064
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-empty",
+									"objectClass": "infoLine",
+									"sid": 827907925176848,
+									"isInverted": true
+								},
+								{
+									"id": "for-each-key",
+									"objectClass": "infoLine",
+									"sid": 637254111761524
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 532296436923481,
+									"parameters": {
+										"first-value": "loopindex",
+										"comparison": 0,
+										"second-value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-text",
+									"objectClass": "help",
+									"sid": 459850960917939,
+									"disabled": true,
+									"parameters": {
+										"text": "infoLine.CurrentKey&infoLine.CurrentValue"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 155602901007596,
+									"parameters": {
+										"variable": "iSign",
+										"value": "infoLine.CurrentKey"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 202316724928617,
+									"parameters": {
+										"variable": "val",
+										"value": "infoLine.CurrentValue"
+									}
+								},
+								{
+									"callFunction": "informer",
+									"sid": 261623990923744,
+									"parameters": [
+										"\"inventory\"",
+										"val=\"big\"?1:0",
+										"val=\"big\"?1:0",
+										"val=\"big\"?3:2",
+										"iSign"
+									]
+								},
+								{
+									"id": "delete-key",
+									"objectClass": "infoLine",
+									"sid": 880367419868942,
+									"parameters": {
+										"key": "infoLine.CurrentKey"
+									}
+								}
+							],
+							"sid": 294583129456845
+						}
+					]
+				}
+			],
+			"sid": 819525410607902
+		}
+	],
+	"sid": 415593880080704
+}
