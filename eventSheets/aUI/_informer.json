@@ -259,9 +259,28 @@
 													"id": "set-active",
 													"objectClass": "inf",
 													"sid": 192359300922046,
+													"disabled": true,
 													"behaviorType": "Sine",
 													"parameters": {
 														"state": "active"
+													}
+												},
+												{
+													"id": "tween-two-properties",
+													"objectClass": "inf",
+													"sid": 655840486868236,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"infUp\"",
+														"property": "scale",
+														"end-x": "1.7",
+														"end-y": "1.7",
+														"time": "0.4",
+														"ease": "easeoutback",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "yes",
+														"repeat-count": "1"
 													}
 												}
 											],
@@ -322,6 +341,34 @@
 											"sid": 139978099726428,
 											"parameters": {
 												"opacity": "100"
+											}
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "item",
+											"sid": 357401143253575,
+											"disabled": true,
+											"behaviorType": "Tween",
+											"parameters": {
+												"mode": "enabled"
+											}
+										},
+										{
+											"id": "tween-two-properties",
+											"objectClass": "item",
+											"sid": 470707431891735,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"itemInfo\"",
+												"property": "scale",
+												"end-x": "1.4",
+												"end-y": "1.4",
+												"time": "0.4",
+												"ease": "easeoutquint",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "yes",
+												"repeat-count": "1"
 											}
 										},
 										{
@@ -427,6 +474,7 @@
 							"id": "set-active",
 							"objectClass": "inf",
 							"sid": 680219863516900,
+							"disabled": true,
 							"behaviorType": "Sine",
 							"parameters": {
 								"state": "inactive"
@@ -500,6 +548,16 @@
 										"x": "-1800",
 										"y": "1800"
 									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "item",
+									"sid": 668057318843049,
+									"disabled": true,
+									"behaviorType": "Tween",
+									"parameters": {
+										"mode": "disabled"
+									}
 								}
 							],
 							"sid": 361902268683169
@@ -508,9 +566,9 @@
 							"eventType": "variable",
 							"name": "iSign",
 							"type": "string",
-							"initialValue": "dust",
+							"initialValue": "",
 							"comment": "",
-							"isStatic": false,
+							"isStatic": true,
 							"isConstant": false,
 							"sid": 246441391806477
 						},
@@ -520,7 +578,7 @@
 							"type": "string",
 							"initialValue": "universal",
 							"comment": "",
-							"isStatic": false,
+							"isStatic": true,
 							"isConstant": false,
 							"sid": 689571094236064
 						},
@@ -561,45 +619,56 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 328000159876708
-								},
-								{
-									"id": "for-each-key",
-									"objectClass": "infoLine",
-									"sid": 637254111761524
+									"sid": 85001
 								}
 							],
-							"actions": [],
-							"sid": 294583129456845,
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 85002,
+									"parameters": {
+										"variable": "iSign",
+										"value": "\"\""
+									}
+								}
+							],
+							"sid": 85003,
 							"children": [
+								{
+									"eventType": "comment",
+									"text": "Безопасное извлечение первого ключа без удаления во время цикла",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "compare-two-values",
+											"id": "for-each-key",
+											"objectClass": "infoLine",
+											"sid": 85005
+										},
+										{
+											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 299670391833651,
+											"sid": 85006,
 											"parameters": {
-												"first-value": "loopindex",
+												"variable": "iSign",
 												"comparison": 0,
-												"second-value": "0"
+												"value": "\"\""
 											}
 										}
 									],
 									"actions": [
 										{
-											"id": "set-text",
-											"objectClass": "help",
-											"sid": 967985579197071,
-											"disabled": true,
-											"parameters": {
-												"text": "infoLine.CurrentKey&infoLine.CurrentValue"
-											}
-										},
-										{
 											"id": "set-eventvar-value",
 											"objectClass": "System",
-											"sid": 753371089114505,
+											"sid": 85007,
 											"parameters": {
 												"variable": "iSign",
 												"value": "infoLine.CurrentKey"
@@ -608,23 +677,51 @@
 										{
 											"id": "set-eventvar-value",
 											"objectClass": "System",
-											"sid": 564201157043639,
+											"sid": 85008,
 											"parameters": {
 												"variable": "val",
 												"value": "infoLine.CurrentValue"
 											}
-										},
+										}
+									],
+									"sid": 85009
+								},
+								{
+									"eventType": "comment",
+									"text": "Удаление ключа и вызов информера ПОСЛЕ завершения цикла",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 85011,
+											"parameters": {
+												"variable": "iSign",
+												"comparison": 1,
+												"value": "\"\""
+											}
+										}
+									],
+									"actions": [
 										{
 											"id": "delete-key",
 											"objectClass": "infoLine",
-											"sid": 506782105982232,
+											"sid": 85012,
 											"parameters": {
-												"key": "infoLine.CurrentKey"
+												"key": "iSign"
 											}
 										},
 										{
 											"callFunction": "informer",
-											"sid": 963351095484375,
+											"sid": 85013,
 											"parameters": [
 												"\"inventory\"",
 												"val=\"big\"?1:0",
@@ -632,9 +729,18 @@
 												"val=\"big\"?3:2",
 												"iSign"
 											]
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 252403921888750,
+											"parameters": {
+												"variable": "iSign",
+												"value": "\"\""
+											}
 										}
 									],
-									"sid": 640447936087258
+									"sid": 85014
 								}
 							]
 						}
