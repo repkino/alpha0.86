@@ -2363,6 +2363,15 @@
 									}
 								},
 								{
+									"id": "set-boolean-instvar",
+									"objectClass": "items",
+									"sid": 857012342603495,
+									"parameters": {
+										"instance-variable": "isNew",
+										"value": "false"
+									}
+								},
+								{
 									"id": "set-instvar-value",
 									"objectClass": "items",
 									"sid": 577794933930405,
@@ -9110,6 +9119,15 @@
 											}
 										},
 										{
+											"id": "set-boolean-instvar",
+											"objectClass": "item",
+											"sid": 867164990802875,
+											"parameters": {
+												"instance-variable": "isNew",
+												"value": "true"
+											}
+										},
+										{
 											"id": "set-instvar-value",
 											"objectClass": "item",
 											"sid": 931054695374318,
@@ -9593,6 +9611,101 @@
 											]
 										}
 									]
+								},
+								{
+									"eventType": "comment",
+									"text": "впервые встреченный в игре предмет запоминается и добавляется в словарь информера",
+									"background-color": [
+										0.5098039215686274,
+										0.792156862745098,
+										0.9686274509803922,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "has-tags",
+											"objectClass": "aUI",
+											"sid": 792994672540999,
+											"parameters": {
+												"tags": "iSign"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 808770749230049,
+											"parameters": {
+												"variable": "informer",
+												"comparison": 1,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "change-tags",
+											"objectClass": "aUI",
+											"sid": 978273589271649,
+											"parameters": {
+												"action": "add",
+												"tags": "iSign"
+											}
+										},
+										{
+											"id": "add-key",
+											"objectClass": "infoLine",
+											"sid": 149304742915872,
+											"parameters": {
+												"key": "iSign",
+												"value": "class"
+											}
+										}
+									],
+									"sid": 436551109072316,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "infoLine",
+													"sid": 926799413055183,
+													"parameters": {
+														"instance-variable": "on"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
+													"sid": 337895966262755,
+													"parameters": {
+														"group-name": "\"informer\"",
+														"state": "activated"
+													}
+												},
+												{
+													"callFunction": "informerR",
+													"sid": 804333879503341,
+													"parameters": [
+														"\"inventory\"",
+														"class=\"big\"?1:0",
+														"class=\"big\"?1:0",
+														"class=\"big\"?1.6:0.8",
+														"iSign"
+													]
+												}
+											],
+											"sid": 126024637444745
+										}
+									],
+									"isOrBlock": true
 								}
 							]
 						},
@@ -9978,7 +10091,7 @@
 													}
 												},
 												{
-													"callFunction": "informer",
+													"callFunction": "informerR",
 													"sid": 496955248090299,
 													"parameters": [
 														"\"inventory\"",
@@ -10093,6 +10206,15 @@
 									"sid": 767756827088345,
 									"parameters": {
 										"instance-variable": "add",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 704420496678017,
+									"parameters": {
+										"instance-variable": "isNew",
 										"value": "true"
 									}
 								},
@@ -10294,7 +10416,7 @@
 													}
 												},
 												{
-													"callFunction": "informer",
+													"callFunction": "informerR",
 													"sid": 868282776658142,
 													"parameters": [
 														"\"inventory\"",
@@ -15257,7 +15379,7 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "item",
-											"sid": 635204082098745,
+											"sid": 451053513848958,
 											"parameters": {
 												"instance-variable": "isNew",
 												"value": "false"
@@ -15282,16 +15404,36 @@
 												{
 													"id": "set-position-to-another-object",
 													"objectClass": "fxSelect",
-													"sid": 748136695776744,
+													"sid": 954424999953482,
 													"parameters": {
 														"object": "item",
 														"image-point-optional": "0"
 													}
 												},
 												{
+													"id": "move-to-top",
+													"objectClass": "fxSelect",
+													"sid": 411502179056609
+												},
+												{
+													"id": "pin-to-object-properties",
+													"objectClass": "fxSelect",
+													"sid": 266874844529392,
+													"behaviorType": "Pin",
+													"parameters": {
+														"pin-to": "item",
+														"x": true,
+														"y": true,
+														"angle": false,
+														"width-type": "no",
+														"height-type": "no",
+														"z": false
+													}
+												},
+												{
 													"id": "set-animation",
 													"objectClass": "fxSelect",
-													"sid": 221711386773633,
+													"sid": 189169013121738,
 													"parameters": {
 														"animation": "\"sel\"",
 														"from": "beginning"
@@ -15473,6 +15615,12 @@
 						}
 					],
 					"actions": [
+						{
+							"id": "unpin",
+							"objectClass": "fxSelect",
+							"sid": 497140693713026,
+							"behaviorType": "Pin"
+						},
 						{
 							"id": "set-position",
 							"objectClass": "fxSelect",
@@ -23756,7 +23904,7 @@
 							}
 						},
 						{
-							"callFunction": "informer",
+							"callFunction": "informerR",
 							"sid": 419166057069104,
 							"parameters": [
 								"\"inventory\"",
