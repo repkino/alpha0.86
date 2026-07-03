@@ -81,6 +81,52 @@
 					"sid": 774359242489269
 				},
 				{
+					"functionName": "zSort2",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"type": "script",
+							"language": "javascript",
+							"script": [
+								"const instances = runtime.objects.zSort.getAllInstances();",
+								"const firstInst = instances[0];",
+								"if (!firstInst) return;",
+								"const layer = firstInst.layer;",
+								"const viewport = layer.getViewport();",
+								"const padding = 240;",
+								"const vLeft = viewport.left - padding;",
+								"const vRight = viewport.right + padding;",
+								"const vTop = viewport.top - padding;",
+								"const vBottom = viewport.bottom + padding;",
+								"const instancesToSort = [];",
+								"for (const inst of instances) {",
+								"    if (!inst.instVars.zEnable) continue;",
+								"    const bbox = inst.getBoundingBox();",
+								"    if (bbox.right >= vLeft && bbox.left <= vRight && bbox.bottom >= vTop && bbox.top <= vBottom) {",
+								"        instancesToSort.push(inst);",
+								"    }",
+								"}",
+								"instancesToSort.sort((a, b) => {",
+								"    const valA = (a.instVars.zsY > 0 ? a.instVars.zsY : a.y) + a.instVars.altitude;",
+								"    const valB = (b.instVars.zsY > 0 ? b.instVars.zsY : b.y) + b.instVars.altitude;",
+								"    return valA - valB;",
+								"});",
+								"for (const inst of instancesToSort) {",
+								"    inst.moveToTop();",
+								"}"
+							]
+						}
+					],
+					"sid": 592837104857291
+				},
+				{
 					"eventType": "block",
 					"conditions": [
 						{
@@ -196,7 +242,12 @@
 					"actions": [
 						{
 							"callFunction": "zSort",
-							"sid": 544632284729077
+							"sid": 544632284729077,
+							"disabled": true
+						},
+						{
+							"callFunction": "zSort2",
+							"sid": 411448941732149
 						},
 						{
 							"id": "set-boolean-eventvar",
