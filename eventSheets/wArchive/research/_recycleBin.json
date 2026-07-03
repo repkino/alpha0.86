@@ -7199,343 +7199,125 @@
 			"sid": 167813942445354
 		},
 		{
-			"eventType": "group",
-			"disabled": true,
-			"title": "zSorting3",
-			"description": "",
-			"isActiveOnStart": true,
-			"children": [
+			"functionName": "zSort2",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [],
+			"eventType": "function-block",
+			"conditions": [],
+			"actions": [
 				{
-					"eventType": "comment",
-					"text": "Оптимизированная Z-сортировка. Вынесена в функцию для вызова по таймеру, каждый тик или по сигналу.",
-					"background-color": [
-						0.33,
-						0.73,
-						0.48,
-						1
+					"type": "comment",
+					"text": "По zSort.Y или по zSort.zsY, если она не равна 0"
+				},
+				{
+					"type": "script",
+					"language": "javascript",
+					"script": [
+						"const instances = runtime.objects.zSort.getAllInstances();",
+						"const firstInst = instances[0];",
+						"if (!firstInst) return;",
+						"const layer = firstInst.layer;",
+						"const viewport = layer.getViewport();",
+						"const padding = 240;",
+						"const vLeft = viewport.left - padding;",
+						"const vRight = viewport.right + padding;",
+						"const vTop = viewport.top - padding;",
+						"const vBottom = viewport.bottom + padding;",
+						"const instancesToSort = [];",
+						"for (const inst of instances) {",
+						"    if (!inst.instVars.zEnable) continue;",
+						"    const bbox = inst.getBoundingBox();",
+						"    if (bbox.right >= vLeft && bbox.left <= vRight && bbox.bottom >= vTop && bbox.top <= vBottom) {",
+						"        instancesToSort.push(inst);",
+						"    }",
+						"}",
+						"instancesToSort.sort((a, b) => {",
+						"    const valA = a.instVars.zsY > 0 ? a.instVars.zsY : a.y;",
+						"    const valB = b.instVars.zsY > 0 ? b.instVars.zsY : b.y;",
+						"    return valA - valB;",
+						"});",
+						"for (const inst of instancesToSort) {",
+						"    inst.moveToTop();",
+						"}"
 					]
 				},
 				{
-					"functionName": "zSortNow2",
-					"functionDescription": "",
-					"functionCategory": "",
-					"functionReturnType": "none",
-					"functionCopyPicked": false,
-					"functionIsAsync": false,
-					"functionParameters": [],
-					"eventType": "function-block",
-					"conditions": [],
-					"actions": [
-						{
-							"type": "script",
-							"language": "javascript",
-							"script": [
-								"const instances = runtime.objects.zSort.getAllInstances();",
-								"const camX = runtime.layout.scrollX;",
-								"const camY = runtime.layout.scrollY;",
-								"const viewW = runtime.layout.projectionWidth / 2;",
-								"const viewH = runtime.layout.projectionHeight / 2;",
-								"const margin = 200;",
-								"const left = camX - viewW - margin;",
-								"const right = camX + viewW + margin;",
-								"const top = camY - viewH - margin;",
-								"const bottom = camY + viewH + margin;",
-								"const visibleInstances = instances.filter(inst => ",
-								"    inst.instVars.enable === 1 &&",
-								"    inst.x >= left && inst.x <= right && inst.y >= top && inst.y <= bottom",
-								");",
-								"visibleInstances.sort((a, b) => a.y - b.y);",
-								"for (let i = 0; i < visibleInstances.length; i++) {",
-								"    visibleInstances[i].moveToTop();",
-								"}"
-							]
-						}
+					"type": "comment",
+					"text": "только по Y"
+				},
+				{
+					"type": "script",
+					"language": "javascript",
+					"script": [
+						"const instances = runtime.objects.zSort.getAllInstances();",
+						"const firstInst = instances[0];",
+						"if (!firstInst) return;",
+						"const layer = firstInst.layer;",
+						"const viewport = layer.getViewport();",
+						"const padding = 240;",
+						"const vLeft = viewport.left - padding;",
+						"const vRight = viewport.right + padding;",
+						"const vTop = viewport.top - padding;",
+						"const vBottom = viewport.bottom + padding;",
+						"const instancesToSort = [];",
+						"for (const inst of instances) {",
+						"    if (!inst.instVars.zEnable) continue;",
+						"    const bbox = inst.getBoundingBox();",
+						"    if (bbox.right >= vLeft && bbox.left <= vRight && bbox.bottom >= vTop && bbox.top <= vBottom) {",
+						"        instancesToSort.push(inst);",
+						"    }",
+						"}",
+						"instancesToSort.sort((a, b) => a.y - b.y);",
+						"for (const inst of instancesToSort) {",
+						"    inst.moveToTop();",
+						"}"
 					],
-					"sid": 370098787847619,
 					"disabled": true
 				},
 				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-signal",
-							"objectClass": "System",
-							"sid": 976198840464678,
-							"parameters": {
-								"tag": "\"zSort\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "zSortNow",
-							"sid": 906943329387623
-						}
-					],
-					"sid": 391785660211797,
-					"disabled": true
+					"type": "comment",
+					"text": "По zSort.Y или по zSort.zsY, если она не равна 0, плюс zSort.altitude - избыточно, удалить"
 				},
 				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "zSortNow",
-							"sid": 266453611316223
-						}
+					"type": "script",
+					"language": "javascript",
+					"script": [
+						"const instances = runtime.objects.zSort.getAllInstances();",
+						"const firstInst = instances[0];",
+						"if (!firstInst) return;",
+						"const layer = firstInst.layer;",
+						"const viewport = layer.getViewport();",
+						"const padding = 240;",
+						"const vLeft = viewport.left - padding;",
+						"const vRight = viewport.right + padding;",
+						"const vTop = viewport.top - padding;",
+						"const vBottom = viewport.bottom + padding;",
+						"const instancesToSort = [];",
+						"for (const inst of instances) {",
+						"    if (!inst.instVars.zEnable) continue;",
+						"    const bbox = inst.getBoundingBox();",
+						"    if (bbox.right >= vLeft && bbox.left <= vRight && bbox.bottom >= vTop && bbox.top <= vBottom) {",
+						"        instancesToSort.push(inst);",
+						"    }",
+						"}",
+						"instancesToSort.sort((a, b) => {",
+						"    const valA = (a.instVars.zsY > 0 ? a.instVars.zsY : a.y) + a.instVars.altitude;",
+						"    const valB = (b.instVars.zsY > 0 ? b.instVars.zsY : b.y) + b.instVars.altitude;",
+						"    return valA - valB;",
+						"});",
+						"for (const inst of instancesToSort) {",
+						"    inst.moveToTop();",
+						"}"
 					],
-					"sid": 753268982872976,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "zSortNow",
-							"sid": 468987864664301
-						}
-					],
-					"sid": 242911144858820,
 					"disabled": true
 				}
 			],
-			"sid": 300145890621217
-		},
-		{
-			"eventType": "group",
-			"disabled": true,
-			"title": "zSorting4",
-			"description": "",
-			"isActiveOnStart": true,
-			"children": [
-				{
-					"eventType": "comment",
-					"text": "Оптимизированная Z-сортировка. Вынесена в функцию для вызова по таймеру, каждый тик или по сигналу.",
-					"background-color": [
-						0.33,
-						0.73,
-						0.48,
-						1
-					]
-				},
-				{
-					"functionName": "zSortNow3",
-					"functionDescription": "",
-					"functionCategory": "",
-					"functionReturnType": "none",
-					"functionCopyPicked": false,
-					"functionIsAsync": false,
-					"functionParameters": [],
-					"eventType": "function-block",
-					"conditions": [],
-					"actions": [
-						{
-							"type": "script",
-							"language": "javascript",
-							"script": [
-								"const targetObjects = runtime.objects.zSort;",
-								"const firstInst = targetObjects.getFirstInstance();",
-								"if (!firstInst) return;",
-								"const layer = firstInst.layer;",
-								"const viewport = layer.getViewport();",
-								"const padding = 240;",
-								"const vLeft = viewport.left - padding;",
-								"const vRight = viewport.right + padding;",
-								"const vTop = viewport.top - padding;",
-								"const vBottom = viewport.bottom + padding;",
-								"const instancesToSort = [];",
-								"for (const inst of targetObjects.instances()) {",
-								"    if (!inst.instVars.enable) continue;",
-								"    const bbox = inst.getBoundingBox();",
-								"    if (bbox.right >= vLeft && bbox.left <= vRight && bbox.bottom >= vTop && bbox.top <= vBottom) {",
-								"        instancesToSort.push(inst);",
-								"    }",
-								"}",
-								"instancesToSort.sort((a, b) => a.y - b.y);",
-								"for (const inst of instancesToSort) {",
-								"    inst.moveToTop();",
-								"}"
-							]
-						}
-					],
-					"sid": 491921277434867,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-signal",
-							"objectClass": "System",
-							"sid": 157344860330977,
-							"parameters": {
-								"tag": "\"zSort\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "zSortNow",
-							"sid": 363800501315181
-						}
-					],
-					"sid": 969205963682271,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "zSortNow",
-							"sid": 980779484272326
-						}
-					],
-					"sid": 543664627042792,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "zSortNow",
-							"sid": 172181434351265
-						}
-					],
-					"sid": 300618576762143,
-					"disabled": true
-				}
-			],
-			"sid": 475470836136129
-		},
-		{
-			"eventType": "group",
-			"disabled": true,
-			"title": "zSorting5",
-			"description": "",
-			"isActiveOnStart": true,
-			"children": [
-				{
-					"eventType": "comment",
-					"text": "Оптимизированная Z-сортировка. Вынесена в функцию для вызова по таймеру, каждый тик или по сигналу.",
-					"background-color": [
-						0.33,
-						0.73,
-						0.48,
-						1
-					]
-				},
-				{
-					"functionName": "zSortNow4",
-					"functionDescription": "",
-					"functionCategory": "",
-					"functionReturnType": "none",
-					"functionCopyPicked": false,
-					"functionIsAsync": false,
-					"functionParameters": [],
-					"eventType": "function-block",
-					"conditions": [],
-					"actions": [
-						{
-							"type": "script",
-							"language": "javascript",
-							"script": [
-								"const targetObjects = runtime.objects.zSort;",
-								"const layer = runtime.layout.getLayer(\"iso\");",
-								"const viewport = layer.getViewport();",
-								"const padding = 240;",
-								"const vLeft = viewport.left - padding;",
-								"const vRight = viewport.right + padding;",
-								"const vTop = viewport.top - padding;",
-								"const vBottom = viewport.bottom + padding;",
-								"const instancesToSort = [];",
-								"for (const inst of targetObjects.instances()) {",
-								"    if (!inst.instVars.enable) continue;",
-								"    const bbox = inst.getBoundingBox();",
-								"    if (bbox.right >= vLeft && bbox.left <= vRight && bbox.bottom >= vTop && bbox.top <= vBottom) {",
-								"        instancesToSort.push(inst);",
-								"    }",
-								"}",
-								"instancesToSort.sort((a, b) => a.y - b.y);",
-								"for (const inst of instancesToSort) {",
-								"    inst.moveToTop();",
-								"}"
-							]
-						}
-					],
-					"sid": 471799812539382
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-signal",
-							"objectClass": "System",
-							"sid": 323497028618189,
-							"parameters": {
-								"tag": "\"zSort\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "zSort",
-							"sid": 441825436474912
-						},
-						{
-							"callFunction": "zSortNow",
-							"sid": 567998992361291,
-							"disabled": true
-						},
-						{
-							"callFunction": "zSort",
-							"sid": 566529210667902
-						}
-					],
-					"sid": 763857407396016,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "zSortNow4",
-							"sid": 266530065803233
-						},
-						{
-							"callFunction": "zSortNow",
-							"sid": 317867318472758,
-							"disabled": true
-						},
-						{
-							"callFunction": "zSort",
-							"sid": 378495565065375
-						}
-					],
-					"sid": 440738086547640,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "zSortNow4",
-							"sid": 631638470822224
-						},
-						{
-							"callFunction": "zSort",
-							"sid": 523666306961176
-						}
-					],
-					"sid": 809950240280140,
-					"disabled": true
-				}
-			],
-			"sid": 540757209476574
+			"sid": 857799934042597,
+			"disabled": true
 		}
 	],
 	"sid": 657354547025968
