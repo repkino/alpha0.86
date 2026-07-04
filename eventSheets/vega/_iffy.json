@@ -1288,6 +1288,62 @@
 								},
 								{
 									"eventType": "comment",
+									"text": "иффи уходит вниз после телепортации героя, чтобы следовать за ним",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "vegaIffy",
+											"sid": 422016398616002,
+											"parameters": {
+												"instance-variable": "anim",
+												"comparison": 0,
+												"value": "\"loop1\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "vegaIffy",
+											"sid": 914248516626513,
+											"parameters": {
+												"instance-variable": "actor",
+												"comparison": 0,
+												"value": "\"chooseCell\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "vegaIffy",
+											"sid": 913782452326562,
+											"parameters": {
+												"instance-variable": "anim",
+												"value": "\"down1\""
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "vegaIffy",
+											"sid": 967239516616593,
+											"parameters": {
+												"animation": "Self.anim",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 710972479464084
+								},
+								{
+									"eventType": "comment",
 									"text": "Запускаем lookDown (уход с текущей ячейки)",
 									"background-color": [
 										0.67,
@@ -1299,6 +1355,11 @@
 								{
 									"eventType": "block",
 									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 514336036471794
+										},
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "vegaIffy",
@@ -2684,6 +2745,50 @@
 								}
 							],
 							"sid": 959134547072230
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "vegaIffy",
+									"sid": 562430051862321,
+									"parameters": {
+										"instance-variable": "actor",
+										"comparison": 0,
+										"value": "\"chooseCell\""
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "vegaRoad",
+									"sid": 976006796985516,
+									"parameters": {
+										"unique-id": "vegaIffy.vrUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "vegaRoad",
+									"sid": 757729604711515,
+									"parameters": {
+										"instance-variable": "working",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "vegaRoad",
+									"sid": 590870464311830,
+									"parameters": {
+										"instance-variable": "iffy",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 565889966534531
 						}
 					]
 				},
@@ -4095,15 +4200,71 @@
 													]
 												}
 											],
-											"sid": 784764106395879,
-											"children": [
+											"sid": 784764106395879
+										},
+										{
+											"eventType": "block",
+											"conditions": [
 												{
-													"eventType": "block",
-													"conditions": [],
-													"actions": [],
-													"sid": 347650007694697
+													"id": "else",
+													"objectClass": "System",
+													"sid": 419636405247800
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "vegaIffy",
+													"sid": 557310944559615,
+													"parameters": {
+														"instance-variable": "work"
+													}
+												},
+												{
+													"id": "is-overlapping-another-object",
+													"objectClass": "base",
+													"sid": 370185140268787,
+													"parameters": {
+														"object": "vegaRoad"
+													}
 												}
-											]
+											],
+											"actions": [
+												{
+													"callFunction": "jump",
+													"sid": 647348066541247,
+													"parameters": [
+														"\"Bit\"",
+														"-700",
+														"4000",
+														"1",
+														"\"map\"",
+														"1",
+														"1",
+														false,
+														true,
+														"\"zero\"",
+														"0"
+													]
+												},
+												{
+													"callFunction": "pfmt",
+													"sid": 724158663699449,
+													"disabled": true,
+													"parameters": [
+														"0",
+														"\"Bit\"",
+														"vegaRoad.X",
+														"vegaRoad.Y+2",
+														"1",
+														"1",
+														"2",
+														"\"iffyJump\"",
+														"-1",
+														"200",
+														"-1300"
+													]
+												}
+											],
+											"sid": 533584168641761
 										}
 									]
 								},
@@ -4852,6 +5013,7 @@
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aMico",
 									"sid": 446536537903019,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "iffyRest"
 									},
@@ -4861,6 +5023,7 @@
 									"id": "compare-instance-variable",
 									"objectClass": "vegaRoad",
 									"sid": 274764993523836,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "set",
 										"comparison": 0,
@@ -4870,11 +5033,31 @@
 								{
 									"id": "is-on-screen",
 									"objectClass": "vegaRoad",
-									"sid": 314034857704560
+									"sid": 314034857704560,
+									"disabled": true
 								}
 							],
-							"actions": [],
+							"actions": [
+								{
+									"callFunction": "jump",
+									"sid": 539692081685216,
+									"parameters": [
+										"\"Bit\"",
+										"-700",
+										"4000",
+										"1",
+										"\"map\"",
+										"1",
+										"1",
+										false,
+										true,
+										"\"zero\"",
+										"0"
+									]
+								}
+							],
 							"sid": 780763379945718,
+							"disabled": true,
 							"children": [
 								{
 									"eventType": "block",
@@ -6029,6 +6212,15 @@
 											"id": "is-on-screen",
 											"objectClass": "vegaRoad",
 											"sid": 181136891899996
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "vegaRoad",
+											"sid": 514765326793855,
+											"parameters": {
+												"unique-id": "vegaIffy.vrUID"
+											},
+											"isInverted": true
 										}
 									],
 									"actions": [],
@@ -6094,10 +6286,10 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "base",
-											"sid": 862439864574977,
+											"sid": 401262745440743,
 											"parameters": {
 												"instance-variable": "freeToMove",
-												"value": "false"
+												"value": "true"
 											}
 										},
 										{
@@ -6122,6 +6314,7 @@
 											"id": "set-boolean-instvar",
 											"objectClass": "aMico",
 											"sid": 694037247469961,
+											"disabled": true,
 											"parameters": {
 												"instance-variable": "iffyRest",
 												"value": "true"
@@ -6130,12 +6323,49 @@
 										{
 											"id": "start-timer",
 											"objectClass": "vegaIffy",
-											"sid": 195792171844185,
+											"sid": 347109045251001,
+											"disabled": true,
 											"behaviorType": "Timer",
 											"parameters": {
-												"duration": "1.0",
+												"duration": "1.6",
 												"type": "once",
 												"tag": "\"rest\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "vegaRoad",
+											"sid": 552208388608135,
+											"parameters": {
+												"instance-variable": "iffyCurrent",
+												"value": "\"energy\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "vegaIffy",
+											"sid": 707295325941842,
+											"parameters": {
+												"instance-variable": "actor",
+												"value": "\"energy\""
+											}
+										},
+										{
+											"id": "set-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 450826365562969,
+											"parameters": {
+												"variable": "iffy",
+												"value": "true"
+											}
+										},
+										{
+											"id": "callselffunction0",
+											"objectClass": "vegaIffy",
+											"sid": 188228831793290,
+											"behaviorType": "sfPoint",
+											"parameters": {
+												"function_name:0": "\"iffyChoose\""
 											}
 										}
 									],
@@ -6174,6 +6404,15 @@
 											"parameters": {
 												"animation": "\"pick\""
 											}
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "vegaRoad",
+											"sid": 189621549012746,
+											"parameters": {
+												"unique-id": "vegaIffy.vrUID"
+											},
+											"isInverted": true
 										}
 									],
 									"actions": [
@@ -6215,6 +6454,15 @@
 										},
 										{
 											"id": "set-boolean-instvar",
+											"objectClass": "vegaIffy",
+											"sid": 935942774371911,
+											"parameters": {
+												"instance-variable": "work",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
 											"objectClass": "aMico",
 											"sid": 884081770455974,
 											"parameters": {
@@ -6225,10 +6473,10 @@
 										{
 											"id": "start-timer",
 											"objectClass": "vegaIffy",
-											"sid": 617653997216220,
+											"sid": 504990212274012,
 											"behaviorType": "Timer",
 											"parameters": {
-												"duration": "1.0",
+												"duration": "1.6",
 												"type": "once",
 												"tag": "\"rest\""
 											}
@@ -9819,22 +10067,6 @@
 								"comparison": 0,
 								"value": "aBook.hero"
 							}
-						},
-						{
-							"id": "is-overlapping-another-object",
-							"objectClass": "base",
-							"sid": 888840579947311,
-							"parameters": {
-								"object": "vegaIffy"
-							}
-						},
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "vegaRoad",
-							"sid": 652170098467159,
-							"parameters": {
-								"unique-id": "vegaIffy.vrUID"
-							}
 						}
 					],
 					"actions": [],
@@ -9844,105 +10076,130 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "vegaRoad",
-									"sid": 309444535967907,
+									"id": "is-overlapping-another-object",
+									"objectClass": "base",
+									"sid": 222935937968689,
 									"parameters": {
-										"instance-variable": "working"
-									},
-									"isInverted": true
+										"object": "vegaIffy"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "vegaRoad",
+									"sid": 778849302864247,
+									"parameters": {
+										"unique-id": "vegaIffy.vrUID"
+									}
 								}
 							],
 							"actions": [],
-							"sid": 615855364324884,
+							"sid": 996153077401425,
 							"children": [
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "compare-instance-variable",
-											"objectClass": "vegaIffy",
-											"sid": 808285569082002,
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "vegaRoad",
+											"sid": 307746893208441,
 											"parameters": {
-												"instance-variable": "actor",
-												"comparison": 0,
-												"value": "\"chooseCell\""
-											}
+												"instance-variable": "working"
+											},
+											"isInverted": true
 										}
 									],
-									"actions": [
+									"actions": [],
+									"sid": 708982031623754,
+									"children": [
 										{
-											"id": "callselffunction0",
-											"objectClass": "vegaIffy",
-											"sid": 187724925068146,
-											"behaviorType": "sfPoint",
-											"parameters": {
-												"function_name:0": "\"iffyChoose\""
-											}
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "vegaIffy",
+													"sid": 538833661640604,
+													"parameters": {
+														"instance-variable": "actor",
+														"comparison": 0,
+														"value": "\"chooseCell\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "callselffunction0",
+													"objectClass": "vegaIffy",
+													"sid": 185784819298952,
+													"behaviorType": "sfPoint",
+													"parameters": {
+														"function_name:0": "\"iffyChoose\""
+													}
+												}
+											],
+											"sid": 555592348818718
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 420696721716697
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "iffyAct",
+													"sid": 590733314905770
+												}
+											],
+											"sid": 767336248875133
 										}
-									],
-									"sid": 556329471171876
+									]
 								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 737373772720629
+											"id": "is-overlapping-another-object",
+											"objectClass": "base",
+											"sid": 697043987823855,
+											"parameters": {
+												"object": "vegaRoad"
+											}
+										},
+										{
+											"id": "compare-y",
+											"objectClass": "base",
+											"sid": 525243841715353,
+											"parameters": {
+												"comparison": 2,
+												"y-co-ordinate": "vegaRoad.Y+1"
+											}
 										}
 									],
 									"actions": [
 										{
-											"callFunction": "iffyAct",
-											"sid": 878499548761785
+											"callFunction": "pfmt",
+											"sid": 438361200966304,
+											"parameters": [
+												"0",
+												"\"Bit\"",
+												"vegaRoad.X",
+												"vegaRoad.Y+2",
+												"1",
+												"1",
+												"1",
+												"\"zero\"",
+												"-1",
+												"0",
+												"0"
+											]
 										}
 									],
-									"sid": 360683631648242
+									"sid": 591983251381675
 								}
 							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "base",
-									"sid": 506078181176378,
-									"parameters": {
-										"object": "vegaRoad"
-									}
-								},
-								{
-									"id": "compare-y",
-									"objectClass": "base",
-									"sid": 787401065849580,
-									"parameters": {
-										"comparison": 2,
-										"y-co-ordinate": "vegaRoad.Y+1"
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "pfmt",
-									"sid": 175571056313708,
-									"parameters": [
-										"0",
-										"\"Bit\"",
-										"vegaRoad.X",
-										"vegaRoad.Y+2",
-										"1",
-										"1",
-										"1",
-										"\"zero\"",
-										"-1",
-										"0",
-										"0"
-									]
-								}
-							],
-							"sid": 152663088728993
 						}
 					]
 				},
