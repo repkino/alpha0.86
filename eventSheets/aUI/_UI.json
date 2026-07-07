@@ -967,6 +967,109 @@
 						"\"bottom\"",
 						"\"active\""
 					]
+				},
+				{
+					"callFunction": "getItem",
+					"sid": 431926063053611,
+					"disabled": true,
+					"parameters": [
+						true,
+						"\"energoBall\"",
+						"\"use\"",
+						"0",
+						"1",
+						"0",
+						"\"universal\"",
+						"-1"
+					]
+				},
+				{
+					"id": "wait",
+					"objectClass": "System",
+					"sid": 275656692939378,
+					"disabled": true,
+					"parameters": {
+						"seconds": "0",
+						"use-timescale": true
+					}
+				},
+				{
+					"callFunction": "invLimit",
+					"sid": 962937442513701,
+					"disabled": true
+				},
+				{
+					"id": "wait",
+					"objectClass": "System",
+					"sid": 323778736566935,
+					"disabled": true,
+					"parameters": {
+						"seconds": "0",
+						"use-timescale": true
+					}
+				},
+				{
+					"callFunction": "items",
+					"sid": 608716356177199,
+					"disabled": true
+				},
+				{
+					"callFunction": "inventory",
+					"sid": 914562608184337,
+					"disabled": true,
+					"parameters": [
+						"\"\"",
+						true
+					]
+				},
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 259619922623921,
+					"disabled": true,
+					"parameters": {
+						"group-name": "\"inventory\"",
+						"state": "activated"
+					}
+				},
+				{
+					"id": "wait",
+					"objectClass": "System",
+					"sid": 512073835147151,
+					"disabled": true,
+					"parameters": {
+						"seconds": "0",
+						"use-timescale": true
+					}
+				},
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 418379226836859,
+					"disabled": true,
+					"parameters": {
+						"group-name": "\"inventory\"",
+						"state": "deactivated"
+					}
+				},
+				{
+					"callFunction": "inventory",
+					"sid": 890373467072671,
+					"disabled": true,
+					"parameters": [
+						"\"active\"",
+						false
+					]
+				},
+				{
+					"id": "set-animation",
+					"objectClass": "inventory",
+					"sid": 240866027696284,
+					"disabled": true,
+					"parameters": {
+						"animation": "\"near\"",
+						"from": "beginning"
+					}
 				}
 			],
 			"sid": 446957355228790,
@@ -1145,7 +1248,8 @@
 							]
 						}
 					],
-					"sid": 519775408719177
+					"sid": 519775408719177,
+					"disabled": true
 				}
 			]
 		},
@@ -9063,7 +9167,7 @@
 							"name": "informer",
 							"type": "number",
 							"initialValue": "0",
-							"comment": "",
+							"comment": "-1 block, 0 only new, 1 direct",
 							"sid": 760896148819854
 						}
 					],
@@ -9655,7 +9759,7 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 808770749230049,
+											"sid": 486665612208771,
 											"parameters": {
 												"variable": "informer",
 												"comparison": 1,
@@ -9663,64 +9767,83 @@
 											}
 										}
 									],
-									"actions": [
-										{
-											"id": "change-tags",
-											"objectClass": "aUI",
-											"sid": 978273589271649,
-											"parameters": {
-												"action": "add",
-												"tags": "iSign"
-											}
-										},
-										{
-											"id": "add-key",
-											"objectClass": "infoLine",
-											"sid": 149304742915872,
-											"parameters": {
-												"key": "iSign",
-												"value": "class"
-											}
-										}
-									],
+									"actions": [],
 									"sid": 436551109072316,
 									"children": [
 										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "infoLine",
-													"sid": 926799413055183,
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 469939009451643,
 													"parameters": {
-														"instance-variable": "on"
-													},
-													"isInverted": true
+														"variable": "informer",
+														"comparison": 1,
+														"value": "-1"
+													}
 												}
 											],
 											"actions": [
 												{
-													"id": "set-group-active",
-													"objectClass": "System",
-													"sid": 337895966262755,
+													"id": "change-tags",
+													"objectClass": "aUI",
+													"sid": 728952700132066,
 													"parameters": {
-														"group-name": "\"informer\"",
-														"state": "activated"
+														"action": "add",
+														"tags": "iSign"
 													}
 												},
 												{
-													"callFunction": "informer",
-													"sid": 804333879503341,
-													"parameters": [
-														"\"inventory\"",
-														"class=\"big\"?1:0",
-														"class=\"big\"?1:0",
-														"class=\"big\"?1.6:0.8",
-														"iSign"
-													]
+													"id": "add-key",
+													"objectClass": "infoLine",
+													"sid": 621557028313486,
+													"parameters": {
+														"key": "iSign",
+														"value": "class"
+													}
 												}
 											],
-											"sid": 126024637444745
+											"sid": 275308636560876,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "infoLine",
+															"sid": 312011943835583,
+															"parameters": {
+																"instance-variable": "on"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 855710891249181,
+															"parameters": {
+																"group-name": "\"informer\"",
+																"state": "activated"
+															}
+														},
+														{
+															"callFunction": "informer",
+															"sid": 774043283292290,
+															"parameters": [
+																"\"inventory\"",
+																"class=\"big\"?1:0",
+																"class=\"big\"?1:0",
+																"class=\"big\"?1.6:0.8",
+																"iSign"
+															]
+														}
+													],
+													"sid": 297995264136406
+												}
+											]
 										}
 									],
 									"isOrBlock": true
@@ -10046,7 +10169,7 @@
 										{
 											"id": "has-tags",
 											"objectClass": "aUI",
-											"sid": 580040729591230,
+											"sid": 247151792166587,
 											"parameters": {
 												"tags": "iSign"
 											},
@@ -10055,7 +10178,7 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 177932304945040,
+											"sid": 667309600888260,
 											"parameters": {
 												"variable": "informer",
 												"comparison": 1,
@@ -10063,64 +10186,83 @@
 											}
 										}
 									],
-									"actions": [
-										{
-											"id": "change-tags",
-											"objectClass": "aUI",
-											"sid": 501440059573453,
-											"parameters": {
-												"action": "add",
-												"tags": "iSign"
-											}
-										},
-										{
-											"id": "add-key",
-											"objectClass": "infoLine",
-											"sid": 181289485871889,
-											"parameters": {
-												"key": "iSign",
-												"value": "class"
-											}
-										}
-									],
-									"sid": 796100262792004,
+									"actions": [],
+									"sid": 826857092013754,
 									"children": [
 										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "infoLine",
-													"sid": 554736838752207,
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 866983102160417,
 													"parameters": {
-														"instance-variable": "on"
-													},
-													"isInverted": true
+														"variable": "informer",
+														"comparison": 1,
+														"value": "-1"
+													}
 												}
 											],
 											"actions": [
 												{
-													"id": "set-group-active",
-													"objectClass": "System",
-													"sid": 562059454416399,
+													"id": "change-tags",
+													"objectClass": "aUI",
+													"sid": 390584556592492,
 													"parameters": {
-														"group-name": "\"informer\"",
-														"state": "activated"
+														"action": "add",
+														"tags": "iSign"
 													}
 												},
 												{
-													"callFunction": "informer",
-													"sid": 496955248090299,
-													"parameters": [
-														"\"inventory\"",
-														"class=\"big\"?1:0",
-														"class=\"big\"?1:0",
-														"class=\"big\"?1.6:0.8",
-														"iSign"
-													]
+													"id": "add-key",
+													"objectClass": "infoLine",
+													"sid": 575420935037240,
+													"parameters": {
+														"key": "iSign",
+														"value": "class"
+													}
 												}
 											],
-											"sid": 684256406271047
+											"sid": 904433973013953,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "infoLine",
+															"sid": 514086754610856,
+															"parameters": {
+																"instance-variable": "on"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 802431957015127,
+															"parameters": {
+																"group-name": "\"informer\"",
+																"state": "activated"
+															}
+														},
+														{
+															"callFunction": "informer",
+															"sid": 890509600811187,
+															"parameters": [
+																"\"inventory\"",
+																"class=\"big\"?1:0",
+																"class=\"big\"?1:0",
+																"class=\"big\"?1.6:0.8",
+																"iSign"
+															]
+														}
+													],
+													"sid": 243985185751569
+												}
+											]
 										}
 									],
 									"isOrBlock": true
@@ -10371,7 +10513,7 @@
 										{
 											"id": "has-tags",
 											"objectClass": "aUI",
-											"sid": 220570725097772,
+											"sid": 472098185121567,
 											"parameters": {
 												"tags": "iSign"
 											},
@@ -10380,7 +10522,7 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 983135959556841,
+											"sid": 901495512488181,
 											"parameters": {
 												"variable": "informer",
 												"comparison": 1,
@@ -10388,64 +10530,83 @@
 											}
 										}
 									],
-									"actions": [
-										{
-											"id": "change-tags",
-											"objectClass": "aUI",
-											"sid": 392992061203174,
-											"parameters": {
-												"action": "add",
-												"tags": "iSign"
-											}
-										},
-										{
-											"id": "add-key",
-											"objectClass": "infoLine",
-											"sid": 686267370628087,
-											"parameters": {
-												"key": "iSign",
-												"value": "class"
-											}
-										}
-									],
-									"sid": 469033011686399,
+									"actions": [],
+									"sid": 900558208857172,
 									"children": [
 										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "infoLine",
-													"sid": 419261918305534,
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 494108251425638,
 													"parameters": {
-														"instance-variable": "on"
-													},
-													"isInverted": true
+														"variable": "informer",
+														"comparison": 1,
+														"value": "-1"
+													}
 												}
 											],
 											"actions": [
 												{
-													"id": "set-group-active",
-													"objectClass": "System",
-													"sid": 427821303529400,
+													"id": "change-tags",
+													"objectClass": "aUI",
+													"sid": 909777945643661,
 													"parameters": {
-														"group-name": "\"informer\"",
-														"state": "activated"
+														"action": "add",
+														"tags": "iSign"
 													}
 												},
 												{
-													"callFunction": "informer",
-													"sid": 868282776658142,
-													"parameters": [
-														"\"inventory\"",
-														"class=\"big\"?1:0",
-														"class=\"big\"?1:0",
-														"class=\"big\"?1.6:0.8",
-														"iSign"
-													]
+													"id": "add-key",
+													"objectClass": "infoLine",
+													"sid": 334476307336119,
+													"parameters": {
+														"key": "iSign",
+														"value": "class"
+													}
 												}
 											],
-											"sid": 748277205206493
+											"sid": 135282407968941,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "infoLine",
+															"sid": 275811446556578,
+															"parameters": {
+																"instance-variable": "on"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 492977899084958,
+															"parameters": {
+																"group-name": "\"informer\"",
+																"state": "activated"
+															}
+														},
+														{
+															"callFunction": "informer",
+															"sid": 382818254275219,
+															"parameters": [
+																"\"inventory\"",
+																"class=\"big\"?1:0",
+																"class=\"big\"?1:0",
+																"class=\"big\"?1.6:0.8",
+																"iSign"
+															]
+														}
+													],
+													"sid": 312834155389024
+												}
+											]
 										}
 									],
 									"isOrBlock": true
@@ -18562,6 +18723,14 @@
 							],
 							"actions": [
 								{
+									"id": "set-text",
+									"objectClass": "help",
+									"sid": 856390916168500,
+									"parameters": {
+										"text": "\"drag_\"&\"interseptor:\"&interseptor"
+									}
+								},
+								{
 									"id": "set-group-active",
 									"objectClass": "System",
 									"sid": 500473606735517,
@@ -19767,7 +19936,7 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "",
+							"text": "возвращение предмета",
 							"background-color": [
 								0.611764705882353,
 								0.6235294117647059,
@@ -19806,30 +19975,68 @@
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "compare-instance-variable",
+											"id": "is-boolean-instance-variable-set",
 											"objectClass": "vegaIffy",
-											"sid": 465132045292317,
+											"sid": 524396738027949,
+											"disabled": true,
 											"parameters": {
-												"instance-variable": "anim",
-												"comparison": 0,
-												"value": "\"swallow\""
+												"instance-variable": "items"
 											}
 										}
 									],
 									"actions": [
 										{
-											"id": "start-animation",
+											"id": "callselffunction0",
 											"objectClass": "vegaIffy",
-											"sid": 135927374644193,
+											"sid": 811698411469582,
+											"behaviorType": "sfPoint",
 											"parameters": {
-												"from": "current-frame"
+												"function_name:0": "\"iffyItemsReset\""
 											}
 										}
 									],
-									"sid": 496126989671488
+									"sid": 496126989671488,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "vegaIffy",
+													"sid": 355170519065737,
+													"parameters": {
+														"instance-variable": "anim",
+														"comparison": 0,
+														"value": "\"swallow\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "start-animation",
+													"objectClass": "vegaIffy",
+													"sid": 767011878260195,
+													"parameters": {
+														"from": "current-frame"
+													}
+												}
+											],
+											"sid": 376692343723508
+										}
+									]
 								}
 							]
 						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "регистрация потери предмета",
+					"background-color": [
+						0.611764705882353,
+						0.6235294117647059,
+						0.9686274509803922,
+						1
 					]
 				},
 				{
