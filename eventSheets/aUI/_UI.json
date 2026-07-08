@@ -949,10 +949,11 @@
 				},
 				{
 					"callFunction": "inventoryInit",
-					"sid": 760875098167510,
+					"sid": 913469774404465,
 					"parameters": [
 						"-1",
-						"-1"
+						"-1",
+						false
 					]
 				},
 				{
@@ -1265,7 +1266,8 @@
 					"sid": 591140553753087,
 					"parameters": [
 						"-1",
-						"-1"
+						"-1",
+						false
 					]
 				},
 				{
@@ -1686,6 +1688,13 @@
 							"initialValue": "-1",
 							"comment": "undefined",
 							"sid": 653112571427470
+						},
+						{
+							"name": "fullStart",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 611598158426685
 						}
 					],
 					"eventType": "function-block",
@@ -2354,17 +2363,26 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "cocobutton",
-											"sid": 994668015865109,
+											"sid": 616541535032500,
 											"parameters": {
 												"instance-variable": "rocket"
 											}
+										},
+										{
+											"id": "compare-boolean-eventvar",
+											"objectClass": "System",
+											"sid": 201098763334687,
+											"parameters": {
+												"variable": "fullStart"
+											},
+											"isInverted": true
 										}
 									],
 									"actions": [
 										{
 											"id": "set-animation",
 											"objectClass": "cocobutton",
-											"sid": 503325556078041,
+											"sid": 602630631896562,
 											"parameters": {
 												"animation": "\"up\"",
 												"from": "beginning"
@@ -2373,7 +2391,7 @@
 										{
 											"id": "set-animation-frame",
 											"objectClass": "cocobutton",
-											"sid": 414270847423428,
+											"sid": 253743465214807,
 											"parameters": {
 												"frame-number": "7"
 											}
@@ -2381,27 +2399,36 @@
 										{
 											"id": "stop-animation",
 											"objectClass": "cocobutton",
-											"sid": 200266246532355
+											"sid": 408653337954711
 										},
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "cocobutton",
-											"sid": 479572349657189,
+											"sid": 997060835775222,
 											"parameters": {
 												"instance-variable": "open",
 												"value": "true"
 											}
 										},
 										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 404522353487711,
+											"parameters": {
+												"instance-variable": "abilsOpened",
+												"value": "true"
+											}
+										},
+										{
 											"id": "instance-signal",
 											"objectClass": "cocobutton",
-											"sid": 708755585096744,
+											"sid": 471739272747048,
 											"parameters": {
 												"tag": "\"cocoAbilOpen\""
 											}
 										}
 									],
-									"sid": 962837549228550
+									"sid": 516459648620010
 								},
 								{
 									"eventType": "block",
@@ -8089,7 +8116,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "\n\n?  отключение групп под вопросом"
+					"text": "\n\n\n\n\n\n?  отключение групп под вопросом"
 				},
 				{
 					"eventType": "block",
@@ -8210,11 +8237,137 @@
 						{
 							"id": "compare-two-values",
 							"objectClass": "System",
+							"sid": 437096137464104,
+							"parameters": {
+								"first-value": "Mouse.Y(\"ui\")",
+								"comparison": 2,
+								"second-value": "125"
+							}
+						},
+						{
+							"id": "is-group-active",
+							"objectClass": "System",
+							"sid": 557087861125948,
+							"parameters": {
+								"group-name": "\"inventory\""
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 563843837134191,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aUIN",
+									"sid": 344100370406438,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "inventoryOn"
+									}
+								},
+								{
+									"id": "compare-animation-frame-tag",
+									"objectClass": "inventory",
+									"sid": 897313336119200,
+									"parameters": {
+										"comparison": 0,
+										"tag": "\"hot\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "inventory",
+									"sid": 527562818242919,
+									"parameters": {
+										"animation": "\"openExtra\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 904766260107356,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "trigger-once-while-true",
+											"objectClass": "System",
+											"sid": 261902610584612
+										}
+									],
+									"actions": [
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 120780790016224,
+											"parameters": {
+												"group-name": "\"inventory\"",
+												"state": "activated"
+											}
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 381079197495390,
+											"parameters": {
+												"seconds": "0",
+												"use-timescale": false
+											}
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 948488900248995,
+											"parameters": {
+												"seconds": "0",
+												"use-timescale": false
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 191119084382524,
+											"parameters": {
+												"group-name": "\"itemDrag\"",
+												"state": "activated"
+											}
+										}
+									],
+									"sid": 497213424457168
+								}
+							],
+							"isOrBlock": true
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 996628583937478
+						},
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
 							"sid": 476913791583814,
 							"parameters": {
 								"first-value": "Mouse.Y(\"ui\")",
 								"comparison": 4,
 								"second-value": "126"
+							}
+						},
+						{
+							"id": "is-group-active",
+							"objectClass": "System",
+							"sid": 677894279685984,
+							"parameters": {
+								"group-name": "\"inventory\""
 							}
 						}
 					],
@@ -8325,110 +8478,6 @@
 									"sid": 351731236933276
 								}
 							]
-						}
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "compare-two-values",
-							"objectClass": "System",
-							"sid": 120846312877023,
-							"parameters": {
-								"first-value": "Mouse.Y(\"ui\")",
-								"comparison": 2,
-								"second-value": "125"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 555537706580557,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "aUIN",
-									"sid": 273637355231364,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "inventoryOn"
-									}
-								},
-								{
-									"id": "compare-animation-frame-tag",
-									"objectClass": "inventory",
-									"sid": 684710337819296,
-									"parameters": {
-										"comparison": 0,
-										"tag": "\"hot\""
-									}
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "inventory",
-									"sid": 433500563690873,
-									"parameters": {
-										"animation": "\"openExtra\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 679589479932401,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "trigger-once-while-true",
-											"objectClass": "System",
-											"sid": 120472591453191
-										}
-									],
-									"actions": [
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 980500117126554,
-											"parameters": {
-												"group-name": "\"inventory\"",
-												"state": "activated"
-											}
-										},
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 945575588961692,
-											"parameters": {
-												"seconds": "0",
-												"use-timescale": false
-											}
-										},
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 597685262439391,
-											"parameters": {
-												"seconds": "0",
-												"use-timescale": false
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 899682583057333,
-											"parameters": {
-												"group-name": "\"itemDrag\"",
-												"state": "activated"
-											}
-										}
-									],
-									"sid": 210531414992674
-								}
-							],
-							"isOrBlock": true
 						}
 					]
 				},
@@ -15129,6 +15178,14 @@
 							"parameters": {
 								"y": "-1590"
 							}
+						},
+						{
+							"id": "set-y",
+							"objectClass": "invBack",
+							"sid": 443049484794527,
+							"parameters": {
+								"y": "-3333"
+							}
 						}
 					],
 					"sid": 241240231916673,
@@ -15815,6 +15872,45 @@
 									]
 								},
 								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 345511413083985
+										},
+										{
+											"id": "compare-animation-frame-tag",
+											"objectClass": "inventory",
+											"sid": 792261092700891,
+											"parameters": {
+												"comparison": 1,
+												"tag": "\"hot\""
+											}
+										},
+										{
+											"id": "compare-y",
+											"objectClass": "invBack",
+											"sid": 737545013336051,
+											"parameters": {
+												"comparison": 4,
+												"y-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-y",
+											"objectClass": "invBack",
+											"sid": 112978155153046,
+											"parameters": {
+												"y": "-3333"
+											}
+										}
+									],
+									"sid": 342878770953339
+								},
+								{
 									"eventType": "comment",
 									"text": "закрытие кокона, группа инвентаря отключается",
 									"background-color": [
@@ -15894,6 +15990,14 @@
 											"id": "set-y",
 											"objectClass": "items",
 											"sid": 321340726680200,
+											"parameters": {
+												"y": "-3333"
+											}
+										},
+										{
+											"id": "set-y",
+											"objectClass": "invBack",
+											"sid": 902856311289671,
 											"parameters": {
 												"y": "-3333"
 											}
