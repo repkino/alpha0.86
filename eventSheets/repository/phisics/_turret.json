@@ -1201,7 +1201,128 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "проверка для отключения группы turretShot"
+							"text": "\n\nзавершение работы конкретной турели и проверка для завершения всех групп"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-instance-signal",
+									"objectClass": "turBase",
+									"sid": 983206710782349,
+									"parameters": {
+										"tag": "\"end\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "turBase",
+									"sid": 175533355099251,
+									"parameters": {
+										"instance-variable": "targetLock",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "turBase",
+									"sid": 651373042046197,
+									"parameters": {
+										"instance-variable": "hasTarget",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "turBase",
+									"sid": 472941493566235,
+									"parameters": {
+										"instance-variable": "aimReady",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "turBase",
+									"sid": 546574579155381,
+									"parameters": {
+										"instance-variable": "enable",
+										"value": "false"
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "turBase",
+									"sid": 642924607449322,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "5",
+										"type": "once",
+										"tag": "\"noTargets\""
+									}
+								}
+							],
+							"sid": 178621486179952,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "turBase",
+											"sid": 433494920668788,
+											"parameters": {
+												"instance-variable": "iffy"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "turBase",
+											"sid": 527260631789895,
+											"parameters": {
+												"instance-variable": "onLocation",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "turBase",
+											"sid": 293240787030004,
+											"parameters": {
+												"instance-variable": "iffy",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "turBase",
+											"sid": 217511477916037,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"value": "-0"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "turBase",
+											"sid": 369532634137691,
+											"parameters": {
+												"x": "-3333",
+												"y": "-4555"
+											}
+										}
+									],
+									"sid": 854646761615155
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "\n\nпроверка для отключения групп, если турелей на макете нет"
 						},
 						{
 							"eventType": "block",
@@ -1214,92 +1335,151 @@
 									"parameters": {
 										"tag": "\"noTargets\""
 									}
-								}
-							],
-							"actions": [
+								},
 								{
-									"id": "instance-signal",
-									"objectClass": "turBase",
-									"sid": 193425486564820,
+									"id": "on-timer",
+									"objectClass": "aIns",
+									"sid": 854252402947190,
+									"behaviorType": "Timer",
 									"parameters": {
-										"tag": "\"noTargets\""
-									}
-								}
-							],
-							"sid": 988138703027242
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-instance-signal",
-									"objectClass": "turBase",
-									"sid": 665935864927001,
-									"parameters": {
-										"tag": "\"noTargets\""
+										"tag": "\"noTurrets\""
 									}
 								}
 							],
 							"actions": [],
-							"sid": 545799462544955,
+							"sid": 988138703027242,
 							"children": [
 								{
-									"eventType": "comment",
-									"text": ""
-								},
-								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-outside-layout",
-											"objectClass": "turBase",
-											"sid": 997869983647605,
-											"isInverted": true
-										}
-									],
-									"actions": [],
-									"sid": 373553515538021
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
+											"id": "pick-all",
 											"objectClass": "System",
-											"sid": 671840648321941
+											"sid": 696957512157141,
+											"parameters": {
+												"object": "turBase"
+											}
 										}
 									],
 									"actions": [],
-									"sid": 173742838863093,
+									"sid": 250893215058315,
 									"children": [
 										{
 											"eventType": "comment",
-											"text": ""
+											"text": "турели есть на макете"
 										},
 										{
 											"eventType": "block",
 											"conditions": [
 												{
 													"id": "is-outside-layout",
-													"objectClass": "iffyBall",
-													"sid": 887698562879568,
+													"objectClass": "turBase",
+													"sid": 841013762641658,
 													"isInverted": true
 												}
 											],
-											"actions": [
+											"actions": [],
+											"sid": 462488219273992,
+											"children": [
 												{
-													"id": "start-timer",
-													"objectClass": "turBase",
-													"sid": 443151843862859,
-													"behaviorType": "Timer",
-													"parameters": {
-														"duration": "5",
-														"type": "once",
-														"tag": "\"noTargets\""
-													}
+													"eventType": "comment",
+													"text": "но у них нет целей"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "turBase",
+															"sid": 485548335612847,
+															"parameters": {
+																"instance-variable": "hasTarget"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [],
+													"sid": 975736718180642,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "какой-то снаряд ещё работает"
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-outside-layout",
+																	"objectClass": "iffyBall",
+																	"sid": 713856718351980,
+																	"isInverted": true
+																}
+															],
+															"actions": [],
+															"sid": 337120179909505,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "pick-random-instance",
+																			"objectClass": "System",
+																			"sid": 988249776637748,
+																			"parameters": {
+																				"object": "turBase"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "start-timer",
+																			"objectClass": "turBase",
+																			"sid": 784428527564758,
+																			"behaviorType": "Timer",
+																			"parameters": {
+																				"duration": "2",
+																				"type": "once",
+																				"tag": "\"noTargets\""
+																			}
+																		}
+																	],
+																	"sid": 653783322335863
+																}
+															]
+														},
+														{
+															"eventType": "comment",
+															"text": "нет целей, нет снарядов, отключаем группу выстрела"
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 845392363049056
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-group-active",
+																	"objectClass": "System",
+																	"sid": 241473876378168,
+																	"parameters": {
+																		"group-name": "\"turretShot\"",
+																		"state": "deactivated"
+																	}
+																}
+															],
+															"sid": 753127393326664
+														}
+													]
 												}
-											],
-											"sid": 609480607144037
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "турелей нет на макете"
 										},
 										{
 											"eventType": "block",
@@ -1307,146 +1487,91 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 916637170104565
+													"sid": 292602111356028
 												}
 											],
-											"actions": [
+											"actions": [],
+											"sid": 332846221853379,
+											"children": [
 												{
-													"id": "set-group-active",
-													"objectClass": "System",
-													"sid": 225797556899055,
-													"parameters": {
-														"group-name": "\"turretShot\"",
-														"state": "deactivated"
-													}
+													"eventType": "comment",
+													"text": "проверка снарядов"
 												},
 												{
-													"id": "set-group-active",
-													"objectClass": "System",
-													"sid": 531944914234675,
-													"parameters": {
-														"group-name": "\"turret\"",
-														"state": "deactivated"
-													}
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-outside-layout",
+															"objectClass": "iffyBall",
+															"sid": 702327529349582,
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "start-timer",
+															"objectClass": "aIns",
+															"sid": 210500177623454,
+															"behaviorType": "Timer",
+															"parameters": {
+																"duration": "2",
+																"type": "once",
+																"tag": "\"noTurrets\""
+															}
+														}
+													],
+													"sid": 493342333198393
+												},
+												{
+													"eventType": "comment",
+													"text": "отключение всех групп"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 966927950065937
+														}
+													],
+													"actions": [
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 631905591808742,
+															"parameters": {
+																"group-name": "\"turretShot\"",
+																"state": "deactivated"
+															}
+														},
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 951102937009401,
+															"parameters": {
+																"group-name": "\"turTower\"",
+																"state": "deactivated"
+															}
+														},
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 783069021951652,
+															"parameters": {
+																"group-name": "\"turret\"",
+																"state": "deactivated"
+															}
+														}
+													],
+													"sid": 533970896670543
 												}
-											],
-											"sid": 661991518507988
+											]
 										}
 									]
 								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "завершение работы конкретной турели и проверка для завершения всех групп"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-instance-signal",
-									"objectClass": "turBase",
-									"sid": 954522858114917,
-									"parameters": {
-										"tag": "\"end\""
-									}
-								}
 							],
-							"actions": [
-								{
-									"id": "start-timer",
-									"objectClass": "turBase",
-									"sid": 767852675969848,
-									"behaviorType": "Timer",
-									"parameters": {
-										"duration": "5",
-										"type": "once",
-										"tag": "\"noTargets\""
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "turBase",
-									"sid": 905639160171096,
-									"parameters": {
-										"instance-variable": "targetLock",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "turBase",
-									"sid": 304113832519257,
-									"parameters": {
-										"instance-variable": "aimReady",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "turBase",
-									"sid": 570995597479506,
-									"parameters": {
-										"instance-variable": "enable",
-										"value": "false"
-									}
-								}
-							],
-							"sid": 741889028629697,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "turBase",
-											"sid": 185794715957167,
-											"parameters": {
-												"instance-variable": "iffy"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "turBase",
-											"sid": 379881708118447,
-											"parameters": {
-												"instance-variable": "onLocation",
-												"value": "false"
-											}
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "turBase",
-											"sid": 972988327119135,
-											"parameters": {
-												"instance-variable": "iffy",
-												"value": "false"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "turBase",
-											"sid": 835213839254868,
-											"parameters": {
-												"instance-variable": "hostUID",
-												"value": "-0"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "turBase",
-											"sid": 697978826802766,
-											"parameters": {
-												"x": "-3333",
-												"y": "-4555"
-											}
-										}
-									],
-									"sid": 632997342711709
-								}
-							]
+							"isOrBlock": true
 						}
 					],
 					"sid": 849732201401604
