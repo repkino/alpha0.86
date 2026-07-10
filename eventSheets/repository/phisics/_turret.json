@@ -176,7 +176,8 @@
 									"callFunction": "turretIsoTick",
 									"sid": 501029932108801,
 									"parameters": [
-										"turBase.UID"
+										"turBase.UID",
+										false
 									]
 								}
 							],
@@ -206,6 +207,13 @@
 									"initialValue": "0",
 									"comment": "",
 									"sid": 241677691224284
+								},
+								{
+									"name": "shot",
+									"type": "boolean",
+									"initialValue": "false",
+									"comment": "",
+									"sid": 516223707447329
 								}
 							],
 							"eventType": "function-block",
@@ -953,7 +961,17 @@
 															}
 														}
 													],
-													"actions": [],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "turBase",
+															"sid": 631557283940473,
+															"parameters": {
+																"instance-variable": "hasTarget",
+																"value": "true"
+															}
+														}
+													],
 													"sid": 320530641009801,
 													"children": [
 														{
@@ -983,18 +1001,17 @@
 																		"instance-variable": "targetLock"
 																	},
 																	"isInverted": true
+																},
+																{
+																	"id": "compare-boolean-eventvar",
+																	"objectClass": "System",
+																	"sid": 346162749119098,
+																	"parameters": {
+																		"variable": "shot"
+																	}
 																}
 															],
 															"actions": [
-																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "turBase",
-																	"sid": 333534002183683,
-																	"parameters": {
-																		"instance-variable": "hasTarget",
-																		"value": "true"
-																	}
-																},
 																{
 																	"id": "set-boolean-instvar",
 																	"objectClass": "turBase",
@@ -1016,10 +1033,21 @@
 																{
 																	"callFunction": "turretShoot",
 																	"sid": 138924727939659,
+																	"disabled": true,
 																	"parameters": [
 																		"turBase.UID",
-																		"turBase.targetUID"
+																		"turBase.targetUID",
+																		"0",
+																		"0"
 																	]
+																},
+																{
+																	"id": "instance-signal",
+																	"objectClass": "turBase",
+																	"sid": 134970079427539,
+																	"parameters": {
+																		"tag": "\"preShot\""
+																	}
 																},
 																{
 																	"id": "stop-timer",
@@ -1062,7 +1090,8 @@
 																	}
 																}
 															],
-															"sid": 868035488620980
+															"sid": 868035488620980,
+															"isOrBlock": true
 														}
 													]
 												},
@@ -1132,6 +1161,30 @@
 																}
 															],
 															"sid": 445554853582885
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-boolean-eventvar",
+																	"objectClass": "System",
+																	"sid": 642578641851788,
+																	"parameters": {
+																		"variable": "shot"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "instance-signal",
+																	"objectClass": "turBase",
+																	"sid": 392475755696588,
+																	"parameters": {
+																		"tag": "\"rotate\""
+																	}
+																}
+															],
+															"sid": 800171751352721
 														}
 													]
 												}
@@ -1248,6 +1301,14 @@
 														"duration": "2",
 														"type": "once",
 														"tag": "\"noTargets\""
+													}
+												},
+												{
+													"id": "instance-signal",
+													"objectClass": "turBase",
+													"sid": 250033853472235,
+													"parameters": {
+														"tag": "\"noTarget\""
 													}
 												}
 											],
@@ -1678,13 +1739,17 @@
 								{
 									"id": "instance-signal",
 									"objectClass": "turBase",
-									"sid": 504247006070128,
+									"sid": 656914357578779,
 									"parameters": {
-										"tag": "\"shot\""
+										"tag": "\"nextShot\""
 									}
 								}
 							],
 							"sid": 343302491287623
+						},
+						{
+							"eventType": "comment",
+							"text": ""
 						},
 						{
 							"eventType": "block",
@@ -1692,9 +1757,9 @@
 								{
 									"id": "on-instance-signal",
 									"objectClass": "turBase",
-									"sid": 428497677975326,
+									"sid": 539476034583713,
 									"parameters": {
-										"tag": "\"shot\""
+										"tag": "\"nextShot\""
 									}
 								}
 							],
@@ -1725,11 +1790,22 @@
 									],
 									"actions": [
 										{
+											"id": "instance-signal",
+											"objectClass": "turBase",
+											"sid": 831806574965557,
+											"parameters": {
+												"tag": "\"preShot\""
+											}
+										},
+										{
 											"callFunction": "turretShoot",
 											"sid": 493426524941170,
+											"disabled": true,
 											"parameters": [
 												"turBase.UID",
-												"turBase.targetUID"
+												"turBase.targetUID",
+												"0",
+												"0"
 											]
 										}
 									],
@@ -1827,35 +1903,27 @@
 											}
 										}
 									],
-									"actions": [],
-									"sid": 816085832899611,
-									"children": [
+									"actions": [
 										{
-											"eventType": "block",
-											"conditions": [],
-											"actions": [
-												{
-													"id": "tween-two-properties",
-													"objectClass": "iffyBall",
-													"sid": 827491443818697,
-													"behaviorType": "Tween",
-													"parameters": {
-														"tags": "\"fall\"",
-														"property": "position",
-														"end-x": "iffyBall.goX",
-														"end-y": "iffyBall.goY",
-														"time": "turBase.rangeT * 0.15 / turBase.dartSpeedT",
-														"ease": "easeoutquad",
-														"destroy-on-complete": "no",
-														"loop": "no",
-														"ping-pong": "no",
-														"repeat-count": "1"
-													}
-												}
-											],
-											"sid": 685006930482437
+											"id": "tween-two-properties",
+											"objectClass": "iffyBall",
+											"sid": 840534862788742,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"fall\"",
+												"property": "position",
+												"end-x": "iffyBall.goX",
+												"end-y": "iffyBall.goY",
+												"time": "turBase.rangeT * 0.15 / turBase.dartSpeedT",
+												"ease": "easeoutquad",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
 										}
-									]
+									],
+									"sid": 816085832899611
 								}
 							]
 						},
@@ -1952,6 +2020,20 @@
 									"initialValue": "-1",
 									"comment": "",
 									"sid": 599688616651428
+								},
+								{
+									"name": "xBall",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 414993768329307
+								},
+								{
+									"name": "yBall",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 344654045792932
 								}
 							],
 							"eventType": "function-block",
@@ -2088,6 +2170,7 @@
 													"id": "set-eventvar-value",
 													"objectClass": "System",
 													"sid": 854284827876293,
+													"disabled": true,
 													"parameters": {
 														"variable": "sx",
 														"value": "turBase.ImagePointX(1)"
@@ -2097,6 +2180,7 @@
 													"id": "set-eventvar-value",
 													"objectClass": "System",
 													"sid": 804033087290871,
+													"disabled": true,
 													"parameters": {
 														"variable": "sy",
 														"value": "turBase.ImagePointY(1)"
@@ -2176,10 +2260,10 @@
 												{
 													"id": "set-position",
 													"objectClass": "iffyBall",
-													"sid": 241157391984763,
+													"sid": 757928371898286,
 													"parameters": {
-														"x": "sx",
-														"y": "sy"
+														"x": "xBall",
+														"y": "yBall"
 													}
 												},
 												{

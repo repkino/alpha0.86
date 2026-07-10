@@ -12537,7 +12537,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "\nТРИГГЕР ВЫСТРЕЛА: turretShoot → анимация shot на iffyTurret\n",
+					"text": "вызов анимации выстрела",
 					"background-color": [
 						0.33,
 						0.73,
@@ -12551,77 +12551,211 @@
 						{
 							"id": "on-instance-signal",
 							"objectClass": "turBase",
-							"sid": 444101113983993,
+							"sid": 770062990176509,
 							"parameters": {
-								"tag": "\"shot\""
+								"tag": "\"preShot\""
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "iffyTurret",
+							"sid": 658247676009082,
+							"parameters": {
+								"unique-id": "turBase.hostUID"
 							}
 						}
 					],
-					"actions": [],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "iffyTurret",
+							"sid": 852797144088795,
+							"parameters": {
+								"instance-variable": "shot",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "iffyTurret",
+							"sid": 124412871466848,
+							"parameters": {
+								"animation": "\"shot\"&(Self.dir=3 ? 1 : Self.dir =4 ? 0 : Self.dir =5 ? 7 : Self.dir )",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-mirrored",
+							"objectClass": "iffyTurret",
+							"sid": 302321955116041,
+							"parameters": {
+								"state": "not-mirrored"
+							}
+						}
+					],
 					"sid": 523359727378418,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "pick-by-unique-id",
-									"objectClass": "iffyTurret",
-									"sid": 662065166047208,
+									"id": "is-between-values",
+									"objectClass": "System",
+									"sid": 591353477141414,
 									"parameters": {
-										"unique-id": "turBase.hostUID"
+										"value": "iffyTurret.dir",
+										"lower-bound": "3",
+										"upper-bound": "5"
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "set-boolean-instvar",
-									"objectClass": "iffyTurret",
-									"sid": 188191067051630,
-									"parameters": {
-										"instance-variable": "shot",
-										"value": "true"
-									}
-								},
-								{
 									"id": "set-mirrored",
 									"objectClass": "iffyTurret",
-									"sid": 793474011757334,
+									"sid": 973926493571472,
 									"parameters": {
-										"state": "not-mirrored"
+										"state": "mirrored"
 									}
 								}
 							],
-							"sid": 411258957866564,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-between-values",
-											"objectClass": "System",
-											"sid": 508662315238726,
-											"parameters": {
-												"value": "iffyTurret.dir",
-												"lower-bound": "3",
-												"upper-bound": "5"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-mirrored",
-											"objectClass": "iffyTurret",
-											"sid": 615202413985305,
-											"parameters": {
-												"state": "mirrored"
-											}
-										}
-									],
-									"sid": 753316430709725
-								}
-							]
+							"sid": 492838082106890
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "цель вне зоны обстрела"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "turBase",
+							"sid": 803218012847069,
+							"parameters": {
+								"tag": "\"rotate\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "iffyTurret",
+							"sid": 333220856118291,
+							"parameters": {
+								"instance-variable": "shot",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-animation-frame",
+							"objectClass": "iffyTurret",
+							"sid": 406238958090475,
+							"parameters": {
+								"frame-number": "2"
+							}
+						},
+						{
+							"id": "stop-animation",
+							"objectClass": "iffyTurret",
+							"sid": 168939014553530
+						}
+					],
+					"sid": 784399490418876
+				},
+				{
+					"eventType": "comment",
+					"text": "целей нет"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "turBase",
+							"sid": 765320142219572,
+							"parameters": {
+								"tag": "\"noTarget\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "iffyTurret",
+							"sid": 107710748677628,
+							"parameters": {
+								"instance-variable": "shot",
+								"value": "false"
+							}
+						},
+						{
+							"id": "stop-animation",
+							"objectClass": "iffyTurret",
+							"sid": 450681604039116
+						}
+					],
+					"sid": 518797935835532
+				},
+				{
+					"eventType": "comment",
+					"text": "момент выстрела и вызов цепочки функций",
+					"background-color": [
+						0.7450980392156863,
+						0.8274509803921568,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-frame-changed",
+							"objectClass": "iffyTurret",
+							"sid": 304863197000148
+						},
+						{
+							"id": "compare-animation-frame",
+							"objectClass": "iffyTurret",
+							"sid": 532330261217513,
+							"parameters": {
+								"comparison": 0,
+								"number": "3"
+							}
+						},
+						{
+							"id": "compare-animation-frame-tag",
+							"objectClass": "iffyTurret",
+							"sid": 459033752254097,
+							"disabled": true,
+							"parameters": {
+								"comparison": 0,
+								"tag": "\"shot\""
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "turBase",
+							"sid": 535226389670327,
+							"parameters": {
+								"unique-id": "iffyTurret.baseUID"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "turretIsoTick",
+							"sid": 415481599320979,
+							"parameters": [
+								"turBase.UID",
+								true
+							]
+						}
+					],
+					"sid": 846346957698608
 				},
 				{
 					"eventType": "comment",
