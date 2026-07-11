@@ -20,6 +20,15 @@
 			],
 			"actions": [
 				{
+					"id": "set-boolean-instvar",
+					"objectClass": "turTarg",
+					"sid": 788079131892880,
+					"parameters": {
+						"instance-variable": "entangled",
+						"value": "false"
+					}
+				},
+				{
 					"id": "instance-signal",
 					"objectClass": "turTarg",
 					"sid": 329796844988032,
@@ -42,17 +51,7 @@
 					}
 				}
 			],
-			"actions": [
-				{
-					"id": "set-boolean-instvar",
-					"objectClass": "turTarg",
-					"sid": 791722057238234,
-					"parameters": {
-						"instance-variable": "entangled",
-						"value": "false"
-					}
-				}
-			],
+			"actions": [],
 			"sid": 775936433824208,
 			"children": [
 				{
@@ -150,6 +149,14 @@
 			"eventType": "block",
 			"conditions": [
 				{
+					"id": "on-instance-signal",
+					"objectClass": "chickBase",
+					"sid": 297758146617443,
+					"parameters": {
+						"tag": "\"entangled\""
+					}
+				},
+				{
 					"id": "is-boolean-instance-variable-set",
 					"objectClass": "chickBase",
 					"sid": 488626213417165,
@@ -169,15 +176,6 @@
 					}
 				},
 				{
-					"id": "set-boolean-instvar",
-					"objectClass": "chickBase",
-					"sid": 107930123879780,
-					"parameters": {
-						"instance-variable": "freeToGo",
-						"value": "false"
-					}
-				},
-				{
 					"id": "stop-timer",
 					"objectClass": "chickBase",
 					"sid": 342933542610833,
@@ -188,6 +186,32 @@
 				}
 			],
 			"sid": 904220903577041
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "base",
+					"sid": 825776853195908,
+					"parameters": {
+						"instance-variable": "entangled"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-boolean-instvar",
+					"objectClass": "base",
+					"sid": 804757107910683,
+					"parameters": {
+						"instance-variable": "entangled",
+						"value": "false"
+					}
+				}
+			],
+			"sid": 585519075378273,
+			"disabled": true
 		},
 		{
 			"eventType": "group",
@@ -1432,16 +1456,6 @@
 															"parameters": {
 																"unique-id": "uid"
 															}
-														},
-														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "turBase",
-															"sid": 971550509587617,
-															"disabled": true,
-															"parameters": {
-																"instance-variable": "targetLock"
-															},
-															"isInverted": true
 														}
 													],
 													"actions": [
@@ -1592,7 +1606,8 @@
 																	]
 																}
 															],
-															"sid": 555821530995582
+															"sid": 555821530995582,
+															"disabled": true
 														},
 														{
 															"eventType": "block",
@@ -1615,6 +1630,76 @@
 															],
 															"sid": 109061873318422,
 															"disabled": true
+														},
+														{
+															"eventType": "comment",
+															"text": "ВЫСТРЕЛ ПО ЗАПРОСУ (shot=true) — вынесен из блока захвата, чтобы избежать повторного выстрела при disabled-проверке targetLock",
+															"background-color": [
+																0.33,
+																0.73,
+																0.48,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-boolean-eventvar",
+																	"objectClass": "System",
+																	"sid": 182333850010587,
+																	"parameters": {
+																		"variable": "shot"
+																	}
+																},
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "turBase",
+																	"sid": 443760394956008,
+																	"parameters": {
+																		"instance-variable": "targetLock"
+																	}
+																},
+																{
+																	"id": "pick-by-unique-id",
+																	"objectClass": "turBase",
+																	"sid": 682414087649432,
+																	"parameters": {
+																		"unique-id": "uid"
+																	}
+																},
+																{
+																	"id": "pick-by-unique-id",
+																	"objectClass": "iffyTurret",
+																	"sid": 464511192827121,
+																	"parameters": {
+																		"unique-id": "turBase.hostUID"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Выстрел снаряда из ImagePoint(1) турели (точка дула)",
+																	"background-color": [
+																		0.49,
+																		0.7,
+																		0.38,
+																		1
+																	]
+																},
+																{
+																	"callFunction": "turretShoot",
+																	"sid": 111478850188729,
+																	"parameters": [
+																		"turBase.UID",
+																		"turBase.targetUID",
+																		"iffyTurret.ImagePointX(1)",
+																		"iffyTurret.ImagePointY(1)"
+																	]
+																}
+															],
+															"sid": 347716246008494
 														}
 													]
 												},
@@ -3491,15 +3576,6 @@
 									"parameters": {
 										"object": "turTarg"
 									}
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "turTarg",
-									"sid": 107995072497751,
-									"parameters": {
-										"instance-variable": "entangled"
-									},
-									"isInverted": true
 								}
 							],
 							"actions": [
@@ -3534,137 +3610,163 @@
 							"sid": 245200842332595,
 							"children": [
 								{
-									"eventType": "comment",
-									"text": "Эффект iffyGifs",
-									"background-color": [
-										0.49,
-										0.7,
-										0.38,
-										1
-									]
-								},
-								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "pick-by-unique-id",
-											"objectClass": "iffyGifs",
-											"sid": 152911058393086,
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "turTarg",
+											"sid": 899950859834857,
 											"parameters": {
-												"unique-id": "Functions.pickOutside(\"iffyGifs\")"
-											}
+												"instance-variable": "entangled"
+											},
+											"isInverted": true
 										}
 									],
-									"actions": [
-										{
-											"id": "set-position",
-											"objectClass": "iffyGifs",
-											"sid": 348575453250163,
-											"parameters": {
-												"x": "turTarg.X",
-												"y": "turTarg.Y"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "iffyGifs",
-											"sid": 580750553061834,
-											"parameters": {
-												"animation": "\"gifs\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "iffyGifs",
-											"sid": 112193921961377,
-											"parameters": {
-												"instance-variable": "zEnable",
-												"value": "true"
-											}
-										},
-										{
-											"id": "set-mirrored",
-											"objectClass": "iffyGifs",
-											"sid": 713218118787885,
-											"parameters": {
-												"state": "not-mirrored"
-											}
-										}
-									],
-									"sid": 573392021238375,
+									"actions": [],
+									"sid": 871653776425570,
 									"children": [
+										{
+											"eventType": "comment",
+											"text": "Опутываем цель",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "turTarg",
+													"sid": 806363686524233,
+													"parameters": {
+														"instance-variable": "entangled",
+														"value": "true"
+													}
+												},
+												{
+													"callFunction": "stopThorns",
+													"sid": 252493257337407,
+													"parameters": [
+														"turTarg.UID",
+														true
+													]
+												},
+												{
+													"id": "instance-signal",
+													"objectClass": "turTarg",
+													"sid": 639976493760878,
+													"parameters": {
+														"tag": "\"entangled\""
+													}
+												},
+												{
+													"id": "start-timer",
+													"objectClass": "turTarg",
+													"sid": 430251623913474,
+													"behaviorType": "turTimer",
+													"parameters": {
+														"duration": "7",
+														"type": "once",
+														"tag": "\"ent\""
+													}
+												}
+											],
+											"sid": 866973366807302
+										},
+										{
+											"eventType": "comment",
+											"text": "Эффект iffyGifs",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
 										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "Chance",
-													"objectClass": "Utils",
-													"sid": 393000227780519,
+													"id": "pick-by-unique-id",
+													"objectClass": "iffyGifs",
+													"sid": 883861021033773,
 													"parameters": {
-														"chance": "1",
-														"outof": "2"
+														"unique-id": "Functions.pickOutside(\"iffyGifs\")"
 													}
 												}
 											],
 											"actions": [
 												{
+													"id": "set-position",
+													"objectClass": "iffyGifs",
+													"sid": 586697897645642,
+													"parameters": {
+														"x": "turTarg.X",
+														"y": "turTarg.Y"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "iffyGifs",
+													"sid": 173599231081928,
+													"parameters": {
+														"animation": "\"gifs\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "iffyGifs",
+													"sid": 409003061868613,
+													"parameters": {
+														"instance-variable": "zEnable",
+														"value": "true"
+													}
+												},
+												{
 													"id": "set-mirrored",
 													"objectClass": "iffyGifs",
-													"sid": 821522174159657,
+													"sid": 827514901725631,
 													"parameters": {
-														"state": "mirrored"
+														"state": "not-mirrored"
 													}
 												}
 											],
-											"sid": 860163002669557
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "Опутываем цель",
-									"background-color": [
-										0.33,
-										0.73,
-										0.48,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [],
-									"actions": [
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "turTarg",
-											"sid": 950266130717128,
-											"parameters": {
-												"instance-variable": "entangled",
-												"value": "true"
-											}
-										},
-										{
-											"callFunction": "stopThorns",
-											"sid": 648457159636755,
-											"parameters": [
-												"turTarg.UID",
-												true
+											"sid": 514759711082762,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "Chance",
+															"objectClass": "Utils",
+															"sid": 563427526525466,
+															"parameters": {
+																"chance": "1",
+																"outof": "2"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-mirrored",
+															"objectClass": "iffyGifs",
+															"sid": 322365679311203,
+															"parameters": {
+																"state": "mirrored"
+															}
+														}
+													],
+													"sid": 971636552645267
+												}
 											]
-										},
-										{
-											"id": "start-timer",
-											"objectClass": "turTarg",
-											"sid": 351726801220334,
-											"behaviorType": "turTimer",
-											"parameters": {
-												"duration": "7",
-												"type": "once",
-												"tag": "\"ent\""
-											}
 										}
-									],
-									"sid": 938755419515465
+									]
 								}
 							]
 						},

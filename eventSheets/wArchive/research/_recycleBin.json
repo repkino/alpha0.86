@@ -15878,10 +15878,45 @@
 						"}"
 					],
 					"disabled": true
+				},
+				{
+					"type": "comment",
+					"text": "По zSort.Y или по zSort.zsY крайняя редакция до финальной имплементации высоты"
+				},
+				{
+					"type": "script",
+					"language": "javascript",
+					"script": [
+						"const instances = runtime.objects.zSort.getAllInstances();",
+						"const firstInst = instances[0];",
+						"if (!firstInst) return;",
+						"const layer = firstInst.layer;",
+						"const viewport = layer.getViewport();",
+						"const padding = 240;",
+						"const vLeft = viewport.left - padding;",
+						"const vRight = viewport.right + padding;",
+						"const vTop = viewport.top - padding;",
+						"const vBottom = viewport.bottom + padding;",
+						"const instancesToSort = [];",
+						"for (const inst of instances) {",
+						"    if (!inst.instVars.zEnable) continue;",
+						"    const bbox = inst.getBoundingBox();",
+						"    if (bbox.right >= vLeft && bbox.left <= vRight && bbox.bottom >= vTop && bbox.top <= vBottom) {",
+						"        instancesToSort.push(inst);",
+						"    }",
+						"}",
+						"instancesToSort.sort((a, b) => {",
+						"    const valA = a.instVars.zsY > 0 ? a.instVars.zsY : a.y;",
+						"    const valB = b.instVars.zsY > 0 ? b.instVars.zsY : b.y;",
+						"    return valA - valB;",
+						"});",
+						"for (const inst of instancesToSort) {",
+						"    inst.moveToTop();",
+						"}"
+					]
 				}
 			],
-			"sid": 857799934042597,
-			"disabled": true
+			"sid": 857799934042597
 		}
 	],
 	"sid": 657354547025968
