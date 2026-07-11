@@ -6,6 +6,190 @@
 			"text": "механика изометрической турели"
 		},
 		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-timer",
+					"objectClass": "turTarg",
+					"sid": 402435552601866,
+					"behaviorType": "turTimer",
+					"parameters": {
+						"tag": "\"ent\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "instance-signal",
+					"objectClass": "turTarg",
+					"sid": 329796844988032,
+					"parameters": {
+						"tag": "\"freeEnt\""
+					}
+				}
+			],
+			"sid": 397559990174303
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-instance-signal",
+					"objectClass": "turTarg",
+					"sid": 580298771590184,
+					"parameters": {
+						"tag": "\"freeEnt\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-boolean-instvar",
+					"objectClass": "turTarg",
+					"sid": 791722057238234,
+					"parameters": {
+						"instance-variable": "entangled",
+						"value": "false"
+					}
+				}
+			],
+			"sid": 775936433824208,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "chickBase",
+							"sid": 380549157586404,
+							"parameters": {
+								"unique-id": "turTarg.UID"
+							}
+						}
+					],
+					"actions": [
+						{
+							"customAction": "chickReset",
+							"objectClass": "ats",
+							"sid": 653928754515245,
+							"parameters": [
+								"chickBase.UID",
+								true
+							]
+						},
+						{
+							"callFunction": "chickAct",
+							"sid": 765726580576953,
+							"parameters": [
+								"chickBase.UID"
+							]
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "chickBase",
+							"sid": 898384468434724,
+							"parameters": {
+								"instance-variable": "freeToGo",
+								"value": "true"
+							}
+						},
+						{
+							"id": "start-timer",
+							"objectClass": "chickBase",
+							"sid": 577254643851690,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "0.6",
+								"type": "regular",
+								"tag": "\"pulsChick\""
+							}
+						}
+					],
+					"sid": 808555102622083
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-click",
+					"objectClass": "Mouse",
+					"sid": 555117282614400,
+					"parameters": {
+						"mouse-button": "button-4",
+						"click-type": "clicked"
+					}
+				},
+				{
+					"id": "on-click",
+					"objectClass": "Mouse",
+					"sid": 582935213891118,
+					"parameters": {
+						"mouse-button": "button-5",
+						"click-type": "clicked"
+					}
+				}
+			],
+			"actions": [
+				{
+					"callFunction": "addChick",
+					"sid": 481587578953372,
+					"parameters": [
+						"Mouse.X",
+						"Mouse.Y",
+						"0",
+						"\"zero\""
+					]
+				}
+			],
+			"sid": 434699970494921,
+			"isOrBlock": true
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "chickBase",
+					"sid": 488626213417165,
+					"parameters": {
+						"instance-variable": "entangled"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-boolean-instvar",
+					"objectClass": "chickBase",
+					"sid": 457091145462826,
+					"parameters": {
+						"instance-variable": "freeToGo",
+						"value": "false"
+					}
+				},
+				{
+					"id": "set-boolean-instvar",
+					"objectClass": "chickBase",
+					"sid": 107930123879780,
+					"parameters": {
+						"instance-variable": "freeToGo",
+						"value": "false"
+					}
+				},
+				{
+					"id": "stop-timer",
+					"objectClass": "chickBase",
+					"sid": 342933542610833,
+					"behaviorType": "Timer",
+					"parameters": {
+						"tag": "\"pulsChick\""
+					}
+				}
+			],
+			"sid": 904220903577041
+		},
+		{
 			"eventType": "group",
 			"disabled": false,
 			"title": "turret",
@@ -115,12 +299,21 @@
 										{
 											"id": "start-timer",
 											"objectClass": "turBase",
-											"sid": 604332786011508,
+											"sid": 284508772132009,
 											"behaviorType": "Timer",
 											"parameters": {
-												"duration": "0.3",
+												"duration": "0.2",
 												"type": "regular",
 												"tag": "\"check\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "turBase",
+											"sid": 246490223099705,
+											"parameters": {
+												"instance-variable": "rotateSpeedT",
+												"value": "5000"
 											}
 										}
 									],
@@ -1325,6 +1518,15 @@
 																"type": "regular",
 																"tag": "\"run\""
 															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "turBase",
+															"sid": 569384287014290,
+															"parameters": {
+																"instance-variable": "rotateSpeedT",
+																"value": "20000"
+															}
 														}
 													],
 													"sid": 865089388197477,
@@ -1415,6 +1617,77 @@
 															"disabled": true
 														}
 													]
+												},
+												{
+													"eventType": "comment",
+													"text": "Цель вышла из rangeT (но ещё в rangeTA) — сброс targetLock",
+													"background-color": [
+														0.67,
+														0.98,
+														0.79,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "turBase",
+															"sid": 783649736053810,
+															"parameters": {
+																"unique-id": "uid"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "turBase",
+															"sid": 690581715470963,
+															"parameters": {
+																"instance-variable": "targetLock"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 373785516755213,
+															"parameters": {
+																"first-value": "bestdist",
+																"comparison": 4,
+																"second-value": "brange"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "turBase",
+															"sid": 830572546128823,
+															"parameters": {
+																"instance-variable": "targetLock",
+																"value": "false"
+															}
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "turBase",
+															"sid": 866913467027330,
+															"parameters": {
+																"instance-variable": "aimReady",
+																"value": "false"
+															}
+														},
+														{
+															"id": "stop-timer",
+															"objectClass": "turBase",
+															"sid": 729719175806709,
+															"behaviorType": "Timer",
+															"parameters": {
+																"tag": "\"shot\""
+															}
+														}
+													],
+													"sid": 691152924294852
 												},
 												{
 													"eventType": "comment",
@@ -2238,12 +2511,21 @@
 										{
 											"id": "start-timer",
 											"objectClass": "turBase",
-											"sid": 284787428226374,
+											"sid": 904622932325009,
 											"behaviorType": "Timer",
 											"parameters": {
-												"duration": "0.3",
+												"duration": "0.2",
 												"type": "regular",
 												"tag": "\"check\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "turBase",
+											"sid": 417156178892383,
+											"parameters": {
+												"instance-variable": "rotateSpeedT",
+												"value": "5000"
 											}
 										}
 									],
@@ -2336,44 +2618,146 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 241628933478457,
+							"children": [
 								{
-									"id": "set-animation",
-									"objectClass": "iffyBall",
-									"sid": 652223959016478,
-									"parameters": {
-										"animation": "\"zero\"",
-										"from": "beginning"
-									}
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "iffyGifs",
+											"sid": 106425909973794,
+											"parameters": {
+												"unique-id": "Functions.pickOutside(\"iffyGifs\")"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "iffyGifs",
+											"sid": 217526583578872,
+											"parameters": {
+												"x": "iffyBall.X",
+												"y": "iffyBall.Y"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "iffyGifs",
+											"sid": 782939907653069,
+											"parameters": {
+												"animation": "\"gifs\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-animation-speed",
+											"objectClass": "iffyGifs",
+											"sid": 122218189821631,
+											"parameters": {
+												"speed": "3"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "iffyGifs",
+											"sid": 502032315724379,
+											"parameters": {
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "iffyGifs",
+											"sid": 467358232126737,
+											"parameters": {
+												"instance-variable": "zEnable",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-mirrored",
+											"objectClass": "iffyGifs",
+											"sid": 588768156118046,
+											"parameters": {
+												"state": "not-mirrored"
+											}
+										}
+									],
+									"sid": 704156503111884,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "Chance",
+													"objectClass": "Utils",
+													"sid": 915256247117159,
+													"parameters": {
+														"chance": "1",
+														"outof": "2"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-mirrored",
+													"objectClass": "iffyGifs",
+													"sid": 211500514440478,
+													"parameters": {
+														"state": "mirrored"
+													}
+												}
+											],
+											"sid": 288014356522946
+										}
+									]
 								},
 								{
-									"id": "set-collisions-enabled",
-									"objectClass": "iffyBall",
-									"sid": 385317734286918,
-									"parameters": {
-										"collisions": "disabled"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "iffyBall",
-									"sid": 998479040060310,
-									"parameters": {
-										"x": "-2922",
-										"y": "-2277"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "iffyBall",
-									"sid": 663828646106822,
-									"parameters": {
-										"instance-variable": "zEnable",
-										"value": "false"
-									}
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "iffyBall",
+											"sid": 521348071844985,
+											"parameters": {
+												"animation": "\"zero\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "iffyBall",
+											"sid": 417652387506117,
+											"parameters": {
+												"collisions": "disabled"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "iffyBall",
+											"sid": 148849976262973,
+											"parameters": {
+												"x": "-2922",
+												"y": "-2277"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "iffyBall",
+											"sid": 594487343001873,
+											"parameters": {
+												"instance-variable": "zEnable",
+												"value": "false"
+											}
+										}
+									],
+									"sid": 334744391224477
 								}
-							],
-							"sid": 241628933478457
+							]
 						},
 						{
 							"eventType": "comment",
@@ -2715,7 +3099,250 @@
 													}
 												}
 											],
-											"sid": 108192510258351
+											"sid": 108192510258351,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "Расчёт угла от точки старта (с упреждением если aim=true)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "variable",
+											"name": "tdist",
+											"type": "number",
+											"initialValue": "0",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 535530969674304
+										},
+										{
+											"eventType": "variable",
+											"name": "tth",
+											"type": "number",
+											"initialValue": "0",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 119169685281446
+										},
+										{
+											"eventType": "variable",
+											"name": "px",
+											"type": "number",
+											"initialValue": "0",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 315188735811563
+										},
+										{
+											"eventType": "variable",
+											"name": "py",
+											"type": "number",
+											"initialValue": "0",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 937110845559526
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 870094630752242,
+													"parameters": {
+														"variable": "sx",
+														"value": "xBall"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 916722488686365,
+													"parameters": {
+														"variable": "sy",
+														"value": "yBall"
+													}
+												}
+											],
+											"sid": 614769674519275
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "turBase",
+													"sid": 791107505542034,
+													"parameters": {
+														"instance-variable": "aim"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 482762566571562,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "aim=1: упреждение",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [],
+													"actions": [
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 125793830823437,
+															"parameters": {
+																"variable": "tdist",
+																"value": "distance(turBase.X, turBase.Y / 0.5, turTarg.X, turTarg.Y / 0.5)"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 535087287435642,
+															"parameters": {
+																"variable": "tth",
+																"value": "tdist / turBase.dartSpeedT"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 475721574957253,
+															"parameters": {
+																"variable": "px",
+																"value": "turTarg.X + cos(turTarg.angT) * turTarg.speedT * tth"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 408583206037618,
+															"parameters": {
+																"variable": "py",
+																"value": "turTarg.Y / 0.5 + sin(turTarg.angT) * turTarg.speedT * tth"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 328433191853921,
+															"parameters": {
+																"variable": "ang",
+																"value": "angle(sx, sy, px, py * 0.5)"
+															}
+														}
+													],
+													"sid": 154711581938818
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "turBase",
+													"sid": 519486340790252,
+													"parameters": {
+														"instance-variable": "aim"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 964588770988116,
+													"parameters": {
+														"variable": "ang",
+														"value": "angle(sx, sy, turTarg.X, turTarg.Y)"
+													}
+												}
+											],
+											"sid": 285888172084321
+										},
+										{
+											"eventType": "comment",
+											"text": "Точки твина (общие для обоих случаев)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 765842095115972,
+													"parameters": {
+														"variable": "ex",
+														"value": "sx + cos(ang) * turBase.rangeT * Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 711120748593117,
+													"parameters": {
+														"variable": "ey",
+														"value": "sy + sin(ang) * turBase.rangeT * Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 989539295761868,
+													"parameters": {
+														"variable": "fx",
+														"value": "sx + cos(ang) * turBase.rangeT * 1.15 * Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 161110321371157,
+													"parameters": {
+														"variable": "fy",
+														"value": "sy + sin(ang) * turBase.rangeT * 1.15 * Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 292215362149198,
+													"parameters": {
+														"variable": "efftime",
+														"value": "turBase.rangeT / turBase.dartSpeedT"
+													}
+												}
+											],
+											"sid": 620670313123383
 										},
 										{
 											"eventType": "comment",
@@ -2864,6 +3491,15 @@
 									"parameters": {
 										"object": "turTarg"
 									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "turTarg",
+									"sid": 107995072497751,
+									"parameters": {
+										"instance-variable": "entangled"
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [
@@ -3003,10 +3639,28 @@
 											"id": "set-boolean-instvar",
 											"objectClass": "turTarg",
 											"sid": 950266130717128,
-											"disabled": true,
 											"parameters": {
 												"instance-variable": "entangled",
 												"value": "true"
+											}
+										},
+										{
+											"callFunction": "stopThorns",
+											"sid": 648457159636755,
+											"parameters": [
+												"turTarg.UID",
+												true
+											]
+										},
+										{
+											"id": "start-timer",
+											"objectClass": "turTarg",
+											"sid": 351726801220334,
+											"behaviorType": "turTimer",
+											"parameters": {
+												"duration": "7",
+												"type": "once",
+												"tag": "\"ent\""
 											}
 										}
 									],
