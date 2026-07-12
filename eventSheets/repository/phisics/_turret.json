@@ -417,6 +417,154 @@
 						},
 						{
 							"eventType": "comment",
+							"text": "\nЗАРЯДКА: каждый тик \"run\", если цель в rangeTA но не захвачена\n",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "turBase",
+									"sid": 212301038435452,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"run\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "turBase",
+									"sid": 508187589878572,
+									"parameters": {
+										"instance-variable": "hasTarget"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "turBase",
+									"sid": 475625901482219,
+									"parameters": {
+										"instance-variable": "enable"
+									}
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Увеличиваем заряд, не превышая максимум",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "turBase",
+									"sid": 809231187839091,
+									"parameters": {
+										"instance-variable": "charge",
+										"value": "min(turBase.charge + 1, turBase.chargeMax)"
+									}
+								}
+							],
+							"sid": 251036544390591
+						},
+						{
+							"eventType": "comment",
+							"text": "\nРАЗРЯДКА: каждый тик \"check\", если нет целей и заряд не нулевой\n",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "turBase",
+									"sid": 553948179742844,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"check\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "turBase",
+									"sid": 866009491087253,
+									"parameters": {
+										"instance-variable": "charge",
+										"comparison": 4,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Медленная разрядка — угрожающая потеря накопленной энергии",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "turBase",
+									"sid": 858142910047986,
+									"parameters": {
+										"instance-variable": "charge",
+										"value": "max(turBase.charge - 1, 0)"
+									}
+								}
+							],
+							"sid": 660480750307679,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "turBase",
+											"sid": 314259093363943,
+											"parameters": {
+												"instance-variable": "charge",
+												"comparison": 0,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-timer",
+											"objectClass": "turBase",
+											"sid": 524162318780965,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"check\""
+											}
+										}
+									],
+									"sid": 633725269832959
+								}
+							]
+						},
+						{
+							"eventType": "comment",
 							"text": "\nФУНКЦИЯ: поиск цели, наведение, захват, первый выстрел\n",
 							"background-color": [
 								0.49,
@@ -1569,6 +1717,90 @@
 												},
 												{
 													"eventType": "comment",
+													"text": "Управление зарядкой: если цель в rangeTA но не в rangeT — запускаем \"run\" 0.1с для заряда",
+													"background-color": [
+														0.33,
+														0.73,
+														0.48,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "turBase",
+															"sid": 952776638452101,
+															"parameters": {
+																"unique-id": "uid"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "turBase",
+															"sid": 852605509845810,
+															"parameters": {
+																"instance-variable": "targetLock"
+															},
+															"isInverted": true
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 474949081564804,
+															"parameters": {
+																"first-value": "bestdist",
+																"comparison": 4,
+																"second-value": "brange"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 700137987543259,
+															"parameters": {
+																"first-value": "bestdist",
+																"comparison": 3,
+																"second-value": "brangeTA"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "stop-timer",
+															"objectClass": "turBase",
+															"sid": 984865269901827,
+															"behaviorType": "Timer",
+															"parameters": {
+																"tag": "\"check\""
+															}
+														},
+														{
+															"id": "stop-timer",
+															"objectClass": "turBase",
+															"sid": 820716399053606,
+															"behaviorType": "Timer",
+															"parameters": {
+																"tag": "\"run\""
+															}
+														},
+														{
+															"id": "start-timer",
+															"objectClass": "turBase",
+															"sid": 497920255096420,
+															"behaviorType": "Timer",
+															"parameters": {
+																"duration": "0.1",
+																"type": "regular",
+																"tag": "\"run\""
+															}
+														}
+													],
+													"sid": 647554069301683
+												},
+												{
+													"eventType": "comment",
 													"text": "Цель вышла из rangeT (но ещё в rangeTA) — сброс targetLock",
 													"background-color": [
 														0.67,
@@ -1985,6 +2217,16 @@
 													"behaviorType": "Timer",
 													"parameters": {
 														"tag": "\"check\""
+													}
+												},
+												{
+													"id": "stop-timer",
+													"objectClass": "turBase",
+													"sid": 805898206093756,
+													"disabled": true,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"salvo\""
 													}
 												},
 												{
@@ -2556,6 +2798,177 @@
 										}
 									],
 									"sid": 871511049526001
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "\nЗАЛП: таймер \"salvo\" выпускает оставшиеся снаряды по одному с изометрическим спредом\n",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "turBase",
+									"sid": 949109351776461,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"salvo\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 870598989470042,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "turBase",
+											"sid": 664061195061638,
+											"parameters": {
+												"instance-variable": "targetLock"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "turBase",
+											"sid": 365120764666019,
+											"parameters": {
+												"instance-variable": "targetUID",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "turBase",
+											"sid": 249411333953790,
+											"parameters": {
+												"instance-variable": "charge",
+												"comparison": 4,
+												"value": "0"
+											}
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "iffyTurret",
+											"sid": 440615136316484,
+											"parameters": {
+												"unique-id": "turBase.hostUID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Выстрел снаряда со спредом. Заряд уменьшается.",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"id": "add-to-instvar",
+											"objectClass": "turBase",
+											"sid": 353043698862995,
+											"parameters": {
+												"instance-variable": "charge",
+												"value": "-1"
+											}
+										},
+										{
+											"callFunction": "turretShoot",
+											"sid": 876433001174653,
+											"parameters": [
+												"turBase.UID",
+												"turBase.targetUID",
+												"iffyTurret.ImagePointX(1)",
+												"iffyTurret.ImagePointY(1)"
+											]
+										}
+									],
+									"sid": 421263319933347,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "turBase",
+													"sid": 340478453517358,
+													"parameters": {
+														"instance-variable": "charge",
+														"comparison": 0,
+														"value": "0"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "stop-timer",
+													"objectClass": "turBase",
+													"sid": 712614555231285,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"salvo\""
+													}
+												}
+											],
+											"sid": 996450281342255
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 718551944680978
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Цель потеряна или заряд исчерпан — сброс",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"id": "stop-timer",
+											"objectClass": "turBase",
+											"sid": 710973679819143,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"salvo\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "turBase",
+											"sid": 723840312326469,
+											"parameters": {
+												"instance-variable": "charge",
+												"value": "0"
+											}
+										}
+									],
+									"sid": 481635104829204
 								}
 							]
 						},
@@ -3350,6 +3763,72 @@
 												}
 											],
 											"sid": 951671398338539
+										},
+										{
+											"eventType": "comment",
+											"text": "Если заряд > 1 — запускаем таймер залпа \"salvo\" для оставшихся снарядов",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "turBase",
+													"sid": 752266518116837,
+													"parameters": {
+														"unique-id": "baseuid"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "turBase",
+													"sid": 539134091740334,
+													"parameters": {
+														"instance-variable": "charge",
+														"comparison": 4,
+														"value": "1"
+													}
+												},
+												{
+													"id": "is-timer-running",
+													"objectClass": "turBase",
+													"sid": 366470668657796,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"salvo\""
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "add-to-instvar",
+													"objectClass": "turBase",
+													"sid": 825206823170455,
+													"parameters": {
+														"instance-variable": "charge",
+														"value": "-1"
+													}
+												},
+												{
+													"id": "start-timer",
+													"objectClass": "turBase",
+													"sid": 243760040584187,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.033",
+														"type": "regular",
+														"tag": "\"salvo\""
+													}
+												}
+											],
+											"sid": 585415445435869
 										}
 									]
 								}
