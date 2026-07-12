@@ -1490,6 +1490,7 @@
 															"id": "set-boolean-instvar",
 															"objectClass": "turBase",
 															"sid": 573291932932286,
+															"disabled": true,
 															"parameters": {
 																"instance-variable": "shotFired",
 																"value": "false"
@@ -1699,7 +1700,96 @@
 																	]
 																}
 															],
-															"sid": 347716246008494
+															"sid": 347716246008494,
+															"disabled": true
+														},
+														{
+															"eventType": "comment",
+															"text": "ВЫСТРЕЛ ПО ЗАПРОСУ (shot=true) — ВНЕ блока захвата. Защита от двойного выстрела через shotFired.",
+															"background-color": [
+																0.33,
+																0.73,
+																0.48,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-boolean-eventvar",
+																	"objectClass": "System",
+																	"sid": 732716644582303,
+																	"parameters": {
+																		"variable": "shot"
+																	}
+																},
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "turBase",
+																	"sid": 814454109928217,
+																	"parameters": {
+																		"instance-variable": "targetLock"
+																	}
+																},
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "turBase",
+																	"sid": 478531394965241,
+																	"parameters": {
+																		"instance-variable": "shotFired"
+																	},
+																	"isInverted": true
+																},
+																{
+																	"id": "pick-by-unique-id",
+																	"objectClass": "turBase",
+																	"sid": 153123459240854,
+																	"parameters": {
+																		"unique-id": "uid"
+																	}
+																},
+																{
+																	"id": "pick-by-unique-id",
+																	"objectClass": "iffyTurret",
+																	"sid": 644535154747438,
+																	"parameters": {
+																		"unique-id": "turBase.hostUID"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Выстрел снаряда из ImagePoint(1) турели (точка дула)",
+																	"background-color": [
+																		0.49,
+																		0.7,
+																		0.38,
+																		1
+																	]
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "turBase",
+																	"sid": 893338073329077,
+																	"parameters": {
+																		"instance-variable": "shotFired",
+																		"value": "true"
+																	}
+																},
+																{
+																	"callFunction": "turretShoot",
+																	"sid": 355114303829330,
+																	"parameters": [
+																		"turBase.UID",
+																		"turBase.targetUID",
+																		"iffyTurret.ImagePointX(1)",
+																		"iffyTurret.ImagePointY(1)"
+																	]
+																}
+															],
+															"sid": 130197056309114
 														}
 													]
 												},
