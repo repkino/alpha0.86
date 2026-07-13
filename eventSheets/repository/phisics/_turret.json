@@ -449,43 +449,60 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "turBase",
-									"sid": 508187589878572,
-									"parameters": {
-										"instance-variable": "hasTarget"
-									},
-									"isInverted": true
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "turBase",
-									"sid": 475625901482219,
+									"sid": 363727220967579,
 									"parameters": {
 										"instance-variable": "enable"
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 251036544390591,
+							"children": [
 								{
-									"type": "comment",
-									"text": "Увеличиваем заряд, не превышая максимум",
-									"background-color": [
-										0.49,
-										0.7,
-										0.38,
-										1
-									]
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "turBase",
-									"sid": 809231187839091,
-									"parameters": {
-										"instance-variable": "charge",
-										"value": "min(turBase.charge + 1, turBase.chargeMax)"
-									}
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "turBase",
+											"sid": 983384628672216,
+											"parameters": {
+												"instance-variable": "hasTarget"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Увеличиваем заряд, не превышая максимум",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "turBase",
+											"sid": 648309977885911,
+											"parameters": {
+												"instance-variable": "charge",
+												"value": "min(turBase.charge + 1, turBase.chargeMax)"
+											}
+										},
+										{
+											"id": "instance-signal",
+											"objectClass": "turBase",
+											"sid": 903296359989110,
+											"parameters": {
+												"tag": "\"turCharge\""
+											}
+										}
+									],
+									"sid": 201661958133541
 								}
-							],
-							"sid": 251036544390591
+							]
 						},
 						{
 							"eventType": "comment",
@@ -762,7 +779,17 @@
 											}
 										}
 									],
-									"actions": [],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "turBase",
+											"sid": 561217643534991,
+											"parameters": {
+												"instance-variable": "hasTarget",
+												"value": "false"
+											}
+										}
+									],
 									"sid": 352653387551115,
 									"children": [
 										{
@@ -1251,13 +1278,7 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "Выбор ближайшей цели в rangeTA",
-											"background-color": [
-												0.33,
-												0.73,
-												0.48,
-												1
-											]
+											"text": "выбор ближайшей цели, определение её статуса и таймера турели"
 										},
 										{
 											"eventType": "block",
@@ -1265,7 +1286,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "turTarg",
-													"sid": 965303718290955,
+													"sid": 210692981188455,
 													"parameters": {
 														"instance-variable": "turDist",
 														"comparison": 4,
@@ -1274,15 +1295,19 @@
 												}
 											],
 											"actions": [],
-											"sid": 590146371894969,
+											"sid": 490492538519363,
 											"children": [
+												{
+													"eventType": "comment",
+													"text": "все цели внутри внешней области"
+												},
 												{
 													"eventType": "block",
 													"conditions": [
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "turTarg",
-															"sid": 787501482031761,
+															"sid": 519511487732557,
 															"parameters": {
 																"instance-variable": "turDist",
 																"comparison": 3,
@@ -1291,15 +1316,19 @@
 														}
 													],
 													"actions": [],
-													"sid": 438197580833394,
+													"sid": 211974622082460,
 													"children": [
+														{
+															"eventType": "comment",
+															"text": "выбор ближайшей"
+														},
 														{
 															"eventType": "block",
 															"conditions": [
 																{
 																	"id": "pick-highestlowest",
 																	"objectClass": "turTarg",
-																	"sid": 929926075587010,
+																	"sid": 690016324819367,
 																	"parameters": {
 																		"which": "lowest",
 																		"instance-variable": "turDist"
@@ -1310,7 +1339,7 @@
 																{
 																	"id": "set-eventvar-value",
 																	"objectClass": "System",
-																	"sid": 353783534792661,
+																	"sid": 994692633122111,
 																	"parameters": {
 																		"variable": "bestuid",
 																		"value": "turTarg.UID"
@@ -1319,14 +1348,388 @@
 																{
 																	"id": "set-eventvar-value",
 																	"objectClass": "System",
-																	"sid": 948617883355631,
+																	"sid": 906848031045411,
 																	"parameters": {
 																		"variable": "bestdist",
 																		"value": "turTarg.turDist"
 																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "turBase",
+																	"sid": 624014523843864,
+																	"parameters": {
+																		"instance-variable": "targetUID",
+																		"value": "bestuid"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "turBase",
+																	"sid": 904274102652135,
+																	"parameters": {
+																		"instance-variable": "rotateSpeedT",
+																		"value": "20000"
+																	}
 																}
 															],
-															"sid": 158704874582086
+															"sid": 872112532429038,
+															"children": [
+																{
+																	"eventType": "comment",
+																	"text": "цель внутри области атаки"
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "compare-two-values",
+																			"objectClass": "System",
+																			"sid": 665963932226298,
+																			"parameters": {
+																				"first-value": "bestdist",
+																				"comparison": 3,
+																				"second-value": "brange"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-boolean-instvar",
+																			"objectClass": "turBase",
+																			"sid": 211643136642166,
+																			"parameters": {
+																				"instance-variable": "hasTarget",
+																				"value": "true"
+																			}
+																		}
+																	],
+																	"sid": 241077015011496,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "is-timer-running",
+																					"objectClass": "turBase",
+																					"sid": 849022917037079,
+																					"behaviorType": "Timer",
+																					"parameters": {
+																						"tag": "\"run\""
+																					},
+																					"isInverted": true
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "stop-timer",
+																					"objectClass": "turBase",
+																					"sid": 196324263182478,
+																					"behaviorType": "Timer",
+																					"parameters": {
+																						"tag": "\"check\""
+																					}
+																				},
+																				{
+																					"id": "stop-timer",
+																					"objectClass": "turBase",
+																					"sid": 398869280469517,
+																					"behaviorType": "Timer",
+																					"parameters": {
+																						"tag": "\"ready\""
+																					}
+																				},
+																				{
+																					"id": "start-timer",
+																					"objectClass": "turBase",
+																					"sid": 203101518544165,
+																					"behaviorType": "Timer",
+																					"parameters": {
+																						"duration": "0.05",
+																						"type": "regular",
+																						"tag": "\"run\""
+																					}
+																				}
+																			],
+																			"sid": 873392669524463
+																		}
+																	]
+																},
+																{
+																	"eventType": "comment",
+																	"text": "цель во внешней области"
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "else",
+																			"objectClass": "System",
+																			"sid": 201370329412588
+																		},
+																		{
+																			"id": "compare-two-values",
+																			"objectClass": "System",
+																			"sid": 426537862943443,
+																			"parameters": {
+																				"first-value": "bestdist",
+																				"comparison": 4,
+																				"second-value": "brange"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-boolean-instvar",
+																			"objectClass": "turBase",
+																			"sid": 457935235942384,
+																			"parameters": {
+																				"instance-variable": "hasTarget",
+																				"value": "false"
+																			}
+																		},
+																		{
+																			"id": "stop-timer",
+																			"objectClass": "turBase",
+																			"sid": 598590112702626,
+																			"behaviorType": "Timer",
+																			"parameters": {
+																				"tag": "\"shot\""
+																			}
+																		}
+																	],
+																	"sid": 359580739839450,
+																	"children": [
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "is-boolean-instance-variable-set",
+																					"objectClass": "turBase",
+																					"sid": 396553207166882,
+																					"parameters": {
+																						"instance-variable": "targetLock"
+																					}
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "set-boolean-instvar",
+																					"objectClass": "turBase",
+																					"sid": 195464007092143,
+																					"parameters": {
+																						"instance-variable": "targetLock",
+																						"value": "false"
+																					}
+																				},
+																				{
+																					"id": "set-boolean-instvar",
+																					"objectClass": "turBase",
+																					"sid": 252871675483553,
+																					"parameters": {
+																						"instance-variable": "aimReady",
+																						"value": "false"
+																					}
+																				}
+																			],
+																			"sid": 103429138243479
+																		},
+																		{
+																			"eventType": "block",
+																			"conditions": [
+																				{
+																					"id": "is-timer-running",
+																					"objectClass": "turBase",
+																					"sid": 753013007298155,
+																					"behaviorType": "Timer",
+																					"parameters": {
+																						"tag": "\"ready\""
+																					},
+																					"isInverted": true
+																				}
+																			],
+																			"actions": [
+																				{
+																					"id": "stop-timer",
+																					"objectClass": "turBase",
+																					"sid": 284543231760722,
+																					"behaviorType": "Timer",
+																					"parameters": {
+																						"tag": "\"run\""
+																					}
+																				},
+																				{
+																					"id": "stop-timer",
+																					"objectClass": "turBase",
+																					"sid": 751164414081581,
+																					"behaviorType": "Timer",
+																					"parameters": {
+																						"tag": "\"check\""
+																					}
+																				},
+																				{
+																					"id": "start-timer",
+																					"objectClass": "turBase",
+																					"sid": 377326204448321,
+																					"behaviorType": "Timer",
+																					"parameters": {
+																						"duration": "0.1",
+																						"type": "regular",
+																						"tag": "\"ready\""
+																					}
+																				}
+																			],
+																			"sid": 759768743414247
+																		}
+																	]
+																}
+															]
+														}
+													]
+												},
+												{
+													"eventType": "comment",
+													"text": "нет целей"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 264261569989598
+														},
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "turBase",
+															"sid": 119856919244497,
+															"parameters": {
+																"unique-id": "uid"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "turBase",
+															"sid": 351097239756819,
+															"parameters": {
+																"instance-variable": "hasTarget",
+																"value": "false"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "turBase",
+															"sid": 242154740686569,
+															"parameters": {
+																"instance-variable": "targetUID",
+																"value": "-1"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "turBase",
+															"sid": 893080819572932,
+															"parameters": {
+																"instance-variable": "rotateSpeedT",
+																"value": "10000"
+															}
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "turBase",
+															"sid": 659116402871561,
+															"parameters": {
+																"instance-variable": "targetLock",
+																"value": "false"
+															}
+														},
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "turBase",
+															"sid": 766145567451023,
+															"parameters": {
+																"instance-variable": "aimReady",
+																"value": "false"
+															}
+														},
+														{
+															"id": "instance-signal",
+															"objectClass": "turBase",
+															"sid": 157625438344051,
+															"disabled": true,
+															"parameters": {
+																"tag": "\"noTarget\""
+															}
+														}
+													],
+													"sid": 964319350486520,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-timer-running",
+																	"objectClass": "turBase",
+																	"sid": 243779867861904,
+																	"behaviorType": "Timer",
+																	"parameters": {
+																		"tag": "\"check\""
+																	},
+																	"isInverted": true
+																}
+															],
+															"actions": [
+																{
+																	"id": "stop-timer",
+																	"objectClass": "turBase",
+																	"sid": 689178969099073,
+																	"behaviorType": "Timer",
+																	"parameters": {
+																		"tag": "\"salvo\""
+																	}
+																},
+																{
+																	"id": "stop-timer",
+																	"objectClass": "turBase",
+																	"sid": 524632327429074,
+																	"behaviorType": "Timer",
+																	"parameters": {
+																		"tag": "\"shot\""
+																	}
+																},
+																{
+																	"id": "stop-timer",
+																	"objectClass": "turBase",
+																	"sid": 631715752545330,
+																	"behaviorType": "Timer",
+																	"parameters": {
+																		"tag": "\"run\""
+																	}
+																},
+																{
+																	"id": "stop-timer",
+																	"objectClass": "turBase",
+																	"sid": 168418070761922,
+																	"behaviorType": "Timer",
+																	"parameters": {
+																		"tag": "\"ready\""
+																	}
+																},
+																{
+																	"id": "start-timer",
+																	"objectClass": "turBase",
+																	"sid": 928502032106594,
+																	"behaviorType": "Timer",
+																	"parameters": {
+																		"duration": "0.2",
+																		"type": "regular",
+																		"tag": "\"check\""
+																	}
+																}
+															],
+															"sid": 188340659955997
 														}
 													]
 												}
@@ -1334,13 +1737,7 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "Цель найдена — наведение",
-											"background-color": [
-												0.33,
-												0.73,
-												0.48,
-												1
-											]
+											"text": "работа с найденной целью"
 										},
 										{
 											"eventType": "block",
@@ -1369,11 +1766,29 @@
 															"parameters": {
 																"unique-id": "bestuid"
 															}
+														},
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "turBase",
+															"sid": 940294061889878,
+															"parameters": {
+																"unique-id": "uid"
+															}
 														}
 													],
 													"actions": [],
 													"sid": 272235080316427,
 													"children": [
+														{
+															"eventType": "comment",
+															"text": "наведение",
+															"background-color": [
+																0.33,
+																0.73,
+																0.48,
+																1
+															]
+														},
 														{
 															"eventType": "block",
 															"conditions": [
@@ -1504,202 +1919,166 @@
 															"sid": 232416202089133
 														},
 														{
+															"eventType": "comment",
+															"text": "поворот турели"
+														},
+														{
 															"eventType": "block",
-															"conditions": [
+															"conditions": [],
+															"actions": [
 																{
-																	"id": "pick-by-unique-id",
-																	"objectClass": "base",
-																	"sid": 536783560499310,
+																	"id": "set-instvar-value",
+																	"objectClass": "turBase",
+																	"sid": 194058672027207,
 																	"parameters": {
-																		"unique-id": "turTarg.UID"
+																		"instance-variable": "ang",
+																		"value": "anglerotate(turBase.ang, targang, turBase.rotateSpeedT * Functions.getIsoArray(turBase.ang) * dt)"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "turBase",
+																	"sid": 515548816153109,
+																	"parameters": {
+																		"instance-variable": "angT",
+																		"value": "turBase.ang"
 																	}
 																}
 															],
-															"actions": [],
-															"sid": 218444136947838
-														}
-													]
-												},
-												{
-													"eventType": "comment",
-													"text": "Поворот turBase + сохранение targetUID",
-													"background-color": [
-														0.33,
-														0.73,
-														0.48,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "turBase",
-															"sid": 712234426001194,
-															"parameters": {
-																"unique-id": "uid"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "turBase",
-															"sid": 638918740414265,
-															"parameters": {
-																"instance-variable": "ang",
-																"value": "anglerotate(turBase.ang, targang, turBase.rotateSpeedT * Functions.getIsoArray(turBase.ang) * dt)"
-															}
+															"sid": 304500228600580
 														},
 														{
-															"id": "set-instvar-value",
-															"objectClass": "turBase",
-															"sid": 974875007641284,
-															"parameters": {
-																"instance-variable": "angT",
-																"value": "turBase.ang"
-															}
+															"eventType": "comment",
+															"text": "угол выстрела"
 														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "turBase",
-															"sid": 529132207330499,
-															"parameters": {
-																"instance-variable": "targetUID",
-																"value": "bestuid"
-															}
-														}
-													],
-													"sid": 667508439089983
-												},
-												{
-													"eventType": "comment",
-													"text": "Захват: цель в rangeT + угол в допуске + targetLock=false",
-													"background-color": [
-														0.33,
-														0.73,
-														0.48,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 331277252212395,
-															"parameters": {
-																"first-value": "bestdist",
-																"comparison": 3,
-																"second-value": "brange"
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 927903779732167,
-															"parameters": {
-																"first-value": "abs(anglediff(turBase.ang, targang))",
-																"comparison": 2,
-																"second-value": "8"
-															}
-														},
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "turBase",
-															"sid": 560975935608355,
-															"parameters": {
-																"unique-id": "uid"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "turBase",
-															"sid": 734218520488220,
-															"parameters": {
-																"instance-variable": "aimReady",
-																"value": "true"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "turBase",
-															"sid": 639307774285234,
-															"parameters": {
-																"instance-variable": "targetLock",
-																"value": "true"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "turBase",
-															"sid": 220117890674140,
-															"parameters": {
-																"instance-variable": "hasTarget",
-																"value": "true"
-															}
-														},
-														{
-															"id": "set-group-active",
-															"objectClass": "System",
-															"sid": 162565187905718,
-															"parameters": {
-																"group-name": "\"turretShot\"",
-																"state": "activated"
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "turBase",
-															"sid": 569384287014290,
-															"parameters": {
-																"instance-variable": "rotateSpeedT",
-																"value": "20000"
-															}
-														}
-													],
-													"sid": 865089388197477,
-													"children": [
 														{
 															"eventType": "block",
 															"conditions": [
 																{
-																	"id": "is-timer-running",
-																	"objectClass": "turBase",
-																	"sid": 523782432421341,
-																	"behaviorType": "Timer",
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 411880196502408,
 																	"parameters": {
-																		"tag": "\"shot\""
-																	},
-																	"isInverted": true
+																		"first-value": "bestdist",
+																		"comparison": 3,
+																		"second-value": "brange"
+																	}
+																},
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 909095061260154,
+																	"parameters": {
+																		"first-value": "abs(anglediff(turBase.ang, targang))",
+																		"comparison": 2,
+																		"second-value": "8"
+																	}
 																}
 															],
 															"actions": [
 																{
-																	"id": "start-timer",
+																	"id": "set-boolean-instvar",
 																	"objectClass": "turBase",
-																	"sid": 133433027561199,
-																	"behaviorType": "Timer",
+																	"sid": 313785406900811,
 																	"parameters": {
-																		"duration": "turBase.shotRate",
-																		"type": "regular",
-																		"tag": "\"shot\""
+																		"instance-variable": "aimReady",
+																		"value": "true"
+																	}
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "turBase",
+																	"sid": 852316953890670,
+																	"parameters": {
+																		"instance-variable": "targetLock",
+																		"value": "true"
+																	}
+																},
+																{
+																	"id": "set-group-active",
+																	"objectClass": "System",
+																	"sid": 419374301223127,
+																	"parameters": {
+																		"group-name": "\"turretShot\"",
+																		"state": "activated"
 																	}
 																}
 															],
-															"sid": 637570542685899
+															"sid": 193770232488753,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "is-timer-running",
+																			"objectClass": "turBase",
+																			"sid": 792790301656568,
+																			"behaviorType": "Timer",
+																			"parameters": {
+																				"tag": "\"shot\""
+																			},
+																			"isInverted": true
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "start-timer",
+																			"objectClass": "turBase",
+																			"sid": 970371290921388,
+																			"behaviorType": "Timer",
+																			"parameters": {
+																				"duration": "turBase.shotRate",
+																				"type": "regular",
+																				"tag": "\"shot\""
+																			}
+																		}
+																	],
+																	"sid": 332059025962149
+																}
+															]
+														},
+														{
+															"eventType": "comment",
+															"text": "Угол не в допуске но не сорван — просто aimReady=false",
+															"background-color": [
+																0.67,
+																0.98,
+																0.79,
+																1
+															]
 														},
 														{
 															"eventType": "block",
 															"conditions": [
 																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 626891244781414
+																},
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 852831048907998,
+																	"parameters": {
+																		"first-value": "abs(anglediff(turBase.ang, targang))",
+																		"comparison": 4,
+																		"second-value": "8"
+																	}
+																},
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 309312399052869,
+																	"parameters": {
+																		"first-value": "abs(anglediff(turBase.ang, targang))",
+																		"comparison": 3,
+																		"second-value": "22"
+																	}
+																},
+																{
 																	"id": "is-boolean-instance-variable-set",
 																	"objectClass": "turBase",
-																	"sid": 143082764395832,
+																	"sid": 249937329304405,
 																	"parameters": {
 																		"instance-variable": "targetLock"
 																	},
@@ -1708,49 +2087,131 @@
 															],
 															"actions": [
 																{
-																	"id": "stop-timer",
+																	"id": "set-boolean-instvar",
 																	"objectClass": "turBase",
-																	"sid": 332601676063073,
-																	"behaviorType": "Timer",
+																	"sid": 929866053402254,
 																	"parameters": {
-																		"tag": "\"check\""
-																	}
-																},
-																{
-																	"id": "stop-timer",
-																	"objectClass": "turBase",
-																	"sid": 515329523986215,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"ready\""
-																	}
-																},
-																{
-																	"id": "stop-timer",
-																	"objectClass": "turBase",
-																	"sid": 224456401732061,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"run\""
-																	}
-																},
-																{
-																	"id": "start-timer",
-																	"objectClass": "turBase",
-																	"sid": 724516409704708,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"duration": "0.05",
-																		"type": "regular",
-																		"tag": "\"run\""
+																		"instance-variable": "aimReady",
+																		"value": "false"
 																	}
 																}
 															],
-															"sid": 578596331602664
+															"sid": 266391963371888,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "compare-boolean-eventvar",
+																			"objectClass": "System",
+																			"sid": 361790389749892,
+																			"parameters": {
+																				"variable": "shot"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "instance-signal",
+																			"objectClass": "turBase",
+																			"sid": 927434533129719,
+																			"parameters": {
+																				"tag": "\"rotate\""
+																			}
+																		}
+																	],
+																	"sid": 919210360387002
+																}
+															]
 														},
 														{
 															"eventType": "comment",
-															"text": "Немедленный первый выстрел при захвате цели — не ждём таймер \"shot\"",
+															"text": "Срыв захвата: anglediff > 22° → targetLock=false",
+															"background-color": [
+																0.67,
+																0.98,
+																0.79,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 219151417064375
+																},
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 779663585669090,
+																	"parameters": {
+																		"first-value": "abs(anglediff(turBase.ang, targang))",
+																		"comparison": 4,
+																		"second-value": "22"
+																	}
+																},
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "turBase",
+																	"sid": 783897802593279,
+																	"parameters": {
+																		"instance-variable": "targetLock"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "turBase",
+																	"sid": 917962144409870,
+																	"parameters": {
+																		"instance-variable": "targetLock",
+																		"value": "false"
+																	}
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "turBase",
+																	"sid": 358426674491676,
+																	"parameters": {
+																		"instance-variable": "aimReady",
+																		"value": "false"
+																	}
+																}
+															],
+															"sid": 132880916553838,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "compare-boolean-eventvar",
+																			"objectClass": "System",
+																			"sid": 350884569132633,
+																			"parameters": {
+																				"variable": "shot"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "instance-signal",
+																			"objectClass": "turBase",
+																			"sid": 775035208898622,
+																			"parameters": {
+																				"tag": "\"rotate\""
+																			}
+																		}
+																	],
+																	"sid": 420634164428919
+																}
+															]
+														},
+														{
+															"eventType": "comment",
+															"text": "ВЫСТРЕЛ ПО ЗАПРОСУ (shot=true) — ВНЕ блока захвата. Защита от двойного выстрела через shotFired.",
 															"background-color": [
 																0.33,
 																0.73,
@@ -1762,9 +2223,17 @@
 															"eventType": "block",
 															"conditions": [
 																{
+																	"id": "compare-boolean-eventvar",
+																	"objectClass": "System",
+																	"sid": 858231408762672,
+																	"parameters": {
+																		"variable": "shot"
+																	}
+																},
+																{
 																	"id": "is-boolean-instance-variable-set",
 																	"objectClass": "turBase",
-																	"sid": 632770189045985,
+																	"sid": 746061949577884,
 																	"parameters": {
 																		"instance-variable": "targetLock"
 																	}
@@ -1772,653 +2241,57 @@
 																{
 																	"id": "is-boolean-instance-variable-set",
 																	"objectClass": "turBase",
-																	"sid": 287690764319358,
+																	"sid": 781031314937793,
 																	"parameters": {
 																		"instance-variable": "shotFired"
 																	},
 																	"isInverted": true
-																}
-															],
-															"actions": [
+																},
 																{
-																	"id": "instance-signal",
-																	"objectClass": "turBase",
-																	"sid": 865793784599843,
+																	"id": "pick-by-unique-id",
+																	"objectClass": "iffyTurret",
+																	"sid": 731855111142589,
 																	"parameters": {
-																		"tag": "\"preShot\""
-																	}
-																}
-															],
-															"sid": 270428988016377
-														}
-													]
-												},
-												{
-													"eventType": "comment",
-													"text": "Цель вышла из rangeT, варианты",
-													"background-color": [
-														0.67,
-														0.98,
-														0.79,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "else",
-															"objectClass": "System",
-															"sid": 602830464746798
-														},
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "turBase",
-															"sid": 477217846678889,
-															"parameters": {
-																"unique-id": "uid"
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 258713285943159,
-															"parameters": {
-																"first-value": "bestdist",
-																"comparison": 4,
-																"second-value": "brange"
-															}
-														}
-													],
-													"actions": [],
-													"sid": 380276763676192,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "is-boolean-instance-variable-set",
-																	"objectClass": "turBase",
-																	"sid": 398765580151283,
-																	"parameters": {
-																		"instance-variable": "hasTarget"
+																		"unique-id": "turBase.hostUID"
 																	}
 																}
 															],
 															"actions": [
 																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "turBase",
-																	"sid": 506466509128233,
-																	"parameters": {
-																		"instance-variable": "hasTarget",
-																		"value": "false"
-																	}
+																	"type": "comment",
+																	"text": "Выстрел снаряда из ImagePoint(1) турели (точка дула)",
+																	"background-color": [
+																		0.49,
+																		0.7,
+																		0.38,
+																		1
+																	]
 																},
 																{
 																	"id": "set-boolean-instvar",
 																	"objectClass": "turBase",
-																	"sid": 977982879867758,
+																	"sid": 401886601682874,
 																	"parameters": {
-																		"instance-variable": "targetLock",
-																		"value": "false"
+																		"instance-variable": "shotFired",
+																		"value": "true"
 																	}
 																},
 																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "turBase",
-																	"sid": 790499185618654,
-																	"parameters": {
-																		"instance-variable": "aimReady",
-																		"value": "false"
-																	}
-																},
-																{
-																	"id": "stop-timer",
-																	"objectClass": "turBase",
-																	"sid": 459342523669610,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"shot\""
-																	}
+																	"callFunction": "turretShoot",
+																	"sid": 239880243649501,
+																	"parameters": [
+																		"turBase.UID",
+																		"turBase.targetUID",
+																		"iffyTurret.ImagePointX(1)",
+																		"iffyTurret.ImagePointY(1)"
+																	]
 																}
 															],
-															"sid": 910620673068005
-														},
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 355349538698564,
-																	"parameters": {
-																		"first-value": "bestdist",
-																		"comparison": 3,
-																		"second-value": "brangeTA"
-																	}
-																},
-																{
-																	"id": "is-timer-running",
-																	"objectClass": "turBase",
-																	"sid": 427358382833014,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"ready\""
-																	},
-																	"isInverted": true
-																}
-															],
-															"actions": [
-																{
-																	"id": "stop-timer",
-																	"objectClass": "turBase",
-																	"sid": 154941357726045,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"run\""
-																	}
-																},
-																{
-																	"id": "start-timer",
-																	"objectClass": "turBase",
-																	"sid": 635422748603619,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"duration": "0.1",
-																		"type": "regular",
-																		"tag": "\"ready\""
-																	}
-																}
-															],
-															"sid": 735135801272486
-														},
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "else",
-																	"objectClass": "System",
-																	"sid": 855945661701125
-																},
-																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 809530321356558,
-																	"parameters": {
-																		"first-value": "bestdist",
-																		"comparison": 4,
-																		"second-value": "brangeTA"
-																	}
-																},
-																{
-																	"id": "is-timer-running",
-																	"objectClass": "turBase",
-																	"sid": 584277789154470,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"check\""
-																	},
-																	"isInverted": true
-																}
-															],
-															"actions": [
-																{
-																	"id": "stop-timer",
-																	"objectClass": "turBase",
-																	"sid": 712347832569763,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"shot\""
-																	}
-																},
-																{
-																	"id": "stop-timer",
-																	"objectClass": "turBase",
-																	"sid": 409864950957168,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"run\""
-																	}
-																},
-																{
-																	"id": "stop-timer",
-																	"objectClass": "turBase",
-																	"sid": 118618798915273,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"tag": "\"ready\""
-																	}
-																},
-																{
-																	"id": "start-timer",
-																	"objectClass": "turBase",
-																	"sid": 758317065709597,
-																	"behaviorType": "Timer",
-																	"parameters": {
-																		"duration": "0.2",
-																		"type": "regular",
-																		"tag": "\"check\""
-																	}
-																}
-															],
-															"sid": 737495400515679
+															"sid": 253936547092713
 														}
 													]
-												},
-												{
-													"eventType": "comment",
-													"text": "Угол не в допуске но не сорван — просто aimReady=false",
-													"background-color": [
-														0.67,
-														0.98,
-														0.79,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "turBase",
-															"sid": 890074259580687,
-															"parameters": {
-																"unique-id": "uid"
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 697598839028829,
-															"parameters": {
-																"first-value": "abs(anglediff(turBase.ang, targang))",
-																"comparison": 4,
-																"second-value": "8"
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 462136592423752,
-															"parameters": {
-																"first-value": "abs(anglediff(turBase.ang, targang))",
-																"comparison": 3,
-																"second-value": "22"
-															}
-														},
-														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "turBase",
-															"sid": 288815688547592,
-															"parameters": {
-																"instance-variable": "targetLock"
-															},
-															"isInverted": true
-														}
-													],
-													"actions": [
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "turBase",
-															"sid": 987540885646000,
-															"parameters": {
-																"instance-variable": "aimReady",
-																"value": "false"
-															}
-														}
-													],
-													"sid": 765659081411469,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "compare-boolean-eventvar",
-																	"objectClass": "System",
-																	"sid": 261421810029535,
-																	"parameters": {
-																		"variable": "shot"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "instance-signal",
-																	"objectClass": "turBase",
-																	"sid": 159947027601038,
-																	"parameters": {
-																		"tag": "\"rotate\""
-																	}
-																}
-															],
-															"sid": 619035579369037
-														}
-													]
-												},
-												{
-													"eventType": "comment",
-													"text": "Срыв захвата: anglediff > 22° → targetLock=false",
-													"background-color": [
-														0.67,
-														0.98,
-														0.79,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "else",
-															"objectClass": "System",
-															"sid": 383794138830186
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 250998612304663,
-															"parameters": {
-																"first-value": "abs(anglediff(turBase.ang, targang))",
-																"comparison": 4,
-																"second-value": "22"
-															}
-														},
-														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "turBase",
-															"sid": 501717988538422,
-															"parameters": {
-																"instance-variable": "targetLock"
-															}
-														},
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "turBase",
-															"sid": 217997423005130,
-															"parameters": {
-																"unique-id": "uid"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "turBase",
-															"sid": 326242194632670,
-															"parameters": {
-																"instance-variable": "targetLock",
-																"value": "false"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "turBase",
-															"sid": 117980934187396,
-															"parameters": {
-																"instance-variable": "aimReady",
-																"value": "false"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "turBase",
-															"sid": 489497074306555,
-															"parameters": {
-																"instance-variable": "hasTarget",
-																"value": "false"
-															}
-														}
-													],
-													"sid": 356219357314793,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "compare-boolean-eventvar",
-																	"objectClass": "System",
-																	"sid": 616589730277215,
-																	"parameters": {
-																		"variable": "shot"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "instance-signal",
-																	"objectClass": "turBase",
-																	"sid": 610713341603330,
-																	"parameters": {
-																		"tag": "\"rotate\""
-																	}
-																}
-															],
-															"sid": 523466692007721
-														}
-													]
-												},
-												{
-													"eventType": "comment",
-													"text": "ВЫСТРЕЛ ПО ЗАПРОСУ (shot=true) — ВНЕ блока захвата. Защита от двойного выстрела через shotFired.",
-													"background-color": [
-														0.33,
-														0.73,
-														0.48,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-boolean-eventvar",
-															"objectClass": "System",
-															"sid": 905998163740202,
-															"parameters": {
-																"variable": "shot"
-															}
-														},
-														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "turBase",
-															"sid": 282857271448377,
-															"parameters": {
-																"instance-variable": "targetLock"
-															}
-														},
-														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "turBase",
-															"sid": 121609240961723,
-															"parameters": {
-																"instance-variable": "shotFired"
-															},
-															"isInverted": true
-														},
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "turBase",
-															"sid": 792333278434947,
-															"parameters": {
-																"unique-id": "uid"
-															}
-														},
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "iffyTurret",
-															"sid": 112633294697624,
-															"parameters": {
-																"unique-id": "turBase.hostUID"
-															}
-														}
-													],
-													"actions": [
-														{
-															"type": "comment",
-															"text": "Выстрел снаряда из ImagePoint(1) турели (точка дула)",
-															"background-color": [
-																0.49,
-																0.7,
-																0.38,
-																1
-															]
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "turBase",
-															"sid": 196248288832316,
-															"parameters": {
-																"instance-variable": "shotFired",
-																"value": "true"
-															}
-														},
-														{
-															"callFunction": "turretShoot",
-															"sid": 500600449984916,
-															"parameters": [
-																"turBase.UID",
-																"turBase.targetUID",
-																"iffyTurret.ImagePointX(1)",
-																"iffyTurret.ImagePointY(1)"
-															]
-														}
-													],
-													"sid": 996940612538854
 												}
 											]
-										},
-										{
-											"eventType": "comment",
-											"text": "Нет цели — сброс всего, возврат к check",
-											"background-color": [
-												0.67,
-												0.98,
-												0.79,
-												1
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 659371021325002
-												},
-												{
-													"id": "pick-by-unique-id",
-													"objectClass": "turBase",
-													"sid": 920637954368758,
-													"parameters": {
-														"unique-id": "uid"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-instvar-value",
-													"objectClass": "turBase",
-													"sid": 219249711650176,
-													"parameters": {
-														"instance-variable": "targetUID",
-														"value": "-1"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "turBase",
-													"sid": 551425401864516,
-													"parameters": {
-														"instance-variable": "targetLock",
-														"value": "false"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "turBase",
-													"sid": 595751811367840,
-													"parameters": {
-														"instance-variable": "hasTarget",
-														"value": "false"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "turBase",
-													"sid": 334376554395042,
-													"parameters": {
-														"instance-variable": "aimReady",
-														"value": "false"
-													}
-												},
-												{
-													"id": "stop-timer",
-													"objectClass": "turBase",
-													"sid": 444272232405236,
-													"behaviorType": "Timer",
-													"parameters": {
-														"tag": "\"run\""
-													}
-												},
-												{
-													"id": "stop-timer",
-													"objectClass": "turBase",
-													"sid": 970024367141470,
-													"behaviorType": "Timer",
-													"parameters": {
-														"tag": "\"ready\""
-													}
-												},
-												{
-													"id": "stop-timer",
-													"objectClass": "turBase",
-													"sid": 634717606157986,
-													"behaviorType": "Timer",
-													"parameters": {
-														"tag": "\"shot\""
-													}
-												},
-												{
-													"id": "stop-timer",
-													"objectClass": "turBase",
-													"sid": 596988515907051,
-													"behaviorType": "Timer",
-													"parameters": {
-														"tag": "\"salvo\""
-													}
-												},
-												{
-													"id": "stop-timer",
-													"objectClass": "turBase",
-													"sid": 654264732455857,
-													"behaviorType": "Timer",
-													"parameters": {
-														"tag": "\"check\""
-													}
-												},
-												{
-													"id": "start-timer",
-													"objectClass": "turBase",
-													"sid": 265877529079225,
-													"behaviorType": "Timer",
-													"parameters": {
-														"duration": "0.2",
-														"type": "regular",
-														"tag": "\"check\""
-													}
-												},
-												{
-													"id": "instance-signal",
-													"objectClass": "turBase",
-													"sid": 522263325444383,
-													"disabled": true,
-													"parameters": {
-														"tag": "\"noTarget\""
-													}
-												}
-											],
-											"sid": 278162446446329
 										}
 									]
 								}
@@ -2962,15 +2835,6 @@
 												"duration": "0.2",
 												"type": "regular",
 												"tag": "\"check\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "turBase",
-											"sid": 417156178892383,
-											"parameters": {
-												"instance-variable": "rotateSpeedT",
-												"value": "5000"
 											}
 										}
 									],
@@ -4022,10 +3886,22 @@
 												{
 													"id": "start-timer",
 													"objectClass": "turBase",
-													"sid": 243760040584187,
+													"sid": 406220743518958,
+													"disabled": true,
 													"behaviorType": "Timer",
 													"parameters": {
 														"duration": "0.033",
+														"type": "regular",
+														"tag": "\"salvo\""
+													}
+												},
+												{
+													"id": "start-timer",
+													"objectClass": "turBase",
+													"sid": 170052422268437,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.05",
 														"type": "regular",
 														"tag": "\"salvo\""
 													}
