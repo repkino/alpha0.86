@@ -457,98 +457,6 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\nЗАРЯДКА: каждый тик \"run\", если цель в rangeTA но не захвачена\n",
-							"background-color": [
-								0.33,
-								0.73,
-								0.48,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-timer",
-									"objectClass": "turBase",
-									"sid": 249557346612618,
-									"behaviorType": "Timer",
-									"parameters": {
-										"tag": "\"ready\""
-									}
-								},
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "turBase",
-									"sid": 985593362413236,
-									"parameters": {
-										"instance-variable": "enable"
-									}
-								}
-							],
-							"actions": [],
-							"sid": 131529866617374,
-							"disabled": true,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "turBase",
-											"sid": 378607042797224,
-											"parameters": {
-												"instance-variable": "hasTarget"
-											},
-											"isInverted": true
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "turBase",
-											"sid": 308398776806634,
-											"parameters": {
-												"instance-variable": "targetUID",
-												"comparison": 1,
-												"value": "-1"
-											}
-										}
-									],
-									"actions": [
-										{
-											"type": "comment",
-											"text": "Увеличиваем заряд, не превышая максимум",
-											"background-color": [
-												0.49,
-												0.7,
-												0.38,
-												1
-											]
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "turBase",
-											"sid": 793808851405518,
-											"parameters": {
-												"instance-variable": "charge",
-												"value": "min(turBase.charge + 1, turBase.chargeMax)"
-											}
-										},
-										{
-											"id": "instance-signal",
-											"objectClass": "turBase",
-											"sid": 261433769360964,
-											"parameters": {
-												"tag": "\"turCharge\""
-											}
-										}
-									],
-									"sid": 184671211815878,
-									"disabled": true
-								}
-							]
-						},
-						{
-							"eventType": "comment",
 							"text": "ЗАРЯДКА: каждый тик \"charge\", если цель не захвачена",
 							"background-color": [
 								0.33,
@@ -590,6 +498,7 @@
 							],
 							"actions": [],
 							"sid": 757611542315514,
+							"disabled": true,
 							"children": [
 								{
 									"eventType": "block",
@@ -634,7 +543,177 @@
 										}
 									],
 									"sid": 570651488393114,
+									"disabled": true,
 									"isOrBlock": true
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "ЗАРЯДКА: каждый тик \"charge\"",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "turBase",
+									"sid": 781972535380295,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"charge\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "turBase",
+									"sid": 194981635204960,
+									"parameters": {
+										"instance-variable": "enable"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 214721749212095,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "turBase",
+											"sid": 429752315486984,
+											"parameters": {
+												"instance-variable": "charge",
+												"comparison": 2,
+												"value": "turBase.chargeMax"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "turBase",
+											"sid": 561696302731501,
+											"parameters": {
+												"instance-variable": "charge",
+												"value": "turBase.charge + 1"
+											}
+										},
+										{
+											"id": "instance-signal",
+											"objectClass": "turBase",
+											"sid": 406423107044359,
+											"parameters": {
+												"tag": "\"turCharge\""
+											}
+										}
+									],
+									"sid": 685743222938074
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "РАЗРЯДКА: каждый тик \"discharge\" в состоянии покоя",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "turBase",
+									"sid": 369842738571354,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"discharge\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "turBase",
+									"sid": 783621703039874,
+									"parameters": {
+										"instance-variable": "enable"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 401129320207422,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "turBase",
+											"sid": 784098108201042,
+											"parameters": {
+												"instance-variable": "charge",
+												"comparison": 4,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "turBase",
+											"sid": 782991358009877,
+											"parameters": {
+												"instance-variable": "charge",
+												"value": "turBase.charge - 1"
+											}
+										},
+										{
+											"id": "instance-signal",
+											"objectClass": "turBase",
+											"sid": 590744677437597,
+											"parameters": {
+												"tag": "\"turCharge\""
+											}
+										}
+									],
+									"sid": 554579605118658
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "turBase",
+											"sid": 880783983428849,
+											"parameters": {
+												"instance-variable": "charge",
+												"comparison": 0,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-timer",
+											"objectClass": "turBase",
+											"sid": 805316473616709,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"discharge\""
+											}
+										}
+									],
+									"sid": 504746007616210
 								}
 							]
 						},
@@ -3051,6 +3130,65 @@
 																{
 																	"id": "else",
 																	"objectClass": "System",
+																	"sid": 144962815409828
+																},
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 376037551194992,
+																	"parameters": {
+																		"first-value": "abs(anglediff(turBase.ang, targang))",
+																		"comparison": 4,
+																		"second-value": "22"
+																	}
+																},
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "turBase",
+																	"sid": 644840663706517,
+																	"parameters": {
+																		"instance-variable": "targetLock"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "turBase",
+																	"sid": 377037971489377,
+																	"parameters": {
+																		"instance-variable": "targetLock",
+																		"value": "false"
+																	}
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "turBase",
+																	"sid": 859449735460999,
+																	"parameters": {
+																		"instance-variable": "aimReady",
+																		"value": "false"
+																	}
+																}
+															],
+															"sid": 386756192592424
+														},
+														{
+															"eventType": "comment",
+															"text": "Срыв захвата: anglediff > 22° → targetLock=false",
+															"background-color": [
+																0.67,
+																0.98,
+																0.79,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
 																	"sid": 781140337332389
 																},
 																{
@@ -3101,7 +3239,8 @@
 																	}
 																}
 															],
-															"sid": 697919449946718
+															"sid": 697919449946718,
+															"disabled": true
 														},
 														{
 															"eventType": "comment",
@@ -4601,19 +4740,19 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 989539295761868,
+													"sid": 183646116291955,
 													"parameters": {
 														"variable": "fx",
-														"value": "sx + cos(ang) * turBase.rangeT * 1.15 * Functions.getIsoArray(ang)"
+														"value": "sx + cos(ang) * turBase.rangeT * 1.15 * Functions.getIsoArray(round(ang))"
 													}
 												},
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 161110321371157,
+													"sid": 415613458014711,
 													"parameters": {
 														"variable": "fy",
-														"value": "sy + sin(ang) * turBase.rangeT * 1.15 * Functions.getIsoArray(ang)"
+														"value": "sy + sin(ang) * turBase.rangeT * 1.15 * Functions.getIsoArray(round(ang))"
 													}
 												},
 												{
