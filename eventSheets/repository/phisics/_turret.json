@@ -1523,10 +1523,10 @@
 																{
 																	"id": "set-instvar-value",
 																	"objectClass": "turBase",
-																	"sid": 904274102652135,
+																	"sid": 478734002229227,
 																	"parameters": {
 																		"instance-variable": "rotateSpeedT",
-																		"value": "20000"
+																		"value": "7000"
 																	}
 																}
 															],
@@ -2100,10 +2100,10 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "turBase",
-													"sid": 173222330222893,
+													"sid": 575511155635495,
 													"parameters": {
 														"instance-variable": "rotateSpeedT",
-														"value": "10000"
+														"value": "5000"
 													}
 												},
 												{
@@ -2759,7 +2759,97 @@
 																	]
 																}
 															],
-															"sid": 253936547092713
+															"sid": 253936547092713,
+															"disabled": true
+														},
+														{
+															"eventType": "comment",
+															"text": "ВЫСТРЕЛ ПО ЗАПРОСУ (shot=true) — ВНЕ блока захвата. Защита от двойного выстрела через shotFired.",
+															"background-color": [
+																0.33,
+																0.73,
+																0.48,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-boolean-eventvar",
+																	"objectClass": "System",
+																	"sid": 241423440650701,
+																	"parameters": {
+																		"variable": "shot"
+																	}
+																},
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "turBase",
+																	"sid": 180351174304593,
+																	"parameters": {
+																		"instance-variable": "targetLock"
+																	}
+																},
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "turBase",
+																	"sid": 560332199432457,
+																	"parameters": {
+																		"instance-variable": "shotFired"
+																	},
+																	"isInverted": true
+																},
+																{
+																	"id": "pick-by-unique-id",
+																	"objectClass": "iffyTurret",
+																	"sid": 900938527872953,
+																	"parameters": {
+																		"unique-id": "turBase.hostUID"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"type": "comment",
+																	"text": "Выстрел снаряда из ImagePoint(1) турели (точка дула)",
+																	"background-color": [
+																		0.49,
+																		0.7,
+																		0.38,
+																		1
+																	]
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "turBase",
+																	"sid": 338002996710202,
+																	"parameters": {
+																		"instance-variable": "shotFired",
+																		"value": "true"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "turBase",
+																	"sid": 625405676298089,
+																	"parameters": {
+																		"instance-variable": "salvoStartCharge",
+																		"value": "turBase.charge"
+																	}
+																},
+																{
+																	"callFunction": "turretShoot",
+																	"sid": 857469727521646,
+																	"parameters": [
+																		"turBase.UID",
+																		"turBase.targetUID",
+																		"iffyTurret.ImagePointX(1)",
+																		"iffyTurret.ImagePointY(1)"
+																	]
+																}
+															],
+															"sid": 429915868351783
 														}
 													]
 												}
@@ -4204,7 +4294,134 @@
 													}
 												}
 											],
-											"sid": 620670313123383
+											"sid": 620670313123383,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "Веерный разброс для заряженного выстрела",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "variable",
+											"name": "shotIndex",
+											"type": "number",
+											"initialValue": "0",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 958974208748664
+										},
+										{
+											"eventType": "variable",
+											"name": "veerMult",
+											"type": "number",
+											"initialValue": "0",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 839407482221091
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 589047097608849,
+													"parameters": {
+														"variable": "shotIndex",
+														"value": "turBase.salvoStartCharge - turBase.charge"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 301811304878532,
+													"parameters": {
+														"variable": "veerMult",
+														"value": "shotIndex = 0 ? 0 : (shotIndex % 2 = 0 ? -1 : 1) * ceil(shotIndex / 2)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 766485570432663,
+													"parameters": {
+														"variable": "ang",
+														"value": "ang + veerMult * (turBase.veerAng / (Functions.getIsoArray(ang) * 1.5))"
+													}
+												}
+											],
+											"sid": 392907969803175
+										},
+										{
+											"eventType": "comment",
+											"text": "Точки твина (общие для обоих случаев)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 778068046433475,
+													"parameters": {
+														"variable": "ex",
+														"value": "sx + cos(ang) * turBase.rangeT * Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 907198197514893,
+													"parameters": {
+														"variable": "ey",
+														"value": "sy + sin(ang) * turBase.rangeT * Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 544748572001466,
+													"parameters": {
+														"variable": "fx",
+														"value": "sx + cos(ang) * turBase.rangeT * 1.15 * Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 403055548819565,
+													"parameters": {
+														"variable": "fy",
+														"value": "sy + sin(ang) * turBase.rangeT * 1.15 * Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 197215407594416,
+													"parameters": {
+														"variable": "efftime",
+														"value": "turBase.rangeT / turBase.dartSpeedT"
+													}
+												}
+											],
+											"sid": 458789273846063
 										},
 										{
 											"eventType": "comment",
@@ -4390,6 +4607,7 @@
 												}
 											],
 											"sid": 751296396810901,
+											"disabled": true,
 											"children": [
 												{
 													"eventType": "block",
@@ -4428,7 +4646,82 @@
 															}
 														}
 													],
-													"sid": 518752956381718
+													"sid": 518752956381718,
+													"disabled": true
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "turBase",
+													"sid": 464455321591972,
+													"parameters": {
+														"unique-id": "baseuid"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "turBase",
+													"sid": 588565967660037,
+													"parameters": {
+														"instance-variable": "charge",
+														"value": "max(turBase.charge - 1, 0)"
+													}
+												},
+												{
+													"id": "instance-signal",
+													"objectClass": "turBase",
+													"sid": 294692638860945,
+													"parameters": {
+														"tag": "\"turCharge\""
+													}
+												}
+											],
+											"sid": 397310322291374,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "turBase",
+															"sid": 443679863869221,
+															"parameters": {
+																"instance-variable": "charge",
+																"comparison": 4,
+																"value": "0"
+															}
+														},
+														{
+															"id": "is-timer-running",
+															"objectClass": "turBase",
+															"sid": 864094484714116,
+															"behaviorType": "Timer",
+															"parameters": {
+																"tag": "\"salvo\""
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "start-timer",
+															"objectClass": "turBase",
+															"sid": 226175710045379,
+															"behaviorType": "Timer",
+															"parameters": {
+																"duration": "turBase.salvoInt",
+																"type": "regular",
+																"tag": "\"salvo\""
+															}
+														}
+													],
+													"sid": 637163097159973
 												}
 											]
 										}
