@@ -6410,9 +6410,9 @@
 						{
 							"id": "every-x-seconds",
 							"objectClass": "System",
-							"sid": 249798542111808,
+							"sid": 265231521285520,
 							"parameters": {
-								"interval-seconds": "1.0"
+								"interval-seconds": "2"
 							}
 						},
 						{
@@ -6433,13 +6433,53 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-animation-frame-tag",
+									"id": "is-animation-playing",
 									"objectClass": "inventory",
-									"sid": 478941425183653,
+									"sid": 709548634610649,
 									"parameters": {
-										"comparison": 1,
-										"tag": "\"hot\""
+										"animation": "\"openExtra\""
 									}
+								},
+								{
+									"id": "is-empty",
+									"objectClass": "itemsQ",
+									"sid": 887583025141705
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aUIN",
+									"sid": 385740952775590,
+									"parameters": {
+										"instance-variable": "rocketOn",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aUIN",
+									"sid": 121595540762225,
+									"parameters": {
+										"instance-variable": "inventoryOn",
+										"value": "false"
+									}
+								},
+								{
+									"customAction": "inventoryClose",
+									"objectClass": "inventory",
+									"sid": 683112718039689
+								}
+							],
+							"sid": 805765914519515
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 184073783551789
 								},
 								{
 									"id": "is-animation-playing",
@@ -6449,6 +6489,15 @@
 										"animation": "\"openExtra\""
 									},
 									"isInverted": true
+								},
+								{
+									"id": "compare-animation-frame-tag",
+									"objectClass": "inventory",
+									"sid": 432548320464750,
+									"parameters": {
+										"comparison": 1,
+										"tag": "\"hot\""
+									}
 								}
 							],
 							"actions": [
@@ -6482,6 +6531,16 @@
 									"sid": 993015120603623,
 									"behaviorType": "DragDrop",
 									"isInverted": true
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 884435858077881,
+									"parameters": {
+										"first-value": "Mouse.Y(\"ui\")",
+										"comparison": 4,
+										"second-value": "125"
+									}
 								}
 							],
 							"actions": [
@@ -6523,7 +6582,7 @@
 						{
 							"id": "compare-two-values",
 							"objectClass": "System",
-							"sid": 437096137464104,
+							"sid": 169502754609380,
 							"parameters": {
 								"first-value": "Mouse.Y(\"ui\")",
 								"comparison": 2,
@@ -6537,15 +6596,6 @@
 						{
 							"eventType": "block",
 							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "aUIN",
-									"sid": 344100370406438,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "inventoryOn"
-									}
-								},
 								{
 									"id": "compare-animation-frame-tag",
 									"objectClass": "inventory",
@@ -6561,6 +6611,15 @@
 									"sid": 527562818242919,
 									"parameters": {
 										"animation": "\"openExtra\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aUIN",
+									"sid": 989581744458637,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "inventoryOn"
 									}
 								}
 							],
@@ -6618,143 +6677,6 @@
 								}
 							],
 							"isOrBlock": true
-						}
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "else",
-							"objectClass": "System",
-							"sid": 996628583937478
-						},
-						{
-							"id": "compare-two-values",
-							"objectClass": "System",
-							"sid": 476913791583814,
-							"parameters": {
-								"first-value": "Mouse.Y(\"ui\")",
-								"comparison": 4,
-								"second-value": "126"
-							}
-						},
-						{
-							"id": "is-group-active",
-							"objectClass": "System",
-							"sid": 677894279685984,
-							"parameters": {
-								"group-name": "\"inventory\""
-							}
-						}
-					],
-					"actions": [],
-					"sid": 497023989317518,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-animation-frame-tag",
-									"objectClass": "inventory",
-									"sid": 276128488987214,
-									"parameters": {
-										"comparison": 1,
-										"tag": "\"hot\""
-									}
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "inventory",
-									"sid": 429282545525604,
-									"parameters": {
-										"animation": "\"openExtra\""
-									},
-									"isInverted": true
-								},
-								{
-									"id": "trigger-once-while-true",
-									"objectClass": "System",
-									"sid": 657207437590101
-								}
-							],
-							"actions": [
-								{
-									"id": "set-group-active",
-									"objectClass": "System",
-									"sid": 430220655522823,
-									"parameters": {
-										"group-name": "\"inventory\"",
-										"state": "deactivated"
-									}
-								}
-							],
-							"sid": 689004703776040
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "mouse-button-is-down",
-									"objectClass": "Mouse",
-									"sid": 520989834487564,
-									"parameters": {
-										"mouse-button": "left"
-									},
-									"isInverted": true
-								},
-								{
-									"id": "is-dragging",
-									"objectClass": "items",
-									"sid": 942898169832553,
-									"behaviorType": "DragDrop",
-									"isInverted": true
-								}
-							],
-							"actions": [],
-							"sid": 772100287071926,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "trigger-once-while-true",
-											"objectClass": "System",
-											"sid": 321341150474869
-										}
-									],
-									"actions": [
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 180705662145320,
-											"parameters": {
-												"seconds": "0",
-												"use-timescale": false
-											}
-										},
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 126242629363998,
-											"parameters": {
-												"seconds": "0",
-												"use-timescale": false
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 405436962254905,
-											"parameters": {
-												"group-name": "\"itemDrag\"",
-												"state": "deactivated"
-											}
-										}
-									],
-									"sid": 351731236933276
-								}
-							]
 						}
 					]
 				},
