@@ -30,6 +30,36 @@
 			],
 			"actions": [
 				{
+					"id": "set-time-scale",
+					"objectClass": "System",
+					"sid": 155250767151459,
+					"parameters": {
+						"time-scale": "1.0"
+					}
+				},
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 178248275799968,
+					"disabled": true,
+					"parameters": {
+						"group-name": "\"startLocation\"",
+						"state": "activated"
+					}
+				},
+				{
+					"callFunction": "gotoFrame",
+					"sid": 250193240576036,
+					"disabled": true,
+					"parameters": [
+						"aTools.n",
+						"-1",
+						"\"\"",
+						"0",
+						"0"
+					]
+				},
+				{
 					"type": "comment",
 					"text": ""
 				},
@@ -49,6 +79,15 @@
 					"parameters": {
 						"instance-variable": "zoomStep",
 						"value": "0.5"
+					}
+				},
+				{
+					"id": "set-eventvar-value",
+					"objectClass": "System",
+					"sid": 237102012922196,
+					"parameters": {
+						"variable": "lerpCoeff",
+						"value": "0.1"
 					}
 				},
 				{
@@ -224,6 +263,17 @@
 					}
 				},
 				{
+					"customAction": "mouseBack",
+					"objectClass": "aIns",
+					"sid": 868205337356645,
+					"parameters": [
+						true,
+						true,
+						true,
+						true
+					]
+				},
+				{
 					"customAction": "startSerPatrolPoint",
 					"objectClass": "ats",
 					"sid": 864512793713472
@@ -243,66 +293,113 @@
 					}
 				}
 			],
-			"actions": [
-				{
-					"id": "wait",
-					"objectClass": "System",
-					"sid": 743773755790582,
-					"parameters": {
-						"seconds": "0",
-						"use-timescale": true
-					}
-				},
-				{
-					"customAction": "zoomTo",
-					"objectClass": "aIns",
-					"sid": 863115039176272,
-					"parameters": [
-						false,
-						true,
-						false,
-						"-1",
-						false,
-						false,
-						false,
-						"camera.toZoomStart",
-						"0",
-						"0",
-						"2",
-						"2",
-						false,
-						false,
-						"0.01",
-						false,
-						"-1",
-						"\"hero\"",
-						false,
-						false,
-						false,
-						false,
-						true,
-						false,
-						false,
-						"0",
-						"\"\""
-					]
-				},
-				{
-					"type": "comment",
-					"text": "если на локации есть энерго-звездочки"
-				},
-				{
-					"id": "set-group-active",
-					"objectClass": "System",
-					"sid": 737609920661594,
-					"parameters": {
-						"group-name": "\"energoSparkle\"",
-						"state": "activated"
-					}
-				}
-			],
+			"actions": [],
 			"sid": 733795899770449,
 			"children": [
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"type": "comment",
+							"text": "если на локации есть энерго-звездочки"
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 242290545007036,
+							"parameters": {
+								"seconds": "0",
+								"use-timescale": false
+							}
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 605471785890597,
+							"parameters": {
+								"group-name": "\"energoSparkle\"",
+								"state": "activated"
+							}
+						}
+					],
+					"sid": 313692823521252,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aPortals",
+									"sid": 331946717497765,
+									"parameters": {
+										"instance-variable": "startSpecialCamera"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"customAction": "zoomTo",
+									"objectClass": "aIns",
+									"sid": 838615187296078,
+									"parameters": [
+										false,
+										true,
+										false,
+										"-1",
+										false,
+										false,
+										false,
+										"camera.toZoomStart",
+										"0",
+										"0",
+										"2",
+										"2",
+										false,
+										false,
+										"0.01",
+										false,
+										"-1",
+										"\"hero\"",
+										false,
+										false,
+										false,
+										false,
+										true,
+										false,
+										false,
+										"0",
+										"\"\""
+									]
+								}
+							],
+							"sid": 302544007329335
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 175737964425127
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aPortals",
+									"sid": 888096741119279,
+									"parameters": {
+										"instance-variable": "startSpecialCamera",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 936582485781376
+						}
+					]
+				},
 				{
 					"eventType": "comment",
 					"text": "если Торник проявляет себя на локации со старта, включение на старте"
@@ -349,6 +446,50 @@
 					],
 					"sid": 571286177495073,
 					"isOrBlock": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-x",
+							"objectClass": "vegaIffy",
+							"sid": 633136390657865,
+							"parameters": {
+								"comparison": 4,
+								"x-co-ordinate": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 170651164861627,
+							"parameters": {
+								"seconds": "0",
+								"use-timescale": false
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "vegaIffy",
+							"sid": 926199528245397,
+							"parameters": {
+								"instance-variable": "zEnable",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 856431145166328,
+							"parameters": {
+								"variable": "zSort",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 587121260193587
 				}
 			]
 		},
