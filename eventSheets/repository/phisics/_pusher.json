@@ -1,0 +1,734 @@
+{
+	"name": "_pusher",
+	"events": [
+		{
+			"eventType": "comment",
+			"text": ""
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-signal",
+					"objectClass": "System",
+					"sid": 637037754328509,
+					"parameters": {
+						"tag": "\"pusher\""
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 183582956320411,
+					"parameters": {
+						"group-name": "\"pusher\"",
+						"state": "activated"
+					}
+				}
+			],
+			"sid": 866973944019195
+		},
+		{
+			"eventType": "comment",
+			"text": ""
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "pusher",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"functionName": "pusherCheckOld",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": true,
+					"functionParameters": [
+						{
+							"name": "x",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 886059507842254
+						},
+						{
+							"name": "y",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 493633065072257
+						},
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 178111352760366
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 275129537116509,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "pusher",
+									"sid": 787431660472349,
+									"parameters": {
+										"instance-variable": "act"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 174749447773598,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": false
+									}
+								},
+								{
+									"callFunction": "pusherCheckOld",
+									"sid": 392235510872190,
+									"parameters": [
+										"x",
+										"y",
+										"pusher.UID"
+									]
+								}
+							],
+							"sid": 782918773226652,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 819046708872789
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "pusher",
+									"sid": 858832230546565,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "pusher",
+									"sid": 393324206269203,
+									"parameters": {
+										"x": "x",
+										"y": "y"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ath",
+									"sid": 634900700290599,
+									"parameters": {
+										"instance-variable": "pusherDist",
+										"value": "-1"
+									}
+								}
+							],
+							"sid": 244901661213813,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-comparison",
+											"objectClass": "System",
+											"sid": 891580288736994,
+											"parameters": {
+												"object": "ath",
+												"expression": "distance(pusher.X,pusher.Y,ath.X,ath.Y)",
+												"comparison": 2,
+												"value": "pusher.area"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 570064436854913,
+											"parameters": {
+												"instance-variable": "pusherDist",
+												"value": "Functions.getIsoDist(nut.X,nut.Y,Self.X,Self.Y)"
+											}
+										}
+									],
+									"sid": 840817123626200,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"callFunction": "pusherOld",
+											"sid": 336127747107607,
+											"parameters": [
+												"pusher.UID"
+											]
+										}
+									],
+									"sid": 814771905014712,
+									"disabled": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"functionName": "pusherOld",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 913340733790553
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "pusher",
+							"sid": 438742921201344,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 467040799743274,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "variable",
+							"name": "ang",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 630101682455857
+						},
+						{
+							"eventType": "variable",
+							"name": "dist",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 919674703915978
+						},
+						{
+							"eventType": "variable",
+							"name": "isoCoeff",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 107839563085136
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "ath",
+									"sid": 197920812405418,
+									"parameters": {
+										"instance-variable": "pusherDist",
+										"comparison": 1,
+										"value": "-1"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 492873670512915,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-comparison",
+											"objectClass": "System",
+											"sid": 569882045937394,
+											"parameters": {
+												"object": "ath",
+												"expression": "Functions.getIsoDist(pusher.X,pusher.Y,ath.X,ath.Y)",
+												"comparison": 2,
+												"value": "pusher.area"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 509350086324544,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 198418609909671,
+													"parameters": {
+														"object": "ath"
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "stopThorns",
+													"sid": 393703766652919,
+													"parameters": [
+														"ath.UID",
+														false
+													]
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ath",
+													"sid": 714123859038308,
+													"parameters": {
+														"instance-variable": "sImpuls",
+														"value": "10"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 860937988632361,
+													"parameters": {
+														"variable": "ang",
+														"value": "angle(pusher.X,pusher.Y,ath.X,ath.Y)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 397530346008766,
+													"parameters": {
+														"variable": "isoCoeff",
+														"value": "Functions.getIsoArray(ang)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 240190074217953,
+													"parameters": {
+														"variable": "dist",
+														"value": "(isoCoeff*(pusher.area*isoCoeff - ath.pusherDist*isoCoeff))*pusher.force"
+													}
+												},
+												{
+													"callFunction": "smt",
+													"sid": 294698974606001,
+													"parameters": [
+														"ath.UID",
+														"float( tokenat( Functions.getPos(pusher.X,pusher.Y,ang,dist), 0, \";\"))",
+														"float( tokenat( Functions.getPos(pusher.X,pusher.Y,ang,dist), 1, \";\"))"
+													]
+												}
+											],
+											"sid": 760411909881635,
+											"disabled": true
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"functionName": "pusherCheck",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": true,
+					"functionParameters": [
+						{
+							"name": "x",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 402002510528371
+						},
+						{
+							"name": "y",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 727451465392815
+						},
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 249168252266392
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 806457215203544,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "pusher",
+									"sid": 264551027065823,
+									"parameters": {
+										"instance-variable": "act"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 769295947153470,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": true
+									}
+								},
+								{
+									"callFunction": "pusherCheck",
+									"sid": 833131087205856,
+									"parameters": [
+										"x",
+										"y",
+										"pusher.UID"
+									]
+								}
+							],
+							"sid": 480189883443601
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 650710955205348
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "pusher",
+									"sid": 650469261979332,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "pusher",
+									"sid": 986679948421434,
+									"parameters": {
+										"x": "x",
+										"y": "y"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "pusher",
+									"sid": 535964075185267,
+									"parameters": {
+										"instance-variable": "act",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "ath",
+									"sid": 568637630548618,
+									"parameters": {
+										"instance-variable": "pusherDist",
+										"value": "-1"
+									}
+								}
+							],
+							"sid": 163384341637848,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-comparison",
+											"objectClass": "System",
+											"sid": 552718408122030,
+											"parameters": {
+												"object": "ath",
+												"expression": "distance(pusher.X, pusher.Y, ath.X, ath.Y)",
+												"comparison": 2,
+												"value": "pusher.area"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ath",
+											"sid": 749720176551691,
+											"parameters": {
+												"instance-variable": "pusherDist",
+												"value": "Functions.getIsoDist(pusher.X, pusher.Y, ath.X, ath.Y)"
+											}
+										}
+									],
+									"sid": 527492509419120
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"callFunction": "pusher",
+											"sid": 656678754326884,
+											"parameters": [
+												"pusher.UID"
+											]
+										}
+									],
+									"sid": 875425071976900
+								}
+							]
+						}
+					]
+				},
+				{
+					"functionName": "pusher",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 859467655369280
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "pusher",
+							"sid": 990084094430545,
+							"parameters": {
+								"unique-id": "uid"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 532067835750172,
+					"children": [
+						{
+							"eventType": "variable",
+							"name": "ang",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 832519165787801
+						},
+						{
+							"eventType": "variable",
+							"name": "dist",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 641206173399972
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "ath",
+									"sid": 428768740260359,
+									"parameters": {
+										"instance-variable": "pusherDist",
+										"comparison": 1,
+										"value": "-1"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 134431693854289,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "ath",
+											"sid": 395527638704927,
+											"parameters": {
+												"instance-variable": "pusherDist",
+												"comparison": 2,
+												"value": "pusher.area"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 675649872722908,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 331354380567008,
+													"parameters": {
+														"object": "ath"
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "stopThorns",
+													"sid": 413226799877738,
+													"disabled": true,
+													"parameters": [
+														"ath.UID",
+														true
+													]
+												},
+												{
+													"callFunction": "stopThorns",
+													"sid": 735903699618065,
+													"parameters": [
+														"ath.UID",
+														false
+													]
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ath",
+													"sid": 479226381803314,
+													"parameters": {
+														"instance-variable": "push",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ath",
+													"sid": 738123774394119,
+													"parameters": {
+														"instance-variable": "sImpuls",
+														"value": "10"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 542825078519654,
+													"parameters": {
+														"variable": "ang",
+														"value": "angle(pusher.X, pusher.Y, ath.X, ath.Y)"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 318371473794247,
+													"parameters": {
+														"variable": "dist",
+														"value": "(pusher.area - ath.pusherDist) * pusher.force/ath.pushMass"
+													}
+												},
+												{
+													"id": "instance-signal",
+													"objectClass": "ath",
+													"sid": 208664880470010,
+													"parameters": {
+														"tag": "dist>200?\"pusher\":\"push\""
+													}
+												},
+												{
+													"callFunction": "smt",
+													"sid": 303115470668273,
+													"parameters": [
+														"ath.UID",
+														"float(tokenat(Functions.getPos(pusher.X, pusher.Y, ang, dist), 0, \";\"))",
+														"float(tokenat(Functions.getPos(pusher.X, pusher.Y, ang, dist), 1, \";\"))"
+													]
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "pusher",
+													"sid": 321071569925102,
+													"parameters": {
+														"instance-variable": "act",
+														"value": "false"
+													}
+												}
+											],
+											"sid": 879996909630428
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			],
+			"sid": 718500989706028
+		}
+	],
+	"sid": 786691356687679
+}

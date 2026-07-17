@@ -1,0 +1,130 @@
+{
+	"name": "_utils",
+	"events": [
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "utils",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "Универсальная функция: выбирает случайный свободный экземпляр из банка (X < 0) по имени объекта. Возвращает UID или -1",
+					"background-color": [
+						0.67,
+						0.98,
+						0.79,
+						1
+					]
+				},
+				{
+					"functionName": "pickOutside",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "number",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "objectName",
+							"type": "string",
+							"initialValue": "",
+							"comment": "",
+							"sid": 740989318046744
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"type": "script",
+							"language": "javascript",
+							"script": [
+								"// Получаем имя объекта из параметра функции Construct 3",
+								"const name = localVars.objectName;",
+								"const objType = runtime.objects[name];",
+								"",
+								"if (objType) {",
+								"    // Фильтруем экземпляры, которые находятся в банке (координата X меньше 0)",
+								"    const outsideInstances = objType.getAllInstances().filter(inst => inst.x < 0);",
+								"",
+								"    if (outsideInstances.length > 0) {",
+								"        // Выбираем случайный",
+								"        const randomInst = outsideInstances[Math.floor(Math.random() * outsideInstances.length)];",
+								"        // Возвращаем UID обратно в систему событий",
+								"        runtime.setReturnValue(randomInst.uid);",
+								"    } else {",
+								"        runtime.setReturnValue(-1);",
+								"    }",
+								"} else {",
+								"    runtime.setReturnValue(-1);",
+								"}"
+							]
+						}
+					],
+					"sid": 829971593540068
+				},
+				{
+					"eventType": "comment",
+					"text": "эффекты терний",
+					"background-color": [
+						0.7372549019607844,
+						0.7568627450980392,
+						0.8431372549019608,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-animation-finished",
+							"objectClass": "tFX",
+							"sid": 903777189084145
+						}
+					],
+					"actions": [
+						{
+							"id": "set-animation",
+							"objectClass": "tFX",
+							"sid": 836015724758347,
+							"parameters": {
+								"animation": "\"i\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-position",
+							"objectClass": "tFX",
+							"sid": 188336257442792,
+							"parameters": {
+								"x": "-3733",
+								"y": "-8222"
+							}
+						},
+						{
+							"id": "set-scale",
+							"objectClass": "tFX",
+							"sid": 141382736553764,
+							"parameters": {
+								"scale": "0.67"
+							}
+						},
+						{
+							"id": "move-to-layer",
+							"objectClass": "tFX",
+							"sid": 669217184220368,
+							"parameters": {
+								"layer": "\"iso\""
+							}
+						}
+					],
+					"sid": 497289614003294
+				}
+			],
+			"sid": 462994712289276
+		}
+	],
+	"sid": 534167395522073
+}

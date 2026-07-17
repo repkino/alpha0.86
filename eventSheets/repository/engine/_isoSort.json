@@ -1,0 +1,242 @@
+{
+	"name": "_isoSort",
+	"events": [
+		{
+			"eventType": "variable",
+			"name": "zSort",
+			"type": "boolean",
+			"initialValue": "false",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 902897449764610
+		},
+		{
+			"eventType": "variable",
+			"name": "zInt",
+			"type": "number",
+			"initialValue": "0.05",
+			"comment": "",
+			"isStatic": false,
+			"isConstant": false,
+			"sid": 626357933068313
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "zSorting",
+			"description": "",
+			"isActiveOnStart": true,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "Оптимизированная Z-сортировка. Вынесена в функцию для вызова по таймеру, каждый тик или по сигналу.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"functionName": "zSort",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"type": "comment",
+							"text": "По zSort.Y или по zSort.zsY, если она не равна 0. Плюс прибавляем zSort.altitude для корректировки высоты.",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"type": "script",
+							"language": "javascript",
+							"script": [
+								"const instances = runtime.objects.zSort.getAllInstances();",
+								"const firstInst = instances[0];",
+								"if (!firstInst) return;",
+								"const layer = firstInst.layer;",
+								"const viewport = layer.getViewport();",
+								"const padding = 240;",
+								"const vLeft = viewport.left - padding;",
+								"const vRight = viewport.right + padding;",
+								"const vTop = viewport.top - padding;",
+								"const vBottom = viewport.bottom + padding;",
+								"const instancesToSort = [];",
+								"for (const inst of instances) {",
+								"    if (!inst.instVars.zEnable) continue;",
+								"    const bbox = inst.getBoundingBox();",
+								"    if (bbox.right >= vLeft && bbox.left <= vRight && bbox.bottom >= vTop && bbox.top <= vBottom) {",
+								"        instancesToSort.push(inst);",
+								"    }",
+								"}",
+								"instancesToSort.sort((a, b) => {",
+								"    const valA = (a.instVars.zsY > 0 ? a.instVars.zsY : a.y) + a.instVars.altitude;",
+								"    const valB = (b.instVars.zsY > 0 ? b.instVars.zsY : b.y) + b.instVars.altitude;",
+								"    return valA - valB;",
+								"});",
+								"for (const inst of instancesToSort) {",
+								"    inst.moveToTop();",
+								"}"
+							]
+						}
+					],
+					"sid": 774359242489269
+				},
+				{
+					"eventType": "comment",
+					"text": "Оптимизированная Z-сортировка. Если у объекта задана стабильная координата zsY (> 0), сортируем по ней, иначе по текущему Y.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-signal",
+							"objectClass": "System",
+							"sid": 901181229786389,
+							"parameters": {
+								"tag": "\"zSort\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 529465367849091,
+							"parameters": {
+								"variable": "zSort",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 675777091367893
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 301660487755510,
+							"parameters": {
+								"variable": "zInt",
+								"comparison": 4,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 196672648059018,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "every-x-seconds",
+									"objectClass": "System",
+									"sid": 607654236641891,
+									"parameters": {
+										"interval-seconds": "zInt"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 621178144407041,
+									"parameters": {
+										"variable": "zSort",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 833372962261046
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 147068488185166
+						},
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 403512175674708,
+							"parameters": {
+								"variable": "zInt",
+								"comparison": 0,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 103485205431627,
+							"parameters": {
+								"variable": "zSort",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 628957398622061
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 824182717830255,
+							"parameters": {
+								"variable": "zSort"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "zSort",
+							"sid": 544632284729077
+						},
+						{
+							"id": "set-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 123674862520358,
+							"parameters": {
+								"variable": "zSort",
+								"value": "false"
+							}
+						}
+					],
+					"sid": 440256495852521
+				}
+			],
+			"sid": 887138577661091
+		}
+	],
+	"sid": 890430402587763
+}
