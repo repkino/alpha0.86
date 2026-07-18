@@ -353,6 +353,7 @@
 							"id": "wait",
 							"objectClass": "System",
 							"sid": 510267091781279,
+							"disabled": true,
 							"parameters": {
 								"seconds": "1",
 								"use-timescale": false
@@ -401,8 +402,7 @@
 							]
 						}
 					],
-					"sid": 406167908231982,
-					"disabled": true
+					"sid": 406167908231982
 				}
 			]
 		},
@@ -15177,65 +15177,14 @@
 									]
 								},
 								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 592387139637017,
-											"parameters": {
-												"instance-variable": "inventoryOn"
-											}
-										},
-										{
-											"id": "is-animation-playing",
-											"objectClass": "inventory",
-											"sid": 559470416336007,
-											"parameters": {
-												"animation": "\"openExtra\""
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-animation-playing",
-											"objectClass": "inventory",
-											"sid": 749764781121446,
-											"parameters": {
-												"animation": "\"open\""
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-position",
-											"objectClass": "item",
-											"sid": 621028067402948,
-											"parameters": {
-												"x": "item.invX-aUI.slide",
-												"y": "aUI.itemY"
-											}
-										},
-										{
-											"id": "set-opacity",
-											"objectClass": "item",
-											"sid": 831144420421893,
-											"parameters": {
-												"opacity": "Self.X+Self.Width/2> aUI.invWidthLimit+aUI.invStartX ? 0: Self.X-Self.Width/2 < aUI.inv0Hot-25 ?0 : 100"
-											}
-										},
-										{
-											"id": "move-to-object",
-											"objectClass": "item",
-											"sid": 899152804742576,
-											"parameters": {
-												"where": "behind",
-												"object": "invBack"
-											}
-										}
-									],
-									"sid": 530105735718624,
-									"disabled": true
+									"eventType": "comment",
+									"text": "Позиционирование зависит от состояния инвентаря (Строгое правило: нет инвентаря или идет анимация = предметы за экраном)",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
 								},
 								{
 									"eventType": "block",
@@ -15243,7 +15192,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aUIN",
-											"sid": 805619925739907,
+											"sid": 428082847238645,
 											"parameters": {
 												"instance-variable": "inventoryOn"
 											}
@@ -15251,7 +15200,7 @@
 										{
 											"id": "compare-two-values",
 											"objectClass": "System",
-											"sid": 942869412230148,
+											"sid": 595798642002128,
 											"parameters": {
 												"first-value": "inventory.AnimationName",
 												"comparison": 0,
@@ -15261,7 +15210,7 @@
 										{
 											"id": "compare-animation-speed",
 											"objectClass": "inventory",
-											"sid": 591841873419165,
+											"sid": 784124494717399,
 											"parameters": {
 												"comparison": 0,
 												"number": "0"
@@ -15272,7 +15221,7 @@
 										{
 											"id": "set-position",
 											"objectClass": "item",
-											"sid": 814584886787216,
+											"sid": 542168857333731,
 											"parameters": {
 												"x": "item.invX-aUI.slide",
 												"y": "aUI.itemY"
@@ -15281,7 +15230,7 @@
 										{
 											"id": "set-opacity",
 											"objectClass": "item",
-											"sid": 845306067911512,
+											"sid": 474124956298581,
 											"parameters": {
 												"opacity": "Self.X+Self.Width/2> aUI.invWidthLimit+aUI.invStartX ? 0: Self.X-Self.Width/2 < aUI.inv0Hot-25 ?0 : 100"
 											}
@@ -15289,14 +15238,68 @@
 										{
 											"id": "move-to-object",
 											"objectClass": "item",
-											"sid": 397757634106381,
+											"sid": 347475711484421,
 											"parameters": {
 												"where": "behind",
 												"object": "invBack"
 											}
 										}
 									],
-									"sid": 687985775402215
+									"sid": 234831976408915,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-opacity",
+													"objectClass": "item",
+													"sid": 245399724297015,
+													"parameters": {
+														"comparison": 4,
+														"opacity": "0"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "callselffunction0",
+													"objectClass": "item",
+													"sid": 667099328713619,
+													"behaviorType": "sfPoint",
+													"parameters": {
+														"function_name:0": "\"visib\""
+													}
+												}
+											],
+											"sid": 363262425965511
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-opacity",
+													"objectClass": "item",
+													"sid": 689875909696745,
+													"parameters": {
+														"comparison": 0,
+														"opacity": "0"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "callselffunction0",
+													"objectClass": "item",
+													"sid": 379849645141281,
+													"behaviorType": "sfPoint",
+													"parameters": {
+														"function_name:0": "\"invis\""
+													}
+												}
+											],
+											"sid": 681016839423440
+										}
+									]
 								},
 								{
 									"eventType": "block",
@@ -15304,29 +15307,30 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 559327717716941
+											"sid": 661265146447820
 										}
 									],
 									"actions": [
 										{
 											"id": "set-position",
 											"objectClass": "item",
-											"sid": 962491017483731,
+											"sid": 103696107424682,
 											"parameters": {
 												"x": "item.invX-aUI.slide",
 												"y": "-3333"
 											}
 										},
 										{
-											"id": "set-opacity",
+											"id": "callselffunction0",
 											"objectClass": "item",
-											"sid": 417247599865144,
+											"sid": 269605207115960,
+											"behaviorType": "sfPoint",
 											"parameters": {
-												"opacity": "0"
+												"function_name:0": "\"invis\""
 											}
 										}
 									],
-									"sid": 181716460905195
+									"sid": 869460637478179
 								},
 								{
 									"eventType": "comment",
