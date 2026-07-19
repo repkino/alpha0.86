@@ -1251,12 +1251,26 @@
 									}
 								},
 								{
-									"id": "set-text",
-									"objectClass": "help",
-									"sid": 744612107810108,
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 617792748377056,
 									"parameters": {
-										"text": "\"OPEN\""
+										"group-name": "\"inventory\"",
+										"state": "activated"
 									}
+								},
+								{
+									"id": "wait",
+									"objectClass": "System",
+									"sid": 349682978938497,
+									"parameters": {
+										"seconds": "0",
+										"use-timescale": false
+									}
+								},
+								{
+									"callFunction": "cocoonItem",
+									"sid": 513631263644971
 								}
 							],
 							"sid": 551146836520146
@@ -4869,25 +4883,6 @@
 										"instance-variable": "inventoryOn"
 									},
 									"isInverted": true
-								},
-								{
-									"id": "compare-x",
-									"objectClass": "cursor",
-									"sid": 489952157669441,
-									"disabled": true,
-									"parameters": {
-										"comparison": 4,
-										"x-co-ordinate": "45"
-									}
-								},
-								{
-									"id": "compare-x",
-									"objectClass": "cursor",
-									"sid": 930476569712900,
-									"parameters": {
-										"comparison": 4,
-										"x-co-ordinate": "70"
-									}
 								}
 							],
 							"actions": [
@@ -4917,29 +4912,6 @@
 										"instance-variable": "inventoryOn",
 										"value": "true"
 									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "aUIN",
-									"sid": 964020147744416,
-									"parameters": {
-										"instance-variable": "rocketOn",
-										"value": "false"
-									}
-								},
-								{
-									"id": "instance-signal",
-									"objectClass": "inventory",
-									"sid": 604616152531894,
-									"disabled": true,
-									"parameters": {
-										"tag": "\"rocketClose\""
-									}
-								},
-								{
-									"customAction": "rocketClose",
-									"objectClass": "inventory",
-									"sid": 748790539777941
 								}
 							],
 							"sid": 562470810370496,
@@ -4951,16 +4923,57 @@
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aUIN",
 											"sid": 543668176312451,
-											"disabled": true,
 											"parameters": {
 												"instance-variable": "rocketDown"
 											},
 											"isInverted": true
+										},
+										{
+											"id": "compare-x",
+											"objectClass": "cursor",
+											"sid": 815045327756670,
+											"parameters": {
+												"comparison": 4,
+												"x-co-ordinate": "70"
+											}
+										},
+										{
+											"id": "compare-x",
+											"objectClass": "cursor",
+											"sid": 132911878903369,
+											"disabled": true,
+											"parameters": {
+												"comparison": 4,
+												"x-co-ordinate": "45"
+											}
 										}
 									],
-									"actions": [],
-									"sid": 646848545086993,
-									"disabled": true
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 995965517684302,
+											"parameters": {
+												"instance-variable": "rocketOn",
+												"value": "false"
+											}
+										},
+										{
+											"id": "instance-signal",
+											"objectClass": "inventory",
+											"sid": 407841362364383,
+											"disabled": true,
+											"parameters": {
+												"tag": "\"rocketClose\""
+											}
+										},
+										{
+											"customAction": "rocketClose",
+											"objectClass": "inventory",
+											"sid": 711813006627394
+										}
+									],
+									"sid": 646848545086993
 								}
 							]
 						},
@@ -13830,6 +13843,183 @@
 					],
 					"sid": 781375310618162,
 					"disabled": true
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\nпозиционирование первого предмета в коконе",
+					"background-color": [
+						0.7254901960784313,
+						0.8784313725490196,
+						0.9725490196078431,
+						1
+					]
+				},
+				{
+					"functionName": "cocoonItem",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 254624684183017,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-animation-frame-tag",
+									"objectClass": "inventory",
+									"sid": 854984135714891,
+									"parameters": {
+										"comparison": 0,
+										"tag": "\"hot\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "items",
+									"sid": 756964883804050,
+									"parameters": {
+										"instance-variable": "add"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "items",
+									"sid": 916125285114828,
+									"parameters": {
+										"instance-variable": "inventory"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 495722664599600,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-outside-layout",
+											"objectClass": "invBack",
+											"sid": 618377513952024
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "invBack",
+											"sid": 539285894902794,
+											"parameters": {
+												"object": "inventory",
+												"image-point-optional": "1"
+											}
+										}
+									],
+									"sid": 787747463198458
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-highestlowest",
+											"objectClass": "items",
+											"sid": 112697062080089,
+											"parameters": {
+												"which": "lowest",
+												"instance-variable": "cellN"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "items",
+											"sid": 803562483865612,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "hot"
+											}
+										},
+										{
+											"id": "is-dragging",
+											"objectClass": "items",
+											"sid": 241467671021605,
+											"behaviorType": "DragDrop",
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "items",
+											"sid": 122869164272936,
+											"parameters": {
+												"object": "inventory",
+												"image-point-optional": "1"
+											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "items",
+											"sid": 508932573409493,
+											"parameters": {
+												"collisions": "enabled"
+											}
+										},
+										{
+											"id": "set-enabled",
+											"objectClass": "items",
+											"sid": 363729815534773,
+											"disabled": true,
+											"behaviorType": "DragDrop",
+											"parameters": {
+												"state": "disabled"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "items",
+											"sid": 612991484003507,
+											"parameters": {
+												"where": "in-front",
+												"object": "inventory"
+											}
+										}
+									],
+									"sid": 959293669961145,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "quants",
+													"sid": 425316874408327,
+													"parameters": {
+														"unique-id": "items.quantUID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "move-to-object",
+													"objectClass": "quants",
+													"sid": 733817617414952,
+													"parameters": {
+														"where": "in-front",
+														"object": "items"
+													}
+												}
+											],
+											"sid": 225063288327852
+										}
+									]
+								}
+							]
+						}
+					]
 				},
 				{
 					"eventType": "comment",
