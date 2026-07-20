@@ -3069,14 +3069,14 @@
 						{
 							"name": "targetInv",
 							"type": "string",
-							"initialValue": "",
+							"initialValue": "zero",
 							"comment": "hidden / sprouts / cocoon / full",
 							"sid": 641457622700969
 						},
 						{
 							"name": "targetAbil",
 							"type": "string",
-							"initialValue": "",
+							"initialValue": "zero",
 							"comment": "hidden / top / bottom",
 							"sid": 980690252258227
 						},
@@ -3100,7 +3100,25 @@
 							"isInverted": true
 						}
 					],
-					"actions": [],
+					"actions": [
+						{
+							"id": "append-text",
+							"objectClass": "help",
+							"sid": 129203896699179,
+							"parameters": {
+								"text": "\"R\""
+							}
+						},
+						{
+							"id": "append-text",
+							"objectClass": "help",
+							"sid": 422749690032171,
+							"disabled": true,
+							"parameters": {
+								"text": "invState"
+							}
+						}
+					],
 					"sid": 794752006730726,
 					"children": [
 						{
@@ -3155,11 +3173,11 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 902294891893894,
+											"sid": 616177038578336,
 											"parameters": {
 												"variable": "targetInv",
 												"comparison": 1,
-												"value": "\"\""
+												"value": "\"zero\""
 											}
 										}
 									],
@@ -3263,11 +3281,11 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 114386175458926,
+											"sid": 645715504989265,
 											"parameters": {
 												"variable": "targetAbil",
 												"comparison": 1,
-												"value": "\"\""
+												"value": "\"zero\""
 											}
 										}
 									],
@@ -3300,11 +3318,11 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 632311418617764,
+											"sid": 399154260350410,
 											"parameters": {
 												"variable": "targetInv",
 												"comparison": 1,
-												"value": "\"\""
+												"value": "\"zero\""
 											}
 										}
 									],
@@ -3429,6 +3447,192 @@
 												}
 											],
 											"sid": 999087054000602
+										},
+										{
+											"eventType": "comment",
+											"text": "=== АВТО-ПЕРЕХОД (map-function клик по inventory) ===",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 616830129027937,
+													"parameters": {
+														"variable": "targetInv",
+														"comparison": 0,
+														"value": "\"zero\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 422393108784341,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 893987412938567,
+															"parameters": {
+																"first-value": "aUIN.invState",
+																"comparison": 0,
+																"second-value": "\"hidden\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Из скрытого — сразу в кокон",
+															"background-color": [
+																0.67,
+																0.98,
+																0.79,
+																1
+															]
+														},
+														{
+															"customAction": "openCocoon",
+															"objectClass": "inventory",
+															"sid": 578105380510429
+														}
+													],
+													"sid": 293420037877669
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 346269015247763,
+															"parameters": {
+																"first-value": "aUIN.invState",
+																"comparison": 0,
+																"second-value": "\"cocoon\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Из кокона — закрыть в hidden",
+															"background-color": [
+																0.67,
+																0.98,
+																0.79,
+																1
+															]
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aUIN",
+															"sid": 514700775532778,
+															"parameters": {
+																"instance-variable": "invState",
+																"value": "\"hidden\""
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "inventory",
+															"sid": 428850420253744,
+															"parameters": {
+																"animation": "\"open\"",
+																"from": "current-frame"
+															}
+														},
+														{
+															"id": "set-animation-speed",
+															"objectClass": "inventory",
+															"sid": 576157765320941,
+															"parameters": {
+																"speed": "-24"
+															}
+														},
+														{
+															"id": "start-animation",
+															"objectClass": "inventory",
+															"sid": 453784591898966,
+															"parameters": {
+																"from": "current-frame"
+															}
+														}
+													],
+													"sid": 618132804044237
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 692602975838131,
+															"parameters": {
+																"first-value": "aUIN.invState",
+																"comparison": 0,
+																"second-value": "\"sprouts\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"type": "comment",
+															"text": "Из отростков — закрыть в hidden",
+															"background-color": [
+																0.67,
+																0.98,
+																0.79,
+																1
+															]
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aUIN",
+															"sid": 319166435669135,
+															"parameters": {
+																"instance-variable": "invState",
+																"value": "\"hidden\""
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "inventory",
+															"sid": 439634459871427,
+															"parameters": {
+																"animation": "\"near\"",
+																"from": "current-frame"
+															}
+														},
+														{
+															"id": "set-animation-speed",
+															"objectClass": "inventory",
+															"sid": 351450337693569,
+															"parameters": {
+																"speed": "-24"
+															}
+														},
+														{
+															"id": "start-animation",
+															"objectClass": "inventory",
+															"sid": 173995417004195,
+															"parameters": {
+																"from": "current-frame"
+															}
+														}
+													],
+													"sid": 545184518579836
+												}
+											]
 										}
 									]
 								}
@@ -10108,6 +10312,7 @@
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "aUIN",
 							"sid": 993164047751188,
+							"disabled": true,
 							"parameters": {
 								"instance-variable": "abilsOn"
 							},
@@ -10248,6 +10453,7 @@
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "aUIN",
 							"sid": 887583598809614,
+							"disabled": true,
 							"parameters": {
 								"instance-variable": "abilsOn"
 							},
