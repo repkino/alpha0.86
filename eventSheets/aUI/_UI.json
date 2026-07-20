@@ -749,7 +749,7 @@
 											"objectClass": "aUIN",
 											"sid": 533503549795522,
 											"parameters": {
-												"instance-variable": "abilsDown",
+												"instance-variable": "abilsBottom",
 												"value": "true"
 											}
 										}
@@ -776,7 +776,7 @@
 											"objectClass": "aUIN",
 											"sid": 459593739778142,
 											"parameters": {
-												"instance-variable": "abilsDown",
+												"instance-variable": "abilsBottom",
 												"value": "false"
 											}
 										}
@@ -1346,7 +1346,7 @@
 											"objectClass": "aUIN",
 											"sid": 772466953920595,
 											"parameters": {
-												"instance-variable": "abilsDown"
+												"instance-variable": "abilsBottom"
 											}
 										}
 									],
@@ -1429,7 +1429,7 @@
 											"objectClass": "aUIN",
 											"sid": 118973347561821,
 											"parameters": {
-												"instance-variable": "abilsDown"
+												"instance-variable": "abilsBottom"
 											},
 											"isInverted": true
 										}
@@ -3028,7 +3028,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "\n\n\n\nоткрытие левой панели - этапы\nклик по отросткам проращивает кнопки способностей, следующий клик сменяет способности на инвентарь",
+					"text": "открытие левой панели - этапы\nклик по отросткам проращивает кнопки способностей, следующий клик сменяет способности на инвентарь",
 					"background-color": [
 						1,
 						0.8784313725490196,
@@ -3041,7 +3041,11 @@
 					"text": "inventoryName - первый параметр обязателен для map функции"
 				},
 				{
-					"functionName": "inventory",
+					"eventType": "comment",
+					"text": "\n\n\n\n\n\n\nРАЗРАБОТКА\n\nновый менеджер состояний инвентаря"
+				},
+				{
+					"functionName": "rUIS",
 					"functionDescription": "",
 					"functionCategory": "",
 					"functionReturnType": "none",
@@ -3049,7 +3053,7 @@
 					"functionIsAsync": false,
 					"functionParameters": [
 						{
-							"name": "inventoryName",
+							"name": "invState",
 							"type": "string",
 							"initialValue": "",
 							"comment": "",
@@ -3079,6 +3083,104 @@
 					"sid": 794752006730726,
 					"children": [
 						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 694299457812147,
+									"parameters": {
+										"instance-variable": "invState",
+										"value": "\"\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 461108601708867,
+									"parameters": {
+										"instance-variable": "abilState",
+										"value": "\"\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 515493509866228,
+									"parameters": {
+										"instance-variable": "invWay",
+										"value": "\"\""
+									}
+								}
+							],
+							"sid": 311898912255507
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-animation-frame-changed",
+							"objectClass": "inventory",
+							"sid": 993503287022164
+						}
+					],
+					"actions": [],
+					"sid": 879757516048067,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [],
+							"sid": 229608381143573
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\n\n\n\n\n\n"
+				},
+				{
+					"functionName": "inventoryOLD",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "invState",
+							"type": "string",
+							"initialValue": "",
+							"comment": "",
+							"sid": 675797679599018
+						},
+						{
+							"name": "direct",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 370350542112650
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aUI",
+							"sid": 877916950645585,
+							"parameters": {
+								"instance-variable": "menuOn"
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [],
+					"sid": 796074644481894,
+					"children": [
+						{
 							"eventType": "comment",
 							"text": "открытие способностей",
 							"background-color": [
@@ -3094,7 +3196,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 918128396547080,
+									"sid": 108885478318286,
 									"parameters": {
 										"instance-variable": "abilsOn"
 									},
@@ -3103,7 +3205,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 752177506747683,
+									"sid": 627903684409752,
 									"parameters": {
 										"instance-variable": "inventoryOn"
 									},
@@ -3111,7 +3213,7 @@
 								}
 							],
 							"actions": [],
-							"sid": 517925215854721,
+							"sid": 260187401778829,
 							"children": [
 								{
 									"eventType": "block",
@@ -3119,7 +3221,7 @@
 										{
 											"id": "compare-boolean-eventvar",
 											"objectClass": "System",
-											"sid": 893130464932773,
+											"sid": 289346486234551,
 											"parameters": {
 												"variable": "direct"
 											}
@@ -3129,7 +3231,7 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "aUIN",
-											"sid": 533422532025162,
+											"sid": 289083243659525,
 											"parameters": {
 												"instance-variable": "inventoryOn",
 												"value": "true"
@@ -3138,7 +3240,7 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 532129275271575,
+											"sid": 707275209030762,
 											"parameters": {
 												"group-name": "\"abils\"",
 												"state": "activated"
@@ -3147,7 +3249,7 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 418613222847851,
+											"sid": 691815304624899,
 											"parameters": {
 												"group-name": "\"invSprout\"",
 												"state": "deactivated"
@@ -3156,7 +3258,7 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 593000848824528,
+											"sid": 844446712946326,
 											"parameters": {
 												"group-name": "\"inventory\"",
 												"state": "activated"
@@ -3165,7 +3267,7 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 350260019539000,
+											"sid": 256490070854857,
 											"parameters": {
 												"group-name": "\"itemDrag\"",
 												"state": "activated"
@@ -3174,13 +3276,13 @@
 										{
 											"customAction": "abilsOpen",
 											"objectClass": "inventory",
-											"sid": 370951913901988,
+											"sid": 865297853671645,
 											"parameters": [
 												true
 											]
 										}
 									],
-									"sid": 105857511274648
+									"sid": 874775688720974
 								},
 								{
 									"eventType": "block",
@@ -3188,14 +3290,14 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 308992169273876
+											"sid": 771505899495885
 										}
 									],
 									"actions": [
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "aUIN",
-											"sid": 975766856923145,
+											"sid": 925460590525480,
 											"parameters": {
 												"instance-variable": "abilsOn",
 												"value": "true"
@@ -3204,7 +3306,7 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 875218083305125,
+											"sid": 304216421329348,
 											"parameters": {
 												"group-name": "\"abils\"",
 												"state": "activated"
@@ -3213,7 +3315,7 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 513860093338830,
+											"sid": 729836319916200,
 											"parameters": {
 												"group-name": "\"itemDrag\"",
 												"state": "activated"
@@ -3222,7 +3324,7 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 963984679615988,
+											"sid": 895553286514402,
 											"parameters": {
 												"group-name": "\"invSprout\"",
 												"state": "deactivated"
@@ -3231,13 +3333,13 @@
 										{
 											"customAction": "abilsOpen",
 											"objectClass": "inventory",
-											"sid": 412306095888031,
+											"sid": 114668797978984,
 											"parameters": [
 												false
 											]
 										}
 									],
-									"sid": 574093571706563
+									"sid": 876698845382250
 								}
 							]
 						},
@@ -3251,12 +3353,12 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 444666780502569
+									"sid": 592009739577444
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 599401305594600,
+									"sid": 664164288610397,
 									"parameters": {
 										"instance-variable": "inventoryOn"
 									}
@@ -3264,7 +3366,7 @@
 								{
 									"id": "compare-animation-frame-tag",
 									"objectClass": "inventory",
-									"sid": 629935877331510,
+									"sid": 992137668556447,
 									"parameters": {
 										"comparison": 0,
 										"tag": "\"hot\""
@@ -3273,7 +3375,7 @@
 								{
 									"id": "compare-boolean-eventvar",
 									"objectClass": "System",
-									"sid": 354357836925785,
+									"sid": 823091497385562,
 									"parameters": {
 										"variable": "direct"
 									}
@@ -3283,7 +3385,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "aUIN",
-									"sid": 548238217953589,
+									"sid": 704850803757736,
 									"parameters": {
 										"instance-variable": "inventoryOn",
 										"value": "true"
@@ -3292,7 +3394,7 @@
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 628891055170265,
+									"sid": 676171209041561,
 									"parameters": {
 										"group-name": "\"abils\"",
 										"state": "activated"
@@ -3301,7 +3403,7 @@
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 467859997907317,
+									"sid": 657496270343145,
 									"parameters": {
 										"group-name": "\"invSprout\"",
 										"state": "deactivated"
@@ -3310,7 +3412,7 @@
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 690104890181617,
+									"sid": 333393468102892,
 									"parameters": {
 										"group-name": "\"inventory\"",
 										"state": "activated"
@@ -3319,7 +3421,7 @@
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 265343130195515,
+									"sid": 983577435725478,
 									"parameters": {
 										"group-name": "\"itemDrag\"",
 										"state": "activated"
@@ -3328,7 +3430,7 @@
 								{
 									"customAction": "abilsOpen",
 									"objectClass": "inventory",
-									"sid": 363084880435725,
+									"sid": 696390759460025,
 									"parameters": [
 										true
 									]
@@ -3336,11 +3438,11 @@
 								{
 									"customAction": "inventoryOpen",
 									"objectClass": "inventory",
-									"sid": 986327371341788,
+									"sid": 911734576431246,
 									"disabled": true
 								}
 							],
-							"sid": 427281549560934,
+							"sid": 169794371936079,
 							"disabled": true
 						},
 						{
@@ -3359,12 +3461,12 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 406216969732095
+									"sid": 742232096449296
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 878756732773243,
+									"sid": 516901786574333,
 									"parameters": {
 										"instance-variable": "abilsOn"
 									}
@@ -3372,7 +3474,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 790548816436431,
+									"sid": 513063460595630,
 									"parameters": {
 										"instance-variable": "inventoryOn"
 									},
@@ -3381,7 +3483,7 @@
 								{
 									"id": "compare-x",
 									"objectClass": "cursor",
-									"sid": 128619490882990,
+									"sid": 452609097818291,
 									"parameters": {
 										"comparison": 4,
 										"x-co-ordinate": "70"
@@ -3390,7 +3492,7 @@
 								{
 									"id": "compare-x",
 									"objectClass": "cursor",
-									"sid": 867397022560006,
+									"sid": 180258100751439,
 									"disabled": true,
 									"parameters": {
 										"comparison": 4,
@@ -3402,7 +3504,7 @@
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 351092357458031,
+									"sid": 992297587478003,
 									"parameters": {
 										"group-name": "\"inventory\"",
 										"state": "activated"
@@ -3411,7 +3513,7 @@
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 137782876071510,
+									"sid": 529131582838891,
 									"parameters": {
 										"group-name": "\"itemDrag\"",
 										"state": "activated"
@@ -3420,7 +3522,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "aUIN",
-									"sid": 657042905574307,
+									"sid": 563573284621932,
 									"parameters": {
 										"instance-variable": "inventoryOn",
 										"value": "true"
@@ -3429,7 +3531,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "aUIN",
-									"sid": 176207668033943,
+									"sid": 203323990177189,
 									"parameters": {
 										"instance-variable": "abilsOn",
 										"value": "false"
@@ -3438,7 +3540,7 @@
 								{
 									"id": "instance-signal",
 									"objectClass": "inventory",
-									"sid": 229350114137653,
+									"sid": 284609919884989,
 									"disabled": true,
 									"parameters": {
 										"tag": "\"abilsClose\""
@@ -3447,10 +3549,10 @@
 								{
 									"customAction": "abilsClose",
 									"objectClass": "inventory",
-									"sid": 748784971926416
+									"sid": 666258656565334
 								}
 							],
-							"sid": 562470810370496,
+							"sid": 141349364874426,
 							"children": [
 								{
 									"eventType": "block",
@@ -3458,16 +3560,16 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aUIN",
-											"sid": 543668176312451,
+											"sid": 225429107821997,
 											"disabled": true,
 											"parameters": {
-												"instance-variable": "abilsDown"
+												"instance-variable": "abilsBottom"
 											},
 											"isInverted": true
 										}
 									],
 									"actions": [],
-									"sid": 646848545086993
+									"sid": 532805986225105
 								}
 							]
 						},
@@ -3491,12 +3593,12 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 821164577692402
+									"sid": 577155460866900
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 201782836400442,
+									"sid": 306713318768632,
 									"parameters": {
 										"instance-variable": "abilsOn"
 									}
@@ -3504,7 +3606,7 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 832256351831693,
+									"sid": 495368999449518,
 									"parameters": {
 										"instance-variable": "inventoryOn"
 									},
@@ -3513,7 +3615,7 @@
 								{
 									"id": "compare-x",
 									"objectClass": "cursor",
-									"sid": 378130911267374,
+									"sid": 172292389607495,
 									"disabled": true,
 									"parameters": {
 										"comparison": 2,
@@ -3522,7 +3624,7 @@
 								}
 							],
 							"actions": [],
-							"sid": 297226321147982,
+							"sid": 599879804988792,
 							"children": [
 								{
 									"eventType": "block",
@@ -3530,7 +3632,7 @@
 										{
 											"id": "compare-x",
 											"objectClass": "cursor",
-											"sid": 402829759550543,
+											"sid": 725990063532915,
 											"parameters": {
 												"comparison": 3,
 												"x-co-ordinate": "40"
@@ -3539,7 +3641,7 @@
 										{
 											"id": "compare-y",
 											"objectClass": "cursor",
-											"sid": 375210623777631,
+											"sid": 962029800044700,
 											"parameters": {
 												"comparison": 3,
 												"y-co-ordinate": "85"
@@ -3550,7 +3652,7 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "aUIN",
-											"sid": 945256166852026,
+											"sid": 815341055086266,
 											"parameters": {
 												"instance-variable": "abilsOn",
 												"value": "false"
@@ -3559,12 +3661,12 @@
 										{
 											"customAction": "abilsClose",
 											"objectClass": "inventory",
-											"sid": 302860158125771
+											"sid": 753279017427541
 										},
 										{
 											"id": "instance-signal",
 											"objectClass": "inventory",
-											"sid": 770189810431870,
+											"sid": 279536044479465,
 											"disabled": true,
 											"parameters": {
 												"tag": "\"abilsClose\""
@@ -3573,7 +3675,7 @@
 										{
 											"id": "set-visible",
 											"objectClass": "buttonAbils",
-											"sid": 554165720874806,
+											"sid": 815035725740976,
 											"disabled": true,
 											"parameters": {
 												"visibility": "invisible"
@@ -3582,14 +3684,14 @@
 										{
 											"id": "set-collisions-enabled",
 											"objectClass": "buttonAbils",
-											"sid": 965114243278677,
+											"sid": 800591567966268,
 											"disabled": true,
 											"parameters": {
 												"collisions": "disabled"
 											}
 										}
 									],
-									"sid": 457219788044121
+									"sid": 638799898274885
 								},
 								{
 									"eventType": "comment",
@@ -3607,12 +3709,12 @@
 										{
 											"id": "else",
 											"objectClass": "System",
-											"sid": 930340849619027
+											"sid": 496110773857950
 										},
 										{
 											"id": "compare-x",
 											"objectClass": "cursor",
-											"sid": 380809317159038,
+											"sid": 166472380417886,
 											"parameters": {
 												"comparison": 4,
 												"x-co-ordinate": "25"
@@ -3621,7 +3723,7 @@
 										{
 											"id": "compare-x",
 											"objectClass": "cursor",
-											"sid": 196887763921854,
+											"sid": 588986368807679,
 											"parameters": {
 												"comparison": 2,
 												"x-co-ordinate": "70"
@@ -3630,7 +3732,7 @@
 										{
 											"id": "compare-y",
 											"objectClass": "cursor",
-											"sid": 943636834555343,
+											"sid": 288988463933856,
 											"parameters": {
 												"comparison": 4,
 												"y-co-ordinate": "85"
@@ -3638,7 +3740,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 514160675239707,
+									"sid": 487355592907731,
 									"children": [
 										{
 											"eventType": "block",
@@ -3646,7 +3748,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "aUI",
-													"sid": 698597732635958,
+													"sid": 946254954841727,
 													"parameters": {
 														"instance-variable": "hotSign",
 														"comparison": 0,
@@ -3656,7 +3758,7 @@
 												{
 													"id": "compare-animation-frame",
 													"objectClass": "inventory",
-													"sid": 755354401502047,
+													"sid": 763263512814296,
 													"parameters": {
 														"comparison": 0,
 														"number": "10"
@@ -3667,13 +3769,13 @@
 												{
 													"id": "set-animation-frame",
 													"objectClass": "inventory",
-													"sid": 828686033805839,
+													"sid": 376427964245847,
 													"parameters": {
 														"frame-number": "11"
 													}
 												}
 											],
-											"sid": 862680254929808,
+											"sid": 951977207967028,
 											"children": [
 												{
 													"eventType": "block",
@@ -3681,7 +3783,7 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "item",
-															"sid": 824731130915504,
+															"sid": 771705744249793,
 															"parameters": {
 																"instance-variable": "inv"
 															}
@@ -3689,7 +3791,7 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "item",
-															"sid": 517508128388713,
+															"sid": 431907984326571,
 															"parameters": {
 																"instance-variable": "inventory"
 															}
@@ -3697,7 +3799,7 @@
 														{
 															"id": "pick-highestlowest",
 															"objectClass": "item",
-															"sid": 501728986572832,
+															"sid": 128201788792528,
 															"parameters": {
 																"which": "lowest",
 																"instance-variable": "cellN"
@@ -3708,7 +3810,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "aUI",
-															"sid": 605187135273090,
+															"sid": 372388938819046,
 															"parameters": {
 																"instance-variable": "hotSign",
 																"value": "item.iSign"
@@ -3717,10 +3819,10 @@
 														{
 															"customAction": "hotItem",
 															"objectClass": "aUI",
-															"sid": 232469964610835
+															"sid": 791103448315620
 														}
 													],
-													"sid": 509382372564378
+													"sid": 885431950416904
 												},
 												{
 													"eventType": "block",
@@ -3728,14 +3830,14 @@
 														{
 															"id": "else",
 															"objectClass": "System",
-															"sid": 268915411859483
+															"sid": 322100734964611
 														}
 													],
 													"actions": [
 														{
 															"id": "wait",
 															"objectClass": "System",
-															"sid": 527194838702608,
+															"sid": 591502137544068,
 															"parameters": {
 																"seconds": "0.1",
 																"use-timescale": true
@@ -3744,7 +3846,7 @@
 														{
 															"id": "set-animation-frame",
 															"objectClass": "inventory",
-															"sid": 502892125651175,
+															"sid": 148066614885752,
 															"parameters": {
 																"frame-number": "10"
 															}
@@ -3752,7 +3854,7 @@
 														{
 															"id": "set-animation-speed",
 															"objectClass": "inventory",
-															"sid": 232768920625975,
+															"sid": 457181399315736,
 															"parameters": {
 																"speed": "0"
 															}
@@ -3760,10 +3862,10 @@
 														{
 															"id": "stop-animation",
 															"objectClass": "inventory",
-															"sid": 623703230698969
+															"sid": 148986781272517
 														}
 													],
-													"sid": 978623486228664
+													"sid": 352701044219019
 												}
 											]
 										},
@@ -3773,12 +3875,12 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 619181261370154
+													"sid": 261055544402829
 												},
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "aUI",
-													"sid": 816270969708417,
+													"sid": 398704497758458,
 													"parameters": {
 														"instance-variable": "hotSign",
 														"comparison": 1,
@@ -3788,7 +3890,7 @@
 												{
 													"id": "compare-animation-frame",
 													"objectClass": "inventory",
-													"sid": 589466768214843,
+													"sid": 862549874647534,
 													"parameters": {
 														"comparison": 0,
 														"number": "11"
@@ -3799,12 +3901,12 @@
 												{
 													"customAction": "unHotItem",
 													"objectClass": "aUI",
-													"sid": 638801788455713
+													"sid": 524633900550493
 												},
 												{
 													"id": "wait",
 													"objectClass": "System",
-													"sid": 213216227910102,
+													"sid": 108642876973860,
 													"disabled": true,
 													"parameters": {
 														"seconds": "0.1",
@@ -3814,7 +3916,7 @@
 												{
 													"id": "set-animation-frame",
 													"objectClass": "inventory",
-													"sid": 357596428537174,
+													"sid": 668064006489529,
 													"disabled": true,
 													"parameters": {
 														"frame-number": "10"
@@ -3823,7 +3925,7 @@
 												{
 													"id": "set-animation-speed",
 													"objectClass": "inventory",
-													"sid": 172453930758214,
+													"sid": 824887254541872,
 													"disabled": true,
 													"parameters": {
 														"speed": "0"
@@ -3832,11 +3934,11 @@
 												{
 													"id": "stop-animation",
 													"objectClass": "inventory",
-													"sid": 585685223356420,
+													"sid": 765304523237176,
 													"disabled": true
 												}
 											],
-											"sid": 509971606800494
+											"sid": 317561180115219
 										}
 									]
 								}
@@ -3858,12 +3960,12 @@
 								{
 									"id": "else",
 									"objectClass": "System",
-									"sid": 193566197842390
+									"sid": 271692640158061
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 779105234423736,
+									"sid": 370087665057069,
 									"disabled": true,
 									"parameters": {
 										"instance-variable": "abilsOn"
@@ -3873,10 +3975,10 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 593988568686675,
+									"sid": 183734100752172,
 									"disabled": true,
 									"parameters": {
-										"first-value": "aUIN.abilsOn=0|aUIN.abilsDown=1?1:0",
+										"first-value": "aUIN.abilsOn=0|aUIN.abilsBottom=1?1:0",
 										"comparison": 0,
 										"second-value": "1"
 									}
@@ -3884,9 +3986,9 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 213928210802277,
+									"sid": 847092008886051,
 									"parameters": {
-										"first-value": "aUIN.abilsOn=0?1:aUIN.abilsDown=0?1:0",
+										"first-value": "aUIN.abilsOn=0?1:aUIN.abilsBottom=0?1:0",
 										"comparison": 0,
 										"second-value": "1"
 									}
@@ -3894,14 +3996,14 @@
 								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "aUIN",
-									"sid": 681646361022978,
+									"sid": 425924808747114,
 									"parameters": {
 										"instance-variable": "inventoryOn"
 									}
 								}
 							],
 							"actions": [],
-							"sid": 226746234675135,
+							"sid": 600195060116481,
 							"children": [
 								{
 									"eventType": "block",
@@ -3909,7 +4011,7 @@
 										{
 											"id": "is-overlapping-another-object",
 											"objectClass": "cursor",
-											"sid": 594585867096342,
+											"sid": 280270222887962,
 											"parameters": {
 												"object": "invSecR"
 											}
@@ -3919,7 +4021,7 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "aUIN",
-											"sid": 768116159337922,
+											"sid": 324128231835853,
 											"parameters": {
 												"instance-variable": "abilsOn",
 												"value": "true"
@@ -3928,7 +4030,7 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "aUIN",
-											"sid": 296324816760329,
+											"sid": 198692448649411,
 											"parameters": {
 												"instance-variable": "inventoryOn",
 												"value": "false"
@@ -3937,10 +4039,10 @@
 										{
 											"customAction": "inventoryClose",
 											"objectClass": "inventory",
-											"sid": 113392952688929
+											"sid": 361170748858852
 										}
 									],
-									"sid": 187671552862195
+									"sid": 571505736698866
 								},
 								{
 									"eventType": "block",
@@ -3948,7 +4050,7 @@
 										{
 											"id": "compare-x",
 											"objectClass": "cursor",
-											"sid": 273184836923296,
+											"sid": 398674010791017,
 											"parameters": {
 												"comparison": 3,
 												"x-co-ordinate": "40"
@@ -3957,7 +4059,7 @@
 										{
 											"id": "compare-y",
 											"objectClass": "cursor",
-											"sid": 186550531559589,
+											"sid": 619304215085017,
 											"parameters": {
 												"comparison": 3,
 												"y-co-ordinate": "70"
@@ -3968,7 +4070,7 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "aUIN",
-											"sid": 965292641253822,
+											"sid": 595182865063392,
 											"parameters": {
 												"instance-variable": "abilsOn",
 												"value": "true"
@@ -3977,7 +4079,7 @@
 										{
 											"id": "set-boolean-instvar",
 											"objectClass": "aUIN",
-											"sid": 899573312879330,
+											"sid": 144006977535750,
 											"parameters": {
 												"instance-variable": "inventoryOn",
 												"value": "false"
@@ -3986,10 +4088,10 @@
 										{
 											"customAction": "inventoryClose",
 											"objectClass": "inventory",
-											"sid": 259118531208472
+											"sid": 309530838888868
 										}
 									],
-									"sid": 242681373115095
+									"sid": 403045033730076
 								},
 								{
 									"eventType": "comment",
@@ -4007,7 +4109,7 @@
 										{
 											"id": "compare-x",
 											"objectClass": "cursor",
-											"sid": 974421722067647,
+											"sid": 306927463003988,
 											"parameters": {
 												"comparison": 4,
 												"x-co-ordinate": "25"
@@ -4016,7 +4118,7 @@
 										{
 											"id": "compare-x",
 											"objectClass": "cursor",
-											"sid": 837011088724301,
+											"sid": 947271416666215,
 											"parameters": {
 												"comparison": 2,
 												"x-co-ordinate": "60"
@@ -4025,7 +4127,7 @@
 										{
 											"id": "compare-y",
 											"objectClass": "cursor",
-											"sid": 996852298026480,
+											"sid": 178334554319516,
 											"parameters": {
 												"comparison": 4,
 												"y-co-ordinate": "70"
@@ -4033,7 +4135,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 124237052681876,
+									"sid": 531738543298615,
 									"children": [
 										{
 											"eventType": "block",
@@ -4041,7 +4143,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "aUI",
-													"sid": 193408809489597,
+													"sid": 102546526501443,
 													"parameters": {
 														"instance-variable": "hotSign",
 														"comparison": 0,
@@ -4051,7 +4153,7 @@
 												{
 													"id": "compare-animation-frame",
 													"objectClass": "inventory",
-													"sid": 447987154249781,
+													"sid": 723175760667215,
 													"parameters": {
 														"comparison": 0,
 														"number": "3"
@@ -4062,13 +4164,13 @@
 												{
 													"id": "set-animation-frame",
 													"objectClass": "inventory",
-													"sid": 720243112940691,
+													"sid": 960615271094488,
 													"parameters": {
 														"frame-number": "4"
 													}
 												}
 											],
-											"sid": 286096434873029,
+											"sid": 433472082635629,
 											"children": [
 												{
 													"eventType": "block",
@@ -4076,7 +4178,7 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "item",
-															"sid": 463880515931387,
+															"sid": 241118119218246,
 															"parameters": {
 																"instance-variable": "inv"
 															}
@@ -4084,7 +4186,7 @@
 														{
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "item",
-															"sid": 384152516830206,
+															"sid": 486994174070231,
 															"parameters": {
 																"instance-variable": "inventory"
 															}
@@ -4092,7 +4194,7 @@
 														{
 															"id": "pick-highestlowest",
 															"objectClass": "item",
-															"sid": 203638414232019,
+															"sid": 747465218838934,
 															"parameters": {
 																"which": "lowest",
 																"instance-variable": "cellN"
@@ -4103,7 +4205,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "aUI",
-															"sid": 487266978078750,
+															"sid": 512662783209213,
 															"parameters": {
 																"instance-variable": "hotSign",
 																"value": "item.iSign"
@@ -4112,10 +4214,10 @@
 														{
 															"customAction": "hotItem",
 															"objectClass": "aUI",
-															"sid": 385021034221644
+															"sid": 639318704847158
 														}
 													],
-													"sid": 638216716173275
+													"sid": 943917246876361
 												},
 												{
 													"eventType": "block",
@@ -4123,14 +4225,14 @@
 														{
 															"id": "else",
 															"objectClass": "System",
-															"sid": 564961267956339
+															"sid": 369741780091132
 														}
 													],
 													"actions": [
 														{
 															"id": "wait",
 															"objectClass": "System",
-															"sid": 264473195605700,
+															"sid": 947790254481336,
 															"parameters": {
 																"seconds": "0.1",
 																"use-timescale": true
@@ -4139,7 +4241,7 @@
 														{
 															"id": "set-animation-frame",
 															"objectClass": "inventory",
-															"sid": 628570573756491,
+															"sid": 936815712024242,
 															"parameters": {
 																"frame-number": "3"
 															}
@@ -4147,7 +4249,7 @@
 														{
 															"id": "set-animation-speed",
 															"objectClass": "inventory",
-															"sid": 547048874097693,
+															"sid": 722541428542559,
 															"parameters": {
 																"speed": "0"
 															}
@@ -4155,10 +4257,10 @@
 														{
 															"id": "stop-animation",
 															"objectClass": "inventory",
-															"sid": 643759193330045
+															"sid": 410470934097197
 														}
 													],
-													"sid": 378406001936856
+													"sid": 815231675846798
 												}
 											]
 										},
@@ -4168,12 +4270,12 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 835541158539985
+													"sid": 447231247742272
 												},
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "aUI",
-													"sid": 945982200373034,
+													"sid": 962849215883203,
 													"parameters": {
 														"instance-variable": "hotSign",
 														"comparison": 1,
@@ -4183,7 +4285,7 @@
 												{
 													"id": "compare-animation-frame",
 													"objectClass": "inventory",
-													"sid": 568217618348015,
+													"sid": 510355804630515,
 													"parameters": {
 														"comparison": 0,
 														"number": "4"
@@ -4194,12 +4296,12 @@
 												{
 													"customAction": "unHotItem",
 													"objectClass": "aUI",
-													"sid": 332263555568465
+													"sid": 385407015355730
 												},
 												{
 													"id": "set-animation-frame",
 													"objectClass": "inventory",
-													"sid": 711080631496212,
+													"sid": 673795206191920,
 													"parameters": {
 														"frame-number": "3"
 													}
@@ -4207,7 +4309,7 @@
 												{
 													"id": "set-animation-speed",
 													"objectClass": "inventory",
-													"sid": 550786066200646,
+													"sid": 472469920825978,
 													"parameters": {
 														"speed": "0"
 													}
@@ -4215,10 +4317,10 @@
 												{
 													"id": "stop-animation",
 													"objectClass": "inventory",
-													"sid": 729026509818526
+													"sid": 886147218034720
 												}
 											],
-											"sid": 943546244078312
+											"sid": 763608451883211
 										}
 									]
 								}
@@ -4230,7 +4332,7 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 386167375464363,
+									"sid": 126800798499689,
 									"disabled": true,
 									"parameters": {
 										"first-value": "Mouse.X",
@@ -4240,7 +4342,7 @@
 								}
 							],
 							"actions": [],
-							"sid": 183843716614531
+							"sid": 237813031014918
 						},
 						{
 							"eventType": "comment",
@@ -4258,7 +4360,7 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 284018423856786,
+									"sid": 328561837760956,
 									"disabled": true,
 									"parameters": {
 										"first-value": "Mouse.X",
@@ -4268,13 +4370,13 @@
 								}
 							],
 							"actions": [],
-							"sid": 578447499563702
+							"sid": 847615347023846
 						}
 					]
 				},
 				{
 					"eventType": "comment",
-					"text": "\n\n\n\n\n\nоткрытие инвентаря с нуля, минуя способности",
+					"text": "\n\nоткрытие инвентаря с нуля, минуя способности",
 					"background-color": [
 						0.9764705882352941,
 						0.8627450980392157,
@@ -4355,7 +4457,7 @@
 									"objectClass": "aUIN",
 									"sid": 449363253079567,
 									"parameters": {
-										"instance-variable": "abilsDown"
+										"instance-variable": "abilsBottom"
 									},
 									"isInverted": true
 								}
@@ -4423,7 +4525,7 @@
 									"objectClass": "aUIN",
 									"sid": 449266929887529,
 									"parameters": {
-										"instance-variable": "abilsDown"
+										"instance-variable": "abilsBottom"
 									}
 								}
 							],
@@ -4581,7 +4683,7 @@
 									"objectClass": "System",
 									"sid": 545276343032196,
 									"parameters": {
-										"first-value": "aUIN.abilsOn=0?1:aUIN.abilsDown=1?1:0",
+										"first-value": "aUIN.abilsOn=0?1:aUIN.abilsBottom=1?1:0",
 										"comparison": 0,
 										"second-value": "1"
 									}
@@ -4691,7 +4793,7 @@
 									"objectClass": "System",
 									"sid": 853281902095472,
 									"parameters": {
-										"first-value": "aUIN.abilsOn=0?1:aUIN.abilsDown=1?1:0",
+										"first-value": "aUIN.abilsOn=0?1:aUIN.abilsBottom=1?1:0",
 										"comparison": 0,
 										"second-value": "1"
 									}
@@ -4893,7 +4995,7 @@
 											"objectClass": "System",
 											"sid": 868215063866961,
 											"parameters": {
-												"first-value": "aUIN.abilsOn=0?1:aUIN.abilsDown=1?1:0",
+												"first-value": "aUIN.abilsOn=0?1:aUIN.abilsBottom=1?1:0",
 												"comparison": 0,
 												"second-value": "1"
 											}
@@ -4963,7 +5065,7 @@
 													"objectClass": "aUIN",
 													"sid": 863517194706622,
 													"parameters": {
-														"instance-variable": "abilsDown"
+														"instance-variable": "abilsBottom"
 													},
 													"isInverted": true
 												}
@@ -6451,7 +6553,7 @@
 											"sid": 834077559689194,
 											"disabled": true,
 											"parameters": {
-												"instance-variable": "abilsDown"
+												"instance-variable": "abilsBottom"
 											},
 											"isInverted": true
 										}
@@ -7456,7 +7558,7 @@
 											],
 											"actions": [
 												{
-													"callFunction": "inventory",
+													"callFunction": "rUIS",
 													"sid": 197406825132563,
 													"parameters": [
 														"\"\"",
@@ -8289,7 +8391,7 @@
 															}
 														},
 														{
-															"callFunction": "inventory",
+															"callFunction": "rUIS",
 															"sid": 759296257460934,
 															"parameters": [
 																"\"\"",
@@ -9511,7 +9613,7 @@
 									"objectClass": "aUIN",
 									"sid": 969467976509583,
 									"parameters": {
-										"instance-variable": "abilsDown"
+										"instance-variable": "abilsBottom"
 									},
 									"isInverted": true
 								}
@@ -9786,7 +9888,7 @@
 									"objectClass": "aUIN",
 									"sid": 543629194350271,
 									"parameters": {
-										"instance-variable": "abilsDown"
+										"instance-variable": "abilsBottom"
 									},
 									"isInverted": true
 								}
@@ -11000,7 +11102,7 @@
 													"objectClass": "aUIN",
 													"sid": 657122571743774,
 													"parameters": {
-														"instance-variable": "abilsDown"
+														"instance-variable": "abilsBottom"
 													},
 													"isInverted": true
 												}
@@ -20941,7 +21043,7 @@
 											]
 										},
 										{
-											"callFunction": "inventory",
+											"callFunction": "rUIS",
 											"sid": 674424115639948,
 											"parameters": [
 												"\"\"",
