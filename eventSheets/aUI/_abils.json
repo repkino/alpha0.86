@@ -3,7 +3,477 @@
 	"events": [
 		{
 			"eventType": "comment",
-			"text": "\n\n\n\n\n\n  кнопки способностей",
+			"text": "\n  коконы способностей героя\n\n\n",
+			"background-color": [
+				0.4745098039215686,
+				0.8235294117647058,
+				0.5333333333333333,
+				1
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "загрузка способностей из словаря\nпри загрузке макета, при смене героя - загрузка способностей из словаря в героя",
+			"text-color": [
+				1,
+				1,
+				1,
+				1
+			],
+			"background-color": [
+				0,
+				0,
+				0,
+				1
+			]
+		},
+		{
+			"functionName": "abilToHero",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "hero",
+					"type": "string",
+					"initialValue": "active",
+					"comment": "",
+					"sid": 558384012988517
+				}
+			],
+			"eventType": "function-block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "hero",
+					"sid": 404855205799132,
+					"parameters": {
+						"instance-variable": "heroName",
+						"comparison": 0,
+						"value": "hero=\"active\"?aBook.hero:hero"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "hero",
+					"sid": 949486455592500,
+					"parameters": {
+						"instance-variable": "abilsMatrix",
+						"value": "abils.Get(aBook.hero&\"Matrix\")"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "hero",
+					"sid": 552501147791835,
+					"parameters": {
+						"instance-variable": "abils",
+						"value": "abils.Get(aBook.hero)"
+					}
+				}
+			],
+			"sid": 166157844279374
+		},
+		{
+			"eventType": "comment",
+			"text": "\n\n\n\n\nдобавление новой способности при любом состоянии левой панели",
+			"text-color": [
+				1,
+				1,
+				1,
+				1
+			],
+			"background-color": [
+				0.23137254901960785,
+				0.47058823529411764,
+				0.23921568627450981,
+				1
+			]
+		},
+		{
+			"functionName": "addAbil",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "hero",
+					"type": "string",
+					"initialValue": "active",
+					"comment": "",
+					"sid": 687595250218345
+				},
+				{
+					"name": "newAbil",
+					"type": "string",
+					"initialValue": "zero",
+					"comment": "",
+					"sid": 944774624472644
+				},
+				{
+					"name": "hiden",
+					"type": "boolean",
+					"initialValue": "false",
+					"comment": "",
+					"sid": 912154861501435
+				}
+			],
+			"eventType": "function-block",
+			"conditions": [],
+			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aUIN",
+					"sid": 999728003327618,
+					"parameters": {
+						"instance-variable": "newAbil",
+						"value": "\"zero\""
+					}
+				}
+			],
+			"sid": 422516138669254,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "если способности открыты и добавление активному герою, вызываем анимированное добавление",
+					"background-color": [
+						0.6588235294117647,
+						0.8745098039215686,
+						0.5647058823529412,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aUIN",
+							"sid": 137601703023763,
+							"parameters": {
+								"instance-variable": "abilsOn"
+							}
+						},
+						{
+							"id": "is-animation-playing",
+							"objectClass": "inventory",
+							"sid": 164091339702633,
+							"parameters": {
+								"animation": "\"open\""
+							}
+						},
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 532220139822075,
+							"parameters": {
+								"first-value": "hero=aBook.hero|hero=\"active\"?1:0",
+								"comparison": 0,
+								"second-value": "1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aUIN",
+							"sid": 127191345616408,
+							"parameters": {
+								"instance-variable": "newAbil",
+								"value": "newAbil"
+							}
+						},
+						{
+							"callFunction": "abilMap",
+							"sid": 121562536258269,
+							"parameters": [
+								"hero",
+								"newAbil",
+								false
+							]
+						}
+					],
+					"sid": 986294238471814
+				},
+				{
+					"eventType": "comment",
+					"text": "иначе добавляем способность скрытно указанному герою",
+					"background-color": [
+						0.6588235294117647,
+						0.8745098039215686,
+						0.5647058823529412,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 652780733140342
+						}
+					],
+					"actions": [],
+					"sid": 460720410319330,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "has-key",
+									"objectClass": "abils",
+									"sid": 721707496739720,
+									"parameters": {
+										"key": "newAbil"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "hero",
+									"sid": 691224190505174,
+									"parameters": {
+										"instance-variable": "heroName",
+										"comparison": 0,
+										"value": "hero=\"active\"?aBook.hero:hero"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-key",
+									"objectClass": "abils",
+									"sid": 179250999856033,
+									"parameters": {
+										"key": "newAbil",
+										"value": "1"
+									}
+								},
+								{
+									"id": "add-to-instvar",
+									"objectClass": "hero",
+									"sid": 226166809989026,
+									"parameters": {
+										"instance-variable": "abils",
+										"value": "\";\"&newAbil"
+									}
+								},
+								{
+									"id": "set-key",
+									"objectClass": "abils",
+									"sid": 474020513351994,
+									"parameters": {
+										"key": "hero.heroName",
+										"value": "hero.abils"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 885905809216755,
+									"parameters": {
+										"instance-variable": "newAbil",
+										"value": "newAbil"
+									}
+								}
+							],
+							"sid": 801979924639201
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "если добавление активному герою (способности не открыты) и нет пометки \"скрытое\", то запускаем открытие способностей",
+					"background-color": [
+						0.6588235294117647,
+						0.8745098039215686,
+						0.5647058823529412,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 511965378424202,
+							"parameters": {
+								"variable": "hiden"
+							},
+							"isInverted": true
+						},
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 465009385933076,
+							"parameters": {
+								"first-value": "hero=aBook.hero|hero=\"active\"?1:0",
+								"comparison": 0,
+								"second-value": "1"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 514635361672943,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "из инвентаря",
+							"background-color": [
+								0.6588235294117647,
+								0.8745098039215686,
+								0.5647058823529412,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aUIN",
+									"sid": 827616390847043,
+									"parameters": {
+										"instance-variable": "inventoryOn"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aUIN",
+									"sid": 672639299092447,
+									"parameters": {
+										"instance-variable": "inventoryOn",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aUIN",
+									"sid": 901836526313023,
+									"parameters": {
+										"instance-variable": "abilsOn",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 653617305429375,
+									"parameters": {
+										"instance-variable": "newAbil",
+										"value": "newAbil"
+									}
+								},
+								{
+									"customAction": "inventoryClose",
+									"objectClass": "inventory",
+									"sid": 931149314419451
+								}
+							],
+							"sid": 774241179872335
+						},
+						{
+							"eventType": "comment",
+							"text": "из отростков",
+							"background-color": [
+								0.6588235294117647,
+								0.8745098039215686,
+								0.5647058823529412,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 970589617504873
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aUIN",
+									"sid": 732153178634963,
+									"parameters": {
+										"instance-variable": "inventoryOn"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aUIN",
+									"sid": 575992795764277,
+									"parameters": {
+										"instance-variable": "abilsOn"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aUIN",
+									"sid": 299003487643748,
+									"parameters": {
+										"instance-variable": "abilsOn",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 517921966266495,
+									"parameters": {
+										"instance-variable": "newAbil",
+										"value": "newAbil"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 879753203971895,
+									"parameters": {
+										"group-name": "\"abils\"",
+										"state": "activated"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 640750326975897,
+									"parameters": {
+										"group-name": "\"invSprout\"",
+										"state": "deactivated"
+									}
+								},
+								{
+									"customAction": "abilsOpen",
+									"objectClass": "inventory",
+									"sid": 539073393607194,
+									"parameters": [
+										false
+									]
+								}
+							],
+							"sid": 920524323098684
+						}
+					]
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "\n\n\n",
 			"background-color": [
 				0.4745098039215686,
 				0.8235294117647058,
@@ -14,7 +484,7 @@
 		{
 			"eventType": "group",
 			"disabled": false,
-			"title": "rocket",
+			"title": "abils",
 			"description": "",
 			"isActiveOnStart": false,
 			"children": [
@@ -51,7 +521,7 @@
 									"objectClass": "aUIN",
 									"sid": 152796934819856,
 									"parameters": {
-										"instance-variable": "rocketOn"
+										"instance-variable": "abilsOn"
 									}
 								}
 							],
@@ -110,7 +580,7 @@
 						},
 						{
 							"aceType": "action",
-							"aceName": "rocketOpen",
+							"aceName": "abilsOpen",
 							"objectClass": "inventory",
 							"functionDescription": "",
 							"functionCategory": "",
@@ -137,6 +607,42 @@
 										{
 											"id": "is-animation-playing",
 											"objectClass": "inventory",
+											"sid": 878377300340527,
+											"parameters": {
+												"animation": "\"open\""
+											}
+										},
+										{
+											"id": "compare-animation-frame-tag",
+											"objectClass": "inventory",
+											"sid": 275052099514555,
+											"parameters": {
+												"comparison": 0,
+												"tag": "\"hot\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "inventoryOpen",
+											"objectClass": "inventory",
+											"sid": 223424779072603
+										}
+									],
+									"sid": 635718215999285,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 944897104754321
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "inventory",
 											"sid": 415638199532031,
 											"parameters": {
 												"animation": "\"near\""
@@ -156,10 +662,10 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 117720376409580,
+											"sid": 199618226600054,
 											"disabled": true,
 											"parameters": {
-												"group-name": "\"rocketSprout\"",
+												"group-name": "\"invSprout\"",
 												"state": "deactivated"
 											}
 										},
@@ -194,6 +700,11 @@
 								{
 									"eventType": "block",
 									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 521679005758241
+										},
 										{
 											"id": "is-animation-playing",
 											"objectClass": "inventory",
@@ -249,7 +760,7 @@
 										},
 										{
 											"id": "set-visible",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 180890870091722,
 											"parameters": {
 												"visibility": "visible"
@@ -257,7 +768,7 @@
 										},
 										{
 											"id": "set-collisions-enabled",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 985719473527095,
 											"parameters": {
 												"collisions": "enabled"
@@ -371,7 +882,7 @@
 											"objectClass": "aUIN",
 											"sid": 360942074037287,
 											"parameters": {
-												"instance-variable": "rocketOn"
+												"instance-variable": "abilsOn"
 											}
 										},
 										{
@@ -421,7 +932,7 @@
 													"objectClass": "aUIN",
 													"sid": 908327826142515,
 													"parameters": {
-														"instance-variable": "rocketDown"
+														"instance-variable": "abilsDown"
 													},
 													"isInverted": true
 												}
@@ -454,7 +965,7 @@
 												},
 												{
 													"id": "set-visible",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 256678504627103,
 													"parameters": {
 														"visibility": "visible"
@@ -462,7 +973,7 @@
 												},
 												{
 													"id": "set-collisions-enabled",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 934601110226979,
 													"parameters": {
 														"collisions": "enabled"
@@ -481,7 +992,7 @@
 											"objectClass": "aUIN",
 											"sid": 426977446721793,
 											"parameters": {
-												"instance-variable": "rocketOn"
+												"instance-variable": "abilsOn"
 											},
 											"isInverted": true
 										},
@@ -522,7 +1033,7 @@
 										},
 										{
 											"id": "set-visible",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 228606226399348,
 											"parameters": {
 												"visibility": "visible"
@@ -530,7 +1041,7 @@
 										},
 										{
 											"id": "set-collisions-enabled",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 625519752590626,
 											"parameters": {
 												"collisions": "enabled"
@@ -563,7 +1074,7 @@
 						},
 						{
 							"aceType": "action",
-							"aceName": "rocketClose",
+							"aceName": "abilsClose",
 							"objectClass": "inventory",
 							"functionDescription": "",
 							"functionCategory": "",
@@ -610,7 +1121,7 @@
 											"objectClass": "aUIN",
 											"sid": 610824056746823,
 											"parameters": {
-												"instance-variable": "rocketDown"
+												"instance-variable": "abilsDown"
 											},
 											"isInverted": true
 										}
@@ -713,7 +1224,7 @@
 										},
 										{
 											"id": "set-visible",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 996186972335705,
 											"parameters": {
 												"visibility": "invisible"
@@ -721,7 +1232,7 @@
 										},
 										{
 											"id": "set-collisions-enabled",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 520921271432275,
 											"parameters": {
 												"collisions": "disabled"
@@ -775,7 +1286,7 @@
 											"objectClass": "aUIN",
 											"sid": 132677309277613,
 											"parameters": {
-												"instance-variable": "rocketDown"
+												"instance-variable": "abilsDown"
 											}
 										},
 										{
@@ -904,7 +1415,7 @@
 										},
 										{
 											"id": "set-visible",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 916833502102943,
 											"parameters": {
 												"visibility": "invisible"
@@ -912,7 +1423,7 @@
 										},
 										{
 											"id": "set-collisions-enabled",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 492699676278814,
 											"parameters": {
 												"collisions": "disabled"
@@ -994,7 +1505,7 @@
 													"objectClass": "aUIN",
 													"sid": 907240848376712,
 													"parameters": {
-														"instance-variable": "rocketDown"
+														"instance-variable": "abilsDown"
 													},
 													"isInverted": true
 												}
@@ -1053,9 +1564,9 @@
 								{
 									"id": "on-instance-signal",
 									"objectClass": "inventory",
-									"sid": 325100996598452,
+									"sid": 174984457950478,
 									"parameters": {
-										"tag": "\"rocketClose\""
+										"tag": "\"abilsClose\""
 									}
 								}
 							],
@@ -1180,7 +1691,7 @@
 											"objectClass": "cocobutton",
 											"sid": 377682485656111,
 											"parameters": {
-												"instance-variable": "rocket",
+												"instance-variable": "entered",
 												"value": "false"
 											}
 										},
@@ -1510,7 +2021,7 @@
 													"objectClass": "cocobutton",
 													"sid": 739913316909878,
 													"parameters": {
-														"instance-variable": "rocket",
+														"instance-variable": "entered",
 														"value": "true"
 													}
 												}
@@ -1537,7 +2048,7 @@
 											"objectClass": "cocobutton",
 											"sid": 828579878529857,
 											"parameters": {
-												"instance-variable": "rocket"
+												"instance-variable": "entered"
 											}
 										}
 									],
@@ -1638,7 +2149,7 @@
 															"objectClass": "aUIN",
 															"sid": 843546272354317,
 															"parameters": {
-																"instance-variable": "rocketDown"
+																"instance-variable": "abilsDown"
 															}
 														}
 													],
@@ -1739,7 +2250,7 @@
 													"objectClass": "aUIN",
 													"sid": 998522046607006,
 													"parameters": {
-														"instance-variable": "rocketDown"
+														"instance-variable": "abilsDown"
 													}
 												},
 												{
@@ -1766,7 +2277,7 @@
 												},
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 974158747181233,
 													"disabled": true,
 													"parameters": {
@@ -1776,7 +2287,7 @@
 												},
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 190341095754536,
 													"parameters": {
 														"x": "cocobutton.X+94",
@@ -1785,7 +2296,7 @@
 												},
 												{
 													"id": "set-animation",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 971305903315776,
 													"parameters": {
 														"animation": "\"up\"",
@@ -1794,12 +2305,12 @@
 												},
 												{
 													"id": "stop-animation",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 771451789568237
 												},
 												{
 													"id": "set-instvar-value",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 938479939502716,
 													"parameters": {
 														"instance-variable": "cursor",
@@ -1851,7 +2362,7 @@
 												},
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 881627716598426,
 													"parameters": {
 														"x": "cocobutton.X+94",
@@ -1860,7 +2371,7 @@
 												},
 												{
 													"id": "set-animation",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 215550684821076,
 													"parameters": {
 														"animation": "\"down\"",
@@ -1869,12 +2380,12 @@
 												},
 												{
 													"id": "stop-animation",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 973459925700341
 												},
 												{
 													"id": "set-instvar-value",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 507969683566438,
 													"parameters": {
 														"instance-variable": "cursor",
@@ -1950,7 +2461,7 @@
 							"conditions": [
 								{
 									"id": "on-animation-finished",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 724980681968349,
 									"parameters": {
 										"animation": "\"down\""
@@ -1958,7 +2469,7 @@
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 551891946149313,
 									"parameters": {
 										"instance-variable": "on"
@@ -1968,7 +2479,7 @@
 							"actions": [
 								{
 									"id": "set-boolean-instvar",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 345513403231071,
 									"parameters": {
 										"instance-variable": "on",
@@ -1980,13 +2491,13 @@
 									"objectClass": "aUIN",
 									"sid": 697924194870094,
 									"parameters": {
-										"instance-variable": "rocketDown",
+										"instance-variable": "abilsDown",
 										"value": "true"
 									}
 								},
 								{
 									"id": "set-position",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 296533519416360,
 									"disabled": true,
 									"parameters": {
@@ -1996,7 +2507,7 @@
 								},
 								{
 									"id": "set-position",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 112285740377814,
 									"disabled": true,
 									"parameters": {
@@ -2006,7 +2517,7 @@
 								},
 								{
 									"id": "set-animation",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 547800144811695,
 									"parameters": {
 										"animation": "\"up\"",
@@ -2024,7 +2535,7 @@
 								},
 								{
 									"id": "set-animation",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 320459600060041,
 									"parameters": {
 										"animation": "\"up\"",
@@ -2033,12 +2544,12 @@
 								},
 								{
 									"id": "stop-animation",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 124440657530278
 								},
 								{
 									"id": "set-instvar-value",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 169713281683347,
 									"parameters": {
 										"instance-variable": "cursor",
@@ -2146,7 +2657,7 @@
 											"objectClass": "cocobutton",
 											"sid": 144786899173699,
 											"parameters": {
-												"instance-variable": "rocket"
+												"instance-variable": "entered"
 											}
 										}
 									],
@@ -2204,7 +2715,7 @@
 												},
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 599662805521844,
 													"parameters": {
 														"x": "aUIN.abilXrd+90+loopindex*110",
@@ -2341,7 +2852,7 @@
 											"actions": [
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 358365169361100,
 													"parameters": {
 														"x": "cocobutton.X+94",
@@ -2370,7 +2881,7 @@
 							"conditions": [
 								{
 									"id": "on-animation-finished",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 456102717271375,
 									"parameters": {
 										"animation": "\"up\""
@@ -2378,7 +2889,7 @@
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 370888159691673,
 									"parameters": {
 										"instance-variable": "on"
@@ -2388,7 +2899,7 @@
 							"actions": [
 								{
 									"id": "set-boolean-instvar",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 934869534729870,
 									"parameters": {
 										"instance-variable": "on",
@@ -2400,7 +2911,7 @@
 									"objectClass": "aUIN",
 									"sid": 561320498201384,
 									"parameters": {
-										"instance-variable": "rocketDown",
+										"instance-variable": "abilsDown",
 										"value": "false"
 									}
 								},
@@ -2476,7 +2987,7 @@
 											"objectClass": "cocobutton",
 											"sid": 407358175809261,
 											"parameters": {
-												"instance-variable": "rocket"
+												"instance-variable": "entered"
 											}
 										}
 									],
@@ -2527,7 +3038,7 @@
 												},
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 190724372882480,
 													"parameters": {
 														"x": "300+loopindex*110",
@@ -2649,7 +3160,7 @@
 									"actions": [
 										{
 											"id": "set-position",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 685091028889505,
 											"parameters": {
 												"x": "cocobutton.X+94",
@@ -2658,7 +3169,7 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 768046893813948,
 											"parameters": {
 												"animation": "\"down\"",
@@ -2676,7 +3187,7 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 856532025486054,
 											"parameters": {
 												"animation": "\"down\"",
@@ -2685,12 +3196,12 @@
 										},
 										{
 											"id": "stop-animation",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 234903924098430
 										},
 										{
 											"id": "set-instvar-value",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 920555815317390,
 											"parameters": {
 												"instance-variable": "cursor",
@@ -2717,7 +3228,7 @@
 							"conditions": [
 								{
 									"id": "onselffunction0",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 447899832370410,
 									"behaviorType": "sfPoint",
 									"parameters": {
@@ -2726,7 +3237,7 @@
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 577713957454158,
 									"parameters": {
 										"instance-variable": "on"
@@ -2745,14 +3256,14 @@
 											"objectClass": "aUIN",
 											"sid": 559255590611020,
 											"parameters": {
-												"instance-variable": "rocketDown"
+												"instance-variable": "abilsDown"
 											}
 										}
 									],
 									"actions": [
 										{
 											"id": "set-boolean-instvar",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 730627899896209,
 											"parameters": {
 												"instance-variable": "on",
@@ -2761,7 +3272,7 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 947321461847547,
 											"parameters": {
 												"animation": "\"up\"",
@@ -2798,7 +3309,7 @@
 													"objectClass": "aUIN",
 													"sid": 628984062971631,
 													"parameters": {
-														"instance-variable": "rocketOn",
+														"instance-variable": "abilsOn",
 														"value": "true"
 													}
 												},
@@ -2824,7 +3335,7 @@
 									"actions": [
 										{
 											"id": "set-boolean-instvar",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 471724591848282,
 											"parameters": {
 												"instance-variable": "on",
@@ -2833,7 +3344,7 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 193213099137627,
 											"parameters": {
 												"animation": "\"down\"",
@@ -4335,7 +4846,7 @@
 									"objectClass": "aUIN",
 									"sid": 856649902643060,
 									"parameters": {
-										"instance-variable": "rocketOn"
+										"instance-variable": "abilsOn"
 									}
 								},
 								{
@@ -4669,7 +5180,7 @@
 											"objectClass": "aUIN",
 											"sid": 610814845451392,
 											"parameters": {
-												"instance-variable": "rocketOn"
+												"instance-variable": "abilsOn"
 											}
 										}
 									],
@@ -4865,7 +5376,7 @@
 											"objectClass": "aUIN",
 											"sid": 839186608397638,
 											"parameters": {
-												"instance-variable": "rocketOn"
+												"instance-variable": "abilsOn"
 											},
 											"isInverted": true
 										}
@@ -4873,7 +5384,7 @@
 									"actions": [
 										{
 											"id": "set-position",
-											"objectClass": "rocketCloser",
+											"objectClass": "UICloser",
 											"sid": 792002067899840,
 											"disabled": true,
 											"parameters": {
@@ -4931,18 +5442,18 @@
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 310763446462426,
+											"sid": 322944719152406,
 											"parameters": {
-												"group-name": "\"rocketSprout\"",
+												"group-name": "\"invSprout\"",
 												"state": "activated"
 											}
 										},
 										{
 											"id": "set-group-active",
 											"objectClass": "System",
-											"sid": 690780776180632,
+											"sid": 483426557360952,
 											"parameters": {
-												"group-name": "\"rocket\"",
+												"group-name": "\"abils\"",
 												"state": "deactivated"
 											}
 										},
@@ -5143,7 +5654,7 @@
 											"objectClass": "aUIN",
 											"sid": 783515193812943,
 											"parameters": {
-												"instance-variable": "rocketDown"
+												"instance-variable": "abilsDown"
 											},
 											"isInverted": true
 										}
@@ -5224,7 +5735,7 @@
 											"objectClass": "cocobutton",
 											"sid": 554606695127421,
 											"parameters": {
-												"instance-variable": "rocket"
+												"instance-variable": "entered"
 											}
 										}
 									],
@@ -5398,7 +5909,7 @@
 															"objectClass": "aUIN",
 															"sid": 680163726755230,
 															"parameters": {
-																"instance-variable": "rocketDown"
+																"instance-variable": "abilsDown"
 															},
 															"isInverted": true
 														}
@@ -5428,7 +5939,7 @@
 															"objectClass": "aUIN",
 															"sid": 566956885504941,
 															"parameters": {
-																"instance-variable": "rocketDown"
+																"instance-variable": "abilsDown"
 															}
 														}
 													],
@@ -5752,7 +6263,7 @@
 															"sid": 852799405037384,
 															"disabled": true,
 															"parameters": {
-																"instance-variable": "rocketDown"
+																"instance-variable": "abilsDown"
 															}
 														}
 													],
@@ -8433,7 +8944,7 @@
 									"objectClass": "aUIN",
 									"sid": 533382146257644,
 									"parameters": {
-										"instance-variable": "rocketOn"
+										"instance-variable": "abilsOn"
 									}
 								}
 							],
@@ -8752,7 +9263,7 @@
 									"objectClass": "aUIN",
 									"sid": 385415831904686,
 									"parameters": {
-										"instance-variable": "rocketOn"
+										"instance-variable": "abilsOn"
 									}
 								}
 							],
@@ -9282,7 +9793,7 @@
 									"disabled": true,
 									"parameters": {
 										"x": "cocobutton.X+40",
-										"y": "aUIN.rocketDown=0?cocobutton.Y+80:cocobutton.Y-20"
+										"y": "aUIN.abilsDown=0?cocobutton.Y+80:cocobutton.Y-20"
 									}
 								},
 								{
@@ -11499,7 +12010,7 @@
 													"disabled": true,
 													"parameters": {
 														"x": "cocobutton.X+40",
-														"y": "aUIN.rocketDown=0?cocobutton.Y+20:cocobutton.Y+55"
+														"y": "aUIN.abilsDown=0?cocobutton.Y+20:cocobutton.Y+55"
 													}
 												},
 												{
