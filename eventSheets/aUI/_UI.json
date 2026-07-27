@@ -994,12 +994,14 @@
 								},
 								{
 									"callFunction": "invLimit",
-									"sid": 386253222957571
+									"sid": 386253222957571,
+									"disabled": true
 								},
 								{
 									"id": "wait",
 									"objectClass": "System",
 									"sid": 515273709304921,
+									"disabled": true,
 									"parameters": {
 										"seconds": "0",
 										"use-timescale": false
@@ -1007,12 +1009,14 @@
 								},
 								{
 									"callFunction": "cellN",
-									"sid": 101078681713623
+									"sid": 101078681713623,
+									"disabled": true
 								},
 								{
 									"id": "wait",
 									"objectClass": "System",
 									"sid": 387930321151708,
+									"disabled": true,
 									"parameters": {
 										"seconds": "0",
 										"use-timescale": false
@@ -1020,7 +1024,24 @@
 								},
 								{
 									"callFunction": "items",
-									"sid": 466286808819873
+									"sid": 466286808819873,
+									"disabled": true
+								},
+								{
+									"callFunction": "rebuilditems",
+									"sid": 582738091067930
+								},
+								{
+									"callFunction": "invLimit",
+									"sid": 969009097162651
+								},
+								{
+									"callFunction": "cellN",
+									"sid": 851077443158193
+								},
+								{
+									"callFunction": "items",
+									"sid": 482268263243429
 								}
 							],
 							"sid": 952113095859740
@@ -1598,7 +1619,13 @@
 									"actions": [
 										{
 											"callFunction": "restoreInventory",
-											"sid": 517965244447649
+											"sid": 517965244447649,
+											"disabled": true
+										},
+										{
+											"callFunction": "rebuilditems",
+											"sid": 296554451055282,
+											"disabled": true
 										},
 										{
 											"callFunction": "invInstant",
@@ -1650,8 +1677,13 @@
 							],
 							"actions": [
 								{
+									"callFunction": "rebuilditems",
+									"sid": 187405978806179
+								},
+								{
 									"callFunction": "restoreInventory",
-									"sid": 584037227788810
+									"sid": 584037227788810,
+									"disabled": true
 								},
 								{
 									"callFunction": "invInstant",
@@ -1679,8 +1711,13 @@
 							],
 							"actions": [
 								{
+									"callFunction": "rebuilditems",
+									"sid": 546783961546469
+								},
+								{
 									"callFunction": "restoreInventory",
-									"sid": 775597163769734
+									"sid": 775597163769734,
+									"disabled": true
 								},
 								{
 									"callFunction": "invInstant",
@@ -2102,6 +2139,7 @@
 						}
 					],
 					"sid": 992847563120394,
+					"disabled": true,
 					"children": [
 						{
 							"eventType": "block",
@@ -2114,6 +2152,7 @@
 							],
 							"actions": [],
 							"sid": 887623451092833,
+							"disabled": true,
 							"children": [
 								{
 									"eventType": "block",
@@ -2147,6 +2186,7 @@
 									],
 									"actions": [],
 									"sid": 554321098765433,
+									"disabled": true,
 									"children": [
 										{
 											"eventType": "block",
@@ -2288,11 +2328,415 @@
 													}
 												}
 											],
-											"sid": 332109876543210
+											"sid": 332109876543210,
+											"disabled": true
 										}
 									]
 								}
 							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Перестроение предметов из itemsQ — очистка и создание заново. Источник истины.",
+					"background-color": [
+						0.49,
+						0.7,
+						0.38,
+						1
+					]
+				},
+				{
+					"functionName": "rebuilditems",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"type": "comment",
+							"text": "Шаг 1: очистка всех активных предметов в банк, не трогая itemsQ",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						}
+					],
+					"sid": 168429596618418,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "item",
+									"sid": 799342633720639,
+									"parameters": {
+										"instance-variable": "add"
+									}
+								},
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 116296500627578,
+									"parameters": {
+										"object": "item"
+									}
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Сброс свойств предмета в банк без удаления ключа из itemsQ",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 301105435048210,
+									"parameters": {
+										"instance-variable": "add",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 185283748003917,
+									"parameters": {
+										"instance-variable": "inv",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 100852474324664,
+									"parameters": {
+										"instance-variable": "onInventory",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 959120047877140,
+									"parameters": {
+										"instance-variable": "hot",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 881472219435306,
+									"parameters": {
+										"instance-variable": "isNew",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 811543840791555,
+									"parameters": {
+										"instance-variable": "split",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 897329980950212,
+									"parameters": {
+										"instance-variable": "cellN",
+										"value": "999"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 704505618495195,
+									"parameters": {
+										"instance-variable": "iCount",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 420020659986971,
+									"parameters": {
+										"instance-variable": "iSign",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 493792939197532,
+									"parameters": {
+										"instance-variable": "type",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "item",
+									"sid": 715555762601042,
+									"parameters": {
+										"instance-variable": "class",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "item",
+									"sid": 528216269660982,
+									"parameters": {
+										"x": "-9100",
+										"y": "-1900"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "item",
+									"sid": 265507343571401,
+									"parameters": {
+										"collisions": "disabled"
+									}
+								},
+								{
+									"id": "unpin",
+									"objectClass": "item",
+									"sid": 777824605388901,
+									"behaviorType": "Pin"
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "item",
+									"sid": 864274899940532,
+									"behaviorType": "DragDrop",
+									"parameters": {
+										"state": "disabled"
+									}
+								}
+							],
+							"sid": 973628794599150,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "quants",
+											"sid": 860801120411834,
+											"parameters": {
+												"unique-id": "item.quantUID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "out",
+											"objectClass": "quants",
+											"sid": 350684153622176
+										}
+									],
+									"sid": 599895289017826
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Шаг 2: создание предметов из словаря itemsQ",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each-key",
+									"objectClass": "itemsQ",
+									"sid": 767924352957340
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 604617487761105,
+									"parameters": {
+										"instance-variable": "gic",
+										"value": "loopindex"
+									}
+								}
+							],
+							"sid": 235009082895890,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "item",
+											"sid": 328011300629962,
+											"parameters": {
+												"unique-id": "Functions.addItem"
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Активация предмета из банка со свойствами из словаря",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "item",
+											"sid": 477226087749665,
+											"parameters": {
+												"instance-variable": "add",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "item",
+											"sid": 863009720434404,
+											"parameters": {
+												"instance-variable": "inv",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "item",
+											"sid": 181692463087955,
+											"parameters": {
+												"instance-variable": "onInventory",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "item",
+											"sid": 840503136711459,
+											"parameters": {
+												"instance-variable": "iSign",
+												"value": "itemsQ.CurrentKey"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "item",
+											"sid": 101295615266755,
+											"parameters": {
+												"instance-variable": "iQuant",
+												"value": "itemsQ.Get(itemsQ.CurrentKey)"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "item",
+											"sid": 651582071631179,
+											"parameters": {
+												"instance-variable": "type",
+												"value": "\"use\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "item",
+											"sid": 429939022201886,
+											"parameters": {
+												"instance-variable": "class",
+												"value": "\"universal\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "item",
+											"sid": 427723213785473,
+											"parameters": {
+												"instance-variable": "ball",
+												"value": "0"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "item",
+											"sid": 641223870428681,
+											"parameters": {
+												"instance-variable": "iCount",
+												"value": "loopindex"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "item",
+											"sid": 932121570076547,
+											"parameters": {
+												"animation": "itemsQ.CurrentKey",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "item",
+											"sid": 373138483797479,
+											"parameters": {
+												"collisions": "disabled"
+											}
+										}
+									],
+									"sid": 548121753584724
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Шаг 3: присвоение cellN",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"callFunction": "cellN",
+									"sid": 716182466658597
+								}
+							],
+							"sid": 230624960663354
 						}
 					]
 				},
@@ -10860,6 +11304,10 @@
 								"seconds": "0",
 								"use-timescale": true
 							}
+						},
+						{
+							"callFunction": "rebuilditems",
+							"sid": 385614214606753
 						}
 					],
 					"sid": 205429059377690,
