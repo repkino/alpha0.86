@@ -2734,10 +2734,18 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "item",
-											"sid": 641223870428681,
+											"sid": 272425353728885,
 											"parameters": {
 												"instance-variable": "iCount",
-												"value": "loopindex"
+												"value": "aUI.gic"
+											}
+										},
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 581128508158843,
+											"parameters": {
+												"text": "item.iCount"
 											}
 										},
 										{
@@ -2782,21 +2790,25 @@
 														"instance-variable": "cellN",
 														"value": "aUI.gic"
 													}
-												},
-												{
-													"id": "append-text",
-													"objectClass": "help",
-													"sid": 598501672669889,
-													"parameters": {
-														"text": "item.cellN"
-													}
 												}
 											],
-											"sid": 778058132832224
+											"sid": 778058132832224,
+											"disabled": true
 										}
 									]
 								}
 							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"callFunction": "cellN",
+									"sid": 705501495114961
+								}
+							],
+							"sid": 336067532234011
 						}
 					]
 				},
@@ -7449,6 +7461,77 @@
 								}
 							],
 							"sid": 728221727473065
+						},
+						{
+							"eventType": "comment",
+							"text": "Синхронизация порядка предметов в itemsQ после пересортировки cellN",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Очищаем itemsQ и перестраиваем в порядке cellN (ascending), чтобы rebuilditems не ломал порядок",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"id": "clear",
+									"objectClass": "itemsQ",
+									"sid": 765432109876540
+								}
+							],
+							"sid": 765432109876541,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "item",
+											"sid": 765432109876542,
+											"parameters": {
+												"instance-variable": "inv"
+											}
+										},
+										{
+											"id": "for-each-ordered",
+											"objectClass": "System",
+											"sid": 765432109876543,
+											"parameters": {
+												"object": "item",
+												"expression": "item.cellN",
+												"order": "ascending"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "add-key",
+											"objectClass": "itemsQ",
+											"sid": 765432109876544,
+											"parameters": {
+												"key": "item.iSign",
+												"value": "item.iQuant"
+											}
+										}
+									],
+									"sid": 765432109876545,
+									"disabled": true
+								}
+							]
 						}
 					]
 				},
@@ -20237,6 +20320,75 @@
 							],
 							"sid": 278299633066476,
 							"disabled": true
+						},
+						{
+							"eventType": "comment",
+							"text": "Синхронизация порядка предметов в itemsQ — чтобы rebuilditems не ломал результаты перетаскивания",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Очищаем itemsQ и перестраиваем в порядке cellN (от 0 к N)",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"id": "clear",
+									"objectClass": "itemsQ",
+									"sid": 876543210987650
+								}
+							],
+							"sid": 876543210987651,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "item",
+											"sid": 876543210987652,
+											"parameters": {
+												"instance-variable": "inv"
+											}
+										},
+										{
+											"id": "for-each-ordered",
+											"objectClass": "System",
+											"sid": 876543210987653,
+											"parameters": {
+												"object": "item",
+												"expression": "item.cellN",
+												"order": "ascending"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "add-key",
+											"objectClass": "itemsQ",
+											"sid": 876543210987654,
+											"parameters": {
+												"key": "item.iSign",
+												"value": "item.iQuant"
+											}
+										}
+									],
+									"sid": 876543210987655
+								}
+							]
 						}
 					]
 				},
