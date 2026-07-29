@@ -14,6 +14,16 @@
 			"text": "\n\n     !  Запрещённые способности. Предположительно, способности героя ограничиваются при загрузке локации - в листе макета на каждую локацию, где есть запрещённые способности. Если способности меняются на макете - при загрузке макета они отключаются скрытно. Но при загрузке локации (фрейма) нужно добавлять подсобытие отключающее/включающее способность(ти), если рокет-панель способностей открыта.\nЗапрещённые способности могут быть перечислены в постоянной локальной переменной.\n\n"
 		},
 		{
+			"eventType": "variable",
+			"name": "invMon",
+			"type": "number",
+			"initialValue": "0",
+			"comment": "",
+			"isStatic": true,
+			"isConstant": false,
+			"sid": 241416039019402
+		},
+		{
 			"eventType": "comment",
 			"text": "Выбор меню для разных героев и локаций"
 		},
@@ -1226,6 +1236,15 @@
 									"parameters": {
 										"instance-variable": "invOpen",
 										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 981158853212358,
+									"parameters": {
+										"instance-variable": "coolDown",
+										"value": "1"
 									}
 								}
 							],
@@ -4239,19 +4258,47 @@
 						{
 							"eventType": "block",
 							"conditions": [],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "aUIN",
-									"sid": 634221586686002,
-									"parameters": {
-										"instance-variable": "invWay",
-										"value": "\"zero\""
-									}
-								}
-							],
+							"actions": [],
 							"sid": 763275435210171,
 							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "cursor-is-over-object",
+											"objectClass": "Mouse",
+											"sid": 576584912890305,
+											"parameters": {
+												"object": "inventory"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 360068582908217,
+											"parameters": {
+												"instance-variable": "invWay",
+												"value": "\"zero\""
+											}
+										}
+									],
+									"sid": 306908128947416
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 161219574526718
+										}
+									],
+									"actions": [],
+									"sid": 885215607282463
+								},
 								{
 									"eventType": "comment",
 									"text": "принудительное изменение статуса инвентаря",
@@ -4418,6 +4465,15 @@
 													}
 												},
 												{
+													"id": "set-instvar-value",
+													"objectClass": "aUIN",
+													"sid": 886411580122692,
+													"parameters": {
+														"instance-variable": "invWay",
+														"value": "\"opening\""
+													}
+												},
+												{
 													"customAction": "openCocoon",
 													"objectClass": "inventory",
 													"sid": 574955932646334
@@ -4499,6 +4555,15 @@
 													"parameters": {
 														"instance-variable": "invWay",
 														"value": "\"closing\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aUIN",
+													"sid": 751993389746475,
+													"parameters": {
+														"instance-variable": "coolDown",
+														"value": "1"
 													}
 												},
 												{
@@ -5283,6 +5348,7 @@
 															"id": "is-boolean-instance-variable-set",
 															"objectClass": "aUIN",
 															"sid": 197882207662524,
+															"disabled": true,
 															"parameters": {
 																"instance-variable": "invOpen"
 															},
@@ -5292,7 +5358,6 @@
 															"id": "compare-animation-frame-tag",
 															"objectClass": "inventory",
 															"sid": 764380461985624,
-															"disabled": true,
 															"parameters": {
 																"comparison": 1,
 																"tag": "\"invOpen\""
@@ -5492,6 +5557,15 @@
 													],
 													"actions": [
 														{
+															"id": "set-instvar-value",
+															"objectClass": "aUIN",
+															"sid": 739741165484146,
+															"parameters": {
+																"instance-variable": "invWay",
+																"value": "\"opening\""
+															}
+														},
+														{
 															"customAction": "openSprouts",
 															"objectClass": "inventory",
 															"sid": 237949371219136
@@ -5512,6 +5586,15 @@
 														}
 													],
 													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aUIN",
+															"sid": 758535937718891,
+															"parameters": {
+																"instance-variable": "invWay",
+																"value": "\"opening\""
+															}
+														},
 														{
 															"customAction": "openCocoon",
 															"objectClass": "inventory",
@@ -5599,6 +5682,15 @@
 															"sid": 116096113536045,
 															"parameters": {
 																"from": "current-frame"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aUIN",
+															"sid": 879254368485618,
+															"parameters": {
+																"instance-variable": "coolDown",
+																"value": "1"
 															}
 														}
 													],
@@ -5716,7 +5808,18 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "aUIN",
+									"sid": 167171308012157,
+									"parameters": {
+										"instance-variable": "coolDown",
+										"comparison": 1,
+										"value": "1"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUIN",
 									"sid": 849459606835496,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "invState",
 										"comparison": 1,
@@ -5727,6 +5830,7 @@
 									"id": "compare-instance-variable",
 									"objectClass": "aUIN",
 									"sid": 752892810782845,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "invState",
 										"comparison": 1,
@@ -5761,7 +5865,36 @@
 									"sid": 732988936458928
 								}
 							],
-							"sid": 874328025542403
+							"sid": 874328025542403,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUIN",
+											"sid": 702768881061357,
+											"parameters": {
+												"instance-variable": "invState",
+												"comparison": 1,
+												"value": "\"inventory\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 407123754122024,
+											"parameters": {
+												"instance-variable": "invState",
+												"value": "\"cocoon\""
+											}
+										}
+									],
+									"sid": 162542781549045
+								}
+							]
 						},
 						{
 							"eventType": "comment",
@@ -6569,10 +6702,10 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "aUIN",
-													"sid": 509885095642246,
+													"sid": 438739551952615,
 													"parameters": {
 														"instance-variable": "invWay",
-														"value": "\"zero\""
+														"value": "\"closing\""
 													}
 												},
 												{
@@ -7262,6 +7395,15 @@
 							],
 							"actions": [
 								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 471868624384028,
+									"parameters": {
+										"instance-variable": "invWay",
+										"value": "\"opening\""
+									}
+								},
+								{
 									"id": "set-group-active",
 									"objectClass": "System",
 									"sid": 827666600646368,
@@ -7316,6 +7458,15 @@
 								}
 							],
 							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 109059236110661,
+									"parameters": {
+										"instance-variable": "invWay",
+										"value": "\"opening\""
+									}
+								},
 								{
 									"id": "set-animation",
 									"objectClass": "inventory",
@@ -7672,40 +7823,40 @@
 					"text": "\n\n\n\n\n\n?  отключение групп под вопросом"
 				},
 				{
-					"eventType": "variable",
-					"name": "invMon",
-					"type": "number",
-					"initialValue": "0",
-					"comment": "",
-					"isStatic": true,
-					"isConstant": false,
-					"sid": 109108711010300
-				},
-				{
 					"eventType": "block",
 					"conditions": [
 						{
 							"id": "compare-eventvar",
 							"objectClass": "System",
-							"sid": 749498042340931,
+							"sid": 514549383089961,
 							"parameters": {
 								"variable": "invMon",
-								"comparison": 0,
+								"comparison": 1,
 								"value": "0"
 							}
 						},
 						{
 							"id": "compare-two-values",
 							"objectClass": "System",
-							"sid": 994382184690219,
+							"sid": 319154517186272,
 							"parameters": {
 								"first-value": "Mouse.Y(\"ui\")",
 								"comparison": 2,
-								"second-value": "125"
+								"second-value": "110"
 							}
 						}
 					],
-					"actions": [],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 857851076700459,
+							"parameters": {
+								"variable": "invMon",
+								"value": "0"
+							}
+						}
+					],
 					"sid": 373920824881920,
 					"children": [
 						{
@@ -7730,15 +7881,6 @@
 								}
 							],
 							"actions": [
-								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 747259356427027,
-									"parameters": {
-										"variable": "invMon",
-										"value": "1"
-									}
-								},
 								{
 									"id": "set-group-active",
 									"objectClass": "System",
@@ -7774,46 +7916,118 @@
 						{
 							"id": "compare-eventvar",
 							"objectClass": "System",
-							"sid": 921926498605890,
+							"sid": 234400070490102,
 							"parameters": {
 								"variable": "invMon",
 								"comparison": 0,
-								"value": "1"
+								"value": "0"
 							}
 						},
 						{
 							"id": "compare-two-values",
 							"objectClass": "System",
-							"sid": 839780616618863,
-							"disabled": true,
+							"sid": 692676671358213,
 							"parameters": {
 								"first-value": "Mouse.Y(\"ui\")",
 								"comparison": 4,
-								"second-value": "125"
+								"second-value": "110"
 							}
+						}
+					],
+					"actions": [],
+					"sid": 287838040294500,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "cursor-is-over-object",
+									"objectClass": "Mouse",
+									"sid": 909144081267996,
+									"parameters": {
+										"object": "inventory"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 711630911559773,
+									"parameters": {
+										"instance-variable": "coolDown",
+										"value": "0"
+									}
+								}
+							],
+							"sid": 369744401839028
 						},
 						{
-							"id": "is-group-active",
-							"objectClass": "System",
-							"sid": 479140485143703,
-							"parameters": {
-								"group-name": "\"inventory\""
-							},
-							"isInverted": true
-						}
-					],
-					"actions": [
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-group-active",
+									"objectClass": "System",
+									"sid": 928250131677826,
+									"parameters": {
+										"group-name": "\"invSprout\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 255680264471176,
+									"parameters": {
+										"variable": "invMon",
+										"value": "1"
+									}
+								}
+							],
+							"sid": 410500435682528
+						},
 						{
-							"id": "set-eventvar-value",
-							"objectClass": "System",
-							"sid": 259909297866195,
-							"parameters": {
-								"variable": "invMon",
-								"value": "0"
-							}
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 896900272439901
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 976129852964555,
+									"parameters": {
+										"variable": "invMon",
+										"value": "2"
+									}
+								}
+							],
+							"sid": 126492123319368
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-group-active",
+									"objectClass": "System",
+									"sid": 430088752980817,
+									"parameters": {
+										"group-name": "\"inventory\""
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [],
+							"sid": 291998817901816,
+							"disabled": true
 						}
-					],
-					"sid": 287838040294500
+					]
 				},
 				{
 					"eventType": "block",
@@ -7841,11 +8055,11 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 350134887487697,
+									"sid": 453250499048149,
 									"parameters": {
 										"first-value": "Mouse.Y(\"ui\")",
 										"comparison": 4,
-										"second-value": "125"
+										"second-value": "110"
 									}
 								}
 							],
@@ -7888,11 +8102,11 @@
 								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 238801912316852,
+									"sid": 261318166464523,
 									"parameters": {
 										"first-value": "Mouse.Y(\"ui\")",
 										"comparison": 4,
-										"second-value": "125"
+										"second-value": "110"
 									}
 								}
 							],
@@ -8682,6 +8896,15 @@
 														"comparison": 1,
 														"number": "11"
 													}
+												},
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "inventory",
+													"sid": 674226009666619,
+													"parameters": {
+														"comparison": 0,
+														"tag": "\"hot\""
+													}
 												}
 											],
 											"actions": [
@@ -8794,6 +9017,15 @@
 													"sid": 231589366527505,
 													"parameters": {
 														"animation": "\"open\""
+													}
+												},
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "inventory",
+													"sid": 750148570797492,
+													"parameters": {
+														"comparison": 0,
+														"tag": "\"hot\""
 													}
 												},
 												{
@@ -10081,6 +10313,16 @@
 											"parameters": {
 												"instance-variable": "invOpen"
 											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUIN",
+											"sid": 108659867676053,
+											"parameters": {
+												"instance-variable": "invState",
+												"comparison": 0,
+												"value": "\"inventory\""
+											}
 										}
 									],
 									"actions": [
@@ -10261,6 +10503,16 @@
 									"sid": 146833765985585,
 									"parameters": {
 										"instance-variable": "invOpen"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUIN",
+									"sid": 800129644802990,
+									"parameters": {
+										"instance-variable": "invState",
+										"comparison": 0,
+										"value": "\"inventory\""
 									}
 								}
 							],
@@ -11653,7 +11905,7 @@
 			"disabled": false,
 			"title": "invSprout",
 			"description": "",
-			"isActiveOnStart": true,
+			"isActiveOnStart": false,
 			"children": [
 				{
 					"eventType": "block",
