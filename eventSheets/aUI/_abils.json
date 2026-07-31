@@ -3,7 +3,474 @@
 	"events": [
 		{
 			"eventType": "comment",
-			"text": "\n\n\n\n\n\n  кнопки способностей",
+			"text": "\n  коконы способностей героя\n\n\n",
+			"background-color": [
+				0.4745098039215686,
+				0.8235294117647058,
+				0.5333333333333333,
+				1
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "загрузка способностей из словаря\nпри загрузке макета, при смене героя - загрузка способностей из словаря в героя",
+			"text-color": [
+				1,
+				1,
+				1,
+				1
+			],
+			"background-color": [
+				0,
+				0,
+				0,
+				1
+			]
+		},
+		{
+			"functionName": "abilToHero",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "hero",
+					"type": "string",
+					"initialValue": "active",
+					"comment": "",
+					"sid": 558384012988517
+				}
+			],
+			"eventType": "function-block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "hero",
+					"sid": 404855205799132,
+					"parameters": {
+						"instance-variable": "heroName",
+						"comparison": 0,
+						"value": "hero=\"active\"?aBook.hero:hero"
+					}
+				}
+			],
+			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "hero",
+					"sid": 949486455592500,
+					"parameters": {
+						"instance-variable": "abilsMatrix",
+						"value": "abils.Get(aBook.hero&\"Matrix\")"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "hero",
+					"sid": 552501147791835,
+					"parameters": {
+						"instance-variable": "abils",
+						"value": "abils.Get(aBook.hero)"
+					}
+				}
+			],
+			"sid": 166157844279374
+		},
+		{
+			"eventType": "comment",
+			"text": "\n\n\n\n\nдобавление новой способности при любом состоянии левой панели",
+			"text-color": [
+				1,
+				1,
+				1,
+				1
+			],
+			"background-color": [
+				0.23137254901960785,
+				0.47058823529411764,
+				0.23921568627450981,
+				1
+			]
+		},
+		{
+			"functionName": "addAbil",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [
+				{
+					"name": "hero",
+					"type": "string",
+					"initialValue": "active",
+					"comment": "",
+					"sid": 687595250218345
+				},
+				{
+					"name": "newAbil",
+					"type": "string",
+					"initialValue": "zero",
+					"comment": "",
+					"sid": 944774624472644
+				},
+				{
+					"name": "hiden",
+					"type": "boolean",
+					"initialValue": "false",
+					"comment": "",
+					"sid": 912154861501435
+				}
+			],
+			"eventType": "function-block",
+			"conditions": [],
+			"actions": [
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aUIN",
+					"sid": 999728003327618,
+					"parameters": {
+						"instance-variable": "newAbil",
+						"value": "\"zero\""
+					}
+				}
+			],
+			"sid": 422516138669254,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "если способности открыты и добавление активному герою, вызываем анимированное добавление",
+					"background-color": [
+						0.6588235294117647,
+						0.8745098039215686,
+						0.5647058823529412,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aUIN",
+							"sid": 137601703023763,
+							"parameters": {
+								"instance-variable": "abilsOn"
+							}
+						},
+						{
+							"id": "is-animation-playing",
+							"objectClass": "inventory",
+							"sid": 164091339702633,
+							"parameters": {
+								"animation": "\"open\""
+							}
+						},
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 532220139822075,
+							"parameters": {
+								"first-value": "hero=aBook.hero|hero=\"active\"?1:0",
+								"comparison": 0,
+								"second-value": "1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aUIN",
+							"sid": 127191345616408,
+							"parameters": {
+								"instance-variable": "newAbil",
+								"value": "newAbil"
+							}
+						},
+						{
+							"callFunction": "abilMap",
+							"sid": 121562536258269,
+							"parameters": [
+								"hero",
+								"newAbil",
+								true
+							]
+						}
+					],
+					"sid": 986294238471814
+				},
+				{
+					"eventType": "comment",
+					"text": "иначе добавляем способность скрытно указанному герою",
+					"background-color": [
+						0.6588235294117647,
+						0.8745098039215686,
+						0.5647058823529412,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 652780733140342
+						}
+					],
+					"actions": [],
+					"sid": 460720410319330,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "has-key",
+									"objectClass": "abils",
+									"sid": 721707496739720,
+									"parameters": {
+										"key": "newAbil"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "hero",
+									"sid": 691224190505174,
+									"parameters": {
+										"instance-variable": "heroName",
+										"comparison": 0,
+										"value": "hero=\"active\"?aBook.hero:hero"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-key",
+									"objectClass": "abils",
+									"sid": 179250999856033,
+									"parameters": {
+										"key": "newAbil",
+										"value": "1"
+									}
+								},
+								{
+									"id": "add-to-instvar",
+									"objectClass": "hero",
+									"sid": 226166809989026,
+									"parameters": {
+										"instance-variable": "abils",
+										"value": "\";\"&newAbil"
+									}
+								},
+								{
+									"id": "set-key",
+									"objectClass": "abils",
+									"sid": 474020513351994,
+									"parameters": {
+										"key": "hero.heroName",
+										"value": "hero.abils"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 885905809216755,
+									"parameters": {
+										"instance-variable": "newAbil",
+										"value": "newAbil"
+									}
+								}
+							],
+							"sid": 801979924639201
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "если добавление активному герою (способности не открыты) и нет пометки \"скрытое\", то запускаем открытие способностей",
+					"background-color": [
+						0.6588235294117647,
+						0.8745098039215686,
+						0.5647058823529412,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 511965378424202,
+							"parameters": {
+								"variable": "hiden"
+							},
+							"isInverted": true
+						},
+						{
+							"id": "compare-two-values",
+							"objectClass": "System",
+							"sid": 465009385933076,
+							"parameters": {
+								"first-value": "hero=aBook.hero|hero=\"active\"?1:0",
+								"comparison": 0,
+								"second-value": "1"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 514635361672943,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "из инвентаря",
+							"background-color": [
+								0.6588235294117647,
+								0.8745098039215686,
+								0.5647058823529412,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aUIN",
+									"sid": 904215739430692,
+									"parameters": {
+										"instance-variable": "invOpen"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aUIN",
+									"sid": 252886424774481,
+									"parameters": {
+										"instance-variable": "abilsBottom"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "inventory",
+									"sid": 144678785324656,
+									"parameters": {
+										"animation": "\"openExtra\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aUIN",
+									"sid": 901836526313023,
+									"parameters": {
+										"instance-variable": "abilsOn",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 653617305429375,
+									"parameters": {
+										"instance-variable": "newAbil",
+										"value": "newAbil"
+									}
+								},
+								{
+									"callFunction": "rUIS",
+									"sid": 202606038336524,
+									"parameters": [
+										"\"zero\"",
+										"\"cocoon\"",
+										"\"open\"",
+										true
+									]
+								}
+							],
+							"sid": 774241179872335
+						},
+						{
+							"eventType": "comment",
+							"text": "из отростков",
+							"background-color": [
+								0.6588235294117647,
+								0.8745098039215686,
+								0.5647058823529412,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 970589617504873
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "aUIN",
+									"sid": 575992795764277,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "abilsOn"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aUIN",
+									"sid": 299003487643748,
+									"parameters": {
+										"instance-variable": "abilsOn",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUIN",
+									"sid": 517921966266495,
+									"parameters": {
+										"instance-variable": "newAbil",
+										"value": "newAbil"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 879753203971895,
+									"parameters": {
+										"group-name": "\"abils\"",
+										"state": "activated"
+									}
+								},
+								{
+									"callFunction": "abilMap",
+									"sid": 849227856289923,
+									"parameters": [
+										"\"active\"",
+										"aUIN.newAbil",
+										true
+									]
+								}
+							],
+							"sid": 920524323098684
+						}
+					]
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "\n\n\n",
 			"background-color": [
 				0.4745098039215686,
 				0.8235294117647058,
@@ -14,7 +481,7 @@
 		{
 			"eventType": "group",
 			"disabled": false,
-			"title": "rocket",
+			"title": "abils",
 			"description": "",
 			"isActiveOnStart": false,
 			"children": [
@@ -51,7 +518,7 @@
 									"objectClass": "aUIN",
 									"sid": 152796934819856,
 									"parameters": {
-										"instance-variable": "rocketOn"
+										"instance-variable": "abilsOn"
 									}
 								}
 							],
@@ -100,218 +567,11 @@
 						},
 						{
 							"eventType": "comment",
-							"text": "\n\n\nоткрытие способностей начинается прорастанием отростков",
+							"text": "\n\n\nоткрытие-закрытие коконов способностей",
 							"background-color": [
-								0.7372549019607844,
-								0.984313725490196,
-								0.8784313725490196,
-								1
-							]
-						},
-						{
-							"aceType": "action",
-							"aceName": "rocketOpen",
-							"objectClass": "inventory",
-							"functionDescription": "",
-							"functionCategory": "",
-							"functionReturnType": "none",
-							"functionCopyPicked": false,
-							"functionIsAsync": false,
-							"functionParameters": [
-								{
-									"name": "direct",
-									"type": "boolean",
-									"initialValue": "false",
-									"comment": "",
-									"sid": 673226330398325
-								}
-							],
-							"eventType": "custom-ace-block",
-							"conditions": [],
-							"actions": [],
-							"sid": 861675759010750,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-animation-playing",
-											"objectClass": "inventory",
-											"sid": 415638199532031,
-											"parameters": {
-												"animation": "\"near\""
-											}
-										},
-										{
-											"id": "compare-animation-frame",
-											"objectClass": "inventory",
-											"sid": 787339351406408,
-											"parameters": {
-												"comparison": 2,
-												"number": "11"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 117720376409580,
-											"disabled": true,
-											"parameters": {
-												"group-name": "\"rocketSprout\"",
-												"state": "deactivated"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "inventory",
-											"sid": 121796093801750,
-											"parameters": {
-												"animation": "\"near\"",
-												"from": "current-frame"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 479061063201152,
-											"parameters": {
-												"speed": "24"
-											}
-										},
-										{
-											"id": "start-animation",
-											"objectClass": "inventory",
-											"sid": 180660412786476,
-											"parameters": {
-												"from": "current-frame"
-											}
-										}
-									],
-									"sid": 455543861872815
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-animation-playing",
-											"objectClass": "inventory",
-											"sid": 529820455924452,
-											"parameters": {
-												"animation": "\"near\""
-											}
-										},
-										{
-											"id": "compare-animation-frame",
-											"objectClass": "inventory",
-											"sid": 628367323578450,
-											"parameters": {
-												"comparison": 0,
-												"number": "11"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "aUIN",
-											"sid": 104818965311288,
-											"parameters": {
-												"instance-variable": "invAndAbilClose",
-												"value": "false"
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "inventory",
-											"sid": 481731430770313,
-											"parameters": {
-												"animation": "\"open\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 416865409271461,
-											"parameters": {
-												"speed": "24"
-											}
-										},
-										{
-											"id": "start-animation",
-											"objectClass": "inventory",
-											"sid": 887145312712418,
-											"parameters": {
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-visible",
-											"objectClass": "buttonRocket",
-											"sid": 180890870091722,
-											"parameters": {
-												"visibility": "visible"
-											}
-										},
-										{
-											"id": "set-collisions-enabled",
-											"objectClass": "buttonRocket",
-											"sid": 985719473527095,
-											"parameters": {
-												"collisions": "enabled"
-											}
-										}
-									],
-									"sid": 534231549841626,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-boolean-eventvar",
-													"objectClass": "System",
-													"sid": 123274766991861,
-													"parameters": {
-														"variable": "direct"
-													},
-													"isInverted": true
-												},
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "aUIN",
-													"sid": 887394505377262,
-													"parameters": {
-														"instance-variable": "abilsOpened"
-													},
-													"isInverted": true
-												}
-											],
-											"actions": [
-												{
-													"callFunction": "abilMap",
-													"sid": 772410952394133,
-													"parameters": [
-														"\"active\"",
-														"aUIN.newAbil",
-														false
-													]
-												}
-											],
-											"sid": 879492369811372
-										}
-									]
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "прорастание окончено, формирование кокона инвентаря, команда выстроить коконы способностей",
-							"background-color": [
-								0.7372549019607844,
-								0.984313725490196,
-								0.8784313725490196,
+								0.35294117647058826,
+								0.7490196078431373,
+								0.4823529411764706,
 								1
 							]
 						},
@@ -319,231 +579,1094 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "on-animation-finished",
-									"objectClass": "inventory",
-									"sid": 877898597586335,
-									"parameters": {
-										"animation": "\"near\""
-									}
+									"id": "on-animation-frame-changed",
+									"objectClass": "cocobutton",
+									"sid": 439112296132120
 								},
 								{
-									"id": "compare-animation-speed",
-									"objectClass": "inventory",
-									"sid": 341717643633128,
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cocobutton",
+									"sid": 289572233663171,
 									"parameters": {
-										"comparison": 4,
-										"number": "0"
-									}
-								},
-								{
-									"id": "compare-animation-frame",
-									"objectClass": "inventory",
-									"sid": 245113614274419,
-									"parameters": {
-										"comparison": 0,
-										"number": "11"
+										"instance-variable": "entered"
 									}
 								}
 							],
-							"actions": [
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "aUIN",
-									"sid": 930293293613919,
-									"parameters": {
-										"instance-variable": "invAndAbilClose",
-										"value": "false"
-									}
-								}
-							],
-							"sid": 526243139911063,
+							"actions": [],
+							"sid": 654099944278767,
 							"children": [
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 360942074037287,
+											"id": "is-animation-playing",
+											"objectClass": "cocobutton",
+											"sid": 936484529315859,
 											"parameters": {
-												"instance-variable": "rocketOn"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 339321128477922,
-											"parameters": {
-												"instance-variable": "inventoryOn"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation",
-											"objectClass": "inventory",
-											"sid": 153310414960143,
-											"parameters": {
-												"animation": "\"open\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 962496175135919,
-											"parameters": {
-												"speed": "24"
-											}
-										},
-										{
-											"id": "start-animation",
-											"objectClass": "inventory",
-											"sid": 333730379008753,
-											"parameters": {
-												"from": "beginning"
+												"animation": "\"up\""
 											}
 										}
 									],
-									"sid": 305281674705880,
+									"actions": [],
+									"sid": 502451812237328,
 									"children": [
 										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "aUIN",
-													"sid": 908327826142515,
+													"id": "compare-animation-frame-tag",
+													"objectClass": "cocobutton",
+													"sid": 331696657084272,
 													"parameters": {
-														"instance-variable": "rocketDown"
+														"comparison": 0,
+														"tag": "\"openCo\""
+													}
+												},
+												{
+													"id": "compare-animation-speed",
+													"objectClass": "cocobutton",
+													"sid": 789349079389075,
+													"parameters": {
+														"comparison": 4,
+														"number": "0"
+													}
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "buttonAbilsOut",
+													"sid": 833064245643938,
+													"parameters": {
+														"instance-variable": "on"
 													},
 													"isInverted": true
 												}
 											],
 											"actions": [
 												{
-													"id": "set-boolean-instvar",
-													"objectClass": "aUIN",
-													"sid": 591682250255589,
+													"id": "wait",
+													"objectClass": "System",
+													"sid": 877987131908965,
 													"parameters": {
-														"instance-variable": "invForward",
+														"seconds": "0",
+														"use-timescale": false
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "cocobutton",
+													"sid": 121640579562620,
+													"parameters": {
+														"instance-variable": "open",
 														"value": "true"
+													}
+												},
+												{
+													"id": "instance-signal",
+													"objectClass": "cocobutton",
+													"sid": 210212480664037,
+													"parameters": {
+														"tag": "\"cocoAbilOpen\""
 													}
 												}
 											],
-											"sid": 381322877549844
+											"sid": 792952920824226
 										},
 										{
 											"eventType": "block",
-											"conditions": [],
-											"actions": [
+											"conditions": [
 												{
-													"callFunction": "abilMap",
-													"sid": 755383382323592,
-													"parameters": [
-														"\"active\"",
-														"aUIN.newAbil",
-														false
-													]
+													"id": "else",
+													"objectClass": "System",
+													"sid": 199338532189096
 												},
 												{
-													"id": "set-visible",
-													"objectClass": "buttonRocket",
-													"sid": 256678504627103,
+													"id": "compare-animation-frame-tag",
+													"objectClass": "cocobutton",
+													"sid": 692880506998352,
 													"parameters": {
-														"visibility": "visible"
+														"comparison": 0,
+														"tag": "\"startCoc\""
+													}
+												},
+												{
+													"id": "compare-animation-frame",
+													"objectClass": "cocobutton",
+													"sid": 247526034754649,
+													"parameters": {
+														"comparison": 0,
+														"number": "0"
+													}
+												},
+												{
+													"id": "compare-animation-speed",
+													"objectClass": "cocobutton",
+													"sid": 248548767810126,
+													"parameters": {
+														"comparison": 2,
+														"number": "0"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "cocobutton",
+													"sid": 220367626577530,
+													"parameters": {
+														"x": "-12600",
+														"y": "-12600"
 													}
 												},
 												{
 													"id": "set-collisions-enabled",
-													"objectClass": "buttonRocket",
-													"sid": 934601110226979,
+													"objectClass": "cocobutton",
+													"sid": 162815516582787,
 													"parameters": {
-														"collisions": "enabled"
+														"collisions": "disabled"
 													}
 												}
 											],
-											"sid": 912888497484796
+											"sid": 509615652441428
 										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "состояние кнопок способностей при открытии",
+							"background-color": [
+								0.35294117647058826,
+								0.7490196078431373,
+								0.4823529411764706,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-instance-signal",
+									"objectClass": "cocobutton",
+									"sid": 916685484828840,
+									"parameters": {
+										"tag": "\"cocoAbilOpen\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "cocobutton",
+									"sid": 270344674161450,
+									"disabled": true,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "cocobutton",
+									"sid": 199941153523082,
+									"parameters": {
+										"animation": "\"single\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "cocobutton",
+									"sid": 679190292678754,
+									"parameters": {
+										"animation": "Self.auto=0?\"single\":\"auto\"",
+										"from": "current-frame"
+									}
+								}
+							],
+							"sid": 963603805754730,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "rockAbil",
+											"sid": 879183795676895,
+											"parameters": {
+												"instance-variable": "index",
+												"comparison": 0,
+												"value": "cocobutton.index"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "rockAbil",
+											"sid": 868131412081660,
+											"parameters": {
+												"instance-variable": "icon",
+												"comparison": 0,
+												"value": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "rockAbil",
+											"sid": 862622963475208,
+											"parameters": {
+												"object": "cocobutton",
+												"image-point-optional": "\"abil\""
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "rockAbil",
+											"sid": 404166264074351,
+											"disabled": true,
+											"parameters": {
+												"where": "in-front",
+												"object": "cocobutton"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "rockAbil",
+											"sid": 504806789489707,
+											"parameters": {
+												"visibility": "visible"
+											}
+										}
+									],
+									"sid": 377307487098851
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "abilAuto",
+											"sid": 610886441168298,
+											"parameters": {
+												"instance-variable": "index",
+												"comparison": 0,
+												"value": "cocobutton.index"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "abilAuto",
+											"sid": 614162953231144,
+											"parameters": {
+												"object": "cocobutton",
+												"image-point-optional": "\"auto\""
+											}
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 947450433466973,
+											"disabled": true,
+											"parameters": {
+												"seconds": "0.1",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "abilAuto",
+											"sid": 536221396958712,
+											"parameters": {
+												"animation": "cocobutton.AnimationName",
+												"from": "beginning"
+											}
+										}
+									],
+									"sid": 932999204755247
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cocobutton",
+											"sid": 146070763009260,
+											"parameters": {
+												"instance-variable": "index",
+												"comparison": 0,
+												"value": "1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 308894342617605,
+											"disabled": true,
+											"parameters": {
+												"text": "1"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "targetIcon",
+											"sid": 142768107177702,
+											"parameters": {
+												"x": "cocobutton.ImagePointX(\"targ\")",
+												"y": "cocobutton.ImagePointY(\"targ\")"
+											}
+										}
+									],
+									"sid": 853758331858644
+								},
+								{
+									"eventType": "comment",
+									"text": "состояние кнопок",
+									"background-color": [
+										0.35294117647058826,
+										0.7490196078431373,
+										0.4823529411764706,
+										1
 									]
 								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 426977446721793,
+											"id": "compare-instance-variable",
+											"objectClass": "cocobutton",
+											"sid": 617162207933481,
 											"parameters": {
-												"instance-variable": "rocketOn"
-											},
-											"isInverted": true
+												"instance-variable": "pType",
+												"comparison": 0,
+												"value": "\"ball\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 431353484651357,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aGame",
+													"sid": 588146017130686,
+													"parameters": {
+														"instance-variable": "noGun"
+													},
+													"isInverted": true
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "rockAbil",
+													"sid": 358980607280216,
+													"parameters": {
+														"instance-variable": "index",
+														"comparison": 0,
+														"value": "cocobutton.index"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "abilAuto",
+													"sid": 993815643951429,
+													"parameters": {
+														"instance-variable": "index",
+														"comparison": 0,
+														"value": "cocobutton.index"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 933556975744592,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "cocobutton",
+															"sid": 574778002415520,
+															"parameters": {
+																"instance-variable": "pType",
+																"comparison": 0,
+																"value": "aGame.gunBit"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 982002300956045,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "aGame",
+																	"sid": 101178726516658,
+																	"parameters": {
+																		"instance-variable": "autoGun"
+																	},
+																	"isInverted": true
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-animation",
+																	"objectClass": "cocobutton",
+																	"sid": 862614114703433,
+																	"parameters": {
+																		"animation": "\"single\"",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-animation-speed",
+																	"objectClass": "cocobutton",
+																	"sid": 743414070457157,
+																	"disabled": true,
+																	"parameters": {
+																		"speed": "0"
+																	}
+																},
+																{
+																	"id": "wait",
+																	"objectClass": "System",
+																	"sid": 896025250830516,
+																	"disabled": true,
+																	"parameters": {
+																		"seconds": "0",
+																		"use-timescale": true
+																	}
+																},
+																{
+																	"id": "stop-animation",
+																	"objectClass": "cocobutton",
+																	"sid": 383223468241943,
+																	"disabled": true
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "rockAbil",
+																	"sid": 436789751713775,
+																	"disabled": true,
+																	"parameters": {
+																		"animation": "\"target\"",
+																		"from": "current-frame"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "rockAbil",
+																	"sid": 316351009671713,
+																	"parameters": {
+																		"animation": "Self.abilName",
+																		"from": "current-frame"
+																	}
+																},
+																{
+																	"id": "set-animation-frame",
+																	"objectClass": "rockAbil",
+																	"sid": 272504085955966,
+																	"parameters": {
+																		"frame-number": "3"
+																	}
+																},
+																{
+																	"id": "stop-animation",
+																	"objectClass": "rockAbil",
+																	"sid": 907563868832334
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "abilAuto",
+																	"sid": 291542166073045,
+																	"parameters": {
+																		"animation": "\"single\"",
+																		"from": "beginning"
+																	}
+																}
+															],
+															"sid": 377793675707312
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "aGame",
+																	"sid": 426202671332732,
+																	"parameters": {
+																		"instance-variable": "autoGun"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-animation",
+																	"objectClass": "cocobutton",
+																	"sid": 809958706476701,
+																	"parameters": {
+																		"animation": "\"auto\"",
+																		"from": "current-frame"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "rockAbil",
+																	"sid": 696326844940998,
+																	"parameters": {
+																		"animation": "\"auto\"",
+																		"from": "current-frame"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "abilAuto",
+																	"sid": 980721099644029,
+																	"parameters": {
+																		"animation": "\"auto\"",
+																		"from": "beginning"
+																	}
+																}
+															],
+															"sid": 267718665443735
+														}
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "cocobutton",
+															"sid": 222443463637035,
+															"parameters": {
+																"instance-variable": "pType",
+																"comparison": 1,
+																"value": "aGame.gunBit"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-animation",
+															"objectClass": "cocobutton",
+															"sid": 838917865882363,
+															"parameters": {
+																"animation": "\"off\"",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "rockAbil",
+															"sid": 822750886876271,
+															"parameters": {
+																"animation": "\"off\"",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "abilAuto",
+															"sid": 649485398322985,
+															"parameters": {
+																"animation": "\"off\"",
+																"from": "beginning"
+															}
+														}
+													],
+													"sid": 856882470335415,
+													"disabled": true
+												}
+											]
 										},
 										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 574017519402412,
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aGame",
+													"sid": 373265949047288,
+													"parameters": {
+														"instance-variable": "noGun"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "rockAbil",
+													"sid": 431584607467553,
+													"parameters": {
+														"instance-variable": "index",
+														"comparison": 0,
+														"value": "cocobutton.index"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "abilAuto",
+													"sid": 559868848094922,
+													"parameters": {
+														"instance-variable": "index",
+														"comparison": 0,
+														"value": "cocobutton.index"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "оплетение терниями"
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "cocobutton",
+													"sid": 269685380901854,
+													"parameters": {
+														"animation": "\"off\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "rockAbil",
+													"sid": 455006848578230,
+													"parameters": {
+														"animation": "\"off\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "abilAuto",
+													"sid": 503766226269079,
+													"parameters": {
+														"animation": "\"off\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "targetIcon",
+													"sid": 442742492867331,
+													"parameters": {
+														"animation": "\"off\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 744655175799466
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "",
+									"background-color": [
+										0.35294117647058826,
+										0.7490196078431373,
+										0.4823529411764706,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cocobutton",
+											"sid": 867545672745337,
 											"parameters": {
-												"instance-variable": "inventoryOn"
+												"instance-variable": "pType",
+												"comparison": 0,
+												"value": "\"spray\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 754501496109559
+								},
+								{
+									"eventType": "comment",
+									"text": "",
+									"background-color": [
+										0.35294117647058826,
+										0.7490196078431373,
+										0.4823529411764706,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cocobutton",
+											"sid": 531456052492253,
+											"parameters": {
+												"instance-variable": "pType",
+												"comparison": 0,
+												"value": "\"duble\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "rockAbil",
+											"sid": 230003039753674,
+											"parameters": {
+												"instance-variable": "index",
+												"comparison": 0,
+												"value": "cocobutton.index"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "abilAuto",
+											"sid": 793026635406783,
+											"parameters": {
+												"instance-variable": "index",
+												"comparison": 0,
+												"value": "cocobutton.index"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 346517169872018,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aGame",
+													"sid": 775056578209961,
+													"parameters": {
+														"instance-variable": "doBitFake"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
+													"sid": 890861009876572,
+													"parameters": {
+														"group-name": "\"fakeBit\"",
+														"state": "activated"
+													}
+												}
+											],
+											"sid": 233203646763456,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "aGame",
+															"sid": 869338859965096,
+															"parameters": {
+																"instance-variable": "autoDuble"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-animation",
+															"objectClass": "cocobutton",
+															"sid": 772819616252287,
+															"parameters": {
+																"animation": "\"auto\"",
+																"from": "current-frame"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "rockAbil",
+															"sid": 712436730523480,
+															"parameters": {
+																"animation": "\"auto\"",
+																"from": "current-frame"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "abilAuto",
+															"sid": 519486604936031,
+															"parameters": {
+																"animation": "\"auto\"",
+																"from": "beginning"
+															}
+														}
+													],
+													"sid": 664510354887915
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 899529511896545
+														}
+													],
+													"actions": [
+														{
+															"id": "set-animation",
+															"objectClass": "cocobutton",
+															"sid": 457921336177517,
+															"disabled": true,
+															"parameters": {
+																"animation": "\"auto\"",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "cocobutton",
+															"sid": 516446278633105,
+															"parameters": {
+																"animation": "\"single\"",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "rockAbil",
+															"sid": 828022749758620,
+															"parameters": {
+																"animation": "\"target\"",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "abilAuto",
+															"sid": 656303370923804,
+															"parameters": {
+																"animation": "\"single\"",
+																"from": "beginning"
+															}
+														}
+													],
+													"sid": 711019657794759
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 175944969931933
+												}
+											],
+											"actions": [
+												{
+													"id": "set-animation",
+													"objectClass": "cocobutton",
+													"sid": 944766690913327,
+													"parameters": {
+														"animation": "\"off\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "rockAbil",
+													"sid": 676054459439267,
+													"parameters": {
+														"animation": "\"off\"",
+														"from": "current-frame"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "abilAuto",
+													"sid": 929719231586797,
+													"parameters": {
+														"animation": "\"off\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 953784490560323
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "",
+									"background-color": [
+										0.35294117647058826,
+										0.7490196078431373,
+										0.4823529411764706,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cocobutton",
+											"sid": 197963101801911,
+											"parameters": {
+												"instance-variable": "pType",
+												"comparison": 0,
+												"value": "\"mush\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 454864913002793,
+									"disabled": true
+								},
+								{
+									"eventType": "comment",
+									"text": "",
+									"background-color": [
+										1,
+										0.8509803921568627,
+										0.8392156862745098,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cocobutton",
+											"sid": 833178540760129,
+											"parameters": {
+												"instance-variable": "pType",
+												"comparison": 0,
+												"value": "aUIN.newAbil"
 											}
 										}
 									],
 									"actions": [
 										{
-											"id": "set-animation",
-											"objectClass": "inventory",
-											"sid": 462450635695279,
+											"id": "set-instvar-value",
+											"objectClass": "cocobutton",
+											"sid": 987607585182751,
 											"parameters": {
-												"animation": "\"open\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 858671732776306,
-											"parameters": {
-												"speed": "24"
-											}
-										},
-										{
-											"id": "start-animation",
-											"objectClass": "inventory",
-											"sid": 679512140227511,
-											"parameters": {
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-visible",
-											"objectClass": "buttonRocket",
-											"sid": 228606226399348,
-											"parameters": {
-												"visibility": "visible"
-											}
-										},
-										{
-											"id": "set-collisions-enabled",
-											"objectClass": "buttonRocket",
-											"sid": 625519752590626,
-											"parameters": {
-												"collisions": "enabled"
+												"instance-variable": "status",
+												"value": "\"new\""
 											}
 										}
 									],
-									"sid": 484651143118786
+									"sid": 287654352041285
+								},
+								{
+									"eventType": "comment",
+									"text": "выделение способности - новая, отмеченная",
+									"background-color": [
+										1,
+										0.8509803921568627,
+										0.8392156862745098,
+										1
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "колобки встречаются. Я имею в виду - нужен эффект на новую способность"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cocobutton",
+											"sid": 827637665657284,
+											"parameters": {
+												"instance-variable": "status",
+												"comparison": 0,
+												"value": "\"new\""
+											}
+										},
+										{
+											"id": "is-outside-layout",
+											"objectClass": "circleFXsmall",
+											"sid": 988223008094479
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "cocobutton",
+											"sid": 352824069294027,
+											"disabled": true,
+											"parameters": {
+												"animation": "\"new\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cocobutton",
+											"sid": 582030191961819,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 816345560650512,
+											"parameters": {
+												"instance-variable": "newAbil",
+												"value": "\"zero\""
+											}
+										}
+									],
+									"sid": 278206588391926,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 278593730571062,
+													"parameters": {
+														"object": "circleFXsmall"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "circleFXsmall",
+													"sid": 107989758480648,
+													"parameters": {
+														"object": "cocobutton",
+														"image-point-optional": "1"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "circleFXsmall",
+													"sid": 617982490607561,
+													"parameters": {
+														"animation": "\"e1\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 475919058548751
+										}
+									]
 								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "0 - отростки закрыты, 1 - отростки открываются, 2- отростки открылись, 3- отростки закрываются, \n4- открывается кокон, 5 - кокон открыт, 6 - кокон закрывается 7 кокон закрылся \n8 - опен экстра",
-							"background-color": [
-								0.7372549019607844,
-								0.984313725490196,
-								0.8196078431372549,
-								1
 							]
 						},
 						{
@@ -558,7 +1681,7 @@
 						},
 						{
 							"aceType": "action",
-							"aceName": "rocketClose",
+							"aceName": "abilsClose",
 							"objectClass": "inventory",
 							"functionDescription": "",
 							"functionCategory": "",
@@ -568,44 +1691,152 @@
 							"functionParameters": [],
 							"eventType": "custom-ace-block",
 							"conditions": [],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "inventory",
-									"sid": 445279837203124,
-									"parameters": {
-										"animation": "\"open\"",
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "inventory",
-									"sid": 190767008241687,
-									"parameters": {
-										"speed": "-24"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "inventory",
-									"sid": 901937684127761,
-									"parameters": {
-										"from": "current-frame"
-									}
-								}
-							],
+							"actions": [],
 							"sid": 141012939066794,
 							"children": [
+								{
+									"eventType": "comment",
+									"text": "панель внизу"
+								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aUIN",
+											"sid": 304841332645496,
+											"parameters": {
+												"instance-variable": "abilsBottom"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 845968140530418,
+											"parameters": {
+												"instance-variable": "abilOut",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 499837678278538,
+											"parameters": {
+												"instance-variable": "abilsOpened",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 577311666104177,
+											"parameters": {
+												"instance-variable": "abilsOn",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "cocobutton",
+											"sid": 589984786879146,
+											"parameters": {
+												"collisions": "disabled"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "cocobutton",
+											"sid": 939206892228370,
+											"parameters": {
+												"instance-variable": "open",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "abilAuto",
+											"sid": 269179078978297,
+											"parameters": {
+												"x": "-4499",
+												"y": "-9419"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "targetIcon",
+											"sid": 650632539984557,
+											"parameters": {
+												"x": "-4499",
+												"y": "-9419"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "rockAbil",
+											"sid": 193897444134038,
+											"parameters": {
+												"x": "-12222",
+												"y": "-12222"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "panelGradient",
+											"sid": 961371147049111,
+											"parameters": {
+												"x": "-9444",
+												"y": "-3333"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "buttonAbils",
+											"sid": 561903320977239,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "buttonAbils",
+											"sid": 737176059552523,
+											"parameters": {
+												"collisions": "disabled"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 464320175990824,
+											"parameters": {
+												"instance-variable": "abilState",
+												"value": "\"hidden\""
+											}
+										}
+									],
+									"sid": 249195200676174
+								},
+								{
+									"eventType": "comment",
+									"text": "панель вверху"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 870255717285425
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aUIN",
 											"sid": 610824056746823,
 											"parameters": {
-												"instance-variable": "rocketDown"
+												"instance-variable": "abilsBottom"
 											},
 											"isInverted": true
 										}
@@ -621,54 +1852,12 @@
 											}
 										},
 										{
-											"id": "set-animation",
-											"objectClass": "cocobutton",
-											"sid": 202864426610010,
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 243363204086987,
 											"parameters": {
-												"animation": "\"up\"",
-												"from": "current-frame"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "cocobutton",
-											"sid": 786260874434622,
-											"disabled": true,
-											"parameters": {
-												"speed": "-24"
-											}
-										},
-										{
-											"id": "set-animation-frame",
-											"objectClass": "cocobutton",
-											"sid": 582843010788549,
-											"parameters": {
-												"frame-number": "7"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "cocobutton",
-											"sid": 285991772427307,
-											"parameters": {
-												"speed": "-12-Self.index"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "cocobutton",
-											"sid": 704869428772174,
-											"disabled": true,
-											"parameters": {
-												"speed": "-8"
-											}
-										},
-										{
-											"id": "start-animation",
-											"objectClass": "cocobutton",
-											"sid": 294509536952608,
-											"parameters": {
-												"from": "current-frame"
+												"instance-variable": "abilsOn",
+												"value": "false"
 											}
 										},
 										{
@@ -677,6 +1866,15 @@
 											"sid": 715948843132825,
 											"parameters": {
 												"collisions": "disabled"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "cocobutton",
+											"sid": 745503453899915,
+											"parameters": {
+												"instance-variable": "open",
+												"value": "false"
 											}
 										},
 										{
@@ -708,7 +1906,7 @@
 										},
 										{
 											"id": "set-visible",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 996186972335705,
 											"parameters": {
 												"visibility": "invisible"
@@ -716,96 +1914,56 @@
 										},
 										{
 											"id": "set-collisions-enabled",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 520921271432275,
 											"parameters": {
 												"collisions": "disabled"
 											}
-										}
-									],
-									"sid": 904571299684066,
-									"children": [
-										{
-											"eventType": "comment",
-											"text": "если закрывается всё включаем флаг"
 										},
 										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "aUIN",
-													"sid": 964309977181187,
-													"parameters": {
-														"instance-variable": "inventoryOn"
-													},
-													"isInverted": true
-												}
-											],
-											"actions": [
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "aUIN",
-													"sid": 470996007073020,
-													"parameters": {
-														"instance-variable": "invAndAbilClose",
-														"value": "true"
-													}
-												}
-											],
-											"sid": 824320519475367
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 710969599563845,
+											"parameters": {
+												"instance-variable": "abilState",
+												"value": "\"hidden\""
+											}
 										}
-									]
+									],
+									"sid": 904571299684066
+								},
+								{
+									"eventType": "comment",
+									"text": "драйверы туда-обратно при кликах по кнопке открытия-закрытия"
 								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 172389966465316
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
+											"id": "compare-instance-variable",
 											"objectClass": "aUIN",
-											"sid": 132677309277613,
+											"sid": 636238013840424,
 											"parameters": {
-												"instance-variable": "rocketDown"
+												"instance-variable": "abilState",
+												"comparison": 0,
+												"value": "\"open\""
 											}
 										},
 										{
 											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 227399883959874,
+											"objectClass": "buttonAbilsOut",
+											"sid": 828430525517004,
 											"parameters": {
-												"instance-variable": "inventoryOn"
+												"instance-variable": "on"
 											},
 											"isInverted": true
 										}
 									],
 									"actions": [
 										{
-											"id": "set-boolean-instvar",
-											"objectClass": "aUIN",
-											"sid": 434281178948412,
-											"parameters": {
-												"instance-variable": "invAndAbilClose",
-												"value": "true"
-											}
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "aUIN",
-											"sid": 112766342253363,
-											"parameters": {
-												"instance-variable": "abilsOpened",
-												"value": "false"
-											}
-										},
-										{
 											"id": "set-animation",
 											"objectClass": "cocobutton",
-											"sid": 918619655308609,
+											"sid": 962509822673471,
 											"parameters": {
 												"animation": "\"up\"",
 												"from": "current-frame"
@@ -814,24 +1972,8 @@
 										{
 											"id": "set-animation-speed",
 											"objectClass": "cocobutton",
-											"sid": 216941773025635,
+											"sid": 459906304144814,
 											"disabled": true,
-											"parameters": {
-												"speed": "-24"
-											}
-										},
-										{
-											"id": "set-animation-frame",
-											"objectClass": "cocobutton",
-											"sid": 979418603451773,
-											"parameters": {
-												"frame-number": "7"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "cocobutton",
-											"sid": 965873519645804,
 											"parameters": {
 												"speed": "-12-Self.index"
 											}
@@ -839,266 +1981,144 @@
 										{
 											"id": "set-animation-speed",
 											"objectClass": "cocobutton",
-											"sid": 977545733178237,
-											"disabled": true,
+											"sid": 508145629438920,
 											"parameters": {
-												"speed": "-8"
+												"speed": "-16"
 											}
 										},
 										{
 											"id": "start-animation",
 											"objectClass": "cocobutton",
-											"sid": 341232998007682,
+											"sid": 827540184467319,
 											"parameters": {
 												"from": "current-frame"
 											}
-										},
-										{
-											"id": "set-collisions-enabled",
-											"objectClass": "cocobutton",
-											"sid": 392124987710131,
-											"parameters": {
-												"collisions": "disabled"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "abilAuto",
-											"sid": 598022097336910,
-											"parameters": {
-												"x": "-4499",
-												"y": "-9419"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "targetIcon",
-											"sid": 805416001429272,
-											"parameters": {
-												"x": "-4499",
-												"y": "-9419"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "rockAbil",
-											"sid": 632813556983870,
-											"parameters": {
-												"x": "-12222",
-												"y": "-12222"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "panelGradient",
-											"sid": 323702744853097,
-											"parameters": {
-												"x": "-9444",
-												"y": "-3333"
-											}
-										},
-										{
-											"id": "set-visible",
-											"objectClass": "buttonRocket",
-											"sid": 916833502102943,
-											"parameters": {
-												"visibility": "invisible"
-											}
-										},
-										{
-											"id": "set-collisions-enabled",
-											"objectClass": "buttonRocket",
-											"sid": 492699676278814,
-											"parameters": {
-												"collisions": "disabled"
-											}
 										}
 									],
-									"sid": 797403935985063
-								},
-								{
-									"eventType": "comment",
-									"text": "если целью закрытия служит открытие инвентаря",
-									"background-color": [
-										0.7372549019607844,
-										0.984313725490196,
-										0.8196078431372549,
-										1
-									]
+									"sid": 344774134741470
 								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "is-boolean-instance-variable-set",
+											"id": "else",
+											"objectClass": "System",
+											"sid": 259366113176555
+										},
+										{
+											"id": "compare-instance-variable",
 											"objectClass": "aUIN",
-											"sid": 930266323918709,
+											"sid": 887613104345598,
 											"parameters": {
-												"instance-variable": "inventoryOn"
+												"instance-variable": "abilState",
+												"comparison": 0,
+												"value": "\"close\""
 											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "buttonAbilsOut",
+											"sid": 877817250245884,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
 										}
 									],
 									"actions": [
 										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 237100671837643,
-											"parameters": {
-												"group-name": "\"inventory\"",
-												"state": "activated"
-											}
-										},
-										{
 											"id": "set-animation",
-											"objectClass": "inventory",
-											"sid": 267854144166518,
+											"objectClass": "cocobutton",
+											"sid": 801539789001374,
 											"parameters": {
-												"animation": "\"openExtra\"",
+												"animation": "\"up\"",
 												"from": "current-frame"
 											}
 										},
 										{
 											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 458946207730427,
+											"objectClass": "cocobutton",
+											"sid": 545367253153174,
+											"disabled": true,
 											"parameters": {
-												"speed": "24"
+												"speed": "-12-Self.index"
 											}
 										},
 										{
-											"id": "set-y",
-											"objectClass": "invBack",
-											"sid": 184732488756331,
+											"id": "set-animation-speed",
+											"objectClass": "cocobutton",
+											"sid": 509691165968137,
 											"parameters": {
-												"y": "-3333"
+												"speed": "-16"
 											}
 										},
 										{
-											"customAction": "inventoryOpen",
-											"objectClass": "inventory",
-											"sid": 900868172060033
+											"id": "start-animation",
+											"objectClass": "cocobutton",
+											"sid": 941279004358495,
+											"parameters": {
+												"from": "current-frame"
+											}
 										}
 									],
-									"sid": 555868589446043,
-									"children": [
+									"sid": 940572783529310
+								},
+								{
+									"eventType": "block",
+									"conditions": [
 										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "aUIN",
-													"sid": 907240848376712,
-													"parameters": {
-														"instance-variable": "rocketDown"
-													},
-													"isInverted": true
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position",
-													"objectClass": "cocobutton",
-													"sid": 777960276420291,
-													"parameters": {
-														"x": "-12600",
-														"y": "-12600"
-													}
-												},
-												{
-													"id": "set-position",
-													"objectClass": "abilAuto",
-													"sid": 162520588550011,
-													"parameters": {
-														"x": "-12600",
-														"y": "-12600"
-													}
-												},
-												{
-													"id": "set-position",
-													"objectClass": "targetIcon",
-													"sid": 560236796372254,
-													"parameters": {
-														"x": "-4499",
-														"y": "-9419"
-													}
-												},
-												{
-													"id": "set-position",
-													"objectClass": "rockAbil",
-													"sid": 147993890642740,
-													"parameters": {
-														"x": "-12222",
-														"y": "-12222"
-													}
-												}
-											],
-											"sid": 973340791159818
+											"id": "else",
+											"objectClass": "System",
+											"sid": 912974820213931
 										}
-									]
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "cocobutton",
+											"sid": 972529938462576,
+											"parameters": {
+												"animation": "\"up\"",
+												"from": "current-frame"
+											}
+										},
+										{
+											"id": "set-animation-frame",
+											"objectClass": "cocobutton",
+											"sid": 706445662389650,
+											"parameters": {
+												"frame-number": "7"
+											}
+										},
+										{
+											"id": "set-animation-speed",
+											"objectClass": "cocobutton",
+											"sid": 163742828533629,
+											"disabled": true,
+											"parameters": {
+												"speed": "-12-Self.index"
+											}
+										},
+										{
+											"id": "set-animation-speed",
+											"objectClass": "cocobutton",
+											"sid": 543708762132821,
+											"parameters": {
+												"speed": "-16"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "cocobutton",
+											"sid": 133988691278267,
+											"parameters": {
+												"from": "current-frame"
+											}
+										}
+									],
+									"sid": 313797030230023
 								}
 							]
-						},
-						{
-							"eventType": "comment",
-							"text": "костыль, без него коконы могут застыть при уходе"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-instance-signal",
-									"objectClass": "inventory",
-									"sid": 325100996598452,
-									"parameters": {
-										"tag": "\"rocketClose\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "cocobutton",
-									"sid": 948558123787723,
-									"parameters": {
-										"animation": "\"up\"",
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-animation-frame",
-									"objectClass": "cocobutton",
-									"sid": 780592686911368,
-									"parameters": {
-										"frame-number": "7"
-									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "cocobutton",
-									"sid": 850674448536037,
-									"parameters": {
-										"speed": "-15"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "cocobutton",
-									"sid": 277050649864732,
-									"parameters": {
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "cocobutton",
-									"sid": 209029224980136,
-									"parameters": {
-										"instance-variable": "open",
-										"value": "false"
-									}
-								}
-							],
-							"sid": 256265984926693
 						},
 						{
 							"eventType": "comment",
@@ -1133,11 +2153,11 @@
 									"sid": 772884165687995
 								},
 								{
-									"name": "withoutCocoons",
+									"name": "clearCocoons",
 									"type": "boolean",
-									"initialValue": "false",
+									"initialValue": "true",
 									"comment": "",
-									"sid": 787540767312299
+									"sid": 795559382296647
 								}
 							],
 							"eventType": "function-block",
@@ -1162,11 +2182,10 @@
 										{
 											"id": "compare-boolean-eventvar",
 											"objectClass": "System",
-											"sid": 578142892311299,
+											"sid": 477105405258513,
 											"parameters": {
-												"variable": "withoutCocoons"
-											},
-											"isInverted": true
+												"variable": "clearCocoons"
+											}
 										}
 									],
 									"actions": [
@@ -1175,16 +2194,16 @@
 											"objectClass": "cocobutton",
 											"sid": 377682485656111,
 											"parameters": {
-												"instance-variable": "rocket",
+												"instance-variable": "entered",
 												"value": "false"
 											}
 										},
 										{
 											"id": "set-collisions-enabled",
 											"objectClass": "cocobutton",
-											"sid": 398516665166367,
+											"sid": 901132941875138,
 											"parameters": {
-												"collisions": "enabled"
+												"collisions": "disabled"
 											}
 										},
 										{
@@ -1505,7 +2524,7 @@
 													"objectClass": "cocobutton",
 													"sid": 739913316909878,
 													"parameters": {
-														"instance-variable": "rocket",
+														"instance-variable": "entered",
 														"value": "true"
 													}
 												}
@@ -1532,7 +2551,7 @@
 											"objectClass": "cocobutton",
 											"sid": 828579878529857,
 											"parameters": {
-												"instance-variable": "rocket"
+												"instance-variable": "entered"
 											}
 										}
 									],
@@ -1557,65 +2576,6 @@
 											"sid": 450893831902158,
 											"children": [
 												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "cocobutton",
-															"sid": 632311520169401,
-															"parameters": {
-																"instance-variable": "open"
-															},
-															"isInverted": true
-														}
-													],
-													"actions": [
-														{
-															"id": "set-animation",
-															"objectClass": "cocobutton",
-															"sid": 430270925152647,
-															"parameters": {
-																"animation": "\"up\"",
-																"from": "current-frame"
-															}
-														},
-														{
-															"id": "set-animation-frame",
-															"objectClass": "cocobutton",
-															"sid": 579958719972757,
-															"parameters": {
-																"frame-number": "0"
-															}
-														},
-														{
-															"id": "set-animation-speed",
-															"objectClass": "cocobutton",
-															"sid": 839795984051110,
-															"parameters": {
-																"speed": "18"
-															}
-														},
-														{
-															"id": "set-animation-speed",
-															"objectClass": "cocobutton",
-															"sid": 726331320445691,
-															"disabled": true,
-															"parameters": {
-																"speed": "14-Self.index"
-															}
-														},
-														{
-															"id": "start-animation",
-															"objectClass": "cocobutton",
-															"sid": 479882635052487,
-															"parameters": {
-																"from": "current-frame"
-															}
-														}
-													],
-													"sid": 425211536902775
-												},
-												{
 													"eventType": "comment",
 													"text": "позиция способностей внизу",
 													"background-color": [
@@ -1633,11 +2593,19 @@
 															"objectClass": "aUIN",
 															"sid": 843546272354317,
 															"parameters": {
-																"instance-variable": "rocketDown"
+																"instance-variable": "abilsBottom"
 															}
 														}
 													],
 													"actions": [
+														{
+															"id": "set-flipped",
+															"objectClass": "cocobutton",
+															"sid": 631059862951839,
+															"parameters": {
+																"state": "not-flipped"
+															}
+														},
 														{
 															"id": "set-position",
 															"objectClass": "cocobutton",
@@ -1694,11 +2662,29 @@
 													],
 													"actions": [
 														{
+															"id": "set-flipped",
+															"objectClass": "cocobutton",
+															"sid": 145226292676298,
+															"parameters": {
+																"state": "flipped"
+															}
+														},
+														{
 															"id": "set-position",
 															"objectClass": "cocobutton",
 															"sid": 402272636854102,
+															"disabled": true,
 															"parameters": {
 																"x": "210+loopindex*110",
+																"y": "40"
+															}
+														},
+														{
+															"id": "set-position",
+															"objectClass": "cocobutton",
+															"sid": 631894037520836,
+															"parameters": {
+																"x": "aUIN.abilXrd+loopindex*110",
 																"y": "40"
 															}
 														},
@@ -1713,6 +2699,150 @@
 														}
 													],
 													"sid": 941520674651403
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "cocobutton",
+															"sid": 609359778653584,
+															"parameters": {
+																"instance-variable": "open"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [],
+													"sid": 344080585392382,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "aUIN",
+																	"sid": 199634334262345,
+																	"parameters": {
+																		"instance-variable": "abilState",
+																		"comparison": 0,
+																		"value": "\"close\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aUIN",
+																	"sid": 265392174884614,
+																	"parameters": {
+																		"instance-variable": "abilState",
+																		"value": "\"open\""
+																	}
+																},
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "aUIN",
+																	"sid": 767949252542395,
+																	"parameters": {
+																		"instance-variable": "abilsOpened",
+																		"value": "true"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aUIN",
+																	"sid": 797587686341021,
+																	"disabled": true,
+																	"parameters": {
+																		"instance-variable": "abilState",
+																		"value": "aUIN.abilsBottom=1?\"bottom\":\"top\""
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "cocobutton",
+																	"sid": 894585902676362,
+																	"parameters": {
+																		"animation": "\"up\"",
+																		"from": "current-frame"
+																	}
+																},
+																{
+																	"id": "set-animation-frame",
+																	"objectClass": "cocobutton",
+																	"sid": 304168629700134,
+																	"parameters": {
+																		"frame-number": "Self.AnimationFrame+1"
+																	}
+																},
+																{
+																	"id": "set-animation-speed",
+																	"objectClass": "cocobutton",
+																	"sid": 167136255008097,
+																	"parameters": {
+																		"speed": "24"
+																	}
+																},
+																{
+																	"id": "start-animation",
+																	"objectClass": "cocobutton",
+																	"sid": 147523926753247,
+																	"parameters": {
+																		"from": "current-frame"
+																	}
+																}
+															],
+															"sid": 764350382239776
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 154855823236590
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aUIN",
+																	"sid": 841419125989224,
+																	"parameters": {
+																		"instance-variable": "abilState",
+																		"value": "\"open\""
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "cocobutton",
+																	"sid": 296362461108416,
+																	"parameters": {
+																		"animation": "\"up\"",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-animation-speed",
+																	"objectClass": "cocobutton",
+																	"sid": 820007968388415,
+																	"parameters": {
+																		"speed": "24"
+																	}
+																},
+																{
+																	"id": "start-animation",
+																	"objectClass": "cocobutton",
+																	"sid": 947575451486562,
+																	"parameters": {
+																		"from": "beginning"
+																	}
+																}
+															],
+															"sid": 884463065763015
+														}
+													]
 												}
 											]
 										},
@@ -1734,7 +2864,7 @@
 													"objectClass": "aUIN",
 													"sid": 998522046607006,
 													"parameters": {
-														"instance-variable": "rocketDown"
+														"instance-variable": "abilsBottom"
 													}
 												},
 												{
@@ -1761,26 +2891,25 @@
 												},
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
-													"sid": 974158747181233,
-													"disabled": true,
+													"objectClass": "buttonAbils",
+													"sid": 448831240361587,
 													"parameters": {
-														"x": "aUIN.abilXrd-90",
-														"y": "720"
+														"x": "cocobutton.X+90",
+														"y": "672"
 													}
 												},
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
-													"sid": 190341095754536,
+													"objectClass": "buttonAbilsOut",
+													"sid": 918602231066681,
 													"parameters": {
-														"x": "cocobutton.X+94",
-														"y": "720"
+														"x": "cocobutton.X+95",
+														"y": "716"
 													}
 												},
 												{
 													"id": "set-animation",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 971305903315776,
 													"parameters": {
 														"animation": "\"up\"",
@@ -1789,13 +2918,14 @@
 												},
 												{
 													"id": "stop-animation",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 771451789568237
 												},
 												{
 													"id": "set-instvar-value",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 938479939502716,
+													"disabled": true,
 													"parameters": {
 														"instance-variable": "cursor",
 														"value": "\"activeArrUp\""
@@ -1846,7 +2976,7 @@
 												},
 												{
 													"id": "set-position",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 881627716598426,
 													"parameters": {
 														"x": "cocobutton.X+94",
@@ -1855,7 +2985,7 @@
 												},
 												{
 													"id": "set-animation",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 215550684821076,
 													"parameters": {
 														"animation": "\"down\"",
@@ -1864,16 +2994,26 @@
 												},
 												{
 													"id": "stop-animation",
-													"objectClass": "buttonRocket",
-													"sid": 973459925700341
+													"objectClass": "buttonAbils",
+													"sid": 973459925700341,
+													"disabled": true
 												},
 												{
 													"id": "set-instvar-value",
-													"objectClass": "buttonRocket",
+													"objectClass": "buttonAbils",
 													"sid": 507969683566438,
+													"disabled": true,
 													"parameters": {
 														"instance-variable": "cursor",
 														"value": "\"activeArrDown\""
+													}
+												},
+												{
+													"id": "set-x",
+													"objectClass": "buttonAbilsOut",
+													"sid": 717355788902295,
+													"parameters": {
+														"x": "-2222"
 													}
 												}
 											],
@@ -1945,16 +3085,16 @@
 							"conditions": [
 								{
 									"id": "on-animation-finished",
-									"objectClass": "buttonRocket",
-									"sid": 724980681968349,
+									"objectClass": "buttonAbils",
+									"sid": 172795109105597,
 									"parameters": {
 										"animation": "\"down\""
 									}
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
-									"objectClass": "buttonRocket",
-									"sid": 551891946149313,
+									"objectClass": "buttonAbils",
+									"sid": 416601682627193,
 									"parameters": {
 										"instance-variable": "on"
 									}
@@ -1963,64 +3103,36 @@
 							"actions": [
 								{
 									"id": "set-boolean-instvar",
-									"objectClass": "buttonRocket",
-									"sid": 345513403231071,
+									"objectClass": "aUIN",
+									"sid": 212073700435377,
+									"parameters": {
+										"instance-variable": "abilsBottom",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "buttonAbils",
+									"sid": 252400558094215,
 									"parameters": {
 										"instance-variable": "on",
 										"value": "false"
 									}
 								},
 								{
-									"id": "set-boolean-instvar",
-									"objectClass": "aUIN",
-									"sid": 697924194870094,
-									"parameters": {
-										"instance-variable": "rocketDown",
-										"value": "true"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "buttonRocket",
-									"sid": 296533519416360,
+									"id": "set-instvar-value",
+									"objectClass": "buttonAbils",
+									"sid": 445248414171607,
 									"disabled": true,
 									"parameters": {
-										"x": "120",
-										"y": "720"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "buttonRocket",
-									"sid": 112285740377814,
-									"disabled": true,
-									"parameters": {
-										"x": "aUIN.abilXrd-90",
-										"y": "720"
+										"instance-variable": "cursor",
+										"value": "\"activeArrUp\""
 									}
 								},
 								{
 									"id": "set-animation",
-									"objectClass": "buttonRocket",
-									"sid": 547800144811695,
-									"parameters": {
-										"animation": "\"up\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "wait",
-									"objectClass": "System",
-									"sid": 663143058484108,
-									"parameters": {
-										"seconds": "0",
-										"use-timescale": false
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "buttonRocket",
-									"sid": 320459600060041,
+									"objectClass": "buttonAbils",
+									"sid": 772537486155419,
 									"parameters": {
 										"animation": "\"up\"",
 										"from": "beginning"
@@ -2028,102 +3140,20 @@
 								},
 								{
 									"id": "stop-animation",
-									"objectClass": "buttonRocket",
-									"sid": 124440657530278
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "buttonRocket",
-									"sid": 169713281683347,
-									"parameters": {
-										"instance-variable": "cursor",
-										"value": "\"activeArrUp\""
-									}
+									"objectClass": "buttonAbils",
+									"sid": 311300302537367
 								},
 								{
 									"id": "set-position",
 									"objectClass": "panelGradient",
-									"sid": 903391407963905,
+									"sid": 699760036909461,
 									"parameters": {
 										"x": "aUIN.abilXrd",
 										"y": "756"
 									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "panelGradient",
-									"sid": 826055900340439,
-									"disabled": true,
-									"parameters": {
-										"x": "210",
-										"y": "756"
-									}
-								},
-								{
-									"id": "set-width",
-									"objectClass": "panelGradient",
-									"sid": 604940623971446,
-									"disabled": true,
-									"parameters": {
-										"width": "loopindex*110"
-									}
-								},
-								{
-									"type": "comment",
-									"text": ""
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "cocobutton",
-									"sid": 429034658104306,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "open",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "rockAbil",
-									"sid": 917601109879224,
-									"disabled": true,
-									"parameters": {
-										"x": "-9999",
-										"y": "-1111"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "abilAuto",
-									"sid": 346848551900806,
-									"disabled": true,
-									"parameters": {
-										"x": "-12600",
-										"y": "-12600"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "targetIcon",
-									"sid": 970430218934568,
-									"disabled": true,
-									"parameters": {
-										"x": "-4499",
-										"y": "-9419"
-									}
-								},
-								{
-									"callFunction": "abilMap",
-									"sid": 191192888769347,
-									"disabled": true,
-									"parameters": [
-										"\"active\"",
-										"\"zero\"",
-										false
-									]
 								}
 							],
-							"sid": 742860176445594,
+							"sid": 955589368672042,
 							"children": [
 								{
 									"eventType": "block",
@@ -2131,7 +3161,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "cocobutton",
-											"sid": 271171822025652,
+											"sid": 649109349233856,
 											"parameters": {
 												"instance-variable": "open"
 											}
@@ -2139,24 +3169,14 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "cocobutton",
-											"sid": 144786899173699,
+											"sid": 289805151925906,
 											"parameters": {
-												"instance-variable": "rocket"
+												"instance-variable": "entered"
 											}
 										}
 									],
-									"actions": [
-										{
-											"id": "set-y",
-											"objectClass": "cocobutton",
-											"sid": 652354577803399,
-											"disabled": true,
-											"parameters": {
-												"y": "677"
-											}
-										}
-									],
-									"sid": 423870935214608,
+									"actions": [],
+									"sid": 239747993292474,
 									"children": [
 										{
 											"eventType": "block",
@@ -2164,7 +3184,7 @@
 												{
 													"id": "for-each",
 													"objectClass": "System",
-													"sid": 609436665568505,
+													"sid": 496111628691587,
 													"parameters": {
 														"object": "cocobutton"
 													}
@@ -2172,9 +3192,17 @@
 											],
 											"actions": [
 												{
+													"id": "set-flipped",
+													"objectClass": "cocobutton",
+													"sid": 565547959579282,
+													"parameters": {
+														"state": "not-flipped"
+													}
+												},
+												{
 													"id": "set-position",
 													"objectClass": "cocobutton",
-													"sid": 974483889109628,
+													"sid": 236687224374808,
 													"parameters": {
 														"x": "aUIN.abilXrd+loopindex*110",
 														"y": "677"
@@ -2183,7 +3211,7 @@
 												{
 													"id": "set-position",
 													"objectClass": "panelGradient",
-													"sid": 908262040778360,
+													"sid": 565401806212794,
 													"parameters": {
 														"x": "aUIN.abilXrd",
 														"y": "756"
@@ -2192,22 +3220,13 @@
 												{
 													"id": "set-width",
 													"objectClass": "panelGradient",
-													"sid": 712182073443699,
+													"sid": 471662933469905,
 													"parameters": {
 														"width": "loopindex*110"
 													}
-												},
-												{
-													"id": "set-position",
-													"objectClass": "buttonRocket",
-													"sid": 599662805521844,
-													"parameters": {
-														"x": "aUIN.abilXrd+90+loopindex*110",
-														"y": "720"
-													}
 												}
 											],
-											"sid": 637381066689398,
+											"sid": 770415942708774,
 											"children": [
 												{
 													"eventType": "block",
@@ -2215,7 +3234,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "rockAbil",
-															"sid": 633313053499603,
+															"sid": 369355087557819,
 															"parameters": {
 																"instance-variable": "index",
 																"comparison": 0,
@@ -2227,14 +3246,14 @@
 														{
 															"id": "set-position-to-another-object",
 															"objectClass": "rockAbil",
-															"sid": 139944934043313,
+															"sid": 837433949701473,
 															"parameters": {
 																"object": "cocobutton",
 																"image-point-optional": "\"abil\""
 															}
 														}
 													],
-													"sid": 267000645919501
+													"sid": 243319606105101
 												},
 												{
 													"eventType": "block",
@@ -2242,7 +3261,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "abilAuto",
-															"sid": 658867059578147,
+															"sid": 686546119411708,
 															"parameters": {
 																"instance-variable": "index",
 																"comparison": 0,
@@ -2254,14 +3273,14 @@
 														{
 															"id": "set-position-to-another-object",
 															"objectClass": "abilAuto",
-															"sid": 348073848567641,
+															"sid": 868989015824715,
 															"parameters": {
 																"object": "cocobutton",
 																"image-point-optional": "\"auto\""
 															}
 														}
 													],
-													"sid": 570261574855702
+													"sid": 140415928122428
 												}
 											]
 										},
@@ -2271,7 +3290,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "cocobutton",
-													"sid": 207925781223114,
+													"sid": 990097962248158,
 													"parameters": {
 														"instance-variable": "index",
 														"comparison": 0,
@@ -2283,70 +3302,90 @@
 												{
 													"id": "set-position",
 													"objectClass": "targetIcon",
-													"sid": 431897400567967,
+													"sid": 326228163640635,
 													"parameters": {
 														"x": "cocobutton.ImagePointX(\"targ\")",
 														"y": "cocobutton.ImagePointY(\"targ\")"
 													}
 												}
 											],
-											"sid": 378959685999060
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "cocobutton",
-													"sid": 993049042458247,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "1"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position",
-													"objectClass": "targetIcon",
-													"sid": 531017348981394,
-													"parameters": {
-														"x": "cocobutton.ImagePointX(\"targ\")",
-														"y": "cocobutton.ImagePointY(\"targ\")"
-													}
-												}
-											],
-											"sid": 489862618367690
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "pick-nearestfurthest",
-													"objectClass": "cocobutton",
-													"sid": 256253456955148,
-													"parameters": {
-														"which": "nearest",
-														"x": "1280",
-														"y": "0"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position",
-													"objectClass": "buttonRocket",
-													"sid": 358365169361100,
-													"parameters": {
-														"x": "cocobutton.X+94",
-														"y": "720"
-													}
-												}
-											],
-											"sid": 248666909724250
+											"sid": 847462399673304
 										}
 									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-nearestfurthest",
+											"objectClass": "cocobutton",
+											"sid": 308105310406621,
+											"parameters": {
+												"which": "nearest",
+												"x": "1280",
+												"y": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "buttonAbils",
+											"sid": 821518963473730,
+											"parameters": {
+												"x": "cocobutton.X+90",
+												"y": "672"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "buttonAbilsOut",
+											"sid": 146611925062577,
+											"parameters": {
+												"x": "cocobutton.X+95",
+												"y": "716"
+											}
+										}
+									],
+									"sid": 855151493834555
+								},
+								{
+									"eventType": "comment",
+									"text": "возвращаем инвентарь в состояние, бывшее до перенесения способностей"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUIN",
+											"sid": 917325281139783,
+											"parameters": {
+												"instance-variable": "invState",
+												"comparison": 1,
+												"value": "Self.invStateMem"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 771519571383447,
+											"parameters": {
+												"instance-variable": "invState",
+												"value": "Self.invStateMem"
+											}
+										},
+										{
+											"callFunction": "invInstant",
+											"sid": 322333987742342,
+											"parameters": [
+												"aUIN.invState=\"cocoon\"?1:aUIN.invState=\"inventory\"?2:0"
+											]
+										}
+									],
+									"sid": 792739963239294
 								}
 							]
 						},
@@ -2365,15 +3404,15 @@
 							"conditions": [
 								{
 									"id": "on-animation-finished",
-									"objectClass": "buttonRocket",
-									"sid": 456102717271375,
+									"objectClass": "buttonAbils",
+									"sid": 412243238439545,
 									"parameters": {
 										"animation": "\"up\""
 									}
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 370888159691673,
 									"parameters": {
 										"instance-variable": "on"
@@ -2383,74 +3422,30 @@
 							"actions": [
 								{
 									"id": "set-boolean-instvar",
-									"objectClass": "buttonRocket",
-									"sid": 934869534729870,
+									"objectClass": "aUIN",
+									"sid": 269229344994794,
+									"parameters": {
+										"instance-variable": "abilsBottom",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "buttonAbils",
+									"sid": 315828331301005,
 									"parameters": {
 										"instance-variable": "on",
 										"value": "false"
 									}
 								},
 								{
-									"id": "set-boolean-instvar",
-									"objectClass": "aUIN",
-									"sid": 561320498201384,
-									"parameters": {
-										"instance-variable": "rocketDown",
-										"value": "false"
-									}
-								},
-								{
 									"id": "set-position",
 									"objectClass": "panelGradient",
-									"sid": 170211446799584,
+									"sid": 445665097248511,
 									"parameters": {
 										"x": "-9444",
 										"y": "-3333"
 									}
-								},
-								{
-									"type": "comment",
-									"text": ""
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "cocobutton",
-									"sid": 646771052955932,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "open",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "rockAbil",
-									"sid": 641262940399599,
-									"disabled": true,
-									"parameters": {
-										"x": "-9999",
-										"y": "-1111"
-									}
-								},
-								{
-									"id": "set-position",
-									"objectClass": "abilAuto",
-									"sid": 212990843418769,
-									"disabled": true,
-									"parameters": {
-										"x": "-12600",
-										"y": "-12600"
-									}
-								},
-								{
-									"callFunction": "abilMap",
-									"sid": 820181872999233,
-									"disabled": true,
-									"parameters": [
-										"\"active\"",
-										"\"zero\"",
-										false
-									]
 								}
 							],
 							"sid": 269022768627115,
@@ -2461,7 +3456,7 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "cocobutton",
-											"sid": 819825789819779,
+											"sid": 265526461029981,
 											"parameters": {
 												"instance-variable": "open"
 											}
@@ -2469,24 +3464,14 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "cocobutton",
-											"sid": 407358175809261,
+											"sid": 728645564936923,
 											"parameters": {
-												"instance-variable": "rocket"
+												"instance-variable": "entered"
 											}
 										}
 									],
-									"actions": [
-										{
-											"id": "set-y",
-											"objectClass": "cocobutton",
-											"sid": 557616386498791,
-											"disabled": true,
-											"parameters": {
-												"y": "40"
-											}
-										}
-									],
-									"sid": 991531811838618,
+									"actions": [],
+									"sid": 257899946511773,
 									"children": [
 										{
 											"eventType": "block",
@@ -2494,7 +3479,7 @@
 												{
 													"id": "for-each",
 													"objectClass": "System",
-													"sid": 837975371043574,
+													"sid": 451613845120561,
 													"parameters": {
 														"object": "cocobutton"
 													}
@@ -2502,35 +3487,24 @@
 											],
 											"actions": [
 												{
+													"id": "set-flipped",
+													"objectClass": "cocobutton",
+													"sid": 691122475516682,
+													"parameters": {
+														"state": "flipped"
+													}
+												},
+												{
 													"id": "set-position",
 													"objectClass": "cocobutton",
-													"sid": 790738525458307,
+													"sid": 202462331315229,
 													"parameters": {
-														"x": "210+loopindex*110",
+														"x": "aUIN.abilXrd+loopindex*110",
 														"y": "40"
-													}
-												},
-												{
-													"id": "set-position",
-													"objectClass": "panelGradient",
-													"sid": 278955031039276,
-													"disabled": true,
-													"parameters": {
-														"x": "-9444",
-														"y": "-3333"
-													}
-												},
-												{
-													"id": "set-position",
-													"objectClass": "buttonRocket",
-													"sid": 190724372882480,
-													"parameters": {
-														"x": "300+loopindex*110",
-														"y": "720"
 													}
 												}
 											],
-											"sid": 348007269565909,
+											"sid": 596140331988353,
 											"children": [
 												{
 													"eventType": "block",
@@ -2538,11 +3512,21 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "rockAbil",
-															"sid": 615466275932897,
+															"sid": 782541961430225,
 															"parameters": {
 																"instance-variable": "index",
 																"comparison": 0,
 																"value": "cocobutton.index"
+															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "rockAbil",
+															"sid": 261891245944529,
+															"parameters": {
+																"instance-variable": "icon",
+																"comparison": 0,
+																"value": "1"
 															}
 														}
 													],
@@ -2550,14 +3534,14 @@
 														{
 															"id": "set-position-to-another-object",
 															"objectClass": "rockAbil",
-															"sid": 214461214141559,
+															"sid": 978890043212665,
 															"parameters": {
 																"object": "cocobutton",
 																"image-point-optional": "\"abil\""
 															}
 														}
 													],
-													"sid": 711601680132805
+													"sid": 926951277745106
 												},
 												{
 													"eventType": "block",
@@ -2565,7 +3549,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "abilAuto",
-															"sid": 475957519625757,
+															"sid": 274612430954005,
 															"parameters": {
 																"instance-variable": "index",
 																"comparison": 0,
@@ -2577,14 +3561,14 @@
 														{
 															"id": "set-position-to-another-object",
 															"objectClass": "abilAuto",
-															"sid": 971393121656829,
+															"sid": 642110636525665,
 															"parameters": {
 																"object": "cocobutton",
 																"image-point-optional": "\"auto\""
 															}
 														}
 													],
-													"sid": 617387594081017
+													"sid": 556896460123835
 												}
 											]
 										},
@@ -2594,7 +3578,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "cocobutton",
-													"sid": 563710011331099,
+													"sid": 820192576295976,
 													"parameters": {
 														"instance-variable": "index",
 														"comparison": 0,
@@ -2606,14 +3590,14 @@
 												{
 													"id": "set-position",
 													"objectClass": "targetIcon",
-													"sid": 396154108552845,
+													"sid": 525823559167800,
 													"parameters": {
 														"x": "cocobutton.ImagePointX(\"targ\")",
 														"y": "cocobutton.ImagePointY(\"targ\")"
 													}
 												}
 											],
-											"sid": 435994908855071
+											"sid": 560900003961881
 										}
 									]
 								},
@@ -2633,46 +3617,46 @@
 										{
 											"id": "pick-nearestfurthest",
 											"objectClass": "cocobutton",
-											"sid": 725390628151546,
+											"sid": 487846908314996,
 											"parameters": {
 												"which": "nearest",
-												"x": "indicator.X",
-												"y": "indicator.Y"
+												"x": "3000",
+												"y": "1"
 											}
 										}
 									],
 									"actions": [
 										{
+											"id": "set-x",
+											"objectClass": "buttonAbilsOut",
+											"sid": 781599097175726,
+											"parameters": {
+												"x": "-2222"
+											}
+										},
+										{
 											"id": "set-position",
-											"objectClass": "buttonRocket",
-											"sid": 685091028889505,
+											"objectClass": "buttonAbils",
+											"sid": 307673138045174,
 											"parameters": {
 												"x": "cocobutton.X+94",
-												"y": "0"
+												"y": "1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "buttonAbils",
+											"sid": 542647895983637,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "cursor",
+												"value": "\"activeArrDown\""
 											}
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "buttonRocket",
-											"sid": 768046893813948,
-											"parameters": {
-												"animation": "\"down\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 603522092203721,
-											"parameters": {
-												"seconds": "0",
-												"use-timescale": false
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "buttonRocket",
-											"sid": 856532025486054,
+											"objectClass": "buttonAbils",
+											"sid": 119448879782967,
 											"parameters": {
 												"animation": "\"down\"",
 												"from": "beginning"
@@ -2680,26 +3664,234 @@
 										},
 										{
 											"id": "stop-animation",
-											"objectClass": "buttonRocket",
-											"sid": 234903924098430
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "buttonRocket",
-											"sid": 920555815317390,
-											"parameters": {
-												"instance-variable": "cursor",
-												"value": "\"activeArrDown\""
-											}
+											"objectClass": "buttonAbils",
+											"sid": 319752743205081
 										}
 									],
-									"sid": 727741658057415
+									"sid": 840809918078130
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "every-x-seconds",
+									"objectClass": "System",
+									"sid": 938586170434436,
+									"parameters": {
+										"interval-seconds": "0.05"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 275182863625288,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "cursor-is-over-object",
+											"objectClass": "Mouse",
+											"sid": 170001787102318,
+											"parameters": {
+												"object": "buttonAbilsOut"
+											}
+										},
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "buttonAbilsOut",
+											"sid": 172622715033920,
+											"parameters": {
+												"comparison": 0,
+												"number": "0"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "buttonAbilsOut",
+											"sid": 462838019455110,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation-frame",
+											"objectClass": "buttonAbilsOut",
+											"sid": 326476594309164,
+											"parameters": {
+												"frame-number": "1"
+											}
+										},
+										{
+											"id": "stop-animation",
+											"objectClass": "buttonAbilsOut",
+											"sid": 714095429718183
+										}
+									],
+									"sid": 806228421420950
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 501287181222635
+										},
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "buttonAbilsOut",
+											"sid": 657741470129835,
+											"parameters": {
+												"comparison": 0,
+												"number": "1"
+											}
+										},
+										{
+											"id": "cursor-is-over-object",
+											"objectClass": "Mouse",
+											"sid": 704299440340539,
+											"parameters": {
+												"object": "buttonAbilsOut"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "buttonAbilsOut",
+											"sid": 939495055936875,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation-frame",
+											"objectClass": "buttonAbilsOut",
+											"sid": 964789593773018,
+											"parameters": {
+												"frame-number": "0"
+											}
+										},
+										{
+											"id": "stop-animation",
+											"objectClass": "buttonAbilsOut",
+											"sid": 388628032331481
+										}
+									],
+									"sid": 351140102220451
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "cursor-is-over-object",
+											"objectClass": "Mouse",
+											"sid": 444511461219149,
+											"parameters": {
+												"object": "buttonAbils"
+											}
+										},
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "buttonAbils",
+											"sid": 974490587242560,
+											"parameters": {
+												"comparison": 0,
+												"number": "0"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "buttonAbils",
+											"sid": 591021022341606,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation-frame",
+											"objectClass": "buttonAbils",
+											"sid": 442346265262356,
+											"parameters": {
+												"frame-number": "1"
+											}
+										},
+										{
+											"id": "stop-animation",
+											"objectClass": "buttonAbilsOut",
+											"sid": 528761121416717
+										}
+									],
+									"sid": 377967088513688
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 953107234005943
+										},
+										{
+											"id": "cursor-is-over-object",
+											"objectClass": "Mouse",
+											"sid": 345284449454075,
+											"parameters": {
+												"object": "buttonAbils"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "buttonAbils",
+											"sid": 544184206602041,
+											"parameters": {
+												"comparison": 0,
+												"number": "1"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "buttonAbils",
+											"sid": 407829742417455,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation-frame",
+											"objectClass": "buttonAbils",
+											"sid": 153648721479032,
+											"parameters": {
+												"frame-number": "0"
+											}
+										},
+										{
+											"id": "stop-animation",
+											"objectClass": "buttonAbils",
+											"sid": 281799503966296
+										}
+									],
+									"sid": 998860450796409
 								}
 							]
 						},
 						{
 							"eventType": "comment",
-							"text": "кнопка перемещения панели",
+							"text": "кнопка перемещения способностей",
 							"background-color": [
 								0.6862745098039216,
 								0.6666666666666666,
@@ -2712,7 +3904,7 @@
 							"conditions": [
 								{
 									"id": "onselffunction0",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 447899832370410,
 									"behaviorType": "sfPoint",
 									"parameters": {
@@ -2721,7 +3913,7 @@
 								},
 								{
 									"id": "is-boolean-instance-variable-set",
-									"objectClass": "buttonRocket",
+									"objectClass": "buttonAbils",
 									"sid": 577713957454158,
 									"parameters": {
 										"instance-variable": "on"
@@ -2740,14 +3932,23 @@
 											"objectClass": "aUIN",
 											"sid": 559255590611020,
 											"parameters": {
-												"instance-variable": "rocketDown"
+												"instance-variable": "abilsBottom"
 											}
 										}
 									],
 									"actions": [
 										{
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 408634881978793,
+											"parameters": {
+												"instance-variable": "invStateMem",
+												"value": "Self.invState"
+											}
+										},
+										{
 											"id": "set-boolean-instvar",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 730627899896209,
 											"parameters": {
 												"instance-variable": "on",
@@ -2756,10 +3957,18 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 947321461847547,
 											"parameters": {
 												"animation": "\"up\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "buttonAbils",
+											"sid": 275863744131485,
+											"parameters": {
 												"from": "beginning"
 											}
 										}
@@ -2770,22 +3979,31 @@
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "is-boolean-instance-variable-set",
+													"id": "compare-instance-variable",
 													"objectClass": "aUIN",
-													"sid": 642610975373792,
+													"sid": 160522852783570,
 													"parameters": {
-														"instance-variable": "inventoryOn"
+														"instance-variable": "invState",
+														"comparison": 0,
+														"value": "\"inventory\""
 													}
 												}
 											],
 											"actions": [
 												{
-													"id": "set-boolean-instvar",
+													"callFunction": "invInstant",
+													"sid": 703376773618427,
+													"parameters": [
+														"1"
+													]
+												},
+												{
+													"id": "set-instvar-value",
 													"objectClass": "aUIN",
-													"sid": 334103247646266,
+													"sid": 750127186226777,
 													"parameters": {
-														"instance-variable": "inventoryOn",
-														"value": "false"
+														"instance-variable": "invState",
+														"value": "\"cocoon\""
 													}
 												},
 												{
@@ -2793,14 +4011,19 @@
 													"objectClass": "aUIN",
 													"sid": 628984062971631,
 													"parameters": {
-														"instance-variable": "rocketOn",
+														"instance-variable": "abilsOn",
 														"value": "true"
 													}
 												},
 												{
-													"customAction": "inventoryClose",
-													"objectClass": "inventory",
-													"sid": 316800988239722
+													"callFunction": "rUIS",
+													"sid": 681618580987707,
+													"parameters": [
+														"\"zero\"",
+														"\"cocoon\"",
+														"\"top\"",
+														true
+													]
 												}
 											],
 											"sid": 848023511138007
@@ -2819,7 +4042,7 @@
 									"actions": [
 										{
 											"id": "set-boolean-instvar",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 471724591848282,
 											"parameters": {
 												"instance-variable": "on",
@@ -2828,15 +4051,279 @@
 										},
 										{
 											"id": "set-animation",
-											"objectClass": "buttonRocket",
+											"objectClass": "buttonAbils",
 											"sid": 193213099137627,
 											"parameters": {
 												"animation": "\"down\"",
 												"from": "beginning"
 											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "buttonAbils",
+											"sid": 756143027899992,
+											"parameters": {
+												"from": "beginning"
+											}
 										}
 									],
 									"sid": 882647015989250
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "inventory",
+									"sid": 448406007584968,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"abOut\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "buttonAbilsOut",
+									"sid": 174790316575626,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 932202567488490
+						},
+						{
+							"eventType": "comment",
+							"text": "кнопка скрытия/раскрытия способностей",
+							"background-color": [
+								0.6862745098039216,
+								0.6666666666666666,
+								0.8352941176470589,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "onselffunction0",
+									"objectClass": "buttonAbilsOut",
+									"sid": 295974888403421,
+									"behaviorType": "sfPoint",
+									"parameters": {
+										"function_name:0": "\"abilsOut\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "buttonAbilsOut",
+									"sid": 314916692219610,
+									"parameters": {
+										"instance-variable": "on"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "start-timer",
+									"objectClass": "inventory",
+									"sid": 849473053239738,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "0.09",
+										"type": "once",
+										"tag": "\"abOut\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "buttonAbilsOut",
+									"sid": 923174944756530,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 789589844376168,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aUIN",
+											"sid": 632266005636249,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "abilsOpened"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aUIN",
+											"sid": 567776121570391,
+											"parameters": {
+												"instance-variable": "abilOut"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 518468387581454,
+											"parameters": {
+												"instance-variable": "abilOut",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 660736460578201,
+											"parameters": {
+												"instance-variable": "abilsOpened",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 779091654975103,
+											"parameters": {
+												"instance-variable": "abilState",
+												"value": "\"close\""
+											}
+										},
+										{
+											"customAction": "abilsClose",
+											"objectClass": "inventory",
+											"sid": 436518001108977
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "buttonAbils",
+											"sid": 755352836964983,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "buttonAbils",
+											"sid": 614542547426255,
+											"parameters": {
+												"collisions": "disabled"
+											}
+										},
+										{
+											"id": "set-flipped",
+											"objectClass": "buttonAbilsOut",
+											"sid": 960376892998295,
+											"parameters": {
+												"state": "flipped"
+											}
+										},
+										{
+											"id": "set-y",
+											"objectClass": "buttonAbilsOut",
+											"sid": 286038848576993,
+											"parameters": {
+												"y": "700"
+											}
+										}
+									],
+									"sid": 300814873718612
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 206644698290979
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aUIN",
+											"sid": 853247308995246,
+											"parameters": {
+												"instance-variable": "abilOut"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 251762808359567,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "abilsOpened",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aUIN",
+											"sid": 364801547851740,
+											"parameters": {
+												"instance-variable": "abilState",
+												"value": "\"open\""
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aUIN",
+											"sid": 404623909209391,
+											"parameters": {
+												"instance-variable": "abilOut",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-flipped",
+											"objectClass": "buttonAbilsOut",
+											"sid": 987021335142167,
+											"parameters": {
+												"state": "not-flipped"
+											}
+										},
+										{
+											"callFunction": "abilMap",
+											"sid": 844793625357759,
+											"parameters": [
+												"\"active\"",
+												"\"zero\"",
+												false
+											]
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "buttonAbils",
+											"sid": 556173587740885,
+											"parameters": {
+												"collisions": "enabled"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "buttonAbils",
+											"sid": 156606611266209,
+											"parameters": {
+												"visibility": "visible"
+											}
+										}
+									],
+									"sid": 575892697452618
 								}
 							]
 						},
@@ -2905,1392 +4392,6 @@
 							]
 						},
 						{
-							"eventType": "comment",
-							"text": "\n\nоткрытие коконов способностей",
-							"background-color": [
-								0.35294117647058826,
-								0.7490196078431373,
-								0.4823529411764706,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-animation-frame-changed",
-									"objectClass": "cocobutton",
-									"sid": 734024244786912
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "cocobutton",
-									"sid": 726249904489106,
-									"parameters": {
-										"animation": "\"up\""
-									}
-								},
-								{
-									"id": "compare-animation-frame-tag",
-									"objectClass": "cocobutton",
-									"sid": 981970506453327,
-									"parameters": {
-										"comparison": 0,
-										"tag": "\"open\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "cocobutton",
-									"sid": 795036065714065,
-									"parameters": {
-										"instance-variable": "open",
-										"value": "true"
-									}
-								},
-								{
-									"id": "instance-signal",
-									"objectClass": "cocobutton",
-									"sid": 661273881172610,
-									"parameters": {
-										"tag": "\"cocoAbilOpen\""
-									}
-								}
-							],
-							"sid": 161217770955445,
-							"disabled": true
-						},
-						{
-							"eventType": "comment",
-							"text": "открытие-закрытие коконов способностей",
-							"background-color": [
-								0.35294117647058826,
-								0.7490196078431373,
-								0.4823529411764706,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-animation-finished",
-									"objectClass": "cocobutton",
-									"sid": 699075702206356,
-									"parameters": {
-										"animation": "\"up\""
-									}
-								},
-								{
-									"id": "compare-animation-frame",
-									"objectClass": "cocobutton",
-									"sid": 991625751239685,
-									"parameters": {
-										"comparison": 4,
-										"number": "0"
-									}
-								}
-							],
-							"actions": [],
-							"sid": 416032958814193,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-animation-frame-tag",
-											"objectClass": "cocobutton",
-											"sid": 861698252742959,
-											"parameters": {
-												"comparison": 0,
-												"tag": "\"open\""
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "aUIN",
-											"sid": 979226521377729,
-											"parameters": {
-												"instance-variable": "abilsOpened",
-												"value": "true"
-											}
-										},
-										{
-											"id": "set-boolean-instvar",
-											"objectClass": "cocobutton",
-											"sid": 708548420435299,
-											"parameters": {
-												"instance-variable": "open",
-												"value": "true"
-											}
-										},
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 748600970250001,
-											"parameters": {
-												"seconds": "0",
-												"use-timescale": false
-											}
-										},
-										{
-											"id": "instance-signal",
-											"objectClass": "cocobutton",
-											"sid": 859676250532155,
-											"parameters": {
-												"tag": "\"cocoAbilOpen\""
-											}
-										}
-									],
-									"sid": 756869478592625,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "rockAbil",
-													"sid": 652220663783391,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "cocobutton.index"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position-to-another-object",
-													"objectClass": "rockAbil",
-													"sid": 700934702078934,
-													"parameters": {
-														"object": "cocobutton",
-														"image-point-optional": "\"abil\""
-													}
-												}
-											],
-											"sid": 612141792767238,
-											"disabled": true
-										},
-										{
-											"eventType": "comment",
-											"text": "иконка авто - по окончании появления коконов",
-											"background-color": [
-												0.5411764705882353,
-												1,
-												0.6313725490196078,
-												1
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "abilAuto",
-													"sid": 264871290593209,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "cocobutton.index"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position-to-another-object",
-													"objectClass": "abilAuto",
-													"sid": 726937138273277,
-													"parameters": {
-														"object": "cocobutton",
-														"image-point-optional": "\"auto\""
-													}
-												},
-												{
-													"id": "set-visible",
-													"objectClass": "abilAuto",
-													"sid": 176289604142268,
-													"parameters": {
-														"visibility": "visible"
-													}
-												},
-												{
-													"id": "set-collisions-enabled",
-													"objectClass": "abilAuto",
-													"sid": 821160035174496,
-													"parameters": {
-														"collisions": "enabled"
-													}
-												}
-											],
-											"sid": 609114529684920,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "cocobutton",
-															"sid": 583272117174353,
-															"parameters": {
-																"instance-variable": "auto"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-animation",
-															"objectClass": "abilAuto",
-															"sid": 245090460941135,
-															"disabled": true,
-															"parameters": {
-																"animation": "\"loop\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "abilAuto",
-															"sid": 765902910542144,
-															"disabled": true,
-															"parameters": {
-																"instance-variable": "on",
-																"value": "true"
-															}
-														}
-													],
-													"sid": 775492258445030
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "else",
-															"objectClass": "System",
-															"sid": 359979136280337
-														}
-													],
-													"actions": [
-														{
-															"id": "set-animation",
-															"objectClass": "abilAuto",
-															"sid": 889323267344863,
-															"parameters": {
-																"animation": "\"stop\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-boolean-instvar",
-															"objectClass": "abilAuto",
-															"sid": 848989093436397,
-															"disabled": true,
-															"parameters": {
-																"instance-variable": "on",
-																"value": "true"
-															}
-														}
-													],
-													"sid": 424910161351420
-												}
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "cocobutton",
-													"sid": 947425747938335,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "1"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position",
-													"objectClass": "targetIcon",
-													"sid": 498430895052294,
-													"parameters": {
-														"x": "cocobutton.ImagePointX(\"targ\")",
-														"y": "cocobutton.ImagePointY(\"targ\")"
-													}
-												},
-												{
-													"id": "set-visible",
-													"objectClass": "targetIcon",
-													"sid": 810580128211245,
-													"parameters": {
-														"visibility": "visible"
-													}
-												},
-												{
-													"id": "set-collisions-enabled",
-													"objectClass": "targetIcon",
-													"sid": 674909490667203,
-													"parameters": {
-														"collisions": "enabled"
-													}
-												}
-											],
-											"sid": 487103583640360
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 335691810962540
-										},
-										{
-											"id": "compare-animation-frame-tag",
-											"objectClass": "cocobutton",
-											"sid": 946110939953303,
-											"parameters": {
-												"comparison": 0,
-												"tag": "\"start\""
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-position",
-											"objectClass": "cocobutton",
-											"sid": 662229221147716,
-											"parameters": {
-												"x": "-12600",
-												"y": "-12600"
-											}
-										},
-										{
-											"id": "set-position",
-											"objectClass": "targetIcon",
-											"sid": 708156556037668,
-											"parameters": {
-												"x": "-4499",
-												"y": "-9419"
-											}
-										},
-										{
-											"id": "set-collisions-enabled",
-											"objectClass": "cocobutton",
-											"sid": 631154018339356,
-											"disabled": true,
-											"parameters": {
-												"collisions": "disabled"
-											}
-										}
-									],
-									"sid": 513498186409996,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "rockAbil",
-													"sid": 488029978687916,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "cocobutton.index"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position-to-another-object",
-													"objectClass": "rockAbil",
-													"sid": 103716420053394,
-													"parameters": {
-														"object": "cocobutton",
-														"image-point-optional": "\"abil\""
-													}
-												}
-											],
-											"sid": 354379664204903,
-											"disabled": true
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "abilAuto",
-													"sid": 138551337546598,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "cocobutton.index"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "wait",
-													"objectClass": "System",
-													"sid": 649365757093300,
-													"parameters": {
-														"seconds": "0",
-														"use-timescale": true
-													}
-												},
-												{
-													"id": "set-position-to-another-object",
-													"objectClass": "abilAuto",
-													"sid": 759779851470978,
-													"parameters": {
-														"object": "cocobutton",
-														"image-point-optional": "\"auto\""
-													}
-												}
-											],
-											"sid": 630855427212843,
-											"disabled": true
-										}
-									]
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "состояние кнопок способностей при открытии",
-							"background-color": [
-								0.35294117647058826,
-								0.7490196078431373,
-								0.4823529411764706,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-instance-signal",
-									"objectClass": "cocobutton",
-									"sid": 633678831797444,
-									"parameters": {
-										"tag": "\"cocoAbilOpen\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-collisions-enabled",
-									"objectClass": "cocobutton",
-									"sid": 759870202889043,
-									"disabled": true,
-									"parameters": {
-										"collisions": "enabled"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "cocobutton",
-									"sid": 823373826012537,
-									"parameters": {
-										"animation": "\"single\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "cocobutton",
-									"sid": 825093178675024,
-									"parameters": {
-										"animation": "Self.auto=0?\"single\":\"auto\"",
-										"from": "current-frame"
-									}
-								}
-							],
-							"sid": 560360471836810,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "rockAbil",
-											"sid": 192418007898579,
-											"parameters": {
-												"instance-variable": "index",
-												"comparison": 0,
-												"value": "cocobutton.index"
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "rockAbil",
-											"sid": 384942340496754,
-											"parameters": {
-												"instance-variable": "icon",
-												"comparison": 0,
-												"value": "1"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-position-to-another-object",
-											"objectClass": "rockAbil",
-											"sid": 346732049237600,
-											"parameters": {
-												"object": "cocobutton",
-												"image-point-optional": "1"
-											}
-										},
-										{
-											"id": "move-to-object",
-											"objectClass": "rockAbil",
-											"sid": 359724165316540,
-											"disabled": true,
-											"parameters": {
-												"where": "in-front",
-												"object": "cocobutton"
-											}
-										},
-										{
-											"id": "set-visible",
-											"objectClass": "rockAbil",
-											"sid": 328333812860775,
-											"parameters": {
-												"visibility": "visible"
-											}
-										}
-									],
-									"sid": 983962342365506
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "abilAuto",
-											"sid": 277857531285406,
-											"parameters": {
-												"instance-variable": "index",
-												"comparison": 0,
-												"value": "cocobutton.index"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-position-to-another-object",
-											"objectClass": "abilAuto",
-											"sid": 258668931140644,
-											"parameters": {
-												"object": "cocobutton",
-												"image-point-optional": "\"auto\""
-											}
-										},
-										{
-											"id": "wait",
-											"objectClass": "System",
-											"sid": 188782506496412,
-											"disabled": true,
-											"parameters": {
-												"seconds": "0.1",
-												"use-timescale": true
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "abilAuto",
-											"sid": 243031734191507,
-											"parameters": {
-												"animation": "cocobutton.AnimationName",
-												"from": "beginning"
-											}
-										}
-									],
-									"sid": 652523580970505
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cocobutton",
-											"sid": 754256540045527,
-											"parameters": {
-												"instance-variable": "index",
-												"comparison": 0,
-												"value": "1"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-position",
-											"objectClass": "targetIcon",
-											"sid": 919858030088175,
-											"parameters": {
-												"x": "cocobutton.ImagePointX(\"targ\")",
-												"y": "cocobutton.ImagePointY(\"targ\")"
-											}
-										}
-									],
-									"sid": 761122334021713
-								},
-								{
-									"eventType": "comment",
-									"text": "состояние кнопок",
-									"background-color": [
-										0.35294117647058826,
-										0.7490196078431373,
-										0.4823529411764706,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cocobutton",
-											"sid": 300222545769567,
-											"parameters": {
-												"instance-variable": "pType",
-												"comparison": 0,
-												"value": "\"ball\""
-											}
-										}
-									],
-									"actions": [],
-									"sid": 728823621163548,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "aGame",
-													"sid": 840070611453753,
-													"parameters": {
-														"instance-variable": "noGun"
-													},
-													"isInverted": true
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "rockAbil",
-													"sid": 321484039347616,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "cocobutton.index"
-													}
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "abilAuto",
-													"sid": 663881004406992,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "cocobutton.index"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 260947014574527,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "cocobutton",
-															"sid": 122963675724903,
-															"parameters": {
-																"instance-variable": "pType",
-																"comparison": 0,
-																"value": "aGame.gunBit"
-															}
-														}
-													],
-													"actions": [],
-													"sid": 566852534991396,
-													"children": [
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "is-boolean-instance-variable-set",
-																	"objectClass": "aGame",
-																	"sid": 831865692415374,
-																	"parameters": {
-																		"instance-variable": "autoGun"
-																	},
-																	"isInverted": true
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-animation",
-																	"objectClass": "cocobutton",
-																	"sid": 619119836388101,
-																	"parameters": {
-																		"animation": "\"single\"",
-																		"from": "beginning"
-																	}
-																},
-																{
-																	"id": "set-animation-speed",
-																	"objectClass": "cocobutton",
-																	"sid": 178980288879723,
-																	"disabled": true,
-																	"parameters": {
-																		"speed": "0"
-																	}
-																},
-																{
-																	"id": "wait",
-																	"objectClass": "System",
-																	"sid": 192413981522952,
-																	"disabled": true,
-																	"parameters": {
-																		"seconds": "0",
-																		"use-timescale": true
-																	}
-																},
-																{
-																	"id": "stop-animation",
-																	"objectClass": "cocobutton",
-																	"sid": 559117602253140,
-																	"disabled": true
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "rockAbil",
-																	"sid": 226090788006779,
-																	"disabled": true,
-																	"parameters": {
-																		"animation": "\"target\"",
-																		"from": "current-frame"
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "rockAbil",
-																	"sid": 993608811229868,
-																	"parameters": {
-																		"animation": "Self.abilName",
-																		"from": "current-frame"
-																	}
-																},
-																{
-																	"id": "set-animation-frame",
-																	"objectClass": "rockAbil",
-																	"sid": 119313515952432,
-																	"parameters": {
-																		"frame-number": "3"
-																	}
-																},
-																{
-																	"id": "stop-animation",
-																	"objectClass": "rockAbil",
-																	"sid": 126883431906290
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "abilAuto",
-																	"sid": 400042746773629,
-																	"parameters": {
-																		"animation": "\"single\"",
-																		"from": "beginning"
-																	}
-																}
-															],
-															"sid": 688322314372916
-														},
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "is-boolean-instance-variable-set",
-																	"objectClass": "aGame",
-																	"sid": 621870318404828,
-																	"parameters": {
-																		"instance-variable": "autoGun"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-animation",
-																	"objectClass": "cocobutton",
-																	"sid": 405698155707599,
-																	"parameters": {
-																		"animation": "\"auto\"",
-																		"from": "current-frame"
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "rockAbil",
-																	"sid": 434753175335346,
-																	"parameters": {
-																		"animation": "\"auto\"",
-																		"from": "current-frame"
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "abilAuto",
-																	"sid": 616309548019024,
-																	"parameters": {
-																		"animation": "\"auto\"",
-																		"from": "beginning"
-																	}
-																}
-															],
-															"sid": 944289390420489
-														}
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "cocobutton",
-															"sid": 981676927305228,
-															"parameters": {
-																"instance-variable": "pType",
-																"comparison": 1,
-																"value": "aGame.gunBit"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-animation",
-															"objectClass": "cocobutton",
-															"sid": 860167484097161,
-															"parameters": {
-																"animation": "\"off\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "rockAbil",
-															"sid": 333268493990083,
-															"parameters": {
-																"animation": "\"off\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "abilAuto",
-															"sid": 149214346922402,
-															"parameters": {
-																"animation": "\"off\"",
-																"from": "beginning"
-															}
-														}
-													],
-													"sid": 119833052295269,
-													"disabled": true
-												}
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "aGame",
-													"sid": 753620506912992,
-													"parameters": {
-														"instance-variable": "noGun"
-													}
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "rockAbil",
-													"sid": 570642351148817,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "cocobutton.index"
-													}
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "abilAuto",
-													"sid": 670871847141661,
-													"parameters": {
-														"instance-variable": "index",
-														"comparison": 0,
-														"value": "cocobutton.index"
-													}
-												}
-											],
-											"actions": [
-												{
-													"type": "comment",
-													"text": "оплетение терниями"
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "cocobutton",
-													"sid": 847715855665994,
-													"parameters": {
-														"animation": "\"off\"",
-														"from": "beginning"
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "rockAbil",
-													"sid": 439371198178320,
-													"parameters": {
-														"animation": "\"off\"",
-														"from": "beginning"
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "abilAuto",
-													"sid": 761552629713635,
-													"parameters": {
-														"animation": "\"off\"",
-														"from": "beginning"
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "targetIcon",
-													"sid": 841593224632273,
-													"parameters": {
-														"animation": "\"off\"",
-														"from": "beginning"
-													}
-												}
-											],
-											"sid": 698465465141206
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "",
-									"background-color": [
-										0.35294117647058826,
-										0.7490196078431373,
-										0.4823529411764706,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cocobutton",
-											"sid": 792680908961864,
-											"parameters": {
-												"instance-variable": "pType",
-												"comparison": 0,
-												"value": "\"spray\""
-											}
-										}
-									],
-									"actions": [],
-									"sid": 799675553653000
-								},
-								{
-									"eventType": "comment",
-									"text": "",
-									"background-color": [
-										0.35294117647058826,
-										0.7490196078431373,
-										0.4823529411764706,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cocobutton",
-											"sid": 956509947710304,
-											"parameters": {
-												"instance-variable": "pType",
-												"comparison": 0,
-												"value": "\"duble\""
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "rockAbil",
-											"sid": 598819742544692,
-											"parameters": {
-												"instance-variable": "index",
-												"comparison": 0,
-												"value": "cocobutton.index"
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "abilAuto",
-											"sid": 567121459710405,
-											"parameters": {
-												"instance-variable": "index",
-												"comparison": 0,
-												"value": "cocobutton.index"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 699230147081033,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "aGame",
-													"sid": 739656118626632,
-													"parameters": {
-														"instance-variable": "doBitFake"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-group-active",
-													"objectClass": "System",
-													"sid": 763141533149433,
-													"parameters": {
-														"group-name": "\"fakeBit\"",
-														"state": "activated"
-													}
-												}
-											],
-											"sid": 764356571021164,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "aGame",
-															"sid": 579318340528454,
-															"parameters": {
-																"instance-variable": "autoDuble"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-animation",
-															"objectClass": "cocobutton",
-															"sid": 941392056302953,
-															"parameters": {
-																"animation": "\"auto\"",
-																"from": "current-frame"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "rockAbil",
-															"sid": 459813711139705,
-															"parameters": {
-																"animation": "\"auto\"",
-																"from": "current-frame"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "abilAuto",
-															"sid": 735030029938563,
-															"parameters": {
-																"animation": "\"auto\"",
-																"from": "beginning"
-															}
-														}
-													],
-													"sid": 197990595439134
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "else",
-															"objectClass": "System",
-															"sid": 719940897613070
-														}
-													],
-													"actions": [
-														{
-															"id": "set-animation",
-															"objectClass": "cocobutton",
-															"sid": 459313424886436,
-															"disabled": true,
-															"parameters": {
-																"animation": "\"auto\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "cocobutton",
-															"sid": 943095954060717,
-															"parameters": {
-																"animation": "\"single\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "rockAbil",
-															"sid": 139954960737256,
-															"parameters": {
-																"animation": "\"target\"",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "abilAuto",
-															"sid": 406929094770293,
-															"parameters": {
-																"animation": "\"single\"",
-																"from": "beginning"
-															}
-														}
-													],
-													"sid": 122773414045903
-												}
-											]
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 312170485494507
-												}
-											],
-											"actions": [
-												{
-													"id": "set-animation",
-													"objectClass": "cocobutton",
-													"sid": 379290229089686,
-													"parameters": {
-														"animation": "\"off\"",
-														"from": "beginning"
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "rockAbil",
-													"sid": 421929486624543,
-													"parameters": {
-														"animation": "\"off\"",
-														"from": "current-frame"
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "abilAuto",
-													"sid": 657806233871458,
-													"parameters": {
-														"animation": "\"off\"",
-														"from": "beginning"
-													}
-												}
-											],
-											"sid": 558107322134243
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "",
-									"background-color": [
-										0.35294117647058826,
-										0.7490196078431373,
-										0.4823529411764706,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cocobutton",
-											"sid": 383607804884548,
-											"parameters": {
-												"instance-variable": "pType",
-												"comparison": 0,
-												"value": "\"mush\""
-											}
-										}
-									],
-									"actions": [],
-									"sid": 182688004081958,
-									"disabled": true
-								},
-								{
-									"eventType": "comment",
-									"text": "",
-									"background-color": [
-										1,
-										0.8509803921568627,
-										0.8392156862745098,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cocobutton",
-											"sid": 886448790670237,
-											"parameters": {
-												"instance-variable": "pType",
-												"comparison": 0,
-												"value": "aUIN.newAbil"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "cocobutton",
-											"sid": 569992951256890,
-											"parameters": {
-												"instance-variable": "status",
-												"value": "\"new\""
-											}
-										}
-									],
-									"sid": 910424698446879
-								},
-								{
-									"eventType": "comment",
-									"text": "выделение способности - новая, отмеченная",
-									"background-color": [
-										1,
-										0.8509803921568627,
-										0.8392156862745098,
-										1
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "колобки встречаются. Я имею в виду - нужен эффект на новую способность"
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cocobutton",
-											"sid": 993936388910054,
-											"parameters": {
-												"instance-variable": "status",
-												"comparison": 0,
-												"value": "\"new\""
-											}
-										},
-										{
-											"id": "is-outside-layout",
-											"objectClass": "circleFXsmall",
-											"sid": 802311184254245
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation",
-											"objectClass": "cocobutton",
-											"sid": 525102424332300,
-											"disabled": true,
-											"parameters": {
-												"animation": "\"new\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "cocobutton",
-											"sid": 442096176813522,
-											"parameters": {
-												"instance-variable": "status",
-												"value": "\"\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aUIN",
-											"sid": 782347180453612,
-											"parameters": {
-												"instance-variable": "newAbil",
-												"value": "\"zero\""
-											}
-										}
-									],
-									"sid": 392841546128433,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "pick-random-instance",
-													"objectClass": "System",
-													"sid": 562755835492161,
-													"parameters": {
-														"object": "circleFXsmall"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position-to-another-object",
-													"objectClass": "circleFXsmall",
-													"sid": 571514271335853,
-													"parameters": {
-														"object": "cocobutton",
-														"image-point-optional": "1"
-													}
-												},
-												{
-													"id": "set-animation",
-													"objectClass": "circleFXsmall",
-													"sid": 291436163268605,
-													"parameters": {
-														"animation": "\"e1\"",
-														"from": "beginning"
-													}
-												}
-											],
-											"sid": 465012550317765
-										}
-									]
-								}
-							]
-						},
-						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -4311,800 +4412,6 @@
 								}
 							],
 							"sid": 190427042722841
-						},
-						{
-							"eventType": "comment",
-							"text": "\n\n\n\n\n\n\nреакции кокона на движения курсора - при приближении отрастают кнопки на коконе",
-							"background-color": [
-								0.6666666666666666,
-								0.7843137254901961,
-								0.33725490196078434,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "aUIN",
-									"sid": 856649902643060,
-									"parameters": {
-										"instance-variable": "rocketOn"
-									}
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "inventory",
-									"sid": 643098010527997,
-									"parameters": {
-										"animation": "\"open\""
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "aUI",
-									"sid": 296558779723227,
-									"parameters": {
-										"instance-variable": "hotSign",
-										"comparison": 0,
-										"value": "\"zero\""
-									}
-								},
-								{
-									"id": "compare-animation-frame",
-									"objectClass": "inventory",
-									"sid": 202794772987645,
-									"parameters": {
-										"comparison": 5,
-										"number": "6"
-									}
-								}
-							],
-							"actions": [],
-							"sid": 166329944315994,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-x",
-											"objectClass": "cursor",
-											"sid": 161409684284009,
-											"parameters": {
-												"comparison": 3,
-												"x-co-ordinate": "150"
-											}
-										},
-										{
-											"id": "compare-y",
-											"objectClass": "cursor",
-											"sid": 167983941126481,
-											"parameters": {
-												"comparison": 3,
-												"y-co-ordinate": "160"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 995199401904533,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "trigger-once-while-true",
-													"objectClass": "System",
-													"sid": 498305321945329
-												},
-												{
-													"id": "compare-animation-frame",
-													"objectClass": "inventory",
-													"sid": 745728483844314,
-													"parameters": {
-														"comparison": 2,
-														"number": "10"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-animation",
-													"objectClass": "inventory",
-													"sid": 998237464365512,
-													"parameters": {
-														"animation": "\"open\"",
-														"from": "current-frame"
-													}
-												},
-												{
-													"id": "set-animation-speed",
-													"objectClass": "inventory",
-													"sid": 617247199302724,
-													"parameters": {
-														"speed": "24"
-													}
-												}
-											],
-											"sid": 769357349867302
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "on-animation-frame-changed",
-													"objectClass": "inventory",
-													"sid": 365810656630111
-												},
-												{
-													"id": "compare-animation-frame",
-													"objectClass": "inventory",
-													"sid": 922901031902206,
-													"parameters": {
-														"comparison": 2,
-														"number": "10"
-													}
-												}
-											],
-											"actions": [
-												{
-													"id": "set-animation",
-													"objectClass": "inventory",
-													"sid": 997106819098021,
-													"parameters": {
-														"animation": "\"open\"",
-														"from": "current-frame"
-													}
-												},
-												{
-													"id": "set-animation-speed",
-													"objectClass": "inventory",
-													"sid": 906105873916599,
-													"parameters": {
-														"speed": "24"
-													}
-												}
-											],
-											"sid": 523158346700584
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 411270004597041
-										},
-										{
-											"id": "compare-animation-frame",
-											"objectClass": "inventory",
-											"sid": 930793324558103,
-											"parameters": {
-												"comparison": 4,
-												"number": "6"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 128858298774993,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "trigger-once-while-true",
-													"objectClass": "System",
-													"sid": 373382496727997
-												}
-											],
-											"actions": [
-												{
-													"id": "set-animation-speed",
-													"objectClass": "inventory",
-													"sid": 383435204237016,
-													"parameters": {
-														"speed": "-24"
-													}
-												},
-												{
-													"id": "start-animation",
-													"objectClass": "inventory",
-													"sid": 820470047228800,
-													"parameters": {
-														"from": "current-frame"
-													}
-												}
-											],
-											"sid": 539420656856429
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 433906127879042
-										},
-										{
-											"id": "compare-animation-frame",
-											"objectClass": "inventory",
-											"sid": 739854598373212,
-											"parameters": {
-												"comparison": 0,
-												"number": "6"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 337507237868837,
-											"parameters": {
-												"speed": "0"
-											}
-										}
-									],
-									"sid": 403085805245316
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 551001450550914
-										},
-										{
-											"id": "compare-animation-frame",
-											"objectClass": "inventory",
-											"sid": 308802745967714,
-											"parameters": {
-												"comparison": 0,
-												"number": "10"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 593032391757560,
-											"parameters": {
-												"speed": "0"
-											}
-										},
-										{
-											"id": "stop-animation",
-											"objectClass": "inventory",
-											"sid": 849322078119909
-										}
-									],
-									"sid": 817096555993799
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "\n\n\n\n\n\n\nтриггеры анимации кокона",
-							"background-color": [
-								0.7372549019607844,
-								0.984313725490196,
-								0.8196078431372549,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "on-animation-frame-changed",
-									"objectClass": "inventory",
-									"sid": 183298138266725
-								},
-								{
-									"id": "is-animation-playing",
-									"objectClass": "inventory",
-									"sid": 774038419473870,
-									"parameters": {
-										"animation": "\"open\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 386296372101397,
-							"children": [
-								{
-									"eventType": "comment",
-									"text": "кадр горячего предмета",
-									"background-color": [
-										0.7372549019607844,
-										0.984313725490196,
-										0.8196078431372549,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-animation-speed",
-											"objectClass": "inventory",
-											"sid": 973474649615685,
-											"parameters": {
-												"comparison": 4,
-												"number": "0"
-											}
-										},
-										{
-											"id": "compare-animation-frame",
-											"objectClass": "inventory",
-											"sid": 232176565226475,
-											"parameters": {
-												"comparison": 0,
-												"number": "10"
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "aUI",
-											"sid": 781551869495865,
-											"parameters": {
-												"instance-variable": "hotSign",
-												"comparison": 0,
-												"value": "\"zero\""
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 610814845451392,
-											"parameters": {
-												"instance-variable": "rocketOn"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 596134336478281,
-											"parameters": {
-												"speed": "0"
-											}
-										},
-										{
-											"id": "stop-animation",
-											"objectClass": "inventory",
-											"sid": 452057226222458
-										}
-									],
-									"sid": 443034664140888
-								},
-								{
-									"eventType": "comment",
-									"text": "\nубираем предметы в процессе трансформации кокона",
-									"background-color": [
-										0.6862745098039216,
-										0.7333333333333333,
-										0.8745098039215686,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-animation-frame-tag",
-											"objectClass": "inventory",
-											"sid": 649753228109647,
-											"parameters": {
-												"comparison": 1,
-												"tag": "\"hot\""
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "items",
-											"sid": 549541821533331,
-											"parameters": {
-												"instance-variable": "add"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "items",
-											"sid": 968108059795967,
-											"parameters": {
-												"instance-variable": "inventory"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-collisions-enabled",
-											"objectClass": "items",
-											"sid": 979038300931484,
-											"parameters": {
-												"collisions": "disabled"
-											}
-										},
-										{
-											"id": "set-y",
-											"objectClass": "items",
-											"sid": 996043283161076,
-											"parameters": {
-												"y": "-7773"
-											}
-										}
-									],
-									"sid": 195214159559711,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-outside-layout",
-													"objectClass": "invBack",
-													"sid": 790489411225864,
-													"isInverted": true
-												}
-											],
-											"actions": [
-												{
-													"id": "set-y",
-													"objectClass": "invBack",
-													"sid": 852934560307623,
-													"parameters": {
-														"y": "-3333"
-													}
-												}
-											],
-											"sid": 390836837892599
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "\nпозиционирование первого предмета в коконе",
-									"background-color": [
-										0.6862745098039216,
-										0.7333333333333333,
-										0.8745098039215686,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-animation-frame-tag",
-											"objectClass": "inventory",
-											"sid": 676737175611505,
-											"parameters": {
-												"comparison": 0,
-												"tag": "\"hot\""
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 629129528970001,
-											"parameters": {
-												"instance-variable": "invAndAbilClose"
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 874416366888457,
-											"parameters": {
-												"instance-variable": "inventoryOn"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "items",
-											"sid": 817311126930460,
-											"parameters": {
-												"instance-variable": "add"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "items",
-											"sid": 769469495152026,
-											"parameters": {
-												"instance-variable": "inventory"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 384157552209438,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-outside-layout",
-													"objectClass": "invBack",
-													"sid": 296255299027945
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position-to-another-object",
-													"objectClass": "invBack",
-													"sid": 118514081031068,
-													"parameters": {
-														"object": "inventory",
-														"image-point-optional": "1"
-													}
-												}
-											],
-											"sid": 394735378062602
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "pick-highestlowest",
-													"objectClass": "items",
-													"sid": 129968411651561,
-													"parameters": {
-														"which": "lowest",
-														"instance-variable": "cellN"
-													}
-												},
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "items",
-													"sid": 279408387362940,
-													"disabled": true,
-													"parameters": {
-														"instance-variable": "hot"
-													}
-												},
-												{
-													"id": "is-dragging",
-													"objectClass": "items",
-													"sid": 996334312974238,
-													"behaviorType": "DragDrop",
-													"isInverted": true
-												}
-											],
-											"actions": [
-												{
-													"id": "set-position-to-another-object",
-													"objectClass": "items",
-													"sid": 939681385725408,
-													"parameters": {
-														"object": "inventory",
-														"image-point-optional": "1"
-													}
-												},
-												{
-													"id": "set-collisions-enabled",
-													"objectClass": "items",
-													"sid": 334216532623979,
-													"parameters": {
-														"collisions": "enabled"
-													}
-												},
-												{
-													"id": "set-enabled",
-													"objectClass": "items",
-													"sid": 390617410021657,
-													"disabled": true,
-													"behaviorType": "DragDrop",
-													"parameters": {
-														"state": "disabled"
-													}
-												},
-												{
-													"id": "move-to-object",
-													"objectClass": "items",
-													"sid": 307627448486902,
-													"parameters": {
-														"where": "in-front",
-														"object": "inventory"
-													}
-												}
-											],
-											"sid": 637538883588174,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "quants",
-															"sid": 534061500682860,
-															"parameters": {
-																"unique-id": "items.quantUID"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "move-to-object",
-															"objectClass": "quants",
-															"sid": 191725827016528,
-															"parameters": {
-																"where": "in-front",
-																"object": "items"
-															}
-														}
-													],
-													"sid": 809148534149362
-												}
-											]
-										}
-									]
-								},
-								{
-									"eventType": "comment",
-									"text": "кокон инвентаря расформировался\nпри включенных способностях группа отростков включается а способностей отключается",
-									"background-color": [
-										0.7372549019607844,
-										0.984313725490196,
-										0.8196078431372549,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-animation-playing",
-											"objectClass": "inventory",
-											"sid": 962597255206559,
-											"parameters": {
-												"animation": "\"open\""
-											}
-										},
-										{
-											"id": "compare-animation-frame",
-											"objectClass": "inventory",
-											"sid": 739018253991109,
-											"parameters": {
-												"comparison": 0,
-												"number": "0"
-											}
-										},
-										{
-											"id": "compare-animation-speed",
-											"objectClass": "inventory",
-											"sid": 525224151966014,
-											"parameters": {
-												"comparison": 2,
-												"number": "0"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aUIN",
-											"sid": 839186608397638,
-											"parameters": {
-												"instance-variable": "rocketOn"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-position",
-											"objectClass": "rocketCloser",
-											"sid": 792002067899840,
-											"disabled": true,
-											"parameters": {
-												"x": "-100",
-												"y": "100"
-											}
-										},
-										{
-											"id": "stop-animation",
-											"objectClass": "inventory",
-											"sid": 973435186805201
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "inventory",
-											"sid": 972802649478981,
-											"parameters": {
-												"animation": "\"near\"",
-												"from": "current-frame"
-											}
-										},
-										{
-											"id": "set-animation-frame",
-											"objectClass": "inventory",
-											"sid": 379241811342787,
-											"disabled": true,
-											"parameters": {
-												"frame-number": "Self.AnimationFrameCount"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "inventory",
-											"sid": 108737112852133,
-											"parameters": {
-												"speed": "-24"
-											}
-										},
-										{
-											"id": "set-animation-frame",
-											"objectClass": "inventory",
-											"sid": 308639585501746,
-											"parameters": {
-												"frame-number": "10"
-											}
-										},
-										{
-											"id": "start-animation",
-											"objectClass": "inventory",
-											"sid": 567568622501478,
-											"parameters": {
-												"from": "current-frame"
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 310763446462426,
-											"parameters": {
-												"group-name": "\"rocketSprout\"",
-												"state": "activated"
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 690780776180632,
-											"parameters": {
-												"group-name": "\"rocket\"",
-												"state": "deactivated"
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 149096947453475,
-											"parameters": {
-												"group-name": "\"itemDrag\"",
-												"state": "deactivated"
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 548459221183095,
-											"parameters": {
-												"group-name": "\"inventory\"",
-												"state": "deactivated"
-											}
-										}
-									],
-									"sid": 107050857368490,
-									"disabled": true
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "",
-							"background-color": [
-								0.7372549019607844,
-								0.984313725490196,
-								0.8196078431372549,
-								1
-							]
 						}
 					],
 					"sid": 641923798220068
@@ -5269,7 +4576,7 @@
 											"objectClass": "aUIN",
 											"sid": 783515193812943,
 											"parameters": {
-												"instance-variable": "rocketDown"
+												"instance-variable": "abilsBottom"
 											},
 											"isInverted": true
 										}
@@ -5350,7 +4657,7 @@
 											"objectClass": "cocobutton",
 											"sid": 554606695127421,
 											"parameters": {
-												"instance-variable": "rocket"
+												"instance-variable": "entered"
 											}
 										}
 									],
@@ -5524,7 +4831,7 @@
 															"objectClass": "aUIN",
 															"sid": 680163726755230,
 															"parameters": {
-																"instance-variable": "rocketDown"
+																"instance-variable": "abilsBottom"
 															},
 															"isInverted": true
 														}
@@ -5554,7 +4861,7 @@
 															"objectClass": "aUIN",
 															"sid": 566956885504941,
 															"parameters": {
-																"instance-variable": "rocketDown"
+																"instance-variable": "abilsBottom"
 															}
 														}
 													],
@@ -5878,7 +5185,7 @@
 															"sid": 852799405037384,
 															"disabled": true,
 															"parameters": {
-																"instance-variable": "rocketDown"
+																"instance-variable": "abilsBottom"
 															}
 														}
 													],
@@ -6342,7 +5649,7 @@
 											"objectClass": "aUIN",
 											"sid": 656952416619955,
 											"parameters": {
-												"instance-variable": "invAndAbilClose"
+												"instance-variable": "abilOut"
 											},
 											"isInverted": true
 										},
@@ -6467,7 +5774,7 @@
 											"objectClass": "aUIN",
 											"sid": 913696060226616,
 											"parameters": {
-												"instance-variable": "invAndAbilClose"
+												"instance-variable": "abilOut"
 											},
 											"isInverted": true
 										}
@@ -8559,7 +7866,7 @@
 									"objectClass": "aUIN",
 									"sid": 533382146257644,
 									"parameters": {
-										"instance-variable": "rocketOn"
+										"instance-variable": "abilsOn"
 									}
 								}
 							],
@@ -8878,7 +8185,7 @@
 									"objectClass": "aUIN",
 									"sid": 385415831904686,
 									"parameters": {
-										"instance-variable": "rocketOn"
+										"instance-variable": "abilsOn"
 									}
 								}
 							],
@@ -9408,7 +8715,7 @@
 									"disabled": true,
 									"parameters": {
 										"x": "cocobutton.X+40",
-										"y": "aUIN.rocketDown=0?cocobutton.Y+80:cocobutton.Y-20"
+										"y": "aUIN.abilsBottom=0?cocobutton.Y+80:cocobutton.Y-20"
 									}
 								},
 								{
@@ -11625,7 +10932,7 @@
 													"disabled": true,
 													"parameters": {
 														"x": "cocobutton.X+40",
-														"y": "aUIN.rocketDown=0?cocobutton.Y+20:cocobutton.Y+55"
+														"y": "aUIN.abilsBottom=0?cocobutton.Y+20:cocobutton.Y+55"
 													}
 												},
 												{

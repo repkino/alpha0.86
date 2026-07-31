@@ -1,0 +1,1577 @@
+{
+	"name": "_energoUI",
+	"events": [
+		{
+			"eventType": "comment",
+			"text": "\n\nэнерго-индикатор, изменения энергии, эффекты",
+			"text-color": [
+				1,
+				1,
+				1,
+				1
+			],
+			"background-color": [
+				0,
+				0,
+				0,
+				1
+			]
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "energoSystem",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "trigger-once-while-true",
+							"objectClass": "System",
+							"sid": 271966976110482
+						}
+					],
+					"actions": [
+						{
+							"type": "comment",
+							"text": "сбрасываем стартовое значение для догонялы - для плавного заполнения на старте"
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 158533719102521,
+							"parameters": {
+								"variable": "currentPairs",
+								"value": "0"
+							}
+						}
+					],
+					"sid": 576966601442339
+				},
+				{
+					"eventType": "comment",
+					"text": "позиционирование шкалы индикатора"
+				},
+				{
+					"aceType": "action",
+					"aceName": "energoStart",
+					"objectClass": "indicator",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "compare-x",
+							"objectClass": "indiEnergo",
+							"sid": 654980775552805,
+							"parameters": {
+								"comparison": 2,
+								"x-co-ordinate": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"type": "comment",
+							"text": "Синхронизируем стартовое значение для догонялы - для мгновенного заполнения на старте",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 536098949786634,
+							"disabled": true,
+							"parameters": {
+								"variable": "currentPairs",
+								"value": "ceil((aBit.energo / 1000) * 72)"
+							}
+						}
+					],
+					"sid": 707476187162531,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "плавное заполнение индикатора на старте"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for",
+									"objectClass": "System",
+									"sid": 293682215048630,
+									"parameters": {
+										"name": "\"sl\"",
+										"start-index": "1",
+										"end-index": "72"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 350990480432971,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "indiEnergo",
+											"sid": 964886961683707,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 146716193854039,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 161801619701198,
+													"parameters": {
+														"object": "indiEnergo"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "indiEnergo",
+													"sid": 809495525906209,
+													"parameters": {
+														"object": "indicator",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "indiEnergo",
+													"sid": 790359854838199,
+													"parameters": {
+														"angle": "90+(loopindex(\"sl\")-1)*2.5"
+													}
+												},
+												{
+													"id": "set-visible",
+													"objectClass": "indiEnergo",
+													"sid": 982978828617833,
+													"parameters": {
+														"visibility": "invisible"
+													}
+												},
+												{
+													"id": "move-to-object",
+													"objectClass": "indiEnergo",
+													"sid": 641675110002976,
+													"parameters": {
+														"where": "behind",
+														"object": "indiCentr"
+													}
+												}
+											],
+											"sid": 295593637685686
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for",
+									"objectClass": "System",
+									"sid": 853456537362481,
+									"parameters": {
+										"name": "\"sr\"",
+										"start-index": "1",
+										"end-index": "72"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 419959501339694,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "indiEnergo",
+											"sid": 101238531963606,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 690807638658898,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 953562525298533,
+													"parameters": {
+														"object": "indiEnergo"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "indiEnergo",
+													"sid": 660471374623455,
+													"parameters": {
+														"object": "indicator",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-height",
+													"objectClass": "indiEnergo",
+													"sid": 116203804751445,
+													"parameters": {
+														"height": "-Self.Height"
+													}
+												},
+												{
+													"id": "set-angle",
+													"objectClass": "indiEnergo",
+													"sid": 833932545684301,
+													"parameters": {
+														"angle": "90-(loopindex(\"sr\")-1)*2.5"
+													}
+												},
+												{
+													"id": "set-visible",
+													"objectClass": "indiEnergo",
+													"sid": 727648433560038,
+													"parameters": {
+														"visibility": "invisible"
+													}
+												},
+												{
+													"id": "move-to-object",
+													"objectClass": "indiEnergo",
+													"sid": 773087269963770,
+													"parameters": {
+														"where": "behind",
+														"object": "indiCentr"
+													}
+												}
+											],
+											"sid": 295817135810641
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "мгновенное заполнение индикатора на старте"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for",
+									"objectClass": "System",
+									"sid": 489251207366898,
+									"parameters": {
+										"name": "\"sl\"",
+										"start-index": "1",
+										"end-index": "72"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 442586312266496,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "indiEnergo",
+											"sid": 197905108630840,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										},
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 213360736862214,
+											"parameters": {
+												"object": "indiEnergo"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "indiEnergo",
+											"sid": 991597392369113,
+											"parameters": {
+												"object": "indicator",
+												"image-point-optional": "0"
+											}
+										},
+										{
+											"id": "set-angle",
+											"objectClass": "indiEnergo",
+											"sid": 811220794566437,
+											"parameters": {
+												"angle": "90+(loopindex(\"sl\")-1)*2.5"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "indiEnergo",
+											"sid": 236171290155551,
+											"parameters": {
+												"where": "behind",
+												"object": "indiCentr"
+											}
+										}
+									],
+									"sid": 532204002833333,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 519745754100152,
+													"parameters": {
+														"first-value": "loopindex(\"sl\")",
+														"comparison": 3,
+														"second-value": "currentPairs"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-visible",
+													"objectClass": "indiEnergo",
+													"sid": 384730809540289,
+													"parameters": {
+														"visibility": "visible"
+													}
+												}
+											],
+											"sid": 930808215837446,
+											"disabled": true
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 905474086644131
+												}
+											],
+											"actions": [
+												{
+													"id": "set-visible",
+													"objectClass": "indiEnergo",
+													"sid": 912254711970332,
+													"parameters": {
+														"visibility": "invisible"
+													}
+												}
+											],
+											"sid": 483640456046486,
+											"disabled": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for",
+									"objectClass": "System",
+									"sid": 270512271067838,
+									"parameters": {
+										"name": "\"sr\"",
+										"start-index": "1",
+										"end-index": "72"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 754557187863071,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "indiEnergo",
+											"sid": 384457535248001,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										},
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 982768755748260,
+											"parameters": {
+												"object": "indiEnergo"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "indiEnergo",
+											"sid": 993613899278352,
+											"parameters": {
+												"object": "indicator",
+												"image-point-optional": "0"
+											}
+										},
+										{
+											"id": "set-height",
+											"objectClass": "indiEnergo",
+											"sid": 203290924574121,
+											"parameters": {
+												"height": "-Self.Height"
+											}
+										},
+										{
+											"id": "set-angle",
+											"objectClass": "indiEnergo",
+											"sid": 492103241893554,
+											"parameters": {
+												"angle": "90-(loopindex(\"sr\")-1)*2.5"
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "indiEnergo",
+											"sid": 825958151597943,
+											"parameters": {
+												"where": "behind",
+												"object": "indiCentr"
+											}
+										}
+									],
+									"sid": 802121588101790,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 448181595958122,
+													"parameters": {
+														"first-value": "loopindex(\"sr\")",
+														"comparison": 3,
+														"second-value": "currentPairs"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-visible",
+													"objectClass": "indiEnergo",
+													"sid": 967045121824211,
+													"parameters": {
+														"visibility": "visible"
+													}
+												}
+											],
+											"sid": 708254213364083,
+											"disabled": true
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 633448432677465
+												}
+											],
+											"actions": [
+												{
+													"id": "set-visible",
+													"objectClass": "indiEnergo",
+													"sid": 777676759293281,
+													"parameters": {
+														"visibility": "invisible"
+													}
+												}
+											],
+											"sid": 741946323985530,
+											"disabled": true
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "2. МГНОВЕННАЯ ЛОГИКА ИЗМЕНЕНИЯ ЭНЕРГИИ (Емкость 1000)",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "energoi",
+					"objectClass": "indicator",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "sub",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 315076455734617
+						},
+						{
+							"name": "add",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 199502847770563
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "set-text",
+							"objectClass": "indiEnergo360",
+							"sid": 300126808702499,
+							"parameters": {
+								"text": "aBit.energo"
+							}
+						}
+					],
+					"sid": 817039291242325,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 544097683803559,
+									"parameters": {
+										"variable": "sub",
+										"comparison": 4,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 117558297514111,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "digitalB",
+											"sid": 773516877060848,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 706442185884204,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 534053371510094,
+													"parameters": {
+														"object": "digitalB"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-text",
+													"objectClass": "digitalB",
+													"sid": 410280492205921,
+													"parameters": {
+														"text": "\"-\"&sub"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "digitalB",
+													"sid": 436719369767824,
+													"parameters": {
+														"scale": "0.3+sub/300"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "digitalB",
+													"sid": 425122462284442,
+													"parameters": {
+														"x": "indiCentr.X",
+														"y": "indiCentr.Y"
+													}
+												},
+												{
+													"id": "tween-two-properties",
+													"objectClass": "digitalB",
+													"sid": 502734110501988,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"up\"",
+														"property": "position",
+														"end-x": "Self.X+random(-10,10)-sub/10",
+														"end-y": "Self.Y-random(20,40)-sub/5",
+														"time": "0.8+sub/1000",
+														"ease": "easeoutquad",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												},
+												{
+													"id": "move-to-top",
+													"objectClass": "digitalB",
+													"sid": 817404411201054
+												}
+											],
+											"sid": 233866820549626,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 918363683203754,
+															"parameters": {
+																"variable": "sub",
+																"comparison": 4,
+																"value": "4"
+															}
+														},
+														{
+															"id": "compare-x",
+															"objectClass": "plusSkull",
+															"sid": 996902147517846,
+															"parameters": {
+																"comparison": 2,
+																"x-co-ordinate": "0"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 351444814184063,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "pick-random-instance",
+																	"objectClass": "System",
+																	"sid": 898316788350747,
+																	"parameters": {
+																		"object": "plusSkull"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "plusSkull",
+																	"sid": 869995968962996,
+																	"parameters": {
+																		"object": "Bit",
+																		"image-point-optional": "\"dialog\""
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "plusSkull",
+																	"sid": 917187787662569,
+																	"parameters": {
+																		"animation": "\"b\"",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-animation-frame",
+																	"objectClass": "plusSkull",
+																	"sid": 793040994470968,
+																	"disabled": true,
+																	"parameters": {
+																		"frame-number": "sub<20? 0 : sub<40? 1 : 2"
+																	}
+																},
+																{
+																	"id": "start-animation",
+																	"objectClass": "plusSkull",
+																	"sid": 180144079699892,
+																	"disabled": true,
+																	"parameters": {
+																		"from": "current-frame"
+																	}
+																},
+																{
+																	"id": "set-scale",
+																	"objectClass": "plusSkull",
+																	"sid": 729297937635101,
+																	"disabled": true,
+																	"parameters": {
+																		"scale": "0.3+sub/300"
+																	}
+																},
+																{
+																	"id": "set-scale",
+																	"objectClass": "plusSkull",
+																	"sid": 917542305630722,
+																	"parameters": {
+																		"scale": "0.3+sub/200"
+																	}
+																},
+																{
+																	"id": "tween-two-properties",
+																	"objectClass": "plusSkull",
+																	"sid": 431470528308536,
+																	"behaviorType": "Tween",
+																	"parameters": {
+																		"tags": "\"up\"",
+																		"property": "position",
+																		"end-x": "Self.X+random(-10,20)-add/5",
+																		"end-y": "Self.Y-random(60,80)-add/2",
+																		"time": "0.5+sub/600",
+																		"ease": "easeoutcirc",
+																		"destroy-on-complete": "no",
+																		"loop": "no",
+																		"ping-pong": "no",
+																		"repeat-count": "1"
+																	}
+																}
+															],
+															"sid": 531235511388223
+														}
+													]
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 404093417110322
+								},
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 971917336215761,
+									"parameters": {
+										"variable": "add",
+										"comparison": 4,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 574440310811933,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-x",
+											"objectClass": "digitalW",
+											"sid": 373440183592369,
+											"parameters": {
+												"comparison": 2,
+												"x-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 506904331690694,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 633563135988536,
+													"parameters": {
+														"object": "digitalW"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-text",
+													"objectClass": "digitalW",
+													"sid": 937809241224721,
+													"parameters": {
+														"text": "\"+\"&add"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "digitalW",
+													"sid": 709763076712654,
+													"parameters": {
+														"scale": "0.4+add/300"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "digitalW",
+													"sid": 941013547224391,
+													"parameters": {
+														"x": "indiCentr.X",
+														"y": "indiCentr.Y"
+													}
+												},
+												{
+													"id": "tween-two-properties",
+													"objectClass": "digitalW",
+													"sid": 851873277750779,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"up\"",
+														"property": "position",
+														"end-x": "Self.X+random(-10,10)-add/10",
+														"end-y": "Self.Y-random(20,40)-add/5",
+														"time": "0.8+add/1000",
+														"ease": "easeoutquad",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												},
+												{
+													"id": "move-to-top",
+													"objectClass": "digitalW",
+													"sid": 684881784150535
+												}
+											],
+											"sid": 189052901550589
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 203857059261900,
+											"parameters": {
+												"variable": "add",
+												"comparison": 4,
+												"value": "indiFXaura.add"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "indiFXaura",
+											"sid": 891771810660931,
+											"parameters": {
+												"instance-variable": "add",
+												"value": "add"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "indiFXaura",
+											"sid": 562085243758185,
+											"parameters": {
+												"animation": "\"sparkles\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "indiFXaura",
+											"sid": 996252492347883,
+											"parameters": {
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "indiFXaura",
+											"sid": 735270182677145,
+											"parameters": {
+												"scale": "0.2+sqrt(add)/15"
+											}
+										}
+									],
+									"sid": 480462348688828
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 455654555716270
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 210744522885054,
+											"parameters": {
+												"variable": "add",
+												"comparison": 4,
+												"value": "9"
+											}
+										},
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "indiFXaura",
+											"sid": 195915853589973,
+											"parameters": {
+												"comparison": 5,
+												"number": "10"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "indiFXaura",
+											"sid": 380251885619231,
+											"parameters": {
+												"instance-variable": "add",
+												"value": "add"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "indiFXaura",
+											"sid": 405956855531492,
+											"parameters": {
+												"animation": "\"sparkles\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "indiFXaura",
+											"sid": 986626560026295,
+											"parameters": {
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "indiFXaura",
+											"sid": 331552404994671,
+											"parameters": {
+												"scale": "0.2+sqrt(add)/15"
+											}
+										}
+									],
+									"sid": 813338355049697
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 688693972514174
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 493477638831286,
+											"parameters": {
+												"variable": "add",
+												"comparison": 3,
+												"value": "indiFXaura.add"
+											}
+										},
+										{
+											"id": "compare-animation-frame",
+											"objectClass": "indiFXaura",
+											"sid": 629541322380533,
+											"parameters": {
+												"comparison": 5,
+												"number": "14"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "indiFXaura",
+											"sid": 390360710993539,
+											"parameters": {
+												"instance-variable": "add",
+												"value": "add"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "indiFXaura",
+											"sid": 647291834516291,
+											"parameters": {
+												"animation": "\"sparkles\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "indiFXaura",
+											"sid": 796716857214882,
+											"parameters": {
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-scale",
+											"objectClass": "indiFXaura",
+											"sid": 741316482940185,
+											"parameters": {
+												"scale": "0.2+sqrt(add)/15"
+											}
+										}
+									],
+									"sid": 137380046019418
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "3. ВИЗУАЛЬНЫЙ ДОГОНЯЛА (Плавная анимация сегментов)",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"eventType": "variable",
+					"name": "currentPairs",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"isStatic": true,
+					"isConstant": false,
+					"sid": 886339129687989
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 406395025435110,
+							"parameters": {
+								"interval-seconds": "0.03"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 334043364449288,
+					"children": [
+						{
+							"eventType": "variable",
+							"name": "targetPairs",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 752145126786979
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 463238028628264,
+									"parameters": {
+										"variable": "targetPairs",
+										"value": "ceil((aBit.energo / 1000) * 72)"
+									}
+								}
+							],
+							"sid": 361946033473670
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 976763788392387,
+									"parameters": {
+										"first-value": "currentPairs",
+										"comparison": 2,
+										"second-value": "targetPairs"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "add-to-eventvar",
+									"objectClass": "System",
+									"sid": 990863270709857,
+									"parameters": {
+										"variable": "currentPairs",
+										"value": "1"
+									}
+								}
+							],
+							"sid": 374025236863107,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 764160241509117,
+											"parameters": {
+												"object": "indiEnergo"
+											}
+										},
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 744169601475732,
+											"parameters": {
+												"first-value": "round(angleDiff(90, indiEnergo.Angle) / 2.5) + 1",
+												"comparison": 0,
+												"second-value": "currentPairs"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-visible",
+											"objectClass": "indiEnergo",
+											"sid": 962953839165249,
+											"parameters": {
+												"visibility": "visible"
+											}
+										}
+									],
+									"sid": 986182318606594
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 171057760429268,
+									"parameters": {
+										"first-value": "currentPairs",
+										"comparison": 4,
+										"second-value": "targetPairs"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 310902471959927,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 319842677723934,
+											"parameters": {
+												"object": "indiEnergo"
+											}
+										},
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 120839727788924,
+											"parameters": {
+												"first-value": "round(angleDiff(90, indiEnergo.Angle) / 2.5) + 1",
+												"comparison": 0,
+												"second-value": "currentPairs"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-visible",
+											"objectClass": "indiEnergo",
+											"sid": 701615956523679,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										}
+									],
+									"sid": 886285195312486
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "subtract-from-eventvar",
+											"objectClass": "System",
+											"sid": 988100945800010,
+											"parameters": {
+												"variable": "currentPairs",
+												"value": "1"
+											}
+										}
+									],
+									"sid": 918639612565596
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-click",
+							"objectClass": "Mouse",
+							"sid": 191564206941880,
+							"parameters": {
+								"mouse-button": "button-4",
+								"click-type": "clicked"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "energo",
+							"sid": 386323234079599,
+							"parameters": [
+								"0",
+								"int(random(3,133))",
+								false,
+								"\"zero\""
+							]
+						}
+					],
+					"sid": 629542360081727,
+					"isOrBlock": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-click",
+							"objectClass": "Mouse",
+							"sid": 391779780714942,
+							"parameters": {
+								"mouse-button": "button-5",
+								"click-type": "clicked"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "energo",
+							"sid": 549361532041821,
+							"parameters": [
+								"int(random(3,133))",
+								"0",
+								false,
+								"\"zero\""
+							]
+						}
+					],
+					"sid": 845155072420079
+				},
+				{
+					"eventType": "comment",
+					"text": "\n\n\n\n\n"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-animation-finished",
+							"objectClass": "indiBit",
+							"sid": 279467206690789
+						},
+						{
+							"id": "is-animation-playing",
+							"objectClass": "indiBit",
+							"sid": 289383123264840,
+							"parameters": {
+								"animation": "\"end\""
+							},
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-animation",
+							"objectClass": "indiBit",
+							"sid": 772539382243278,
+							"parameters": {
+								"animation": "\"end\"",
+								"from": "beginning"
+							}
+						}
+					],
+					"sid": 276704960039484
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "point",
+							"sid": 945139836909459,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"indiView\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "indicator",
+							"sid": 102932375106186,
+							"parameters": {
+								"instance-variable": "view",
+								"value": "Self.view=\"bolt\"?\"text\":\"bolt\""
+							}
+						}
+					],
+					"sid": 521307534394017,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "indicator",
+									"sid": 178569827952069,
+									"parameters": {
+										"instance-variable": "view",
+										"comparison": 0,
+										"value": "\"bolt\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-visible",
+									"objectClass": "indiLogo",
+									"sid": 725682428935409,
+									"parameters": {
+										"visibility": "visible"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "indiEnergo360",
+									"sid": 837009818239293,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								}
+							],
+							"sid": 193739823687656
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "indicator",
+									"sid": 179332856386962,
+									"parameters": {
+										"instance-variable": "view",
+										"comparison": 0,
+										"value": "\"text\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-visible",
+									"objectClass": "indiLogo",
+									"sid": 599650169948060,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "indiEnergo360",
+									"sid": 944989581301620,
+									"parameters": {
+										"visibility": "visible"
+									}
+								}
+							],
+							"sid": 323353024455134
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": ""
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "digitalB",
+							"sid": 595611139830594,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"up\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "digitalB",
+							"sid": 781208676182634,
+							"parameters": {
+								"x": "-10101",
+								"y": "-10101"
+							}
+						}
+					],
+					"sid": 465938408968966
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "digitalW",
+							"sid": 203129873789730,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"up\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "digitalW",
+							"sid": 536274494176054,
+							"parameters": {
+								"x": "-10101",
+								"y": "-10101"
+							}
+						}
+					],
+					"sid": 159013438983689
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-any-tweens-finished",
+							"objectClass": "plusSkull",
+							"sid": 624717879325803,
+							"behaviorType": "Tween"
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "plusSkull",
+							"sid": 691535652493551,
+							"parameters": {
+								"x": "-1010",
+								"y": "-1010"
+							}
+						}
+					],
+					"sid": 455204555071204
+				}
+			],
+			"sid": 742862381354117
+		}
+	],
+	"sid": 617662259101954
+}
