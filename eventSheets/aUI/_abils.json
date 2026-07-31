@@ -579,6 +579,116 @@
 							"eventType": "block",
 							"conditions": [
 								{
+									"id": "on-timer",
+									"objectClass": "aIns",
+									"sid": 930711617526872,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"abilOut\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 688422896506403,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "cocobutton",
+											"sid": 193921403728366,
+											"parameters": {
+												"instance-variable": "entered"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position",
+											"objectClass": "cocobutton",
+											"sid": 963033531680731,
+											"parameters": {
+												"x": "-12600",
+												"y": "-12600"
+											}
+										},
+										{
+											"id": "set-collisions-enabled",
+											"objectClass": "cocobutton",
+											"sid": 595789165283850,
+											"parameters": {
+												"collisions": "disabled"
+											}
+										}
+									],
+									"sid": 132846663478915
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-timer",
+									"objectClass": "aIns",
+									"sid": 534689889436058,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"abilUp\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 274165065804884,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "cocobutton",
+											"sid": 705596439538426,
+											"parameters": {
+												"instance-variable": "entered"
+											}
+										},
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 285262320491396,
+											"parameters": {
+												"object": "cocobutton"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "cocobutton",
+											"sid": 318878651323967,
+											"parameters": {
+												"instance-variable": "open",
+												"value": "true"
+											}
+										},
+										{
+											"id": "instance-signal",
+											"objectClass": "cocobutton",
+											"sid": 947068100688252,
+											"parameters": {
+												"tag": "\"cocoAbilOpen\""
+											}
+										}
+									],
+									"sid": 856298613892691
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
 									"id": "on-animation-frame-changed",
 									"objectClass": "cocobutton",
 									"sid": 439112296132120
@@ -590,6 +700,26 @@
 									"parameters": {
 										"instance-variable": "entered"
 									}
+								},
+								{
+									"id": "is-timer-running",
+									"objectClass": "aIns",
+									"sid": 754059207621341,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"abilOut\""
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-timer-running",
+									"objectClass": "aIns",
+									"sid": 725039245079080,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"abilUp\""
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [],
@@ -2848,10 +2978,6 @@
 										},
 										{
 											"eventType": "comment",
-											"text": ""
-										},
-										{
-											"eventType": "comment",
 											"text": "кнопки открываются внизу",
 											"background-color": [
 												0.5411764705882353,
@@ -4177,6 +4303,16 @@
 												"instance-variable": "abilOut"
 											},
 											"isInverted": true
+										},
+										{
+											"id": "is-timer-running",
+											"objectClass": "aIns",
+											"sid": 672900691784589,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"abilOut\""
+											},
+											"isInverted": true
 										}
 									],
 									"actions": [
@@ -4245,7 +4381,79 @@
 											}
 										}
 									],
-									"sid": 300814873718612
+									"sid": 300814873718612,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-timer-running",
+													"objectClass": "aIns",
+													"sid": 160823129189495,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"abilUp\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aIns",
+													"sid": 674473795094327,
+													"parameters": {
+														"instance-variable": "abilUpTimer",
+														"value": "Self.Timer.CurrentTime(\"abilUp\")"
+													}
+												},
+												{
+													"id": "stop-timer",
+													"objectClass": "aIns",
+													"sid": 862469783483588,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"abilUp\""
+													}
+												},
+												{
+													"id": "start-timer",
+													"objectClass": "aIns",
+													"sid": 489369100709439,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.333-Self.abilUpTimer",
+														"type": "once",
+														"tag": "\"abilOut\""
+													}
+												}
+											],
+											"sid": 752904008622536
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 730601321721439
+												}
+											],
+											"actions": [
+												{
+													"id": "start-timer",
+													"objectClass": "aIns",
+													"sid": 628400835952209,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.333",
+														"type": "once",
+														"tag": "\"abilOut\""
+													}
+												}
+											],
+											"sid": 697055764262725
+										}
+									]
 								},
 								{
 									"eventType": "block",
@@ -4262,6 +4470,16 @@
 											"parameters": {
 												"instance-variable": "abilOut"
 											}
+										},
+										{
+											"id": "is-timer-running",
+											"objectClass": "aIns",
+											"sid": 463093196204981,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"abilUp\""
+											},
+											"isInverted": true
 										}
 									],
 									"actions": [
@@ -4327,7 +4545,79 @@
 											}
 										}
 									],
-									"sid": 575892697452618
+									"sid": 575892697452618,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-timer-running",
+													"objectClass": "aIns",
+													"sid": 689302085931303,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"abilOut\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aIns",
+													"sid": 755518634541156,
+													"parameters": {
+														"instance-variable": "abilUpTimer",
+														"value": "Self.Timer.CurrentTime(\"abilOut\")"
+													}
+												},
+												{
+													"id": "stop-timer",
+													"objectClass": "aIns",
+													"sid": 512714565689617,
+													"behaviorType": "Timer",
+													"parameters": {
+														"tag": "\"abilOut\""
+													}
+												},
+												{
+													"id": "start-timer",
+													"objectClass": "aIns",
+													"sid": 849376715606843,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.333-Self.abilUpTimer",
+														"type": "once",
+														"tag": "\"abilUp\""
+													}
+												}
+											],
+											"sid": 479244730759768
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 858313894573736
+												}
+											],
+											"actions": [
+												{
+													"id": "start-timer",
+													"objectClass": "aIns",
+													"sid": 516315890585994,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "0.333",
+														"type": "once",
+														"tag": "\"abilUp\""
+													}
+												}
+											],
+											"sid": 236623226428547
+										}
+									]
 								}
 							]
 						},
