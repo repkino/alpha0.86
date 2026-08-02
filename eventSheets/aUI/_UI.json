@@ -145,6 +145,52 @@
 					}
 				},
 				{
+					"type": "comment",
+					"text": "Режимы инвентаря (два слова через разделитель в aUIN.invPolicyMatrix, первое на способности вверху, второе на способности внизу) off - инвентарь не реагирует на получение предмета, unic - открывается для впервые полученных, new - открывается для новых в инвентаре, all - открывается для всех, cocoon - открывается только до кокона."
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aUIN",
+					"sid": 713438775813663,
+					"disabled": true,
+					"parameters": {
+						"instance-variable": "invPolicyMatrix",
+						"value": "\"cocoon;all\""
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aUIN",
+					"sid": 862983890877225,
+					"disabled": true,
+					"parameters": {
+						"instance-variable": "invPolicyMatrix",
+						"value": "\"all;all\""
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aUIN",
+					"sid": 856232490543775,
+					"parameters": {
+						"instance-variable": "invPolicyMatrix",
+						"value": "\"cocoon;cocoon\""
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "aUIN",
+					"sid": 957625444046566,
+					"parameters": {
+						"instance-variable": "invPolicy",
+						"value": "tokenat(Self.invPolicyMatrix,Self.abilsBottom,\";\")"
+					}
+				},
+				{
+					"type": "comment",
+					"text": ""
+				},
+				{
 					"id": "wait",
 					"objectClass": "System",
 					"sid": 363253675649573,
@@ -8097,6 +8143,24 @@
 									"sid": 546426967445681
 								},
 								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUIN",
+									"sid": 524730806805083,
+									"parameters": {
+										"instance-variable": "invPolicy",
+										"comparison": 0,
+										"value": "\"cocoon\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "inventory",
+									"sid": 797566498642727,
+									"parameters": {
+										"animation": "\"openExtra\""
+									}
+								},
+								{
 									"id": "compare-two-values",
 									"objectClass": "System",
 									"sid": 453250499048149,
@@ -8625,7 +8689,249 @@
 									]
 								}
 							],
-							"sid": 700592752928378
+							"sid": 700592752928378,
+							"disabled": true
+						},
+						{
+							"eventType": "comment",
+							"text": "ЗАМЕНА: первый дочерний блок getItem — диспетчер invPolicy",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 221055010052569,
+									"parameters": {
+										"variable": "hiden"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "compare-animation-frame-tag",
+									"objectClass": "inventory",
+									"sid": 984713341622452,
+									"parameters": {
+										"comparison": 1,
+										"tag": "\"invOpen\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 537938250263408,
+									"parameters": {
+										"variable": "hiden",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 607869436413577,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "off — ничего не делаем"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUIN",
+											"sid": 494283005670252,
+											"parameters": {
+												"instance-variable": "invPolicy",
+												"comparison": 0,
+												"value": "\"off\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 291150601494990
+								},
+								{
+									"eventType": "comment",
+									"text": "unic — только впервые встреченные в игре"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUIN",
+											"sid": 857476110488790,
+											"parameters": {
+												"instance-variable": "invPolicy",
+												"comparison": 0,
+												"value": "\"unic\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 461072197728523,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "has-tags",
+													"objectClass": "aUI",
+													"sid": 472139981438530,
+													"parameters": {
+														"tags": "iSign"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "rUIS",
+													"sid": 401996756215845,
+													"parameters": [
+														"\"zero\"",
+														"\"inventory\"",
+														"\"zero\"",
+														true
+													]
+												}
+											],
+											"sid": 358296647739271
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "new — только новые для инвентаря"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUIN",
+											"sid": 144358167209207,
+											"parameters": {
+												"instance-variable": "invPolicy",
+												"comparison": 0,
+												"value": "\"new\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 380932971633456,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "has-key",
+													"objectClass": "itemsQ",
+													"sid": 552905399438092,
+													"parameters": {
+														"key": "iSign"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "rUIS",
+													"sid": 707793348803918,
+													"parameters": [
+														"\"zero\"",
+														"\"inventory\"",
+														"\"zero\"",
+														true
+													]
+												}
+											],
+											"sid": 780449150915764
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "all — раскрываем всегда"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUIN",
+											"sid": 373293233325363,
+											"parameters": {
+												"instance-variable": "invPolicy",
+												"comparison": 0,
+												"value": "\"all\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "rUIS",
+											"sid": 146120280663269,
+											"parameters": [
+												"\"zero\"",
+												"\"inventory\"",
+												"\"zero\"",
+												true
+											]
+										}
+									],
+									"sid": 336142111089115
+								},
+								{
+									"eventType": "comment",
+									"text": "cocoon — раскрываем до кокона"
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aUIN",
+											"sid": 656381441681914,
+											"parameters": {
+												"instance-variable": "invPolicy",
+												"comparison": 0,
+												"value": "\"cocoon\""
+											}
+										},
+										{
+											"id": "compare-animation-frame-tag",
+											"objectClass": "inventory",
+											"sid": 572830366532065,
+											"parameters": {
+												"comparison": 1,
+												"tag": "\"invOpen\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "rUIS",
+											"sid": 204923689122234,
+											"parameters": [
+												"\"zero\"",
+												"\"cocoon\"",
+												"\"zero\"",
+												true
+											]
+										}
+									],
+									"sid": 608586823973390
+								}
+							]
 						},
 						{
 							"eventType": "comment",
@@ -10458,7 +10764,115 @@
 													]
 												}
 											],
-											"sid": 359573868854841
+											"sid": 359573868854841,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "ЗАМЕНА: новый предмет открывает инвентарь — диспетчер invPolicy",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aUI",
+													"sid": 729437646610210,
+													"parameters": {
+														"instance-variable": "hotSign",
+														"comparison": 1,
+														"value": "\"zero\""
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aUIN",
+													"sid": 280726232439895,
+													"parameters": {
+														"instance-variable": "invPolicy",
+														"comparison": 1,
+														"value": "\"off\""
+													}
+												},
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "inventory",
+													"sid": 823159474564549,
+													"parameters": {
+														"comparison": 1,
+														"tag": "\"invOpen\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 488874337906000,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "cocoon — только до кокона"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "aUIN",
+															"sid": 676327478970330,
+															"parameters": {
+																"instance-variable": "invPolicy",
+																"comparison": 0,
+																"value": "\"cocoon\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "rUIS",
+															"sid": 221148919963355,
+															"parameters": [
+																"\"zero\"",
+																"\"cocoon\"",
+																"\"zero\"",
+																true
+															]
+														}
+													],
+													"sid": 811147269635124
+												},
+												{
+													"eventType": "comment",
+													"text": "остальные — полное раскрытие"
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 470769905190928
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "rUIS",
+															"sid": 153314892226135,
+															"parameters": [
+																"\"zero\"",
+																"\"inventory\"",
+																"\"zero\"",
+																true
+															]
+														}
+													],
+													"sid": 351469919279759
+												}
+											]
 										},
 										{
 											"eventType": "comment",
