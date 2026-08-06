@@ -663,6 +663,15 @@
 							],
 							"actions": [
 								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 193122427889324,
+									"parameters": {
+										"group-name": "\"invCoco\"",
+										"state": "activated"
+									}
+								},
+								{
 									"id": "set-animation",
 									"objectClass": "inventory",
 									"sid": 650132369139950,
@@ -1811,6 +1820,15 @@
 								}
 							],
 							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 372983488908251,
+									"parameters": {
+										"group-name": "\"invCoco\"",
+										"state": "activated"
+									}
+								},
 								{
 									"callFunction": "rebuildItems",
 									"sid": 187405978806179
@@ -5776,7 +5794,17 @@
 																	}
 																}
 															],
-															"actions": [],
+															"actions": [
+																{
+																	"id": "set-group-active",
+																	"objectClass": "System",
+																	"sid": 525407562921110,
+																	"parameters": {
+																		"group-name": "\"invCoco\"",
+																		"state": "activated"
+																	}
+																}
+															],
 															"sid": 388330047529617,
 															"children": [
 																{
@@ -6469,6 +6497,15 @@
 												{
 													"id": "set-group-active",
 													"objectClass": "System",
+													"sid": 227120271491782,
+													"parameters": {
+														"group-name": "\"invCoco\"",
+														"state": "deactivated"
+													}
+												},
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
 													"sid": 558971923439839,
 													"parameters": {
 														"group-name": "\"invSprout\"",
@@ -6773,6 +6810,26 @@
 										}
 									],
 									"sid": 971736030659284
+								},
+								{
+									"eventType": "comment",
+									"text": "?"
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 164734698755885,
+											"parameters": {
+												"group-name": "\"inventory\"",
+												"state": "deactivated"
+											}
+										}
+									],
+									"sid": 435342628888105
 								}
 							]
 						},
@@ -7127,7 +7184,17 @@
 					"functionParameters": [],
 					"eventType": "custom-ace-block",
 					"conditions": [],
-					"actions": [],
+					"actions": [
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 298053009537294,
+							"parameters": {
+								"group-name": "\"invCoco\"",
+								"state": "activated"
+							}
+						}
+					],
 					"sid": 207536429297185,
 					"children": [
 						{
@@ -7444,6 +7511,20 @@
 											"sid": 391328122770074
 										}
 									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"callFunction": "cocoonManager",
+											"sid": 901121047582700,
+											"parameters": [
+												"item.UID"
+											]
+										}
+									],
+									"sid": 281660772788809
 								}
 							]
 						}
@@ -9068,7 +9149,15 @@
 													}
 												}
 											],
-											"actions": [],
+											"actions": [
+												{
+													"callFunction": "cocoonManager",
+													"sid": 847523338785248,
+													"parameters": [
+														"item.UID"
+													]
+												}
+											],
 											"sid": 153065768463190,
 											"children": [
 												{
@@ -11233,6 +11322,20 @@
 						},
 						{
 							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"callFunction": "cocoonManager",
+									"sid": 937775879252899,
+									"parameters": [
+										"item.UID"
+									]
+								}
+							],
+							"sid": 519864429096678
+						},
+						{
+							"eventType": "block",
 							"conditions": [
 								{
 									"id": "is-boolean-instance-variable-set",
@@ -11280,7 +11383,8 @@
 									}
 								}
 							],
-							"sid": 117984482648518
+							"sid": 117984482648518,
+							"disabled": true
 						}
 					]
 				},
@@ -12542,13 +12646,677 @@
 					"children": [
 						{
 							"eventType": "comment",
-							"text": "здесь твой код"
+							"text": "cocoonManager — менеджер одного предмета в коконе. Гарантирует: только целевой предмет видим, остальные спрятаны.",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "variable",
+							"name": "targetuid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 892632750798390
+						},
+						{
+							"eventType": "comment",
+							"text": "Шаг 0: сохраняем UID цели от параметра itemUID",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
 						},
 						{
 							"eventType": "block",
-							"conditions": [],
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "item",
+									"sid": 340127944937023,
+									"parameters": {
+										"unique-id": "itemUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 285982156121684,
+									"parameters": {
+										"variable": "targetuid",
+										"value": "item.UID"
+									}
+								}
+							],
+							"sid": 519847992027592
+						},
+						{
+							"eventType": "comment",
+							"text": "Шаг 1: прячем все предметы, кроме целевого",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "item",
+									"sid": 812107965314607,
+									"parameters": {
+										"instance-variable": "add"
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 380131515849220,
+									"parameters": {
+										"first-value": "item.UID",
+										"comparison": 1,
+										"second-value": "targetuid"
+									}
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Предмет не целевой — отправляем за экран",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"id": "set-y",
+									"objectClass": "item",
+									"sid": 296772773888891,
+									"parameters": {
+										"y": "-19000"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "item",
+									"sid": 447897162625027,
+									"parameters": {
+										"collisions": "disabled"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "item",
+									"sid": 555208410036715,
+									"behaviorType": "DragDrop",
+									"parameters": {
+										"state": "disabled"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 574421591816032,
+									"parameters": {
+										"instance-variable": "onInventory",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 244054494050421,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "Убираем числитель спрятанного предмета",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "quants",
+											"sid": 146969062700392,
+											"parameters": {
+												"unique-id": "item.quantUID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"customAction": "out",
+											"objectClass": "quants",
+											"sid": 189744883281519
+										}
+									],
+									"sid": 363339841388497
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Шаг 2: позиционируем целевой предмет в коконе",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "item",
+									"sid": 368948926799036,
+									"parameters": {
+										"unique-id": "targetuid"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position-to-another-object",
+									"objectClass": "item",
+									"sid": 624569458093686,
+									"parameters": {
+										"object": "inventory",
+										"image-point-optional": "1"
+									}
+								},
+								{
+									"id": "move-to-object",
+									"objectClass": "item",
+									"sid": 925791076442638,
+									"parameters": {
+										"where": "in-front",
+										"object": "inventory"
+									}
+								},
+								{
+									"id": "set-opacity",
+									"objectClass": "item",
+									"sid": 807478925481736,
+									"parameters": {
+										"opacity": "100"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "item",
+									"sid": 756672789187181,
+									"parameters": {
+										"visibility": "visible"
+									}
+								},
+								{
+									"id": "set-collisions-enabled",
+									"objectClass": "item",
+									"sid": 330790918438024,
+									"parameters": {
+										"collisions": "enabled"
+									}
+								},
+								{
+									"id": "set-enabled",
+									"objectClass": "item",
+									"sid": 750727699327826,
+									"behaviorType": "DragDrop",
+									"parameters": {
+										"state": "enabled"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "item",
+									"sid": 492488303719648,
+									"parameters": {
+										"instance-variable": "onInventory",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 124680922029585
+						},
+						{
+							"eventType": "comment",
+							"text": "Шаг 3: кадр кокона — 11 если горячий предмет, иначе 10",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "item",
+									"sid": 606862032547912,
+									"parameters": {
+										"unique-id": "targetuid"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 934898774526238,
+									"parameters": {
+										"instance-variable": "hotSign",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 909115705180897,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "aUI.hotSign"
+									}
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Горячий предмет — кадр 11",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "inventory",
+									"sid": 353606765907049,
+									"parameters": {
+										"frame-number": "11"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "inventory",
+									"sid": 202115275137448,
+									"parameters": {
+										"speed": "0"
+									}
+								},
+								{
+									"id": "stop-animation",
+									"objectClass": "inventory",
+									"sid": 664003774747097
+								}
+							],
+							"sid": 663633335475421
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 692158941079756
+								}
+							],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Нет горячего — кадр 10",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "inventory",
+									"sid": 998431283439767,
+									"parameters": {
+										"frame-number": "10"
+									}
+								},
+								{
+									"id": "set-animation-speed",
+									"objectClass": "inventory",
+									"sid": 725250719613509,
+									"parameters": {
+										"speed": "0"
+									}
+								},
+								{
+									"id": "stop-animation",
+									"objectClass": "inventory",
+									"sid": 842356622876059
+								}
+							],
+							"sid": 849599802480344
+						},
+						{
+							"eventType": "comment",
+							"text": "Шаг 4: числитель (quants) — единый блок выбора цели с двумя ветками",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "item",
+									"sid": 307014854147936,
+									"parameters": {
+										"unique-id": "targetuid"
+									}
+								}
+							],
 							"actions": [],
-							"sid": 136069317599688
+							"sid": 537178908588811,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "Ветка А: iQuant > 1 — числитель нужен",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "item",
+											"sid": 582557483308876,
+											"parameters": {
+												"instance-variable": "iQuant",
+												"comparison": 4,
+												"value": "1"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 190242337162984,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "Обновляем существующий числитель",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "quants",
+													"sid": 470582221797914,
+													"parameters": {
+														"unique-id": "item.quantUID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-text",
+													"objectClass": "quants",
+													"sid": 857499113376415,
+													"parameters": {
+														"text": "item.iQuant"
+													}
+												},
+												{
+													"id": "set-visible",
+													"objectClass": "quants",
+													"sid": 367894797872615,
+													"parameters": {
+														"visibility": "visible"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "quants",
+													"sid": 992908249332921,
+													"parameters": {
+														"x": "item.X+15",
+														"y": "item.Y+15"
+													}
+												}
+											],
+											"sid": 595549554872258
+										},
+										{
+											"eventType": "comment",
+											"text": "Или создаём новый числитель из банка",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 123264867482484
+												},
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "quants",
+													"sid": 468297379133105,
+													"parameters": {
+														"unique-id": "Functions.pickQuant"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-text",
+													"objectClass": "quants",
+													"sid": 597641467973397,
+													"parameters": {
+														"text": "item.iQuant"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "quants",
+													"sid": 603715518270147,
+													"parameters": {
+														"x": "item.X+15",
+														"y": "item.Y+15"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "quants",
+													"sid": 825388696233427,
+													"parameters": {
+														"instance-variable": "hostUID",
+														"value": "item.UID"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "quants",
+													"sid": 440032022322296,
+													"parameters": {
+														"instance-variable": "qSign",
+														"value": "item.iSign"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "item",
+													"sid": 185123456554768,
+													"parameters": {
+														"instance-variable": "quantUID",
+														"value": "quants.UID"
+													}
+												},
+												{
+													"id": "pin-to-object-properties",
+													"objectClass": "quants",
+													"sid": 310298804239595,
+													"behaviorType": "Pin",
+													"parameters": {
+														"pin-to": "item",
+														"x": true,
+														"y": true,
+														"angle": true,
+														"width-type": "no",
+														"height-type": "no",
+														"z": true
+													}
+												}
+											],
+											"sid": 282314767228761
+										},
+										{
+											"eventType": "comment",
+											"text": "Z-order: горячий — перед инвентарём, обычный — перед предметом",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "item",
+													"sid": 323399420354023,
+													"parameters": {
+														"instance-variable": "hot"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "move-to-object",
+													"objectClass": "quants",
+													"sid": 531537227327175,
+													"parameters": {
+														"where": "in-front",
+														"object": "inventory"
+													}
+												}
+											],
+											"sid": 287247699119554
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 294320181497682
+												}
+											],
+											"actions": [
+												{
+													"id": "move-to-object",
+													"objectClass": "quants",
+													"sid": 491287290773338,
+													"parameters": {
+														"where": "in-front",
+														"object": "item"
+													}
+												}
+											],
+											"sid": 800226646986250
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "Ветка Б: iQuant <= 1 — числитель не нужен, убираем если был",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 814366464581685
+										}
+									],
+									"actions": [],
+									"sid": 541780844118377,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "quants",
+													"sid": 545214266080101,
+													"parameters": {
+														"unique-id": "item.quantUID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"customAction": "out",
+													"objectClass": "quants",
+													"sid": 403161374998886
+												}
+											],
+											"sid": 991411490971446
+										}
+									]
+								}
+							]
 						}
 					]
 				}
@@ -12766,6 +13534,15 @@
 						{
 							"callFunction": "rebuildItems",
 							"sid": 385614214606753
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 892207737909603,
+							"parameters": {
+								"group-name": "\"invCoco\"",
+								"state": "deactivated"
+							}
 						}
 					],
 					"sid": 205429059377690,
@@ -21173,6 +21950,13 @@
 										"instance-variable": "hotSign",
 										"value": "\"zero\""
 									}
+								},
+								{
+									"callFunction": "cocoonManager",
+									"sid": 320236005244962,
+									"parameters": [
+										"item.UID"
+									]
 								}
 							],
 							"sid": 937233209437718
