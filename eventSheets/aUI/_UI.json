@@ -4544,6 +4544,7 @@
 																	"id": "append-text",
 																	"objectClass": "help",
 																	"sid": 825501445952500,
+																	"disabled": true,
 																	"parameters": {
 																		"text": "\"cN=\" & item.cellN & \" iC=\" & item.iCount & \" \" & item.iSign & (item.hot ? \" 🔥\" : \"\") & \" | \""
 																	}
@@ -4606,6 +4607,7 @@
 																	"id": "append-text",
 																	"objectClass": "help",
 																	"sid": 183825468360598,
+																	"disabled": true,
 																	"parameters": {
 																		"text": "\"\\n→ ПИН ВЫБИРАЕТ: \" & aUI.hotSign&newline"
 																	}
@@ -12822,6 +12824,29 @@
 			"children": [
 				{
 					"eventType": "comment",
+					"text": "🔄 Конвейер кокона: rebuildItems → cellN → cocoonManager(-1). Единая точка входа для визуализации кокона при любых изменениях.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"functionName": "refreshCocoon",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 974321309726283
+				},
+				{
+					"eventType": "comment",
 					"text": "cocoonManager — менеджер кокона. Один предмет видим, остальные спрятаны. Числитель восстановлен.",
 					"background-color": [
 						0.33,
@@ -12860,6 +12885,87 @@
 							"isStatic": false,
 							"isConstant": false,
 							"sid": 191354969934403
+						},
+						{
+							"eventType": "comment",
+							"text": "🐛 ДИАГНОСТИКА cocoonManager — вставить ПЕРВЫМ ребёнком функции",
+							"background-color": [
+								1,
+								0.6,
+								0.6,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"type": "comment",
+									"text": "Лог: с каким UID вызван менеджер",
+									"background-color": [
+										1,
+										0.6,
+										0.6,
+										1
+									]
+								},
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 101384103763295,
+									"parameters": {
+										"text": "newline&\"\\n[CM] uid=\" & itemUID & \" hotSign=\" & aUI.hotSign & \" \""
+									}
+								}
+							],
+							"sid": 270371111649476
+						},
+						{
+							"eventType": "comment",
+							"text": "🐛 Шаг 0a — горячий предмет найден?",
+							"background-color": [
+								1,
+								0.6,
+								0.6,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 625343583615108,
+									"parameters": {
+										"instance-variable": "hotSign",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "item",
+									"sid": 665138012420868,
+									"parameters": {
+										"instance-variable": "iSign",
+										"comparison": 0,
+										"value": "aUI.hotSign"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 938435669724806,
+									"parameters": {
+										"text": "\"[0a] hot: \" & item.iSign & \" UID=\" & item.UID & \" \""
+									}
+								}
+							],
+							"sid": 560187502901824
 						},
 						{
 							"eventType": "comment",
@@ -13064,6 +13170,49 @@
 							"children": [
 								{
 									"eventType": "comment",
+									"text": "🐛 Шаг 1 — какие предметы спрятаны?",
+									"background-color": [
+										1,
+										0.6,
+										0.6,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "items",
+											"sid": 440121548698674,
+											"parameters": {
+												"instance-variable": "add"
+											}
+										},
+										{
+											"id": "compare-y",
+											"objectClass": "items",
+											"sid": 397895081064098,
+											"parameters": {
+												"comparison": 4,
+												"y-co-ordinate": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 958191910577387,
+											"parameters": {
+												"text": "\"[1] hide: \" & items.iSign & \" y=\" & items.Y & \" \""
+											}
+										}
+									],
+									"sid": 592036184218039
+								},
+								{
+									"eventType": "comment",
 									"text": "Шаг 1: прячем все предметы кроме цели (семья items)",
 									"background-color": [
 										0.49,
@@ -13187,6 +13336,40 @@
 											]
 										}
 									]
+								},
+								{
+									"eventType": "comment",
+									"text": "🐛 Шаг 2 — какой предмет позиционирован?",
+									"background-color": [
+										1,
+										0.6,
+										0.6,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "item",
+											"sid": 477532119640165,
+											"parameters": {
+												"unique-id": "targetuid"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 400634515896649,
+											"parameters": {
+												"text": "\"[2] show: \" & item.iSign & \" cellN=\" & item.cellN & \" iQuant=\" & item.iQuant & \" \""
+											}
+										}
+									],
+									"sid": 166578419742358
 								},
 								{
 									"eventType": "comment",
@@ -13647,6 +13830,50 @@
 							]
 						}
 					]
+				},
+				{
+					"functionName": "Function1",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"callFunction": "rebuildItems",
+							"sid": 648930148995162
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 545243402000834,
+							"parameters": {
+								"seconds": "0",
+								"use-timescale": false
+							}
+						},
+						{
+							"callFunction": "cellN",
+							"sid": 374353342992975
+						},
+						{
+							"callFunction": "cocoonManager",
+							"sid": 292914820814272,
+							"parameters": [
+								"-1"
+							]
+						}
+					],
+					"sid": 311715994645670
+				},
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [],
+					"sid": 842697109439150
 				}
 			],
 			"sid": 447782636337847
