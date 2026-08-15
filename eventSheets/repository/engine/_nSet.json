@@ -1,0 +1,247 @@
+{
+	"name": "_nSet",
+	"events": [
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "nSet",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "можно использовать тэги nSet и aThornick для блокировки избыточного типа юнитов. Для выбора надо использовать переменную set, вычитать из неё отсутствующие тэги и подставлять для выбора в виде choose"
+				},
+				{
+					"eventType": "comment",
+					"text": "либо сделать более гибкую функцию на основе настроения Торника. aThornik.angry от 0 до 10. 0 - вообще не атакует, блокиратор.\nНастроение Торника меняет игра. Алгоритм зависит от действий Бита - продвижение по локации, открытие ключей, победа над стражами, уничтожение юнитов, на 5-10 секунд Торник получает +angry, в это время он выбирает наиболее сильных монстров для спауна. В остальное время он следует проценту распределения из nSet.thornSet.\nНапример, thornSet=\"sting octo octo ser ser ser\". Это значение превращаем в choose(sting,octo,octo,ser,ser,ser). Допустим, octo достигли максимума, убираем тэг octo и получаем choose(sting ser ser ser). Как только численность ниже максимума, возвращаем, используя матрицу thornSet=\"sting octo octo ser ser ser\". Т.е. менеджер всегда использует полный сет, потом удаляет из него заблокированные, потом сохраняет в формате choose и возвращает этот формат. choose(Function.nSet)"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-start-of-layout",
+							"objectClass": "System",
+							"sid": 488974863609586
+						}
+					],
+					"actions": [
+						{
+							"type": "comment",
+							"text": ""
+						},
+						{
+							"id": "change-tags",
+							"objectClass": "aThornik",
+							"sid": 103438599026467,
+							"parameters": {
+								"action": "add",
+								"tags": "nSet.thornSet"
+							}
+						}
+					],
+					"sid": 302712311753942
+				},
+				{
+					"functionName": "nSet",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "ThornikAttack",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 323195436087613
+						},
+						{
+							"name": "gameAct",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 678183787175588
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 481536454121415,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "has-tags",
+									"objectClass": "nSet",
+									"sid": 307504233878212,
+									"parameters": {
+										"tags": "ThornikAttack"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 726976006187848,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aThornik",
+											"sid": 575746676592588,
+											"parameters": {
+												"instance-variable": "meteoSet",
+												"comparison": 1,
+												"value": "\"zero\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 126027083604043,
+									"disabled": true
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 662010390991618
+								}
+							],
+							"actions": [],
+							"sid": 505018918419194,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 433559588428451,
+											"parameters": {
+												"variable": "ThornikAttack",
+												"comparison": 0,
+												"value": "\"\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 251646078148095,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 399992762098384
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 448787635792738,
+											"parameters": {
+												"variable": "ThornikAttack",
+												"comparison": 0,
+												"value": "\"\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 766383322846888,
+									"disabled": true
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 724463016580914,
+							"parameters": {
+								"interval-seconds": "3"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 951477430378119,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "octoPoint",
+									"sid": 565672939900081,
+									"parameters": {
+										"instance-variable": "on"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "nSet",
+									"sid": 514352668403388,
+									"parameters": {
+										"instance-variable": "octoMax",
+										"comparison": 5,
+										"value": "octoPoint.Count"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "nSet",
+									"sid": 794834215007062,
+									"parameters": {
+										"instance-variable": "blockAddOcto",
+										"value": "true"
+									}
+								}
+							],
+							"sid": 844111081534495
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 380722232025033
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "nSet",
+									"sid": 743821527665458,
+									"parameters": {
+										"instance-variable": "blockAddOcto",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 786688839303440
+						}
+					]
+				}
+			],
+			"sid": 278066868265956
+		}
+	],
+	"sid": 348449446219284
+}
