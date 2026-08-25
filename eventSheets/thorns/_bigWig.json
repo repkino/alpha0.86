@@ -25,138 +25,15 @@
 				},
 				{
 					"callFunction": "addBigwig",
-					"sid": 930476734613426,
-					"disabled": true,
+					"sid": 244882265043184,
 					"parameters": [
 						"Mouse.X(\"iso\")",
 						"Mouse.Y(\"iso\")",
-						"random(0.57,0.77)"
-					]
-				},
-				{
-					"callFunction": "addBigwig",
-					"sid": 994326427870662,
-					"parameters": [
-						"Mouse.X(\"iso\")",
-						"Mouse.Y(\"iso\")",
-						"0.7"
+						"random(0.6,0.8)"
 					]
 				}
 			],
 			"sid": 659690457618320
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-click",
-					"objectClass": "Mouse",
-					"sid": 885696746969439,
-					"parameters": {
-						"mouse-button": "middle",
-						"click-type": "clicked"
-					}
-				}
-			],
-			"actions": [],
-			"sid": 391239555686960,
-			"disabled": true
-		},
-		{
-			"eventType": "block",
-			"conditions": [
-				{
-					"id": "on-start-of-layout",
-					"objectClass": "System",
-					"sid": 822973153323647
-				}
-			],
-			"actions": [],
-			"sid": 660811278458553,
-			"disabled": true,
-			"children": [
-				{
-					"eventType": "comment",
-					"text": "Стартовая инициализация физики прыжка бигвика: время кадра, гравитация и парение.",
-					"background-color": [
-						0.49,
-						0.7,
-						0.38,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "for-each",
-							"objectClass": "System",
-							"sid": 612724792425622,
-							"parameters": {
-								"object": "bwShade"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-instvar-value",
-							"objectClass": "bwShade",
-							"sid": 797110416543220,
-							"parameters": {
-								"instance-variable": "fInt",
-								"value": "bwShade.jumpTime/7"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "bwShade",
-							"sid": 341808006378629,
-							"parameters": {
-								"instance-variable": "gravity",
-								"value": "4000/(bwShade.jumpTime*bwShade.jumpTime)"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "bwShade",
-							"sid": 621620615110033,
-							"parameters": {
-								"instance-variable": "jSpeed",
-								"value": "0"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "bwShade",
-							"sid": 379875266413816,
-							"parameters": {
-								"instance-variable": "jumpHi",
-								"value": "bwShade.flyHi"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "bwShade",
-							"sid": 500546110949314,
-							"parameters": {
-								"instance-variable": "jumpFrame",
-								"value": "-1"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "bwShade",
-							"sid": 406654718085899,
-							"parameters": {
-								"instance-variable": "landSpeed",
-								"value": "0"
-							}
-						}
-					],
-					"sid": 253518192906271,
-					"disabled": true
-				}
-			]
 		},
 		{
 			"eventType": "comment",
@@ -257,9 +134,9 @@
 								{
 									"id": "set-animation",
 									"objectClass": "bigwig",
-									"sid": 624615054665876,
+									"sid": 483205114931330,
 									"parameters": {
-										"animation": "\"stop0\"",
+										"animation": "\"stop3\"",
 										"from": "beginning"
 									}
 								},
@@ -424,7 +301,7 @@
 									"objectClass": "bwShade",
 									"sid": 455077982028062,
 									"parameters": {
-										"instance-variable": "jumpY",
+										"instance-variable": "jY",
 										"value": "Self.Y"
 									}
 								},
@@ -434,7 +311,7 @@
 									"sid": 120566865327371,
 									"parameters": {
 										"instance-variable": "deltaY",
-										"value": "Self.Y-Self.jumpY"
+										"value": "Self.Y-Self.jY"
 									}
 								},
 								{
@@ -591,16 +468,57 @@
 									}
 								},
 								{
-									"id": "set-boolean-instvar",
-									"objectClass": "bwShade",
-									"sid": 925713708474405,
+									"id": "set-animation",
+									"objectClass": "bigwig",
+									"sid": 501534095146956,
 									"parameters": {
-										"instance-variable": "jump",
-										"value": "true"
+										"animation": "bwShade.direct<2?\"jump0\":\"jump1\"",
+										"from": "current-frame"
+									}
+								},
+								{
+									"id": "set-animation-frame",
+									"objectClass": "bigwig",
+									"sid": 610270715103384,
+									"parameters": {
+										"frame-number": "4"
+									}
+								},
+								{
+									"id": "start-animation",
+									"objectClass": "bigwig",
+									"sid": 309156125339227,
+									"parameters": {
+										"from": "current-frame"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bwShade",
+									"sid": 474340748874078,
+									"parameters": {
+										"instance-variable": "speedGround",
+										"value": "Self.speed*aBook.hScaleCoeff"
 									}
 								}
 							],
 							"sid": 267932791086420
+						},
+						{
+							"eventType": "comment",
+							"text": "отскок",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.16470588235294117,
+								0.40784313725490196,
+								0.6352941176470588,
+								1
+							]
 						},
 						{
 							"eventType": "block",
@@ -615,56 +533,48 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 844734821428954,
+							"children": [
 								{
-									"id": "set-animation",
-									"objectClass": "bigwig",
-									"sid": 171754110776689,
-									"parameters": {
-										"animation": "bwShade.direct<2?\"jump0\":\"jump1\"",
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-animation-frame",
-									"objectClass": "bigwig",
-									"sid": 792690449697949,
-									"parameters": {
-										"frame-number": "4"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "bigwig",
-									"sid": 911055545024312,
-									"parameters": {
-										"from": "current-frame"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "bigwig",
-									"sid": 340117294481682,
-									"parameters": {
-										"instance-variable": "jSpeed",
-										"value": "-1111"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "bwShade",
-									"sid": 673582733789161,
-									"parameters": {
-										"instance-variable": "speedGround",
-										"value": "Self.speed*aBook.hScaleCoeff"
-									}
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 696165997271144,
+											"parameters": {
+												"object": "bigwig"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "bwShade",
+											"sid": 720393402849431,
+											"parameters": {
+												"instance-variable": "land",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "bwShade",
+											"sid": 617427849035397,
+											"parameters": {
+												"instance-variable": "jumpForce",
+												"value": "\"land\""
+											}
+										}
+									],
+									"sid": 567958027775107
 								}
-							],
-							"sid": 844734821428954
+							]
 						},
 						{
 							"eventType": "comment",
-							"text": "прыжок физика",
+							"text": "\n\nменеджмент высоты",
 							"text-color": [
 								1,
 								1,
@@ -695,7 +605,7 @@
 							"children": [
 								{
 									"eventType": "comment",
-									"text": "не прыгает, обнуляем",
+									"text": "прыжок физика",
 									"text-color": [
 										1,
 										1,
@@ -715,84 +625,9 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "bwShade",
-											"sid": 972816272960163,
+											"sid": 886465101712084,
 											"parameters": {
-												"instance-variable": "jump"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-y",
-											"objectClass": "bigwig",
-											"sid": 285896732262367,
-											"parameters": {
-												"y": "bwShade.Y+bwShade.hi"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "bigwig",
-											"sid": 372919153269347,
-											"parameters": {
-												"instance-variable": "jumpHi",
-												"value": "0"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "bwShade",
-											"sid": 573112174237635,
-											"parameters": {
-												"instance-variable": "deltaY",
-												"value": "0"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "bwShade",
-											"sid": 339464646670204,
-											"parameters": {
-												"instance-variable": "jumpHi",
-												"value": "0"
-											}
-										}
-									],
-									"sid": 983944113516649,
-									"disabled": true
-								},
-								{
-									"eventType": "comment",
-									"text": "физика",
-									"text-color": [
-										1,
-										1,
-										1,
-										1
-									],
-									"background-color": [
-										0.16470588235294117,
-										0.40784313725490196,
-										0.6352941176470588,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 958466355457572
-										},
-										{
-											"id": "is-timer-running",
-											"objectClass": "bigwig",
-											"sid": 743059162161444,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"land\""
+												"instance-variable": "land"
 											},
 											"isInverted": true
 										}
@@ -804,7 +639,7 @@
 											"sid": 845242555602113,
 											"parameters": {
 												"instance-variable": "deltaY",
-												"value": "Self.Y-Self.jumpY"
+												"value": "Self.Y-Self.jY"
 											}
 										},
 										{
@@ -812,7 +647,7 @@
 											"objectClass": "bwShade",
 											"sid": 126941175348900,
 											"parameters": {
-												"instance-variable": "jumpY",
+												"instance-variable": "jY",
 												"value": "Self.Y"
 											}
 										},
@@ -821,7 +656,7 @@
 											"objectClass": "bigwig",
 											"sid": 926869738744036,
 											"parameters": {
-												"instance-variable": "jumpHi",
+												"instance-variable": "jumpY",
 												"value": "Self.Y + (self.jSpeed * dt + 0.5 * self.gravity * dt^2) + bwShade.deltaY"
 											}
 										},
@@ -830,7 +665,7 @@
 											"objectClass": "bigwig",
 											"sid": 689626809658193,
 											"parameters": {
-												"y": "Self.jumpHi"
+												"y": "Self.jumpY"
 											}
 										},
 										{
@@ -894,9 +729,28 @@
 														"instance-variable": "move"
 													},
 													"isInverted": true
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "bwShade",
+													"sid": 142701465135283,
+													"parameters": {
+														"instance-variable": "fsm",
+														"comparison": 0,
+														"value": "\"idle\""
+													}
 												}
 											],
 											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "bigwig",
+													"sid": 108520510227389,
+													"parameters": {
+														"instance-variable": "jSpeed",
+														"value": "(bwShade.Y - Self.Y - bwShade.flyHi)*5"
+													}
+												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "bigwig",
@@ -906,15 +760,6 @@
 														"instance-variable": "jSpeed",
 														"value": "(bwShade.Y - Self.Y - bwShade.flyHi)*10"
 													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "bigwig",
-													"sid": 488563489149212,
-													"parameters": {
-														"instance-variable": "jSpeed",
-														"value": "(bwShade.Y - Self.Y - bwShade.flyHi)*5"
-													}
 												}
 											],
 											"sid": 907035094274759
@@ -923,7 +768,7 @@
 								},
 								{
 									"eventType": "comment",
-									"text": "отскок",
+									"text": "приземление",
 									"text-color": [
 										1,
 										1,
@@ -948,17 +793,6 @@
 												"comparison": 4,
 												"y-co-ordinate": "bwShade.Y"
 											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "bwShade",
-											"sid": 119716095916152,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "flyHi",
-												"comparison": 0,
-												"value": "0"
-											}
 										}
 									],
 									"actions": [],
@@ -968,17 +802,34 @@
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "is-timer-running",
-													"objectClass": "bigwig",
-													"sid": 165291508267372,
-													"behaviorType": "Timer",
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "bwShade",
+													"sid": 741267829465098,
 													"parameters": {
-														"tag": "\"land\""
+														"instance-variable": "land"
 													},
 													"isInverted": true
 												}
 											],
 											"actions": [
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "bwShade",
+													"sid": 258431514257930,
+													"parameters": {
+														"instance-variable": "land",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "bwShade",
+													"sid": 916374678762767,
+													"parameters": {
+														"instance-variable": "speedGround",
+														"value": "120"
+													}
+												},
 												{
 													"id": "set-y",
 													"objectClass": "bigwig",
@@ -992,7 +843,7 @@
 													"objectClass": "bigwig",
 													"sid": 164407909763895,
 													"parameters": {
-														"instance-variable": "jumpHi",
+														"instance-variable": "jumpY",
 														"value": "Self.Y"
 													}
 												},
@@ -1003,16 +854,6 @@
 													"parameters": {
 														"instance-variable": "jSpeed",
 														"value": "0"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "bwShade",
-													"sid": 721890783620691,
-													"disabled": true,
-													"parameters": {
-														"instance-variable": "jump",
-														"value": "true"
 													}
 												},
 												{
@@ -1050,18 +891,80 @@
 													"parameters": {
 														"from": "current-frame"
 													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "bwShade",
-													"sid": 903367388354882,
-													"parameters": {
-														"instance-variable": "speedGround",
-														"value": "120"
-													}
 												}
 											],
 											"sid": 135455099142374
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "вызов прыжка по переменной",
+									"text-color": [
+										1,
+										1,
+										1,
+										1
+									],
+									"background-color": [
+										0.16470588235294117,
+										0.40784313725490196,
+										0.6352941176470588,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "bwShade",
+											"sid": 664547082205458,
+											"parameters": {
+												"instance-variable": "jumpForce",
+												"comparison": 1,
+												"value": "\"zero\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 431538391745879,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "bwShade",
+													"sid": 452230163388676,
+													"parameters": {
+														"instance-variable": "jumpForce",
+														"comparison": 0,
+														"value": "\"land\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "bwShade",
+													"sid": 289793799533073,
+													"parameters": {
+														"instance-variable": "jumpForce",
+														"value": "\"zero\""
+													}
+												},
+												{
+													"callFunction": "bwJump",
+													"sid": 795322762830887,
+													"parameters": [
+														"bwShade.UID",
+														"-1200",
+														"2800"
+													]
+												}
+											],
+											"sid": 185986168592429
 										}
 									]
 								}
@@ -1072,7 +975,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "позиция и анимация движения",
+					"text": "\n\nпозиция и анимация движения",
 					"text-color": [
 						1,
 						1,
@@ -1105,7 +1008,7 @@
 							"sid": 235211596485310,
 							"parameters": {
 								"x": "bwShade.X",
-								"y": "self.jumpHi"
+								"y": "self.jumpY"
 							}
 						},
 						{
@@ -1124,22 +1027,89 @@
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "trigger-once-while-true",
-									"objectClass": "System",
-									"sid": 780365599571362
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 933433401700625,
+									"parameters": {
+										"instance-variable": "obst"
+									}
 								},
 								{
-									"id": "is-timer-running",
+									"id": "is-animation-playing",
 									"objectClass": "bigwig",
-									"sid": 389316419384299,
-									"behaviorType": "Timer",
+									"sid": 579956846202745,
 									"parameters": {
-										"tag": "\"land\""
+										"animation": "\"am\""
 									},
 									"isInverted": true
 								}
 							],
 							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "bigwig",
+									"sid": 890867266122457,
+									"parameters": {
+										"animation": "\"am\"",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 901461722932842
+						},
+						{
+							"eventType": "comment",
+							"text": "анимация на старт движения",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.16470588235294117,
+								0.40784313725490196,
+								0.6352941176470588,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 780365599571362
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 484857696221619,
+									"parameters": {
+										"instance-variable": "land"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 285508631298473,
+									"parameters": {
+										"instance-variable": "obst"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 487852065171912,
+									"parameters": {
+										"instance-variable": "jump",
+										"value": "true"
+									}
+								},
 								{
 									"id": "set-animation",
 									"objectClass": "bigwig",
@@ -1152,7 +1122,8 @@
 								{
 									"id": "set-mirrored",
 									"objectClass": "bigwig",
-									"sid": 828290974033536,
+									"sid": 292534343024833,
+									"disabled": true,
 									"parameters": {
 										"state": "not-mirrored"
 									}
@@ -1161,103 +1132,20 @@
 							"sid": 321653221263803
 						},
 						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "bigwig",
-									"sid": 248314924769757,
-									"parameters": {
-										"instance-variable": "jSpeed",
-										"comparison": 0,
-										"value": "0"
-									}
-								},
-								{
-									"id": "is-timer-running",
-									"objectClass": "bigwig",
-									"sid": 960340649209860,
-									"behaviorType": "Timer",
-									"parameters": {
-										"tag": "\"land\""
-									},
-									"isInverted": true
-								}
+							"eventType": "comment",
+							"text": "стоп-кадры для падения и  взлета",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
 							],
-							"actions": [
-								{
-									"id": "set-position",
-									"objectClass": "bigwig",
-									"sid": 632759311713605,
-									"parameters": {
-										"x": "bwShade.X",
-										"y": "self.jumpHi"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "bwShade",
-									"sid": 512334113319071,
-									"parameters": {
-										"instance-variable": "direct",
-										"value": "int(((Self.a+360+45) %360)/90)"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "bigwig",
-									"sid": 496356557149268,
-									"parameters": {
-										"animation": "bwShade.direct<2?\"jump0\":\"jump1\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-mirrored",
-									"objectClass": "bigwig",
-									"sid": 172103790133649,
-									"parameters": {
-										"state": "not-mirrored"
-									}
-								}
-							],
-							"sid": 345891944592221
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "bigwig",
-									"sid": 430988482843791,
-									"parameters": {
-										"instance-variable": "jumping"
-									},
-									"isInverted": true
-								}
-							],
-							"actions": [
-								{
-									"id": "set-animation",
-									"objectClass": "bigwig",
-									"sid": 256093743800945,
-									"parameters": {
-										"animation": "bwShade.direct<2?\"jump0\":\"jump1\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "bigwig",
-									"sid": 132772064157851,
-									"parameters": {
-										"instance-variable": "jumping",
-										"value": "true"
-									}
-								}
-							],
-							"sid": 261746837110637,
-							"disabled": true
+							"background-color": [
+								0.16470588235294117,
+								0.40784313725490196,
+								0.6352941176470588,
+								1
+							]
 						},
 						{
 							"eventType": "block",
@@ -1266,6 +1154,15 @@
 									"id": "on-animation-frame-changed",
 									"objectClass": "bigwig",
 									"sid": 751643537399583
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 664165029784597,
+									"parameters": {
+										"instance-variable": "obst"
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [],
@@ -1297,6 +1194,11 @@
 									"eventType": "block",
 									"conditions": [
 										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 146459884660975
+										},
+										{
 											"id": "compare-animation-frame",
 											"objectClass": "bigwig",
 											"sid": 683856601528610,
@@ -1315,6 +1217,22 @@
 									],
 									"sid": 960434458379350
 								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "анимация перед приземлением",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.16470588235294117,
+								0.40784313725490196,
+								0.6352941176470588,
+								1
 							]
 						},
 						{
@@ -1338,6 +1256,15 @@
 										"comparison": 2,
 										"value": "50"
 									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 949452683183176,
+									"parameters": {
+										"instance-variable": "obst"
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [
@@ -1370,6 +1297,22 @@
 							"sid": 105567823266740
 						},
 						{
+							"eventType": "comment",
+							"text": "анимация перед высшей точкой прыжка",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.16470588235294117,
+								0.40784313725490196,
+								0.6352941176470588,
+								1
+							]
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -1400,6 +1343,15 @@
 										"comparison": 4,
 										"value": "-55"
 									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 564803170385210,
+									"parameters": {
+										"instance-variable": "obst"
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [
@@ -1432,6 +1384,22 @@
 							"sid": 420484632069593
 						},
 						{
+							"eventType": "comment",
+							"text": "переключение анимации при смене направления",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.16470588235294117,
+								0.40784313725490196,
+								0.6352941176470588,
+								1
+							]
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -1445,6 +1413,15 @@
 									}
 								},
 								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 537767361879578,
+									"parameters": {
+										"instance-variable": "land"
+									},
+									"isInverted": true
+								},
+								{
 									"id": "is-animation-playing",
 									"objectClass": "bigwig",
 									"sid": 480821797427206,
@@ -1454,12 +1431,11 @@
 									"isInverted": true
 								},
 								{
-									"id": "is-timer-running",
-									"objectClass": "bigwig",
-									"sid": 465251504568468,
-									"behaviorType": "Timer",
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 289707909360810,
 									"parameters": {
-										"tag": "\"land\""
+										"instance-variable": "obst"
 									},
 									"isInverted": true
 								}
@@ -1491,6 +1467,15 @@
 									}
 								},
 								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 879635941848300,
+									"parameters": {
+										"instance-variable": "land"
+									},
+									"isInverted": true
+								},
+								{
 									"id": "is-animation-playing",
 									"objectClass": "bigwig",
 									"sid": 501419934136993,
@@ -1500,12 +1485,11 @@
 									"isInverted": true
 								},
 								{
-									"id": "is-timer-running",
-									"objectClass": "bigwig",
-									"sid": 575543280131707,
-									"behaviorType": "Timer",
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 251560030594875,
 									"parameters": {
-										"tag": "\"land\""
+										"instance-variable": "obst"
 									},
 									"isInverted": true
 								}
@@ -1529,11 +1513,11 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "bwShade",
-									"sid": 890840641038691,
+									"sid": 886111437000072,
 									"parameters": {
 										"instance-variable": "direct",
 										"comparison": 4,
-										"value": "1"
+										"value": "0"
 									}
 								},
 								{
@@ -1558,7 +1542,44 @@
 								}
 							],
 							"sid": 898262467083332
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 716214600535890
+								}
+							],
+							"actions": [
+								{
+									"id": "set-mirrored",
+									"objectClass": "bigwig",
+									"sid": 305892150283237,
+									"parameters": {
+										"state": "not-mirrored"
+									}
+								}
+							],
+							"sid": 337523869261299
 						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "анимация при остановке",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.16470588235294117,
+						0.40784313725490196,
+						0.6352941176470588,
+						1
 					]
 				},
 				{
@@ -1595,37 +1616,28 @@
 								{
 									"id": "set-position",
 									"objectClass": "bigwig",
-									"sid": 970758420206663,
+									"sid": 555638798507996,
 									"parameters": {
 										"x": "bwShade.X",
-										"y": "self.jumpHi"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "bwShade",
-									"sid": 821401589555835,
-									"parameters": {
-										"instance-variable": "direct",
-										"value": "int(((Self.a+360+45) %360)/90)"
+										"y": "self.jumpY"
 									}
 								},
 								{
 									"id": "set-animation",
 									"objectClass": "bigwig",
-									"sid": 733418523072233,
+									"sid": 625873277321293,
 									"parameters": {
-										"animation": "bwShade.direct<2?\"stop0\":\"stop1\"",
+										"animation": "bwShade.direct<2?\"stop3\": \"stop1\"",
 										"from": "beginning"
 									}
 								},
 								{
-									"id": "set-mirrored",
-									"objectClass": "bigwig",
-									"sid": 262433156681247,
-									"disabled": true,
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 554486559259398,
 									"parameters": {
-										"state": "not-mirrored"
+										"instance-variable": "obst",
+										"value": "false"
 									}
 								}
 							],
@@ -1687,18 +1699,9 @@
 								{
 									"id": "set-scale",
 									"objectClass": "bwShade",
-									"sid": 568979873421552,
-									"disabled": true,
+									"sid": 576835458012556,
 									"parameters": {
-										"scale": "(15-(bigwig.ImagePointY(0)-bigwig.ImagePointY(1))/50)*bigwig.size"
-									}
-								},
-								{
-									"id": "set-scale",
-									"objectClass": "bwShade",
-									"sid": 572720247386555,
-									"parameters": {
-										"scale": "(300-bwShade.jumpHi/2.4)/20*bigwig.size"
+										"scale": "(300-bwShade.jumpHi/2.4)/20*Self.size"
 									}
 								},
 								{
@@ -1778,10 +1781,10 @@
 										{
 											"id": "compare-x",
 											"objectClass": "bigwig",
-											"sid": 249259276517698,
+											"sid": 554451538217311,
 											"parameters": {
 												"comparison": 4,
-												"x-co-ordinate": "Bit.Y"
+												"x-co-ordinate": "Bit.X"
 											}
 										}
 									],
@@ -1903,14 +1906,6 @@
 							"parameters": {
 								"tag": "\"bwPuls\""
 							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "bwShade",
-							"sid": 900714415155982,
-							"parameters": {
-								"instance-variable": "onU"
-							}
 						}
 					],
 					"actions": [],
@@ -1928,16 +1923,51 @@
 									}
 								}
 							],
-							"actions": [
+							"actions": [],
+							"sid": 291091638232748,
+							"children": [
 								{
-									"callFunction": "bigwigPuls",
-									"sid": 249423549384635,
-									"parameters": [
-										"bwShade.UID"
-									]
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "bwShade",
+											"sid": 967850053949464,
+											"parameters": {
+												"instance-variable": "onU"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "bwShade",
+											"sid": 515319590795961,
+											"parameters": {
+												"instance-variable": "land"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "bwShade",
+											"sid": 106497134308386,
+											"parameters": {
+												"instance-variable": "obst"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "bigwigPuls",
+											"sid": 100342493024885,
+											"parameters": [
+												"bwShade.UID"
+											]
+										}
+									],
+									"sid": 114011352126494
 								}
-							],
-							"sid": 291091638232748
+							]
 						}
 					]
 				},
@@ -3340,10 +3370,10 @@
 						{
 							"id": "set-animation",
 							"objectClass": "bigwig",
-							"sid": 386621149771291,
+							"sid": 624142590507812,
 							"parameters": {
-								"animation": "\"stop0\"",
-								"from": "beginning"
+								"animation": "choose(\"stop3\",\"am\",\"stop3\",\"stop3\")",
+								"from": "current-frame"
 							}
 						}
 					],
@@ -3439,6 +3469,48 @@
 					],
 					"sid": 479799172938419,
 					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "bwShade",
+							"sid": 412353685231638,
+							"parameters": {
+								"tag": "\"stopbigwigBase\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 674188836715920,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 245894822232748,
+									"parameters": {
+										"instance-variable": "obst"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 298544232020161,
+									"parameters": {
+										"instance-variable": "obst",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 250669684354676
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -3545,6 +3617,15 @@
 							]
 						},
 						{
+							"id": "set-boolean-instvar",
+							"objectClass": "bwShade",
+							"sid": 468898619535173,
+							"parameters": {
+								"instance-variable": "obst",
+								"value": "true"
+							}
+						},
+						{
 							"callFunction": "smt",
 							"sid": 660039561971102,
 							"parameters": [
@@ -3629,6 +3710,15 @@
 									]
 								},
 								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 972529250290644,
+									"parameters": {
+										"instance-variable": "obst",
+										"value": "true"
+									}
+								},
+								{
 									"callFunction": "smt",
 									"sid": 194390152387483,
 									"parameters": [
@@ -3662,6 +3752,15 @@
 									]
 								},
 								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 961053711531727,
+									"parameters": {
+										"instance-variable": "obst",
+										"value": "true"
+									}
+								},
+								{
 									"callFunction": "smt",
 									"sid": 944045000223615,
 									"parameters": [
@@ -3693,6 +3792,15 @@
 										"bwShade.UID",
 										false
 									]
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 999174761392196,
+									"parameters": {
+										"instance-variable": "obst",
+										"value": "true"
+									}
 								},
 								{
 									"callFunction": "smt",
