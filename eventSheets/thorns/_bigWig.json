@@ -2235,19 +2235,71 @@
 													"parameters": {
 														"text": "2"
 													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "ati",
-													"sid": 183663407885669,
-													"parameters": {
-														"instance-variable": "bigwigClose",
-														"value": "true"
-													}
 												}
 											],
 											"sid": 887086505024218,
 											"children": [
+												{
+													"eventType": "comment",
+													"text": "ускоряем пульс",
+													"text-color": [
+														1,
+														1,
+														1,
+														1
+													],
+													"background-color": [
+														0.43137254901960786,
+														0.4,
+														0.5607843137254902,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "bwShade",
+															"sid": 751652478617186,
+															"parameters": {
+																"instance-variable": "closeAth"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "bwShade",
+															"sid": 699484568433090,
+															"parameters": {
+																"instance-variable": "closeAth",
+																"value": "false"
+															}
+														},
+														{
+															"id": "stop-timer",
+															"objectClass": "bwShade",
+															"sid": 730333777147113,
+															"behaviorType": "Timer",
+															"parameters": {
+																"tag": "\"bwPuls\""
+															}
+														},
+														{
+															"id": "start-timer",
+															"objectClass": "bwShade",
+															"sid": 884993534305190,
+															"behaviorType": "Timer",
+															"parameters": {
+																"duration": "0.125",
+																"type": "regular",
+																"tag": "\"bwPuls\""
+															}
+														}
+													],
+													"sid": 312112423973586
+												},
 												{
 													"eventType": "comment",
 													"text": "бигвик особенно не любит двойников",
@@ -2604,7 +2656,7 @@
 										},
 										{
 											"id": "stop-timer",
-											"objectClass": "bigwig",
+											"objectClass": "bwShade",
 											"sid": 472240407811477,
 											"behaviorType": "Timer",
 											"parameters": {
@@ -2613,7 +2665,7 @@
 										},
 										{
 											"id": "start-timer",
-											"objectClass": "bigwig",
+											"objectClass": "bwShade",
 											"sid": 512220992576986,
 											"behaviorType": "Timer",
 											"parameters": {
@@ -2624,10 +2676,10 @@
 										},
 										{
 											"id": "set-boolean-instvar",
-											"objectClass": "ati",
-											"sid": 457837460730279,
+											"objectClass": "bwShade",
+											"sid": 243593453442572,
 											"parameters": {
-												"instance-variable": "bigwigClose",
+												"instance-variable": "closeAth",
 												"value": "false"
 											}
 										}
@@ -2718,26 +2770,26 @@
 									"conditions": [
 										{
 											"id": "is-boolean-instance-variable-set",
-											"objectClass": "ati",
-											"sid": 273924667342229,
+											"objectClass": "bwShade",
+											"sid": 754217028891713,
 											"parameters": {
-												"instance-variable": "bigwigClose"
+												"instance-variable": "closeAth"
 											}
 										}
 									],
 									"actions": [
 										{
 											"id": "set-boolean-instvar",
-											"objectClass": "ati",
-											"sid": 116725909788041,
+											"objectClass": "bwShade",
+											"sid": 685092673391200,
 											"parameters": {
-												"instance-variable": "bigwigClose",
+												"instance-variable": "closeAth",
 												"value": "false"
 											}
 										},
 										{
 											"id": "stop-timer",
-											"objectClass": "bigwig",
+											"objectClass": "bwShade",
 											"sid": 952942843443483,
 											"behaviorType": "Timer",
 											"parameters": {
@@ -2746,7 +2798,7 @@
 										},
 										{
 											"id": "start-timer",
-											"objectClass": "bigwig",
+											"objectClass": "bwShade",
 											"sid": 633313864150670,
 											"behaviorType": "Timer",
 											"parameters": {
@@ -3061,6 +3113,410 @@
 				},
 				{
 					"eventType": "comment",
+					"text": "\n\n\nвзаимодействия",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0,
+						0,
+						0,
+						1
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "бигвик должен поворачивать в другую сторону при встрече с препятствием",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.1843137254901961,
+						0.41568627450980394,
+						0.2196078431372549,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "bigwig",
+							"sid": 674719734041155,
+							"parameters": {
+								"tag": "\"pushOut\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "smt",
+							"sid": 749130595059523,
+							"parameters": [
+								"bwShade.UID",
+								"bwShade.X + random(40,200)*cos(bwShade.mt.MovingAngle+180+random(-20,20))",
+								"bwShade.Y + random(40,200)*sin(bwShade.mt.MovingAngle+180+random(-20,20))"
+							]
+						}
+					],
+					"sid": 441916074084731,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "bwShade",
+							"sid": 576240973639926,
+							"parameters": {
+								"tag": "\"stopbigwigBase\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 558367004820940,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "bwShade",
+									"sid": 277540843926284,
+									"parameters": {
+										"instance-variable": "obst"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 326174911883421,
+									"parameters": {
+										"instance-variable": "obst",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 369127555528419
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "коллизия персонажей с бигвиком",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.1843137254901961,
+						0.41568627450980394,
+						0.2196078431372549,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "base",
+							"sid": 757496593944180,
+							"parameters": {
+								"object": "bwShade"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "bwShade",
+							"sid": 504172333142063,
+							"parameters": {
+								"instance-variable": "onU",
+								"value": "true"
+							}
+						},
+						{
+							"id": "stop-timer",
+							"objectClass": "bwShade",
+							"sid": 614308276365953,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"idle\""
+							}
+						},
+						{
+							"callFunction": "bigwigPuls",
+							"sid": 617340289286510,
+							"parameters": [
+								"bwShade.UID"
+							]
+						}
+					],
+					"sid": 170969780497962
+				},
+				{
+					"eventType": "comment",
+					"text": "коллизия бигвика с препятствиями",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.30980392156862746,
+						0.49019607843137253,
+						0.33725490196078434,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "bwShade",
+							"sid": 511248933544140,
+							"parameters": {
+								"object": "vegaRoad"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "bwShade",
+							"sid": 714795627225438,
+							"parameters": {
+								"instance-variable": "fsm",
+								"comparison": 1,
+								"value": "\"hunt\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "stopThorns",
+							"sid": 612142656821132,
+							"parameters": [
+								"bwShade.UID",
+								false
+							]
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "bwShade",
+							"sid": 129881412290349,
+							"parameters": {
+								"instance-variable": "obst",
+								"value": "true"
+							}
+						},
+						{
+							"callFunction": "smt",
+							"sid": 508961046867552,
+							"parameters": [
+								"bwShade.UID",
+								"clamp(bwShade.X + random(40,200)*cos(angle(vegaRoad.X, vegaRoad.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutWidth-100)",
+								"clamp(bwShade.Y + random(40,200)*sin(angle(vegaRoad.X, vegaRoad.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutHeight-100)"
+							]
+						},
+						{
+							"callFunction": "smt",
+							"sid": 971554878343563,
+							"disabled": true,
+							"parameters": [
+								"bwShade.UID",
+								"bwShade.X + random(40,200)*cos(bwShade.mt.MovingAngle+180+random(-20,20))",
+								"bwShade.Y + random(40,200)*sin(bwShade.mt.MovingAngle+180+random(-20,20))"
+							]
+						}
+					],
+					"sid": 495012919342933
+				},
+				{
+					"eventType": "comment",
+					"text": "бигвик выходит из препятствий",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.30980392156862746,
+						0.49019607843137253,
+						0.33725490196078434,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 994964018870431,
+							"parameters": {
+								"interval-seconds": "1.0"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 937094848908814,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "bwShade",
+									"sid": 186948156678795,
+									"parameters": {
+										"object": "vegaRoad"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "bwShade",
+									"sid": 805431538442732,
+									"parameters": {
+										"instance-variable": "fsm",
+										"comparison": 1,
+										"value": "\"hunt\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "stopThorns",
+									"sid": 768783364319746,
+									"parameters": [
+										"bwShade.UID",
+										false
+									]
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 968266280325941,
+									"parameters": {
+										"instance-variable": "obst",
+										"value": "true"
+									}
+								},
+								{
+									"callFunction": "smt",
+									"sid": 894150237422077,
+									"parameters": [
+										"bwShade.UID",
+										"clamp(bwShade.X + random(40,200)*cos(angle(vegaRoad.X, vegaRoad.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutWidth-100)",
+										"clamp(bwShade.Y + random(40,200)*sin(angle(vegaRoad.X, vegaRoad.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutHeight-100)"
+									]
+								}
+							],
+							"sid": 640136458028852
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "bwShade",
+									"sid": 335651894681846,
+									"parameters": {
+										"object": "zoneStopTh"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "stopThorns",
+									"sid": 377320630047414,
+									"parameters": [
+										"bwShade.UID",
+										false
+									]
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 847178307741528,
+									"parameters": {
+										"instance-variable": "obst",
+										"value": "true"
+									}
+								},
+								{
+									"callFunction": "smt",
+									"sid": 976339790553127,
+									"parameters": [
+										"bwShade.UID",
+										"clamp(bwShade.X + random(40,200)*cos(angle(zoneStopTh.X, zoneStopTh.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutWidth-100)",
+										"clamp(bwShade.Y + random(40,200)*sin(angle(zoneStopTh.X, zoneStopTh.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutHeight-100)"
+									]
+								}
+							],
+							"sid": 452116996314040
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "bwShade",
+									"sid": 418628866854415,
+									"parameters": {
+										"object": "zoneStop"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "stopThorns",
+									"sid": 536182996179646,
+									"parameters": [
+										"bwShade.UID",
+										false
+									]
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 173678889329513,
+									"parameters": {
+										"instance-variable": "obst",
+										"value": "true"
+									}
+								},
+								{
+									"callFunction": "smt",
+									"sid": 504951269537872,
+									"parameters": [
+										"bwShade.UID",
+										"clamp(bwShade.X + random(40,200)*cos(angle(zoneStop.X, zoneStop.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutWidth-100)",
+										"clamp(bwShade.Y + random(40,200)*sin(angle(zoneStop.X, zoneStop.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutHeight-100)"
+									]
+								}
+							],
+							"sid": 223147272127828
+						}
+					]
+				},
+				{
+					"eventType": "comment",
 					"text": "\n\n\nвыполнение",
 					"text-color": [
 						1,
@@ -3074,6 +3530,110 @@
 						0,
 						1
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "передышка",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.1843137254901961,
+						0.5568627450980392,
+						0.5568627450980392,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "idle",
+					"objectClass": "bwShade",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "timer",
+							"type": "number",
+							"initialValue": "0.6",
+							"comment": "",
+							"sid": 233665496449552
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [],
+					"actions": [
+						{
+							"callFunction": "stopThorns",
+							"sid": 296045994692987,
+							"parameters": [
+								"bwShade.UID",
+								false
+							]
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "bwShade",
+							"sid": 195969854626245,
+							"parameters": {
+								"instance-variable": "onU",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "bwShade",
+							"sid": 466476655622114,
+							"parameters": {
+								"instance-variable": "fsm",
+								"value": "\"idle\""
+							}
+						},
+						{
+							"id": "stop-timer",
+							"objectClass": "bwShade",
+							"sid": 551171151106165,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"idle\""
+							}
+						},
+						{
+							"id": "start-timer",
+							"objectClass": "bwShade",
+							"sid": 805500370510247,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "timer",
+								"type": "once",
+								"tag": "\"idle\""
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "bigwig",
+							"sid": 103745699849311,
+							"parameters": {
+								"instance-variable": "jumping",
+								"value": "false"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "bigwig",
+							"sid": 726969522459628,
+							"parameters": {
+								"animation": "choose(\"stop3\",\"am\",\"stop3\",\"stop3\")",
+								"from": "current-frame"
+							}
+						}
+					],
+					"sid": 969431182661735
 				},
 				{
 					"eventType": "comment",
@@ -3124,6 +3684,31 @@
 						}
 					],
 					"sid": 130900131198329
+				},
+				{
+					"eventType": "comment",
+					"text": "разбрасывает каштаны",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.1843137254901961,
+						0.5568627450980392,
+						0.5568627450980392,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "bwNutAttack",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [],
+					"sid": 830974225510004
 				},
 				{
 					"eventType": "comment",
@@ -3201,6 +3786,15 @@
 					"sid": 190955032572076
 				},
 				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "bwBoomAttack",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [],
+					"sid": 848864633553038
+				},
+				{
 					"eventType": "comment",
 					"text": "проглатывает",
 					"text-color": [
@@ -3276,108 +3870,13 @@
 					"sid": 899018716635948
 				},
 				{
-					"eventType": "comment",
-					"text": "передышка",
-					"text-color": [
-						1,
-						1,
-						1,
-						1
-					],
-					"background-color": [
-						0.1843137254901961,
-						0.5568627450980392,
-						0.5568627450980392,
-						1
-					]
-				},
-				{
-					"aceType": "action",
-					"aceName": "idle",
-					"objectClass": "bwShade",
-					"functionDescription": "",
-					"functionCategory": "",
-					"functionReturnType": "none",
-					"functionCopyPicked": false,
-					"functionIsAsync": false,
-					"functionParameters": [
-						{
-							"name": "timer",
-							"type": "number",
-							"initialValue": "0.6",
-							"comment": "",
-							"sid": 233665496449552
-						}
-					],
-					"eventType": "custom-ace-block",
-					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "stopThorns",
-							"sid": 637821515811060,
-							"parameters": [
-								"bwShade.UID",
-								false
-							]
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "bwShade",
-							"sid": 504319071108831,
-							"parameters": {
-								"instance-variable": "onU",
-								"value": "false"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "bwShade",
-							"sid": 119190418977943,
-							"parameters": {
-								"instance-variable": "fsm",
-								"value": "\"idle\""
-							}
-						},
-						{
-							"id": "stop-timer",
-							"objectClass": "bwShade",
-							"sid": 768597742001250,
-							"behaviorType": "Timer",
-							"parameters": {
-								"tag": "\"idle\""
-							}
-						},
-						{
-							"id": "start-timer",
-							"objectClass": "bwShade",
-							"sid": 919789202806057,
-							"behaviorType": "Timer",
-							"parameters": {
-								"duration": "timer",
-								"type": "once",
-								"tag": "\"idle\""
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "bigwig",
-							"sid": 505966591478404,
-							"parameters": {
-								"instance-variable": "jumping",
-								"value": "false"
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "bigwig",
-							"sid": 624142590507812,
-							"parameters": {
-								"animation": "choose(\"stop3\",\"am\",\"stop3\",\"stop3\")",
-								"from": "current-frame"
-							}
-						}
-					],
-					"sid": 983040527440616
+					"eventType": "group",
+					"disabled": false,
+					"title": "bwYumAttack",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [],
+					"sid": 647420753213189
 				},
 				{
 					"eventType": "comment",
@@ -3411,410 +3910,6 @@
 					"actions": [],
 					"sid": 746043860568589,
 					"disabled": true
-				},
-				{
-					"eventType": "comment",
-					"text": "\n\n\nвзаимодействия",
-					"text-color": [
-						1,
-						1,
-						1,
-						1
-					],
-					"background-color": [
-						0,
-						0,
-						0,
-						1
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "бигвик должен поворачивать в другую сторону при встрече с препятствием",
-					"text-color": [
-						1,
-						1,
-						1,
-						1
-					],
-					"background-color": [
-						0.1843137254901961,
-						0.41568627450980394,
-						0.2196078431372549,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-instance-signal",
-							"objectClass": "bigwig",
-							"sid": 572486528866196,
-							"parameters": {
-								"tag": "\"pushOut\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "smt",
-							"sid": 188011251104811,
-							"parameters": [
-								"bwShade.UID",
-								"bwShade.X + random(40,200)*cos(bwShade.mt.MovingAngle+180+random(-20,20))",
-								"bwShade.Y + random(40,200)*sin(bwShade.mt.MovingAngle+180+random(-20,20))"
-							]
-						}
-					],
-					"sid": 479799172938419,
-					"disabled": true
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-instance-signal",
-							"objectClass": "bwShade",
-							"sid": 412353685231638,
-							"parameters": {
-								"tag": "\"stopbigwigBase\""
-							}
-						}
-					],
-					"actions": [],
-					"sid": 674188836715920,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-boolean-instance-variable-set",
-									"objectClass": "bwShade",
-									"sid": 245894822232748,
-									"parameters": {
-										"instance-variable": "obst"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "bwShade",
-									"sid": 298544232020161,
-									"parameters": {
-										"instance-variable": "obst",
-										"value": "false"
-									}
-								}
-							],
-							"sid": 250669684354676
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "коллизия персонажей с бигвиком",
-					"text-color": [
-						1,
-						1,
-						1,
-						1
-					],
-					"background-color": [
-						0.1843137254901961,
-						0.41568627450980394,
-						0.2196078431372549,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-collision-with-another-object",
-							"objectClass": "base",
-							"sid": 774682093018826,
-							"parameters": {
-								"object": "bwShade"
-							}
-						}
-					],
-					"actions": [
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "bwShade",
-							"sid": 790795704802313,
-							"parameters": {
-								"instance-variable": "onU",
-								"value": "true"
-							}
-						},
-						{
-							"id": "stop-timer",
-							"objectClass": "bwShade",
-							"sid": 639850932430615,
-							"behaviorType": "Timer",
-							"parameters": {
-								"tag": "\"idle\""
-							}
-						},
-						{
-							"callFunction": "bigwigPuls",
-							"sid": 201190192300958,
-							"parameters": [
-								"bwShade.UID"
-							]
-						}
-					],
-					"sid": 339112024991401
-				},
-				{
-					"eventType": "comment",
-					"text": "коллизия бигвика с препятствиями",
-					"text-color": [
-						1,
-						1,
-						1,
-						1
-					],
-					"background-color": [
-						0.30980392156862746,
-						0.49019607843137253,
-						0.33725490196078434,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "on-collision-with-another-object",
-							"objectClass": "bwShade",
-							"sid": 748912294594202,
-							"parameters": {
-								"object": "vegaRoad"
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "bwShade",
-							"sid": 477831239236774,
-							"parameters": {
-								"instance-variable": "fsm",
-								"comparison": 1,
-								"value": "\"hunt\""
-							}
-						}
-					],
-					"actions": [
-						{
-							"callFunction": "stopThorns",
-							"sid": 892913914138452,
-							"parameters": [
-								"bwShade.UID",
-								false
-							]
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "bwShade",
-							"sid": 468898619535173,
-							"parameters": {
-								"instance-variable": "obst",
-								"value": "true"
-							}
-						},
-						{
-							"callFunction": "smt",
-							"sid": 660039561971102,
-							"parameters": [
-								"bwShade.UID",
-								"clamp(bwShade.X + random(40,200)*cos(angle(vegaRoad.X, vegaRoad.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutWidth-100)",
-								"clamp(bwShade.Y + random(40,200)*sin(angle(vegaRoad.X, vegaRoad.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutHeight-100)"
-							]
-						},
-						{
-							"callFunction": "smt",
-							"sid": 446895492061938,
-							"disabled": true,
-							"parameters": [
-								"bwShade.UID",
-								"bwShade.X + random(40,200)*cos(bwShade.mt.MovingAngle+180+random(-20,20))",
-								"bwShade.Y + random(40,200)*sin(bwShade.mt.MovingAngle+180+random(-20,20))"
-							]
-						}
-					],
-					"sid": 897623358531610
-				},
-				{
-					"eventType": "comment",
-					"text": "бигвик выходит из препятствий",
-					"text-color": [
-						1,
-						1,
-						1,
-						1
-					],
-					"background-color": [
-						0.30980392156862746,
-						0.49019607843137253,
-						0.33725490196078434,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "every-x-seconds",
-							"objectClass": "System",
-							"sid": 521966257654556,
-							"parameters": {
-								"interval-seconds": "1.0"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 971916126002271,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "bwShade",
-									"sid": 420436146373917,
-									"parameters": {
-										"object": "vegaRoad"
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "bwShade",
-									"sid": 201866025885142,
-									"parameters": {
-										"instance-variable": "fsm",
-										"comparison": 1,
-										"value": "\"hunt\""
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "stopThorns",
-									"sid": 232878737675334,
-									"parameters": [
-										"bwShade.UID",
-										false
-									]
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "bwShade",
-									"sid": 972529250290644,
-									"parameters": {
-										"instance-variable": "obst",
-										"value": "true"
-									}
-								},
-								{
-									"callFunction": "smt",
-									"sid": 194390152387483,
-									"parameters": [
-										"bwShade.UID",
-										"clamp(bwShade.X + random(40,200)*cos(angle(vegaRoad.X, vegaRoad.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutWidth-100)",
-										"clamp(bwShade.Y + random(40,200)*sin(angle(vegaRoad.X, vegaRoad.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutHeight-100)"
-									]
-								}
-							],
-							"sid": 100671401191669
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "bwShade",
-									"sid": 587241796232645,
-									"parameters": {
-										"object": "zoneStopTh"
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "stopThorns",
-									"sid": 990719873894392,
-									"parameters": [
-										"bwShade.UID",
-										false
-									]
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "bwShade",
-									"sid": 961053711531727,
-									"parameters": {
-										"instance-variable": "obst",
-										"value": "true"
-									}
-								},
-								{
-									"callFunction": "smt",
-									"sid": 944045000223615,
-									"parameters": [
-										"bwShade.UID",
-										"clamp(bwShade.X + random(40,200)*cos(angle(zoneStopTh.X, zoneStopTh.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutWidth-100)",
-										"clamp(bwShade.Y + random(40,200)*sin(angle(zoneStopTh.X, zoneStopTh.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutHeight-100)"
-									]
-								}
-							],
-							"sid": 325011392548566
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "is-overlapping-another-object",
-									"objectClass": "bwShade",
-									"sid": 732739105701462,
-									"parameters": {
-										"object": "zoneStop"
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "stopThorns",
-									"sid": 551168001929798,
-									"parameters": [
-										"bwShade.UID",
-										false
-									]
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "bwShade",
-									"sid": 999174761392196,
-									"parameters": {
-										"instance-variable": "obst",
-										"value": "true"
-									}
-								},
-								{
-									"callFunction": "smt",
-									"sid": 995832636787776,
-									"parameters": [
-										"bwShade.UID",
-										"clamp(bwShade.X + random(40,200)*cos(angle(zoneStop.X, zoneStop.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutWidth-100)",
-										"clamp(bwShade.Y + random(40,200)*sin(angle(zoneStop.X, zoneStop.Y, bwShade.X, bwShade.Y) + random(-40,40)), 100, LayoutHeight-100)"
-									]
-								}
-							],
-							"sid": 973900229643848
-						}
-					]
 				}
 			],
 			"sid": 890596099887643
