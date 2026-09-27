@@ -196,6 +196,7 @@
 									"id": "set-animation",
 									"objectClass": "bigwig",
 									"sid": 483205114931330,
+									"disabled": true,
 									"parameters": {
 										"animation": "\"stop3\"",
 										"from": "beginning"
@@ -240,6 +241,7 @@
 									"id": "set-scale",
 									"objectClass": "bigwig",
 									"sid": 452563645337863,
+									"disabled": true,
 									"parameters": {
 										"scale": "size"
 									}
@@ -261,6 +263,30 @@
 									"parameters": {
 										"instance-variable": "active",
 										"value": "true"
+									}
+								},
+								{
+									"id": "clear-obstacles",
+									"objectClass": "bwShade",
+									"sid": 989495662412169,
+									"behaviorType": "losPfmt"
+								},
+								{
+									"id": "add-obstacle",
+									"objectClass": "bwShade",
+									"sid": 328542277559191,
+									"behaviorType": "losPfmt",
+									"parameters": {
+										"obstacle": "zoneStop"
+									}
+								},
+								{
+									"id": "add-obstacle",
+									"objectClass": "bwShade",
+									"sid": 177964507917692,
+									"behaviorType": "losPfmt",
+									"parameters": {
+										"obstacle": "zoneStopTh"
 									}
 								},
 								{
@@ -393,9 +419,58 @@
 									"id": "set-instvar-value",
 									"objectClass": "bwShade",
 									"sid": 194949137468383,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "fsm",
 										"value": "\"idle\""
+									}
+								},
+								{
+									"type": "comment",
+									"text": ""
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bwShade",
+									"sid": 471360896516918,
+									"parameters": {
+										"instance-variable": "fsm",
+										"value": "\"yumEnd\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "bwShade",
+									"sid": 452788211824700,
+									"parameters": {
+										"instance-variable": "land",
+										"value": "true"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "bigwig",
+									"sid": 217036241687759,
+									"parameters": {
+										"animation": "\"out\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "bigwig",
+									"sid": 267787997252886,
+									"parameters": {
+										"scale": "size"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 554007668080792,
+									"parameters": {
+										"group-name": "\"bwYumAttack\"",
+										"state": "activated"
 									}
 								}
 							],
@@ -1570,10 +1645,10 @@
 						{
 							"id": "set-instvar-value",
 							"objectClass": "bwShade",
-							"sid": 640691467478035,
+							"sid": 798847182944805,
 							"parameters": {
 								"instance-variable": "direct",
-								"value": "int(((Self.a+360+45) %360)/90)"
+								"value": "int(((Self.ang+360+45) %360)/90)"
 							}
 						}
 					],
@@ -2731,11 +2806,60 @@
 										"comparison": 0,
 										"value": "hero"
 									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 606532779227015,
+									"parameters": {
+										"instance-variable": "respawn"
+									},
+									"isInverted": true
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "base",
+									"sid": 315303958284377,
+									"parameters": {
+										"instance-variable": "intersept"
+									},
+									"isInverted": true
 								}
 							],
-							"actions": [],
-							"sid": 500499224066083,
-							"disabled": true
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bwShade",
+									"sid": 452866292574433,
+									"parameters": {
+										"instance-variable": "heroDist",
+										"value": "Functions.getIsoDist(base.X,base.Y,Self.X,Self.Y)"
+									}
+								}
+							],
+							"sid": 500499224066083
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 645316463266979
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bwShade",
+									"sid": 446036939942282,
+									"parameters": {
+										"instance-variable": "heroDist",
+										"value": "11111"
+									}
+								}
+							],
+							"sid": 844512935334802
 						},
 						{
 							"eventType": "comment",
@@ -2832,10 +2956,10 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "base",
-									"sid": 861363531854067,
+									"sid": 870525439006605,
 									"parameters": {
 										"instance-variable": "bigwigTDist",
-										"value": "Functions.getIsoDist(bigwig.X,bigwig.Y,Self.X,Self.Y)"
+										"value": "Functions.getIsoDist(bwShade.X,bwShade.Y,Self.X,Self.Y)"
 									}
 								},
 								{
@@ -3082,8 +3206,9 @@
 														{
 															"customAction": "hunt",
 															"objectClass": "bwShade",
-															"sid": 737271002615026,
+															"sid": 165185290338751,
 															"parameters": [
+																"bwShade.UID",
 																"base.UID"
 															]
 														}
@@ -3253,8 +3378,9 @@
 														{
 															"customAction": "hunt",
 															"objectClass": "bwShade",
-															"sid": 106105929715918,
+															"sid": 700882348627478,
 															"parameters": [
+																"bwShade.UID",
 																"base.UID"
 															]
 														}
@@ -3410,8 +3536,9 @@
 														{
 															"customAction": "hunt",
 															"objectClass": "bwShade",
-															"sid": 961944063396420,
+															"sid": 126739276290777,
 															"parameters": [
+																"bwShade.UID",
 																"base.UID"
 															]
 														}
@@ -3481,15 +3608,6 @@
 											"sid": 393311644547208,
 											"parameters": {
 												"instance-variable": "uTargDist",
-												"value": "11111"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "bwShade",
-											"sid": 435403565862586,
-											"parameters": {
-												"instance-variable": "heroDist",
 												"value": "11111"
 											}
 										},
@@ -3696,15 +3814,6 @@
 									"parameters": {
 										"instance-variable": "uTargDist",
 										"value": "111111"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "bwShade",
-									"sid": 660341148535956,
-									"parameters": {
-										"instance-variable": "heroDist",
-										"value": "11111"
 									}
 								},
 								{
@@ -4127,7 +4236,14 @@
 					"functionIsAsync": false,
 					"functionParameters": [
 						{
-							"name": "uid",
+							"name": "uidBW",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 733141154571363
+						},
+						{
+							"name": "uidBase",
 							"type": "number",
 							"initialValue": "0",
 							"comment": "",
@@ -4137,21 +4253,29 @@
 					"eventType": "custom-ace-block",
 					"conditions": [
 						{
+							"id": "pick-by-unique-id",
+							"objectClass": "base",
+							"sid": 563751934137794,
+							"parameters": {
+								"unique-id": "uidBase"
+							}
+						},
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "bwShade",
+							"sid": 371824720565535,
+							"parameters": {
+								"unique-id": "uidBW"
+							}
+						},
+						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "bwShade",
-							"sid": 733925316450451,
+							"sid": 295450215878726,
 							"parameters": {
 								"instance-variable": "obst"
 							},
 							"isInverted": true
-						},
-						{
-							"id": "pick-by-unique-id",
-							"objectClass": "base",
-							"sid": 150335947461264,
-							"parameters": {
-								"unique-id": "uid"
-							}
 						}
 					],
 					"actions": [],
@@ -4714,7 +4838,8 @@
 							]
 						}
 					],
-					"sid": 198587104630340
+					"sid": 198587104630340,
+					"disabled": true
 				},
 				{
 					"eventType": "comment",
@@ -4981,7 +5106,8 @@
 									]
 								}
 							],
-							"sid": 795110046628319
+							"sid": 795110046628319,
+							"disabled": true
 						},
 						{
 							"eventType": "comment",
@@ -5048,8 +5174,7 @@
 									}
 								}
 							],
-							"sid": 966995984937817,
-							"disabled": true
+							"sid": 966995984937817
 						}
 					]
 				},
@@ -5303,7 +5428,103 @@
 							}
 						}
 					],
-					"sid": 969431182661735
+					"sid": 969431182661735,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "разбрасывание каштанов",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.1843137254901961,
+								0.5568627450980392,
+								0.5568627450980392,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "bwShade",
+									"sid": 612059102217511,
+									"parameters": {
+										"instance-variable": "heroDist",
+										"comparison": 2,
+										"value": "1000"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "bwNuts",
+									"sid": 754320450682372,
+									"parameters": {
+										"unique-id": "Functions.pickOutside(\"bwNuts\")"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "bwNuts",
+									"sid": 565404032917228,
+									"parameters": {
+										"x": "bigwig.X",
+										"y": "bigwig.Y"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "bwNuts",
+									"sid": 278651907877121,
+									"parameters": {
+										"scale": "bwShade.size"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bwNuts",
+									"sid": 144451249271748,
+									"parameters": {
+										"instance-variable": "bigwigUID",
+										"value": "bigwig.UID"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "bwNuts",
+									"sid": 418360455705491,
+									"parameters": {
+										"animation": "\"nuts\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 524702375738550,
+									"parameters": {
+										"group-name": "\"bwNutAttack\"",
+										"state": "activated"
+									}
+								},
+								{
+									"customAction": "bwNut",
+									"objectClass": "ats",
+									"sid": 397212231546741,
+									"parameters": [
+										"bwShade.UID"
+									]
+								}
+							],
+							"sid": 432646426964541
+						}
+					]
 				},
 				{
 					"eventType": "comment",
@@ -5386,7 +5607,589 @@
 					"title": "bwNutAttack",
 					"description": "",
 					"isActiveOnStart": false,
-					"children": [],
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.1843137254901961,
+								0.5568627450980392,
+								0.5568627450980392,
+								1
+							]
+						},
+						{
+							"aceType": "action",
+							"aceName": "bwNut",
+							"objectClass": "ats",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "uid",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"sid": 918525306235521
+								}
+							],
+							"eventType": "custom-ace-block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "bwShade",
+									"sid": 883801573387709,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 334341236046137,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "cucuBoom",
+											"sid": 560469680351617,
+											"parameters": {
+												"instance-variable": "onC"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [],
+									"sid": 479767998522194,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-random-instance",
+													"objectClass": "System",
+													"sid": 890244578181570,
+													"parameters": {
+														"object": "cucuBoom"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position-to-another-object",
+													"objectClass": "cucuBoom",
+													"sid": 838406081147838,
+													"parameters": {
+														"object": "bwShade",
+														"image-point-optional": "0"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "cucuBoom",
+													"sid": 340430154161790,
+													"parameters": {
+														"scale": "1"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "cucuBoom",
+													"sid": 818791137603825,
+													"parameters": {
+														"animation": "\"boom\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "cucuBoom",
+													"sid": 743598568380877,
+													"parameters": {
+														"instance-variable": "bwUID",
+														"value": "bwShade.UID"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "cucuBoom",
+													"sid": 945055423644160,
+													"parameters": {
+														"instance-variable": "onC",
+														"value": "true"
+													}
+												}
+											],
+											"sid": 441787637668686
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.1843137254901961,
+								0.5568627450980392,
+								0.5568627450980392,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "cucuBoom",
+									"sid": 662077863859515,
+									"parameters": {
+										"animation": "\"boom\""
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cucuBoom",
+									"sid": 785380405410547,
+									"parameters": {
+										"instance-variable": "onC"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "bwShade",
+									"sid": 309706426245371,
+									"parameters": {
+										"unique-id": "cucuBoom.bwUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "move-to-object",
+									"objectClass": "cucuBoom",
+									"sid": 791556988093962,
+									"parameters": {
+										"where": "in-front",
+										"object": "bigwig"
+									}
+								}
+							],
+							"sid": 294614009586142,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "on-animation-frame-changed",
+											"objectClass": "cucuBoom",
+											"sid": 885292985716239
+										}
+									],
+									"actions": [],
+									"sid": 826137034714595,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "cucuBoom",
+													"sid": 701533704821011,
+													"parameters": {
+														"comparison": 0,
+														"tag": "\"1\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "addNut",
+													"sid": 920113902480294,
+													"parameters": [
+														"cucuBoom.ImagePointX(1)",
+														"cucuBoom.ImagePointY(1)",
+														"\"zero\"",
+														false,
+														false
+													]
+												}
+											],
+											"sid": 285155507989677
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "cucuBoom",
+													"sid": 978463004046335,
+													"parameters": {
+														"comparison": 0,
+														"tag": "\"2\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "addNut",
+													"sid": 692422571537408,
+													"parameters": [
+														"cucuBoom.ImagePointX(2)",
+														"cucuBoom.ImagePointY(2)",
+														"\"zero\"",
+														false,
+														false
+													]
+												}
+											],
+											"sid": 730325696453521
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "cucuBoom",
+													"sid": 845815917049099,
+													"parameters": {
+														"comparison": 0,
+														"tag": "\"34\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "addNut",
+													"sid": 804209218951392,
+													"parameters": [
+														"cucuBoom.ImagePointX(3)",
+														"cucuBoom.ImagePointY(3)",
+														"\"zero\"",
+														false,
+														false
+													]
+												},
+												{
+													"callFunction": "addNut",
+													"sid": 292083108213657,
+													"parameters": [
+														"cucuBoom.ImagePointX(4)",
+														"cucuBoom.ImagePointY(4)",
+														"\"zero\"",
+														false,
+														false
+													]
+												}
+											],
+											"sid": 243816321939601
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "cucuBoom",
+													"sid": 428039962777090,
+													"parameters": {
+														"comparison": 0,
+														"tag": "\"56\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "addNut",
+													"sid": 328831236244326,
+													"parameters": [
+														"cucuBoom.ImagePointX(5)",
+														"cucuBoom.ImagePointY(5)",
+														"\"zero\"",
+														false,
+														false
+													]
+												},
+												{
+													"callFunction": "addNut",
+													"sid": 534064137709559,
+													"parameters": [
+														"cucuBoom.ImagePointX(6)",
+														"cucuBoom.ImagePointY(6)",
+														"\"zero\"",
+														false,
+														false
+													]
+												}
+											],
+											"sid": 599570051441345
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "cucuBoom",
+													"sid": 457916466810962,
+													"parameters": {
+														"comparison": 0,
+														"tag": "\"7\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "addNut",
+													"sid": 557935428837216,
+													"parameters": [
+														"cucuBoom.ImagePointX(7)",
+														"cucuBoom.ImagePointY(7)",
+														"\"zero\"",
+														false,
+														false
+													]
+												}
+											],
+											"sid": 987080519312112
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-animation-frame-tag",
+													"objectClass": "cucuBoom",
+													"sid": 949987164602929,
+													"parameters": {
+														"comparison": 0,
+														"tag": "\"8\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "addNut",
+													"sid": 730291178761441,
+													"parameters": [
+														"cucuBoom.ImagePointX(8)",
+														"cucuBoom.ImagePointY(8)",
+														"\"zero\"",
+														false,
+														false
+													]
+												}
+											],
+											"sid": 567318540435842
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.1843137254901961,
+								0.5568627450980392,
+								0.5568627450980392,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-animation-playing",
+									"objectClass": "bwNuts",
+									"sid": 705614080379706,
+									"parameters": {
+										"animation": "\"nuts\""
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "bigwig",
+									"sid": 864263799713791,
+									"parameters": {
+										"unique-id": "bwNuts.bigwigUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "bwNuts",
+									"sid": 226707173147212,
+									"parameters": {
+										"x": "bigwig.X",
+										"y": "bigwig.Y-40"
+									}
+								},
+								{
+									"id": "move-to-object",
+									"objectClass": "bwNuts",
+									"sid": 587314982459110,
+									"parameters": {
+										"where": "in-front",
+										"object": "bigwig"
+									}
+								}
+							],
+							"sid": 249139424776915
+						},
+						{
+							"eventType": "comment",
+							"text": "разбрасывание каштанов окончено",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.1843137254901961,
+								0.5568627450980392,
+								0.5568627450980392,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-animation-finished",
+									"objectClass": "bwNuts",
+									"sid": 948633977379375,
+									"parameters": {
+										"animation": "\"nuts\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-animation",
+									"objectClass": "bwNuts",
+									"sid": 533378121711403,
+									"parameters": {
+										"animation": "\"zero\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "bwNuts",
+									"sid": 495298471826655,
+									"parameters": {
+										"instance-variable": "bigwigUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "bwNuts",
+									"sid": 410877896601248,
+									"parameters": {
+										"x": "-23456",
+										"y": "-963"
+									}
+								},
+								{
+									"customAction": "bwNutsCheck",
+									"objectClass": "ati",
+									"sid": 558851580471704
+								}
+							],
+							"sid": 505564130563006
+						},
+						{
+							"eventType": "comment",
+							"text": "отключение группы",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.1843137254901961,
+								0.5568627450980392,
+								0.5568627450980392,
+								1
+							]
+						},
+						{
+							"aceType": "action",
+							"aceName": "bwNutsCheck",
+							"objectClass": "ati",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "custom-ace-block",
+							"conditions": [],
+							"actions": [],
+							"sid": 664981082912713,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-outside-layout",
+											"objectClass": "bwNuts",
+											"sid": 678944355005330,
+											"isInverted": true
+										}
+									],
+									"actions": [],
+									"sid": 663061692913063
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 325887661196840
+										}
+									],
+									"actions": [
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 498042707059640,
+											"parameters": {
+												"group-name": "\"bwNutAttack\"",
+												"state": "deactivated"
+											}
+										}
+									],
+									"sid": 562267590573722
+								}
+							]
+						}
+					],
 					"sid": 830974225510004
 				},
 				{
@@ -5832,8 +6635,28 @@
 																	"id": "set-animation",
 																	"objectClass": "afterShock",
 																	"sid": 303254723678595,
+																	"disabled": true,
 																	"parameters": {
 																		"animation": "\"as\"",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "afterShock",
+																	"sid": 914578635508497,
+																	"disabled": true,
+																	"parameters": {
+																		"animation": "\"asw\"",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "afterShock",
+																	"sid": 411245745784656,
+																	"parameters": {
+																		"animation": "\"asr\"",
 																		"from": "beginning"
 																	}
 																},
@@ -6281,6 +7104,22 @@
 									"parameters": {
 										"animation": "\"as\""
 									}
+								},
+								{
+									"id": "on-animation-finished",
+									"objectClass": "afterShock",
+									"sid": 299835730958288,
+									"parameters": {
+										"animation": "\"asw\""
+									}
+								},
+								{
+									"id": "on-animation-finished",
+									"objectClass": "afterShock",
+									"sid": 884125278211109,
+									"parameters": {
+										"animation": "\"asr\""
+									}
 								}
 							],
 							"actions": [
@@ -6312,7 +7151,8 @@
 									}
 								}
 							],
-							"sid": 529161481382346
+							"sid": 529161481382346,
+							"isOrBlock": true
 						},
 						{
 							"eventType": "comment",
@@ -7190,10 +8030,18 @@
 								{
 									"id": "set-animation",
 									"objectClass": "bigwig",
-									"sid": 258793321884417,
+									"sid": 597940258382258,
 									"parameters": {
 										"animation": "\"outLoop\"",
 										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "bigwig",
+									"sid": 577288702505106,
+									"parameters": {
+										"scale": "Self.size"
 									}
 								}
 							],
