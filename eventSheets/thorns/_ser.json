@@ -4205,6 +4205,7 @@
 									"id": "set-group-active",
 									"objectClass": "System",
 									"sid": 745793221469686,
+									"disabled": true,
 									"parameters": {
 										"group-name": "\"respawn\"",
 										"state": "activated"
@@ -4281,21 +4282,33 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "aIns",
-									"sid": 719934310827301,
+									"sid": 797928966839632,
 									"parameters": {
 										"instance-variable": "serpentWinerUID",
 										"value": "ser.UID"
 									}
 								},
 								{
+									"callFunction": "respawn",
+									"sid": 226818738918293,
+									"parameters": [
+										true,
+										"1",
+										false,
+										"0"
+									]
+								},
+								{
 									"customAction": "hitBit",
 									"objectClass": "aIns",
-									"sid": 152532738842015
+									"sid": 152532738842015,
+									"disabled": true
 								},
 								{
 									"customAction": "heroMicoRespawn",
 									"objectClass": "aIns",
-									"sid": 722188053680086
+									"sid": 722188053680086,
+									"disabled": true
 								}
 							],
 							"sid": 815500390364689
@@ -6900,6 +6913,14 @@
 													"objectClass": "ser",
 													"sid": 147612506670021,
 													"isInverted": true
+												},
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "spike",
+													"sid": 631340611546146,
+													"parameters": {
+														"unique-id": "Functions.pickOutside(\"spike\")"
+													}
 												}
 											],
 											"actions": [
@@ -6925,6 +6946,7 @@
 													"id": "create-object",
 													"objectClass": "System",
 													"sid": 790347095830498,
+													"disabled": true,
 													"parameters": {
 														"object-to-create": "spike",
 														"layer": "\"element\"",
@@ -6932,6 +6954,15 @@
 														"y": "ser.Y+random(-5,5)",
 														"create-hierarchy": false,
 														"template-name": "\"\""
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "spike",
+													"sid": 565404170471071,
+													"parameters": {
+														"x": "ser.X+random(-10,10)",
+														"y": "ser.Y+random(-5,5)"
 													}
 												},
 												{
@@ -6985,6 +7016,14 @@
 															"parameters": {
 																"animation": "\"greb\"",
 																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-mirrored",
+															"objectClass": "spike",
+															"sid": 939544522554876,
+															"parameters": {
+																"state": "not-mirrored"
 															}
 														}
 													],
@@ -9425,6 +9464,32 @@
 									]
 								}
 							]
+						},
+						{
+							"eventType": "comment",
+							"text": "шипы отправляются в банк"
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-any-animation-finished",
+									"objectClass": "spike",
+									"sid": 388150613547716
+								}
+							],
+							"actions": [
+								{
+									"id": "set-position",
+									"objectClass": "spike",
+									"sid": 994175521667184,
+									"parameters": {
+										"x": "-3284",
+										"y": "-3489"
+									}
+								}
+							],
+							"sid": 421778472761488
 						}
 					],
 					"sid": 224868796963370
@@ -13452,17 +13517,27 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "person",
-													"sid": 519394948357863,
+													"sid": 896867961617749,
 													"parameters": {
 														"instance-variable": "name",
 														"comparison": 0,
-														"value": "base.name"
+														"value": "hero"
 													}
 												}
 											],
 											"actions": [],
 											"sid": 210330475849754,
 											"children": [
+												{
+													"eventType": "comment",
+													"text": "Бит доступен",
+													"background-color": [
+														0.9372549019607843,
+														0.6392156862745098,
+														0.6392156862745098,
+														1
+													]
+												},
 												{
 													"eventType": "block",
 													"conditions": [
@@ -13541,6 +13616,25 @@
 																"comparison": 1,
 																"value": "\"pitonEnd\""
 															}
+														},
+														{
+															"id": "compare-eventvar",
+															"objectClass": "System",
+															"sid": 554994096548158,
+															"parameters": {
+																"variable": "interseptor",
+																"comparison": 0,
+																"value": "\"zero\""
+															}
+														},
+														{
+															"id": "compare-boolean-eventvar",
+															"objectClass": "System",
+															"sid": 483064380167877,
+															"parameters": {
+																"variable": "respawn"
+															},
+															"isInverted": true
 														}
 													],
 													"actions": [
@@ -14310,6 +14404,16 @@
 														"instance-variable": "serpentTarget"
 													},
 													"isInverted": true
+												},
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 372103218326732,
+													"parameters": {
+														"variable": "interseptor",
+														"comparison": 1,
+														"value": "\"zero\""
+													}
 												}
 											],
 											"actions": [
