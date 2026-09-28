@@ -86,6 +86,7 @@
 									"parameters": [
 										"patrolPoint.X",
 										"patrolPoint.Y",
+										"\"S\"",
 										"patrolPoint.type",
 										"patrolPoint.UID"
 									]
@@ -132,6 +133,13 @@
 							"initialValue": "0",
 							"comment": "",
 							"sid": 277136214836204
+						},
+						{
+							"name": "mark",
+							"type": "string",
+							"initialValue": "S",
+							"comment": "S,M,L",
+							"sid": 113412563684949
 						},
 						{
 							"name": "type",
@@ -248,38 +256,30 @@
 									}
 								},
 								{
-									"id": "start-timer",
+									"id": "set-instvar-value",
 									"objectClass": "ser",
-									"sid": 325319380921741,
-									"disabled": true,
-									"behaviorType": "Timer",
+									"sid": 660116288747893,
 									"parameters": {
-										"duration": "random(0.2)",
-										"type": "regular",
-										"tag": "\"check\""
+										"instance-variable": "mark",
+										"value": "mark"
 									}
 								},
 								{
-									"id": "start-timer",
+									"id": "set-instvar-value",
 									"objectClass": "ser",
-									"sid": 241046689705573,
-									"behaviorType": "Timer",
+									"sid": 275946002620589,
 									"parameters": {
-										"duration": "random(0.15,0.25)",
-										"type": "regular",
-										"tag": "\"check\""
+										"instance-variable": "xAmb",
+										"value": "x"
 									}
 								},
 								{
-									"id": "start-timer",
+									"id": "set-instvar-value",
 									"objectClass": "ser",
-									"sid": 798992543161455,
-									"disabled": true,
-									"behaviorType": "Timer",
+									"sid": 233962048994043,
 									"parameters": {
-										"duration": "Self.CheckInterval",
-										"type": "once",
-										"tag": "\"check\""
+										"instance-variable": "yAmb",
+										"value": "y"
 									}
 								},
 								{
@@ -290,10 +290,99 @@
 									"parameters": {
 										"enabled": true
 									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "ser",
+									"sid": 944547021573690,
+									"disabled": true,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "Self.CheckInterval/SAS/Self.ASC",
+										"type": "regular",
+										"tag": "\"check\""
+									}
 								}
 							],
 							"sid": 302302361021403,
 							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 500220569585332,
+											"parameters": {
+												"variable": "type",
+												"comparison": 0,
+												"value": "\"hunter\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ser",
+											"sid": 537414383776893,
+											"parameters": {
+												"instance-variable": "hunter",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ser",
+											"sid": 528832695331288,
+											"parameters": {
+												"instance-variable": "trapper",
+												"value": "false"
+											}
+										}
+									],
+									"sid": 134874873380971
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 414211110150339
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 954418126696843,
+											"parameters": {
+												"variable": "type",
+												"comparison": 0,
+												"value": "\"trapper\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ser",
+											"sid": 323838578223784,
+											"parameters": {
+												"instance-variable": "hunter",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ser",
+											"sid": 921842152318984,
+											"parameters": {
+												"instance-variable": "trapper",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 905890124539296
+								},
 								{
 									"eventType": "comment",
 									"text": "серпент перекрывает zoneStop"
@@ -321,6 +410,30 @@
 										}
 									],
 									"sid": 504111757571729
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "ser",
+											"sid": 961467722333274,
+											"parameters": {
+												"object": "zoneStopTh"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "instance-signal",
+											"objectClass": "ser",
+											"sid": 670755772764403,
+											"parameters": {
+												"tag": "\"overZoneStopT\""
+											}
+										}
+									],
+									"sid": 780657479428853
 								},
 								{
 									"eventType": "comment",
@@ -352,6 +465,7 @@
 									],
 									"actions": [],
 									"sid": 318988784118305,
+									"disabled": true,
 									"children": [
 										{
 											"eventType": "block",
@@ -369,7 +483,6 @@
 											],
 											"actions": [],
 											"sid": 747681104602464,
-											"disabled": true,
 											"children": [
 												{
 													"eventType": "block",
@@ -406,7 +519,6 @@
 														}
 													],
 													"sid": 966407988936598,
-													"disabled": true,
 													"isOrBlock": true
 												}
 											]
@@ -415,53 +527,29 @@
 								},
 								{
 									"eventType": "comment",
-									"text": "помещаем на серпента анимированную оболочку"
+									"text": "статы серпента"
 								},
 								{
 									"eventType": "block",
 									"conditions": [],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ser",
-											"sid": 657361471233049,
-											"parameters": {
-												"instance-variable": "strikeRadius",
-												"value": "serStrike"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ser",
-											"sid": 262382216749216,
-											"parameters": {
-												"instance-variable": "attackRadius",
-												"value": "serAttack"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ser",
-											"sid": 487663750450637,
-											"parameters": {
-												"instance-variable": "closeAttackRadius",
-												"value": "serCloseAttack"
-											}
-										}
-									],
+									"actions": [],
 									"sid": 204510501598160,
 									"children": [
+										{
+											"eventType": "comment",
+											"text": "малый серпент"
+										},
 										{
 											"eventType": "block",
 											"conditions": [
 												{
 													"id": "compare-eventvar",
 													"objectClass": "System",
-													"sid": 255490980665943,
+													"sid": 693568411355492,
 													"parameters": {
-														"variable": "type",
-														"comparison": 1,
-														"value": "\"hunter\""
+														"variable": "mark",
+														"comparison": 0,
+														"value": "\"S\""
 													}
 												}
 											],
@@ -469,42 +557,24 @@
 												{
 													"id": "set-scale",
 													"objectClass": "ser",
-													"sid": 468166465146031,
+													"sid": 248554758290717,
 													"parameters": {
-														"scale": "0.65"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "ser",
-													"sid": 185951065620198,
-													"parameters": {
-														"instance-variable": "hunter",
-														"value": "false"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "ser",
-													"sid": 203495206996217,
-													"parameters": {
-														"instance-variable": "beginer",
-														"value": "true"
+														"scale": "0.64"
 													}
 												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 843465060718188,
+													"sid": 477075330378430,
 													"parameters": {
-														"instance-variable": "trapPointUID",
-														"value": "-1"
+														"instance-variable": "ASC",
+														"value": "1"
 													}
 												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 494234148802665,
+													"sid": 867103896555546,
 													"parameters": {
 														"instance-variable": "speed",
 														"value": "serpSpeed"
@@ -513,7 +583,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 903627141066364,
+													"sid": 333327829049288,
 													"parameters": {
 														"instance-variable": "speedGround",
 														"value": "Self.speed*aBook.hScaleCoeff"
@@ -522,16 +592,16 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 534874259652491,
+													"sid": 339201919370717,
 													"parameters": {
 														"instance-variable": "closeRadius",
-														"value": "serClose"
+														"value": "serSClose"
 													}
 												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 273398121142521,
+													"sid": 780630917778023,
 													"parameters": {
 														"instance-variable": "closeAttackRadius",
 														"value": "serCloseAttack"
@@ -540,7 +610,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 600996255351628,
+													"sid": 879891745829877,
 													"parameters": {
 														"instance-variable": "attackRadius",
 														"value": "serAttack"
@@ -549,7 +619,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 888748009775012,
+													"sid": 572119386987759,
 													"parameters": {
 														"instance-variable": "strikeRadius",
 														"value": "serStrike"
@@ -558,49 +628,30 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 562850782171617,
-													"parameters": {
-														"instance-variable": "animSpeedCoeff",
-														"value": "1"
-													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "ser",
-													"sid": 408744678296529,
+													"sid": 755528678939278,
 													"parameters": {
 														"instance-variable": "checkInterval",
 														"value": "0.224"
 													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "ser",
-													"sid": 498134889139345,
-													"parameters": {
-														"instance-variable": "mark",
-														"value": "\"L\""
-													}
 												}
 											],
-											"sid": 748878335255046
+											"sid": 957847044169598
+										},
+										{
+											"eventType": "comment",
+											"text": "гребенчатый серпент"
 										},
 										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "else",
-													"objectClass": "System",
-													"sid": 944397874210816
-												},
-												{
 													"id": "compare-eventvar",
 													"objectClass": "System",
-													"sid": 246460487150765,
+													"sid": 559608671606792,
 													"parameters": {
-														"variable": "type",
+														"variable": "mark",
 														"comparison": 0,
-														"value": "\"hunter\""
+														"value": "\"M\""
 													}
 												}
 											],
@@ -608,42 +659,24 @@
 												{
 													"id": "set-scale",
 													"objectClass": "ser",
-													"sid": 830347273660622,
-													"disabled": true,
+													"sid": 566984752521603,
 													"parameters": {
-														"scale": "0.62"
-													}
-												},
-												{
-													"id": "set-scale",
-													"objectClass": "ser",
-													"sid": 259001277609380,
-													"parameters": {
-														"scale": "0.65"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "ser",
-													"sid": 939826328055357,
-													"parameters": {
-														"instance-variable": "hunter",
-														"value": "true"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "ser",
-													"sid": 678084542216526,
-													"parameters": {
-														"instance-variable": "beginer",
-														"value": "false"
+														"scale": "0.67"
 													}
 												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 196410387015282,
+													"sid": 614292042024152,
+													"parameters": {
+														"instance-variable": "ASC",
+														"value": "1.2"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "ser",
+													"sid": 115986405325959,
 													"parameters": {
 														"instance-variable": "speed",
 														"value": "serpHunterSpeed"
@@ -652,7 +685,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 325299948943363,
+													"sid": 160840586762977,
 													"parameters": {
 														"instance-variable": "speedGround",
 														"value": "Self.speed*aBook.hScaleCoeff"
@@ -661,16 +694,16 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 932639105593912,
+													"sid": 706580518445767,
 													"parameters": {
 														"instance-variable": "closeRadius",
-														"value": "serHunterClose"
+														"value": "serMClose"
 													}
 												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 326113311928110,
+													"sid": 762774509151185,
 													"parameters": {
 														"instance-variable": "closeAttackRadius",
 														"value": "serCloseAttack"
@@ -679,7 +712,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 848915564199511,
+													"sid": 940319274629515,
 													"parameters": {
 														"instance-variable": "attackRadius",
 														"value": "serAttack*1.2"
@@ -688,7 +721,7 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 410618188124135,
+													"sid": 931197762878071,
 													"parameters": {
 														"instance-variable": "strikeRadius",
 														"value": "serStrike*1.2"
@@ -697,83 +730,18 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "ser",
-													"sid": 981509257884017,
-													"parameters": {
-														"instance-variable": "animSpeedCoeff",
-														"value": "1.2"
-													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "ser",
-													"sid": 120562411594627,
+													"sid": 567919355708018,
 													"parameters": {
 														"instance-variable": "checkInterval",
 														"value": "0.176"
 													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "ser",
-													"sid": 474924039071874,
-													"disabled": true,
-													"parameters": {
-														"instance-variable": "mark",
-														"value": "\"\""
-													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "ser",
-													"sid": 183319331240093,
-													"parameters": {
-														"instance-variable": "mark",
-														"value": "\"L\""
-													}
-												},
-												{
-													"id": "set-instvar-value",
-													"objectClass": "ser",
-													"sid": 706248518908201,
-													"parameters": {
-														"instance-variable": "trapPointUID",
-														"value": "hostUID"
-													}
 												}
 											],
-											"sid": 130530438205049,
-											"children": [
-												{
-													"eventType": "comment",
-													"text": "! переделать"
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "is-overlapping-another-object",
-															"objectClass": "ser",
-															"sid": 741022495372765,
-															"parameters": {
-																"object": "octoPoint"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "ser",
-															"sid": 810839868774999,
-															"parameters": {
-																"instance-variable": "trapPointUID",
-																"value": "octoPoint.UID"
-															}
-														}
-													],
-													"sid": 458332889779761,
-													"disabled": true
-												}
-											]
+											"sid": 695759688829975
+										},
+										{
+											"eventType": "comment",
+											"text": "запуск серпента"
 										},
 										{
 											"eventType": "block",
@@ -810,7 +778,7 @@
 													"objectClass": "ser",
 													"sid": 877701392999560,
 													"parameters": {
-														"speed": "choose(8,9,10,11,12,13,14,15,16,17,18,19,20)*SAS*Self.animSpeedCoeff"
+														"speed": "choose(8,9,10,11,12,13,14,15,16,17,18,19,20)*SAS*Self.ASC"
 													}
 												},
 												{
@@ -860,12 +828,12 @@
 												{
 													"id": "start-timer",
 													"objectClass": "ser",
-													"sid": 426339793117177,
+													"sid": 740060094937872,
 													"behaviorType": "Timer",
 													"parameters": {
-														"duration": "1",
+														"duration": "random(1,2)",
 														"type": "once",
-														"tag": "\"look\""
+														"tag": "\"start\""
 													}
 												},
 												{
@@ -904,6 +872,87 @@
 			"isActiveOnStart": false,
 			"children": [
 				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-timer",
+							"objectClass": "ser",
+							"sid": 988880324165142,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"start\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 735659202059352,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 320891962601309,
+									"parameters": {
+										"object": "ser"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "start-timer",
+									"objectClass": "ser",
+									"sid": 635180853413344,
+									"disabled": true,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "random(0.2)",
+										"type": "regular",
+										"tag": "\"check\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "ser",
+									"sid": 672027352269300,
+									"disabled": true,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "random(0.15,0.25)",
+										"type": "regular",
+										"tag": "\"check\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "ser",
+									"sid": 141858480436199,
+									"disabled": true,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "Self.CheckInterval",
+										"type": "once",
+										"tag": "\"check\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "ser",
+									"sid": 594750447178468,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "Self.CheckInterval/SAS/Self.ASC",
+										"type": "regular",
+										"tag": "\"check\""
+									}
+								}
+							],
+							"sid": 933314309604143
+						}
+					]
+				},
+				{
 					"eventType": "comment",
 					"text": "таймер",
 					"text-color": [
@@ -932,28 +981,46 @@
 							}
 						}
 					],
-					"actions": [
+					"actions": [],
+					"sid": 938773045986259,
+					"children": [
 						{
-							"id": "instance-signal",
-							"objectClass": "ser",
-							"sid": 624525922386923,
-							"parameters": {
-								"tag": "\"serCheck\""
-							}
-						},
-						{
-							"id": "start-timer",
-							"objectClass": "ser",
-							"sid": 301027776871159,
-							"behaviorType": "Timer",
-							"parameters": {
-								"duration": "Self.CheckInterval/SAS/Self.animSpeedCoeff",
-								"type": "once",
-								"tag": "\"check\""
-							}
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 436883725299789,
+									"parameters": {
+										"object": "ser"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "instance-signal",
+									"objectClass": "ser",
+									"sid": 179884134980670,
+									"parameters": {
+										"tag": "\"serCheck\""
+									}
+								},
+								{
+									"id": "start-timer",
+									"objectClass": "ser",
+									"sid": 146986241499884,
+									"disabled": true,
+									"behaviorType": "Timer",
+									"parameters": {
+										"duration": "Self.CheckInterval/SAS/Self.ASC",
+										"type": "once",
+										"tag": "\"check\""
+									}
+								}
+							],
+							"sid": 542710662719989
 						}
-					],
-					"sid": 938773045986259
+					]
 				},
 				{
 					"eventType": "comment",
@@ -1269,6 +1336,73 @@
 									"sid": 199132968566316
 								}
 							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-instance-signal",
+									"objectClass": "ser",
+									"sid": 947110590113779,
+									"parameters": {
+										"tag": "\"overZoneStopT\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "ser",
+									"sid": 598303239834686,
+									"parameters": {
+										"animation": "\"base\""
+									}
+								},
+								{
+									"id": "is-overlapping-another-object",
+									"objectClass": "ser",
+									"sid": 569541249934337,
+									"parameters": {
+										"object": "zoneStopTh"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "move-at-angle",
+									"objectClass": "ser",
+									"sid": 556817681074168,
+									"parameters": {
+										"angle": "angle(zoneStopTh.X,zoneStopTh.Y,ser.X,ser.Y)",
+										"distance": "30"
+									}
+								}
+							],
+							"sid": 572349978675093,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-overlapping-another-object",
+											"objectClass": "ser",
+											"sid": 245101599932147,
+											"parameters": {
+												"object": "zoneStopTh"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "instance-signal",
+											"objectClass": "ser",
+											"sid": 716210933346873,
+											"parameters": {
+												"tag": "\"overZoneStop\""
+											}
+										}
+									],
+									"sid": 938104475410137
+								}
+							]
 						}
 					],
 					"sid": 555970431785635
@@ -1433,7 +1567,7 @@
 											"objectClass": "ser",
 											"sid": 615024037906163,
 											"parameters": {
-												"speed": "special=\"fast\"?22*ats.SAS*Self.animSpeedCoeff:14*ats.SAS*Self.animSpeedCoeff"
+												"speed": "special=\"fast\"?22*ats.SAS*Self.ASC:14*ats.SAS*Self.ASC"
 											}
 										},
 										{
@@ -1633,7 +1767,7 @@
 											"objectClass": "ser",
 											"sid": 996774864281122,
 											"parameters": {
-												"speed": "aSpeed*ats.SAS*Self.animSpeedCoeff"
+												"speed": "aSpeed*ats.SAS*Self.ASC"
 											}
 										},
 										{
@@ -2189,7 +2323,7 @@
 															"objectClass": "ser",
 															"sid": 694006001778975,
 															"parameters": {
-																"speed": "12*ats.SAS*Self.animSpeedCoeff"
+																"speed": "12*ats.SAS*Self.ASC"
 															}
 														},
 														{
@@ -2928,7 +3062,7 @@
 															"objectClass": "ser",
 															"sid": 491649812162558,
 															"parameters": {
-																"speed": "12*ats.SAS*Self.animSpeedCoeff"
+																"speed": "12*ats.SAS*Self.ASC"
 															}
 														},
 														{
@@ -3988,7 +4122,7 @@
 											"objectClass": "serpRoots",
 											"sid": 967131299233368,
 											"parameters": {
-												"speed": "-28*SAS*ser.animSpeedCoeff"
+												"speed": "-28*SAS*ser.ASC"
 											}
 										},
 										{
@@ -4108,7 +4242,7 @@
 									"objectClass": "serpRoots",
 									"sid": 770904871402457,
 									"parameters": {
-										"speed": "-28*SAS*ser.animSpeedCoeff"
+										"speed": "-28*SAS*ser.ASC"
 									}
 								},
 								{
@@ -4402,7 +4536,7 @@
 													"objectClass": "ser",
 													"sid": 827047392266615,
 													"parameters": {
-														"instance-variable": "beginer"
+														"instance-variable": "trapper"
 													},
 													"isInverted": true
 												}
@@ -4442,7 +4576,7 @@
 													"sid": 608249654703375,
 													"disabled": true,
 													"parameters": {
-														"instance-variable": "beginer"
+														"instance-variable": "trapper"
 													}
 												}
 											],
@@ -4560,14 +4694,6 @@
 													"sid": 250394641233249,
 													"parameters": {
 														"instance-variable": "hunter"
-													}
-												},
-												{
-													"id": "pick-by-unique-id",
-													"objectClass": "octoPoint",
-													"sid": 246687370396129,
-													"parameters": {
-														"unique-id": "ser.trapPointUID"
 													}
 												}
 											],
@@ -6143,7 +6269,7 @@
 											"objectClass": "ser",
 											"sid": 265364669115455,
 											"parameters": {
-												"speed": "-12*ats.SAS*Self.animSpeedCoeff"
+												"speed": "-12*ats.SAS*Self.ASC"
 											}
 										},
 										{
@@ -8987,14 +9113,6 @@
 															"parameters": {
 																"instance-variable": "hunter"
 															}
-														},
-														{
-															"id": "pick-by-unique-id",
-															"objectClass": "octoPoint",
-															"sid": 923939340580620,
-															"parameters": {
-																"unique-id": "ser.trapPointUID"
-															}
 														}
 													],
 													"actions": [],
@@ -9098,7 +9216,7 @@
 																	"objectClass": "ser",
 																	"sid": 646918721654495,
 																	"parameters": {
-																		"speed": "Self.AnimationSpeed*SAS*Self.animSpeedCoeff"
+																		"speed": "Self.AnimationSpeed*SAS*Self.ASC"
 																	}
 																},
 																{
@@ -9144,7 +9262,7 @@
 															"objectClass": "ser",
 															"sid": 527216050162507,
 															"parameters": {
-																"instance-variable": "beginer"
+																"instance-variable": "trapper"
 															}
 														}
 													],
@@ -9361,14 +9479,6 @@
 											"sid": 141346317739997,
 											"parameters": {
 												"instance-variable": "hunter"
-											}
-										},
-										{
-											"id": "pick-by-unique-id",
-											"objectClass": "octoPoint",
-											"sid": 296977747985931,
-											"parameters": {
-												"unique-id": "ser.trapPointUID"
 											}
 										}
 									],
@@ -9881,14 +9991,6 @@
 													"sid": 557226956307458,
 													"parameters": {
 														"instance-variable": "hunter"
-													}
-												},
-												{
-													"id": "pick-by-unique-id",
-													"objectClass": "octoPoint",
-													"sid": 609664034456789,
-													"parameters": {
-														"unique-id": "ser.trapPointUID"
 													}
 												},
 												{
@@ -10498,7 +10600,7 @@
 											"objectClass": "ser",
 											"sid": 203969970581724,
 											"parameters": {
-												"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+												"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 											}
 										},
 										{
@@ -11749,7 +11851,7 @@
 									"objectClass": "ser",
 									"sid": 748596404857282,
 									"parameters": {
-										"instance-variable": "beginer",
+										"instance-variable": "trapper",
 										"value": "false"
 									}
 								},
@@ -11926,14 +12028,6 @@
 													"sid": 421315695234366,
 													"parameters": {
 														"instance-variable": "destroyed"
-													}
-												},
-												{
-													"id": "pick-by-unique-id",
-													"objectClass": "octo",
-													"sid": 788799240213341,
-													"parameters": {
-														"unique-id": "ser.trapPointUID"
 													}
 												},
 												{
@@ -12401,7 +12495,7 @@
 													"objectClass": "ser",
 													"sid": 839812010731294,
 													"parameters": {
-														"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+														"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 													}
 												},
 												{
@@ -12421,19 +12515,19 @@
 												{
 													"id": "compare-animation-frame-tag",
 													"objectClass": "ser",
-													"sid": 682944412851582,
+													"sid": 549787887604163,
 													"parameters": {
 														"comparison": 0,
-														"tag": "\"trans\""
+														"tag": "\"dart\""
 													}
 												},
 												{
 													"id": "compare-animation-frame-tag",
 													"objectClass": "ser",
-													"sid": 549787887604163,
+													"sid": 395101631709784,
 													"parameters": {
 														"comparison": 0,
-														"tag": "\"dart\""
+														"tag": "\"trans\""
 													}
 												}
 											],
@@ -12452,7 +12546,7 @@
 													"objectClass": "ser",
 													"sid": 676576896272987,
 													"parameters": {
-														"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+														"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 													}
 												},
 												{
@@ -12839,7 +12933,7 @@
 											"sid": 997278343165905,
 											"behaviorType": "Timer",
 											"parameters": {
-												"duration": "0.1/Self.animSpeedCoeff",
+												"duration": "0.1/Self.ASC",
 												"type": "once",
 												"tag": "\"dart\""
 											}
@@ -13559,7 +13653,7 @@
 															"objectClass": "ser",
 															"sid": 910285291318898,
 															"parameters": {
-																"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+																"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 															}
 														},
 														{
@@ -13659,7 +13753,7 @@
 															"objectClass": "ser",
 															"sid": 142314393675395,
 															"parameters": {
-																"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+																"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 															}
 														},
 														{
@@ -13826,7 +13920,7 @@
 													"objectClass": "ser",
 													"sid": 405760055379550,
 													"parameters": {
-														"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+														"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 													}
 												},
 												{
@@ -14027,7 +14121,7 @@
 															"objectClass": "ser",
 															"sid": 490441680115263,
 															"parameters": {
-																"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+																"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 															}
 														},
 														{
@@ -14267,7 +14361,7 @@
 													"objectClass": "ser",
 													"sid": 732206188612970,
 													"parameters": {
-														"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+														"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 													}
 												},
 												{
@@ -14445,7 +14539,7 @@
 													"objectClass": "ser",
 													"sid": 585356595773414,
 													"parameters": {
-														"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+														"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 													}
 												},
 												{
@@ -14932,7 +15026,7 @@
 											"objectClass": "ser",
 											"sid": 338653174111545,
 											"parameters": {
-												"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+												"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 											}
 										},
 										{
@@ -15156,7 +15250,7 @@
 											"objectClass": "ser",
 											"sid": 848788487722609,
 											"parameters": {
-												"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+												"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 											}
 										},
 										{
@@ -15585,7 +15679,7 @@
 									"objectClass": "ser",
 									"sid": 293780816620066,
 									"parameters": {
-										"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+										"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 									}
 								},
 								{
@@ -15609,7 +15703,7 @@
 									"objectClass": "serpRoots",
 									"sid": 696399825471352,
 									"parameters": {
-										"speed": "-30*SAS*ser.animSpeedCoeff"
+										"speed": "-30*SAS*ser.ASC"
 									}
 								},
 								{
@@ -15796,7 +15890,7 @@
 									"objectClass": "ser",
 									"sid": 158327970427539,
 									"parameters": {
-										"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+										"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 									}
 								},
 								{
@@ -16107,7 +16201,7 @@
 							"objectClass": "ser",
 							"sid": 892227813014571,
 							"parameters": {
-								"speed": "ser.AnimationSpeed*SAS*Self.animSpeedCoeff"
+								"speed": "ser.AnimationSpeed*SAS*Self.ASC"
 							}
 						},
 						{
