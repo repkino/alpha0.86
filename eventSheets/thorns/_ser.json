@@ -794,6 +794,24 @@
 														"instance-variable": "strikeRadius",
 														"value": "serStrike*1.2"
 													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ser",
+													"sid": 173668251515130,
+													"parameters": {
+														"instance-variable": "hunter",
+														"value": "true"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ser",
+													"sid": 417815886071658,
+													"parameters": {
+														"instance-variable": "trapper",
+														"value": "false"
+													}
 												}
 											],
 											"sid": 536655241638058
@@ -853,6 +871,24 @@
 														"instance-variable": "strikeRadius",
 														"value": "serStrike*1.5"
 													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ser",
+													"sid": 365968886957039,
+													"parameters": {
+														"instance-variable": "hunter",
+														"value": "false"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ser",
+													"sid": 747687426235806,
+													"parameters": {
+														"instance-variable": "trapper",
+														"value": "true"
+													}
 												}
 											],
 											"sid": 704630964395702
@@ -865,19 +901,7 @@
 								},
 								{
 									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-eventvar",
-											"objectClass": "System",
-											"sid": 282156303390952,
-											"disabled": true,
-											"parameters": {
-												"variable": "type",
-												"comparison": 0,
-												"value": "\"hunter\""
-											}
-										}
-									],
+									"conditions": [],
 									"actions": [
 										{
 											"id": "set-visible",
@@ -990,6 +1014,71 @@
 							]
 						}
 					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-click",
+							"objectClass": "Mouse",
+							"sid": 976925976955979,
+							"parameters": {
+								"mouse-button": "button-4",
+								"click-type": "clicked"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "addSer",
+							"sid": 297513252725932,
+							"parameters": [
+								"Mouse.X",
+								"Mouse.Y",
+								"\"S\"",
+								"\"hunter\"",
+								"-1"
+							]
+						}
+					],
+					"sid": 559253232638217,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 336313210773403,
+							"parameters": {
+								"interval-seconds": "1.0"
+							}
+						},
+						{
+							"id": "pick-nearestfurthest",
+							"objectClass": "ser",
+							"sid": 273853712838741,
+							"parameters": {
+								"which": "nearest",
+								"x": "Mouse.X",
+								"y": "Mouse.Y"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "smt",
+							"sid": 824364962958179,
+							"parameters": [
+								"ser.UID",
+								"3180",
+								"2500"
+							]
+						}
+					],
+					"sid": 816719025923167,
+					"disabled": true
 				},
 				{
 					"eventType": "comment",
@@ -6547,9 +6636,9 @@
 								{
 									"id": "on-animation-finished",
 									"objectClass": "ser",
-									"sid": 119449485980785,
+									"sid": 677386436423453,
 									"parameters": {
-										"animation": "\"head\"&Self.mark&Self.direct"
+										"animation": "\"head\"&Self.mark&(ser.direct=4 ? 2 : ser.direct=5 ? 1 : ser.direct=6 ? 0 : ser.direct=7 ? 11 : ser.direct=8 ? 10  : ser.direct) "
 									}
 								},
 								{
@@ -9759,18 +9848,36 @@
 																{
 																	"id": "is-boolean-instance-variable-set",
 																	"objectClass": "ser",
-																	"sid": 735017947124237,
+																	"sid": 268175355656167,
 																	"parameters": {
 																		"instance-variable": "hunt"
 																	},
 																	"isInverted": true
+																},
+																{
+																	"id": "is-moving",
+																	"objectClass": "ser",
+																	"sid": 613909399691534,
+																	"behaviorType": "mt",
+																	"isInverted": true
+																},
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "ser",
+																	"sid": 705058417212022,
+																	"disabled": true,
+																	"parameters": {
+																		"instance-variable": "task",
+																		"comparison": 1,
+																		"value": "\"backToTrap\""
+																	}
 																}
 															],
 															"actions": [
 																{
 																	"id": "set-instvar-value",
 																	"objectClass": "ser",
-																	"sid": 122939897135596,
+																	"sid": 326993011371372,
 																	"parameters": {
 																		"instance-variable": "task",
 																		"value": "\"backToTrap\""
@@ -9779,7 +9886,7 @@
 																{
 																	"id": "set-animation",
 																	"objectClass": "ser",
-																	"sid": 845687902680334,
+																	"sid": 429152765142082,
 																	"parameters": {
 																		"animation": "\"base\"",
 																		"from": "beginning"
@@ -9787,7 +9894,7 @@
 																},
 																{
 																	"callFunction": "smt",
-																	"sid": 811603933481609,
+																	"sid": 532973389366029,
 																	"parameters": [
 																		"ser.UID",
 																		"ser.xAmb",
@@ -9795,7 +9902,7 @@
 																	]
 																}
 															],
-															"sid": 856720183759310
+															"sid": 951710856052722
 														},
 														{
 															"eventType": "comment",
@@ -12711,6 +12818,79 @@
 							],
 							"sid": 972640246911314,
 							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-by-comparison",
+											"objectClass": "System",
+											"sid": 718035908604997,
+											"parameters": {
+												"object": "base",
+												"expression": "base.serpStrikeMeUID",
+												"comparison": 0,
+												"value": "ser.UID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 391399296699883,
+											"parameters": {
+												"instance-variable": "serpStrikeMeUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 820872018948983,
+											"parameters": {
+												"instance-variable": "serpGetMeUID",
+												"value": "-1"
+											}
+										}
+									],
+									"sid": 490860953188920
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aIns",
+											"sid": 358581383022151,
+											"parameters": {
+												"instance-variable": "serpentStrikeUID",
+												"comparison": 0,
+												"value": "ser.UID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aIns",
+											"sid": 598131913324544,
+											"parameters": {
+												"instance-variable": "serpentStrikeUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aIns",
+											"sid": 336970142938214,
+											"parameters": {
+												"instance-variable": "serpentWinerUID",
+												"value": "-1"
+											}
+										}
+									],
+									"sid": 785577949941379
+								},
 								{
 									"eventType": "block",
 									"conditions": [
@@ -16823,6 +17003,7 @@
 									"id": "start-animation",
 									"objectClass": "ser",
 									"sid": 252799800385340,
+									"disabled": true,
 									"parameters": {
 										"from": "beginning"
 									}
