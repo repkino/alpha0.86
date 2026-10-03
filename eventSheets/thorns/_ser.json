@@ -991,6 +991,14 @@
 											}
 										},
 										{
+											"callFunction": "serSetState",
+											"sid": 176370045647252,
+											"parameters": [
+												"ser.UID",
+												"\"rise\""
+											]
+										},
+										{
 											"id": "start-timer",
 											"objectClass": "ser",
 											"sid": 790426356248513,
@@ -2187,6 +2195,13 @@
 									"initialValue": "zero",
 									"comment": "",
 									"sid": 750954708219172
+								},
+								{
+									"name": "status",
+									"type": "string",
+									"initialValue": "dive",
+									"comment": "",
+									"sid": 682903786415343
 								}
 							],
 							"eventType": "function-block",
@@ -2210,10 +2225,10 @@
 										{
 											"id": "set-instvar-value",
 											"objectClass": "ser",
-											"sid": 661857682467705,
+											"sid": 790661933886159,
 											"parameters": {
 												"instance-variable": "status",
-												"value": "\"dive\""
+												"value": "status"
 											}
 										},
 										{
@@ -2236,9 +2251,9 @@
 										{
 											"id": "set-animation-frame",
 											"objectClass": "ser",
-											"sid": 402330240342130,
+											"sid": 361128831149571,
 											"parameters": {
-												"frame-number": "frame>0?frame:Self.AnimationFrame"
+												"frame-number": "frame>0?ser.AnimationFrameCount-frame-1:0"
 											}
 										},
 										{
@@ -2247,15 +2262,6 @@
 											"sid": 743909100463161,
 											"parameters": {
 												"from": "current-frame"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ser",
-											"sid": 201962002284346,
-											"parameters": {
-												"instance-variable": "test",
-												"value": "ser.AnimationSpeed"
 											}
 										}
 									],
@@ -2433,13 +2439,14 @@
 																},
 																{
 																	"callFunction": "sDown",
-																	"sid": 981674294760552,
+																	"sid": 775532759640082,
 																	"parameters": [
 																		"ser.UID",
-																		"\"look\"",
-																		"-24",
+																		"\"lookDown\"",
+																		"24",
 																		"ser.AnimationFrame",
-																		"\"zero\""
+																		"\"zero\"",
+																		"\"dive\""
 																	]
 																}
 															],
@@ -2589,13 +2596,14 @@
 													"actions": [
 														{
 															"callFunction": "sDown",
-															"sid": 924749071985738,
+															"sid": 894547855489339,
 															"parameters": [
 																"ser.UID",
-																"\"strike\"",
-																"-16",
+																"\"strikeDown\"",
+																"16",
 																"ser.AnimationFrame",
-																"\"zero\""
+																"\"zero\"",
+																"\"dive\""
 															]
 														}
 													],
@@ -2856,13 +2864,14 @@
 															"actions": [
 																{
 																	"callFunction": "sDown",
-																	"sid": 460706933140868,
+																	"sid": 519762860532593,
 																	"parameters": [
 																		"ser.UID",
-																		"\"look\"",
-																		"-24",
-																		"6",
-																		"\"spike\""
+																		"\"lookDown\"",
+																		"24",
+																		"0",
+																		"\"spike\"",
+																		"\"dive\""
 																	]
 																},
 																{
@@ -3308,12 +3317,13 @@
 							]
 						},
 						{
+							"bookmark": true,
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "on-timer",
 									"objectClass": "ser",
-									"sid": 953823598510785,
+									"sid": 228319959260006,
 									"behaviorType": "Timer",
 									"parameters": {
 										"tag": "\"lookToCheck\""
@@ -3322,139 +3332,35 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "ser",
-									"sid": 711517671557694,
+									"sid": 818716230467373,
 									"parameters": {
 										"instance-variable": "status",
 										"comparison": 0,
 										"value": "\"sweep\""
 									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "ser",
-									"sid": 563162269456120,
-									"parameters": {
-										"instance-variable": "status",
-										"comparison": 1,
-										"value": "\"dive\""
-									}
-								},
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "ser",
-									"sid": 664689266745708,
-									"parameters": {
-										"instance-variable": "status",
-										"comparison": 1,
-										"value": "\"dive\""
-									}
 								}
 							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "ser",
-									"sid": 841935265507512,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "test",
-										"value": "\"2\""
-									}
-								}
-							],
-							"sid": 263589422267089,
+							"actions": [],
+							"sid": 961353765848785,
 							"children": [
 								{
-									"eventType": "comment",
-									"text": "после потери цели и эмананты 3 точки",
-									"background-color": [
-										0.7019607843137254,
-										1,
-										0.7490196078431373,
-										1
-									]
-								},
-								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "compare-instance-variable",
-											"objectClass": "ser",
-											"sid": 886249095888201,
-											"parameters": {
-												"instance-variable": "task",
-												"comparison": 0,
-												"value": "\"noHunting\""
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ser",
-											"sid": 499882840825517,
-											"parameters": {
-												"instance-variable": "task",
-												"value": "\"ups\""
-											}
-										},
-										{
-											"id": "start-timer",
-											"objectClass": "ser",
-											"sid": 580822320007318,
-											"behaviorType": "Timer",
-											"parameters": {
-												"duration": "1",
-												"type": "once",
-												"tag": "\"lookToCheck\""
-											}
-										},
-										{
-											"customAction": "emananta",
-											"objectClass": "ser",
-											"sid": 534404330040153,
-											"parameters": [
-												"\"quest\""
-											]
-										}
-									],
-									"sid": 159663216282607
-								},
-								{
-									"eventType": "comment",
-									"text": "стандартное окончание",
-									"background-color": [
-										0.7019607843137254,
-										1,
-										0.7490196078431373,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
+											"id": "for-each",
 											"objectClass": "System",
-											"sid": 573624105737929
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "ser",
-											"sid": 432560614947139,
+											"sid": 571080463537588,
 											"parameters": {
-												"instance-variable": "status",
-												"value": "\"dive\""
+												"object": "ser"
 											}
 										}
 									],
-									"sid": 978880191642783,
+									"actions": [],
+									"sid": 371426700989530,
 									"children": [
 										{
 											"eventType": "comment",
-											"text": "становится преследователем как только увидел цель",
+											"text": "после потери цели и эмананты quest - переосмысление",
 											"background-color": [
 												0.7019607843137254,
 												1,
@@ -3466,146 +3372,42 @@
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "is-boolean-instance-variable-set",
+													"id": "compare-instance-variable",
 													"objectClass": "ser",
-													"sid": 770100919135847,
+													"sid": 153058829145510,
 													"parameters": {
-														"instance-variable": "close"
+														"instance-variable": "task",
+														"comparison": 0,
+														"value": "\"noHunting\""
 													}
 												}
 											],
-											"actions": [],
-											"sid": 989419075183669,
-											"children": [
+											"actions": [
 												{
-													"eventType": "comment",
-													"text": "цель в радиусе ататки - атака",
-													"background-color": [
-														0.7019607843137254,
-														1,
-														0.7490196078431373,
-														1
+													"id": "start-timer",
+													"objectClass": "ser",
+													"sid": 527399431644945,
+													"behaviorType": "Timer",
+													"parameters": {
+														"duration": "1",
+														"type": "once",
+														"tag": "\"lookToCheck\""
+													}
+												},
+												{
+													"customAction": "emananta",
+													"objectClass": "ser",
+													"sid": 397291910255614,
+													"parameters": [
+														"\"quest\""
 													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "ser",
-															"sid": 250245707002564,
-															"parameters": {
-																"instance-variable": "targetDistance",
-																"comparison": 3,
-																"value": "Self.strikeRadius"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "ser",
-															"sid": 228580047212429,
-															"parameters": {
-																"instance-variable": "test",
-																"value": "\"head\""
-															}
-														},
-														{
-															"id": "set-animation",
-															"objectClass": "ser",
-															"sid": 808689518898364,
-															"parameters": {
-																"animation": "\"lookStrike\"&Self.mark",
-																"from": "beginning"
-															}
-														},
-														{
-															"id": "set-animation-speed",
-															"objectClass": "ser",
-															"sid": 491649812162558,
-															"parameters": {
-																"speed": "12*ats.SAS*Self.ASC"
-															}
-														},
-														{
-															"id": "set-instvar-value",
-															"objectClass": "ser",
-															"sid": 111127544421810,
-															"parameters": {
-																"instance-variable": "status",
-																"value": "\"assault\""
-															}
-														},
-														{
-															"id": "start-animation",
-															"objectClass": "ser",
-															"sid": 554958968399511,
-															"parameters": {
-																"from": "beginning"
-															}
-														}
-													],
-													"sid": 701991498549415
-												},
-												{
-													"eventType": "comment",
-													"text": "цель недостижима для атаки, погружение",
-													"background-color": [
-														0.7019607843137254,
-														1,
-														0.7490196078431373,
-														1
-													]
-												},
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "else",
-															"objectClass": "System",
-															"sid": 507109478971090
-														}
-													],
-													"actions": [
-														{
-															"id": "set-instvar-value",
-															"objectClass": "ser",
-															"sid": 636985814125189,
-															"parameters": {
-																"instance-variable": "test",
-																"value": "\"c\""
-															}
-														},
-														{
-															"callFunction": "sDown",
-															"sid": 693621174473569,
-															"parameters": [
-																"ser.UID",
-																"\"look\"",
-																"-16",
-																"ser.AnimationFrame",
-																"\"zero\""
-															]
-														},
-														{
-															"id": "add-to-instvar",
-															"objectClass": "ser",
-															"sid": 852333615440268,
-															"disabled": true,
-															"parameters": {
-																"instance-variable": "status",
-																"value": "\"4\""
-															}
-														}
-													],
-													"sid": 659782903572952
 												}
-											]
+											],
+											"sid": 263549616088093
 										},
 										{
 											"eventType": "comment",
-											"text": "вне целей, погружение",
+											"text": "стандартное окончание",
 											"background-color": [
 												0.7019607843137254,
 												1,
@@ -3619,42 +3421,212 @@
 												{
 													"id": "else",
 													"objectClass": "System",
-													"sid": 522540041366105
+													"sid": 770121316336892
 												}
 											],
-											"actions": [
+											"actions": [],
+											"sid": 103363911024445,
+											"children": [
 												{
-													"id": "set-instvar-value",
-													"objectClass": "ser",
-													"sid": 802206692020369,
-													"parameters": {
-														"instance-variable": "test",
-														"value": "\"d\""
-													}
-												},
-												{
-													"callFunction": "sDown",
-													"sid": 722348794119423,
-													"parameters": [
-														"ser.UID",
-														"\"look\"",
-														"-16",
-														"ser.AnimationFrame",
-														"\"zero\""
+													"eventType": "comment",
+													"text": "цель рядом - атака или преследование",
+													"background-color": [
+														0.7019607843137254,
+														1,
+														0.7490196078431373,
+														1
 													]
 												},
 												{
-													"id": "add-to-instvar",
-													"objectClass": "ser",
-													"sid": 431783387833791,
-													"disabled": true,
-													"parameters": {
-														"instance-variable": "status",
-														"value": "\"5\""
-													}
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "ser",
+															"sid": 681271622201790,
+															"parameters": {
+																"instance-variable": "close"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 450121588169831,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "цель в радиусе атаки - атака",
+															"background-color": [
+																0.7019607843137254,
+																1,
+																0.7490196078431373,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "ser",
+																	"sid": 983483449987124,
+																	"parameters": {
+																		"instance-variable": "targetDistance",
+																		"comparison": 3,
+																		"value": "Self.strikeRadius"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "ser",
+																	"sid": 946040488519428,
+																	"parameters": {
+																		"instance-variable": "task",
+																		"value": "\"hunting\""
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "ser",
+																	"sid": 145379359705188,
+																	"parameters": {
+																		"instance-variable": "status",
+																		"value": "\"assault\""
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "ser",
+																	"sid": 259881925264540,
+																	"parameters": {
+																		"animation": "\"lookStrike\"&Self.mark",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-animation-speed",
+																	"objectClass": "ser",
+																	"sid": 253270561163843,
+																	"parameters": {
+																		"speed": "12*ats.SAS*Self.ASC"
+																	}
+																},
+																{
+																	"id": "start-animation",
+																	"objectClass": "ser",
+																	"sid": 796784497091402,
+																	"parameters": {
+																		"from": "beginning"
+																	}
+																}
+															],
+															"sid": 322689522026702
+														},
+														{
+															"eventType": "comment",
+															"text": "цель недостижима для атаки - преследование",
+															"background-color": [
+																0.7019607843137254,
+																1,
+																0.7490196078431373,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 611343153425887
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "ser",
+																	"sid": 939917929135700,
+																	"parameters": {
+																		"instance-variable": "task",
+																		"value": "\"hunting\""
+																	}
+																},
+																{
+																	"callFunction": "sDown",
+																	"sid": 579802082591091,
+																	"disabled": true,
+																	"parameters": [
+																		"ser.UID",
+																		"\"lookDown\"",
+																		"16",
+																		"ser.AnimationFrame",
+																		"\"zero\"",
+																		"\"dive\""
+																	]
+																},
+																{
+																	"callFunction": "sDown",
+																	"sid": 490491770822389,
+																	"parameters": [
+																		"ser.UID",
+																		"\"lookDown\"",
+																		"16",
+																		"0",
+																		"\"zero\"",
+																		"\"dive\""
+																	]
+																}
+															],
+															"sid": 840922440088774
+														}
+													]
+												},
+												{
+													"eventType": "comment",
+													"text": "вне целей - погружение и патруль",
+													"background-color": [
+														0.7019607843137254,
+														1,
+														0.7490196078431373,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 265261920074329
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "ser",
+															"sid": 732784263682859,
+															"parameters": {
+																"instance-variable": "task",
+																"value": "\"patrol\""
+															}
+														},
+														{
+															"callFunction": "sDown",
+															"sid": 220332629165476,
+															"parameters": [
+																"ser.UID",
+																"\"lookDown\"",
+																"16",
+																"0",
+																"\"zero\"",
+																"\"dive\""
+															]
+														}
+													],
+													"sid": 675973553449262
 												}
-											],
-											"sid": 394072790392850
+											]
 										}
 									]
 								}
@@ -4092,13 +4064,14 @@
 											"actions": [
 												{
 													"callFunction": "sDown",
-													"sid": 510894278801591,
+													"sid": 799393004085646,
 													"parameters": [
 														"ser.UID",
-														"ser.AnimationName",
-														"-16",
-														"ser.AnimationFrame",
-														"\"spike\""
+														"ser.AnimationName=\"strike\"?\"strikeDown\":\"strikeLook\"",
+														"16",
+														"0",
+														"\"spike\"",
+														"\"dive\""
 													]
 												}
 											],
@@ -5824,19 +5797,6 @@
 							]
 						},
 						{
-							"functionName": "serSetStatus",
-							"functionDescription": "",
-							"functionCategory": "",
-							"functionReturnType": "none",
-							"functionCopyPicked": false,
-							"functionIsAsync": false,
-							"functionParameters": [],
-							"eventType": "function-block",
-							"conditions": [],
-							"actions": [],
-							"sid": 658445410229404
-						},
-						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -5851,6 +5811,89 @@
 							"actions": [],
 							"sid": 714525228421789,
 							"disabled": true
+						},
+						{
+							"functionName": "serSetState",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "uid",
+									"type": "number",
+									"initialValue": "-1",
+									"comment": "",
+									"sid": 583438542164036
+								},
+								{
+									"name": "newStatus",
+									"type": "string",
+									"initialValue": "under",
+									"comment": "",
+									"sid": 111599741984364
+								}
+							],
+							"eventType": "function-block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "ser",
+									"sid": 805959025522901,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 846471684463189,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "единая точка входа смены состояния серпента",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ser",
+											"sid": 669182073016840,
+											"parameters": {
+												"instance-variable": "prevStatus",
+												"value": "Self.status"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ser",
+											"sid": 970172134910914,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "newStatus"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ser",
+											"sid": 652062648960758,
+											"parameters": {
+												"instance-variable": "busy",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 171015023075338
+								}
+							]
 						},
 						{
 							"eventType": "comment",
@@ -6117,13 +6160,14 @@
 											"actions": [
 												{
 													"callFunction": "sDown",
-													"sid": 465245959789645,
+													"sid": 300115573111885,
 													"parameters": [
 														"ser.UID",
-														"ser.AnimationName",
-														"-16",
-														"0",
-														"\"zero\""
+														"ser.AnimationName=\"strike\"?\"strikeDown\": ser.AnimationName=\"lookStrike\"?\"strikeLook\":\"lookDown\"",
+														"16",
+														"ser.AnimationFrame",
+														"\"spike\"",
+														"ser.AnimationName=\"lookStrike\"?\"sweep\":\"dive\""
 													]
 												}
 											],
@@ -6211,13 +6255,14 @@
 											"actions": [
 												{
 													"callFunction": "sDown",
-													"sid": 677929852497138,
+													"sid": 838953711557642,
 													"parameters": [
 														"ser.UID",
-														"\"strike\"",
-														"-16",
+														"\"strikeDown\"",
+														"16",
 														"0",
-														"\"zero\""
+														"\"zero\"",
+														"\"dive\""
 													]
 												}
 											],
@@ -6313,13 +6358,14 @@
 										},
 										{
 											"callFunction": "sDown",
-											"sid": 802109384082684,
+											"sid": 243313120505374,
 											"parameters": [
 												"ser.UID",
-												"\"look\"",
-												"-16",
+												"ser.AnimationName=\"strike\"?\"strikeDown\": ser.AnimationName=\"lookStrike\"?\"strikeLook\":\"lookDown\"",
+												"16",
 												"ser.AnimationFrame",
-												"\"zero\""
+												"\"spike\"",
+												"ser.AnimationName=\"lookStrike\"?\"sweep\":\"dive\""
 											]
 										}
 									],
@@ -7022,13 +7068,14 @@
 												},
 												{
 													"callFunction": "sDown",
-													"sid": 977894199381580,
+													"sid": 375936205643810,
 													"parameters": [
 														"ser.UID",
-														"\"strike\"",
-														"-14",
-														"7",
-														"\"questExc\""
+														"\"strikeDown\"",
+														"14",
+														"0",
+														"\"questExc\"",
+														"\"dive\""
 													]
 												}
 											],
@@ -7069,6 +7116,7 @@
 											"id": "set-animation",
 											"objectClass": "ser",
 											"sid": 458906257094412,
+											"disabled": true,
 											"parameters": {
 												"animation": "\"lookStrike\"&Self.mark",
 												"from": "current-frame"
@@ -7078,6 +7126,7 @@
 											"id": "set-animation-speed",
 											"objectClass": "ser",
 											"sid": 265364669115455,
+											"disabled": true,
 											"parameters": {
 												"speed": "-12*ats.SAS*Self.ASC"
 											}
@@ -7086,9 +7135,22 @@
 											"id": "start-animation",
 											"objectClass": "ser",
 											"sid": 337098802725756,
+											"disabled": true,
 											"parameters": {
 												"from": "current-frame"
 											}
+										},
+										{
+											"callFunction": "sDown",
+											"sid": 410311914876907,
+											"parameters": [
+												"ser.UID",
+												"\"strikeLook\"",
+												"18",
+												"0",
+												"\"zero\"",
+												"\"sweep\""
+											]
 										},
 										{
 											"id": "start-timer",
@@ -7181,14 +7243,15 @@
 								},
 								{
 									"callFunction": "sDown",
-									"sid": 542313123105428,
+									"sid": 334989682071432,
 									"disabled": true,
 									"parameters": [
 										"ser.UID",
-										"\"look\"",
-										"-18",
-										"6",
-										"\"zero\""
+										"\"lookDown\"",
+										"18",
+										"0",
+										"\"zero\"",
+										"\"dive\""
 									]
 								}
 							],
@@ -9327,13 +9390,14 @@
 																						},
 																						{
 																							"callFunction": "sDown",
-																							"sid": 715784736902442,
+																							"sid": 518620458997772,
 																							"parameters": [
 																								"ser.UID",
-																								"\"strike\"",
-																								"-14",
-																								"7",
-																								"\"spike\""
+																								"\"strikeDown\"",
+																								"14",
+																								"0",
+																								"\"spike\"",
+																								"\"dive\""
 																							]
 																						}
 																					],
@@ -9468,13 +9532,14 @@
 																				},
 																				{
 																					"callFunction": "sDown",
-																					"sid": 343734919760653,
+																					"sid": 578535785044623,
 																					"parameters": [
 																						"ser.UID",
-																						"\"strike\"",
-																						"-14",
-																						"7",
-																						"\"spike\""
+																						"\"strikeDown\"",
+																						"14",
+																						"0",
+																						"\"spike\"",
+																						"\"dive\""
 																					]
 																				}
 																			],
@@ -9520,13 +9585,14 @@
 														},
 														{
 															"callFunction": "sDown",
-															"sid": 140411718559123,
+															"sid": 306000543483084,
 															"parameters": [
 																"ser.UID",
-																"\"strike\"",
-																"-14",
-																"7",
-																"\"spike\""
+																"\"strikeDown\"",
+																"14",
+																"0",
+																"\"spike\"",
+																"\"dive\""
 															]
 														}
 													],
@@ -18486,13 +18552,14 @@
 													"actions": [
 														{
 															"callFunction": "sDown",
-															"sid": 768557895154434,
+															"sid": 499993743513713,
 															"parameters": [
 																"ser.UID",
-																"\"lookStrike\"&ser.mark",
-																"-16",
-																"7",
-																"\"zero\""
+																"\"strikeLook\"",
+																"16",
+																"0",
+																"\"zero\"",
+																"\"dive\""
 															]
 														},
 														{
