@@ -934,9 +934,21 @@
 											}
 										},
 										{
+											"callFunction": "sLook",
+											"sid": 815841264452475,
+											"disabled": true,
+											"parameters": [
+												"ser.UID",
+												"\"look\"",
+												"\"zero\"",
+												"\"exc3\"",
+												"\"rise\""
+											]
+										},
+										{
 											"id": "set-animation",
 											"objectClass": "ser",
-											"sid": 857440393714393,
+											"sid": 511649990542678,
 											"parameters": {
 												"animation": "\"look\"&Self.mark",
 												"from": "beginning"
@@ -965,6 +977,15 @@
 											"parameters": {
 												"instance-variable": "status",
 												"value": "\"rise\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ser",
+											"sid": 465877669505339,
+											"parameters": {
+												"instance-variable": "subState",
+												"value": "\"start\""
 											}
 										},
 										{
@@ -3302,27 +3323,35 @@
 														"type": "once",
 														"tag": "\"lookToCheck\""
 													}
-												},
-												{
-													"customAction": "emananta",
-													"objectClass": "ser",
-													"sid": 595920756290523,
-													"parameters": [
-														"\"quest\""
-													]
 												}
 											],
 											"sid": 583868249836144,
 											"children": [
 												{
-													"eventType": "comment",
-													"text": "преследователь потерял цель",
-													"background-color": [
-														0.7019607843137254,
-														1,
-														0.7490196078431373,
-														1
-													]
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "ser",
+															"sid": 222342619755682,
+															"parameters": {
+																"instance-variable": "subState",
+																"comparison": 0,
+																"value": "\"start\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"customAction": "emananta",
+															"objectClass": "ser",
+															"sid": 686005208087510,
+															"parameters": [
+																"choose (\"exc3\", \"exc6\", \"spike1\")"
+															]
+														}
+													],
+													"sid": 549401344499730
 												},
 												{
 													"eventType": "block",
@@ -3330,7 +3359,7 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "ser",
-															"sid": 690938301351703,
+															"sid": 739051804855087,
 															"parameters": {
 																"instance-variable": "task",
 																"comparison": 0,
@@ -3342,7 +3371,7 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "ser",
-															"sid": 996820287114989,
+															"sid": 469202670897068,
 															"parameters": {
 																"instance-variable": "task",
 																"value": "\"noHunting\""
@@ -3351,7 +3380,7 @@
 														{
 															"id": "set-boolean-instvar",
 															"objectClass": "ser",
-															"sid": 100426279157382,
+															"sid": 667982888401864,
 															"parameters": {
 																"instance-variable": "hunt",
 																"value": "false"
@@ -3360,7 +3389,7 @@
 														{
 															"id": "start-timer",
 															"objectClass": "ser",
-															"sid": 106408268180074,
+															"sid": 582075273398206,
 															"behaviorType": "Timer",
 															"parameters": {
 																"duration": "random(0.7,1.2)",
@@ -3371,13 +3400,53 @@
 														{
 															"customAction": "emananta",
 															"objectClass": "ser",
-															"sid": 272837328924411,
+															"sid": 308964146302926,
+															"disabled": true,
 															"parameters": [
 																"\"3dot\""
 															]
+														},
+														{
+															"customAction": "emananta",
+															"objectClass": "ser",
+															"sid": 219995836702258,
+															"parameters": [
+																"\"excDrop\""
+															]
 														}
 													],
-													"sid": 130071180448235
+													"sid": 995706273223225
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 640953570016623
+														}
+													],
+													"actions": [
+														{
+															"customAction": "emananta",
+															"objectClass": "ser",
+															"sid": 859027237027832,
+															"parameters": [
+																"choose(\"quest\",\"3dot\")"
+															]
+														}
+													],
+													"sid": 499605897297706
+												},
+												{
+													"eventType": "comment",
+													"text": "преследователь потерял цель",
+													"background-color": [
+														0.7019607843137254,
+														1,
+														0.7490196078431373,
+														1
+													]
 												}
 											]
 										}
@@ -8348,10 +8417,20 @@
 								{
 									"id": "compare-animation-frame-tag",
 									"objectClass": "ser",
-									"sid": 584468821979804,
+									"sid": 157236478013161,
 									"parameters": {
 										"comparison": 0,
 										"tag": "\"head\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "ser",
+									"sid": 770387300266336,
+									"parameters": {
+										"instance-variable": "status",
+										"comparison": 0,
+										"value": "\"assault\""
 									}
 								}
 							],
@@ -8364,7 +8443,29 @@
 										{
 											"id": "for-each-ordered",
 											"objectClass": "System",
+											"sid": 375963658991550,
+											"parameters": {
+												"object": "ser",
+												"expression": "ser.targetDistance",
+												"order": "ascending"
+											}
+										},
+										{
+											"id": "for-each-ordered",
+											"objectClass": "System",
+											"sid": 257027693305480,
+											"disabled": true,
+											"parameters": {
+												"object": "ser",
+												"expression": "sqrt(0.24*(round(distance(ser.X,0,base.X,0)))^2+(round(distance(0,ser.Y,0,base.Y)))^2)",
+												"order": "ascending"
+											}
+										},
+										{
+											"id": "for-each-ordered",
+											"objectClass": "System",
 											"sid": 910291692582371,
+											"disabled": true,
 											"parameters": {
 												"object": "ser",
 												"expression": "distance(ser.X,ser.Y,base.X,base.Y)",
@@ -8384,6 +8485,12 @@
 										}
 									],
 									"sid": 119703595017554
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [],
+									"sid": 578215121163950
 								}
 							]
 						},
@@ -10052,6 +10159,15 @@
 														"comparison": 1,
 														"tag": "\"head\""
 													}
+												},
+												{
+													"id": "is-animation-playing",
+													"objectClass": "ser",
+													"sid": 618760237361548,
+													"parameters": {
+														"animation": "\"lookDown\"&Self.mark"
+													},
+													"isInverted": true
 												}
 											],
 											"actions": [
