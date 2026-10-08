@@ -4283,6 +4283,7 @@
 									"id": "on-animation-finished",
 									"objectClass": "ser",
 									"sid": 568578161939129,
+									"disabled": true,
 									"parameters": {
 										"animation": "\"turn\""
 									}
@@ -4362,7 +4363,7 @@
 									"actions": [
 										{
 											"callFunction": "patrolSer",
-											"sid": 457711022820303,
+											"sid": 348216785958591,
 											"parameters": [
 												"ser.UID"
 											]
@@ -4372,6 +4373,157 @@
 								}
 							],
 							"isOrBlock": true
+						},
+						{
+							"eventType": "comment",
+							"text": "по окончании анимации движения и ныряния - невидимость",
+							"background-color": [
+								0.6392156862745098,
+								1,
+								0.9098039215686274,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-animation-finished",
+									"objectClass": "ser",
+									"sid": 493589386617239,
+									"parameters": {
+										"animation": "\"turn\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 584929343260745,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "ser",
+											"sid": 766609071823938,
+											"parameters": {
+												"instance-variable": "trapper"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "ser",
+											"sid": 664643500707110,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "close"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "trapperReturn",
+											"sid": 796803236278102,
+											"parameters": [
+												"ser.UID"
+											]
+										}
+									],
+									"sid": 119520421596945
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 390103316459587
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "ser",
+											"sid": 311059077043880,
+											"parameters": {
+												"instance-variable": "hunter"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "ser",
+											"sid": 843217298305247,
+											"parameters": {
+												"animation": "\"base\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "ser",
+											"sid": 549743341955015,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "ser",
+											"sid": 476947548116544,
+											"parameters": {
+												"instance-variable": "under",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ser",
+											"sid": 757732098209539,
+											"parameters": {
+												"instance-variable": "status",
+												"value": "\"under\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "ser",
+											"sid": 244259221438193,
+											"parameters": {
+												"instance-variable": "subState",
+												"value": "\"\""
+											}
+										}
+									],
+									"sid": 795506998577912,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "ser",
+													"sid": 780759539746227,
+													"parameters": {
+														"instance-variable": "close"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "patrolSer",
+													"sid": 371993220318456,
+													"parameters": [
+														"ser.UID"
+													]
+												}
+											],
+											"sid": 445786632493865
+										}
+									]
+								}
+							]
 						},
 						{
 							"eventType": "comment",
@@ -6006,6 +6158,15 @@
 											"objectClass": "ser",
 											"sid": 297018237670647,
 											"behaviorType": "mt",
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "ser",
+											"sid": 736764600352425,
+											"parameters": {
+												"instance-variable": "trapperOut"
+											},
 											"isInverted": true
 										}
 									],
@@ -10781,10 +10942,10 @@
 														{
 															"id": "set-instvar-value",
 															"objectClass": "ser",
-															"sid": 186807089777472,
+															"sid": 558922487331902,
 															"parameters": {
-																"instance-variable": "status",
-																"value": "\"trapReturn\""
+																"instance-variable": "task",
+																"value": "\"backToTrap\""
 															}
 														},
 														{
@@ -15990,33 +16151,48 @@
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "compare-instance-variable",
+													"id": "is-boolean-instance-variable-set",
 													"objectClass": "ser",
-													"sid": 123467486812108,
+													"sid": 381033260825676,
 													"parameters": {
-														"instance-variable": "status",
-														"comparison": 0,
-														"value": "\"trapReturn\""
-													}
+														"instance-variable": "trapperOut"
+													},
+													"isInverted": true
 												}
 											],
 											"actions": [
 												{
+													"id": "append-text",
+													"objectClass": "help",
+													"sid": 379977558867136,
+													"parameters": {
+														"text": "1"
+													}
+												},
+												{
 													"id": "set-animation",
 													"objectClass": "ser",
-													"sid": 512537733145409,
+													"sid": 967430943107572,
 													"parameters": {
-														"animation": "\"diver\"",
+														"animation": "\"turn\"",
 														"from": "beginning"
 													}
 												},
 												{
-													"id": "set-instvar-value",
+													"id": "set-visible",
 													"objectClass": "ser",
-													"sid": 449558550796267,
+													"sid": 302287369961382,
 													"parameters": {
-														"instance-variable": "status",
-														"value": "\"dive\""
+														"visibility": "visible"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ser",
+													"sid": 296165057713786,
+													"parameters": {
+														"instance-variable": "trapperOut",
+														"value": "true"
 													}
 												}
 											],
@@ -16029,16 +16205,6 @@
 													"id": "else",
 													"objectClass": "System",
 													"sid": 203868287390318
-												},
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "ser",
-													"sid": 291024084023961,
-													"parameters": {
-														"instance-variable": "status",
-														"comparison": 0,
-														"value": "\"dive\""
-													}
 												}
 											],
 											"actions": [
@@ -16065,6 +16231,15 @@
 													"sid": 988775300928536,
 													"parameters": {
 														"instance-variable": "added",
+														"value": "false"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "ser",
+													"sid": 633620299978640,
+													"parameters": {
+														"instance-variable": "trapperOut",
 														"value": "false"
 													}
 												},
