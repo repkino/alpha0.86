@@ -7024,9 +7024,9 @@
 												{
 													"customAction": "abilOff",
 													"objectClass": "aaa",
-													"sid": 892792778454151,
+													"sid": 389479301710721,
 													"parameters": [
-														"2",
+														"3",
 														true,
 														false,
 														false
@@ -7499,9 +7499,9 @@
 												{
 													"customAction": "abilOff",
 													"objectClass": "aaa",
-													"sid": 247753391996745,
+													"sid": 215027320620655,
 													"parameters": [
-														"3",
+														"4",
 														true,
 														false,
 														false
@@ -11369,7 +11369,17 @@
 														{
 															"id": "set-animation",
 															"objectClass": "rockAbil",
+															"sid": 633880893433830,
+															"parameters": {
+																"animation": "aGame.dubleType",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-animation",
+															"objectClass": "rockAbil",
 															"sid": 831647720494883,
+															"disabled": true,
 															"parameters": {
 																"animation": "\"target\"",
 																"from": "beginning"
@@ -11440,6 +11450,61 @@
 													"children": [
 														{
 															"eventType": "comment",
+															"text": "отключаем способность",
+															"background-color": [
+																0.5411764705882353,
+																0.7764705882352941,
+																1,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "aTools",
+																	"sid": 157567491693164,
+																	"parameters": {
+																		"instance-variable": "cursorLMark",
+																		"comparison": 0,
+																		"value": "\"BitFake\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "aGame",
+																	"sid": 597186322516679,
+																	"parameters": {
+																		"instance-variable": "doBitFake",
+																		"value": "false"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aTools",
+																	"sid": 978021604756683,
+																	"parameters": {
+																		"instance-variable": "cursorLMark",
+																		"value": "\"\""
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "rockAbil",
+																	"sid": 302670579016863,
+																	"parameters": {
+																		"animation": "\"default\"",
+																		"from": "beginning"
+																	}
+																}
+															],
+															"sid": 975839514260430
+														},
+														{
+															"eventType": "comment",
 															"text": "заряжаем курсор новым котиком",
 															"background-color": [
 																0.5411764705882353,
@@ -11451,6 +11516,11 @@
 														{
 															"eventType": "block",
 															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 223411477045470
+																},
 																{
 																	"id": "compare-instance-variable",
 																	"objectClass": "aTools",
@@ -11467,8 +11537,18 @@
 																	"id": "set-animation",
 																	"objectClass": "rockAbil",
 																	"sid": 520901409921808,
+																	"disabled": true,
 																	"parameters": {
 																		"animation": "\"target\"",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "rockAbil",
+																	"sid": 343250075429566,
+																	"parameters": {
+																		"animation": "aGame.dubleType",
 																		"from": "beginning"
 																	}
 																},
@@ -11483,75 +11563,6 @@
 																}
 															],
 															"sid": 790811112373777
-														},
-														{
-															"eventType": "comment",
-															"text": "отключаем способность",
-															"background-color": [
-																0.5411764705882353,
-																0.7764705882352941,
-																1,
-																1
-															]
-														},
-														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "else",
-																	"objectClass": "System",
-																	"sid": 226321486858771
-																},
-																{
-																	"id": "compare-instance-variable",
-																	"objectClass": "aTools",
-																	"sid": 102560924376178,
-																	"parameters": {
-																		"instance-variable": "cursorLMark",
-																		"comparison": 0,
-																		"value": "\"BitFake\""
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "aGame",
-																	"sid": 911633325640647,
-																	"parameters": {
-																		"instance-variable": "doBitFake",
-																		"value": "false"
-																	}
-																},
-																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "aGame",
-																	"sid": 227640115039915,
-																	"parameters": {
-																		"instance-variable": "autoDuble",
-																		"value": "false"
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "cocobutton",
-																	"sid": 489040647793357,
-																	"parameters": {
-																		"animation": "\"off\"",
-																		"from": "beginning"
-																	}
-																},
-																{
-																	"id": "set-animation",
-																	"objectClass": "rockAbil",
-																	"sid": 137198898619057,
-																	"parameters": {
-																		"animation": "\"off\"",
-																		"from": "beginning"
-																	}
-																}
-															],
-															"sid": 796833293644250
 														}
 													]
 												}
@@ -11559,7 +11570,7 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "включаем способность и автодвойника",
+											"text": "? способность отключена внешними причинами",
 											"background-color": [
 												0.5411764705882353,
 												0.7764705882352941,
@@ -11589,64 +11600,46 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "aGame",
-													"sid": 266156892480307,
+													"sid": 623359236242259,
 													"parameters": {
 														"instance-variable": "autoDuble",
-														"value": "true"
-													}
-												},
-												{
-													"id": "set-boolean-instvar",
-													"objectClass": "aGame",
-													"sid": 582496313461787,
-													"parameters": {
-														"instance-variable": "doBitFake",
-														"value": "true"
+														"value": "false"
 													}
 												},
 												{
 													"id": "set-instvar-value",
 													"objectClass": "aTools",
-													"sid": 562155161324259,
+													"sid": 644843332067132,
 													"parameters": {
 														"instance-variable": "cursorLMark",
 														"value": "\"\""
 													}
 												},
 												{
-													"id": "set-animation",
+													"id": "set-boolean-instvar",
 													"objectClass": "cocobutton",
-													"sid": 633230574475039,
+													"sid": 252458287334903,
 													"parameters": {
-														"animation": "\"auto\"",
-														"from": "current-frame"
+														"instance-variable": "auto",
+														"value": "false"
 													}
 												},
 												{
-													"id": "set-boolean-instvar",
+													"id": "set-animation",
 													"objectClass": "cocobutton",
-													"sid": 466696002598259,
+													"sid": 710813916147181,
 													"parameters": {
-														"instance-variable": "auto",
-														"value": "true"
+														"animation": "\"off\"",
+														"from": "beginning"
 													}
 												},
 												{
 													"id": "set-animation",
 													"objectClass": "rockAbil",
-													"sid": 410166541411146,
+													"sid": 619085194912910,
 													"parameters": {
-														"animation": "\"auto\"",
+														"animation": "\"off\"",
 														"from": "beginning"
-													}
-												},
-												{
-													"id": "set-group-active",
-													"objectClass": "System",
-													"sid": 926586310999839,
-													"parameters": {
-														"group-name": "\"fakeBit\"",
-														"state": "activated"
 													}
 												}
 											],
