@@ -165,6 +165,23 @@
 											}
 										},
 										{
+											"id": "set-mirrored",
+											"objectClass": "BitFake",
+											"sid": 776317628468490,
+											"parameters": {
+												"state": "not-mirrored"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aGame",
+											"sid": 622768944196878,
+											"parameters": {
+												"instance-variable": "BFUID",
+												"value": "-1"
+											}
+										},
+										{
 											"id": "set-boolean-eventvar",
 											"objectClass": "System",
 											"sid": 738250144203038,
@@ -174,7 +191,66 @@
 											}
 										}
 									],
-									"sid": 662622409911426
+									"sid": 662622409911426,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-mirrored",
+													"objectClass": "Bit",
+													"sid": 829842719149758
+												}
+											],
+											"actions": [
+												{
+													"id": "set-mirrored",
+													"objectClass": "BitFake",
+													"sid": 366165558486800,
+													"parameters": {
+														"state": "mirrored"
+													}
+												}
+											],
+											"sid": 941902954089722
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 428918937556229,
+													"parameters": {
+														"variable": "anim",
+														"comparison": 0,
+														"value": "\"idleCat\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "tween-two-properties",
+													"objectClass": "BitFake",
+													"sid": 481061157703628,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"\"",
+														"property": "scale",
+														"end-x": "0.5+aBit.energo/4000",
+														"end-y": "0.5+aBit.energo/4000",
+														"time": "1",
+														"ease": "easeoutbounce",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "no",
+														"repeat-count": "1"
+													}
+												}
+											],
+											"sid": 268264391479344
+										}
+									]
 								}
 							]
 						}
@@ -196,40 +272,49 @@
 							}
 						},
 						{
-							"id": "is-visible",
+							"id": "pick-by-unique-id",
 							"objectClass": "BitFake",
-							"sid": 492319235668689,
-							"isInverted": true
+							"sid": 346183328273073,
+							"parameters": {
+								"unique-id": "aGame.BFUID"
+							}
 						},
 						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aGame",
-							"sid": 599660594484766,
-							"parameters": {
-								"instance-variable": "doubleCat"
-							},
+							"id": "is-visible",
+							"objectClass": "BitFake",
+							"sid": 210662158775294,
 							"isInverted": true
 						}
 					],
 					"actions": [
 						{
-							"id": "set-visible",
-							"objectClass": "BitFake",
-							"sid": 864105801617170,
+							"id": "append-text",
+							"objectClass": "help",
+							"sid": 479190685865419,
 							"parameters": {
-								"visibility": "visible"
+								"text": "1"
 							}
 						}
 					],
 					"sid": 581768021663248,
 					"children": [
 						{
+							"eventType": "variable",
+							"name": "frame",
+							"type": "number",
+							"initialValue": "11",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 229307223462206
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
 									"id": "compare-animation-frame",
 									"objectClass": "BitFake",
-									"sid": 676865305112264,
+									"sid": 879494188567396,
 									"parameters": {
 										"comparison": 5,
 										"number": "9"
@@ -238,16 +323,109 @@
 							],
 							"actions": [
 								{
-									"customAction": "double",
-									"objectClass": "Bit",
-									"sid": 417761538571885,
-									"parameters": [
-										"BitFake.UID",
-										"\"idle\""
-									]
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 729327269097738,
+									"parameters": {
+										"variable": "frame",
+										"value": "BitFake.AnimationFrame"
+									}
 								}
 							],
-							"sid": 350733428089966
+							"sid": 350733428089966,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aGame",
+											"sid": 430949347722946,
+											"parameters": {
+												"instance-variable": "doubleCat"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"customAction": "double",
+											"objectClass": "Bit",
+											"sid": 398740925058764,
+											"parameters": [
+												"BitFake.UID",
+												"\"idle\""
+											]
+										}
+									],
+									"sid": 731014398875073
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 189140533088760
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "Bit",
+											"sid": 239239495722800,
+											"parameters": {
+												"instance-variable": "anim",
+												"comparison": 1,
+												"value": "\"BitFakeCat\""
+											}
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 215663627163002,
+											"parameters": {
+												"animation": "\"BitFakeCat\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-animation",
+											"objectClass": "BitFake",
+											"sid": 850689027311471,
+											"parameters": {
+												"animation": "\"down\"",
+												"from": "current-frame"
+											}
+										},
+										{
+											"id": "set-animation-frame",
+											"objectClass": "BitFake",
+											"sid": 122164422307197,
+											"parameters": {
+												"frame-number": "11-frame"
+											}
+										},
+										{
+											"id": "start-animation",
+											"objectClass": "BitFake",
+											"sid": 366849518532001,
+											"parameters": {
+												"from": "current-frame"
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "BitFake",
+											"sid": 646067824853537,
+											"parameters": {
+												"visibility": "visible"
+											}
+										}
+									],
+									"sid": 402845012648328
+								}
+							]
 						},
 						{
 							"eventType": "block",
@@ -265,32 +443,94 @@
 										"comparison": 4,
 										"number": "0"
 									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "Bit",
+									"sid": 390459178443915,
+									"parameters": {
+										"instance-variable": "anim",
+										"comparison": 1,
+										"value": "\"BitFakeCat\""
+									}
+								},
+								{
+									"id": "is-animation-playing",
+									"objectClass": "Bit",
+									"sid": 673634980167061,
+									"parameters": {
+										"animation": "\"BitFakeCat\""
+									},
+									"isInverted": true
 								}
 							],
 							"actions": [
 								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 383842319091886,
+									"parameters": {
+										"text": "2"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 633464177641187,
+									"parameters": {
+										"variable": "frame",
+										"value": "BitFake.AnimationFrame"
+									}
+								},
+								{
 									"id": "set-animation",
 									"objectClass": "BitFake",
-									"sid": 792889107295663,
+									"sid": 452191128404508,
+									"disabled": true,
 									"parameters": {
-										"animation": "\"grow\"",
+										"animation": "\"down\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "BitFake",
+									"sid": 682366810889508,
+									"parameters": {
+										"visibility": "visible"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "BitFake",
+									"sid": 109771831633326,
+									"parameters": {
+										"animation": "\"down\"",
 										"from": "current-frame"
 									}
 								},
 								{
-									"id": "set-animation-speed",
+									"id": "set-animation-frame",
 									"objectClass": "BitFake",
-									"sid": 430753861165679,
+									"sid": 551320813231641,
 									"parameters": {
-										"speed": "-8"
+										"frame-number": "11-frame"
 									}
 								},
 								{
 									"id": "start-animation",
 									"objectClass": "BitFake",
-									"sid": 588197874486043,
+									"sid": 940969955512570,
 									"parameters": {
 										"from": "current-frame"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "BitFake",
+									"sid": 495065893755982,
+									"parameters": {
+										"visibility": "visible"
 									}
 								}
 							],
@@ -312,64 +552,37 @@
 										"comparison": 0,
 										"number": "0"
 									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "Bit",
+									"sid": 411072389705540,
+									"parameters": {
+										"instance-variable": "anim",
+										"comparison": 1,
+										"value": "\"BitFakeCat\""
+									}
 								}
 							],
 							"actions": [
 								{
 									"id": "wait",
 									"objectClass": "System",
-									"sid": 546462959599284,
+									"sid": 769993853475913,
+									"disabled": true,
 									"parameters": {
 										"seconds": "0.1",
 										"use-timescale": true
 									}
 								},
 								{
-									"id": "set-position",
+									"customAction": "goBank",
 									"objectClass": "BitFake",
-									"sid": 399772936756823,
-									"parameters": {
-										"x": "-9755",
-										"y": "-79881"
-									}
-								},
-								{
-									"id": "set-animation",
-									"objectClass": "BitFake",
-									"sid": 465664819322590,
-									"parameters": {
-										"animation": "\"zero\"",
-										"from": "beginning"
-									}
-								},
-								{
-									"id": "set-boolean-instvar",
-									"objectClass": "BitFake",
-									"sid": 272828238973078,
-									"parameters": {
-										"instance-variable": "zEnable",
-										"value": "false"
-									}
-								},
-								{
-									"id": "set-collisions-enabled",
-									"objectClass": "BitFake",
-									"sid": 658305179246854,
-									"parameters": {
-										"collisions": "disabled"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "BitFake",
-									"sid": 171712147636038,
-									"parameters": {
-										"instance-variable": "baseUID",
-										"value": "-1"
-									}
+									"sid": 943252916072979
 								}
 							],
-							"sid": 732910081892402
+							"sid": 732910081892402,
+							"disabled": true
 						}
 					]
 				},
@@ -389,6 +602,14 @@
 							}
 						},
 						{
+							"id": "pick-by-unique-id",
+							"objectClass": "BitFake",
+							"sid": 510138895726502,
+							"parameters": {
+								"unique-id": "aGame.BFUID"
+							}
+						},
+						{
 							"id": "is-visible",
 							"objectClass": "BitFake",
 							"sid": 949595380502696,
@@ -403,31 +624,12 @@
 							}
 						}
 					],
-					"actions": [
-						{
-							"id": "set-visible",
-							"objectClass": "BitFake",
-							"sid": 381104774557788,
-							"parameters": {
-								"visibility": "visible"
-							}
-						}
-					],
+					"actions": [],
 					"sid": 248403816514726,
 					"children": [
 						{
 							"eventType": "block",
 							"conditions": [
-								{
-									"id": "compare-animation-frame",
-									"objectClass": "BitFake",
-									"sid": 788331894264916,
-									"disabled": true,
-									"parameters": {
-										"comparison": 5,
-										"number": "9"
-									}
-								},
 								{
 									"id": "compare-animation-frame",
 									"objectClass": "Bit",
@@ -497,16 +699,6 @@
 								},
 								{
 									"id": "compare-animation-frame",
-									"objectClass": "BitFake",
-									"sid": 807478998033196,
-									"disabled": true,
-									"parameters": {
-										"comparison": 4,
-										"number": "0"
-									}
-								},
-								{
-									"id": "compare-animation-frame",
 									"objectClass": "Bit",
 									"sid": 362540638052596,
 									"parameters": {
@@ -519,34 +711,18 @@
 								{
 									"id": "set-animation",
 									"objectClass": "BitFake",
-									"sid": 206022626034883,
+									"sid": 182590492781635,
 									"parameters": {
-										"animation": "\"grow\"",
-										"from": "current-frame"
+										"animation": "\"down\"",
+										"from": "beginning"
 									}
 								},
 								{
-									"id": "set-animation-frame",
+									"id": "set-visible",
 									"objectClass": "BitFake",
-									"sid": 192905363827266,
+									"sid": 860942609086055,
 									"parameters": {
-										"frame-number": "11"
-									}
-								},
-								{
-									"id": "set-animation-speed",
-									"objectClass": "BitFake",
-									"sid": 727410058469682,
-									"parameters": {
-										"speed": "-8"
-									}
-								},
-								{
-									"id": "start-animation",
-									"objectClass": "BitFake",
-									"sid": 501098165069845,
-									"parameters": {
-										"from": "current-frame"
+										"visibility": "visible"
 									}
 								}
 							],
@@ -560,16 +736,43 @@
 						{
 							"id": "on-any-animation-finished",
 							"objectClass": "BitFake",
-							"sid": 771162671379857
+							"sid": 707303977954798
+						},
+						{
+							"id": "is-outside-layout",
+							"objectClass": "BitFake",
+							"sid": 554679028500591,
+							"isInverted": true
 						},
 						{
 							"id": "is-visible",
 							"objectClass": "BitFake",
-							"sid": 887744636874034
+							"sid": 269063396753429
 						}
 					],
+					"actions": [
+						{
+							"customAction": "goBank",
+							"objectClass": "BitFake",
+							"sid": 427720251231270
+						}
+					],
+					"sid": 106905966676599
+				},
+				{
+					"aceType": "action",
+					"aceName": "goBank",
+					"objectClass": "BitFake",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "custom-ace-block",
+					"conditions": [],
 					"actions": [],
-					"sid": 116354036568982,
+					"sid": 877087986899416,
 					"children": [
 						{
 							"eventType": "block",
@@ -577,7 +780,7 @@
 								{
 									"id": "pick-by-unique-id",
 									"objectClass": "base",
-									"sid": 832188472408546,
+									"sid": 708828844890644,
 									"parameters": {
 										"unique-id": "BitFake.baseUID"
 									}
@@ -587,7 +790,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "base",
-									"sid": 492775746221791,
+									"sid": 714320409372990,
 									"parameters": {
 										"instance-variable": "charUID",
 										"value": "-1"
@@ -596,7 +799,7 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "base",
-									"sid": 986171756724898,
+									"sid": 272417863957235,
 									"parameters": {
 										"instance-variable": "on",
 										"value": "false"
@@ -605,7 +808,7 @@
 								{
 									"id": "set-collisions-enabled",
 									"objectClass": "base",
-									"sid": 186110914721449,
+									"sid": 746959344047421,
 									"parameters": {
 										"collisions": "disabled"
 									}
@@ -613,14 +816,14 @@
 								{
 									"id": "set-position",
 									"objectClass": "base",
-									"sid": 221652655977952,
+									"sid": 776701240883409,
 									"parameters": {
 										"x": "-3811",
 										"y": "-7211"
 									}
 								}
 							],
-							"sid": 679660933935430
+							"sid": 918886207140656
 						},
 						{
 							"eventType": "block",
@@ -629,7 +832,7 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "BitFake",
-									"sid": 282423887221378,
+									"sid": 830850839657872,
 									"parameters": {
 										"instance-variable": "baseUID",
 										"value": "-1"
@@ -638,7 +841,7 @@
 								{
 									"id": "set-collisions-enabled",
 									"objectClass": "BitFake",
-									"sid": 961341244025273,
+									"sid": 737815855796024,
 									"parameters": {
 										"collisions": "disabled"
 									}
@@ -646,7 +849,7 @@
 								{
 									"id": "set-position",
 									"objectClass": "BitFake",
-									"sid": 483996947163262,
+									"sid": 679902496174199,
 									"parameters": {
 										"x": "-9755",
 										"y": "-79881"
@@ -655,7 +858,7 @@
 								{
 									"id": "set-animation",
 									"objectClass": "BitFake",
-									"sid": 640494101750956,
+									"sid": 565554240570967,
 									"parameters": {
 										"animation": "\"zero\"",
 										"from": "beginning"
@@ -664,14 +867,30 @@
 								{
 									"id": "set-boolean-instvar",
 									"objectClass": "BitFake",
-									"sid": 826876556816956,
+									"sid": 594220971223107,
 									"parameters": {
 										"instance-variable": "zEnable",
 										"value": "false"
 									}
+								},
+								{
+									"id": "set-scale",
+									"objectClass": "BitFake",
+									"sid": 683323231265198,
+									"parameters": {
+										"scale": "0.5"
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "BitFake",
+									"sid": 675904493398202,
+									"parameters": {
+										"visibility": "invisible"
+									}
 								}
 							],
-							"sid": 712603731169368
+							"sid": 486555109957772
 						}
 					]
 				},
@@ -780,6 +999,15 @@
 										}
 									],
 									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aGame",
+											"sid": 678698830903938,
+											"parameters": {
+												"instance-variable": "BFUID",
+												"value": "BitFake.UID"
+											}
+										},
 										{
 											"id": "set-position",
 											"objectClass": "BitFake",
@@ -938,9 +1166,18 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aGame",
-											"sid": 363963754930152,
+											"sid": 676529438718315,
 											"parameters": {
 												"instance-variable": "doubleCat"
+											}
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "BitFake",
+											"sid": 929086700301956,
+											"disabled": true,
+											"parameters": {
+												"unique-id": "aGame.BFUID"
 											}
 										}
 									],
@@ -961,6 +1198,15 @@
 											"parameters": {
 												"animation": "\"BitFakeCat\"",
 												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 285337629344789,
+											"parameters": {
+												"instance-variable": "selfControl",
+												"value": "2"
 											}
 										}
 									],
@@ -986,11 +1232,19 @@
 										{
 											"id": "is-boolean-instance-variable-set",
 											"objectClass": "aGame",
-											"sid": 299123712528727,
+											"sid": 965913718123783,
 											"parameters": {
 												"instance-variable": "doubleCat"
 											},
 											"isInverted": true
+										},
+										{
+											"id": "pick-by-unique-id",
+											"objectClass": "BitFake",
+											"sid": 972857133213599,
+											"parameters": {
+												"unique-id": "aGame.BFUID"
+											}
 										}
 									],
 									"actions": [
@@ -1030,30 +1284,7 @@
 											]
 										}
 									],
-									"sid": 445139590578211,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-mirrored",
-													"objectClass": "Bit",
-													"sid": 873493413160702
-												}
-											],
-											"actions": [
-												{
-													"id": "set-mirrored",
-													"objectClass": "BitFake",
-													"sid": 819907365755597,
-													"parameters": {
-														"state": "mirrored"
-													}
-												}
-											],
-											"sid": 985814889038689
-										}
-									]
+									"sid": 445139590578211
 								}
 							]
 						},
@@ -1078,9 +1309,18 @@
 									}
 								},
 								{
+									"id": "pick-by-unique-id",
+									"objectClass": "BitFake",
+									"sid": 874248770426446,
+									"parameters": {
+										"unique-id": "aGame.BFUID"
+									}
+								},
+								{
 									"id": "is-visible",
 									"objectClass": "BitFake",
 									"sid": 302390667632016,
+									"disabled": true,
 									"isInverted": true
 								}
 							],
@@ -1123,6 +1363,15 @@
 								},
 								{
 									"id": "set-instvar-value",
+									"objectClass": "aBit",
+									"sid": 679590368809208,
+									"parameters": {
+										"instance-variable": "selfControl",
+										"value": "1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
 									"objectClass": "cursor",
 									"sid": 260484509323556,
 									"parameters": {
@@ -1140,30 +1389,7 @@
 									}
 								}
 							],
-							"sid": 495941953736287,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-mirrored",
-											"objectClass": "Bit",
-											"sid": 624551300331991
-										}
-									],
-									"actions": [
-										{
-											"id": "set-mirrored",
-											"objectClass": "BitFake",
-											"sid": 725548252493573,
-											"parameters": {
-												"state": "mirrored"
-											}
-										}
-									],
-									"sid": 681817184381098
-								}
-							]
+							"sid": 495941953736287
 						}
 					]
 				},
