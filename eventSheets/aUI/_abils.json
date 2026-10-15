@@ -325,7 +325,84 @@
 											}
 										}
 									],
-									"sid": 232993778100670
+									"sid": 232993778100670,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "Информер новой способности — только в момент реального добавления ключа (работает из addAbil и из прямых вызовов abilMap). Повторные попытки отсекаются has-key в родителе.",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "has-key",
+													"objectClass": "infoLine",
+													"sid": 646221247736681,
+													"parameters": {
+														"key": "newAbil"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [
+												{
+													"id": "add-key",
+													"objectClass": "infoLine",
+													"sid": 777781156403378,
+													"parameters": {
+														"key": "newAbil",
+														"value": "\"abill\""
+													}
+												}
+											],
+											"sid": 930992811750279,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "infoLine",
+															"sid": 915650672128648,
+															"parameters": {
+																"instance-variable": "on"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 501475343426083,
+															"parameters": {
+																"group-name": "\"informer\"",
+																"state": "activated"
+															}
+														},
+														{
+															"callFunction": "informerOn",
+															"sid": 584543267222746,
+															"parameters": [
+																"\"abill\"",
+																"0",
+																"1",
+																"1.6",
+																"newAbil"
+															]
+														}
+													],
+													"sid": 122245860799938
+												}
+											]
+										}
+									]
 								}
 							]
 						},
@@ -504,100 +581,6 @@
 										}
 									],
 									"sid": 836518209401507
-								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "Информер новой способности через единую очередь: enqueue с маршрутом abill",
-							"background-color": [
-								0.49,
-								0.7,
-								0.38,
-								1
-							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "aUIN",
-									"sid": 455897239246684,
-									"parameters": {
-										"instance-variable": "newAbil",
-										"comparison": 1,
-										"value": "\"zero\""
-									}
-								},
-								{
-									"id": "has-key",
-									"objectClass": "abils",
-									"sid": 216403053479572,
-									"parameters": {
-										"key": "aUIN.newAbil"
-									},
-									"isInverted": true
-								},
-								{
-									"id": "has-key",
-									"objectClass": "infoLine",
-									"sid": 873789202466959,
-									"parameters": {
-										"key": "aUIN.newAbil"
-									},
-									"isInverted": true
-								}
-							],
-							"actions": [
-								{
-									"id": "add-key",
-									"objectClass": "infoLine",
-									"sid": 768794316327799,
-									"parameters": {
-										"key": "aUIN.newAbil",
-										"value": "\"abill\""
-									}
-								}
-							],
-							"sid": 658634020633613,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "infoLine",
-											"sid": 756363696169661,
-											"parameters": {
-												"instance-variable": "on"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 986275255385441,
-											"parameters": {
-												"group-name": "\"informer\"",
-												"state": "activated"
-											}
-										},
-										{
-											"callFunction": "informerOn",
-											"sid": 636972317635889,
-											"parameters": [
-												"\"abill\"",
-												"0",
-												"1",
-												"1.6",
-												"aUIN.newAbil"
-											]
-										}
-									],
-									"sid": 558834243407502
 								}
 							]
 						},
@@ -1755,6 +1738,220 @@
 			"children": [
 				{
 					"eventType": "comment",
+					"text": "получение шаров"
+				},
+				{
+					"eventType": "block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 412183234371949,
+							"parameters": {
+								"seconds": "0.5",
+								"use-timescale": false
+							}
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 947090264295552,
+							"disabled": true,
+							"parameters": [
+								true,
+								"\"crystBall2\"",
+								"\"\"",
+								"0",
+								"3",
+								"1",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 179244829360628,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 459834876437100,
+							"parameters": [
+								true,
+								"\"crystBall3\"",
+								"\"\"",
+								"0",
+								"3",
+								"1",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 938258846380489,
+							"disabled": true,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 733668491780769,
+							"disabled": true,
+							"parameters": [
+								true,
+								"\"crystBall4\"",
+								"\"\"",
+								"0",
+								"3",
+								"1",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 108428056547733,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 238583523976509,
+							"parameters": [
+								true,
+								"\"energoBall\"",
+								"\"use\"",
+								"0",
+								"12",
+								"1",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 695010680221715,
+							"disabled": true,
+							"parameters": {
+								"seconds": "2",
+								"use-timescale": true
+							}
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 598525923655273,
+							"disabled": true,
+							"parameters": [
+								true,
+								"\"wMush\"",
+								"\"\"",
+								"0",
+								"1",
+								"0",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 510245394926978,
+							"disabled": true,
+							"parameters": [
+								true,
+								"\"crystBall1\"",
+								"\"\"",
+								"0",
+								"3",
+								"1",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 779556898589758,
+							"disabled": true,
+							"parameters": [
+								true,
+								"\"cageBall\"",
+								"\"\"",
+								"0",
+								"2",
+								"1",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 526210429071680,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 200060021302098,
+							"parameters": [
+								true,
+								"\"windBall\"",
+								"\"\"",
+								"0",
+								"5",
+								"1",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 986346519301416,
+							"disabled": true,
+							"parameters": [
+								true,
+								"\"superBall\"",
+								"\"\"",
+								"0",
+								"2",
+								"1",
+								"\"universal\"",
+								"0"
+							]
+						},
+						{
+							"callFunction": "getItem",
+							"sid": 188730380165537,
+							"disabled": true,
+							"parameters": [
+								false,
+								"\"scompi\"",
+								"\"use\"",
+								"0",
+								"1",
+								"1",
+								"\"person\"",
+								"0"
+							]
+						}
+					],
+					"sid": 652549492827701
+				},
+				{
+					"eventType": "comment",
 					"text": "получение форм"
 				},
 				{
@@ -1789,6 +1986,15 @@
 							]
 						},
 						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 236820870449136,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
 							"id": "set-group-active",
 							"objectClass": "System",
 							"sid": 543215437223268,
@@ -1805,6 +2011,69 @@
 								"\"horror\"",
 								"50"
 							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 664134793457611,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 212641957290224,
+							"parameters": {
+								"group-name": "\"addAbils\"",
+								"state": "activated"
+							}
+						},
+						{
+							"callFunction": "learnSkill",
+							"sid": 321966718320428,
+							"parameters": [
+								"\"form\"",
+								"\"gorn\"",
+								"50"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 175654940534416,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 738303505320158,
+							"parameters": {
+								"group-name": "\"addAbils\"",
+								"state": "activated"
+							}
+						},
+						{
+							"callFunction": "learnSkill",
+							"sid": 367634954303963,
+							"parameters": [
+								"\"form\"",
+								"\"balloon\"",
+								"50"
+							]
+						},
+						{
+							"id": "wait",
+							"objectClass": "System",
+							"sid": 609178912702109,
+							"parameters": {
+								"seconds": "0.1",
+								"use-timescale": true
+							}
 						},
 						{
 							"id": "set-group-active",
@@ -1936,214 +2205,6 @@
 						}
 					],
 					"sid": 292386436959003
-				},
-				{
-					"eventType": "comment",
-					"text": "получение шаров"
-				},
-				{
-					"eventType": "block",
-					"conditions": [],
-					"actions": [
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 739940597505896,
-							"parameters": {
-								"seconds": "0.5",
-								"use-timescale": false
-							}
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 753805746012691,
-							"parameters": [
-								true,
-								"\"crystBall2\"",
-								"\"\"",
-								"0",
-								"3",
-								"1",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 910744589209870,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 103509250315023,
-							"parameters": [
-								true,
-								"\"crystBall3\"",
-								"\"\"",
-								"0",
-								"3",
-								"1",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 464456065586842,
-							"disabled": true,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 250600828144764,
-							"disabled": true,
-							"parameters": [
-								true,
-								"\"crystBall4\"",
-								"\"\"",
-								"0",
-								"3",
-								"1",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 663526292152874,
-							"disabled": true,
-							"parameters": {
-								"seconds": "0.1",
-								"use-timescale": true
-							}
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 125236501317808,
-							"disabled": true,
-							"parameters": [
-								true,
-								"\"energoBall\"",
-								"\"use\"",
-								"0",
-								"12",
-								"1",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"id": "wait",
-							"objectClass": "System",
-							"sid": 528197317979254,
-							"disabled": true,
-							"parameters": {
-								"seconds": "2",
-								"use-timescale": true
-							}
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 826098459040373,
-							"disabled": true,
-							"parameters": [
-								true,
-								"\"wMush\"",
-								"\"\"",
-								"0",
-								"1",
-								"0",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 213415412912069,
-							"disabled": true,
-							"parameters": [
-								true,
-								"\"crystBall1\"",
-								"\"\"",
-								"0",
-								"3",
-								"1",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 164531212080901,
-							"disabled": true,
-							"parameters": [
-								true,
-								"\"cageBall\"",
-								"\"\"",
-								"0",
-								"2",
-								"1",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 730768185723302,
-							"disabled": true,
-							"parameters": [
-								true,
-								"\"windBall\"",
-								"\"\"",
-								"0",
-								"5",
-								"1",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 649881349769996,
-							"disabled": true,
-							"parameters": [
-								true,
-								"\"superBall\"",
-								"\"\"",
-								"0",
-								"2",
-								"1",
-								"\"universal\"",
-								"0"
-							]
-						},
-						{
-							"callFunction": "getItem",
-							"sid": 426109733937786,
-							"disabled": true,
-							"parameters": [
-								false,
-								"\"scompi\"",
-								"\"use\"",
-								"0",
-								"1",
-								"1",
-								"\"person\"",
-								"0"
-							]
-						}
-					],
-					"sid": 199221869246695,
-					"disabled": true
 				}
 			]
 		},
@@ -4018,7 +4079,84 @@
 													}
 												}
 											],
-											"sid": 407271366073622
+											"sid": 407271366073622,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "Информер новой способности — только в момент реального добавления ключа (работает из addAbil и из прямых вызовов abilMap). Повторные попытки отсекаются has-key в родителе.",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "has-key",
+															"objectClass": "infoLine",
+															"sid": 650949606334031,
+															"parameters": {
+																"key": "newAbil"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "add-key",
+															"objectClass": "infoLine",
+															"sid": 356996358777553,
+															"parameters": {
+																"key": "newAbil",
+																"value": "\"abill\""
+															}
+														}
+													],
+													"sid": 653870181476951,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "infoLine",
+																	"sid": 380026500035242,
+																	"parameters": {
+																		"instance-variable": "on"
+																	},
+																	"isInverted": true
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-group-active",
+																	"objectClass": "System",
+																	"sid": 352307075281378,
+																	"parameters": {
+																		"group-name": "\"informer\"",
+																		"state": "activated"
+																	}
+																},
+																{
+																	"callFunction": "informerOn",
+																	"sid": 496367604353999,
+																	"parameters": [
+																		"\"abill\"",
+																		"0",
+																		"1",
+																		"1.6",
+																		"newAbil"
+																	]
+																}
+															],
+															"sid": 488594315431924
+														}
+													]
+												}
+											]
 										}
 									]
 								},
