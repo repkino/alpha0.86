@@ -7080,10 +7080,6 @@
 																	}
 																},
 																{
-																	"type": "comment",
-																	"text": "первая кнопка изменяемая холдером"
-																},
-																{
 																	"id": "set-animation",
 																	"objectClass": "rockAbil",
 																	"sid": 242203004902901,
@@ -7116,6 +7112,12 @@
 																	"parameters": {
 																		"visibility": "visible"
 																	}
+																},
+																{
+																	"id": "stop-animation",
+																	"objectClass": "rockAbil",
+																	"sid": 870576204886296,
+																	"disabled": true
 																}
 															],
 															"sid": 344642911832120
@@ -7982,6 +7984,28 @@
 										"comparison": 0,
 										"value": "aTools.cursorAbilName"
 									}
+								},
+								{
+									"id": "pick-by-comparison",
+									"objectClass": "System",
+									"sid": 429158075258270,
+									"parameters": {
+										"object": "rockAbil",
+										"expression": "distance(cursor.X, cursor.Y, rockAbil.X, rockAbil.Y)",
+										"comparison": 3,
+										"value": "30"
+									}
+								},
+								{
+									"id": "compare-two-values",
+									"objectClass": "System",
+									"sid": 477988951329713,
+									"disabled": true,
+									"parameters": {
+										"first-value": "distance(cursor.X, cursor.Y, rockAbil.X, rockAbil.Y)",
+										"comparison": 3,
+										"second-value": "30"
+									}
 								}
 							],
 							"actions": [],
@@ -7991,32 +8015,22 @@
 									"eventType": "block",
 									"conditions": [
 										{
+											"id": "pick-nearestfurthest",
+											"objectClass": "rockAbil",
+											"sid": 624047485298637,
+											"parameters": {
+												"which": "nearest",
+												"x": "cursor.X",
+												"y": "cursor.Y"
+											}
+										},
+										{
 											"id": "cursor-is-over-object",
 											"objectClass": "Mouse",
 											"sid": 375982906052118,
 											"disabled": true,
 											"parameters": {
 												"object": "rockAbil"
-											}
-										},
-										{
-											"id": "compare-two-values",
-											"objectClass": "System",
-											"sid": 244814075384731,
-											"parameters": {
-												"first-value": "distance(cursor.X, cursor.Y, rockAbil.X, rockAbil.Y)",
-												"comparison": 3,
-												"second-value": "30"
-											}
-										},
-										{
-											"id": "pick-nearestfurthest",
-											"objectClass": "rockAbil",
-											"sid": 955850996380644,
-											"parameters": {
-												"which": "nearest",
-												"x": "cursor.X",
-												"y": "cursor.Y"
 											}
 										},
 										{
@@ -8434,12 +8448,6 @@
 											],
 											"sid": 658751659391324,
 											"disabled": true
-										},
-										{
-											"eventType": "block",
-											"conditions": [],
-											"actions": [],
-											"sid": 464688009636409
 										}
 									]
 								}
@@ -8469,9 +8477,21 @@
 									}
 								},
 								{
+									"id": "pick-by-comparison",
+									"objectClass": "System",
+									"sid": 227434994911447,
+									"parameters": {
+										"object": "rockAbil",
+										"expression": "distance(cursor.X, cursor.Y, rockAbil.X, rockAbil.Y)",
+										"comparison": 4,
+										"value": "30"
+									}
+								},
+								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 963661955065312,
+									"sid": 414354651671723,
+									"disabled": true,
 									"parameters": {
 										"first-value": "distance(cursor.X, cursor.Y, rockAbil.X, rockAbil.Y)",
 										"comparison": 4,
@@ -10727,12 +10747,194 @@
 									"sid": 280562900266733,
 									"children": [
 										{
+											"eventType": "comment",
+											"text": "сворачиваем верхние этажи кокона (иконки icon>1 и их стаканы cocoTill/cocoTop)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 135215097623978,
+													"parameters": {
+														"object": "rockAbil"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "rockAbil",
+													"sid": 821111974431377,
+													"parameters": {
+														"instance-variable": "index",
+														"comparison": 0,
+														"value": "ind"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "rockAbil",
+													"sid": 247700217788469,
+													"parameters": {
+														"instance-variable": "icon",
+														"comparison": 4,
+														"value": "1"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "rockAbil",
+													"sid": 862441013951284,
+													"parameters": {
+														"x": "Self.X",
+														"y": "-841"
+													}
+												},
+												{
+													"id": "stop-animation",
+													"objectClass": "rockAbil",
+													"sid": 297650487267293
+												}
+											],
+											"sid": 278875139772770
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 455985053000802,
+													"parameters": {
+														"object": "cocoTill"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "cocoTill",
+													"sid": 372305034108871,
+													"parameters": {
+														"instance-variable": "aUID",
+														"comparison": 0,
+														"value": "cocobutton.UID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-y",
+													"objectClass": "cocoTill",
+													"sid": 266359939724414,
+													"parameters": {
+														"y": "-3433"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "cocoTill",
+													"sid": 726159035958348,
+													"parameters": {
+														"instance-variable": "pName",
+														"value": "\"zero\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "cocoTill",
+													"sid": 759759711446192,
+													"parameters": {
+														"instance-variable": "aUID",
+														"value": "-1"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "cocoTill",
+													"sid": 746472153437241,
+													"parameters": {
+														"instance-variable": "mouseOver",
+														"value": "false"
+													}
+												}
+											],
+											"sid": 185026958497153
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 333812707195911,
+													"parameters": {
+														"object": "cocoTop"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "cocoTop",
+													"sid": 541318863431631,
+													"parameters": {
+														"instance-variable": "aUID",
+														"comparison": 0,
+														"value": "cocobutton.UID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-y",
+													"objectClass": "cocoTop",
+													"sid": 305437436741260,
+													"parameters": {
+														"y": "-3433"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "cocoTop",
+													"sid": 395739966767423,
+													"parameters": {
+														"instance-variable": "pName",
+														"value": "\"zero\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "cocoTop",
+													"sid": 134373496053053,
+													"parameters": {
+														"instance-variable": "aUID",
+														"value": "-1"
+													}
+												},
+												{
+													"id": "set-boolean-instvar",
+													"objectClass": "cocoTop",
+													"sid": 448533067160622,
+													"parameters": {
+														"instance-variable": "mouseOver",
+														"value": "false"
+													}
+												}
+											],
+											"sid": 741572591892571
+										},
+										{
 											"eventType": "block",
 											"conditions": [
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "cocobutton",
-													"sid": 940668452146601,
+													"sid": 787853036377055,
 													"parameters": {
 														"instance-variable": "pName",
 														"comparison": 0,
@@ -10744,7 +10946,7 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "aGame",
-													"sid": 532175166693593,
+													"sid": 825145252323095,
 													"parameters": {
 														"instance-variable": "noGun",
 														"value": "true"
@@ -10753,7 +10955,7 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "aGame",
-													"sid": 144448936231028,
+													"sid": 807749416648124,
 													"parameters": {
 														"instance-variable": "snowBall",
 														"value": "false"
@@ -10762,14 +10964,50 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "aGame",
-													"sid": 931751178867128,
+													"sid": 450269488070084,
 													"parameters": {
 														"instance-variable": "autoGun",
 														"value": "false"
 													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "targetIcon",
+													"sid": 644597668869502,
+													"parameters": {
+														"animation": "\"off\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "targetIcon",
+													"sid": 328947591712733,
+													"parameters": {
+														"x": "-4499",
+														"y": "-9419"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aTools",
+													"sid": 999974727534907,
+													"parameters": {
+														"instance-variable": "cursorLMark",
+														"value": "\"\""
+													}
+												},
+												{
+													"id": "callselffunction0",
+													"objectClass": "cursor",
+													"sid": 662300348872161,
+													"behaviorType": "sf",
+													"parameters": {
+														"function_name:0": "\"endBallTarget\""
+													}
 												}
 											],
-											"sid": 570250162015601
+											"sid": 135560555118479
 										},
 										{
 											"eventType": "block",
@@ -10844,9 +11082,9 @@
 												{
 													"id": "set-boolean-instvar",
 													"objectClass": "aGame",
-													"sid": 989427685261619,
+													"sid": 414274172479685,
 													"parameters": {
-														"instance-variable": "autoDuble",
+														"instance-variable": "autoVega",
 														"value": "false"
 													}
 												}
@@ -11017,7 +11255,8 @@
 											]
 										}
 									],
-									"sid": 767533797757418
+									"sid": 767533797757418,
+									"disabled": true
 								},
 								{
 									"eventType": "block",
@@ -11049,7 +11288,46 @@
 											]
 										}
 									],
-									"sid": 944394466009743
+									"sid": 944394466009743,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"customAction": "abilOff",
+											"objectClass": "aaa",
+											"sid": 381649792275771,
+											"parameters": [
+												"3",
+												false,
+												true,
+												false
+											]
+										},
+										{
+											"id": "wait",
+											"objectClass": "System",
+											"sid": 517612607942370,
+											"disabled": true,
+											"parameters": {
+												"seconds": "1.0",
+												"use-timescale": true
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aGame",
+											"sid": 924506411539211,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "vegaPump",
+												"value": "true"
+											}
+										}
+									],
+									"sid": 174124011162074
 								}
 							]
 						},
