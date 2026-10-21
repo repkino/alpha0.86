@@ -10757,27 +10757,86 @@
 													}
 												}
 											],
-											"actions": [
+											"actions": [],
+											"sid": 509346606989138,
+											"children": [
 												{
-													"customAction": "anim",
-													"objectClass": "aaa",
-													"sid": 472300363341398,
-													"parameters": [
-														"choose(\"no\",\"not\",\"not\")",
-														"0",
-														"0",
-														"\"zero\"",
-														false,
-														false,
-														"\"Bit\"",
-														"12",
-														"0",
-														true,
-														"\"zero\""
+													"eventType": "comment",
+													"text": "если Бит стреляет, формируется отложенная команда",
+													"background-color": [
+														0.5411764705882353,
+														1,
+														0.6313725490196078,
+														1
 													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "aMico",
+															"sid": 925603199542953,
+															"parameters": {
+																"instance-variable": "BitGunStatus",
+																"comparison": 0,
+																"value": "\"shotStart\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "append-text",
+															"objectClass": "help",
+															"sid": 894955075392584,
+															"parameters": {
+																"text": "0"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aGame",
+															"sid": 286185859023278,
+															"parameters": {
+																"instance-variable": "abilComand",
+																"value": "cocobutton.pName&\";\"&rockAbil.UID&\";\"&rockAbil.icon"
+															}
+														}
+													],
+													"sid": 223097372308238
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 856601386556591
+														}
+													],
+													"actions": [
+														{
+															"customAction": "anim",
+															"objectClass": "aaa",
+															"sid": 360510234872789,
+															"parameters": [
+																"choose(\"no\",\"not\",\"not\")",
+																"0",
+																"0",
+																"\"zero\"",
+																false,
+																false,
+																"\"Bit\"",
+																"12",
+																"0",
+																true,
+																"\"zero\""
+															]
+														}
+													],
+													"sid": 339470577202423
 												}
 											],
-											"sid": 509346606989138,
 											"isOrBlock": true
 										},
 										{
@@ -11088,6 +11147,59 @@
 								},
 								{
 									"eventType": "comment",
+									"text": "команда по окнчании выстрела",
+									"background-color": [
+										0.5411764705882353,
+										1,
+										0.6313725490196078,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "on-signal",
+											"objectClass": "System",
+											"sid": 814042449947554,
+											"parameters": {
+												"tag": "\"shotDone\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aGame",
+											"sid": 279143317501396,
+											"parameters": {
+												"instance-variable": "abilComand",
+												"comparison": 1,
+												"value": "\"zero\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 662794807990870,
+											"parameters": {
+												"text": "1"
+											}
+										},
+										{
+											"callFunction": "abil",
+											"sid": 967192986846466,
+											"parameters": [
+												"tokenat(aGame.abilComand,0,\";\")",
+												"int(tokenat(aGame.abilComand,1,\";\"))",
+												"int(tokenat(aGame.abilComand,2,\";\"))"
+											]
+										}
+									],
+									"sid": 330405919355960
+								},
+								{
+									"eventType": "comment",
 									"text": "завершения эффекта увеличения кнопки",
 									"background-color": [
 										0.5411764705882353,
@@ -11246,9 +11358,29 @@
 											}
 										},
 										{
+											"id": "compare-instance-variable",
+											"objectClass": "aMico",
+											"sid": 667394260371683,
+											"parameters": {
+												"instance-variable": "BitSerpStatus",
+												"comparison": 1,
+												"value": "\"piton\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aMico",
+											"sid": 774600719340846,
+											"parameters": {
+												"instance-variable": "BitSerpStatus",
+												"comparison": 1,
+												"value": "\"serpentHit\""
+											}
+										},
+										{
 											"id": "compare-boolean-eventvar",
 											"objectClass": "System",
-											"sid": 298170070550239,
+											"sid": 888345049836038,
 											"parameters": {
 												"variable": "respawn"
 											},
@@ -11264,13 +11396,30 @@
 												"instance-variable": "skill",
 												"value": "rockAbil.iconName"
 											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aGame",
+											"sid": 119677321759301,
+											"parameters": {
+												"instance-variable": "abilComand",
+												"value": "\"zero\""
+											}
+										},
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 793954188225280,
+											"parameters": {
+												"text": "2"
+											}
 										}
 									],
 									"sid": 471226524045209,
 									"children": [
 										{
 											"eventType": "comment",
-											"text": "\n\n\nкнопки оружия",
+											"text": "\n\n\nкнопки оружия   (листы _BitGun _budo)",
 											"background-color": [
 												0.5411764705882353,
 												0.7764705882352941,
@@ -11463,7 +11612,7 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "\n\n\nпревращения",
+											"text": "\n\n\nпревращения   (лист _Bit группа transform)",
 											"background-color": [
 												0.5411764705882353,
 												0.7764705882352941,
@@ -11485,7 +11634,16 @@
 													}
 												}
 											],
-											"actions": [],
+											"actions": [
+												{
+													"id": "append-text",
+													"objectClass": "help",
+													"sid": 114159977474730,
+													"parameters": {
+														"text": "3"
+													}
+												}
+											],
 											"sid": 543065787468812,
 											"children": [
 												{
@@ -11608,6 +11766,11 @@
 																	],
 																	"actions": [
 																		{
+																			"customAction": "gunEnd",
+																			"objectClass": "Bit",
+																			"sid": 654205186502076
+																		},
+																		{
 																			"id": "set-instvar-value",
 																			"objectClass": "Bit",
 																			"sid": 292953849210303,
@@ -11624,9 +11787,19 @@
 																				"animation": "aGame.formType",
 																				"from": "beginning"
 																			}
+																		},
+																		{
+																			"id": "append-text",
+																			"objectClass": "help",
+																			"sid": 737568598732503,
+																			"disabled": true,
+																			"parameters": {
+																				"text": "aGame.formType"
+																			}
 																		}
 																	],
-																	"sid": 804965582738825
+																	"sid": 804965582738825,
+																	"disabled": true
 																}
 															]
 														},
@@ -11647,6 +11820,16 @@
 															"actions": [],
 															"sid": 558498086479978,
 															"children": [
+																{
+																	"eventType": "comment",
+																	"text": "сброс",
+																	"background-color": [
+																		0.5411764705882353,
+																		0.7764705882352941,
+																		1,
+																		1
+																	]
+																},
 																{
 																	"eventType": "block",
 																	"conditions": [
@@ -11773,6 +11956,27 @@
 																			"parameters": {
 																				"scale": "1.4"
 																			}
+																		},
+																		{
+																			"id": "set-group-active",
+																			"objectClass": "System",
+																			"sid": 350514310508190,
+																			"parameters": {
+																				"group-name": "\"transform\"",
+																				"state": "activated"
+																			}
+																		},
+																		{
+																			"customAction": "transform",
+																			"objectClass": "aBit",
+																			"sid": 735618324534784,
+																			"parameters": [
+																				true,
+																				"3",
+																				"\"target\"",
+																				"1",
+																				"0"
+																			]
 																		}
 																	],
 																	"sid": 666216035787150
@@ -11803,7 +12007,37 @@
 																	}
 																}
 															],
-															"actions": [],
+															"actions": [
+																{
+																	"id": "set-group-active",
+																	"objectClass": "System",
+																	"sid": 227933970780017,
+																	"parameters": {
+																		"group-name": "\"transform\"",
+																		"state": "activated"
+																	}
+																},
+																{
+																	"id": "append-text",
+																	"objectClass": "help",
+																	"sid": 980991238206052,
+																	"parameters": {
+																		"text": "\"-\""
+																	}
+																},
+																{
+																	"customAction": "transform",
+																	"objectClass": "aBit",
+																	"sid": 899741084047775,
+																	"parameters": [
+																		true,
+																		"3",
+																		"\"gorn\"",
+																		"3",
+																		"2"
+																	]
+																}
+															],
 															"sid": 515860981721217
 														}
 													]
@@ -11812,7 +12046,7 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "\n\n\nгрибочки",
+											"text": "\n\n\nгрибочки (выполнение в листе _vega - группа vegaBit)",
 											"background-color": [
 												0.5411764705882353,
 												0.7764705882352941,
@@ -11834,7 +12068,13 @@
 													}
 												}
 											],
-											"actions": [],
+											"actions": [
+												{
+													"customAction": "gunEnd",
+													"objectClass": "Bit",
+													"sid": 657427804334173
+												}
+											],
 											"sid": 563122766151665,
 											"children": [
 												{
@@ -12415,7 +12655,7 @@
 										},
 										{
 											"eventType": "comment",
-											"text": "\n\n\nдвойник",
+											"text": "\n\n\nдвойник  (лист _fakeBit)",
 											"background-color": [
 												0.5411764705882353,
 												0.7764705882352941,
@@ -12587,6 +12827,11 @@
 																}
 															],
 															"actions": [
+																{
+																	"customAction": "gunEnd",
+																	"objectClass": "Bit",
+																	"sid": 213751861335339
+																},
 																{
 																	"id": "set-instvar-value",
 																	"objectClass": "rockAbil",
@@ -12770,6 +13015,11 @@
 																}
 															],
 															"actions": [
+																{
+																	"customAction": "gunEnd",
+																	"objectClass": "Bit",
+																	"sid": 468749692655496
+																},
 																{
 																	"id": "set-instvar-value",
 																	"objectClass": "rockAbil",
@@ -13937,7 +14187,6 @@
 							"id": "set-group-active",
 							"objectClass": "System",
 							"sid": 595045458032684,
-							"disabled": true,
 							"parameters": {
 								"group-name": "\"addAbils\"",
 								"state": "activated"
@@ -13946,7 +14195,6 @@
 						{
 							"callFunction": "learnSkill",
 							"sid": 959602093245224,
-							"disabled": true,
 							"parameters": [
 								"\"form\"",
 								"\"gorn\"",
