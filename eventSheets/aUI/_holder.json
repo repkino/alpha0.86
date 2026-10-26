@@ -35,7 +35,8 @@
 					}
 				}
 			],
-			"sid": 379761860357984
+			"sid": 379761860357984,
+			"disabled": true
 		},
 		{
 			"eventType": "group",
@@ -199,6 +200,41 @@
 				},
 				{
 					"eventType": "comment",
+					"text": "",
+					"background-color": [
+						0.5647058823529412,
+						0.7411764705882353,
+						0.9764705882352941,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "onselffunction0",
+							"objectClass": "holdAbil",
+							"sid": 401408056418225,
+							"behaviorType": "sfPoint",
+							"parameters": {
+								"function_name:0": "\"overSkill\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "start-animation",
+							"objectClass": "holdAbil",
+							"sid": 798682135099700,
+							"parameters": {
+								"from": "beginning"
+							}
+						}
+					],
+					"sid": 842143705704042
+				},
+				{
+					"eventType": "comment",
 					"text": "\n\n",
 					"background-color": [
 						0.5647058823529412,
@@ -295,9 +331,18 @@
 							}
 						},
 						{
+							"id": "set-scale",
+							"objectClass": "holdAbil",
+							"sid": 665101992738712,
+							"parameters": {
+								"scale": "0.9"
+							}
+						},
+						{
 							"id": "set-instvar-value",
 							"objectClass": "aUI",
 							"sid": 755130466384376,
+							"disabled": true,
 							"parameters": {
 								"instance-variable": "holder",
 								"value": "\"zero\""
@@ -306,6 +351,79 @@
 					],
 					"sid": 425382879298070,
 					"children": [
+						{
+							"eventType": "comment",
+							"text": "Переключение на другой холдер = закрытие предыдущего: снимаем пульсы (кокон+иконки) и маркеры новинки, гасим cocobutton.new",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 418965111408113,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cocobutton",
+									"sid": 654594149706412,
+									"parameters": {
+										"instance-variable": "pName",
+										"comparison": 0,
+										"value": "aUI.holder"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cocobutton",
+									"sid": 804201450234089,
+									"parameters": {
+										"instance-variable": "new"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "newSkillClean",
+									"sid": 555220334310354,
+									"parameters": [
+										"-1",
+										true
+									]
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cocobutton",
+									"sid": 978860330610355,
+									"parameters": {
+										"instance-variable": "new",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 505592245956255
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -326,6 +444,111 @@
 								}
 							],
 							"sid": 549400124615606
+						},
+						{
+							"eventType": "comment",
+							"text": "ХОЛДЕР ЗАКРЫТ/ПЕРЕКЛЮЧЁН — в банк только пульсы ИКОНОК (host=holdAbil). Пульсы на коконах (host=cocobutton) НЕ трогаем!",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "skillFX",
+									"sid": 929913004495191,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"comparison": 4,
+										"value": "0"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "holdAbil",
+									"sid": 964764541901256,
+									"parameters": {
+										"unique-id": "skillFX.hostUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "skillFX",
+									"sid": 115352908620377,
+									"parameters": {
+										"instance-variable": "hostUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "skillFX",
+									"sid": 783156733950002,
+									"parameters": {
+										"instance-variable": "hostType",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "set-visible",
+									"objectClass": "skillFX",
+									"sid": 662569741744607,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "skillFX",
+									"sid": 762415521520627,
+									"parameters": {
+										"animation": "\"zero\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "skillFX",
+									"sid": 414845669042841,
+									"parameters": {
+										"x": "-2000",
+										"y": "-2000"
+									}
+								},
+								{
+									"id": "stop-timer",
+									"objectClass": "holdAbil",
+									"sid": 824453213382288,
+									"behaviorType": "Timer",
+									"parameters": {
+										"tag": "\"skillNew\""
+									}
+								}
+							],
+							"sid": 444507496337321
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aUI",
+									"sid": 809056396276565,
+									"parameters": {
+										"instance-variable": "holder",
+										"value": "\"zero\""
+									}
+								}
+							],
+							"sid": 329109772528329
 						}
 					]
 				},
@@ -428,6 +651,7 @@
 									"id": "set-boolean-instvar",
 									"objectClass": "aGame",
 									"sid": 852919253058148,
+									"disabled": true,
 									"parameters": {
 										"instance-variable": "autoGun",
 										"value": "false"
@@ -436,6 +660,33 @@
 							],
 							"sid": 761088534646474,
 							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "holdAbil",
+											"sid": 646287772966071,
+											"parameters": {
+												"instance-variable": "hSign",
+												"comparison": 1,
+												"value": "\"target\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aGame",
+											"sid": 592498221314599,
+											"parameters": {
+												"instance-variable": "autoGun",
+												"value": "false"
+											}
+										}
+									],
+									"sid": 179640276903644
+								},
 								{
 									"eventType": "block",
 									"conditions": [
@@ -823,6 +1074,204 @@
 								{
 									"id": "else",
 									"objectClass": "System",
+									"sid": 275460076842808
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 595731671784877,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"form\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aGame",
+									"sid": 479533634448193,
+									"parameters": {
+										"instance-variable": "formType",
+										"value": "holdAbil.hSign"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "abilA",
+									"sid": 743966785898042,
+									"parameters": {
+										"instance-variable": "abilName",
+										"value": "holdAbil.hSign"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "abilA",
+									"sid": 716169590880321,
+									"parameters": {
+										"animation": "Self.abilName",
+										"from": "beginning"
+									}
+								}
+							],
+							"sid": 955845809189135,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aGame",
+											"sid": 150577841744302,
+											"parameters": {
+												"instance-variable": "formType",
+												"comparison": 1,
+												"value": "\"target\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aGame",
+											"sid": 569930242707769,
+											"parameters": {
+												"instance-variable": "autoForm",
+												"value": "false"
+											}
+										}
+									],
+									"sid": 887216600083220
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 408385775157590
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 332318742587543,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"mush\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aGame",
+									"sid": 134175052801299,
+									"parameters": {
+										"instance-variable": "vegaType",
+										"value": "holdAbil.hSign"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "mushRing",
+									"sid": 580751408852749,
+									"parameters": {
+										"instance-variable": "abilName",
+										"value": "holdAbil.hSign"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "mushRing",
+									"sid": 984184030692538,
+									"parameters": {
+										"animation": "Self.abilName",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aGame",
+									"sid": 479368896271589,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "autoVega",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 852493333650653
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 543923903715764
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 213457088062779,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"duble\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aGame",
+									"sid": 698643681887235,
+									"parameters": {
+										"instance-variable": "dubleType",
+										"value": "holdAbil.hSign"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "dubleabil",
+									"sid": 982461309521189,
+									"parameters": {
+										"instance-variable": "abilName",
+										"value": "holdAbil.hSign"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "dubleabil",
+									"sid": 258515757944053,
+									"parameters": {
+										"animation": "Self.abilName",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aGame",
+									"sid": 924406722571337,
+									"parameters": {
+										"instance-variable": "autoDuble",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 673561092354251
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
 									"sid": 670795102214044
 								},
 								{
@@ -1046,74 +1495,117 @@
 					"functionParameters": [],
 					"eventType": "function-block",
 					"conditions": [],
-					"actions": [
-						{
-							"callFunction": "holderClean",
-							"sid": 404998317714628
-						},
-						{
-							"callFunction": "gamePause",
-							"sid": 131770661423761,
-							"parameters": [
-								"\"play\""
-							]
-						},
-						{
-							"id": "set-group-active",
-							"objectClass": "System",
-							"sid": 264858554208880,
-							"parameters": {
-								"group-name": "\"holder\"",
-								"state": "deactivated"
-							}
-						},
-						{
-							"id": "stop-tweens",
-							"objectClass": "abilVeil",
-							"sid": 887006886015506,
-							"behaviorType": "Tween",
-							"parameters": {
-								"tags": "\"vdd\""
-							}
-						},
-						{
-							"id": "tween-one-property",
-							"objectClass": "abilVeil",
-							"sid": 266586278729745,
-							"behaviorType": "Tween",
-							"parameters": {
-								"tags": "\"vd\"",
-								"property": "offsetOpacity",
-								"end-value": "0",
-								"time": "0.3",
-								"ease": "easeinsine",
-								"destroy-on-complete": "no",
-								"loop": "no",
-								"ping-pong": "no",
-								"repeat-count": "1"
-							}
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "holder",
-							"sid": 763769844921379,
-							"parameters": {
-								"instance-variable": "openAbil",
-								"value": "\"zero\""
-							}
-						},
-						{
-							"id": "set-boolean-instvar",
-							"objectClass": "aUI",
-							"sid": 458188929413383,
-							"parameters": {
-								"instance-variable": "holderOn",
-								"value": "false"
-							}
-						}
-					],
+					"actions": [],
 					"sid": 771906332401788,
 					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cocobutton",
+									"sid": 488239383774708,
+									"parameters": {
+										"instance-variable": "pName",
+										"comparison": 0,
+										"value": "aUI.holder"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "cocobutton",
+									"sid": 736510488942196,
+									"parameters": {
+										"instance-variable": "new"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "newSkillClean",
+									"sid": 497285143446385,
+									"parameters": [
+										"-1",
+										true
+									]
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "cocobutton",
+									"sid": 950382058564971,
+									"parameters": {
+										"instance-variable": "new",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 967129676697537
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"callFunction": "holderClean",
+									"sid": 456301578772946
+								},
+								{
+									"callFunction": "gamePause",
+									"sid": 571970773439443,
+									"parameters": [
+										"\"play\"",
+										"0"
+									]
+								},
+								{
+									"id": "stop-tweens",
+									"objectClass": "abilVeil",
+									"sid": 775391055843503,
+									"disabled": true,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"vdd\""
+									}
+								},
+								{
+									"id": "tween-one-property",
+									"objectClass": "abilVeil",
+									"sid": 988796145541128,
+									"disabled": true,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"vd\"",
+										"property": "offsetOpacity",
+										"end-value": "0",
+										"time": "0.3",
+										"ease": "easeinsine",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "holder",
+									"sid": 978246742060932,
+									"parameters": {
+										"instance-variable": "openAbil",
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "aUI",
+									"sid": 465979164111623,
+									"parameters": {
+										"instance-variable": "holderOn",
+										"value": "false"
+									}
+								}
+							],
+							"sid": 778258596246090
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -1217,6 +1709,22 @@
 								}
 							],
 							"sid": 194356885044402
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 410717064654986,
+									"parameters": {
+										"group-name": "\"holder\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 871152945415509
 						}
 					]
 				},
@@ -1248,22 +1756,7 @@
 					],
 					"eventType": "function-block",
 					"conditions": [],
-					"actions": [
-						{
-							"type": "comment",
-							"text": "ПОДГОТОВКА: Очистка старого состояния",
-							"background-color": [
-								0.33,
-								0.73,
-								0.48,
-								1
-							]
-						},
-						{
-							"callFunction": "holderClean",
-							"sid": 939771695533695
-						}
-					],
+					"actions": [],
 					"sid": 946819632675758,
 					"children": [
 						{
@@ -1319,16 +1812,32 @@
 							],
 							"actions": [
 								{
+									"type": "comment",
+									"text": "ПОДГОТОВКА: Очистка старого состояния",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								},
+								{
+									"callFunction": "holderClean",
+									"sid": 583941977572389
+								},
+								{
 									"callFunction": "gamePause",
-									"sid": 830703633385783,
+									"sid": 646636642417287,
 									"parameters": [
-										"\"menu\""
+										"\"menu\"",
+										"50"
 									]
 								},
 								{
 									"id": "stop-tweens",
 									"objectClass": "abilVeil",
 									"sid": 191281348649874,
+									"disabled": true,
 									"behaviorType": "Tween",
 									"parameters": {
 										"tags": "\"vd\""
@@ -1338,6 +1847,7 @@
 									"id": "set-size",
 									"objectClass": "abilVeil",
 									"sid": 664405012525936,
+									"disabled": true,
 									"parameters": {
 										"width": "1290",
 										"height": "730"
@@ -1347,6 +1857,7 @@
 									"id": "tween-one-property",
 									"objectClass": "abilVeil",
 									"sid": 817191371340338,
+									"disabled": true,
 									"behaviorType": "Tween",
 									"parameters": {
 										"tags": "\"vdd\"",
@@ -1372,6 +1883,97 @@
 							],
 							"sid": 924360670168716,
 							"children": [
+								{
+									"eventType": "comment",
+									"text": "Освобождаем пульс кокона открываемой способности: холдер сам показывает новинки, а свободный skillFX не даёт исчерпать пул банка",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cocobutton",
+											"sid": 913808264767380,
+											"parameters": {
+												"instance-variable": "pName",
+												"comparison": 0,
+												"value": "abilName"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 423489967088205,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "skillFX",
+													"sid": 358471976822293,
+													"parameters": {
+														"instance-variable": "hostUID",
+														"comparison": 0,
+														"value": "cocobutton.UID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "skillFX",
+													"sid": 517112904612829,
+													"parameters": {
+														"instance-variable": "hostUID",
+														"value": "-1"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "skillFX",
+													"sid": 320307848354646,
+													"parameters": {
+														"instance-variable": "hostType",
+														"value": "\"zero\""
+													}
+												},
+												{
+													"id": "set-visible",
+													"objectClass": "skillFX",
+													"sid": 570134294833941,
+													"parameters": {
+														"visibility": "invisible"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "skillFX",
+													"sid": 638359641774189,
+													"parameters": {
+														"animation": "\"zero\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "skillFX",
+													"sid": 334792719170811,
+													"parameters": {
+														"x": "-2000",
+														"y": "-2000"
+													}
+												}
+											],
+											"sid": 104820680879405
+										}
+									]
+								},
 								{
 									"eventType": "comment",
 									"text": "для способности BALL",
@@ -1528,6 +2130,7 @@
 													"id": "is-boolean-instance-variable-set",
 													"objectClass": "items",
 													"sid": 178435633658798,
+													"disabled": true,
 													"parameters": {
 														"instance-variable": "inventory"
 													}
@@ -1825,6 +2428,11 @@
 																	}
 																},
 																{
+																	"id": "stop-animation",
+																	"objectClass": "holdAbil",
+																	"sid": 205447481977136
+																},
+																{
 																	"id": "set-scale",
 																	"objectClass": "holdAbil",
 																	"sid": 277081221882899,
@@ -1971,6 +2579,49 @@
 																		}
 																	],
 																	"sid": 266010779154882
+																},
+																{
+																	"eventType": "comment",
+																	"text": "Пульс на иконках новых снарядов при открытии холдера ball (зеркало форм)",
+																	"background-color": [
+																		0.49,
+																		0.7,
+																		0.38,
+																		1
+																	]
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "has-key",
+																			"objectClass": "ballsNew",
+																			"sid": 898537775415157,
+																			"parameters": {
+																				"key": "holdAbil.hSign"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-group-active",
+																			"objectClass": "System",
+																			"sid": 839321491055796,
+																			"parameters": {
+																				"group-name": "\"addAbils\"",
+																				"state": "activated"
+																			}
+																		},
+																		{
+																			"callFunction": "newSkillFX",
+																			"sid": 936886595071161,
+																			"parameters": [
+																				"\"ball\"",
+																				"holdAbil.hSign"
+																			]
+																		}
+																	],
+																	"sid": 495085056685649
 																}
 															]
 														}
@@ -2001,11 +2652,11 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 217045806274855,
+											"sid": 393273804197053,
 											"parameters": {
 												"variable": "abilName",
 												"comparison": 0,
-												"value": "\"forms\""
+												"value": "\"form\""
 											}
 										}
 									],
@@ -2018,6 +2669,32 @@
 									],
 									"sid": 273504911928429,
 									"children": [
+										{
+											"eventType": "comment",
+											"text": "первая иконка по умолчанию",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "add-key",
+													"objectClass": "forms",
+													"sid": 382725928757441,
+													"parameters": {
+														"key": "\"gas\"",
+														"value": "1"
+													}
+												}
+											],
+											"sid": 774729916121858
+										},
 										{
 											"eventType": "comment",
 											"text": "ШАГ 1: Копируем изученные формы из dForms",
@@ -2067,10 +2744,10 @@
 												{
 													"id": "set-eventvar-value",
 													"objectClass": "System",
-													"sid": 977975743199877,
+													"sid": 823914550133372,
 													"parameters": {
 														"variable": "hStartX",
-														"value": "640 + (((1+forms.KeyCount) * hSegmentWidth) / 2)"
+														"value": "640 + (((forms.KeyCount-1) * hSegmentWidth) / 2)"
 													}
 												},
 												{
@@ -2094,9 +2771,9 @@
 												{
 													"id": "set-width",
 													"objectClass": "hBody",
-													"sid": 905392462572179,
+													"sid": 460539696102735,
 													"parameters": {
-														"width": "(1+forms.KeyCount) * hSegmentWidth"
+														"width": "(forms.KeyCount-1) * hSegmentWidth"
 													}
 												},
 												{
@@ -2111,10 +2788,19 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "holder",
-													"sid": 454229811011642,
+													"sid": 291445739663355,
 													"parameters": {
 														"instance-variable": "openAbil",
-														"value": "\"forms\""
+														"value": "\"form\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aUI",
+													"sid": 899412404561080,
+													"parameters": {
+														"instance-variable": "holder",
+														"value": "\"form\""
 													}
 												}
 											],
@@ -2131,6 +2817,16 @@
 											]
 										},
 										{
+											"eventType": "variable",
+											"name": "i",
+											"type": "number",
+											"initialValue": "-1",
+											"comment": "",
+											"isStatic": false,
+											"isConstant": false,
+											"sid": 880636944057750
+										},
+										{
 											"eventType": "block",
 											"conditions": [
 												{
@@ -2139,7 +2835,17 @@
 													"sid": 251261448268282
 												}
 											],
-											"actions": [],
+											"actions": [
+												{
+													"id": "add-to-eventvar",
+													"objectClass": "System",
+													"sid": 963640448643833,
+													"parameters": {
+														"variable": "i",
+														"value": "1"
+													}
+												}
+											],
 											"sid": 965770770894450,
 											"children": [
 												{
@@ -2167,9 +2873,9 @@
 														{
 															"id": "set-position",
 															"objectClass": "holdAbil",
-															"sid": 408859930980534,
+															"sid": 699638581442184,
 															"parameters": {
-																"x": "hStartX - 45 - (loopindex * hSegmentWidth) + (hSegmentWidth / 2)",
+																"x": "hStartX - i * hSegmentWidth",
 																"y": "360"
 															}
 														},
@@ -2181,6 +2887,11 @@
 																"animation": "forms.CurrentKey",
 																"from": "beginning"
 															}
+														},
+														{
+															"id": "stop-animation",
+															"objectClass": "holdAbil",
+															"sid": 847801526408660
 														},
 														{
 															"id": "set-instvar-value",
@@ -2199,66 +2910,60 @@
 																"instance-variable": "formEnergy",
 																"value": "forms.Get(forms.CurrentKey)"
 															}
+														},
+														{
+															"id": "set-scale",
+															"objectClass": "holdAbil",
+															"sid": 828728094546724,
+															"parameters": {
+																"scale": "0.67"
+															}
 														}
 													],
 													"sid": 665788652186414,
 													"children": [
 														{
+															"eventType": "comment",
+															"text": "Если у иконки есть маркер новинки — показываем пульс (forms)",
+															"background-color": [
+																0.49,
+																0.7,
+																0.38,
+																1
+															]
+														},
+														{
 															"eventType": "block",
 															"conditions": [
 																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 770514786242674,
+																	"id": "has-key",
+																	"objectClass": "formsNew",
+																	"sid": 632059867861695,
 																	"parameters": {
-																		"first-value": "floor(aBit.energo / holdAbil.formEnergy)",
-																		"comparison": 2,
-																		"second-value": "20"
+																		"key": "holdAbil.hSign"
 																	}
 																}
 															],
 															"actions": [
 																{
-																	"id": "spawn-another-object",
-																	"objectClass": "holdAbil",
-																	"sid": 312034630582644,
+																	"id": "set-group-active",
+																	"objectClass": "System",
+																	"sid": 955080872882286,
 																	"parameters": {
-																		"object": "quants",
-																		"layer": "\"ui\"",
-																		"image-point": "0",
-																		"create-hierarchy": false,
-																		"template-name": "\"\""
+																		"group-name": "\"addAbils\"",
+																		"state": "activated"
 																	}
 																},
 																{
-																	"id": "set-text",
-																	"objectClass": "quants",
-																	"sid": 744253747306754,
-																	"parameters": {
-																		"text": "floor(aBit.energo / holdAbil.formEnergy)"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "quants",
-																	"sid": 929300330975253,
-																	"parameters": {
-																		"instance-variable": "hostUID",
-																		"value": "holdAbil.UID"
-																	}
-																},
-																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "quants",
-																	"sid": 859001822556372,
-																	"parameters": {
-																		"instance-variable": "holder",
-																		"value": "true"
-																	}
+																	"callFunction": "newSkillFX",
+																	"sid": 791211843708493,
+																	"parameters": [
+																		"\"form\"",
+																		"holdAbil.hSign"
+																	]
 																}
 															],
-															"sid": 969094895434606,
-															"disabled": true
+															"sid": 636396950557183
 														}
 													]
 												}
@@ -2306,7 +3011,7 @@
 									"children": [
 										{
 											"eventType": "comment",
-											"text": "ШАГ 1: Копируем изученные формы из dForms",
+											"text": "ШАГ 1: Копируем изученные грибы",
 											"background-color": [
 												0.67,
 												0.98,
@@ -2397,10 +3102,19 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "holder",
-													"sid": 500670944983217,
+													"sid": 450365469717025,
 													"parameters": {
 														"instance-variable": "openAbil",
-														"value": "\"forms\""
+														"value": "\"mush\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aUI",
+													"sid": 605712856616236,
+													"parameters": {
+														"instance-variable": "holder",
+														"value": "\"mush\""
 													}
 												}
 											],
@@ -2469,6 +3183,11 @@
 															}
 														},
 														{
+															"id": "stop-animation",
+															"objectClass": "holdAbil",
+															"sid": 682039662602563
+														},
+														{
 															"id": "set-instvar-value",
 															"objectClass": "holdAbil",
 															"sid": 352684710481702,
@@ -2493,58 +3212,34 @@
 															"eventType": "block",
 															"conditions": [
 																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 262410272118510,
+																	"id": "has-key",
+																	"objectClass": "mushNew",
+																	"sid": 214557604574541,
 																	"parameters": {
-																		"first-value": "floor(aBit.energo / holdAbil.formEnergy)",
-																		"comparison": 2,
-																		"second-value": "20"
+																		"key": "holdAbil.hSign"
 																	}
 																}
 															],
 															"actions": [
 																{
-																	"id": "spawn-another-object",
-																	"objectClass": "holdAbil",
-																	"sid": 143899515154521,
+																	"id": "set-group-active",
+																	"objectClass": "System",
+																	"sid": 124821326159980,
 																	"parameters": {
-																		"object": "quants",
-																		"layer": "\"ui\"",
-																		"image-point": "0",
-																		"create-hierarchy": false,
-																		"template-name": "\"\""
+																		"group-name": "\"addAbils\"",
+																		"state": "activated"
 																	}
 																},
 																{
-																	"id": "set-text",
-																	"objectClass": "quants",
-																	"sid": 434507126350145,
-																	"parameters": {
-																		"text": "floor(aBit.energo / holdAbil.formEnergy)"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "quants",
-																	"sid": 424313522912448,
-																	"parameters": {
-																		"instance-variable": "hostUID",
-																		"value": "holdAbil.UID"
-																	}
-																},
-																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "quants",
-																	"sid": 600624916166076,
-																	"parameters": {
-																		"instance-variable": "holder",
-																		"value": "true"
-																	}
+																	"callFunction": "newSkillFX",
+																	"sid": 903312359164482,
+																	"parameters": [
+																		"\"mush\"",
+																		"holdAbil.hSign"
+																	]
 																}
 															],
-															"sid": 689163053043798,
-															"disabled": true
+															"sid": 568848180464386
 														}
 													]
 												}
@@ -2573,18 +3268,18 @@
 										{
 											"id": "compare-eventvar",
 											"objectClass": "System",
-											"sid": 969317964878254,
+											"sid": 486135164238267,
 											"parameters": {
 												"variable": "abilName",
 												"comparison": 0,
-												"value": "\"dubl\""
+												"value": "\"duble\""
 											}
 										}
 									],
 									"actions": [
 										{
 											"id": "clear",
-											"objectClass": "dubl",
+											"objectClass": "duble",
 											"sid": 413236363310000
 										}
 									],
@@ -2592,7 +3287,7 @@
 									"children": [
 										{
 											"eventType": "comment",
-											"text": "ШАГ 1: Копируем изученные формы из dForms",
+											"text": "ШАГ 1: Копируем изученные творения из словаря",
 											"background-color": [
 												0.67,
 												0.98,
@@ -2605,18 +3300,18 @@
 											"conditions": [
 												{
 													"id": "for-each-key",
-													"objectClass": "dDubl",
+													"objectClass": "dDuble",
 													"sid": 418215031293504
 												}
 											],
 											"actions": [
 												{
 													"id": "add-key",
-													"objectClass": "dubl",
+													"objectClass": "duble",
 													"sid": 323365383162202,
 													"parameters": {
-														"key": "dDubl.CurrentKey",
-														"value": "dDubl.CurrentValue"
+														"key": "dDuble.CurrentKey",
+														"value": "dDuble.CurrentValue"
 													}
 												}
 											],
@@ -2642,7 +3337,7 @@
 													"sid": 853894661948963,
 													"parameters": {
 														"variable": "hStartX",
-														"value": "640 + (((1+dubl.KeyCount) * hSegmentWidth) / 2)"
+														"value": "640 + (((1+duble.KeyCount) * hSegmentWidth) / 2)"
 													}
 												},
 												{
@@ -2668,7 +3363,7 @@
 													"objectClass": "hBody",
 													"sid": 637531284291094,
 													"parameters": {
-														"width": "(1+dubl.KeyCount) * hSegmentWidth"
+														"width": "(1+duble.KeyCount) * hSegmentWidth"
 													}
 												},
 												{
@@ -2683,10 +3378,19 @@
 												{
 													"id": "set-instvar-value",
 													"objectClass": "holder",
-													"sid": 555881204488899,
+													"sid": 599331308040958,
 													"parameters": {
 														"instance-variable": "openAbil",
-														"value": "\"forms\""
+														"value": "\"duble\""
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aUI",
+													"sid": 864601901898806,
+													"parameters": {
+														"instance-variable": "holder",
+														"value": "\"duble\""
 													}
 												}
 											],
@@ -2707,7 +3411,7 @@
 											"conditions": [
 												{
 													"id": "for-each-key",
-													"objectClass": "dubl",
+													"objectClass": "duble",
 													"sid": 238336298418207
 												}
 											],
@@ -2750,9 +3454,14 @@
 															"objectClass": "holdAbil",
 															"sid": 534267420171949,
 															"parameters": {
-																"animation": "dubl.CurrentKey",
+																"animation": "duble.CurrentKey",
 																"from": "beginning"
 															}
+														},
+														{
+															"id": "stop-animation",
+															"objectClass": "holdAbil",
+															"sid": 572539239433648
 														},
 														{
 															"id": "set-instvar-value",
@@ -2760,7 +3469,7 @@
 															"sid": 586915819270716,
 															"parameters": {
 																"instance-variable": "hSign",
-																"value": "dubl.CurrentKey"
+																"value": "duble.CurrentKey"
 															}
 														},
 														{
@@ -2769,7 +3478,7 @@
 															"sid": 388504695847037,
 															"parameters": {
 																"instance-variable": "formEnergy",
-																"value": "dubl.Get(dubl.CurrentKey)"
+																"value": "duble.Get(duble.CurrentKey)"
 															}
 														}
 													],
@@ -2779,58 +3488,34 @@
 															"eventType": "block",
 															"conditions": [
 																{
-																	"id": "compare-two-values",
-																	"objectClass": "System",
-																	"sid": 201809040514000,
+																	"id": "has-key",
+																	"objectClass": "dubleNew",
+																	"sid": 995796943282548,
 																	"parameters": {
-																		"first-value": "floor(aBit.energo / holdAbil.formEnergy)",
-																		"comparison": 2,
-																		"second-value": "20"
+																		"key": "holdAbil.hSign"
 																	}
 																}
 															],
 															"actions": [
 																{
-																	"id": "spawn-another-object",
-																	"objectClass": "holdAbil",
-																	"sid": 262950879892142,
+																	"id": "set-group-active",
+																	"objectClass": "System",
+																	"sid": 171962841655628,
 																	"parameters": {
-																		"object": "quants",
-																		"layer": "\"ui\"",
-																		"image-point": "0",
-																		"create-hierarchy": false,
-																		"template-name": "\"\""
+																		"group-name": "\"addAbils\"",
+																		"state": "activated"
 																	}
 																},
 																{
-																	"id": "set-text",
-																	"objectClass": "quants",
-																	"sid": 559819716130774,
-																	"parameters": {
-																		"text": "floor(aBit.energo / holdAbil.formEnergy)"
-																	}
-																},
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "quants",
-																	"sid": 410151330475990,
-																	"parameters": {
-																		"instance-variable": "hostUID",
-																		"value": "holdAbil.UID"
-																	}
-																},
-																{
-																	"id": "set-boolean-instvar",
-																	"objectClass": "quants",
-																	"sid": 479807519904747,
-																	"parameters": {
-																		"instance-variable": "holder",
-																		"value": "true"
-																	}
+																	"callFunction": "newSkillFX",
+																	"sid": 266120664632486,
+																	"parameters": [
+																		"\"duble\"",
+																		"holdAbil.hSign"
+																	]
 																}
 															],
-															"sid": 369176184835637,
-															"disabled": true
+															"sid": 792099616155215
 														}
 													]
 												}
@@ -3050,6 +3735,11 @@
 															}
 														},
 														{
+															"id": "stop-animation",
+															"objectClass": "holdAbil",
+															"sid": 711665360864389
+														},
+														{
 															"id": "set-instvar-value",
 															"objectClass": "holdAbil",
 															"sid": 821539292899871,
@@ -3069,6 +3759,39 @@
 														}
 													],
 													"sid": 536985060267645
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "has-key",
+															"objectClass": "scompiNew",
+															"sid": 370517253330267,
+															"parameters": {
+																"key": "holdAbil.hSign"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 512148864221442,
+															"parameters": {
+																"group-name": "\"addAbils\"",
+																"state": "activated"
+															}
+														},
+														{
+															"callFunction": "newSkillFX",
+															"sid": 228245352988637,
+															"parameters": [
+																"\"scompi\"",
+																"holdAbil.hSign"
+															]
+														}
+													],
+													"sid": 155062251052132
 												}
 											]
 										}
@@ -3356,6 +4079,517 @@
 							]
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "\nочистка выделений (эффектов)",
+					"background-color": [
+						0.5137254901960784,
+						0.8941176470588236,
+						0.48627450980392156,
+						1
+					]
+				},
+				{
+					"functionName": "newSkillClean",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "holdUID",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 902759274031934
+						},
+						{
+							"name": "close",
+							"type": "boolean",
+							"initialValue": "false",
+							"comment": "",
+							"sid": 214526560712564
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "delete-key",
+							"objectClass": "abilsNew",
+							"sid": 938594168077380,
+							"parameters": {
+								"key": "aUI.holder"
+							}
+						}
+					],
+					"sid": 575349983577395,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "очистка словаря новинок",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 358402423168696,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"ball\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "clear",
+									"objectClass": "ballsNew",
+									"sid": 152959697654040
+								}
+							],
+							"sid": 377264998108351
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 995705347713630
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 886241776849574,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"form\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "clear",
+									"objectClass": "formsNew",
+									"sid": 125234126258207
+								}
+							],
+							"sid": 742152301479857
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 460831092188269
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 105265716271397,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"mush\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "clear",
+									"objectClass": "mushNew",
+									"sid": 501783843628595
+								}
+							],
+							"sid": 515988461956967
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 327525117248571
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 178861868507029,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"duble\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "clear",
+									"objectClass": "dubleNew",
+									"sid": 595474404581399
+								}
+							],
+							"sid": 347430619719753
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 443448794289966
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aUI",
+									"sid": 774610649569339,
+									"parameters": {
+										"instance-variable": "holder",
+										"comparison": 0,
+										"value": "\"scompi\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "clear",
+									"objectClass": "scompiNew",
+									"sid": 355975892629609
+								}
+							],
+							"sid": 327093378806406
+						},
+						{
+							"eventType": "comment",
+							"text": "полная очистка при закрытии",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-boolean-eventvar",
+									"objectClass": "System",
+									"sid": 268634048302824,
+									"parameters": {
+										"variable": "close"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 675012292707479,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "skillFX",
+											"sid": 134873380343360,
+											"parameters": {
+												"instance-variable": "hostType",
+												"comparison": 0,
+												"value": "aUI.holder"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "skillFX",
+											"sid": 467966047206577,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "skillFX",
+											"sid": 200066886262793,
+											"parameters": {
+												"instance-variable": "hostType",
+												"value": "\"zero\""
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "skillFX",
+											"sid": 255902989497746,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "skillFX",
+											"sid": 479423550841873,
+											"parameters": {
+												"animation": "\"zero\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "skillFX",
+											"sid": 315503816947076,
+											"parameters": {
+												"x": "-2000",
+												"y": "-2000"
+											}
+										},
+										{
+											"id": "stop-timer",
+											"objectClass": "holdAbil",
+											"sid": 688945765426940,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"skillNew\""
+											}
+										}
+									],
+									"sid": 397837372304063
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "убираем конкретный эффект",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 697284796083253
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "holdAbil",
+									"sid": 476977645835957,
+									"parameters": {
+										"unique-id": "holdUID"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "holdAbil",
+									"sid": 896814053225569,
+									"parameters": {
+										"instance-variable": "hSign",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 751949584352207,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "ВОЗВРАТ ПУЛЬСА В БАНК (по hostUID, чтобы попасть точно)",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "skillFX",
+											"sid": 756524692851801,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"comparison": 0,
+												"value": "holdUID"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "skillFX",
+											"sid": 912652928180515,
+											"parameters": {
+												"instance-variable": "hostUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "skillFX",
+											"sid": 453450463476051,
+											"parameters": {
+												"instance-variable": "hostType",
+												"value": "\"zero\""
+											}
+										},
+										{
+											"id": "set-visible",
+											"objectClass": "skillFX",
+											"sid": 663969595641857,
+											"parameters": {
+												"visibility": "invisible"
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "skillFX",
+											"sid": 847968278223087,
+											"parameters": {
+												"animation": "\"zero\"",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-position",
+											"objectClass": "skillFX",
+											"sid": 100293887115774,
+											"parameters": {
+												"x": "-2000",
+												"y": "-2000"
+											}
+										},
+										{
+											"id": "stop-timer",
+											"objectClass": "holdAbil",
+											"sid": 807321888398375,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"skillNew\""
+											}
+										}
+									],
+									"sid": 888203414939777
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "ТАЙМЕР 4с — снимаем новинку с иконки холдера",
+					"background-color": [
+						0.49,
+						0.7,
+						0.38,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-timer",
+							"objectClass": "holdAbil",
+							"sid": 330147062611108,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"skillNew\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 398762877109113,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 234013018746543,
+									"parameters": {
+										"object": "holdAbil"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "newSkillClean",
+									"sid": 797954578605095,
+									"parameters": [
+										"holdAbil.UID",
+										false
+									]
+								}
+							],
+							"sid": 499601582600062
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "КУРСОР ПОВЕРХ ИКОНКИ — снимаем сразу",
+					"background-color": [
+						0.49,
+						0.7,
+						0.38,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "cursor-is-over-object",
+							"objectClass": "Mouse",
+							"sid": 225980844156055,
+							"parameters": {
+								"object": "holdAbil"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "aUI",
+							"sid": 940949564270852,
+							"parameters": {
+								"instance-variable": "holder",
+								"comparison": 1,
+								"value": "\"zero\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "newSkillClean",
+							"sid": 791195723952184,
+							"parameters": [
+								"holdAbil.UID",
+								false
+							]
+						}
+					],
+					"sid": 953980852047665
 				}
 			],
 			"sid": 253788522998105

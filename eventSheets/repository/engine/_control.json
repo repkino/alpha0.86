@@ -132,6 +132,13 @@
 							"initialValue": "play",
 							"comment": "",
 							"sid": 957278782598157
+						},
+						{
+							"name": "veil",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 927921181121809
 						}
 					],
 					"eventType": "function-block",
@@ -384,10 +391,10 @@
 								{
 									"id": "set-layer-interactive",
 									"objectClass": "System",
-									"sid": 199711836256715,
+									"sid": 282826325916859,
 									"parameters": {
 										"layer": "\"iso\"",
-										"interactive": true
+										"interactive": false
 									}
 								},
 								{
@@ -521,6 +528,59 @@
 								}
 							],
 							"isOrBlock": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 858399330775304,
+									"parameters": {
+										"variable": "veil",
+										"comparison": 4,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "stop-tweens",
+									"objectClass": "abilVeil",
+									"sid": 902358029705581,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"vd\""
+									}
+								},
+								{
+									"id": "set-size",
+									"objectClass": "abilVeil",
+									"sid": 686089538860399,
+									"parameters": {
+										"width": "1290",
+										"height": "730"
+									}
+								},
+								{
+									"id": "tween-one-property",
+									"objectClass": "abilVeil",
+									"sid": 291426124331178,
+									"behaviorType": "Tween",
+									"parameters": {
+										"tags": "\"vdd\"",
+										"property": "offsetOpacity",
+										"end-value": "veil",
+										"time": "0.1",
+										"ease": "easeinsine",
+										"destroy-on-complete": "no",
+										"loop": "no",
+										"ping-pong": "no",
+										"repeat-count": "1"
+									}
+								}
+							],
+							"sid": 875841838666850
 						},
 						{
 							"eventType": "block",
@@ -887,9 +947,80 @@
 									}
 								}
 							],
-							"sid": 240246635352334
+							"sid": 240246635352334,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-opacity",
+											"objectClass": "abilVeil",
+											"sid": 870015786900704,
+											"parameters": {
+												"comparison": 4,
+												"opacity": "0"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-tweens",
+											"objectClass": "abilVeil",
+											"sid": 317062800484631,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"vdd\""
+											}
+										},
+										{
+											"id": "tween-one-property",
+											"objectClass": "abilVeil",
+											"sid": 365227580944405,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"vd\"",
+												"property": "offsetOpacity",
+												"end-value": "0",
+												"time": "0.3",
+												"ease": "easeinsine",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										}
+									],
+									"sid": 192439560385143
+								}
+							]
 						}
 					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-tweens-finished",
+							"objectClass": "abilVeil",
+							"sid": 908515035731990,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"vd\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-size",
+							"objectClass": "abilVeil",
+							"sid": 262711289719135,
+							"parameters": {
+								"width": "2",
+								"height": "2"
+							}
+						}
+					],
+					"sid": 992881776073197
 				},
 				{
 					"eventType": "block",
@@ -9795,6 +9926,16 @@
 														"instance-variable": "callSFR",
 														"comparison": 1,
 														"value": "\"\""
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aTools",
+													"sid": 548954094217465,
+													"parameters": {
+														"instance-variable": "pointType",
+														"comparison": 1,
+														"value": "\"button\""
 													}
 												}
 											],

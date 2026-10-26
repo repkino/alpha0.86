@@ -2552,6 +2552,7 @@
 											"id": "set-instvar-value",
 											"objectClass": "item",
 											"sid": 427723213785473,
+											"disabled": true,
 											"parameters": {
 												"instance-variable": "ball",
 												"value": "0"
@@ -2586,6 +2587,63 @@
 									],
 									"sid": 548121753584724,
 									"children": [
+										{
+											"eventType": "comment",
+											"text": "Восстановление ball из постоянного словаря снарядов",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "has-key",
+													"objectClass": "ballSigns",
+													"sid": 313499242992121,
+													"parameters": {
+														"key": "itemsQ.CurrentKey"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "item",
+													"sid": 237036499796202,
+													"parameters": {
+														"instance-variable": "ball",
+														"value": "1"
+													}
+												}
+											],
+											"sid": 135556736649206
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 372552999583983
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "item",
+													"sid": 904917127399590,
+													"parameters": {
+														"instance-variable": "ball",
+														"value": "0"
+													}
+												}
+											],
+											"sid": 125136719855079
+										},
 										{
 											"eventType": "comment",
 											"text": "Шаг 3: присвоение iCount",
@@ -2820,6 +2878,15 @@
 											"sid": 993541443856001,
 											"parameters": {
 												"instance-variable": "add"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "items",
+											"sid": 426215780999549,
+											"parameters": {
+												"instance-variable": "informer"
 											},
 											"isInverted": true
 										},
@@ -8275,7 +8342,149 @@
 											}
 										}
 									],
-									"sid": 481285734593665
+									"sid": 481285734593665,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "ПЕРВЫЙ СНАРЯД В ИНВЕНТАРЕ — маркер новинки для холдера ball (только если это снаряд)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 277130555319693,
+													"parameters": {
+														"variable": "ball",
+														"comparison": 4,
+														"value": "0"
+													}
+												}
+											],
+											"actions": [
+												{
+													"type": "comment",
+													"text": "Постоянная метка снаряда — переживает пересборку инвентаря",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
+													"id": "add-key",
+													"objectClass": "ballSigns",
+													"sid": 354534282441011,
+													"parameters": {
+														"key": "iSign",
+														"value": "quant"
+													}
+												},
+												{
+													"id": "add-key",
+													"objectClass": "ballsNew",
+													"sid": 796965625407206,
+													"parameters": {
+														"key": "iSign",
+														"value": "1"
+													}
+												},
+												{
+													"id": "add-key",
+													"objectClass": "abilsNew",
+													"sid": 800326086311281,
+													"parameters": {
+														"key": "\"ball\"",
+														"value": "1"
+													}
+												}
+											],
+											"sid": 156116963359256,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "Пульс и метка новизны на коконе ball при получении нового снаряда (зеркало learnSkill)",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "cocobutton",
+															"sid": 127461115729649,
+															"parameters": {
+																"instance-variable": "pName",
+																"comparison": 0,
+																"value": "\"ball\""
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "cocobutton",
+															"sid": 337648136200110,
+															"parameters": {
+																"instance-variable": "new"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "set-boolean-instvar",
+															"objectClass": "cocobutton",
+															"sid": 833802558261408,
+															"parameters": {
+																"instance-variable": "new",
+																"value": "true"
+															}
+														},
+														{
+															"type": "comment",
+															"text": "Пульс на коконе ball. Панель может быть закрыта — подхватится abilMap по ключу abilsNew при открытии.",
+															"background-color": [
+																0.67,
+																0.98,
+																0.79,
+																1
+															]
+														},
+														{
+															"id": "set-group-active",
+															"objectClass": "System",
+															"sid": 663417490971256,
+															"parameters": {
+																"group-name": "\"addAbils\"",
+																"state": "activated"
+															}
+														},
+														{
+															"callFunction": "newSkillFX",
+															"sid": 678077453671613,
+															"parameters": [
+																"\"ball\"",
+																"\"zero\""
+															]
+														}
+													],
+													"sid": 474355556836491
+												}
+											]
+										}
+									]
 								}
 							]
 						},
@@ -10459,6 +10668,7 @@
 										}
 									],
 									"sid": 906370732788237,
+									"disabled": true,
 									"children": [
 										{
 											"eventType": "block",
@@ -10475,7 +10685,8 @@
 												}
 											],
 											"actions": [],
-											"sid": 278964319415197
+											"sid": 278964319415197,
+											"disabled": true
 										}
 									]
 								},
@@ -10546,7 +10757,8 @@
 											}
 										}
 									],
-									"sid": 138100488768899
+									"sid": 138100488768899,
+									"disabled": true
 								},
 								{
 									"eventType": "block",
@@ -10594,7 +10806,8 @@
 											}
 										}
 									],
-									"sid": 199373945920008
+									"sid": 199373945920008,
+									"disabled": true
 								},
 								{
 									"eventType": "block",
@@ -10630,7 +10843,7 @@
 											}
 										},
 										{
-											"callFunction": "informer",
+											"callFunction": "informerOn",
 											"sid": 755657686088868,
 											"parameters": [
 												"\"inventory\"",
@@ -10641,7 +10854,121 @@
 											]
 										}
 									],
-									"sid": 546487608349504
+									"sid": 546487608349504,
+									"disabled": true
+								},
+								{
+									"eventType": "comment",
+									"text": "Информер для новых предметов: угловой (кроме ball — центральный) и центральный для class=big",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 159304965077273,
+											"parameters": {
+												"variable": "informer",
+												"comparison": 0,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 532537870392732,
+											"parameters": {
+												"variable": "new",
+												"comparison": 0,
+												"value": "2"
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Новый предмет впервые в игре — ставим в очередь информера",
+											"background-color": [
+												0.67,
+												0.98,
+												0.79,
+												1
+											]
+										},
+										{
+											"id": "add-key",
+											"objectClass": "infoLine",
+											"sid": 835199899148339,
+											"parameters": {
+												"key": "iSign",
+												"value": "(item.ball>0 ? \"ball\" : (item.class=\"big\" ? \"big\" : \"universal\"))"
+											}
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 346862969310943,
+											"parameters": {
+												"variable": "informer",
+												"value": "1"
+											}
+										}
+									],
+									"sid": 725998771106544
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 533376144026055,
+											"parameters": {
+												"variable": "informer",
+												"comparison": 0,
+												"value": "1"
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "infoLine",
+											"sid": 653868592947608,
+											"parameters": {
+												"instance-variable": "on"
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 921722781856705,
+											"parameters": {
+												"group-name": "\"informer\"",
+												"state": "activated"
+											}
+										},
+										{
+											"callFunction": "informerOn",
+											"sid": 339562593945937,
+											"parameters": [
+												"item.ball>0 ? \"ball\" : (item.class=\"big\" ? \"big\" : \"inventory\")",
+												"item.ball>0 ? 0 : (item.class=\"big\" ? 1 : 0)",
+												"(item.ball>0 | item.class=\"big\") ? 1 : 0",
+												"(item.ball>0 | item.class=\"big\") ? 1.6 : 0.8",
+												"iSign"
+											]
+										}
+									],
+									"sid": 258809357383519
 								}
 							]
 						},
@@ -24385,7 +24712,7 @@
 							}
 						},
 						{
-							"callFunction": "informer",
+							"callFunction": "informerOn",
 							"sid": 419166057069104,
 							"parameters": [
 								"\"inventory\"",
@@ -24396,8 +24723,7 @@
 							]
 						}
 					],
-					"sid": 143816785480261,
-					"disabled": true
+					"sid": 143816785480261
 				}
 			],
 			"sid": 946203129796030
