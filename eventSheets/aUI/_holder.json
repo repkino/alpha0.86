@@ -2156,25 +2156,46 @@
 													}
 												}
 											],
-											"sid": 360684790251112
+											"sid": 360684790251112,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "ШАГ 1 (фильтр ball): в balls попадают только снаряды из белого списка nSet.balls (пусто = разрешено всё)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
 										},
 										{
 											"eventType": "block",
 											"conditions": [
 												{
-													"id": "for-each-ordered",
+													"id": "for",
 													"objectClass": "System",
-													"sid": 306451821089210,
+													"sid": 845401216853126,
 													"parameters": {
-														"object": "items",
-														"expression": "items.ball",
-														"order": "ascending"
+														"name": "\"i\"",
+														"start-index": "0",
+														"end-index": "tokencount(matrix, \";\") - 1"
 													}
 												},
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "items",
-													"sid": 963811133318902,
+													"sid": 384977783535944,
+													"parameters": {
+														"instance-variable": "iSign",
+														"comparison": 0,
+														"value": "tokenat(matrix, loopindex(\"i\"), \";\")"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "items",
+													"sid": 973296310474322,
 													"parameters": {
 														"instance-variable": "ball",
 														"comparison": 4,
@@ -2182,36 +2203,67 @@
 													}
 												},
 												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "items",
-													"sid": 238365257172732,
-													"parameters": {
-														"instance-variable": "inventory"
-													}
-												},
-												{
 													"id": "has-key",
 													"objectClass": "balls",
-													"sid": 138706968641360,
+													"sid": 625186010467403,
 													"parameters": {
 														"key": "items.iSign"
 													},
 													"isInverted": true
 												}
 											],
-											"actions": [
+											"actions": [],
+											"sid": 466256924359922,
+											"children": [
 												{
-													"id": "add-key",
-													"objectClass": "balls",
-													"sid": 824406394121164,
-													"parameters": {
-														"key": "items.iSign",
-														"value": "items.iQuant"
-													}
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 631826721079649,
+															"parameters": {
+																"first-value": "nSet.balls",
+																"comparison": 0,
+																"second-value": "\"zero\""
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 529673720150978,
+															"parameters": {
+																"first-value": "nSet.balls",
+																"comparison": 0,
+																"second-value": "\"\""
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 586030351750187,
+															"parameters": {
+																"first-value": "find(\";\"&items.iSign&\";\",\";\"&nSet.balls&\";\")",
+																"comparison": 5,
+																"second-value": "0"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "add-key",
+															"objectClass": "balls",
+															"sid": 646305832899780,
+															"parameters": {
+																"key": "items.iSign",
+																"value": "items.iQuant"
+															}
+														}
+													],
+													"sid": 564345220774331,
+													"isOrBlock": true
 												}
-											],
-											"sid": 777861970885401,
-											"disabled": true
+											]
 										},
 										{
 											"eventType": "comment",

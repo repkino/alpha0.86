@@ -113,7 +113,7 @@
 					"children": [
 						{
 							"eventType": "comment",
-							"text": "Фильтр способностей и матрицы по белому списку локации nSet.abils. Выполняется только при загрузке (вызов из abilToHero), чтобы коконы шли подряд без пустых мест.",
+							"text": "Фильтр способностей по белому списку локации nSet.abils. Только список abils, матрица не трогается, чтобы не ломать индексы коконов и двухэтажные иконки.",
 							"background-color": [
 								0.49,
 								0.7,
@@ -129,17 +129,7 @@
 							"comment": "",
 							"isStatic": false,
 							"isConstant": false,
-							"sid": 652354364944740
-						},
-						{
-							"eventType": "variable",
-							"name": "filteredMatrix",
-							"type": "string",
-							"initialValue": "zero",
-							"comment": "",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 448125698715291
+							"sid": 851603139976245
 						},
 						{
 							"eventType": "block",
@@ -147,7 +137,7 @@
 								{
 									"id": "for",
 									"objectClass": "System",
-									"sid": 618979234705558,
+									"sid": 129911629584845,
 									"parameters": {
 										"name": "\"fAbils\"",
 										"start-index": "0",
@@ -156,7 +146,7 @@
 								}
 							],
 							"actions": [],
-							"sid": 854422333087424,
+							"sid": 109804360166457,
 							"children": [
 								{
 									"eventType": "block",
@@ -164,7 +154,7 @@
 										{
 											"id": "compare-two-values",
 											"objectClass": "System",
-											"sid": 310983035027365,
+											"sid": 845299005975605,
 											"parameters": {
 												"first-value": "tokenat(heros.abils,loopindex(\"fAbils\"),\";\")",
 												"comparison": 1,
@@ -173,7 +163,7 @@
 										}
 									],
 									"actions": [],
-									"sid": 746396470873778,
+									"sid": 729571104860335,
 									"children": [
 										{
 											"eventType": "block",
@@ -181,7 +171,7 @@
 												{
 													"id": "for",
 													"objectClass": "System",
-													"sid": 350952691285986,
+													"sid": 697673925645495,
 													"parameters": {
 														"name": "\"fWhite\"",
 														"start-index": "0",
@@ -190,7 +180,7 @@
 												}
 											],
 											"actions": [],
-											"sid": 472147457670225,
+											"sid": 231740599789274,
 											"children": [
 												{
 													"eventType": "block",
@@ -198,7 +188,7 @@
 														{
 															"id": "compare-two-values",
 															"objectClass": "System",
-															"sid": 703167039078164,
+															"sid": 230478748012153,
 															"parameters": {
 																"first-value": "tokenat(heros.abils,loopindex(\"fAbils\"),\";\")",
 																"comparison": 0,
@@ -210,23 +200,14 @@
 														{
 															"id": "set-eventvar-value",
 															"objectClass": "System",
-															"sid": 483847876324080,
-															"parameters": {
-																"variable": "filteredMatrix",
-																"value": "filteredMatrix=\"zero\"?tokenat(heros.abilsMatrix,loopindex(\"fAbils\"),\";\"):filteredMatrix&\";\"&tokenat(heros.abilsMatrix,loopindex(\"fAbils\"),\";\")"
-															}
-														},
-														{
-															"id": "set-eventvar-value",
-															"objectClass": "System",
-															"sid": 128930888805936,
+															"sid": 781040512478221,
 															"parameters": {
 																"variable": "filteredAbils",
 																"value": "filteredAbils=\"zero\"?tokenat(heros.abils,loopindex(\"fAbils\"),\";\"):filteredAbils&\";\"&tokenat(heros.abils,loopindex(\"fAbils\"),\";\")"
 															}
 														}
 													],
-													"sid": 191796997567923
+													"sid": 965826606068821
 												}
 											]
 										}
@@ -241,48 +222,23 @@
 								{
 									"id": "set-instvar-value",
 									"objectClass": "heros",
-									"sid": 690775937971653,
-									"parameters": {
-										"instance-variable": "abilsMatrix",
-										"value": "filteredMatrix"
-									}
-								},
-								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 561869581191730,
-									"parameters": {
-										"text": "filteredMatrix"
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "heros",
-									"sid": 730806292655601,
+									"sid": 471529374471205,
 									"parameters": {
 										"instance-variable": "abils",
 										"value": "filteredAbils"
 									}
 								},
 								{
-									"id": "append-text",
-									"objectClass": "help",
-									"sid": 313694577189042,
-									"parameters": {
-										"text": "filteredAbils"
-									}
-								},
-								{
 									"id": "set-group-active",
 									"objectClass": "System",
-									"sid": 133916381950690,
+									"sid": 757356348536550,
 									"parameters": {
 										"group-name": "\"addAbils\"",
 										"state": "deactivated"
 									}
 								}
 							],
-							"sid": 312811344984407
+							"sid": 723418167241677
 						}
 					]
 				},
@@ -1886,6 +1842,535 @@
 								}
 							],
 							"sid": 881124703891586
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "Скрытое добавление скилов на старте (отладка). Пять строк-списков: ballsList; formsList; mushList; dubleList; scompiList. Стоимость скила 30. Без эффектов, пульсов и новинок — только данные словарей.",
+					"background-color": [
+						0.9058823529411765,
+						0.6666666666666666,
+						0.9529411764705882,
+						1
+					]
+				},
+				{
+					"functionName": "hiddenSkills",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "ballsList",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 640487220173313
+						},
+						{
+							"name": "formsList",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 687274756577530
+						},
+						{
+							"name": "mushList",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 191930548031211
+						},
+						{
+							"name": "dubleList",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 871336356582531
+						},
+						{
+							"name": "scompiList",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"sid": 312089282329220
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 276377705670457,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Снаряды — скрытое добавление в инвентарь через getItem (без открытия и информера)",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 745734740591835,
+									"parameters": {
+										"variable": "ballsList",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 394985291548947,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for",
+											"objectClass": "System",
+											"sid": 462355452680002,
+											"parameters": {
+												"name": "\"fBalls\"",
+												"start-index": "0",
+												"end-index": "tokencount(ballsList,\";\")-1"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 596608264475410,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 427776264471844,
+													"parameters": {
+														"first-value": "tokenat(ballsList,loopindex(\"fBalls\"),\";\")",
+														"comparison": 1,
+														"second-value": "\"\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "getItem",
+													"sid": 670785458046541,
+													"parameters": [
+														true,
+														"tokenat(ballsList,loopindex(\"fBalls\"),\";\")",
+														"\"\"",
+														"0",
+														"1",
+														"1",
+														"\"universal\"",
+														"0"
+													]
+												}
+											],
+											"sid": 340811640814677
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Формы — тихо в dForms (без новинок и пульсов)",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 572922002334630,
+									"parameters": {
+										"variable": "formsList",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 288132244562812,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for",
+											"objectClass": "System",
+											"sid": 983833284268538,
+											"parameters": {
+												"name": "\"fForms\"",
+												"start-index": "0",
+												"end-index": "tokencount(formsList,\";\")-1"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 620412675832295,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 441259086317407,
+													"parameters": {
+														"first-value": "tokenat(formsList,loopindex(\"fForms\"),\";\")",
+														"comparison": 1,
+														"second-value": "\"\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 497978629429599,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "has-key",
+															"objectClass": "dForms",
+															"sid": 603902422199641,
+															"parameters": {
+																"key": "tokenat(formsList,loopindex(\"fForms\"),\";\")"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "add-key",
+															"objectClass": "dForms",
+															"sid": 379574113375137,
+															"parameters": {
+																"key": "tokenat(formsList,loopindex(\"fForms\"),\";\")",
+																"value": "30"
+															}
+														}
+													],
+													"sid": 142391112528246
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Грибы — тихо в dMush (без новинок и пульсов)",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 684643642399527,
+									"parameters": {
+										"variable": "mushList",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 826721234822028,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for",
+											"objectClass": "System",
+											"sid": 837046813092287,
+											"parameters": {
+												"name": "\"fMush\"",
+												"start-index": "0",
+												"end-index": "tokencount(mushList,\";\")-1"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 273604525509835,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 666632279527163,
+													"parameters": {
+														"first-value": "tokenat(mushList,loopindex(\"fMush\"),\";\")",
+														"comparison": 1,
+														"second-value": "\"\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 265550863591073,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "has-key",
+															"objectClass": "dMush",
+															"sid": 889246402455004,
+															"parameters": {
+																"key": "tokenat(mushList,loopindex(\"fMush\"),\";\")"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "add-key",
+															"objectClass": "dMush",
+															"sid": 698679243039711,
+															"parameters": {
+																"key": "tokenat(mushList,loopindex(\"fMush\"),\";\")",
+																"value": "30"
+															}
+														}
+													],
+													"sid": 221693567340352
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Двойники — тихо в dDuble (без новинок и пульсов)",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 507308521041351,
+									"parameters": {
+										"variable": "dubleList",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 576619205586428,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for",
+											"objectClass": "System",
+											"sid": 106577906428146,
+											"parameters": {
+												"name": "\"fDuble\"",
+												"start-index": "0",
+												"end-index": "tokencount(dubleList,\";\")-1"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 961785658503271,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 928736431438931,
+													"parameters": {
+														"first-value": "tokenat(dubleList,loopindex(\"fDuble\"),\";\")",
+														"comparison": 1,
+														"second-value": "\"\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 500567293997581,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "has-key",
+															"objectClass": "dDuble",
+															"sid": 582197566696679,
+															"parameters": {
+																"key": "tokenat(dubleList,loopindex(\"fDuble\"),\";\")"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "add-key",
+															"objectClass": "dDuble",
+															"sid": 327957197638881,
+															"parameters": {
+																"key": "tokenat(dubleList,loopindex(\"fDuble\"),\";\")",
+																"value": "30"
+															}
+														}
+													],
+													"sid": 701046817097124
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Скомпи — тихо в dScompi (без новинок и пульсов)",
+							"background-color": [
+								0.67,
+								0.98,
+								0.79,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 404998914523948,
+									"parameters": {
+										"variable": "scompiList",
+										"comparison": 1,
+										"value": "\"zero\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 862664326229645,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for",
+											"objectClass": "System",
+											"sid": 374206020833984,
+											"parameters": {
+												"name": "\"fScompi\"",
+												"start-index": "0",
+												"end-index": "tokencount(scompiList,\";\")-1"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 873634402894857,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-two-values",
+													"objectClass": "System",
+													"sid": 490037536086012,
+													"parameters": {
+														"first-value": "tokenat(scompiList,loopindex(\"fScompi\"),\";\")",
+														"comparison": 1,
+														"second-value": "\"\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 680288285738937,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "has-key",
+															"objectClass": "dScompi",
+															"sid": 657340703394339,
+															"parameters": {
+																"key": "tokenat(scompiList,loopindex(\"fScompi\"),\";\")"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [
+														{
+															"id": "add-key",
+															"objectClass": "dScompi",
+															"sid": 426746904492268,
+															"parameters": {
+																"key": "tokenat(scompiList,loopindex(\"fScompi\"),\";\")",
+																"value": "30"
+															}
+														}
+													],
+													"sid": 105656107169867
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 534814788779004,
+									"parameters": {
+										"group-name": "\"addAbils\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 328975291488603
 						}
 					]
 				}
@@ -12728,13 +13213,13 @@
 																{
 																	"customAction": "transform",
 																	"objectClass": "aBit",
-																	"sid": 211635891217163,
+																	"sid": 194963838158472,
 																	"parameters": [
 																		true,
-																		"3",
+																		"4",
 																		"\"horror\"",
 																		"2",
-																		"2",
+																		"3",
 																		"\"self\""
 																	]
 																}
@@ -14709,7 +15194,28 @@
 					"sid": 824292846787876
 				}
 			],
-			"actions": [],
+			"actions": [
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 593292326365067,
+					"parameters": {
+						"group-name": "\"addAbils\"",
+						"state": "activated"
+					}
+				},
+				{
+					"callFunction": "hiddenSkills",
+					"sid": 981572226783238,
+					"parameters": [
+						"\"cryst1Ball;superBall;cageBall,windBall\"",
+						"\"horror;gorn\"",
+						"\"zero\"",
+						"\"zero\"",
+						"\"zero\""
+					]
+				}
+			],
 			"sid": 970113286805347,
 			"children": [
 				{
