@@ -102,13 +102,181 @@
 							"id": "set-group-active",
 							"objectClass": "System",
 							"sid": 128516849206886,
+							"disabled": true,
 							"parameters": {
 								"group-name": "\"addAbils\"",
 								"state": "deactivated"
 							}
 						}
 					],
-					"sid": 581200828529638
+					"sid": 581200828529638,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "Фильтр способностей и матрицы по белому списку локации nSet.abils. Выполняется только при загрузке (вызов из abilToHero), чтобы коконы шли подряд без пустых мест.",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "variable",
+							"name": "filteredAbils",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 652354364944740
+						},
+						{
+							"eventType": "variable",
+							"name": "filteredMatrix",
+							"type": "string",
+							"initialValue": "zero",
+							"comment": "",
+							"isStatic": false,
+							"isConstant": false,
+							"sid": 448125698715291
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for",
+									"objectClass": "System",
+									"sid": 618979234705558,
+									"parameters": {
+										"name": "\"fAbils\"",
+										"start-index": "0",
+										"end-index": "tokencount(heros.abils,\";\")-1"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 854422333087424,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 310983035027365,
+											"parameters": {
+												"first-value": "tokenat(heros.abils,loopindex(\"fAbils\"),\";\")",
+												"comparison": 1,
+												"second-value": "\"\""
+											}
+										}
+									],
+									"actions": [],
+									"sid": 746396470873778,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for",
+													"objectClass": "System",
+													"sid": 350952691285986,
+													"parameters": {
+														"name": "\"fWhite\"",
+														"start-index": "0",
+														"end-index": "tokencount(nSet.abils,\";\")-1"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 472147457670225,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 703167039078164,
+															"parameters": {
+																"first-value": "tokenat(heros.abils,loopindex(\"fAbils\"),\";\")",
+																"comparison": 0,
+																"second-value": "tokenat(nSet.abils,loopindex(\"fWhite\"),\";\")"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 483847876324080,
+															"parameters": {
+																"variable": "filteredMatrix",
+																"value": "filteredMatrix=\"zero\"?tokenat(heros.abilsMatrix,loopindex(\"fAbils\"),\";\"):filteredMatrix&\";\"&tokenat(heros.abilsMatrix,loopindex(\"fAbils\"),\";\")"
+															}
+														},
+														{
+															"id": "set-eventvar-value",
+															"objectClass": "System",
+															"sid": 128930888805936,
+															"parameters": {
+																"variable": "filteredAbils",
+																"value": "filteredAbils=\"zero\"?tokenat(heros.abils,loopindex(\"fAbils\"),\";\"):filteredAbils&\";\"&tokenat(heros.abils,loopindex(\"fAbils\"),\";\")"
+															}
+														}
+													],
+													"sid": 191796997567923
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "heros",
+									"sid": 690775937971653,
+									"parameters": {
+										"instance-variable": "abilsMatrix",
+										"value": "filteredMatrix"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "heros",
+									"sid": 730806292655601,
+									"parameters": {
+										"instance-variable": "abils",
+										"value": "filteredAbils"
+									}
+								},
+								{
+									"id": "append-text",
+									"objectClass": "help",
+									"sid": 313694577189042,
+									"parameters": {
+										"text": "filteredAbils"
+									}
+								},
+								{
+									"id": "set-group-active",
+									"objectClass": "System",
+									"sid": 133916381950690,
+									"parameters": {
+										"group-name": "\"addAbils\"",
+										"state": "deactivated"
+									}
+								}
+							],
+							"sid": 312811344984407
+						}
+					]
 				},
 				{
 					"eventType": "comment",
