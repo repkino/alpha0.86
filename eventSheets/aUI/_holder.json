@@ -3,7 +3,7 @@
 	"events": [
 		{
 			"eventType": "comment",
-			"text": "\n   инвентарь способностей\n",
+			"text": "\n   инвентари скилов\n\nnSet.ballsAllow - список разрешенных скилов способности ball, на этой локации, работает как фильтр. Пустота - всё разрешено.\nАналогичные переменные для других способностей.\n\nсписки скилов:\nдля ball\nenergoBall;superBall;windBall;cageBall;crystBall1;crystBall2;crystBall3\nдля form\nhorror;gorn;meditation;glot;cyclop",
 			"background-color": [
 				0.5647058823529412,
 				0.7411764705882353,
@@ -2175,7 +2175,7 @@
 												{
 													"id": "for",
 													"objectClass": "System",
-													"sid": 845401216853126,
+													"sid": 185820931592756,
 													"parameters": {
 														"name": "\"i\"",
 														"start-index": "0",
@@ -2185,7 +2185,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "items",
-													"sid": 384977783535944,
+													"sid": 670824167699137,
 													"parameters": {
 														"instance-variable": "iSign",
 														"comparison": 0,
@@ -2195,7 +2195,7 @@
 												{
 													"id": "compare-instance-variable",
 													"objectClass": "items",
-													"sid": 973296310474322,
+													"sid": 421108286303244,
 													"parameters": {
 														"instance-variable": "ball",
 														"comparison": 4,
@@ -2205,7 +2205,7 @@
 												{
 													"id": "has-key",
 													"objectClass": "balls",
-													"sid": 625186010467403,
+													"sid": 924513667458593,
 													"parameters": {
 														"key": "items.iSign"
 													},
@@ -2213,7 +2213,7 @@
 												}
 											],
 											"actions": [],
-											"sid": 466256924359922,
+											"sid": 889265693028286,
 											"children": [
 												{
 													"eventType": "block",
@@ -2221,31 +2221,11 @@
 														{
 															"id": "compare-two-values",
 															"objectClass": "System",
-															"sid": 631826721079649,
+															"sid": 524203519264470,
 															"parameters": {
-																"first-value": "nSet.balls",
-																"comparison": 0,
-																"second-value": "\"zero\""
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 529673720150978,
-															"parameters": {
-																"first-value": "nSet.balls",
+																"first-value": "nSet.ballsAllow",
 																"comparison": 0,
 																"second-value": "\"\""
-															}
-														},
-														{
-															"id": "compare-two-values",
-															"objectClass": "System",
-															"sid": 586030351750187,
-															"parameters": {
-																"first-value": "find(\";\"&items.iSign&\";\",\";\"&nSet.balls&\";\")",
-																"comparison": 5,
-																"second-value": "0"
 															}
 														}
 													],
@@ -2253,15 +2233,74 @@
 														{
 															"id": "add-key",
 															"objectClass": "balls",
-															"sid": 646305832899780,
+															"sid": 276488673261528,
 															"parameters": {
 																"key": "items.iSign",
 																"value": "items.iQuant"
 															}
 														}
 													],
-													"sid": 564345220774331,
-													"isOrBlock": true
+													"sid": 861262437013250
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 578874976625496
+														}
+													],
+													"actions": [],
+													"sid": 141554646434654,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "for",
+																	"objectClass": "System",
+																	"sid": 691420327294578,
+																	"parameters": {
+																		"name": "\"f\"",
+																		"start-index": "0",
+																		"end-index": "tokencount(nSet.ballsAllow, \";\")-1"
+																	}
+																}
+															],
+															"actions": [],
+															"sid": 575366721605220,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "compare-two-values",
+																			"objectClass": "System",
+																			"sid": 827508648519348,
+																			"parameters": {
+																				"first-value": "items.iSign",
+																				"comparison": 0,
+																				"second-value": "tokenat(nSet.ballsAllow, loopindex(\"f\"), \";\")"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "add-key",
+																			"objectClass": "balls",
+																			"sid": 953744870005310,
+																			"parameters": {
+																				"key": "items.iSign",
+																				"value": "items.iQuant"
+																			}
+																		}
+																	],
+																	"sid": 428129677271935
+																}
+															]
+														}
+													]
 												}
 											]
 										},
@@ -2777,7 +2816,107 @@
 													}
 												}
 											],
-											"sid": 433388740778215
+											"sid": 433388740778215,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "ШАГ 1 (фильтр form): dForms → forms по белому списку nSet.forms",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-key",
+													"objectClass": "dForms",
+													"sid": 903135594264723
+												}
+											],
+											"actions": [],
+											"sid": 867244024713973,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for",
+															"objectClass": "System",
+															"sid": 619304537199319,
+															"parameters": {
+																"name": "\"f\"",
+																"start-index": "0",
+																"end-index": "tokencount(nSet.formsAllow, \";\")-1"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 433350529894712,
+															"parameters": {
+																"first-value": "nSet.formsAllow",
+																"comparison": 0,
+																"second-value": "\"\""
+															}
+														}
+													],
+													"actions": [],
+													"sid": 228923389493765,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 451092633923873,
+																	"parameters": {
+																		"first-value": "dForms.CurrentKey",
+																		"comparison": 0,
+																		"second-value": "tokenat(nSet.formsAllow, loopindex(\"f\"), \";\")"
+																	}
+																}
+															],
+															"actions": [],
+															"sid": 110170362646128,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "has-key",
+																			"objectClass": "forms",
+																			"sid": 736138381192425,
+																			"parameters": {
+																				"key": "dForms.CurrentKey"
+																			},
+																			"isInverted": true
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "add-key",
+																			"objectClass": "forms",
+																			"sid": 451364505251087,
+																			"parameters": {
+																				"key": "dForms.CurrentKey",
+																				"value": "dForms.CurrentValue"
+																			}
+																		}
+																	],
+																	"sid": 618233003922852
+																}
+															]
+														}
+													],
+													"isOrBlock": true
+												}
+											]
 										},
 										{
 											"eventType": "comment",
@@ -3091,7 +3230,107 @@
 													}
 												}
 											],
-											"sid": 321601350038788
+											"sid": 321601350038788,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "ШАГ 1 (фильтр mush): dMush → mushy по белому списку nSet.mush",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-key",
+													"objectClass": "dMush",
+													"sid": 953618526886114
+												}
+											],
+											"actions": [],
+											"sid": 309198464888181,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for",
+															"objectClass": "System",
+															"sid": 946390702506245,
+															"parameters": {
+																"name": "\"f\"",
+																"start-index": "0",
+																"end-index": "tokencount(nSet.mushAllow, \";\")-1"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 177946424331255,
+															"parameters": {
+																"first-value": "nSet.mushAllow",
+																"comparison": 0,
+																"second-value": "\"\""
+															}
+														}
+													],
+													"actions": [],
+													"sid": 794600720826984,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 424212401259379,
+																	"parameters": {
+																		"first-value": "dMush.CurrentKey",
+																		"comparison": 0,
+																		"second-value": "tokenat(nSet.mushAllow, loopindex(\"f\"), \";\")"
+																	}
+																}
+															],
+															"actions": [],
+															"sid": 162349160603468,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "has-key",
+																			"objectClass": "mushy",
+																			"sid": 397605911393483,
+																			"parameters": {
+																				"key": "dMush.CurrentKey"
+																			},
+																			"isInverted": true
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "add-key",
+																			"objectClass": "mushy",
+																			"sid": 511406337619133,
+																			"parameters": {
+																				"key": "dMush.CurrentKey",
+																				"value": "dMush.CurrentValue"
+																			}
+																		}
+																	],
+																	"sid": 544351179214674
+																}
+															]
+														}
+													],
+													"isOrBlock": true
+												}
+											]
 										},
 										{
 											"eventType": "comment",
@@ -3367,7 +3606,107 @@
 													}
 												}
 											],
-											"sid": 285628279692503
+											"sid": 285628279692503,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "ШАГ 1 (фильтр duble): dDuble → duble по белому списку nSet.duble",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-key",
+													"objectClass": "dDuble",
+													"sid": 860473318180556
+												}
+											],
+											"actions": [],
+											"sid": 534504549261684,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for",
+															"objectClass": "System",
+															"sid": 314760877320444,
+															"parameters": {
+																"name": "\"f\"",
+																"start-index": "0",
+																"end-index": "tokencount(nSet.dubleAllow, \";\")-1"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 330253351221427,
+															"parameters": {
+																"first-value": "nSet.dubleAllow",
+																"comparison": 0,
+																"second-value": "\"\""
+															}
+														}
+													],
+													"actions": [],
+													"sid": 443797936840457,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 523368120444769,
+																	"parameters": {
+																		"first-value": "dDuble.CurrentKey",
+																		"comparison": 0,
+																		"second-value": "tokenat(nSet.dubleAllow, loopindex(\"f\"), \";\")"
+																	}
+																}
+															],
+															"actions": [],
+															"sid": 602119238484199,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "has-key",
+																			"objectClass": "duble",
+																			"sid": 979419984266846,
+																			"parameters": {
+																				"key": "dDuble.CurrentKey"
+																			},
+																			"isInverted": true
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "add-key",
+																			"objectClass": "duble",
+																			"sid": 746932830282726,
+																			"parameters": {
+																				"key": "dDuble.CurrentKey",
+																				"value": "dDuble.CurrentValue"
+																			}
+																		}
+																	],
+																	"sid": 336132292590536
+																}
+															]
+														}
+													],
+													"isOrBlock": true
+												}
+											]
 										},
 										{
 											"eventType": "comment",
@@ -3643,7 +3982,107 @@
 													}
 												}
 											],
-											"sid": 503772846750562
+											"sid": 503772846750562,
+											"disabled": true
+										},
+										{
+											"eventType": "comment",
+											"text": "ШАГ 1 (фильтр scompi): dScompi → scompiAbils по белому списку nSet.scompi",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-key",
+													"objectClass": "dScompi",
+													"sid": 407940031937351
+												}
+											],
+											"actions": [],
+											"sid": 120810253592951,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for",
+															"objectClass": "System",
+															"sid": 410492648361137,
+															"parameters": {
+																"name": "\"f\"",
+																"start-index": "0",
+																"end-index": "tokencount(nSet.scompiAllow, \";\")-1"
+															}
+														},
+														{
+															"id": "compare-two-values",
+															"objectClass": "System",
+															"sid": 320369209947980,
+															"parameters": {
+																"first-value": "nSet.scompiAllow",
+																"comparison": 0,
+																"second-value": "\"\""
+															}
+														}
+													],
+													"actions": [],
+													"sid": 532867981146886,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-two-values",
+																	"objectClass": "System",
+																	"sid": 592742197748451,
+																	"parameters": {
+																		"first-value": "dScompi.CurrentKey",
+																		"comparison": 0,
+																		"second-value": "tokenat(nSet.scompiAllow, loopindex(\"f\"), \";\")"
+																	}
+																}
+															],
+															"actions": [],
+															"sid": 933767388113424,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "has-key",
+																			"objectClass": "scompiAbils",
+																			"sid": 990485569987368,
+																			"parameters": {
+																				"key": "dScompi.CurrentKey"
+																			},
+																			"isInverted": true
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "add-key",
+																			"objectClass": "scompiAbils",
+																			"sid": 308238103377494,
+																			"parameters": {
+																				"key": "dScompi.CurrentKey",
+																				"value": "dScompi.CurrentValue"
+																			}
+																		}
+																	],
+																	"sid": 125165050976258
+																}
+															]
+														}
+													],
+													"isOrBlock": true
+												}
+											]
 										},
 										{
 											"eventType": "comment",
