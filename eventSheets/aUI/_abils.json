@@ -4249,6 +4249,7 @@
 									],
 									"actions": [],
 									"sid": 278837498480044,
+									"disabled": true,
 									"children": [
 										{
 											"eventType": "block",
@@ -4310,6 +4311,7 @@
 												}
 											],
 											"sid": 891397793194820,
+											"disabled": true,
 											"children": [
 												{
 													"eventType": "block",
@@ -4336,7 +4338,308 @@
 															}
 														}
 													],
-													"sid": 166806035809217
+													"sid": 166806035809217,
+													"disabled": true
+												}
+											]
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "БЛОК 1 (abilMap): матричный цикл раздачи имён — остаётся по индексу, добавляется синхронизация иконки слота с новым именем",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for",
+											"objectClass": "System",
+											"sid": 299881696661727,
+											"parameters": {
+												"name": "\"aMatrix\"",
+												"start-index": "1",
+												"end-index": "tokencount(heros.abilsMatrix,\";\")"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 826038000852618,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-by-comparison",
+													"objectClass": "System",
+													"sid": 698673324454591,
+													"parameters": {
+														"object": "cocobutton",
+														"expression": "cocobutton.index",
+														"comparison": 0,
+														"value": "loopindex(\"aMatrix\")"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "cocobutton",
+													"sid": 111458587476095,
+													"disabled": true,
+													"parameters": {
+														"instance-variable": "pType",
+														"value": "tokenat(heros.abilsMatrix,loopindex(\"aMatrix\")-1,\";\")"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "cocobutton",
+													"sid": 867975904156946,
+													"parameters": {
+														"instance-variable": "pName",
+														"value": "tokenat(heros.abilsMatrix,loopindex(\"aMatrix\")-1,\";\")"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "cocobutton",
+													"sid": 498839953715888,
+													"disabled": true,
+													"parameters": {
+														"x": "-12600",
+														"y": "-12600-loopindex(\"aMatrix\")*100"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "cocobutton",
+													"sid": 501267595448873,
+													"parameters": {
+														"x": "-12600",
+														"y": "-12600"
+													}
+												}
+											],
+											"sid": 984257622626049,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "cocobutton",
+															"sid": 945399683400524,
+															"parameters": {
+																"instance-variable": "pName",
+																"comparison": 0,
+																"value": "\"mush\""
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "cocobutton",
+															"sid": 719163219284494,
+															"parameters": {
+																"instance-variable": "nIcons",
+																"value": "2"
+															}
+														}
+													],
+													"sid": 441192216070982
+												},
+												{
+													"eventType": "comment",
+													"text": "Синхронизация иконки со слотом: rockAbil крепится к кокону по индексу, а abilName = текущий выбранный вариант способности этого слота. Чинит «кокон mush с иконкой duble» при смене порядка в abils.json",
+													"background-color": [
+														0.49,
+														0.7,
+														0.38,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "pick-by-comparison",
+															"objectClass": "System",
+															"sid": 262560535113712,
+															"parameters": {
+																"object": "rockAbil",
+																"expression": "rockAbil.index",
+																"comparison": 0,
+																"value": "cocobutton.index"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 785442118662100,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "cocobutton",
+																	"sid": 448021754272960,
+																	"parameters": {
+																		"instance-variable": "pName",
+																		"comparison": 0,
+																		"value": "\"ball\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "rockAbil",
+																	"sid": 629937547830281,
+																	"parameters": {
+																		"instance-variable": "abilName",
+																		"value": "aGame.ballType"
+																	}
+																}
+															],
+															"sid": 474297580284138
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 609348953243255
+																},
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "cocobutton",
+																	"sid": 189499370134780,
+																	"parameters": {
+																		"instance-variable": "pName",
+																		"comparison": 0,
+																		"value": "\"form\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "rockAbil",
+																	"sid": 451470189406320,
+																	"parameters": {
+																		"instance-variable": "abilName",
+																		"value": "aGame.formType"
+																	}
+																}
+															],
+															"sid": 109749260841754
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 953211039057328
+																},
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "cocobutton",
+																	"sid": 206806471095849,
+																	"parameters": {
+																		"instance-variable": "pName",
+																		"comparison": 0,
+																		"value": "\"mush\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "rockAbil",
+																	"sid": 701869467474208,
+																	"parameters": {
+																		"instance-variable": "abilName",
+																		"value": "aGame.formType"
+																	}
+																}
+															],
+															"sid": 178992001347094
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 418845411660012
+																},
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "cocobutton",
+																	"sid": 313987879469969,
+																	"parameters": {
+																		"instance-variable": "pName",
+																		"comparison": 0,
+																		"value": "\"duble\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "rockAbil",
+																	"sid": 243713439479198,
+																	"parameters": {
+																		"instance-variable": "abilName",
+																		"value": "aGame.dubleType"
+																	}
+																}
+															],
+															"sid": 625922083114748
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 207086014696847
+																},
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "cocobutton",
+																	"sid": 173027087480885,
+																	"parameters": {
+																		"instance-variable": "pName",
+																		"comparison": 0,
+																		"value": "\"scompi\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "rockAbil",
+																	"sid": 609078851617706,
+																	"parameters": {
+																		"instance-variable": "abilName",
+																		"value": "aGame.scompiType"
+																	}
+																}
+															],
+															"sid": 635517456721806
+														}
+													]
 												}
 											]
 										}
@@ -5238,6 +5541,148 @@
 									"sid": 239747993292474,
 									"children": [
 										{
+											"eventType": "comment",
+											"text": "БЛОК 2: «по окончании анимации кнопки команда на перемещение вниз» — вместо For each упорядоченная расстановка по индексу (порядок = матрица)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-ordered",
+													"objectClass": "System",
+													"sid": 637666461276295,
+													"parameters": {
+														"object": "cocobutton",
+														"expression": "cocobutton.index",
+														"order": "ascending"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-flipped",
+													"objectClass": "cocobutton",
+													"sid": 119755826789693,
+													"parameters": {
+														"state": "not-flipped"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "cocobutton",
+													"sid": 180754973003575,
+													"parameters": {
+														"x": "aUIN.abilXrd+loopindex*110",
+														"y": "677"
+													}
+												},
+												{
+													"id": "set-flipped",
+													"objectClass": "cocoTill",
+													"sid": 346368616942647,
+													"parameters": {
+														"state": "not-flipped"
+													}
+												},
+												{
+													"id": "set-flipped",
+													"objectClass": "cocoTop",
+													"sid": 129698381392796,
+													"parameters": {
+														"state": "not-flipped"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "panelGradient",
+													"sid": 716029969178727,
+													"parameters": {
+														"x": "aUIN.abilXrd",
+														"y": "756"
+													}
+												},
+												{
+													"id": "set-width",
+													"objectClass": "panelGradient",
+													"sid": 928655496742002,
+													"parameters": {
+														"width": "loopindex*110"
+													}
+												}
+											],
+											"sid": 601220827959304,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "rockAbil",
+															"sid": 972162398201458,
+															"parameters": {
+																"instance-variable": "index",
+																"comparison": 0,
+																"value": "cocobutton.index"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "rockAbil",
+															"sid": 174847420116626,
+															"parameters": {
+																"object": "cocobutton",
+																"image-point-optional": "\"abil\""
+															}
+														}
+													],
+													"sid": 805266156393306
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "abilAuto",
+															"sid": 162035350069372,
+															"parameters": {
+																"instance-variable": "index",
+																"comparison": 0,
+																"value": "cocobutton.index"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-flipped",
+															"objectClass": "abilAuto",
+															"sid": 839603571890906,
+															"parameters": {
+																"state": "not-flipped"
+															}
+														},
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "abilAuto",
+															"sid": 923082766967853,
+															"parameters": {
+																"object": "cocobutton",
+																"image-point-optional": "\"auto\""
+															}
+														}
+													],
+													"sid": 278455662883753
+												}
+											]
+										},
+										{
 											"eventType": "block",
 											"conditions": [
 												{
@@ -5302,6 +5747,7 @@
 												}
 											],
 											"sid": 770415942708774,
+											"disabled": true,
 											"children": [
 												{
 													"eventType": "block",
@@ -5328,7 +5774,8 @@
 															}
 														}
 													],
-													"sid": 243319606105101
+													"sid": 243319606105101,
+													"disabled": true
 												},
 												{
 													"eventType": "block",
@@ -5363,7 +5810,8 @@
 															}
 														}
 													],
-													"sid": 140415928122428
+													"sid": 140415928122428,
+													"disabled": true
 												}
 											]
 										},
@@ -5574,6 +6022,151 @@
 									"sid": 257899946511773,
 									"children": [
 										{
+											"eventType": "comment",
+											"text": "БЛОК 3: «по окончании анимации кнопки команда на перемещение вверх» — вместо For each упорядоченная расстановка по индексу (порядок = матрица)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each-ordered",
+													"objectClass": "System",
+													"sid": 463673625896345,
+													"parameters": {
+														"object": "cocobutton",
+														"expression": "cocobutton.index",
+														"order": "ascending"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-flipped",
+													"objectClass": "cocobutton",
+													"sid": 194938072927947,
+													"parameters": {
+														"state": "flipped"
+													}
+												},
+												{
+													"id": "set-position",
+													"objectClass": "cocobutton",
+													"sid": 985840006454071,
+													"parameters": {
+														"x": "aUIN.abilXrd+loopindex*110",
+														"y": "50"
+													}
+												},
+												{
+													"id": "set-flipped",
+													"objectClass": "cocoTill",
+													"sid": 729351327636332,
+													"parameters": {
+														"state": "flipped"
+													}
+												},
+												{
+													"id": "set-flipped",
+													"objectClass": "cocoTop",
+													"sid": 406010229776957,
+													"parameters": {
+														"state": "flipped"
+													}
+												}
+											],
+											"sid": 247109514138280,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "rockAbil",
+															"sid": 885111919089146,
+															"parameters": {
+																"instance-variable": "index",
+																"comparison": 0,
+																"value": "cocobutton.index"
+															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "rockAbil",
+															"sid": 803026504610235,
+															"parameters": {
+																"instance-variable": "icon",
+																"comparison": 0,
+																"value": "1"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "rockAbil",
+															"sid": 810156119517414,
+															"parameters": {
+																"object": "cocobutton",
+																"image-point-optional": "\"abil\""
+															}
+														}
+													],
+													"sid": 679900678882957
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "abilAuto",
+															"sid": 415177183526039,
+															"parameters": {
+																"instance-variable": "index",
+																"comparison": 0,
+																"value": "cocobutton.index"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-flipped",
+															"objectClass": "abilAuto",
+															"sid": 389415774796021,
+															"parameters": {
+																"state": "flipped"
+															}
+														},
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "abilAuto",
+															"sid": 763692182528243,
+															"disabled": true,
+															"parameters": {
+																"object": "cocobutton",
+																"image-point-optional": "\"auto\""
+															}
+														},
+														{
+															"id": "set-position",
+															"objectClass": "abilAuto",
+															"sid": 417176612120754,
+															"parameters": {
+																"x": "cocobutton.ImagePointX(\"auto\")",
+																"y": "cocobutton.ImagePointY(\"auto\")-8"
+															}
+														}
+													],
+													"sid": 149122731027055
+												}
+											]
+										},
+										{
 											"eventType": "block",
 											"conditions": [
 												{
@@ -5621,6 +6214,7 @@
 												}
 											],
 											"sid": 596140331988353,
+											"disabled": true,
 											"children": [
 												{
 													"eventType": "block",
@@ -5657,7 +6251,8 @@
 															}
 														}
 													],
-													"sid": 926951277745106
+													"sid": 926951277745106,
+													"disabled": true
 												},
 												{
 													"eventType": "block",
@@ -5702,7 +6297,8 @@
 															}
 														}
 													],
-													"sid": 556896460123835
+													"sid": 556896460123835,
+													"disabled": true
 												}
 											]
 										},
