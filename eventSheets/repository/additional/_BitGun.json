@@ -387,11 +387,30 @@
 								"comparison": 0,
 								"value": "hero"
 							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aGame",
+							"sid": 762146094640326,
+							"parameters": {
+								"instance-variable": "targetMod"
+							},
+							"isInverted": true
 						}
 					],
 					"actions": [],
 					"sid": 877226227461393,
 					"children": [
+						{
+							"eventType": "comment",
+							"text": "цели вблизи",
+							"background-color": [
+								0.7490196078431373,
+								0.7294117647058823,
+								0.49019607843137253,
+								1
+							]
+						},
 						{
 							"eventType": "block",
 							"conditions": [
@@ -464,8 +483,138 @@
 											"sid": 279265472174048
 										},
 										{
+											"eventType": "comment",
+											"text": "автострельба при неподвижности",
+											"background-color": [
+												0.7490196078431373,
+												0.7294117647058823,
+												0.49019607843137253,
+												1
+											]
+										},
+										{
 											"eventType": "block",
-											"conditions": [],
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "base",
+													"sid": 325923421528494,
+													"parameters": {
+														"instance-variable": "move"
+													},
+													"isInverted": true
+												}
+											],
+											"actions": [],
+											"sid": 641233942673076,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "на сейф-зоне очистку от колючек не прерываем стрельбой",
+													"background-color": [
+														0.7490196078431373,
+														0.7294117647058823,
+														0.49019607843137253,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-animation-playing",
+															"objectClass": "Bit",
+															"sid": 540805897555493,
+															"parameters": {
+																"animation": "\"spikyOff\""
+															}
+														},
+														{
+															"id": "is-overlapping-another-object",
+															"objectClass": "base",
+															"sid": 634073699970294,
+															"parameters": {
+																"object": "zoneStopTh"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 386947348940950
+												},
+												{
+													"eventType": "comment",
+													"text": "наведение",
+													"background-color": [
+														0.7490196078431373,
+														0.7294117647058823,
+														0.49019607843137253,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 591577208170068
+														}
+													],
+													"actions": [
+														{
+															"callFunction": "targeting",
+															"sid": 221989542496475,
+															"parameters": [
+																"0",
+																false,
+																"0",
+																"0",
+																false,
+																"-1"
+															]
+														}
+													],
+													"sid": 357525220638972
+												}
+											]
+										},
+										{
+											"eventType": "comment",
+											"text": "автострельба при первом обнаружении цели",
+											"background-color": [
+												0.7490196078431373,
+												0.7294117647058823,
+												0.49019607843137253,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 356052780522209
+												},
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "base",
+													"sid": 923615248195805,
+													"parameters": {
+														"instance-variable": "move"
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aBit",
+													"sid": 619098894986667,
+													"parameters": {
+														"instance-variable": "closeTarg",
+														"comparison": 0,
+														"value": "0"
+													}
+												}
+											],
 											"actions": [
 												{
 													"callFunction": "targeting",
@@ -485,6 +634,16 @@
 									],
 									"isOrBlock": true
 								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "отключение группы прицеливания",
+							"background-color": [
+								0.7490196078431373,
+								0.7294117647058823,
+								0.49019607843137253,
+								1
 							]
 						},
 						{
@@ -529,6 +688,15 @@
 											"parameters": {
 												"group-name": "\"preGun\"",
 												"state": "deactivated"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 786462870074871,
+											"parameters": {
+												"instance-variable": "closeTarg",
+												"value": "0"
 											}
 										}
 									],
@@ -713,12 +881,42 @@
 									]
 								},
 								{
+									"eventType": "comment",
+									"text": "запреты при исполнении других способностей",
+									"background-color": [
+										0.8666666666666667,
+										0.8745098039215686,
+										0.42745098039215684,
+										1
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "? приоритет анимации спорный",
+									"background-color": [
+										0.9019607843137255,
+										0.5568627450980392,
+										0.8745098039215686,
+										1
+									]
+								},
+								{
 									"eventType": "block",
 									"conditions": [
 										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 859394786231389,
+											"parameters": {
+												"variable": "target",
+												"comparison": 2,
+												"value": "3"
+											}
+										},
+										{
 											"id": "compare-boolean-eventvar",
 											"objectClass": "System",
-											"sid": 882267801084703,
+											"sid": 176894283182074,
 											"disabled": true,
 											"parameters": {
 												"variable": "directTarget"
@@ -726,17 +924,102 @@
 											"isInverted": true
 										},
 										{
-											"id": "compare-eventvar",
-											"objectClass": "System",
-											"sid": 761535740986841,
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 381575881487281,
 											"parameters": {
-												"variable": "target",
-												"comparison": 2,
-												"value": "3"
+												"instance-variable": "sculpting"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 829954751241433,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "startTransform"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aBit",
+											"sid": 192656943187447,
+											"parameters": {
+												"instance-variable": "transform"
+											},
+											"isInverted": true
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "Bit",
+											"sid": 733099417347683,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "animPriority",
+												"comparison": 3,
+												"value": "2"
+											}
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 989111329373444,
+											"parameters": {
+												"animation": "\"sporeJet\""
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 783501509658621,
+											"parameters": {
+												"animation": "\"sporePump\""
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 328636923241779,
+											"parameters": {
+												"animation": "\"sporeRing\""
+											},
+											"isInverted": true
+										},
+										{
+											"id": "is-animation-playing",
+											"objectClass": "Bit",
+											"sid": 725137551192809,
+											"disabled": true,
+											"parameters": {
+												"animation": "\"spores\""
+											},
+											"isInverted": true
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aBit",
+											"sid": 599572733240911,
+											"parameters": {
+												"instance-variable": "startTransform",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aBit",
+											"sid": 687473957316355,
+											"parameters": {
+												"instance-variable": "transform",
+												"value": "false"
 											}
 										}
 									],
-									"actions": [],
 									"sid": 135365840110948,
 									"children": [
 										{
@@ -938,6 +1221,15 @@
 																								"variable": "target",
 																								"value": "1"
 																							}
+																						},
+																						{
+																							"id": "set-instvar-value",
+																							"objectClass": "aBit",
+																							"sid": 557346636166608,
+																							"parameters": {
+																								"instance-variable": "closeTarg",
+																								"value": "5"
+																							}
 																						}
 																					],
 																					"sid": 639190554423085,
@@ -1132,6 +1424,15 @@
 																											"parameters": {
 																												"variable": "target",
 																												"value": "1"
+																											}
+																										},
+																										{
+																											"id": "set-instvar-value",
+																											"objectClass": "aBit",
+																											"sid": 837116346417728,
+																											"parameters": {
+																												"instance-variable": "closeTarg",
+																												"value": "4"
 																											}
 																										}
 																									],
@@ -1328,6 +1629,15 @@
 																												"variable": "target",
 																												"value": "1"
 																											}
+																										},
+																										{
+																											"id": "set-instvar-value",
+																											"objectClass": "aBit",
+																											"sid": 536104000386979,
+																											"parameters": {
+																												"instance-variable": "closeTarg",
+																												"value": "3"
+																											}
 																										}
 																									],
 																									"sid": 333073244715165,
@@ -1492,6 +1802,15 @@
 																								"variable": "target",
 																								"value": "1"
 																							}
+																						},
+																						{
+																							"id": "set-instvar-value",
+																							"objectClass": "aBit",
+																							"sid": 688013248314519,
+																							"parameters": {
+																								"instance-variable": "closeTarg",
+																								"value": "2"
+																							}
 																						}
 																					],
 																					"sid": 853663715444854,
@@ -1611,6 +1930,7 @@
 																	"id": "compare-instance-variable",
 																	"objectClass": "tUnits",
 																	"sid": 739799091865765,
+																	"disabled": true,
 																	"parameters": {
 																		"instance-variable": "unitType",
 																		"comparison": 1,
@@ -1667,6 +1987,7 @@
 																					"id": "compare-instance-variable",
 																					"objectClass": "tUnits",
 																					"sid": 994193560564878,
+																					"disabled": true,
 																					"parameters": {
 																						"instance-variable": "uTargDist",
 																						"comparison": 2,
@@ -1747,6 +2068,15 @@
 																							"sid": 913207408945741,
 																							"parameters": {
 																								"variable": "target",
+																								"value": "1"
+																							}
+																						},
+																						{
+																							"id": "set-instvar-value",
+																							"objectClass": "aBit",
+																							"sid": 655368083509507,
+																							"parameters": {
+																								"instance-variable": "closeTarg",
 																								"value": "1"
 																							}
 																						}
@@ -1857,6 +2187,15 @@
 																	"sid": 885168688942011,
 																	"parameters": {
 																		"variable": "target",
+																		"value": "0"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aBit",
+																	"sid": 858688271426862,
+																	"parameters": {
+																		"instance-variable": "closeTarg",
 																		"value": "0"
 																	}
 																}
@@ -6281,262 +6620,6 @@
 						},
 						{
 							"eventType": "comment",
-							"text": ""
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "onselffunction0",
-									"objectClass": "Bit",
-									"sid": 516203732381134,
-									"behaviorType": "sf",
-									"parameters": {
-										"function_name:0": "\"react\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 115497268904120,
-							"disabled": true
-						},
-						{
-							"eventType": "comment",
-							"text": "триггеры перехода в другие состояния из Бит-гана (бег, прыжок, реакции, пойман)"
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "onselffunction0",
-									"objectClass": "basis",
-									"sid": 714573340282214,
-									"behaviorType": "sf",
-									"parameters": {
-										"function_name:0": "\"move\""
-									}
-								},
-								{
-									"id": "onselffunction0",
-									"objectClass": "basis",
-									"sid": 356581284094098,
-									"behaviorType": "sf",
-									"parameters": {
-										"function_name:0": "\"jump\""
-									}
-								},
-								{
-									"id": "onselffunction0",
-									"objectClass": "basis",
-									"sid": 738794387362184,
-									"behaviorType": "sf",
-									"parameters": {
-										"function_name:0": "\"trap\""
-									}
-								},
-								{
-									"id": "onselffunction0",
-									"objectClass": "basis",
-									"sid": 258077649198384,
-									"behaviorType": "sf",
-									"parameters": {
-										"function_name:0": "\"react\""
-									}
-								},
-								{
-									"id": "onselffunction0",
-									"objectClass": "Bit",
-									"sid": 647417266560598,
-									"behaviorType": "sf",
-									"parameters": {
-										"function_name:0": "\"react\""
-									}
-								},
-								{
-									"id": "onselffunction0",
-									"objectClass": "Bit",
-									"sid": 366016943934657,
-									"behaviorType": "personSF",
-									"parameters": {
-										"function_name:0": "\"react\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 552163027232253,
-							"children": [
-								{
-									"eventType": "comment",
-									"text": "останавливаем таймеры выстрела, рука-помпа возвращается в землю, группа выстрела отключается"
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "basis",
-											"sid": 996687913844206,
-											"parameters": {
-												"instance-variable": "name",
-												"comparison": 0,
-												"value": "hero"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "stop-timer",
-											"objectClass": "basis",
-											"sid": 740999818373779,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"gun\""
-											}
-										},
-										{
-											"id": "stop-timer",
-											"objectClass": "basis",
-											"sid": 816852469082835,
-											"behaviorType": "Timer",
-											"parameters": {
-												"tag": "\"shot\""
-											}
-										},
-										{
-											"id": "set-animation",
-											"objectClass": "hand",
-											"sid": 682758437856942,
-											"disabled": true,
-											"parameters": {
-												"animation": "\"down\"",
-												"from": "beginning"
-											}
-										},
-										{
-											"id": "set-animation-speed",
-											"objectClass": "hand",
-											"sid": 810700327320654,
-											"disabled": true,
-											"parameters": {
-												"speed": "24"
-											}
-										},
-										{
-											"id": "set-visible",
-											"objectClass": "hand",
-											"sid": 724412327783777,
-											"parameters": {
-												"visibility": "invisible"
-											}
-										},
-										{
-											"id": "unpin",
-											"objectClass": "hand",
-											"sid": 846413812686713,
-											"behaviorType": "Pin"
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aBook",
-											"sid": 579176509194351,
-											"parameters": {
-												"instance-variable": "mod",
-												"value": "\"zero\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aMico",
-											"sid": 777649079605642,
-											"parameters": {
-												"instance-variable": "BitGunStatus",
-												"value": "\"shotStop\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aIns",
-											"sid": 586969401268130,
-											"parameters": {
-												"instance-variable": "gunDirectTarget",
-												"value": "0"
-											}
-										},
-										{
-											"id": "set-group-active",
-											"objectClass": "System",
-											"sid": 203413309044561,
-											"parameters": {
-												"group-name": "\"gun\"",
-												"state": "deactivated"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "Bit",
-											"sid": 884560440094139,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "animPriority",
-												"value": "0"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "basis",
-											"sid": 629113271527762,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "dirOld",
-												"value": "999"
-											}
-										}
-									],
-									"sid": 424331926815670,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "aGame",
-													"sid": 124768932662541,
-													"parameters": {
-														"instance-variable": "gunBit",
-														"comparison": 0,
-														"value": "\"snow\""
-													}
-												}
-											],
-											"actions": [],
-											"sid": 220670919777005,
-											"disabled": true
-										},
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-instance-variable",
-													"objectClass": "aGame",
-													"sid": 765948263101401,
-													"parameters": {
-														"instance-variable": "gunBit",
-														"comparison": 0,
-														"value": "\"spray\""
-													}
-												}
-											],
-											"actions": [],
-											"sid": 597779436183542,
-											"disabled": true
-										}
-									]
-								}
-							],
-							"isOrBlock": true
-						},
-						{
-							"eventType": "comment",
 							"text": "\n\n\n\nтриггер выстрела",
 							"background-color": [
 								0.996078431372549,
@@ -8056,20 +8139,11 @@
 											"isInverted": true
 										},
 										{
-											"id": "is-animation-playing",
+											"id": "is-boolean-instance-variable-set",
 											"objectClass": "ser",
-											"sid": 148214212389890,
+											"sid": 320524923643706,
 											"parameters": {
-												"animation": "\"piton\""
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-animation-playing",
-											"objectClass": "ser",
-											"sid": 433920538457234,
-											"parameters": {
-												"animation": "\"pitonEnd\""
+												"instance-variable": "piton"
 											},
 											"isInverted": true
 										},
@@ -8096,6 +8170,15 @@
 									],
 									"actions": [
 										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 109600456315709,
+											"parameters": {
+												"group-name": "\"serImpact\"",
+												"state": "activated"
+											}
+										},
+										{
 											"id": "set-instvar-value",
 											"objectClass": "ser",
 											"sid": 962694297260701,
@@ -8105,9 +8188,15 @@
 											}
 										},
 										{
+											"customAction": "destroy",
+											"objectClass": "ser",
+											"sid": 448151312085005
+										},
+										{
 											"id": "instance-signal",
 											"objectClass": "ser",
 											"sid": 833969514734241,
+											"disabled": true,
 											"parameters": {
 												"tag": "\"destroy\""
 											}
@@ -8151,20 +8240,11 @@
 											"isInverted": true
 										},
 										{
-											"id": "is-animation-playing",
+											"id": "is-boolean-instance-variable-set",
 											"objectClass": "ser",
-											"sid": 527623152834278,
+											"sid": 546556958220083,
 											"parameters": {
-												"animation": "\"piton\""
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-animation-playing",
-											"objectClass": "ser",
-											"sid": 886631230524555,
-											"parameters": {
-												"animation": "\"pitonEnd\""
+												"instance-variable": "piton"
 											},
 											"isInverted": true
 										},
@@ -8191,6 +8271,15 @@
 									],
 									"actions": [
 										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 560222293043476,
+											"parameters": {
+												"group-name": "\"serImpact\"",
+												"state": "activated"
+											}
+										},
+										{
 											"id": "set-instvar-value",
 											"objectClass": "ser",
 											"sid": 908246907840231,
@@ -8200,15 +8289,195 @@
 											}
 										},
 										{
+											"customAction": "destroy",
+											"objectClass": "ser",
+											"sid": 985931274814958
+										},
+										{
 											"id": "instance-signal",
 											"objectClass": "ser",
 											"sid": 324405072076603,
+											"disabled": true,
 											"parameters": {
 												"tag": "\"destroy\""
 											}
 										}
 									],
 									"sid": 940121508072414
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.10980392156862745,
+								0.45098039215686275,
+								0.3843137254901961,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-any-animation-finished",
+									"objectClass": "spraySteam",
+									"sid": 235362084759395
+								}
+							],
+							"actions": [
+								{
+									"id": "set-visible",
+									"objectClass": "spraySteam",
+									"sid": 208281194536318,
+									"disabled": true,
+									"parameters": {
+										"visibility": "invisible"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "spraySteam",
+									"sid": 979130191869101,
+									"parameters": {
+										"x": "-3000",
+										"y": "5000"
+									}
+								}
+							],
+							"sid": 305325514144124,
+							"disabled": true
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"text-color": [
+								1,
+								1,
+								1,
+								1
+							],
+							"background-color": [
+								0.10980392156862745,
+								0.45098039215686275,
+								0.3843137254901961,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-any-animation-finished",
+									"objectClass": "serpDestroy",
+									"sid": 772901916162416
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "serpDestroy",
+									"sid": 399639409215461,
+									"parameters": {
+										"instance-variable": "on",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "serpDestroy",
+									"sid": 895003978352116,
+									"parameters": {
+										"instance-variable": "serpUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "serpDestroy",
+									"sid": 740829097425996,
+									"parameters": {
+										"instance-variable": "zEnable",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "serpDestroy",
+									"sid": 439741908455948,
+									"parameters": {
+										"x": "-2000",
+										"y": "5000"
+									}
+								}
+							],
+							"sid": 509183173563689,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-all",
+											"objectClass": "System",
+											"sid": 232784979617945,
+											"parameters": {
+												"object": "serpDestroy"
+											}
+										},
+										{
+											"id": "is-outside-layout",
+											"objectClass": "spraySteam",
+											"sid": 427833616772476
+										}
+									],
+									"actions": [],
+									"sid": 989871418243238,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "serpDestroy",
+													"sid": 183700279164118,
+													"parameters": {
+														"instance-variable": "on"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 496764342289059
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 759784913141031
+												}
+											],
+											"actions": [
+												{
+													"id": "set-group-active",
+													"objectClass": "System",
+													"sid": 527624970547585,
+													"parameters": {
+														"group-name": "\"spraySteam\"",
+														"state": "deactivated"
+													}
+												}
+											],
+											"sid": 434540551218779
+										}
+									]
 								}
 							]
 						}
@@ -8326,20 +8595,11 @@
 											"isInverted": true
 										},
 										{
-											"id": "is-animation-playing",
+											"id": "is-boolean-instance-variable-set",
 											"objectClass": "ser",
-											"sid": 423835222610032,
+											"sid": 705866504875052,
 											"parameters": {
-												"animation": "\"piton\""
-											},
-											"isInverted": true
-										},
-										{
-											"id": "is-animation-playing",
-											"objectClass": "ser",
-											"sid": 836330595734891,
-											"parameters": {
-												"animation": "\"pitonEnd\""
+												"instance-variable": "piton"
 											},
 											"isInverted": true
 										},
@@ -8356,13 +8616,31 @@
 											"id": "compare-animation-frame-tag",
 											"objectClass": "ser",
 											"sid": 657706699483072,
+											"disabled": true,
 											"parameters": {
 												"comparison": 1,
 												"tag": "\"start\""
 											}
 										}
 									],
-									"actions": [],
+									"actions": [
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 901504764257084,
+											"parameters": {
+												"group-name": "\"sFrost\"",
+												"state": "activated"
+											}
+										},
+										{
+											"callFunction": "serFrozen",
+											"sid": 151278705493372,
+											"parameters": [
+												"ser.UID"
+											]
+										}
+									],
 									"sid": 133836958870341,
 									"children": [
 										{
@@ -8405,17 +8683,9 @@
 													"isInverted": true
 												}
 											],
-											"actions": [
-												{
-													"id": "instance-signal",
-													"objectClass": "ser",
-													"sid": 431110871496137,
-													"parameters": {
-														"tag": "\"frosen\""
-													}
-												}
-											],
-											"sid": 844321585305025
+											"actions": [],
+											"sid": 844321585305025,
+											"disabled": true
 										},
 										{
 											"eventType": "comment",
@@ -8742,12 +9012,20 @@
 									],
 									"actions": [
 										{
-											"id": "instance-signal",
-											"objectClass": "chickBase",
-											"sid": 210586652202920,
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 854450479556025,
 											"parameters": {
-												"tag": "\"frosen\""
+												"group-name": "\"chickFrozen\"",
+												"state": "activated"
 											}
+										},
+										{
+											"callFunction": "chickFrozen",
+											"sid": 246011297041090,
+											"parameters": [
+												"tChick.UID"
+											]
 										},
 										{
 											"id": "set-boolean-instvar",
@@ -8828,12 +9106,20 @@
 									],
 									"actions": [
 										{
-											"id": "instance-signal",
-											"objectClass": "chickBase",
-											"sid": 955150559260262,
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 499548088424148,
 											"parameters": {
-												"tag": "\"frosen\""
+												"group-name": "\"chickFrozen\"",
+												"state": "activated"
 											}
+										},
+										{
+											"callFunction": "chickFrozen",
+											"sid": 454195297443879,
+											"parameters": [
+												"tChick.UID"
+											]
 										},
 										{
 											"id": "set-boolean-instvar",
@@ -9748,7 +10034,6 @@
 							],
 							"actions": [],
 							"sid": 768997964631405,
-							"disabled": true,
 							"children": [
 								{
 									"eventType": "block",
@@ -9775,8 +10060,7 @@
 											}
 										}
 									],
-									"sid": 354985698712122,
-									"disabled": true
+									"sid": 354985698712122
 								}
 							]
 						},
@@ -9916,9 +10200,459 @@
 						0.10980392156862745,
 						1
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "нужны выключатели групп, желательно в самих группах"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-instance-signal",
+							"objectClass": "basis",
+							"sid": 496612585202834,
+							"parameters": {
+								"tag": "\"move\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "basis",
+							"sid": 521105333342132,
+							"parameters": {
+								"instance-variable": "dirOld",
+								"value": "99"
+							}
+						},
+						{
+							"customAction": "gunEnd",
+							"objectClass": "Bit",
+							"sid": 207769434774193
+						}
+					],
+					"sid": 293777013902503
 				}
 			],
 			"sid": 665775690590505
+		},
+		{
+			"eventType": "comment",
+			"text": "нужны выключатели групп, желательно в самих группах"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-two-values",
+					"objectClass": "System",
+					"sid": 527668440763442,
+					"parameters": {
+						"first-value": "snowball.Count",
+						"comparison": 0,
+						"second-value": "0"
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aGame",
+					"sid": 322765167877362,
+					"parameters": {
+						"instance-variable": "gunBit",
+						"comparison": 1,
+						"value": "\"spray\""
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aGame",
+					"sid": 726351506011851,
+					"parameters": {
+						"instance-variable": "gunBit",
+						"comparison": 1,
+						"value": "\"snow\""
+					}
+				},
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "aGame",
+					"sid": 113036124264130,
+					"parameters": {
+						"instance-variable": "snowBall"
+					},
+					"isInverted": true
+				}
+			],
+			"actions": [
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 309984600979984,
+					"parameters": {
+						"group-name": "\"BitGun\"",
+						"state": "deactivated"
+					}
+				},
+				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 576723851956125,
+					"parameters": {
+						"group-name": "\"snowball\"",
+						"state": "deactivated"
+					}
+				}
+			],
+			"sid": 772720551424332,
+			"disabled": true
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aGame",
+					"sid": 436524316498681,
+					"parameters": {
+						"instance-variable": "gunBit",
+						"comparison": 0,
+						"value": "\"snow\""
+					}
+				},
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aGame",
+					"sid": 149651175173518,
+					"parameters": {
+						"instance-variable": "gunBit",
+						"comparison": 0,
+						"value": "\"spray\""
+					}
+				}
+			],
+			"actions": [],
+			"sid": 967206198143068,
+			"disabled": true
+		},
+		{
+			"eventType": "comment",
+			"text": ""
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "onselffunction0",
+					"objectClass": "Bit",
+					"sid": 187584065252174,
+					"behaviorType": "sf",
+					"parameters": {
+						"function_name:0": "\"react\""
+					}
+				}
+			],
+			"actions": [],
+			"sid": 320554367791329,
+			"disabled": true
+		},
+		{
+			"eventType": "comment",
+			"text": "триггеры перехода в другие состояния из Бит-гана (бег, прыжок, реакции, пойман)"
+		},
+		{
+			"eventType": "comment",
+			"text": "нужно заменить на прямой вызов"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "onselffunction0",
+					"objectClass": "basis",
+					"sid": 728248400938922,
+					"disabled": true,
+					"behaviorType": "sf",
+					"parameters": {
+						"function_name:0": "\"move\""
+					}
+				},
+				{
+					"id": "onselffunction0",
+					"objectClass": "basis",
+					"sid": 746619537606370,
+					"behaviorType": "sf",
+					"parameters": {
+						"function_name:0": "\"jump\""
+					}
+				},
+				{
+					"id": "onselffunction0",
+					"objectClass": "basis",
+					"sid": 759094776320788,
+					"behaviorType": "sf",
+					"parameters": {
+						"function_name:0": "\"trap\""
+					}
+				},
+				{
+					"id": "onselffunction0",
+					"objectClass": "basis",
+					"sid": 903019162156968,
+					"behaviorType": "sf",
+					"parameters": {
+						"function_name:0": "\"react\""
+					}
+				},
+				{
+					"id": "onselffunction0",
+					"objectClass": "Bit",
+					"sid": 295651555725206,
+					"behaviorType": "sf",
+					"parameters": {
+						"function_name:0": "\"react\""
+					}
+				},
+				{
+					"id": "onselffunction0",
+					"objectClass": "Bit",
+					"sid": 359628654579900,
+					"behaviorType": "personSF",
+					"parameters": {
+						"function_name:0": "\"react\""
+					}
+				}
+			],
+			"actions": [],
+			"sid": 284704328345917,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"sid": 154752900432345,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"customAction": "gunEnd",
+							"objectClass": "Bit",
+							"sid": 905914953410965
+						}
+					],
+					"sid": 840164261361875
+				}
+			],
+			"isOrBlock": true
+		},
+		{
+			"aceType": "action",
+			"aceName": "gunEnd",
+			"objectClass": "Bit",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [],
+			"eventType": "custom-ace-block",
+			"conditions": [],
+			"actions": [],
+			"sid": 498368392496105,
+			"children": [
+				{
+					"eventType": "comment",
+					"text": "останавливаем таймеры выстрела, рука-помпа возвращается в землю, группа выстрела отключается"
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"sid": 603951583858372,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "stop-timer",
+							"objectClass": "basis",
+							"sid": 693065177065056,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"gun\""
+							}
+						},
+						{
+							"id": "stop-timer",
+							"objectClass": "basis",
+							"sid": 856356508282614,
+							"behaviorType": "Timer",
+							"parameters": {
+								"tag": "\"shot\""
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "hand",
+							"sid": 532735907164325,
+							"parameters": {
+								"animation": "\"down\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-animation-speed",
+							"objectClass": "hand",
+							"sid": 638147201389360,
+							"disabled": true,
+							"parameters": {
+								"speed": "24"
+							}
+						},
+						{
+							"id": "set-visible",
+							"objectClass": "hand",
+							"sid": 635825819232734,
+							"disabled": true,
+							"parameters": {
+								"visibility": "invisible"
+							}
+						},
+						{
+							"id": "unpin",
+							"objectClass": "hand",
+							"sid": 950149921830108,
+							"behaviorType": "Pin"
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBook",
+							"sid": 595369432823615,
+							"parameters": {
+								"instance-variable": "mod",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aMico",
+							"sid": 420317671314183,
+							"parameters": {
+								"instance-variable": "BitGunStatus",
+								"value": "\"shotStop\""
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aBit",
+							"sid": 891922540110892,
+							"parameters": {
+								"instance-variable": "closeTarg",
+								"value": "0"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aIns",
+							"sid": 584373553643303,
+							"parameters": {
+								"instance-variable": "serpClickUID",
+								"value": "-1"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aIns",
+							"sid": 335341864883918,
+							"parameters": {
+								"instance-variable": "gunDirectTarget",
+								"value": "0"
+							}
+						},
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 357985466728455,
+							"parameters": {
+								"group-name": "\"gun\"",
+								"state": "deactivated"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "Bit",
+							"sid": 329081101234557,
+							"parameters": {
+								"instance-variable": "animPriority",
+								"value": "1"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "basis",
+							"sid": 691811194842180,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "dirOld",
+								"value": "999"
+							}
+						}
+					],
+					"sid": 748219987947561,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aGame",
+									"sid": 361587925211817,
+									"parameters": {
+										"instance-variable": "gunBit",
+										"comparison": 0,
+										"value": "\"snow\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 661709976086657,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aGame",
+									"sid": 374810636018853,
+									"parameters": {
+										"instance-variable": "gunBit",
+										"comparison": 0,
+										"value": "\"spray\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 288542988807132,
+							"disabled": true
+						}
+					]
+				}
+			]
 		}
 	],
 	"sid": 413495337271400

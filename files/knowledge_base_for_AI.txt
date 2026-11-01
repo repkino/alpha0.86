@@ -262,10 +262,7 @@ Mouse vs Cursor: Вместо Mouse: Cursor is over object надежнее ис
 
 ### ПРАВИЛА ГЕНЕРАЦИИ СТРУКТУРЫ JSON ДЛЯ CONSTRUCT 3 (ПАРСЕР r449-3)
 
-1. КРИТИЧЕСКИ ВАЖНО: Уникальные UID (Unique UIDs)
-   - Каждый объект, ивент (event), действие (action) и условие (condition) ОБЯЗАНЫ иметь уникальный целочисленный идентификатор 'uid' (integer).
-   - При добавлении новых блоков или функций КАТЕГОРИЧЕСКИ ЗАПРЕЩЕНО повторно использовать (дублировать) UID, которые уже есть в текущем анализируемом файле проекта.
-   - Для новых элементов ГЕНЕРИРУЙ новые случайные КРУПНЫЕ целые числа (например, из диапазона 50000–99999), чтобы гарантированно избежать пересечений с существующей логикой Bioid.
+1. КРИТИЧЕСКИ ВАЖНО: никогда не используй численные sid и uid объектов. Они есть в коде, но в клипбоард не нужны, редактор сам расставляет все sid и uid
 
 2. СТРОГИЙ САМО-КОНТРОЛЬ СИНТАКСИСА (Ментальная валидация)
    - Перед выводом финального JSON в чат, проведи внутренний (мысленный) пошаговый разбор сгенерированного кода на валидность скобок и отсутствие дубликатов 'uid'. 
@@ -348,8 +345,22 @@ C3 сам присваивает SID при получении кода из к�
 
 
 
-Правила специально для модели DeepSeek V4 Pro:
-1. Экономь токены. Не нужно печатать весть ход анализа с разбиением на шаги, выдавай сразу финальное резюме, с пометками насколько предложенные решения могут быть точными и средствами исправления для найденных ошибок.
+Правила для моделей DeepSeek а также, если ты не знаешь что ты за модель, также прими к сведению:
+1. Экономь токены. Не нужно печатать весть ход анализа с разбиением на шаги, выдавай сразу финальное резюме.
 2. Отвечай максимально лаконично. Сразу переходи к сути архитектурной проблемы.
 3. Если я прошу исправление: выдавай СТРОГО готовый очищенный код/текст для буфера обмена Construct 3 внутри тегов кода, а ниже пиши ОДНО предложение с объяснением, что было исправлено.
 4. Не дублируй неизмененные части логики, если проект большой — показывай только измененный узел.
+5. Помни, если переменные есть в коде, значит они существуют, конструктор не допускает несуществующих переменных, - если их не видно в листе объекта, значит они из общей семьи. То же касается и поведений.
+6. Не требуй удалять отключенные строки и блоки, это рабочий процесс.
+7. Предложения по правке должны опираться на комментарии-якоря и прямую работу с блоками, а не общие рассуждения и множественный выбор действий.
+8. ЗАПРЕТ НА ОТКРЫТИЕ ЛИСТОВ КОДА:
+Листы кода (eventSheets, имя начинается с нижнего подчёркивания: _abils, _UI, _holder и т.д.)
+открывать САМОСТОЯТЕЛЬНО ЗАПРЕЩЕНО — они огромны и сжигают контекст.
+Открытие листов кода выполняется ТОЛЬКО по явному разрешению разработчика. Спрашивай.
+Листы объектов (objectTypes), семьи, макеты и прочие файлы открывать можно без спроса.
+9. Не забывай выкладывать код в окно MODEL OUTPUT
+
+
+Пример кода, полученого из клипбоард редактора:
+
+{"is-c3-clipboard-data":true,"type":"events","items":[{"eventType":"comment","text":"загрузка способностей из словаря\nпри загрузке макета, при смене героя - загрузка способностей из словаря в героя","text-color":[1,1,1,1],"background-color":[0,0,0,1]},{"functionName":"abilToHero","functionDescription":"","functionCategory":"","functionReturnType":"none","functionCopyPicked":false,"functionIsAsync":false,"functionParameters":[{"name":"heroN","type":"string","initialValue":"active","comment":""}],"eventType":"function-block","conditions":[{"id":"compare-instance-variable","objectClass":"heros","parameters":{"instance-variable":"heroName","comparison":0,"value":"heroN=\"active\"?hero:heroN"}}],"actions":[{"id":"set-instvar-value","objectClass":"heros","parameters":{"instance-variable":"abilsMatrix","value":"abils.Get(hero&\"Matrix\")"}},{"id":"set-instvar-value","objectClass":"heros","parameters":{"instance-variable":"abils","value":"abils.Get(hero)"}},{"id":"set-group-active","objectClass":"System","disabled":true,"parameters":{"group-name":"\"addAbils\"","state":"deactivated"}}],"children":[{"eventType":"comment","text":"Фильтр способностей по белому списку локации nSet.abils. Только список abils, матрица не трогается, чтобы не ломать индексы коконов и двухэтажные иконки.","background-color":[0.49,0.7,0.38,1]},{"eventType":"variable","name":"filteredAbils","type":"string","initialValue":"zero","comment":"","isStatic":false,"isConstant":false},{"eventType":"block","conditions":[{"id":"for","objectClass":"System","parameters":{"name":"\"fAbils\"","start-index":"0","end-index":"tokencount(heros.abils,\";\")-1"}}],"actions":[],"children":[{"eventType":"block","conditions":[{"id":"compare-two-values","objectClass":"System","parameters":{"first-value":"tokenat(heros.abils,loopindex(\"fAbils\"),\";\")","comparison":1,"second-value":"\"\""}}],"actions":[],"children":[{"eventType":"block","conditions":[{"id":"for","objectClass":"System","parameters":{"name":"\"fWhite\"","start-index":"0","end-index":"tokencount(nSet.abilsOnStart,\";\")-1"}}],"actions":[],"children":[{"eventType":"block","conditions":[{"id":"compare-two-values","objectClass":"System","parameters":{"first-value":"tokenat(heros.abils,loopindex(\"fAbils\"),\";\")","comparison":0,"second-value":"tokenat(nSet.abilsOnStart,loopindex(\"fWhite\"),\";\")"}}],"actions":[{"id":"set-eventvar-value","objectClass":"System","parameters":{"variable":"filteredAbils","value":"filteredAbils=\"zero\"?tokenat(heros.abils,loopindex(\"fAbils\"),\";\"):filteredAbils&\";\"&tokenat(heros.abils,loopindex(\"fAbils\"),\";\")"}}]}]}]}]},{"eventType":"block","conditions":[],"actions":[{"id":"set-instvar-value","objectClass":"heros","parameters":{"instance-variable":"abils","value":"filteredAbils"}},{"id":"set-group-active","objectClass":"System","parameters":{"group-name":"\"addAbils\"","state":"deactivated"}}]}]}]}

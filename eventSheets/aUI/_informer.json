@@ -29,7 +29,7 @@
 					"text": "pause - игра ставится на паузу"
 				},
 				{
-					"functionName": "informer",
+					"functionName": "informerOn",
 					"functionDescription": "",
 					"functionCategory": "",
 					"functionReturnType": "none",
@@ -215,7 +215,8 @@
 															"callFunction": "gamePause",
 															"sid": 907296021195939,
 															"parameters": [
-																"\"informer\""
+																"\"informer\"",
+																"0"
 															]
 														}
 													],
@@ -499,7 +500,8 @@
 															"callFunction": "gamePause",
 															"sid": 466462841738911,
 															"parameters": [
-																"\"informer\""
+																"\"informer\"",
+																"0"
 															]
 														}
 													],
@@ -608,6 +610,14 @@
 											}
 										},
 										{
+											"id": "start-animation",
+											"objectClass": "item",
+											"sid": 191613738351195,
+											"parameters": {
+												"from": "beginning"
+											}
+										},
+										{
 											"id": "set-scale",
 											"objectClass": "item",
 											"sid": 319008351600016,
@@ -688,6 +698,569 @@
 										}
 									],
 									"sid": 923821372185364
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Центральный информер: ball, предметы big и умения/способности. Аура или big, пауза создаёт вуаль.",
+							"background-color": [
+								0.33,
+								0.73,
+								0.48,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 826423359018390
+								}
+							],
+							"actions": [],
+							"sid": 898460085971399,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "delete-key",
+											"objectClass": "infoLine",
+											"sid": 111475648425642,
+											"parameters": {
+												"key": "iSign"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "infoLine",
+											"sid": 193287166790862,
+											"parameters": {
+												"instance-variable": "on",
+												"value": "true"
+											}
+										},
+										{
+											"id": "stop-timer",
+											"objectClass": "inf",
+											"sid": 513312005984129,
+											"behaviorType": "Timer",
+											"parameters": {
+												"tag": "\"endInf\""
+											}
+										},
+										{
+											"id": "start-timer",
+											"objectClass": "inf",
+											"sid": 310217705305461,
+											"behaviorType": "Timer",
+											"parameters": {
+												"duration": "timer",
+												"type": "once",
+												"tag": "\"endInf\""
+											}
+										}
+									],
+									"sid": 666108284025480,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 441777993702665,
+													"parameters": {
+														"variable": "sours",
+														"comparison": 0,
+														"value": "\"ball\""
+													}
+												},
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 102177795486656,
+													"parameters": {
+														"variable": "sours",
+														"comparison": 0,
+														"value": "\"abill\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "inf",
+													"sid": 261374193503274,
+													"parameters": {
+														"x": "640",
+														"y": "350"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "inf",
+													"sid": 381676642426010,
+													"parameters": {
+														"animation": "\"aura\"",
+														"from": "beginning"
+													}
+												},
+												{
+													"id": "set-scale",
+													"objectClass": "inf",
+													"sid": 635995815516122,
+													"parameters": {
+														"scale": "1.8"
+													}
+												},
+												{
+													"id": "tween-two-properties",
+													"objectClass": "inf",
+													"sid": 922126283320834,
+													"behaviorType": "Tween",
+													"parameters": {
+														"tags": "\"infUp\"",
+														"property": "scale",
+														"end-x": "1",
+														"end-y": "1",
+														"time": "0.25",
+														"ease": "easeinoutquad",
+														"destroy-on-complete": "no",
+														"loop": "no",
+														"ping-pong": "yes",
+														"repeat-count": "1"
+													}
+												}
+											],
+											"sid": 881794922876403,
+											"isOrBlock": true
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 412892073299732,
+													"parameters": {
+														"variable": "sours",
+														"comparison": 0,
+														"value": "\"big\""
+													}
+												},
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 353138261605135,
+													"disabled": true,
+													"parameters": {
+														"variable": "big",
+														"comparison": 0,
+														"value": "1"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-position",
+													"objectClass": "inf",
+													"sid": 961733477882982,
+													"parameters": {
+														"x": "640",
+														"y": "350"
+													}
+												},
+												{
+													"id": "set-animation",
+													"objectClass": "inf",
+													"sid": 325434524229206,
+													"parameters": {
+														"animation": "\"big\"",
+														"from": "beginning"
+													}
+												}
+											],
+											"sid": 378008434976969
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 567346979313661,
+													"parameters": {
+														"variable": "sours",
+														"comparison": 0,
+														"value": "\"ball\""
+													}
+												},
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 371805863725216,
+													"parameters": {
+														"variable": "sours",
+														"comparison": 0,
+														"value": "\"big\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 891401373903165,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "item",
+															"sid": 263748610315254,
+															"parameters": {
+																"instance-variable": "informer"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-animation",
+															"objectClass": "item",
+															"sid": 535403198200863,
+															"parameters": {
+																"animation": "iSign",
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "start-animation",
+															"objectClass": "item",
+															"sid": 667395481605846,
+															"parameters": {
+																"from": "beginning"
+															}
+														},
+														{
+															"id": "set-scale",
+															"objectClass": "item",
+															"sid": 543475449674483,
+															"parameters": {
+																"scale": "1.3"
+															}
+														},
+														{
+															"id": "set-visible",
+															"objectClass": "item",
+															"sid": 666582320120012,
+															"parameters": {
+																"visibility": "visible"
+															}
+														},
+														{
+															"id": "set-opacity",
+															"objectClass": "item",
+															"sid": 846559671264069,
+															"parameters": {
+																"opacity": "100"
+															}
+														},
+														{
+															"id": "set-enabled",
+															"objectClass": "item",
+															"sid": 413164508856733,
+															"behaviorType": "Tween",
+															"parameters": {
+																"mode": "enabled"
+															}
+														},
+														{
+															"id": "tween-two-properties",
+															"objectClass": "item",
+															"sid": 446396520022990,
+															"behaviorType": "Tween",
+															"parameters": {
+																"tags": "\"itemInfo\"",
+																"property": "scale",
+																"end-x": "1",
+																"end-y": "1",
+																"time": "0.25",
+																"ease": "easeinoutquad",
+																"destroy-on-complete": "no",
+																"loop": "no",
+																"ping-pong": "yes",
+																"repeat-count": "1"
+															}
+														},
+														{
+															"id": "set-position-to-another-object",
+															"objectClass": "item",
+															"sid": 209377405376289,
+															"parameters": {
+																"object": "inf",
+																"image-point-optional": "0"
+															}
+														},
+														{
+															"id": "move-to-object",
+															"objectClass": "item",
+															"sid": 280170145144787,
+															"parameters": {
+																"where": "in-front",
+																"object": "inf"
+															}
+														}
+													],
+													"sid": 425497143358232,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-eventvar",
+																	"objectClass": "System",
+																	"sid": 344853231794204,
+																	"parameters": {
+																		"variable": "pause",
+																		"comparison": 1,
+																		"value": "0"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"callFunction": "gamePause",
+																	"sid": 947285424260479,
+																	"parameters": [
+																		"\"informer\"",
+																		"50"
+																	]
+																},
+																{
+																	"id": "set-object-time-scale",
+																	"objectClass": "System",
+																	"sid": 388966556914540,
+																	"parameters": {
+																		"object": "item",
+																		"time-scale": "1.0"
+																	}
+																}
+															],
+															"sid": 827334464840239
+														}
+													]
+												}
+											],
+											"isOrBlock": true
+										},
+										{
+											"eventType": "comment",
+											"text": "abill: подготовка holdAbil из банка прямо в информере (работает и из очереди, и напрямую)",
+											"background-color": [
+												0.49,
+												0.7,
+												0.38,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 882646141222272,
+													"parameters": {
+														"variable": "sours",
+														"comparison": 0,
+														"value": "\"abill\""
+													}
+												}
+											],
+											"actions": [],
+											"sid": 936650299966499,
+											"children": [
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-y",
+															"objectClass": "holdAbil",
+															"sid": 158781537177955,
+															"parameters": {
+																"comparison": 2,
+																"y-co-ordinate": "0"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "holdAbil",
+															"sid": 221987819090964,
+															"parameters": {
+																"instance-variable": "hInfo"
+															},
+															"isInverted": true
+														}
+													],
+													"actions": [],
+													"sid": 667766773155025,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "pick-random-instance",
+																	"objectClass": "System",
+																	"sid": 373271512527905,
+																	"parameters": {
+																		"object": "holdAbil"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-boolean-instvar",
+																	"objectClass": "holdAbil",
+																	"sid": 443791923016044,
+																	"parameters": {
+																		"instance-variable": "hInfo",
+																		"value": "true"
+																	}
+																},
+																{
+																	"id": "set-animation",
+																	"objectClass": "holdAbil",
+																	"sid": 753871512208561,
+																	"parameters": {
+																		"animation": "iSign",
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "start-animation",
+																	"objectClass": "holdAbil",
+																	"sid": 886912539744238,
+																	"parameters": {
+																		"from": "beginning"
+																	}
+																},
+																{
+																	"id": "set-scale",
+																	"objectClass": "holdAbil",
+																	"sid": 525561995395539,
+																	"parameters": {
+																		"scale": "1.3"
+																	}
+																},
+																{
+																	"id": "set-visible",
+																	"objectClass": "holdAbil",
+																	"sid": 431106188817533,
+																	"parameters": {
+																		"visibility": "visible"
+																	}
+																},
+																{
+																	"id": "set-opacity",
+																	"objectClass": "holdAbil",
+																	"sid": 973543951521247,
+																	"parameters": {
+																		"opacity": "100"
+																	}
+																},
+																{
+																	"id": "set-enabled",
+																	"objectClass": "holdAbil",
+																	"sid": 210515570210546,
+																	"behaviorType": "Tween",
+																	"parameters": {
+																		"mode": "enabled"
+																	}
+																},
+																{
+																	"id": "tween-two-properties",
+																	"objectClass": "holdAbil",
+																	"sid": 639351556861238,
+																	"behaviorType": "Tween",
+																	"parameters": {
+																		"tags": "\"itemInfo\"",
+																		"property": "scale",
+																		"end-x": "1",
+																		"end-y": "1",
+																		"time": "0.25",
+																		"ease": "easeinoutquad",
+																		"destroy-on-complete": "no",
+																		"loop": "no",
+																		"ping-pong": "yes",
+																		"repeat-count": "1"
+																	}
+																},
+																{
+																	"id": "set-position-to-another-object",
+																	"objectClass": "holdAbil",
+																	"sid": 792741563622824,
+																	"parameters": {
+																		"object": "inf",
+																		"image-point-optional": "0"
+																	}
+																},
+																{
+																	"id": "move-to-object",
+																	"objectClass": "holdAbil",
+																	"sid": 354360009368579,
+																	"parameters": {
+																		"where": "in-front",
+																		"object": "inf"
+																	}
+																}
+															],
+															"sid": 456467821505454,
+															"children": [
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "compare-eventvar",
+																			"objectClass": "System",
+																			"sid": 267381151554226,
+																			"parameters": {
+																				"variable": "pause",
+																				"comparison": 1,
+																				"value": "0"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"callFunction": "gamePause",
+																			"sid": 198736850774575,
+																			"parameters": [
+																				"\"informer\"",
+																				"50"
+																			]
+																		},
+																		{
+																			"id": "set-object-time-scale",
+																			"objectClass": "System",
+																			"sid": 586371025294079,
+																			"parameters": {
+																				"object": "holdAbil",
+																				"time-scale": "1.0"
+																			}
+																		}
+																	],
+																	"sid": 807544351766096
+																}
+															]
+														}
+													]
+												}
+											]
+										}
+									]
 								}
 							]
 						}
@@ -808,7 +1381,8 @@
 									"callFunction": "gamePause",
 									"sid": 104167209680980,
 									"parameters": [
-										"\"play\""
+										"\"play\"",
+										"0"
 									]
 								}
 							],
@@ -868,6 +1442,59 @@
 								}
 							],
 							"sid": 326913384633685
+						},
+						{
+							"eventType": "comment",
+							"text": "Возврат иконки умения (holdAbil) из информера в банк",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "holdAbil",
+									"sid": 164584337280213,
+									"parameters": {
+										"instance-variable": "hInfo"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-boolean-instvar",
+									"objectClass": "holdAbil",
+									"sid": 316325422444961,
+									"parameters": {
+										"instance-variable": "hInfo",
+										"value": "false"
+									}
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "holdAbil",
+									"sid": 914957077029180,
+									"parameters": {
+										"animation": "\"zero\"",
+										"from": "beginning"
+									}
+								},
+								{
+									"id": "set-position",
+									"objectClass": "holdAbil",
+									"sid": 350396393423958,
+									"parameters": {
+										"x": "-2000",
+										"y": "-2000"
+									}
+								}
+							],
+							"sid": 631412005969639
 						},
 						{
 							"eventType": "variable",
@@ -1027,7 +1654,16 @@
 											}
 										},
 										{
-											"callFunction": "informer",
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 648602331201993,
+											"parameters": {
+												"group-name": "\"informer\"",
+												"state": "activated"
+											}
+										},
+										{
+											"callFunction": "informerOn",
 											"sid": 556478856884660,
 											"parameters": [
 												"\"inventory\"",
@@ -1047,7 +1683,202 @@
 											}
 										}
 									],
-									"sid": 321187017916572
+									"sid": 321187017916572,
+									"disabled": true
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 217921663490981,
+											"parameters": {
+												"variable": "iSign",
+												"comparison": 1,
+												"value": "\"\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "delete-key",
+											"objectClass": "infoLine",
+											"sid": 463021197522792,
+											"parameters": {
+												"key": "iSign"
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 616265660510701,
+											"parameters": {
+												"group-name": "\"informer\"",
+												"state": "activated"
+											}
+										}
+									],
+									"sid": 256333258503977,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "Маршрутизация из очереди: ball и big — центральные с паузой, остальные — угловые",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 322347287615085,
+													"parameters": {
+														"variable": "val",
+														"comparison": 0,
+														"value": "\"ball\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "informerOn",
+													"sid": 357635451879236,
+													"parameters": [
+														"\"ball\"",
+														"0",
+														"1",
+														"1.6",
+														"iSign"
+													]
+												}
+											],
+											"sid": 741761436111879
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 437541895423602
+												},
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 829924461233520,
+													"parameters": {
+														"variable": "val",
+														"comparison": 0,
+														"value": "\"big\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "informerOn",
+													"sid": 678848933688820,
+													"parameters": [
+														"\"big\"",
+														"1",
+														"1",
+														"1.6",
+														"iSign"
+													]
+												}
+											],
+											"sid": 997460689673879
+										},
+										{
+											"eventType": "comment",
+											"text": "Маршрут abill из очереди — центральный информер с вуалью",
+											"background-color": [
+												0.33,
+												0.73,
+												0.48,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 455955895834655
+												},
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 978498450530904,
+													"parameters": {
+														"variable": "val",
+														"comparison": 0,
+														"value": "\"abill\""
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "informerOn",
+													"sid": 515513446653289,
+													"parameters": [
+														"\"abill\"",
+														"0",
+														"1",
+														"1.6",
+														"iSign"
+													]
+												}
+											],
+											"sid": 692773304766867
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 830550930256264
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "informerOn",
+													"sid": 533578788475931,
+													"parameters": [
+														"\"inventory\"",
+														"0",
+														"0",
+														"0.8",
+														"iSign"
+													]
+												}
+											],
+											"sid": 245137717925706
+										},
+										{
+											"eventType": "block",
+											"conditions": [],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 946741516714289,
+													"parameters": {
+														"variable": "iSign",
+														"value": "\"\""
+													}
+												}
+											],
+											"sid": 943011464949605
+										}
+									]
 								}
 							]
 						}
