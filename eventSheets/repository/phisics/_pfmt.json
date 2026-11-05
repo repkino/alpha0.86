@@ -3460,6 +3460,16 @@
 								},
 								{
 									"eventType": "variable",
+									"name": "travelAng",
+									"type": "number",
+									"initialValue": "0",
+									"comment": "",
+									"isStatic": false,
+									"isConstant": false,
+									"sid": 796069877337296
+								},
+								{
+									"eventType": "variable",
 									"name": "costL",
 									"type": "number",
 									"initialValue": "0",
@@ -3482,6 +3492,19 @@
 									"eventType": "block",
 									"conditions": [],
 									"actions": [
+										{
+											"type": "comment",
+											"text": "Расчёт travelAng: если база реально двигалась, берём угол прихода, иначе угол к цели."
+										},
+										{
+											"id": "set-eventvar-value",
+											"objectClass": "System",
+											"sid": 923732845711112,
+											"parameters": {
+												"variable": "travelAng",
+												"value": "distance(basis.prevTargX, basis.prevTargY, startX, startY) > 5 ? angle(basis.prevTargX, basis.prevTargY, startX, startY) : targetAng"
+											}
+										},
 										{
 											"id": "set-eventvar-value",
 											"objectClass": "System",
@@ -4431,6 +4454,7 @@
 																			"id": "set-eventvar-value",
 																			"objectClass": "System",
 																			"sid": 263323555471729,
+																			"disabled": true,
 																			"parameters": {
 																				"variable": "costL",
 																				"value": "lDist + distance(startX + cos(lRayAng - scanStep) * lDist, startY + sin(lRayAng - scanStep) * lDist, targetX, targetY)"
@@ -4440,9 +4464,28 @@
 																			"id": "set-eventvar-value",
 																			"objectClass": "System",
 																			"sid": 878955660281246,
+																			"disabled": true,
 																			"parameters": {
 																				"variable": "costR",
 																				"value": "rDist + distance(startX + cos(rRayAng + scanStep) * rDist, startY + sin(rRayAng + scanStep) * rDist, targetX, targetY)"
+																			}
+																		},
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 510016829419467,
+																			"parameters": {
+																				"variable": "costL",
+																				"value": "lDist + distance(startX + cos(lRayAng - scanStep) * lDist, startY + sin(lRayAng - scanStep) * lDist, targetX, targetY) + abs(anglediff(travelAng, lRayAng - scanStep)) * 2"
+																			}
+																		},
+																		{
+																			"id": "set-eventvar-value",
+																			"objectClass": "System",
+																			"sid": 117685596697076,
+																			"parameters": {
+																				"variable": "costR",
+																				"value": "rDist + distance(startX + cos(rRayAng + scanStep) * rDist, startY + sin(rRayAng + scanStep) * rDist, targetX, targetY) + abs(anglediff(travelAng, rRayAng + scanStep)) * 2"
 																			}
 																		}
 																	],
@@ -4552,19 +4595,19 @@
 																		{
 																			"id": "set-eventvar-value",
 																			"objectClass": "System",
-																			"sid": 674484300094026,
+																			"sid": 480402930468181,
 																			"parameters": {
 																				"variable": "tempX",
-																				"value": "startX + cos(finalAng) * min(finalDist + 55, targetDist)"
+																				"value": "startX + cos(finalAng) * min(finalDist + basis.baseRadius*1.12, targetDist)"
 																			}
 																		},
 																		{
 																			"id": "set-eventvar-value",
 																			"objectClass": "System",
-																			"sid": 432199856138708,
+																			"sid": 581987392322624,
 																			"parameters": {
 																				"variable": "tempY",
-																				"value": "startY + sin(finalAng) * min(finalDist + 55, targetDist)"
+																				"value": "startY + sin(finalAng) * min(finalDist + basis.baseRadius*1.12, targetDist)"
 																			}
 																		},
 																		{
@@ -4607,11 +4650,11 @@
 																		{
 																			"id": "move-to-position",
 																			"objectClass": "basis",
-																			"sid": 940449566540872,
+																			"sid": 811578752715481,
 																			"behaviorType": "mt",
 																			"parameters": {
-																				"x": "float(tokenat(Functions.getPos(tempX, tempY, finalAng + 90 * pushDir, 55), 0, \";\"))",
-																				"y": "float(tokenat(Functions.getPos(tempX, tempY, finalAng + 90 * pushDir, 55), 1, \";\"))",
+																				"x": "float(tokenat(Functions.getPos(tempX, tempY, finalAng + 90 * pushDir, basis.baseRadius), 0, \";\"))",
+																				"y": "float(tokenat(Functions.getPos(tempX, tempY, finalAng + 90 * pushDir, basis.baseRadius), 1, \";\"))",
 																				"mode": "direct"
 																			}
 																		}
@@ -6745,6 +6788,48 @@
 										}
 									],
 									"sid": 922683874406546
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "every-x-seconds",
+											"objectClass": "System",
+											"sid": 375838436055855,
+											"parameters": {
+												"interval-seconds": "0.1"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 228141184418092,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "for-each",
+													"objectClass": "System",
+													"sid": 930693112627032,
+													"parameters": {
+														"object": "basis"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "callselffunction0",
+													"objectClass": "basis",
+													"sid": 473398519395079,
+													"behaviorType": "sf",
+													"parameters": {
+														"function_name:0": "\"groundUID\""
+													}
+												}
+											],
+											"sid": 368140589448200
+										}
+									]
 								}
 							]
 						},

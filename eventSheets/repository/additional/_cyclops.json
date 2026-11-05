@@ -1,5 +1,410 @@
 {
 	"name": "_cyclops",
-	"events": [],
+	"events": [
+		{
+			"eventType": "comment",
+			"text": "Циклоп - скил персонажа Скомпи. Циклоп бегает и атакует тернии. Если терний нет, сопровождает Бита. Проигрывает забавные idle анимации, если Бит стоит. Может жонглировать Битом.\nВо время преследования тернии есть два режима: бег и ускорение. Как только расстояние между циклопом и целью становится меньше порога ускорения, включается режим ускорения, во время которого циклоп увеличивает скорость каждый тик до максимальной, синхронно растет скорость анимации. Достигнув цели циклоп атакует её (визуально - рубящими движениями когтями справа и слева), сохраняя высокую скорость, что позволяет ему поддерживать контакт с движущейся наземной целью, не выходя из режима атаки.\nАтака циклопа накапливает параметр разрушения, сравниваемый с запасом жизни цели, умноженном на стойкость цели к физическому урону.\n\nСтратегии сопровождения по приоритету:\n\nавтоатака (включена по умолчанию, также включается сама если у циклопа нет занятия и появились тернии)\n1. Циклоп атакует тернии, которые атакуют Бита.\n2. Циклоп атакует тернии, которые видят Бита.\n3. Циклоп атакует тернии, которых видит сам.\n4. Циклоп атакует тернии, которых видит Бит.\n\nдвижение к точке (автоатака отключается и заблокирована на время движения)\nКлик по циклопу и клик по карте - режим движения к точке. \nЦиклоп движется к точке, атакуя тернии с которыми сталкивается, или которые на коротком расстоянии от него.\n\nЦиклоп имеет запас энергии Скомпи, и тратит энергию каждый удар пульса, во время атаки затраты вырастают. По истощении энергии до порога в 100 единиц, скомпи возвращается в инвентарь, скил циклоп отключается (становится серым). Также циклоп возвращается в кокон способностей кликом по иконке скила.\n\n\nЧто нужно ввести на глобальном уровне: \nстойкость терний (семья tUnit) и персонажей (семья persons или basis) к двум видам урона - физическому и энергетическому.\nПлюс для персонажей - ментальная стойкость. Определить переменную жизни для терний. У героя и других персонажей жизнь определяется уровнем энергии."
+		},
+		{
+			"eventType": "comment",
+			"text": ""
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "on-key-pressed",
+					"objectClass": "Keyboard",
+					"sid": 255192212297886,
+					"parameters": {
+						"key": 79
+					}
+				}
+			],
+			"actions": [],
+			"sid": 842507362934652,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-on-screen",
+							"objectClass": "cyclops",
+							"sid": 767367380753618,
+							"isInverted": true
+						}
+					],
+					"actions": [
+						{
+							"id": "set-group-active",
+							"objectClass": "System",
+							"sid": 424566076808940,
+							"parameters": {
+								"group-name": "\"cyclops\"",
+								"state": "activated"
+							}
+						},
+						{
+							"callFunction": "addCyclops",
+							"sid": 484338809381702,
+							"parameters": [
+								"Mouse.X",
+								"Mouse.Y"
+							]
+						}
+					],
+					"sid": 531100040026376
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 558858159584091
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "pfmt",
+							"sid": 591890381051038,
+							"parameters": [
+								"0",
+								"\"cyclops\"",
+								"Mouse.X",
+								"Mouse.Y",
+								"1",
+								"1",
+								"1",
+								"\"zero\"",
+								"-1",
+								"0",
+								"0"
+							]
+						}
+					],
+					"sid": 571921362587867
+				}
+			]
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "cyclops",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"functionName": "addCyclops",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "x",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 408441147465258
+						},
+						{
+							"name": "y",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 811584613593735
+						}
+					],
+					"eventType": "function-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 760814295413545,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"cyclops\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-position",
+							"objectClass": "base",
+							"sid": 866688370738578,
+							"parameters": {
+								"x": "x",
+								"y": "y"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "base",
+							"sid": 930947235569581,
+							"parameters": {
+								"instance-variable": "on",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "base",
+							"sid": 489446056786773,
+							"parameters": {
+								"instance-variable": "base",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "base",
+							"sid": 827249464938653,
+							"parameters": {
+								"instance-variable": "zEnable",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "base",
+							"sid": 696343875125602,
+							"parameters": {
+								"instance-variable": "dirOld",
+								"value": "333"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "base",
+							"sid": 154946528674421,
+							"parameters": {
+								"collisions": "enabled"
+							}
+						},
+						{
+							"id": "set-enabled",
+							"objectClass": "base",
+							"sid": 685969492038003,
+							"behaviorType": "mt",
+							"parameters": {
+								"enabled": true
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "cyclops",
+							"sid": 163460974375385,
+							"parameters": {
+								"instance-variable": "onBase",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "cyclops",
+							"sid": 759377738882618,
+							"parameters": {
+								"collisions": "enabled"
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "cyclops",
+							"sid": 574753630819231,
+							"parameters": {
+								"animation": "\"stop2\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "aSco",
+							"sid": 272444473970600,
+							"parameters": {
+								"instance-variable": "cyclops",
+								"value": "true"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aSco",
+							"sid": 339798594513825,
+							"parameters": {
+								"instance-variable": "cycState",
+								"value": "\"run\""
+							}
+						},
+						{
+							"id": "set-boolean-eventvar",
+							"objectClass": "System",
+							"sid": 668326067439988,
+							"parameters": {
+								"variable": "zSort",
+								"value": "true"
+							}
+						}
+					],
+					"sid": 830502672034521
+				},
+				{
+					"functionName": "cycCheck",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "function-block",
+					"conditions": [],
+					"actions": [],
+					"sid": 462280832361471,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 382315960929094,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"Bit\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 176876110504774,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "base",
+											"sid": 121247390674033,
+											"parameters": {
+												"instance-variable": "serpentTarget"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 469574130285014,
+											"parameters": {
+												"instance-variable": "closeEnemyUID",
+												"comparison": 0,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 704385649847309,
+											"parameters": {
+												"instance-variable": "serTargDist",
+												"comparison": 0,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 161239996279149,
+											"parameters": {
+												"instance-variable": "nutTarDist",
+												"comparison": 0,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 769885436758687,
+											"parameters": {
+												"instance-variable": "stalkerTargDist",
+												"comparison": 0,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 813011879009720,
+											"parameters": {
+												"instance-variable": "shokoTargDist",
+												"comparison": 0,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 273823094896680,
+											"parameters": {
+												"instance-variable": "shokoTargDist",
+												"comparison": 0,
+												"value": "0"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aBit",
+											"sid": 580874506592835,
+											"parameters": {
+												"instance-variable": "closeTarg",
+												"comparison": 0,
+												"value": "0"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 855968705883612
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 285364300909135,
+							"parameters": {
+								"interval-seconds": "2"
+							}
+						}
+					],
+					"actions": [
+						{
+							"callFunction": "pfmt",
+							"sid": 506983841102692,
+							"parameters": [
+								"0",
+								"\"cyclops\"",
+								"cyclops.X+random(-300,300)",
+								"cyclops.Y+random(-160,160)",
+								"1",
+								"1",
+								"1",
+								"\"zero\"",
+								"-1",
+								"0",
+								"0"
+							]
+						}
+					],
+					"sid": 309625821158843,
+					"disabled": true
+				}
+			],
+			"sid": 765435074459320
+		}
+	],
 	"sid": 135994135003904
 }
