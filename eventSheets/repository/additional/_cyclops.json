@@ -419,38 +419,165 @@
 					]
 				},
 				{
-					"eventType": "block",
+					"eventType": "comment",
+					"text": "Единая точка урона циклопа. Урон списывается с hp через стойкость (hp -= dmg / physResist). При hp<=0 выбирает реакцию по unitType и шлёт юнита в уничтожение/банк.",
+					"background-color": [
+						0.33,
+						0.73,
+						0.48,
+						1
+					]
+				},
+				{
+					"functionName": "cycHit",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "-1",
+							"comment": "",
+							"sid": 229840158580872
+						},
+						{
+							"name": "dmg",
+							"type": "number",
+							"initialValue": "1",
+							"comment": "",
+							"sid": 276353967054962
+						}
+					],
+					"eventType": "function-block",
 					"conditions": [
 						{
-							"id": "every-x-seconds",
-							"objectClass": "System",
-							"sid": 285364300909135,
+							"id": "pick-by-unique-id",
+							"objectClass": "tUnits",
+							"sid": 856311325437843,
 							"parameters": {
-								"interval-seconds": "2"
+								"unique-id": "uid"
 							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "tUnits",
+							"sid": 121967547953898,
+							"parameters": {
+								"instance-variable": "destroyed"
+							},
+							"isInverted": true
 						}
 					],
 					"actions": [
 						{
-							"callFunction": "pfmt",
-							"sid": 506983841102692,
-							"parameters": [
-								"0",
-								"\"cyclops\"",
-								"cyclops.X+random(-300,300)",
-								"cyclops.Y+random(-160,160)",
-								"1",
-								"1",
-								"1",
-								"\"zero\"",
-								"-1",
-								"0",
-								"0"
+							"type": "comment",
+							"text": "Учитываем стойкость к физурону: physResist делит входящий урон. Хранить результат строго >= 0.",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
 							]
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "tUnits",
+							"sid": 714694069158399,
+							"parameters": {
+								"instance-variable": "hp",
+								"value": "max(0, Self.hp - dmg / (Self.physResist=0?1:Self.physResist))"
+							}
 						}
 					],
-					"sid": 309625821158843,
-					"disabled": true
+					"sid": 214532629513468,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "tUnits",
+									"sid": 705870493671028,
+									"parameters": {
+										"instance-variable": "hp",
+										"comparison": 3,
+										"value": "0"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 888849710403351,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "Смерть: выбираем реакцию по типу юнита.",
+									"background-color": [
+										0.33,
+										0.73,
+										0.48,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tUnits",
+											"sid": 705462179666230,
+											"parameters": {
+												"instance-variable": "unitType",
+												"comparison": 0,
+												"value": "\"nut\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "nutDestroy",
+											"sid": 291844817575013,
+											"parameters": [
+												"nut.UID",
+												"nut.Y"
+											]
+										}
+									],
+									"sid": 100543208589409
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "tUnits",
+											"sid": 656088166970690,
+											"parameters": {
+												"instance-variable": "unitType",
+												"comparison": 0,
+												"value": "\"chick\""
+											}
+										}
+									],
+									"actions": [
+										{
+											"type": "comment",
+											"text": "Цыплёнок: подключить после пульса циклопа (уничтожение/банк через chickBase).",
+											"background-color": [
+												1,
+												0.8,
+												0.6,
+												1
+											]
+										}
+									],
+									"sid": 748404980657458
+								}
+							]
+						}
+					]
 				}
 			],
 			"sid": 765435074459320
