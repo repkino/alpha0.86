@@ -601,17 +601,141 @@
 															"sid": 377410392867940
 														}
 													]
+												},
+												{
+													"eventType": "comment",
+													"text": "выбранная цель",
+													"background-color": [
+														0.7450980392156863,
+														0.8196078431372549,
+														0.996078431372549,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "aSco",
+															"sid": 971500336948305,
+															"parameters": {
+																"instance-variable": "cyclops"
+															}
+														},
+														{
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "aSco",
+															"sid": 440353689838285,
+															"parameters": {
+																"instance-variable": "guardBit"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aSco",
+															"sid": 907054812798632,
+															"parameters": {
+																"instance-variable": "cycTargUID",
+																"value": "aBit.tUnitUID"
+															}
+														},
+														{
+															"customAction": "cyclopsPuls",
+															"objectClass": "aSco",
+															"sid": 838090618390449,
+															"parameters": [
+																"Self.cycTargUID"
+															]
+														}
+													],
+													"sid": 713854605805906
 												}
 											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 880153331300966
+												}
+											],
+											"actions": [
+												{
+													"customAction": "cyclopsPuls",
+													"objectClass": "aSco",
+													"sid": 346790524666826,
+													"parameters": [
+														"-1"
+													]
+												}
+											],
+											"sid": 392599272721889
 										}
 									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 292044606643899
+										}
+									],
+									"actions": [
+										{
+											"customAction": "cyclopsPuls",
+											"objectClass": "aSco",
+											"sid": 391277332561457,
+											"parameters": [
+												"-1"
+											]
+										}
+									],
+									"sid": 625697381520014
 								}
 							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 197211360938338
+								}
+							],
+							"actions": [
+								{
+									"customAction": "cyclopsPuls",
+									"objectClass": "aSco",
+									"sid": 580945164525792,
+									"parameters": [
+										"-1"
+									]
+								}
+							],
+							"sid": 954069612604370
 						}
 					]
 				}
 			],
 			"sid": 128727720102383
+		},
+		{
+			"eventType": "comment",
+			"text": "циклоп",
+			"background-color": [
+				0.7450980392156863,
+				0.8196078431372549,
+				0.996078431372549,
+				1
+			]
 		},
 		{
 			"eventType": "group",
@@ -795,7 +919,809 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "клик по циклопу",
+					"text": "зрение циклопа",
+					"background-color": [
+						0.7450980392156863,
+						0.8196078431372549,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "cycVision",
+					"description": "",
+					"isActiveOnStart": false,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "trigger-once-while-true",
+									"objectClass": "System",
+									"sid": 338927343900732
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "cycCheck",
+									"sid": 104730625491374
+								}
+							],
+							"sid": 940122417195963
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "every-x-seconds",
+									"objectClass": "System",
+									"sid": 253782876550647,
+									"parameters": {
+										"interval-seconds": "0.3"
+									}
+								}
+							],
+							"actions": [
+								{
+									"callFunction": "cycCheck",
+									"sid": 483932655977420
+								}
+							],
+							"sid": 792182831070827
+						},
+						{
+							"functionName": "cycCheck",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [],
+							"eventType": "function-block",
+							"conditions": [],
+							"actions": [],
+							"sid": 827490619898037,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "обнаружение юнитов терний вокруг циклопа",
+									"background-color": [
+										0.7450980392156863,
+										0.8196078431372549,
+										0.996078431372549,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "base",
+											"sid": 635287983482457,
+											"parameters": {
+												"instance-variable": "name",
+												"comparison": 0,
+												"value": "\"cyclops\""
+											}
+										},
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "tUnits",
+											"sid": 880131340712212,
+											"parameters": {
+												"instance-variable": "BitVision"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "tUnits",
+											"sid": 935382799170010,
+											"parameters": {
+												"instance-variable": "cycDist",
+												"value": "10000"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 816897716033549,
+											"parameters": {
+												"instance-variable": "tUnitClose",
+												"value": "\"zero\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aBit",
+											"sid": 509948985242967,
+											"parameters": {
+												"instance-variable": "tUnitUID",
+												"value": "-1"
+											}
+										}
+									],
+									"sid": 977887196765523,
+									"children": [
+										{
+											"eventType": "comment",
+											"text": "из них выбираем тех, которые вблизи и не за препятствиями",
+											"background-color": [
+												0.7450980392156863,
+												0.8196078431372549,
+												0.996078431372549,
+												1
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "has-los-to-object",
+													"objectClass": "base",
+													"sid": 656099116365814,
+													"behaviorType": "vision",
+													"parameters": {
+														"object": "tUnits",
+														"image-point": "0"
+													}
+												}
+											],
+											"actions": [],
+											"sid": 216567158576081,
+											"children": [
+												{
+													"eventType": "comment",
+													"text": "записываем их дистанцию до Бита",
+													"background-color": [
+														0.7450980392156863,
+														0.8196078431372549,
+														0.996078431372549,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "for-each",
+															"objectClass": "System",
+															"sid": 845939471081767,
+															"parameters": {
+																"object": "tUnits"
+															}
+														}
+													],
+													"actions": [
+														{
+															"id": "set-instvar-value",
+															"objectClass": "tUnits",
+															"sid": 261016238341570,
+															"parameters": {
+																"instance-variable": "cycDist",
+																"value": "Functions.getIsoDist(base.X, base.Y, tUnits.X, tUnits.Y)"
+															}
+														}
+													],
+													"sid": 618840236134872
+												},
+												{
+													"eventType": "comment",
+													"text": "выбираем юнитов в изометрическом поле зрения Бита",
+													"background-color": [
+														0.7450980392156863,
+														0.8196078431372549,
+														0.996078431372549,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tUnits",
+															"sid": 436686671442816,
+															"parameters": {
+																"instance-variable": "cycDist",
+																"comparison": 3,
+																"value": "aSco.cycViewRad"
+															}
+														}
+													],
+													"actions": [],
+													"sid": 195949870486096,
+													"children": [
+														{
+															"eventType": "comment",
+															"text": "самый приоритетный юнит",
+															"background-color": [
+																0.7450980392156863,
+																0.8196078431372549,
+																0.996078431372549,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "tUnits",
+																	"sid": 385846225521947,
+																	"parameters": {
+																		"instance-variable": "unitType",
+																		"comparison": 0,
+																		"value": "\"shoko\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aSco",
+																	"sid": 304484156375078,
+																	"parameters": {
+																		"instance-variable": "tUnitClose",
+																		"value": "\"shoko\""
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aSco",
+																	"sid": 665483660380138,
+																	"parameters": {
+																		"instance-variable": "tUnitUID",
+																		"value": "tUnits.UID"
+																	}
+																}
+															],
+															"sid": 624407966217505
+														},
+														{
+															"eventType": "comment",
+															"text": "следующий по приоритету юнит",
+															"background-color": [
+																0.7450980392156863,
+																0.8196078431372549,
+																0.996078431372549,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 374537205435991
+																},
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "tUnits",
+																	"sid": 889820503977425,
+																	"parameters": {
+																		"instance-variable": "unitType",
+																		"comparison": 0,
+																		"value": "\"staker\""
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aSco",
+																	"sid": 961963835816161,
+																	"parameters": {
+																		"instance-variable": "tUnitClose",
+																		"value": "\"stalker\""
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aSco",
+																	"sid": 529182564035277,
+																	"parameters": {
+																		"instance-variable": "tUnitUID",
+																		"value": "tUnits.UID"
+																	}
+																}
+															],
+															"sid": 565567554868961
+														},
+														{
+															"eventType": "comment",
+															"text": "следующий по приоритету юнит",
+															"background-color": [
+																0.7450980392156863,
+																0.8196078431372549,
+																0.996078431372549,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 743560350739316
+																},
+																{
+																	"id": "compare-instance-variable",
+																	"objectClass": "tUnits",
+																	"sid": 737595268124723,
+																	"parameters": {
+																		"instance-variable": "unitType",
+																		"comparison": 0,
+																		"value": "\"spirit\""
+																	}
+																}
+															],
+															"actions": [],
+															"sid": 914211761666437,
+															"children": [
+																{
+																	"eventType": "comment",
+																	"text": "выбираем ближайшего",
+																	"background-color": [
+																		0.7450980392156863,
+																		0.8196078431372549,
+																		0.996078431372549,
+																		1
+																	]
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "pick-highestlowest",
+																			"objectClass": "tUnits",
+																			"sid": 870972381615552,
+																			"parameters": {
+																				"which": "lowest",
+																				"instance-variable": "BitDist"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-instvar-value",
+																			"objectClass": "aSco",
+																			"sid": 509428739227851,
+																			"parameters": {
+																				"instance-variable": "tUnitClose",
+																				"value": "\"spirit\""
+																			}
+																		},
+																		{
+																			"id": "set-instvar-value",
+																			"objectClass": "aSco",
+																			"sid": 941526412083038,
+																			"parameters": {
+																				"instance-variable": "tUnitUID",
+																				"value": "tUnits.UID"
+																			}
+																		}
+																	],
+																	"sid": 232696408697597
+																}
+															]
+														},
+														{
+															"eventType": "comment",
+															"text": "остальные юниты",
+															"background-color": [
+																0.7450980392156863,
+																0.8196078431372549,
+																0.996078431372549,
+																1
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "else",
+																	"objectClass": "System",
+																	"sid": 288699216688131
+																}
+															],
+															"actions": [],
+															"sid": 697850419558648,
+															"children": [
+																{
+																	"eventType": "comment",
+																	"text": "выбираем ближайшего",
+																	"background-color": [
+																		0.7450980392156863,
+																		0.8196078431372549,
+																		0.996078431372549,
+																		1
+																	]
+																},
+																{
+																	"eventType": "block",
+																	"conditions": [
+																		{
+																			"id": "pick-highestlowest",
+																			"objectClass": "tUnits",
+																			"sid": 509004310961627,
+																			"parameters": {
+																				"which": "lowest",
+																				"instance-variable": "BitDist"
+																			}
+																		}
+																	],
+																	"actions": [
+																		{
+																			"id": "set-instvar-value",
+																			"objectClass": "aSco",
+																			"sid": 350763003739793,
+																			"parameters": {
+																				"instance-variable": "tUnitClose",
+																				"value": "tUnits.unitType"
+																			}
+																		},
+																		{
+																			"id": "set-instvar-value",
+																			"objectClass": "aSco",
+																			"sid": 913623744432056,
+																			"parameters": {
+																				"instance-variable": "tUnitUID",
+																				"value": "tUnits.UID"
+																			}
+																		}
+																	],
+																	"sid": 516444906680202
+																}
+															]
+														},
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "is-boolean-instance-variable-set",
+																	"objectClass": "aSco",
+																	"sid": 874928083500965,
+																	"parameters": {
+																		"instance-variable": "guardBit"
+																	},
+																	"isInverted": true
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aSco",
+																	"sid": 404672674206687,
+																	"parameters": {
+																		"instance-variable": "cycTargUID",
+																		"value": "Self.tUnitUID"
+																	}
+																},
+																{
+																	"customAction": "cyclopsPuls",
+																	"objectClass": "aSco",
+																	"sid": 548268336638402,
+																	"parameters": [
+																		"Self.cycTargUID"
+																	]
+																}
+															],
+															"sid": 921704949238611
+														}
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 210217597945534
+														}
+													],
+													"actions": [
+														{
+															"customAction": "cyclopsPuls",
+															"objectClass": "aSco",
+															"sid": 125887182013296,
+															"parameters": [
+																"-1"
+															]
+														}
+													],
+													"sid": 600631490603391
+												}
+											]
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 103343314137490
+												}
+											],
+											"actions": [
+												{
+													"customAction": "cyclopsPuls",
+													"objectClass": "aSco",
+													"sid": 610278988518588,
+													"parameters": [
+														"-1"
+													]
+												}
+											],
+											"sid": 815363503659389
+										}
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 987611389537278
+										}
+									],
+									"actions": [
+										{
+											"customAction": "cyclopsPuls",
+											"objectClass": "aSco",
+											"sid": 356919499203078,
+											"parameters": [
+												"-1"
+											]
+										}
+									],
+									"sid": 844345724191273
+								}
+							]
+						}
+					],
+					"sid": 383101195657091
+				},
+				{
+					"eventType": "comment",
+					"text": "пульс циклопа",
+					"background-color": [
+						0.7450980392156863,
+						0.8196078431372549,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "cyclopsPuls",
+					"objectClass": "aSco",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [
+						{
+							"name": "uid",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"sid": 250171758114889
+						}
+					],
+					"eventType": "custom-ace-block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"sid": 327559863411702,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"cyclops\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "add-to-instvar",
+							"objectClass": "aSco",
+							"sid": 821667831401292,
+							"parameters": {
+								"instance-variable": "cycEnergo",
+								"value": "-3"
+							}
+						}
+					],
+					"sid": 476109951336795,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-eventvar",
+									"objectClass": "System",
+									"sid": 936113501404452,
+									"parameters": {
+										"variable": "uid",
+										"comparison": 1,
+										"value": "-1"
+									}
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "tUnits",
+									"sid": 395593095403751,
+									"parameters": {
+										"unique-id": "uid"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aSco",
+									"sid": 631012266945457,
+									"parameters": {
+										"instance-variable": "cycState",
+										"value": "aSco.cycEnergo>50?\"run\":\"walk\""
+									}
+								},
+								{
+									"callFunction": "smt",
+									"sid": 655979548379659,
+									"parameters": [
+										"basis.UID",
+										"tUnits.X",
+										"tUnits.Y"
+									]
+								}
+							],
+							"sid": 309178477664990,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aSco",
+											"sid": 766288024821171,
+											"parameters": {
+												"instance-variable": "cycTargUID",
+												"comparison": 0,
+												"value": "uid"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "stop-tweens",
+											"objectClass": "cyclops",
+											"sid": 408203377442699,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"runCyc\""
+											}
+										},
+										{
+											"id": "tween-value",
+											"objectClass": "cyclops",
+											"sid": 790988603507467,
+											"behaviorType": "Tween",
+											"parameters": {
+												"tags": "\"runCyc\"",
+												"start-value": "1000",
+												"end-value": "2000",
+												"time": "3",
+												"ease": "noease",
+												"destroy-on-complete": "no",
+												"loop": "no",
+												"ping-pong": "no",
+												"repeat-count": "1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "basis",
+											"sid": 496030967752976,
+											"parameters": {
+												"instance-variable": "speedMax",
+												"value": "1000"
+											}
+										}
+									],
+									"sid": 274545030408245
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 882594477540015
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aSco",
+									"sid": 339916739110084,
+									"parameters": {
+										"instance-variable": "cycState",
+										"value": "\"idle\""
+									}
+								},
+								{
+									"callFunction": "baseStop",
+									"sid": 762020880867813
+								}
+							],
+							"sid": 474710443852711,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aSco",
+											"sid": 443104443884157,
+											"parameters": {
+												"instance-variable": "guardBit"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "add-to-instvar",
+											"objectClass": "aSco",
+											"sid": 933021465501087,
+											"parameters": {
+												"instance-variable": "cycEnergo",
+												"value": "-3"
+											}
+										}
+									],
+									"sid": 519408018555238
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 342673319520167
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "smt",
+											"sid": 141548707621919,
+											"parameters": [
+												"basis.UID",
+												"senseDist.X+random(-200,200)",
+												"senseDist.Y+random(-100,100)"
+											]
+										}
+									],
+									"sid": 555350410676418
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "клик по циклопу \nдолжен вызвать режим курсора для выбора точки - после клика по земле будет вызван режим движения циклопа к точке, а режим курсора сбросится",
 					"background-color": [
 						0.7450980392156863,
 						0.8196078431372549,
@@ -824,7 +1750,7 @@
 						{
 							"id": "pick-by-unique-id",
 							"objectClass": "cyclops",
-							"sid": 718787520263012,
+							"sid": 781318276770338,
 							"parameters": {
 								"unique-id": "uid"
 							}
@@ -832,16 +1758,40 @@
 					],
 					"actions": [
 						{
+							"id": "set-instvar-value",
+							"objectClass": "aTools",
+							"sid": 460558548303953,
+							"parameters": {
+								"instance-variable": "mouseState",
+								"value": "\"cyclops\""
+							}
+						},
+						{
+							"id": "set-animation",
+							"objectClass": "cursor",
+							"sid": 165176552369217,
+							"parameters": {
+								"animation": "\"target\"",
+								"from": "beginning"
+							}
+						},
+						{
+							"type": "comment",
+							"text": "test"
+						},
+						{
 							"id": "set-scale",
 							"objectClass": "cyclops",
-							"sid": 702871864998965,
+							"sid": 563205273891881,
+							"disabled": true,
 							"parameters": {
 								"scale": "2"
 							}
 						},
 						{
 							"callFunction": "jump",
-							"sid": 765236327026297,
+							"sid": 462358762284489,
+							"disabled": true,
 							"parameters": [
 								"\"cyclops\"",
 								"-1300",
@@ -855,27 +1805,9 @@
 								"\"zero\"",
 								"0"
 							]
-						},
-						{
-							"id": "set-instvar-value",
-							"objectClass": "aTools",
-							"sid": 508554862529668,
-							"parameters": {
-								"instance-variable": "mouseState",
-								"value": "\"cyclops\""
-							}
-						},
-						{
-							"id": "set-animation",
-							"objectClass": "cursor",
-							"sid": 596178519392556,
-							"parameters": {
-								"animation": "\"target\"",
-								"from": "beginning"
-							}
 						}
 					],
-					"sid": 212405691375540
+					"sid": 303738426989290
 				},
 				{
 					"eventType": "comment",
@@ -917,13 +1849,22 @@
 								"group-name": "\"cycVision\"",
 								"state": "activated"
 							}
+						},
+						{
+							"id": "set-boolean-instvar",
+							"objectClass": "aSco",
+							"sid": 367268104379877,
+							"parameters": {
+								"instance-variable": "guardBit",
+								"value": "false"
+							}
 						}
 					],
 					"sid": 419376769145842
 				},
 				{
 					"eventType": "comment",
-					"text": "зрение циклопа",
+					"text": "ускорение циклопа",
 					"background-color": [
 						0.7450980392156863,
 						0.8196078431372549,
@@ -932,274 +1873,56 @@
 					]
 				},
 				{
-					"eventType": "group",
-					"disabled": false,
-					"title": "cycVision",
-					"description": "",
-					"isActiveOnStart": false,
-					"children": [
+					"eventType": "block",
+					"conditions": [
 						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "trigger-once-while-true",
-									"objectClass": "System",
-									"sid": 492096224476630
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "cycCheck",
-									"sid": 728445135361180
-								}
-							],
-							"sid": 218281988791663
+							"id": "is-playing",
+							"objectClass": "cyclops",
+							"sid": 193054273047267,
+							"behaviorType": "Tween",
+							"parameters": {
+								"tags": "\"runCyc\""
+							}
 						},
 						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "every-x-seconds",
-									"objectClass": "System",
-									"sid": 329981734569401,
-									"parameters": {
-										"interval-seconds": "0.3"
-									}
-								}
-							],
-							"actions": [
-								{
-									"callFunction": "cycCheck",
-									"sid": 747044617375884
-								}
-							],
-							"sid": 575947746557903
-						},
-						{
-							"functionName": "cycCheck",
-							"functionDescription": "",
-							"functionCategory": "",
-							"functionReturnType": "none",
-							"functionCopyPicked": false,
-							"functionIsAsync": false,
-							"functionParameters": [],
-							"eventType": "function-block",
-							"conditions": [],
-							"actions": [],
-							"sid": 914541417891199,
-							"children": [
-								{
-									"eventType": "comment",
-									"text": "обнаружение юнитов терний вокруг циклопа",
-									"background-color": [
-										0.7450980392156863,
-										0.8196078431372549,
-										0.996078431372549,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [],
-									"actions": [],
-									"sid": 899657771385525
-								},
-								{
-									"eventType": "comment",
-									"text": "Пульс циклопа: движение и ускорение к цели (aSco.cycTargUID). Работает на guard-блоках без else. Состояние ускорения задаётся выражением, энергия тратится только в режиме ускорения.",
-									"background-color": [
-										0.33,
-										0.73,
-										0.48,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "aSco",
-											"sid": 238488565471916,
-											"parameters": {
-												"instance-variable": "cycTargUID",
-												"comparison": 1,
-												"value": "-1"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 275384847491404,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "pick-by-unique-id",
-													"objectClass": "tUnits",
-													"sid": 545462355985525,
-													"parameters": {
-														"unique-id": "aSco.cycTargUID"
-													}
-												},
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "tUnits",
-													"sid": 846089089270761,
-													"parameters": {
-														"instance-variable": "destroyed"
-													},
-													"isInverted": true
-												}
-											],
-											"actions": [
-												{
-													"id": "set-instvar-value",
-													"objectClass": "aSco",
-													"sid": 119797214954314,
-													"parameters": {
-														"instance-variable": "cycState",
-														"value": "aSco.cycEnergo>50?\"accelerate\":\"run\""
-													}
-												},
-												{
-													"callFunction": "smt",
-													"sid": 568054742707020,
-													"parameters": [
-														"base.UID",
-														"tUnits.X",
-														"tUnits.Y"
-													]
-												}
-											],
-											"sid": 621396064632425,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-instance-variable",
-															"objectClass": "aSco",
-															"sid": 333655151223615,
-															"parameters": {
-																"instance-variable": "cycEnergo",
-																"comparison": 4,
-																"value": "50"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "add-to-instvar",
-															"objectClass": "aSco",
-															"sid": 103044454519206,
-															"parameters": {
-																"instance-variable": "cycEnergo",
-																"value": "-2"
-															}
-														}
-													],
-													"sid": 765099162221692
-												}
-											]
-										}
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "aSco",
-											"sid": 517813604257918,
-											"parameters": {
-												"instance-variable": "cycTargUID",
-												"comparison": 0,
-												"value": "-1"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aSco",
-											"sid": 498316674014444,
-											"parameters": {
-												"instance-variable": "cycState",
-												"value": "\"idle\""
-											}
-										},
-										{
-											"callFunction": "baseStop",
-											"sid": 938019904578471
-										}
-									],
-									"sid": 504589068226707
-								},
-								{
-									"eventType": "comment",
-									"text": "Очистка: если выбранная цель уничтожена - сбрасываем cycTargUID.",
-									"background-color": [
-										0.49,
-										0.7,
-										0.38,
-										1
-									]
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "pick-by-unique-id",
-											"objectClass": "tUnits",
-											"sid": 625822409646303,
-											"parameters": {
-												"unique-id": "aSco.cycTargUID"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "tUnits",
-											"sid": 210822461228972,
-											"parameters": {
-												"instance-variable": "destroyed"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aSco",
-											"sid": 943044784662949,
-											"parameters": {
-												"instance-variable": "cycTargUID",
-												"value": "-1"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aSco",
-											"sid": 129665077951110,
-											"parameters": {
-												"instance-variable": "cycState",
-												"value": "\"idle\""
-											}
-										}
-									],
-									"sid": 193980833279170
-								}
-							]
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 833686232903043,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"cyclops\""
+							}
 						}
 					],
-					"sid": 804574653276912
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "base",
+							"sid": 374902371886134,
+							"parameters": {
+								"instance-variable": "speedMax",
+								"value": "cyclops.Tween.Value(\"runCyc\")"
+							}
+						},
+						{
+							"id": "set-animation-speed",
+							"objectClass": "cyclops",
+							"sid": 445128795389692,
+							"parameters": {
+								"speed": "Self.OriginalAnimationSpeed*base.speedMax/1000"
+							}
+						}
+					],
+					"sid": 757506078638323
 				},
 				{
 					"eventType": "comment",
-					"text": "Пульс циклопа: выбор цели. Сканируем семью tUnits, цель = по приоритету (атакует Бита > видит сам через cycViewRad > резерв). Результат пишем в aSco.cycTargUID.",
+					"text": "анимация атаки",
 					"background-color": [
-						0.33,
-						0.73,
-						0.48,
+						0.7450980392156863,
+						0.8196078431372549,
+						0.996078431372549,
 						1
 					]
 				},
@@ -1207,336 +1930,109 @@
 					"eventType": "block",
 					"conditions": [
 						{
-							"id": "every-x-seconds",
-							"objectClass": "System",
-							"sid": 729367038515909,
+							"id": "on-animation-frame-changed",
+							"objectClass": "cyclops",
+							"sid": 458668479878543
+						},
+						{
+							"id": "is-animation-playing",
+							"objectClass": "cyclops",
+							"sid": 351532992425639,
 							"parameters": {
-								"interval-seconds": "0.3"
+								"animation": "\"claws\""
 							}
 						},
 						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aSco",
-							"sid": 592139635295445,
+							"id": "compare-animation-frame-tag",
+							"objectClass": "cyclops",
+							"sid": 453842826814642,
 							"parameters": {
-								"instance-variable": "cyclops"
+								"comparison": 0,
+								"tag": "\"hit\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"sid": 396223932903957,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"cyclops\""
 							}
 						}
 					],
 					"actions": [],
-					"sid": 969204578504488,
-					"disabled": true,
+					"sid": 781641181303504,
 					"children": [
 						{
-							"eventType": "variable",
-							"name": "cycX",
-							"type": "number",
-							"initialValue": "0",
-							"comment": "Координаты циклопа (кеш для скана)",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 771690286656568
-						},
-						{
-							"eventType": "variable",
-							"name": "cycY",
-							"type": "number",
-							"initialValue": "0",
-							"comment": "",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 852980911633357
-						},
-						{
-							"eventType": "variable",
-							"name": "bestUID",
-							"type": "number",
-							"initialValue": "-1",
-							"comment": "Лучший кандидат",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 816230543819813
-						},
-						{
-							"eventType": "variable",
-							"name": "bestPrior",
-							"type": "number",
-							"initialValue": "99",
-							"comment": "Лучший приоритет (меньше=важнее)",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 876811561607008
-						},
-						{
-							"eventType": "variable",
-							"name": "bestDist",
-							"type": "number",
-							"initialValue": "99999",
-							"comment": "Дистанция лучшего (тех брейк)",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 947713703958787
-						},
-						{
-							"eventType": "variable",
-							"name": "unitPrior",
-							"type": "number",
-							"initialValue": "99",
-							"comment": "Приоритет текущего юнита",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 498445864774892
-						},
-						{
-							"eventType": "variable",
-							"name": "uDist",
-							"type": "number",
-							"initialValue": "99999",
-							"comment": "Дистанция текущего юнита до циклопа",
-							"isStatic": false,
-							"isConstant": false,
-							"sid": 196793809574996
-						},
-						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-instance-variable",
-									"objectClass": "base",
-									"sid": 583705319531125,
+									"id": "pick-by-unique-id",
+									"objectClass": "tUnits",
+									"sid": 352925951893777,
 									"parameters": {
-										"instance-variable": "name",
-										"comparison": 0,
-										"value": "\"cyclops\""
+										"unique-id": "aSco.cycTargUID"
 									}
 								}
 							],
 							"actions": [
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 718049906229971,
-									"parameters": {
-										"variable": "cycX",
-										"value": "base.X"
-									}
-								},
-								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 480953442448102,
-									"parameters": {
-										"variable": "cycY",
-										"value": "base.Y"
-									}
-								}
-							],
-							"sid": 630594142776238,
-							"disabled": true
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "compare-instance-variable",
-									"objectClass": "base",
-									"sid": 169290006358559,
-									"parameters": {
-										"instance-variable": "name",
-										"comparison": 0,
-										"value": "\"Bit\""
-									}
-								}
-							],
-							"actions": [],
-							"sid": 246670423423786,
-							"disabled": true,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "for-each",
-											"objectClass": "System",
-											"sid": 120972825246313,
-											"parameters": {
-												"object": "tUnits"
-											}
-										}
-									],
-									"actions": [],
-									"sid": 795859999339762,
-									"disabled": true
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "for-each",
-											"objectClass": "System",
-											"sid": 534473689569672,
-											"parameters": {
-												"object": "tUnits"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "tUnits",
-											"sid": 926395755716307,
-											"parameters": {
-												"instance-variable": "onU"
-											}
-										},
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "tUnits",
-											"sid": 535473903078969,
-											"parameters": {
-												"instance-variable": "destroyed"
-											},
-											"isInverted": true
-										}
-									],
-									"actions": [
-										{
-											"id": "set-eventvar-value",
-											"objectClass": "System",
-											"sid": 352354451940685,
-											"parameters": {
-												"variable": "unitPrior",
-												"value": "tUnits.unitTargetUID = base.UID ? 0 : 1"
-											}
-										},
-										{
-											"id": "set-eventvar-value",
-											"objectClass": "System",
-											"sid": 423207196055314,
-											"parameters": {
-												"variable": "uDist",
-												"value": "Functions.getIsoDist(cycX, cycY, tUnits.X, tUnits.Y)"
-											}
-										}
-									],
-									"sid": 588562197421519,
-									"disabled": true,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "compare-eventvar",
-													"objectClass": "System",
-													"sid": 400388776354140,
-													"parameters": {
-														"variable": "unitPrior",
-														"comparison": 2,
-														"value": "bestPrior"
-													}
-												}
-											],
-											"actions": [],
-											"sid": 537094284708351,
-											"disabled": true,
-											"children": [
-												{
-													"eventType": "block",
-													"conditions": [
-														{
-															"id": "compare-eventvar",
-															"objectClass": "System",
-															"sid": 837131860045624,
-															"parameters": {
-																"variable": "unitPrior",
-																"comparison": 2,
-																"value": "bestPrior"
-															}
-														},
-														{
-															"id": "compare-eventvar",
-															"objectClass": "System",
-															"sid": 852490240957364,
-															"parameters": {
-																"variable": "uDist",
-																"comparison": 2,
-																"value": "bestDist"
-															}
-														}
-													],
-													"actions": [
-														{
-															"id": "set-eventvar-value",
-															"objectClass": "System",
-															"sid": 344939812718561,
-															"parameters": {
-																"variable": "bestPrior",
-																"value": "unitPrior"
-															}
-														},
-														{
-															"id": "set-eventvar-value",
-															"objectClass": "System",
-															"sid": 438798479768793,
-															"parameters": {
-																"variable": "bestDist",
-																"value": "uDist"
-															}
-														},
-														{
-															"id": "set-eventvar-value",
-															"objectClass": "System",
-															"sid": 249566834858767,
-															"parameters": {
-																"variable": "bestUID",
-																"value": "tUnits.UID"
-															}
-														}
-													],
-													"sid": 893253549492000,
-													"disabled": true
-												}
-											]
-										}
+									"callFunction": "cycHit",
+									"sid": 836113182977771,
+									"parameters": [
+										"aSco.cycTargUID",
+										"20"
 									]
 								}
-							]
-						},
-						{
-							"eventType": "comment",
-							"text": "! pr=1 (в поле зрения) пока не ограничен cycViewRad: добавим фильтр uDist<=aSco.cycViewRad после подключения движения.",
-							"background-color": [
-								1,
-								0.8,
-								0.6,
-								1
-							]
+							],
+							"sid": 368835502035411
 						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "compare-eventvar",
+									"id": "else",
 									"objectClass": "System",
-									"sid": 420276775749562,
-									"parameters": {
-										"variable": "bestUID",
-										"comparison": 1,
-										"value": "-1"
-									}
+									"sid": 937425605773792
 								}
 							],
 							"actions": [
 								{
-									"id": "set-instvar-value",
-									"objectClass": "aSco",
-									"sid": 433454577224684,
+									"callFunction": "baseStop",
+									"sid": 292782226317106
+								},
+								{
+									"id": "set-animation",
+									"objectClass": "cyclops",
+									"sid": 509814984982109,
 									"parameters": {
-										"instance-variable": "cycTargUID",
-										"value": "bestUID"
+										"animation": "\"look\"",
+										"from": "beginning"
 									}
+								},
+								{
+									"customAction": "ema",
+									"objectClass": "cyclops",
+									"sid": 338256355561473,
+									"parameters": [
+										"\"questExc\""
+									]
+								},
+								{
+									"customAction": "emananta",
+									"objectClass": "cyclops",
+									"customActionObjectClass": "person",
+									"sid": 853507226133375,
+									"disabled": true,
+									"parameters": [
+										"\"3dot\"",
+										"\"cyclops\""
+									]
 								}
 							],
-							"sid": 462899278978600,
-							"disabled": true
+							"sid": 432113259670958
 						}
 					]
 				},
@@ -1578,7 +2074,7 @@
 						{
 							"id": "pick-by-unique-id",
 							"objectClass": "tUnits",
-							"sid": 856311325437843,
+							"sid": 137391327235296,
 							"parameters": {
 								"unique-id": "uid"
 							}
@@ -1586,7 +2082,7 @@
 						{
 							"id": "is-boolean-instance-variable-set",
 							"objectClass": "tUnits",
-							"sid": 121967547953898,
+							"sid": 506905062705079,
 							"parameters": {
 								"instance-variable": "destroyed"
 							},
@@ -1607,14 +2103,14 @@
 						{
 							"id": "set-instvar-value",
 							"objectClass": "tUnits",
-							"sid": 714694069158399,
+							"sid": 746264518837798,
 							"parameters": {
 								"instance-variable": "hp",
 								"value": "max(0, Self.hp - dmg / (Self.physResist=0?1:Self.physResist))"
 							}
 						}
 					],
-					"sid": 214532629513468,
+					"sid": 348606750829408,
 					"children": [
 						{
 							"eventType": "block",
@@ -1622,7 +2118,7 @@
 								{
 									"id": "compare-instance-variable",
 									"objectClass": "tUnits",
-									"sid": 705870493671028,
+									"sid": 676832754647370,
 									"parameters": {
 										"instance-variable": "hp",
 										"comparison": 3,
@@ -1631,7 +2127,7 @@
 								}
 							],
 							"actions": [],
-							"sid": 888849710403351,
+							"sid": 831110692891381,
 							"children": [
 								{
 									"eventType": "comment",
@@ -1649,7 +2145,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "tUnits",
-											"sid": 705462179666230,
+											"sid": 667507355166396,
 											"parameters": {
 												"instance-variable": "unitType",
 												"comparison": 0,
@@ -1660,14 +2156,14 @@
 									"actions": [
 										{
 											"callFunction": "nutDestroy",
-											"sid": 291844817575013,
+											"sid": 781678309018078,
 											"parameters": [
 												"nut.UID",
 												"nut.Y"
 											]
 										}
 									],
-									"sid": 100543208589409
+									"sid": 532940677291874
 								},
 								{
 									"eventType": "block",
@@ -1675,7 +2171,7 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "tUnits",
-											"sid": 656088166970690,
+											"sid": 693880368329793,
 											"parameters": {
 												"instance-variable": "unitType",
 												"comparison": 0,
@@ -1695,18 +2191,484 @@
 											]
 										}
 									],
-									"sid": 748404980657458
+									"sid": 704460715266560
+								},
+								{
+									"eventType": "comment",
+									"text": "переключение внимания"
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 727205533003828,
+											"parameters": {
+												"instance-variable": "cycTargUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 666849041743639,
+											"parameters": {
+												"instance-variable": "cycState",
+												"value": "\"idle\""
+											}
+										}
+									],
+									"sid": 706697293624765,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aSco",
+													"sid": 716220651976825,
+													"parameters": {
+														"instance-variable": "guardBit"
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "BitCheck",
+													"sid": 454305508274443
+												}
+											],
+											"sid": 232751824027513
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 115343713682571
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "cycCheck",
+													"sid": 350032611967183
+												}
+											],
+											"sid": 852317055457092
+										}
+									]
 								}
 							]
 						}
 					]
+				},
+				{
+					"eventType": "group",
+					"disabled": false,
+					"title": "cycEmo",
+					"description": "",
+					"isActiveOnStart": true,
+					"children": [
+						{
+							"eventType": "comment",
+							"text": "\n\nэмананты",
+							"background-color": [
+								0.8117647058823529,
+								0.7450980392156863,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"aceType": "action",
+							"aceName": "ema",
+							"objectClass": "cyclops",
+							"functionDescription": "",
+							"functionCategory": "",
+							"functionReturnType": "none",
+							"functionCopyPicked": false,
+							"functionIsAsync": false,
+							"functionParameters": [
+								{
+									"name": "anim",
+									"type": "string",
+									"initialValue": "spike1",
+									"comment": "",
+									"sid": 424734298233476
+								}
+							],
+							"eventType": "custom-ace-block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "cyclops",
+									"sid": 581061201514805,
+									"parameters": {
+										"instance-variable": "ema",
+										"comparison": 0,
+										"value": "\"zero\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "sEmananta",
+									"sid": 158519657869474,
+									"parameters": {
+										"instance-variable": "sUID",
+										"comparison": 0,
+										"value": "-1"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 533328067021041,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "pick-random-instance",
+											"objectClass": "System",
+											"sid": 354656313805803,
+											"parameters": {
+												"object": "sEmananta"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-position-to-another-object",
+											"objectClass": "sEmananta",
+											"sid": 182744570257182,
+											"parameters": {
+												"object": "cyclops",
+												"image-point-optional": "\"dialog\""
+											}
+										},
+										{
+											"id": "move-to-object",
+											"objectClass": "sEmananta",
+											"sid": 172176138837908,
+											"parameters": {
+												"where": "in-front",
+												"object": "cyclops"
+											}
+										},
+										{
+											"id": "pin-to-object-imagepoint",
+											"objectClass": "sEmananta",
+											"sid": 919133448712653,
+											"behaviorType": "Pin",
+											"parameters": {
+												"pin-to": "cyclops",
+												"image-point": "\"dialog\"",
+												"angle": false,
+												"width-type": "no",
+												"height-type": "no",
+												"z": false
+											}
+										},
+										{
+											"id": "set-animation",
+											"objectClass": "sEmananta",
+											"sid": 213063619207244,
+											"parameters": {
+												"animation": "anim",
+												"from": "beginning"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "sEmananta",
+											"sid": 363869751690503,
+											"parameters": {
+												"instance-variable": "sUID",
+												"value": "cyclops.UID"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 881687104794881,
+											"parameters": {
+												"instance-variable": "ema",
+												"value": "anim"
+											}
+										}
+									],
+									"sid": 580152141170480
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"background-color": [
+								0.8117647058823529,
+								0.7450980392156863,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "sEmananta",
+									"sid": 661300319984731,
+									"parameters": {
+										"instance-variable": "sUID",
+										"comparison": 1,
+										"value": "-1"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 599442963774142,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "for-each",
+											"objectClass": "System",
+											"sid": 496483787860739,
+											"parameters": {
+												"object": "sEmananta"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 698702949344436,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "pick-by-unique-id",
+													"objectClass": "cyclops",
+													"sid": 969401603256074,
+													"parameters": {
+														"unique-id": "sEmananta.sUID"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "move-to-object",
+													"objectClass": "sEmananta",
+													"sid": 812806240671029,
+													"parameters": {
+														"where": "in-front",
+														"object": "cyclops"
+													}
+												}
+											],
+											"sid": 529180538682944
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"background-color": [
+								0.8117647058823529,
+								0.7450980392156863,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-any-animation-finished",
+									"objectClass": "sEmananta",
+									"sid": 832656111341086
+								},
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "cyclops",
+									"sid": 455945663975219,
+									"parameters": {
+										"unique-id": "sEmananta.sUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "instance-signal",
+									"objectClass": "cyclops",
+									"sid": 792955089679023,
+									"parameters": {
+										"tag": "\"emaOut\""
+									}
+								}
+							],
+							"sid": 973347675038311
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"background-color": [
+								0.8117647058823529,
+								0.7450980392156863,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "on-instance-signal",
+									"objectClass": "cyclops",
+									"sid": 975812484067986,
+									"parameters": {
+										"tag": "\"emaOut\""
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "sEmananta",
+									"sid": 111494651647741,
+									"parameters": {
+										"instance-variable": "sUID",
+										"comparison": 0,
+										"value": "cyclops.UID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "sEmananta",
+									"sid": 944006539620237,
+									"parameters": {
+										"instance-variable": "sUID",
+										"value": "-1"
+									}
+								},
+								{
+									"id": "unpin",
+									"objectClass": "sEmananta",
+									"sid": 546706841753647,
+									"behaviorType": "Pin"
+								},
+								{
+									"id": "set-position",
+									"objectClass": "sEmananta",
+									"sid": 222700448687756,
+									"parameters": {
+										"x": "-7777",
+										"y": "-2345"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cyclops",
+									"sid": 862044401233837,
+									"parameters": {
+										"instance-variable": "ema",
+										"value": "\"zero\""
+									}
+								}
+							],
+							"sid": 192119744820697
+						}
+					],
+					"sid": 716907638574549
 				}
 			],
 			"sid": 765435074459320
 		},
 		{
 			"eventType": "comment",
-			"text": "temp"
+			"text": "\n\n\n\n\n\n\n\n\n\ntemp"
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aSco",
+					"sid": 466365528698317,
+					"parameters": {
+						"instance-variable": "cycTargUID",
+						"comparison": 1,
+						"value": "-1"
+					}
+				}
+			],
+			"actions": [],
+			"sid": 936813905668795,
+			"disabled": true,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "pick-by-unique-id",
+							"objectClass": "tUnits",
+							"sid": 691880135631817,
+							"parameters": {
+								"unique-id": "aSco.cycTargUID"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 654475779079971,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aSco",
+									"sid": 987928944774332,
+									"parameters": {
+										"instance-variable": "cycEnergo",
+										"comparison": 4,
+										"value": "50"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 701387604039779,
+							"disabled": true
+						}
+					]
+				}
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "compare-instance-variable",
+					"objectClass": "aSco",
+					"sid": 743369140110344,
+					"parameters": {
+						"instance-variable": "cycTargUID",
+						"comparison": 0,
+						"value": "-1"
+					}
+				}
+			],
+			"actions": [],
+			"sid": 767929006423135,
+			"disabled": true
+		},
+		{
+			"eventType": "comment",
+			"text": ""
 		},
 		{
 			"eventType": "block",
@@ -1810,6 +2772,353 @@
 					],
 					"actions": [],
 					"sid": 787715343863132,
+					"disabled": true
+				}
+			]
+		},
+		{
+			"eventType": "comment",
+			"text": "Пульс циклопа: выбор цели. Сканируем семью tUnits, цель = по приоритету (атакует Бита > видит сам через cycViewRad > резерв). Результат пишем в aSco.cycTargUID.",
+			"background-color": [
+				0.33,
+				0.73,
+				0.48,
+				1
+			]
+		},
+		{
+			"eventType": "block",
+			"conditions": [
+				{
+					"id": "every-x-seconds",
+					"objectClass": "System",
+					"sid": 466262823382821,
+					"parameters": {
+						"interval-seconds": "0.3"
+					}
+				},
+				{
+					"id": "is-boolean-instance-variable-set",
+					"objectClass": "aSco",
+					"sid": 847577455179292,
+					"parameters": {
+						"instance-variable": "cyclops"
+					}
+				}
+			],
+			"actions": [],
+			"sid": 343960548223835,
+			"disabled": true,
+			"children": [
+				{
+					"eventType": "variable",
+					"name": "cycX",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "Координаты циклопа (кеш для скана)",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 647719221027506
+				},
+				{
+					"eventType": "variable",
+					"name": "cycY",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 610016476077591
+				},
+				{
+					"eventType": "variable",
+					"name": "bestUID",
+					"type": "number",
+					"initialValue": "-1",
+					"comment": "Лучший кандидат",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 287565345334792
+				},
+				{
+					"eventType": "variable",
+					"name": "bestPrior",
+					"type": "number",
+					"initialValue": "99",
+					"comment": "Лучший приоритет (меньше=важнее)",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 736226712462652
+				},
+				{
+					"eventType": "variable",
+					"name": "bestDist",
+					"type": "number",
+					"initialValue": "99999",
+					"comment": "Дистанция лучшего (тех брейк)",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 239746671216101
+				},
+				{
+					"eventType": "variable",
+					"name": "unitPrior",
+					"type": "number",
+					"initialValue": "99",
+					"comment": "Приоритет текущего юнита",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 388471128579744
+				},
+				{
+					"eventType": "variable",
+					"name": "uDist",
+					"type": "number",
+					"initialValue": "99999",
+					"comment": "Дистанция текущего юнита до циклопа",
+					"isStatic": false,
+					"isConstant": false,
+					"sid": 750861785453485
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 102652556091372,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"cyclops\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 560204712612057,
+							"parameters": {
+								"variable": "cycX",
+								"value": "base.X"
+							}
+						},
+						{
+							"id": "set-eventvar-value",
+							"objectClass": "System",
+							"sid": 675612895549212,
+							"parameters": {
+								"variable": "cycY",
+								"value": "base.Y"
+							}
+						}
+					],
+					"sid": 794332415500527,
+					"disabled": true
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 839783327637308,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						}
+					],
+					"actions": [],
+					"sid": 815880395822169,
+					"disabled": true,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 517731488543405,
+									"parameters": {
+										"object": "tUnits"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 419884662674343,
+							"disabled": true
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "for-each",
+									"objectClass": "System",
+									"sid": 644837488265484,
+									"parameters": {
+										"object": "tUnits"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tUnits",
+									"sid": 379585312385489,
+									"parameters": {
+										"instance-variable": "onU"
+									}
+								},
+								{
+									"id": "is-boolean-instance-variable-set",
+									"objectClass": "tUnits",
+									"sid": 986080331058291,
+									"parameters": {
+										"instance-variable": "destroyed"
+									},
+									"isInverted": true
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 991744655279252,
+									"parameters": {
+										"variable": "unitPrior",
+										"value": "tUnits.unitTargetUID = base.UID ? 0 : 1"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 662369303843043,
+									"parameters": {
+										"variable": "uDist",
+										"value": "Functions.getIsoDist(cycX, cycY, tUnits.X, tUnits.Y)"
+									}
+								}
+							],
+							"sid": 498264531338184,
+							"disabled": true,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-eventvar",
+											"objectClass": "System",
+											"sid": 319932607778399,
+											"parameters": {
+												"variable": "unitPrior",
+												"comparison": 2,
+												"value": "bestPrior"
+											}
+										}
+									],
+									"actions": [],
+									"sid": 925320362414836,
+									"disabled": true,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 473372112772440,
+													"parameters": {
+														"variable": "unitPrior",
+														"comparison": 2,
+														"value": "bestPrior"
+													}
+												},
+												{
+													"id": "compare-eventvar",
+													"objectClass": "System",
+													"sid": 186025485101427,
+													"parameters": {
+														"variable": "uDist",
+														"comparison": 2,
+														"value": "bestDist"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 563026995126289,
+													"parameters": {
+														"variable": "bestPrior",
+														"value": "unitPrior"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 896203840666732,
+													"parameters": {
+														"variable": "bestDist",
+														"value": "uDist"
+													}
+												},
+												{
+													"id": "set-eventvar-value",
+													"objectClass": "System",
+													"sid": 701164453278181,
+													"parameters": {
+														"variable": "bestUID",
+														"value": "tUnits.UID"
+													}
+												}
+											],
+											"sid": 259607086765423,
+											"disabled": true
+										}
+									]
+								}
+							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "! pr=1 (в поле зрения) пока не ограничен cycViewRad: добавим фильтр uDist<=aSco.cycViewRad после подключения движения.",
+					"background-color": [
+						1,
+						0.8,
+						0.6,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 617673951740870,
+							"parameters": {
+								"variable": "bestUID",
+								"comparison": 1,
+								"value": "-1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aSco",
+							"sid": 626020755044153,
+							"parameters": {
+								"instance-variable": "cycTargUID",
+								"value": "bestUID"
+							}
+						}
+					],
+					"sid": 274727532230786,
 					"disabled": true
 				}
 			]
