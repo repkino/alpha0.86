@@ -630,6 +630,14 @@
 															"parameters": {
 																"instance-variable": "guardBit"
 															}
+														},
+														{
+															"id": "pick-by-unique-id",
+															"objectClass": "tUnits",
+															"sid": 625420418684384,
+															"parameters": {
+																"unique-id": "aBit.tUnitUID"
+															}
 														}
 													],
 													"actions": [
@@ -640,6 +648,15 @@
 															"parameters": {
 																"instance-variable": "cycTargUID",
 																"value": "aBit.tUnitUID"
+															}
+														},
+														{
+															"id": "set-instvar-value",
+															"objectClass": "aSco",
+															"sid": 522725677002547,
+															"parameters": {
+																"instance-variable": "cycTargDist",
+																"value": "tUnits.BitDist"
 															}
 														},
 														{
@@ -1392,6 +1409,14 @@
 																		"instance-variable": "guardBit"
 																	},
 																	"isInverted": true
+																},
+																{
+																	"id": "pick-by-unique-id",
+																	"objectClass": "tUnits",
+																	"sid": 301920538789383,
+																	"parameters": {
+																		"unique-id": "aSco.tUnitUID"
+																	}
 																}
 															],
 															"actions": [
@@ -1402,6 +1427,15 @@
 																	"parameters": {
 																		"instance-variable": "cycTargUID",
 																		"value": "Self.tUnitUID"
+																	}
+																},
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "aSco",
+																	"sid": 695796384663316,
+																	"parameters": {
+																		"instance-variable": "cycTargDist",
+																		"value": "tUnits.cycDist"
 																	}
 																},
 																{
@@ -1534,10 +1568,10 @@
 						{
 							"id": "add-to-instvar",
 							"objectClass": "aSco",
-							"sid": 821667831401292,
+							"sid": 388859240763614,
 							"parameters": {
-								"instance-variable": "cycEnergo",
-								"value": "-3"
+								"instance-variable": "energoSub",
+								"value": "3"
 							}
 						}
 					],
@@ -1572,7 +1606,7 @@
 									"sid": 631012266945457,
 									"parameters": {
 										"instance-variable": "cycState",
-										"value": "aSco.cycEnergo>50?\"run\":\"walk\""
+										"value": "aSco.energo>50?\"run\":\"walk\""
 									}
 								},
 								{
@@ -1593,11 +1627,21 @@
 										{
 											"id": "compare-instance-variable",
 											"objectClass": "aSco",
-											"sid": 766288024821171,
+											"sid": 113588744426277,
 											"parameters": {
 												"instance-variable": "cycTargUID",
-												"comparison": 0,
+												"comparison": 1,
 												"value": "uid"
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aSco",
+											"sid": 644517299726786,
+											"parameters": {
+												"instance-variable": "cycTargDist",
+												"comparison": 2,
+												"value": "250"
 											}
 										}
 									],
@@ -1643,6 +1687,16 @@
 							]
 						},
 						{
+							"eventType": "comment",
+							"text": "поведение при отсутствии целей",
+							"background-color": [
+								0.7450980392156863,
+								0.8196078431372549,
+								0.996078431372549,
+								1
+							]
+						},
+						{
 							"eventType": "block",
 							"conditions": [
 								{
@@ -1653,15 +1707,6 @@
 							],
 							"actions": [
 								{
-									"id": "set-instvar-value",
-									"objectClass": "aSco",
-									"sid": 339916739110084,
-									"parameters": {
-										"instance-variable": "cycState",
-										"value": "\"idle\""
-									}
-								},
-								{
 									"callFunction": "baseStop",
 									"sid": 762020880867813
 								}
@@ -1669,43 +1714,50 @@
 							"sid": 474710443852711,
 							"children": [
 								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "is-boolean-instance-variable-set",
-											"objectClass": "aSco",
-											"sid": 443104443884157,
-											"parameters": {
-												"instance-variable": "guardBit"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "add-to-instvar",
-											"objectClass": "aSco",
-											"sid": 933021465501087,
-											"parameters": {
-												"instance-variable": "cycEnergo",
-												"value": "-3"
-											}
-										}
-									],
-									"sid": 519408018555238
+									"eventType": "comment",
+									"text": "если охраняет Бита",
+									"background-color": [
+										0.7450980392156863,
+										0.8196078431372549,
+										0.996078431372549,
+										1
+									]
 								},
 								{
 									"eventType": "block",
 									"conditions": [
 										{
-											"id": "else",
+											"id": "is-boolean-instance-variable-set",
+											"objectClass": "aSco",
+											"sid": 564695350354929,
+											"parameters": {
+												"instance-variable": "guardBit"
+											}
+										},
+										{
+											"id": "compare-two-values",
 											"objectClass": "System",
-											"sid": 342673319520167
+											"sid": 513800603418937,
+											"parameters": {
+												"first-value": "Functions.getIsoDist(base.X, base.Y, senseDist.X, senseDist.Y)",
+												"comparison": 4,
+												"second-value": "250"
+											}
 										}
 									],
 									"actions": [
 										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 737025964409212,
+											"parameters": {
+												"instance-variable": "cycState",
+												"value": "\"idle\""
+											}
+										},
+										{
 											"callFunction": "smt",
-											"sid": 141548707621919,
+											"sid": 169617254256902,
 											"parameters": [
 												"basis.UID",
 												"senseDist.X+random(-200,200)",
@@ -1713,9 +1765,134 @@
 											]
 										}
 									],
-									"sid": 555350410676418
+									"sid": 712611426420651
+								},
+								{
+									"eventType": "comment",
+									"text": "иначе продолжает путь к точке",
+									"background-color": [
+										0.7450980392156863,
+										0.8196078431372549,
+										0.996078431372549,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 454072023502810
+										}
+									],
+									"actions": [],
+									"sid": 812716040620717
 								}
 							]
+						},
+						{
+							"eventType": "comment",
+							"text": "расчет энергии",
+							"background-color": [
+								0.7450980392156863,
+								0.8196078431372549,
+								0.996078431372549,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"customAction": "cycEnergo",
+									"objectClass": "aSco",
+									"sid": 773328217894448
+								}
+							],
+							"sid": 533482039901715
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "энергия циклопа",
+					"background-color": [
+						0.7450980392156863,
+						0.8196078431372549,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "cycEnergo",
+					"objectClass": "aSco",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "custom-ace-block",
+					"conditions": [],
+					"actions": [
+						{
+							"id": "add-to-instvar",
+							"objectClass": "aSco",
+							"sid": 700102950785364,
+							"parameters": {
+								"instance-variable": "energo",
+								"value": "Self.energoAdd"
+							}
+						},
+						{
+							"id": "subtract-from-instvar",
+							"objectClass": "aSco",
+							"sid": 887997719402090,
+							"parameters": {
+								"instance-variable": "energo",
+								"value": "Self.energoSub"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aSco",
+							"sid": 570156470627940,
+							"parameters": {
+								"instance-variable": "energoAdd",
+								"value": "0"
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "aSco",
+							"sid": 737929999414569,
+							"parameters": {
+								"instance-variable": "energoSub",
+								"value": "0"
+							}
+						}
+					],
+					"sid": 319797042389250,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aSco",
+									"sid": 125523709545610,
+									"parameters": {
+										"instance-variable": "energo",
+										"comparison": 2,
+										"value": "30"
+									}
+								}
+							],
+							"actions": [],
+							"sid": 406012196313640
 						}
 					]
 				},
@@ -1975,6 +2152,16 @@
 									"parameters": {
 										"unique-id": "aSco.cycTargUID"
 									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "aSco",
+									"sid": 150644309386634,
+									"parameters": {
+										"instance-variable": "cycTargDist",
+										"comparison": 2,
+										"value": "50"
+									}
 								}
 							],
 							"actions": [
@@ -1985,6 +2172,19 @@
 										"aSco.cycTargUID",
 										"20"
 									]
+								},
+								{
+									"id": "add-to-instvar",
+									"objectClass": "aSco",
+									"sid": 666137338169287,
+									"parameters": {
+										"instance-variable": "energoSub",
+										"value": "10"
+									}
+								},
+								{
+									"type": "comment",
+									"text": "!!! добавить эффект удара"
 								}
 							],
 							"sid": 368835502035411
@@ -2262,6 +2462,96 @@
 									]
 								}
 							]
+						}
+					]
+				},
+				{
+					"eventType": "comment",
+					"text": "если сталкивается с Битом без цели, начинает жонглировать Битом",
+					"background-color": [
+						0.7450980392156863,
+						0.8196078431372549,
+						0.996078431372549,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-collision-with-another-object",
+							"objectClass": "shad",
+							"sid": 667463382191802,
+							"parameters": {
+								"object": "basis"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"sid": 567640336813810,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "shad",
+							"sid": 507288504868116,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"cyclops\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "aSco",
+							"sid": 574465360260340,
+							"parameters": {
+								"instance-variable": "cycState",
+								"comparison": 0,
+								"value": "\"idle\""
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aSco",
+							"sid": 130306821181075,
+							"parameters": {
+								"instance-variable": "cyclops"
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aSco",
+							"sid": 732861104794284,
+							"parameters": {
+								"instance-variable": "guardBit"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 708815912934653,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 474965760962315,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"cyclops\""
+									}
+								}
+							],
+							"actions": [],
+							"sid": 337670283917448
 						}
 					]
 				},
@@ -2634,7 +2924,7 @@
 									"objectClass": "aSco",
 									"sid": 987928944774332,
 									"parameters": {
-										"instance-variable": "cycEnergo",
+										"instance-variable": "energo",
 										"comparison": 4,
 										"value": "50"
 									}
