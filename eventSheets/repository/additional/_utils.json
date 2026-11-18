@@ -124,7 +124,7 @@
 				},
 				{
 					"eventType": "comment",
-					"text": "Симплекс-шум для семьи simplex (замена Rex_Simplex). Пока simplexRun=true, simValue меняется с частотой increment и амплитудой magnitude.",
+					"text": "Симплекс-шум для семьи simplex (замена Rex_Simplex). Пока simplexRun=true, обновляются два канала: simValue (increment/magnitude) и simValue2 (increment2/magnitude2). Фаза второго канала смещена на +333, чтобы каналы не шумели синхронно.",
 					"background-color": [
 						0.33,
 						0.73,
@@ -176,18 +176,28 @@
 								"const dt = runtime.dt;",
 								"if (dt <= 0) return;",
 								"const phase = globalThis._simplexPhase || (globalThis._simplexPhase = {});",
+								"const phase2 = globalThis._simplexPhase2 || (globalThis._simplexPhase2 = {});",
 								"for (const o of runtime.objects.simplex.getAllInstances()) {",
 								"    if (!o.instVars.simplexRun) continue;",
+								"",
+								"    // Канал 1",
 								"    let p = phase[o.uid];",
 								"    if (p === undefined) p = o.uid % 997;",
 								"    p += o.instVars.increment * dt;",
 								"    phase[o.uid] = p;",
 								"    o.instVars.simValue = noise1D(p) * o.instVars.magnitude;",
+								"",
+								"    // Канал 2 (смещённая фаза +333, свой increment2/magnitude2)",
+								"    let p2 = phase2[o.uid];",
+								"    if (p2 === undefined) p2 = (o.uid % 997) + 333;",
+								"    p2 += o.instVars.increment2 * dt;",
+								"    phase2[o.uid] = p2;",
+								"    o.instVars.simValue2 = noise1D(p2) * o.instVars.magnitude2;",
 								"}"
 							]
 						}
 					],
-					"sid": 873487467427494
+					"sid": 725211630683843
 				},
 				{
 					"eventType": "block",
@@ -205,6 +215,10 @@
 						{
 							"callFunction": "simplexTick",
 							"sid": 974349268109216
+						},
+						{
+							"callFunction": "simplexTick",
+							"sid": 834289305227732
 						}
 					],
 					"sid": 460607758286015

@@ -361,6 +361,46 @@
 		},
 		{
 			"eventType": "comment",
+			"text": "Одноразовое построение таблицы IsoCache (360 значений, изометрия Y*0.5). Замена мёртвого isoAng.js. Функция вызывается в раннем событии _relocation; повторный вызов безвреден (проверка if).",
+			"background-color": [
+				0.33,
+				0.73,
+				0.48,
+				1
+			]
+		},
+		{
+			"functionName": "isoCacheInit",
+			"functionDescription": "",
+			"functionCategory": "",
+			"functionReturnType": "none",
+			"functionCopyPicked": false,
+			"functionIsAsync": false,
+			"functionParameters": [],
+			"eventType": "function-block",
+			"conditions": [],
+			"actions": [
+				{
+					"type": "script",
+					"language": "javascript",
+					"script": [
+						"if (globalThis.IsoCache) return;",
+						"globalThis.IsoCache = new Float32Array(360);",
+						"const f = 0.5;",
+						"const toRad = Math.PI / 180;",
+						"for (let a = 0; a < 360; a++) {",
+						"    const rad = a * toRad;",
+						"    const len = Math.hypot(f * Math.cos(rad), Math.sin(rad));",
+						"    globalThis.IsoCache[a] = len > 0 ? f / len : f;",
+						"}",
+						"console.log(\"[Bioid] IsoCache готов — 360 значений (0..359)\");"
+					]
+				}
+			],
+			"sid": 183128863970290
+		},
+		{
+			"eventType": "comment",
 			"text": "очередь команды на движение"
 		},
 		{
@@ -504,6 +544,10 @@
 							"script": [
 								"init(runtime)"
 							]
+						},
+						{
+							"callFunction": "isoCacheInit",
+							"sid": 241870020691570
 						},
 						{
 							"id": "add-obstacle",
