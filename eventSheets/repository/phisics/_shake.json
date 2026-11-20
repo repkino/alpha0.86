@@ -25,6 +25,13 @@
 					"initialValue": "5",
 					"comment": "0 - 10",
 					"sid": 421615603235296
+				},
+				{
+					"name": "explodeTimer",
+					"type": "number",
+					"initialValue": "0",
+					"comment": "",
+					"sid": 766051516792546
 				}
 			],
 			"eventType": "function-block",
@@ -42,9 +49,18 @@
 			],
 			"actions": [
 				{
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 526138432076135,
+					"parameters": {
+						"group-name": "\"shake\"",
+						"state": "activated"
+					}
+				},
+				{
 					"id": "set-instvar-value",
 					"objectClass": "camera",
-					"sid": 693646723986217,
+					"sid": 568273223204989,
 					"parameters": {
 						"instance-variable": "magnitude",
 						"value": "magnitude*ats.meteoShakeCoeff"
@@ -53,10 +69,46 @@
 				{
 					"id": "set-instvar-value",
 					"objectClass": "camera",
-					"sid": 228106764150551,
+					"sid": 754893081757785,
 					"parameters": {
 						"instance-variable": "magnitude2",
 						"value": "magnitude*ats.meteoShakeCoeff"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "camera",
+					"sid": 839643501556077,
+					"parameters": {
+						"instance-variable": "increment",
+						"value": "3"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "camera",
+					"sid": 216467100347326,
+					"parameters": {
+						"instance-variable": "increment2",
+						"value": "4"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "camera",
+					"sid": 749419853373455,
+					"parameters": {
+						"instance-variable": "curX",
+						"value": "Self.X"
+					}
+				},
+				{
+					"id": "set-instvar-value",
+					"objectClass": "camera",
+					"sid": 805770696101004,
+					"parameters": {
+						"instance-variable": "curY",
+						"value": "Self.Y"
 					}
 				},
 				{
@@ -67,60 +119,64 @@
 						"instance-variable": "simplexRun",
 						"value": "true"
 					}
-				},
-				{
-					"id": "setmagnitude1",
-					"objectClass": "camera",
-					"sid": 754031455680832,
-					"disabled": true,
-					"behaviorType": "simX",
-					"parameters": {
-						"magnitude0": "magnitude*ats.meteoShakeCoeff"
-					}
-				},
-				{
-					"id": "setmagnitude1",
-					"objectClass": "camera",
-					"sid": 904557266418852,
-					"disabled": true,
-					"behaviorType": "simY",
-					"parameters": {
-						"magnitude0": "magnitude*ats.meteoShakeCoeff"
-					}
-				},
-				{
-					"id": "setactive0",
-					"objectClass": "camera",
-					"sid": 638645535404694,
-					"disabled": true,
-					"behaviorType": "simX",
-					"parameters": {
-						"state2": "active"
-					}
-				},
-				{
-					"id": "setactive0",
-					"objectClass": "camera",
-					"sid": 533186429633363,
-					"disabled": true,
-					"behaviorType": "simY",
-					"parameters": {
-						"state2": "active"
-					}
-				},
-				{
-					"id": "start-timer",
-					"objectClass": "ats",
-					"sid": 941467978014646,
-					"behaviorType": "Timer",
-					"parameters": {
-						"duration": "0.5+magnitude/7*Self.meteoShakeTimeCoeff",
-						"type": "once",
-						"tag": "\"camShake\""
-					}
 				}
 			],
-			"sid": 438258186415908
+			"sid": 438258186415908,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-eventvar",
+							"objectClass": "System",
+							"sid": 238556744353508,
+							"parameters": {
+								"variable": "explodeTimer",
+								"comparison": 0,
+								"value": "0"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "start-timer",
+							"objectClass": "ats",
+							"sid": 629244745966584,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "0.5+magnitude/7*Self.meteoShakeTimeCoeff",
+								"type": "once",
+								"tag": "\"camShake\""
+							}
+						}
+					],
+					"sid": 868850116787243
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 165177937358925
+						}
+					],
+					"actions": [
+						{
+							"id": "start-timer",
+							"objectClass": "ats",
+							"sid": 810928624157234,
+							"behaviorType": "Timer",
+							"parameters": {
+								"duration": "explodeTimer",
+								"type": "once",
+								"tag": "\"camShake\""
+							}
+						}
+					],
+					"sid": 627355016690684
+				}
+			]
 		},
 		{
 			"eventType": "comment",
@@ -166,27 +222,148 @@
 					}
 				},
 				{
-					"id": "setactive0",
-					"objectClass": "camera",
-					"sid": 683462310258148,
-					"disabled": true,
-					"behaviorType": "simX",
+					"id": "set-group-active",
+					"objectClass": "System",
+					"sid": 539932702976808,
 					"parameters": {
-						"state2": "inactive"
-					}
-				},
-				{
-					"id": "setactive0",
-					"objectClass": "camera",
-					"sid": 870835484537365,
-					"disabled": true,
-					"behaviorType": "simY",
-					"parameters": {
-						"state2": "inactive"
+						"group-name": "\"shake\"",
+						"state": "deactivated"
 					}
 				}
 			],
 			"sid": 983519225959608
+		},
+		{
+			"eventType": "comment",
+			"text": "",
+			"background-color": [
+				0.796078431372549,
+				0.8509803921568627,
+				0.6470588235294118,
+				1
+			]
+		},
+		{
+			"eventType": "group",
+			"disabled": false,
+			"title": "shake",
+			"description": "",
+			"isActiveOnStart": false,
+			"children": [
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "camera",
+							"sid": 897819368788844,
+							"parameters": {
+								"instance-variable": "simplexRun"
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "subtract-from-instvar",
+							"objectClass": "camera",
+							"sid": 294097379722135,
+							"parameters": {
+								"instance-variable": "magnitude",
+								"value": "0.1"
+							}
+						},
+						{
+							"id": "subtract-from-instvar",
+							"objectClass": "camera",
+							"sid": 656410644672211,
+							"parameters": {
+								"instance-variable": "magnitude2",
+								"value": "0.1"
+							}
+						},
+						{
+							"id": "add-to-instvar",
+							"objectClass": "camera",
+							"sid": 103943637252593,
+							"parameters": {
+								"instance-variable": "increment",
+								"value": "0.1"
+							}
+						},
+						{
+							"id": "add-to-instvar",
+							"objectClass": "camera",
+							"sid": 408230122476121,
+							"parameters": {
+								"instance-variable": "increment2",
+								"value": "0.2"
+							}
+						},
+						{
+							"type": "comment",
+							"text": ""
+						},
+						{
+							"id": "set-y",
+							"objectClass": "camera",
+							"sid": 980068936884198,
+							"parameters": {
+								"y": "Self.curY+Self.simValue"
+							}
+						},
+						{
+							"id": "set-x",
+							"objectClass": "camera",
+							"sid": 170288316109232,
+							"parameters": {
+								"x": "Self.curX+Self.simValue2"
+							}
+						},
+						{
+							"type": "comment",
+							"text": ""
+						},
+						{
+							"id": "set-y",
+							"objectClass": "camera",
+							"sid": 542138507571038,
+							"disabled": true,
+							"parameters": {
+								"y": "Self.Y+Self.simValue"
+							}
+						},
+						{
+							"id": "set-x",
+							"objectClass": "camera",
+							"sid": 256205384257746,
+							"disabled": true,
+							"parameters": {
+								"x": "Self.X+Self.simValue2"
+							}
+						},
+						{
+							"id": "set-text",
+							"objectClass": "help",
+							"sid": 220695581376545,
+							"disabled": true,
+							"parameters": {
+								"text": "camera.magnitude"
+							}
+						},
+						{
+							"id": "set-text",
+							"objectClass": "help",
+							"sid": 143043029203808,
+							"disabled": true,
+							"parameters": {
+								"text": "camera.increment"
+							}
+						}
+					],
+					"sid": 730630558711594
+				}
+			],
+			"sid": 768463074899592
 		}
 	],
 	"sid": 198982440252377
