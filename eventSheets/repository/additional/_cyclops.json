@@ -1857,7 +1857,7 @@
 											"children": [
 												{
 													"eventType": "comment",
-													"text": "записываем их дистанцию до Бита",
+													"text": "записываем их дистанцию до циклопа",
 													"background-color": [
 														0.7450980392156863,
 														0.8196078431372549,
@@ -1869,30 +1869,97 @@
 													"eventType": "block",
 													"conditions": [
 														{
-															"id": "for-each",
-															"objectClass": "System",
-															"sid": 845939471081767,
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "aSco",
+															"sid": 226204857385788,
 															"parameters": {
-																"object": "tUnits"
-															}
+																"instance-variable": "cycGuardPoint"
+															},
+															"isInverted": true
 														}
 													],
-													"actions": [
+													"actions": [],
+													"sid": 399535958084471,
+													"children": [
 														{
-															"id": "set-instvar-value",
-															"objectClass": "tUnits",
-															"sid": 261016238341570,
-															"parameters": {
-																"instance-variable": "cycDist",
-																"value": "Functions.getIsoDist(base.X, base.Y, tUnits.X, tUnits.Y)"
-															}
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "for-each",
+																	"objectClass": "System",
+																	"sid": 937687988477206,
+																	"parameters": {
+																		"object": "tUnits"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "tUnits",
+																	"sid": 519945451945191,
+																	"parameters": {
+																		"instance-variable": "cycDist",
+																		"value": "Functions.getIsoDist(base.X, base.Y, tUnits.X, tUnits.Y)"
+																	}
+																}
+															],
+															"sid": 291679226692845
 														}
-													],
-													"sid": 618840236134872
+													]
 												},
 												{
 													"eventType": "comment",
-													"text": "выбираем юнитов в изометрическом поле зрения Бита",
+													"text": "или их дистанцию до охраняемой точки",
+													"background-color": [
+														0.7450980392156863,
+														0.8196078431372549,
+														0.996078431372549,
+														1
+													]
+												},
+												{
+													"eventType": "block",
+													"conditions": [
+														{
+															"id": "else",
+															"objectClass": "System",
+															"sid": 282289210607807
+														}
+													],
+													"actions": [],
+													"sid": 154780336742214,
+													"children": [
+														{
+															"eventType": "block",
+															"conditions": [
+																{
+																	"id": "for-each",
+																	"objectClass": "System",
+																	"sid": 712667789762297,
+																	"parameters": {
+																		"object": "tUnits"
+																	}
+																}
+															],
+															"actions": [
+																{
+																	"id": "set-instvar-value",
+																	"objectClass": "tUnits",
+																	"sid": 666651800084598,
+																	"parameters": {
+																		"instance-variable": "cycDist",
+																		"value": "Functions.getIsoDist(aSco.cycWX, aSco.cycWY, tUnits.X, tUnits.Y)"
+																	}
+																}
+															],
+															"sid": 395598704266557
+														}
+													]
+												},
+												{
+													"eventType": "comment",
+													"text": "выбираем юнитов в изометрическом поле зрения циклопа",
 													"background-color": [
 														0.7450980392156863,
 														0.8196078431372549,
@@ -2508,6 +2575,216 @@
 					],
 					"sid": 476109951336795,
 					"children": [
+						{
+							"eventType": "comment",
+							"text": "Решатель режима циклопа: всегда измеряем изо-дистанцию до Бита, переключаем guardBit/warlord и радиус зрения по радиусу близости cycGuardDist.",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "base",
+									"sid": 710240902914623,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"cyclops\""
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aSco",
+									"sid": 116671616511350,
+									"parameters": {
+										"instance-variable": "cycDistBit",
+										"value": "Functions.getIsoDist(base.X,base.Y,senseDist.X,senseDist.Y)"
+									}
+								}
+							],
+							"sid": 363908449579723,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "Внутри радиуса близости к Биту: охрана, атака только по коллизии тенью. Координаты warlord сохраняем.",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aSco",
+											"sid": 101509879595430,
+											"parameters": {
+												"instance-variable": "cycDistBit",
+												"comparison": 3,
+												"value": "aSco.cycGuardDist"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aSco",
+											"sid": 768692908524385,
+											"parameters": {
+												"instance-variable": "guardBit",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 467546824019826,
+											"parameters": {
+												"group-name": "\"cycVision\"",
+												"state": "deactivated"
+											}
+										}
+									],
+									"sid": 525129773469523,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aSco",
+													"sid": 477469631620714,
+													"parameters": {
+														"instance-variable": "cycState",
+														"comparison": 0,
+														"value": "\"idle\""
+													}
+												},
+												{
+													"id": "compare-instance-variable",
+													"objectClass": "aSco",
+													"sid": 993433748977252,
+													"parameters": {
+														"instance-variable": "cycTargUID",
+														"comparison": 0,
+														"value": "-1"
+													}
+												}
+											],
+											"actions": [
+												{
+													"id": "set-instvar-value",
+													"objectClass": "aSco",
+													"sid": 214642307570685,
+													"parameters": {
+														"instance-variable": "cycState",
+														"value": "\"walk\""
+													}
+												},
+												{
+													"callFunction": "pfmt",
+													"sid": 581816089933889,
+													"parameters": [
+														"base.UID",
+														"\"cyclops\"",
+														"aSco.cycWX",
+														"aSco.cycWY",
+														"1",
+														"1",
+														"1",
+														"\"zero\"",
+														"-1",
+														"0",
+														"0"
+													]
+												}
+											],
+											"sid": 587312228443771
+										}
+									]
+								},
+								{
+									"eventType": "comment",
+									"text": "За пределами радиуса близости: warlord, зрение cycVision с радиусом cycWarlordDist=250 в движении.",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 577762301729439
+										}
+									],
+									"actions": [
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aSco",
+											"sid": 930522003237456,
+											"parameters": {
+												"instance-variable": "guardBit",
+												"value": "false"
+											}
+										},
+										{
+											"id": "set-boolean-instvar",
+											"objectClass": "aSco",
+											"sid": 732688077432097,
+											"parameters": {
+												"instance-variable": "warlord",
+												"value": "true"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 970218528492896,
+											"parameters": {
+												"instance-variable": "cycWarlordDist",
+												"value": "250"
+											}
+										},
+										{
+											"id": "set-group-active",
+											"objectClass": "System",
+											"sid": 806258403823804,
+											"parameters": {
+												"group-name": "\"cycVision\"",
+												"state": "activated"
+											}
+										}
+									],
+									"sid": 601993100162077
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "",
+							"background-color": [
+								0.7450980392156863,
+								0.8196078431372549,
+								0.996078431372549,
+								1
+							]
+						},
 						{
 							"eventType": "block",
 							"conditions": [
