@@ -3358,6 +3358,14 @@
 							}
 						},
 						{
+							"id": "set-collisions-enabled",
+							"objectClass": "miniMapC",
+							"sid": 138140130227077,
+							"parameters": {
+								"collisions": "enabled"
+							}
+						},
+						{
 							"id": "set-scale",
 							"objectClass": "miniScreen",
 							"sid": 508679714462221,
@@ -3549,12 +3557,20 @@
 								}
 							],
 							"sid": 705065712220441
+						},
+						{
+							"eventType": "block",
+							"conditions": [],
+							"actions": [
+								{
+									"customAction": "mm",
+									"objectClass": "aUIN",
+									"sid": 217088747172968
+								}
+							],
+							"sid": 886109306844077
 						}
 					]
-				},
-				{
-					"eventType": "comment",
-					"text": "движение проекции экрана в пределах миникарты"
 				},
 				{
 					"eventType": "block",
@@ -3562,76 +3578,360 @@
 						{
 							"id": "cursor-is-over-object",
 							"objectClass": "Mouse",
-							"sid": 332078644674282,
+							"sid": 442393563025561,
 							"parameters": {
 								"object": "miniMap"
 							}
 						}
 					],
+					"actions": [
+						{
+							"customAction": "mm",
+							"objectClass": "aUIN",
+							"sid": 420475672030350
+						}
+					],
+					"sid": 499351807829152
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "else",
+							"objectClass": "System",
+							"sid": 599412051413174
+						},
+						{
+							"id": "every-x-seconds",
+							"objectClass": "System",
+							"sid": 433709727059807,
+							"parameters": {
+								"interval-seconds": "0.1"
+							}
+						}
+					],
+					"actions": [
+						{
+							"customAction": "mm",
+							"objectClass": "aUIN",
+							"sid": 302604381292713
+						}
+					],
+					"sid": 622178341407146
+				},
+				{
+					"eventType": "comment",
+					"text": "мини-карта: расчёт проекции экрана (miniScreen) в пропорциях miniMap,\nследование за курсором при нажатой ЛКМ и перенос камеры по локации через camMark",
+					"text-color": [
+						1,
+						1,
+						1,
+						1
+					],
+					"background-color": [
+						0.49,
+						0.7,
+						0.38,
+						1
+					]
+				},
+				{
+					"aceType": "action",
+					"aceName": "mm",
+					"objectClass": "aUIN",
+					"functionDescription": "",
+					"functionCategory": "",
+					"functionReturnType": "none",
+					"functionCopyPicked": false,
+					"functionIsAsync": false,
+					"functionParameters": [],
+					"eventType": "custom-ace-block",
+					"conditions": [],
 					"actions": [],
-					"sid": 672458090435920,
+					"sid": 395797338141582,
 					"children": [
 						{
 							"eventType": "variable",
-							"name": "mX",
+							"name": "fL",
 							"type": "number",
 							"initialValue": "0",
 							"comment": "",
 							"isStatic": true,
 							"isConstant": false,
-							"sid": 284375749665354
+							"sid": 359484023042382
 						},
 						{
 							"eventType": "variable",
-							"name": "mY",
+							"name": "fT",
 							"type": "number",
 							"initialValue": "0",
 							"comment": "",
 							"isStatic": true,
 							"isConstant": false,
-							"sid": 397239964844001
+							"sid": 817099656692467
+						},
+						{
+							"eventType": "variable",
+							"name": "fW",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": true,
+							"isConstant": false,
+							"sid": 652113248802442
+						},
+						{
+							"eventType": "variable",
+							"name": "fH",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": true,
+							"isConstant": false,
+							"sid": 161467675748152
+						},
+						{
+							"eventType": "variable",
+							"name": "mapFx",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": true,
+							"isConstant": false,
+							"sid": 878860286746913
+						},
+						{
+							"eventType": "variable",
+							"name": "mapFy",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": true,
+							"isConstant": false,
+							"sid": 943486043809650
+						},
+						{
+							"eventType": "variable",
+							"name": "visW",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": true,
+							"isConstant": false,
+							"sid": 902268998511717
+						},
+						{
+							"eventType": "variable",
+							"name": "visH",
+							"type": "number",
+							"initialValue": "0",
+							"comment": "",
+							"isStatic": true,
+							"isConstant": false,
+							"sid": 494033917718841
 						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
+									"id": "is-visible",
+									"objectClass": "miniScreen",
+									"sid": 567015805070382
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "frame",
+									"sid": 131213261421684,
+									"parameters": {
+										"instance-variable": "n",
+										"comparison": 0,
+										"value": "aTools.n"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 534813981247089,
+									"parameters": {
+										"variable": "fL",
+										"value": "frame.BBoxLeft"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 322928984796281,
+									"parameters": {
+										"variable": "fT",
+										"value": "frame.BBoxTop"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 981665559210931,
+									"parameters": {
+										"variable": "fW",
+										"value": "frame.BBoxRight-frame.BBoxLeft"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 825610184788140,
+									"parameters": {
+										"variable": "fH",
+										"value": "frame.BBoxBottom-frame.BBoxTop"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 592641068895557,
+									"parameters": {
+										"variable": "mapFx",
+										"value": "miniMap.w/fW"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 903275376295046,
+									"parameters": {
+										"variable": "mapFy",
+										"value": "miniMap.h/fH"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 931257127694206,
+									"parameters": {
+										"variable": "visW",
+										"value": "OriginalViewportWidth/LayoutScale"
+									}
+								},
+								{
+									"id": "set-eventvar-value",
+									"objectClass": "System",
+									"sid": 183871467346285,
+									"parameters": {
+										"variable": "visH",
+										"value": "OriginalViewportHeight/LayoutScale"
+									}
+								},
+								{
+									"id": "set-size",
+									"objectClass": "miniScreen",
+									"sid": 308699876830382,
+									"parameters": {
+										"width": "visW*mapFx",
+										"height": "visH*mapFy"
+									}
+								}
+							],
+							"sid": 465733087731768
+						},
+						{
+							"eventType": "comment",
+							"text": "старт перетаскивания: ЛКМ опущена над миникартой",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "mouse-button-is-down",
+									"objectClass": "Mouse",
+									"sid": 226190782731908,
+									"parameters": {
+										"mouse-button": "left"
+									}
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "camera",
+									"sid": 590211370640674,
+									"parameters": {
+										"instance-variable": "subMod",
+										"comparison": 1,
+										"value": "\"miniMap\""
+									}
+								},
+								{
+									"id": "is-visible",
+									"objectClass": "miniScreen",
+									"sid": 340934244196213
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "camera",
+									"sid": 648933462272916,
+									"parameters": {
+										"instance-variable": "subMod",
+										"value": "\"miniMap\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "camera",
+									"sid": 118828410498526,
+									"parameters": {
+										"instance-variable": "state",
+										"value": "\"manual\""
+									}
+								}
+							],
+							"sid": 280901305500585
+						},
+						{
+							"eventType": "comment",
+							"text": "проекция следует за курсором, не выходя за стороны миникарты; камера идёт за camMark",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "camera",
+									"sid": 556356118491136,
+									"parameters": {
+										"instance-variable": "subMod",
+										"comparison": 0,
+										"value": "\"miniMap\""
+									}
+								},
+								{
+									"id": "mouse-button-is-down",
+									"objectClass": "Mouse",
+									"sid": 751693428217932,
+									"parameters": {
+										"mouse-button": "left"
+									}
+								},
+								{
 									"id": "compare-two-values",
 									"objectClass": "System",
-									"sid": 732871115007817,
+									"sid": 806956048869268,
 									"parameters": {
-										"first-value": "miniScreen.BBoxLeft",
+										"first-value": "mapFx",
 										"comparison": 4,
-										"second-value": "miniMap.BBoxLeft"
-									}
-								},
-								{
-									"id": "compare-two-values",
-									"objectClass": "System",
-									"sid": 125560219402128,
-									"parameters": {
-										"first-value": "miniScreen.BBoxRight",
-										"comparison": 2,
-										"second-value": "miniMap.BBoxRight"
-									}
-								},
-								{
-									"id": "compare-two-values",
-									"objectClass": "System",
-									"sid": 135882365284416,
-									"parameters": {
-										"first-value": "miniScreen.BBoxTop",
-										"comparison": 4,
-										"second-value": "miniMap.BBoxTop"
-									}
-								},
-								{
-									"id": "compare-two-values",
-									"objectClass": "System",
-									"sid": 507335412300409,
-									"parameters": {
-										"first-value": "miniScreen.BBoxBottom",
-										"comparison": 2,
-										"second-value": "miniMap.BBoxBottom"
+										"second-value": "0"
 									}
 								}
 							],
@@ -3639,66 +3939,171 @@
 								{
 									"id": "set-position",
 									"objectClass": "miniScreen",
-									"sid": 688391912524315,
+									"sid": 276157266584266,
 									"parameters": {
-										"x": "Mouse.X",
-										"y": "Mouse.Y"
+										"x": "clamp(Mouse.X(\"ui\")-Self.Width/2, miniMap.BBoxLeft, max(miniMap.BBoxLeft, miniMap.BBoxRight-Self.Width))",
+										"y": "clamp(Mouse.Y(\"ui\")-Self.Height/2, miniMap.BBoxTop, max(miniMap.BBoxTop, miniMap.BBoxBottom-Self.Height))"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aIns",
+									"sid": 411262892462184,
+									"parameters": {
+										"instance-variable": "markCamFollowX",
+										"value": "fL+(miniScreen.X+miniScreen.Width/2-miniMap.BBoxLeft)/mapFx"
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aIns",
+									"sid": 289368434247562,
+									"parameters": {
+										"instance-variable": "markCamFollowY",
+										"value": "fT+(miniScreen.Y+miniScreen.Height/2-miniMap.BBoxTop)/mapFy"
 									}
 								},
 								{
 									"id": "set-position",
-									"objectClass": "miniScreen",
-									"sid": 168225876982847,
-									"disabled": true,
+									"objectClass": "camMark",
+									"sid": 594026798795936,
 									"parameters": {
-										"x": "cursor.X",
-										"y": "cursor.Y"
+										"x": "aIns.markCamFollowX",
+										"y": "aIns.markCamFollowY"
 									}
 								},
 								{
-									"id": "set-eventvar-value",
-									"objectClass": "System",
-									"sid": 210871849264615,
+									"id": "set-position",
+									"objectClass": "camera",
+									"sid": 960498559032633,
 									"parameters": {
-										"variable": "mX",
-										"value": "miniScreen.X"
+										"x": "clamp(lerp(Self.X,aIns.markCamFollowX,0.15), min(fL+visW/2, fL+fW-visW/2), max(fL+visW/2, fL+fW-visW/2))",
+										"y": "clamp(lerp(Self.Y,aIns.markCamFollowY,0.15), min(fT+visH/2, fT+fH-visH/2), max(fT+visH/2, fT+fH-visH/2))"
 									}
 								},
 								{
-									"id": "set-eventvar-value",
+									"id": "scroll-to-x",
 									"objectClass": "System",
-									"sid": 628959630586497,
+									"sid": 336904612966479,
 									"parameters": {
-										"variable": "mY",
-										"value": "miniScreen.Y"
+										"x": "camera.X"
+									}
+								},
+								{
+									"id": "scroll-to-y",
+									"objectClass": "System",
+									"sid": 487509343395388,
+									"parameters": {
+										"y": "camera.Y"
 									}
 								}
 							],
-							"sid": 486240755885614
+							"sid": 392053101193522
+						},
+						{
+							"eventType": "comment",
+							"text": "вне перетаскивания проекция отражает реальный вьюпорт камеры",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
 						},
 						{
 							"eventType": "block",
 							"conditions": [
 								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 569519439465035
+									"id": "is-visible",
+									"objectClass": "miniScreen",
+									"sid": 684327371165284
+								},
+								{
+									"id": "compare-instance-variable",
+									"objectClass": "camera",
+									"sid": 327830415419027,
+									"parameters": {
+										"instance-variable": "subMod",
+										"comparison": 1,
+										"value": "\"miniMap\""
+									}
 								}
 							],
 							"actions": [
 								{
 									"id": "set-position",
 									"objectClass": "miniScreen",
-									"sid": 333466926290904,
+									"sid": 507016960556755,
 									"parameters": {
-										"x": "mX",
-										"y": "mY"
+										"x": "clamp(miniMap.BBoxLeft+(scrollx-visW/2-fL)*mapFx, miniMap.BBoxLeft, max(miniMap.BBoxLeft, miniMap.BBoxRight-Self.Width))",
+										"y": "clamp(miniMap.BBoxTop+(scrolly-visH/2-fT)*mapFy, miniMap.BBoxTop, max(miniMap.BBoxTop, miniMap.BBoxBottom-Self.Height))"
 									}
 								}
 							],
-							"sid": 700010839397878
+							"sid": 921401280693450
 						}
 					]
+				},
+				{
+					"eventType": "comment",
+					"text": "конец перетаскивания: возврат мода камеры и границ",
+					"background-color": [
+						0.49,
+						0.7,
+						0.38,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "on-button-released",
+							"objectClass": "Mouse",
+							"sid": 372530366375911,
+							"parameters": {
+								"mouse-button": "left"
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "camera",
+							"sid": 913552971574247,
+							"parameters": {
+								"instance-variable": "subMod",
+								"comparison": 0,
+								"value": "\"miniMap\""
+							}
+						}
+					],
+					"actions": [
+						{
+							"id": "set-instvar-value",
+							"objectClass": "camera",
+							"sid": 266091710854169,
+							"parameters": {
+								"instance-variable": "subMod",
+								"value": "\"zero\""
+							}
+						},
+						{
+							"id": "set-instvar-value",
+							"objectClass": "camera",
+							"sid": 671330910099574,
+							"parameters": {
+								"instance-variable": "state",
+								"value": "\"hero\""
+							}
+						},
+						{
+							"callFunction": "reClamp",
+							"sid": 818370415409713,
+							"parameters": [
+								true
+							]
+						}
+					],
+					"sid": 954176384632984
 				},
 				{
 					"eventType": "comment",
@@ -3807,6 +4212,14 @@
 							"sid": 507837875007788,
 							"parameters": {
 								"visibility": "invisible"
+							}
+						},
+						{
+							"id": "set-collisions-enabled",
+							"objectClass": "miniMapC",
+							"sid": 486596591109142,
+							"parameters": {
+								"collisions": "disabled"
 							}
 						},
 						{
