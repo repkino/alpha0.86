@@ -151,6 +151,17 @@
 									}
 								},
 								{
+									"id": "compare-instance-variable",
+									"objectClass": "basis",
+									"sid": 297308514506954,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "name",
+										"comparison": 0,
+										"value": "\"cyclops\""
+									}
+								},
+								{
 									"id": "is-boolean-instance-variable-set",
 									"objectClass": "tUnits",
 									"sid": 421586056807566,
@@ -308,6 +319,16 @@
 													"parameters": {
 														"instance-variable": "BitDist",
 														"value": "Functions.getIsoDist(base.X, base.Y, tUnits.X, tUnits.Y)"
+													}
+												},
+												{
+													"id": "set-instvar-value",
+													"objectClass": "tUnits",
+													"sid": 295089902461497,
+													"disabled": true,
+													"parameters": {
+														"instance-variable": "cycDist",
+														"value": "Functions.getIsoDist(basis.X, basis.Y, tUnits.X, tUnits.Y)"
 													}
 												}
 											],
@@ -2338,6 +2359,15 @@
 										},
 										{
 											"id": "set-instvar-value",
+											"objectClass": "tUnits",
+											"sid": 268045692212316,
+											"parameters": {
+												"instance-variable": "cycDistGP",
+												"value": "0"
+											}
+										},
+										{
+											"id": "set-instvar-value",
 											"objectClass": "aBit",
 											"sid": 792375997900949,
 											"disabled": true,
@@ -2437,48 +2467,30 @@
 													"eventType": "block",
 													"conditions": [
 														{
-															"id": "is-boolean-instance-variable-set",
-															"objectClass": "aSco",
-															"sid": 309750041869766,
+															"id": "for-each",
+															"objectClass": "System",
+															"sid": 656831200716224,
 															"parameters": {
-																"instance-variable": "cycGuardPoint"
-															},
-															"isInverted": true
+																"object": "tUnits"
+															}
 														}
 													],
-													"actions": [],
-													"sid": 682530552280900,
-													"children": [
+													"actions": [
 														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "for-each",
-																	"objectClass": "System",
-																	"sid": 460483310981583,
-																	"parameters": {
-																		"object": "tUnits"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "tUnits",
-																	"sid": 503496413479465,
-																	"parameters": {
-																		"instance-variable": "cycDist",
-																		"value": "Functions.getIsoDist(base.X, base.Y, tUnits.X, tUnits.Y)"
-																	}
-																}
-															],
-															"sid": 798135136627452
+															"id": "set-instvar-value",
+															"objectClass": "tUnits",
+															"sid": 992331098305758,
+															"parameters": {
+																"instance-variable": "cycDist",
+																"value": "Functions.getIsoDist(base.X, base.Y, tUnits.X, tUnits.Y)"
+															}
 														}
-													]
+													],
+													"sid": 682530552280900
 												},
 												{
 													"eventType": "comment",
-													"text": "или их дистанцию до охраняемой точки",
+													"text": "и их дистанцию до охраняемой точки, если таковая есть",
 													"background-color": [
 														0.7450980392156863,
 														0.8196078431372549,
@@ -2490,44 +2502,38 @@
 													"eventType": "block",
 													"conditions": [
 														{
-															"id": "else",
+															"id": "is-boolean-instance-variable-set",
+															"objectClass": "aSco",
+															"sid": 844645455287719,
+															"parameters": {
+																"instance-variable": "cycGuardPoint"
+															}
+														},
+														{
+															"id": "for-each",
 															"objectClass": "System",
-															"sid": 656471629842800
+															"sid": 450575747282031,
+															"parameters": {
+																"object": "tUnits"
+															}
 														}
 													],
-													"actions": [],
-													"sid": 333105615183535,
-													"children": [
+													"actions": [
 														{
-															"eventType": "block",
-															"conditions": [
-																{
-																	"id": "for-each",
-																	"objectClass": "System",
-																	"sid": 375281877369016,
-																	"parameters": {
-																		"object": "tUnits"
-																	}
-																}
-															],
-															"actions": [
-																{
-																	"id": "set-instvar-value",
-																	"objectClass": "tUnits",
-																	"sid": 754903764816045,
-																	"parameters": {
-																		"instance-variable": "cycDist",
-																		"value": "Functions.getIsoDist(aSco.cycWX, aSco.cycWY, tUnits.X, tUnits.Y)"
-																	}
-																}
-															],
-															"sid": 480019107438446
+															"id": "set-instvar-value",
+															"objectClass": "tUnits",
+															"sid": 254294997887425,
+															"parameters": {
+																"instance-variable": "cycDistGP",
+																"value": "Functions.getIsoDist(aSco.cycWX, aSco.cycWY, tUnits.X, tUnits.Y)"
+															}
 														}
-													]
+													],
+													"sid": 333105615183535
 												},
 												{
 													"eventType": "comment",
-													"text": "выбираем юнитов в изометрическом поле зрения циклопа",
+													"text": "выбираем юнитов в изометрическом поле зрения циклопа, не ограниченных полем охраняемой точки",
 													"background-color": [
 														0.7450980392156863,
 														0.8196078431372549,
@@ -2541,11 +2547,21 @@
 														{
 															"id": "compare-instance-variable",
 															"objectClass": "tUnits",
-															"sid": 818528957889281,
+															"sid": 582333696568293,
 															"parameters": {
 																"instance-variable": "cycDist",
 																"comparison": 3,
 																"value": "aSco.cycViewRad"
+															}
+														},
+														{
+															"id": "compare-instance-variable",
+															"objectClass": "tUnits",
+															"sid": 643683726090407,
+															"parameters": {
+																"instance-variable": "cycDistGP",
+																"comparison": 3,
+																"value": "aSco.cycGPRad"
 															}
 														}
 													],
@@ -5245,6 +5261,426 @@
 				},
 				{
 					"eventType": "comment",
+					"text": "менеджмент атаки в зависимости от расстояния",
+					"background-color": [
+						0.996078431372549,
+						0.6235294117647059,
+						0.6235294117647059,
+						1
+					]
+				},
+				{
+					"eventType": "block",
+					"conditions": [
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "base",
+							"sid": 622001629479817,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"cyclops\""
+							}
+						},
+						{
+							"id": "compare-instance-variable",
+							"objectClass": "basis",
+							"sid": 996722405407661,
+							"disabled": true,
+							"parameters": {
+								"instance-variable": "name",
+								"comparison": 0,
+								"value": "\"Bit\""
+							}
+						},
+						{
+							"id": "is-boolean-instance-variable-set",
+							"objectClass": "aSco",
+							"sid": 275105469504190,
+							"parameters": {
+								"instance-variable": "cyclops"
+							}
+						}
+					],
+					"actions": [],
+					"sid": 869911888790363,
+					"children": [
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "pick-by-unique-id",
+									"objectClass": "tUnits",
+									"sid": 894098183693429,
+									"parameters": {
+										"unique-id": "aSco.cycTargUID"
+									}
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "aSco",
+									"sid": 424979232224409,
+									"parameters": {
+										"instance-variable": "cycDist",
+										"value": "Functions.getIsoDist(base.X, base.Y, tUnits.X, tUnits.Y)"
+									}
+								}
+							],
+							"sid": 648942556674516,
+							"children": [
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cyclops",
+											"sid": 963511832582648,
+											"parameters": {
+												"instance-variable": "moveType",
+												"comparison": 0,
+												"value": "\"run\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aSco",
+											"sid": 859478449271387,
+											"parameters": {
+												"instance-variable": "cycDist",
+												"comparison": 4,
+												"value": "100"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 741921309621241,
+											"parameters": {
+												"instance-variable": "moveType",
+												"value": "\"walk\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 410987867746933,
+											"parameters": {
+												"instance-variable": "dirOld",
+												"value": "99"
+											}
+										},
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 636674012656784,
+											"disabled": true,
+											"parameters": {
+												"text": "1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 942690737621740,
+											"disabled": true,
+											"parameters": {
+												"instance-variable": "stopType",
+												"value": "\"stop\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 621466878474671,
+											"parameters": {
+												"instance-variable": "directNumbers",
+												"value": "6"
+											}
+										}
+									],
+									"sid": 947594794518262
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "else",
+											"objectClass": "System",
+											"sid": 498960232086572
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "cyclops",
+											"sid": 226827504931091,
+											"parameters": {
+												"instance-variable": "moveType",
+												"comparison": 1,
+												"value": "\"run\""
+											}
+										},
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aSco",
+											"sid": 320180554128473,
+											"parameters": {
+												"instance-variable": "cycDist",
+												"comparison": 3,
+												"value": "100"
+											}
+										}
+									],
+									"actions": [
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 116014848244155,
+											"parameters": {
+												"instance-variable": "moveType",
+												"value": "\"run\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "base",
+											"sid": 410034972760922,
+											"parameters": {
+												"instance-variable": "dirOld",
+												"value": "99"
+											}
+										},
+										{
+											"id": "append-text",
+											"objectClass": "help",
+											"sid": 755201956561803,
+											"disabled": true,
+											"parameters": {
+												"text": "2"
+											}
+										}
+									],
+									"sid": 848305828746298,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "base",
+													"sid": 277459436889076,
+													"parameters": {
+														"instance-variable": "jump"
+													},
+													"isInverted": true
+												},
+												{
+													"id": "compare-animation-frame",
+													"objectClass": "cyclops",
+													"sid": 453653059991174,
+													"parameters": {
+														"comparison": 0,
+														"number": "0"
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "jump",
+													"sid": 982792497611638,
+													"parameters": [
+														"\"cyclops\"",
+														"-1000",
+														"5000",
+														"1",
+														"\"map\"",
+														"1",
+														"1",
+														false,
+														false,
+														"\"zero\"",
+														"0"
+													]
+												}
+											],
+											"sid": 905371071176177,
+											"disabled": true
+										}
+									]
+								}
+							]
+						},
+						{
+							"eventType": "comment",
+							"text": "Патч 2: инвалидация цели внутри существующего Else блока 'менеджмент атаки в зависимости от расстояния'. Заменить этим блоком текущий Else (moveType=walk, directNumbers=8).",
+							"background-color": [
+								0.49,
+								0.7,
+								0.38,
+								1
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 136246952484842
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cyclops",
+									"sid": 226157964600755,
+									"parameters": {
+										"instance-variable": "moveType",
+										"value": "\"walk\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 863684608218241,
+									"parameters": {
+										"instance-variable": "directNumbers",
+										"value": "8"
+									}
+								}
+							],
+							"sid": 600579350759179,
+							"children": [
+								{
+									"eventType": "comment",
+									"text": "цель назначена, но инстанс не пикается - удалён или отправлен в банк. Снимаем охоту однократно: после сброса UID = -1 и ветка гаснет до следующего назначения цели.",
+									"background-color": [
+										0.67,
+										0.98,
+										0.79,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [
+										{
+											"id": "compare-instance-variable",
+											"objectClass": "aSco",
+											"sid": 954665227488793,
+											"parameters": {
+												"instance-variable": "cycTargUID",
+												"comparison": 1,
+												"value": "-1"
+											}
+										}
+									],
+									"actions": [
+										{
+											"callFunction": "baseStop",
+											"sid": 640745899489636,
+											"parameters": [
+												"base.UID"
+											]
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 368274540966916,
+											"parameters": {
+												"instance-variable": "cycTargUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 113866521844429,
+											"parameters": {
+												"instance-variable": "cycTargDist",
+												"value": "10000"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 489108384353985,
+											"parameters": {
+												"instance-variable": "cycState",
+												"value": "\"idle\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 614921512227264,
+											"parameters": {
+												"instance-variable": "state",
+												"value": "\"zero\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 964892395760730,
+											"parameters": {
+												"instance-variable": "animPriority",
+												"value": "0"
+											}
+										}
+									],
+									"sid": 106890772769829
+								}
+							]
+						},
+						{
+							"eventType": "block",
+							"conditions": [
+								{
+									"id": "else",
+									"objectClass": "System",
+									"sid": 390048838873121
+								}
+							],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cyclops",
+									"sid": 816959785887418,
+									"parameters": {
+										"instance-variable": "moveType",
+										"value": "\"walk\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "cyclops",
+									"sid": 874735425601414,
+									"disabled": true,
+									"parameters": {
+										"instance-variable": "stopType",
+										"value": "\"run\""
+									}
+								},
+								{
+									"id": "set-instvar-value",
+									"objectClass": "base",
+									"sid": 987819378430398,
+									"parameters": {
+										"instance-variable": "directNumbers",
+										"value": "8"
+									}
+								}
+							],
+							"sid": 299938582365163,
+							"disabled": true
+						}
+					]
+				},
+				{
+					"eventType": "comment",
 					"text": "на каждый кадр",
 					"background-color": [
 						0.984313725490196,
@@ -5382,8 +5818,19 @@
 											"id": "compare-two-values",
 											"objectClass": "System",
 											"sid": 459044250008434,
+											"disabled": true,
 											"parameters": {
 												"first-value": "distance(basis.X,basis.Y,tUnits.X,tUnits.Y)",
+												"comparison": 2,
+												"second-value": "60"
+											}
+										},
+										{
+											"id": "compare-two-values",
+											"objectClass": "System",
+											"sid": 323601611966575,
+											"parameters": {
+												"first-value": "aSco.cycDist",
 												"comparison": 2,
 												"second-value": "60"
 											}
@@ -5392,6 +5839,7 @@
 											"id": "compare-instance-variable",
 											"objectClass": "tUnits",
 											"sid": 890793728876813,
+											"disabled": true,
 											"parameters": {
 												"instance-variable": "hp",
 												"comparison": 4,
@@ -5474,46 +5922,10 @@
 									"actions": [
 										{
 											"callFunction": "baseStop",
-											"sid": 844544212016402,
+											"sid": 278050825596914,
 											"parameters": [
 												"basis.UID"
 											]
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "cyclops",
-											"sid": 245302656715676,
-											"parameters": {
-												"instance-variable": "moveType",
-												"value": "\"walk\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aSco",
-											"sid": 913009958795294,
-											"parameters": {
-												"instance-variable": "cycTargUID",
-												"value": "-1"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aSco",
-											"sid": 424565599685946,
-											"parameters": {
-												"instance-variable": "cycTargDist",
-												"value": "10000"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "aSco",
-											"sid": 247110814657063,
-											"parameters": {
-												"instance-variable": "cycState",
-												"value": "\"idle\""
-											}
 										},
 										{
 											"id": "set-animation",
@@ -5667,7 +6079,17 @@
 									}
 								}
 							],
-							"actions": [],
+							"actions": [
+								{
+									"id": "set-instvar-value",
+									"objectClass": "tUnits",
+									"sid": 923186473369898,
+									"parameters": {
+										"instance-variable": "hp",
+										"value": "0"
+									}
+								}
+							],
 							"sid": 831110692891381,
 							"children": [
 								{
@@ -5721,16 +6143,6 @@
 										}
 									],
 									"actions": [
-										{
-											"type": "comment",
-											"text": "Цыплёнок: подключить после пульса циклопа (уничтожение/банк через chickBase).",
-											"background-color": [
-												1,
-												0.8,
-												0.6,
-												1
-											]
-										},
 										{
 											"customAction": "chickExplode",
 											"objectClass": "ats",
@@ -5794,6 +6206,123 @@
 									]
 								},
 								{
+									"eventType": "comment",
+									"text": "Патч 3: замена блока 'переключение внимания' в функции cycHit. Добавлены остановка пути и сброс типа бега, иначе циклоп доигрывает runN после смертельного удара. Удалить старый блок и вставить этот.",
+									"background-color": [
+										0.49,
+										0.7,
+										0.38,
+										1
+									]
+								},
+								{
+									"eventType": "block",
+									"conditions": [],
+									"actions": [
+										{
+											"callFunction": "baseStop",
+											"sid": 156751140061063,
+											"parameters": [
+												"basis.UID"
+											]
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 518150434197908,
+											"parameters": {
+												"instance-variable": "cycTargUID",
+												"value": "-1"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 153083783181703,
+											"parameters": {
+												"instance-variable": "cycTargDist",
+												"value": "10000"
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "aSco",
+											"sid": 923637718426030,
+											"parameters": {
+												"instance-variable": "cycState",
+												"value": "\"idle\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 228539369286332,
+											"parameters": {
+												"instance-variable": "moveType",
+												"value": "\"walk\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 122350973491072,
+											"parameters": {
+												"instance-variable": "state",
+												"value": "\"zero\""
+											}
+										},
+										{
+											"id": "set-instvar-value",
+											"objectClass": "cyclops",
+											"sid": 463258762391281,
+											"parameters": {
+												"instance-variable": "animPriority",
+												"value": "0"
+											}
+										}
+									],
+									"sid": 124269367519307,
+									"children": [
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "is-boolean-instance-variable-set",
+													"objectClass": "aSco",
+													"sid": 435454681192488,
+													"parameters": {
+														"instance-variable": "guardBit"
+													}
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "BitCheck",
+													"sid": 667671102770976
+												}
+											],
+											"sid": 796868421130514
+										},
+										{
+											"eventType": "block",
+											"conditions": [
+												{
+													"id": "else",
+													"objectClass": "System",
+													"sid": 835456288519510
+												}
+											],
+											"actions": [
+												{
+													"callFunction": "cycCheck",
+													"sid": 724990000256410
+												}
+											],
+											"sid": 653125647342215
+										}
+									]
+								},
+								{
 									"eventType": "block",
 									"conditions": [],
 									"actions": [
@@ -5826,6 +6355,7 @@
 										}
 									],
 									"sid": 706697293624765,
+									"disabled": true,
 									"children": [
 										{
 											"eventType": "block",
@@ -5845,7 +6375,8 @@
 													"sid": 454305508274443
 												}
 											],
-											"sid": 232751824027513
+											"sid": 232751824027513,
+											"disabled": true
 										},
 										{
 											"eventType": "block",
@@ -5862,306 +6393,12 @@
 													"sid": 350032611967183
 												}
 											],
-											"sid": 852317055457092
-										}
-									]
-								}
-							]
-						}
-					]
-				},
-				{
-					"eventType": "comment",
-					"text": "менеджмент атаки в зависимости от расстояния",
-					"background-color": [
-						0.996078431372549,
-						0.6235294117647059,
-						0.6235294117647059,
-						1
-					]
-				},
-				{
-					"eventType": "block",
-					"conditions": [
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "basis",
-							"sid": 878595771691111,
-							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "\"cyclops\""
-							}
-						},
-						{
-							"id": "compare-instance-variable",
-							"objectClass": "base",
-							"sid": 252641404717195,
-							"parameters": {
-								"instance-variable": "name",
-								"comparison": 0,
-								"value": "\"Bit\""
-							}
-						},
-						{
-							"id": "is-boolean-instance-variable-set",
-							"objectClass": "aSco",
-							"sid": 580987690493675,
-							"parameters": {
-								"instance-variable": "cyclops"
-							}
-						}
-					],
-					"actions": [],
-					"sid": 750266960566173,
-					"children": [
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "pick-by-unique-id",
-									"objectClass": "tUnits",
-									"sid": 815873492489146,
-									"parameters": {
-										"unique-id": "aSco.cycTargUID"
-									}
-								}
-							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "aSco",
-									"sid": 710690969483037,
-									"parameters": {
-										"instance-variable": "cycDist",
-										"value": "Functions.getIsoDist(basis.X, basis.Y, tUnits.X, tUnits.Y)"
-									}
-								}
-							],
-							"sid": 757239408279583,
-							"children": [
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cyclops",
-											"sid": 225801025658182,
-											"parameters": {
-												"instance-variable": "moveType",
-												"comparison": 0,
-												"value": "\"run\""
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "aSco",
-											"sid": 361807221977692,
-											"parameters": {
-												"instance-variable": "cycDist",
-												"comparison": 4,
-												"value": "100"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "cyclops",
-											"sid": 216024216597579,
-											"parameters": {
-												"instance-variable": "moveType",
-												"value": "\"walk\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "basis",
-											"sid": 275228032698714,
-											"parameters": {
-												"instance-variable": "dirOld",
-												"value": "99"
-											}
-										},
-										{
-											"id": "append-text",
-											"objectClass": "help",
-											"sid": 568994128430173,
-											"disabled": true,
-											"parameters": {
-												"text": "1"
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "cyclops",
-											"sid": 201815926893220,
-											"disabled": true,
-											"parameters": {
-												"instance-variable": "stopType",
-												"value": "\"stop\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "base",
-											"sid": 266112117937629,
-											"parameters": {
-												"instance-variable": "directNumbers",
-												"value": "6"
-											}
-										}
-									],
-									"sid": 802147644844413
-								},
-								{
-									"eventType": "block",
-									"conditions": [
-										{
-											"id": "else",
-											"objectClass": "System",
-											"sid": 264426852813029
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "cyclops",
-											"sid": 460250597830654,
-											"parameters": {
-												"instance-variable": "moveType",
-												"comparison": 1,
-												"value": "\"run\""
-											}
-										},
-										{
-											"id": "compare-instance-variable",
-											"objectClass": "aSco",
-											"sid": 224929220146633,
-											"parameters": {
-												"instance-variable": "cycDist",
-												"comparison": 3,
-												"value": "100"
-											}
-										}
-									],
-									"actions": [
-										{
-											"id": "set-instvar-value",
-											"objectClass": "cyclops",
-											"sid": 454882781803525,
-											"parameters": {
-												"instance-variable": "moveType",
-												"value": "\"run\""
-											}
-										},
-										{
-											"id": "set-instvar-value",
-											"objectClass": "basis",
-											"sid": 257522686378651,
-											"parameters": {
-												"instance-variable": "dirOld",
-												"value": "99"
-											}
-										},
-										{
-											"id": "append-text",
-											"objectClass": "help",
-											"sid": 901517226811498,
-											"disabled": true,
-											"parameters": {
-												"text": "2"
-											}
-										}
-									],
-									"sid": 352315194050572,
-									"children": [
-										{
-											"eventType": "block",
-											"conditions": [
-												{
-													"id": "is-boolean-instance-variable-set",
-													"objectClass": "basis",
-													"sid": 364790929239238,
-													"parameters": {
-														"instance-variable": "jump"
-													},
-													"isInverted": true
-												},
-												{
-													"id": "compare-animation-frame",
-													"objectClass": "cyclops",
-													"sid": 369354464493906,
-													"parameters": {
-														"comparison": 0,
-														"number": "0"
-													}
-												}
-											],
-											"actions": [
-												{
-													"callFunction": "jump",
-													"sid": 183577916968863,
-													"parameters": [
-														"\"cyclops\"",
-														"-1000",
-														"5000",
-														"1",
-														"\"map\"",
-														"1",
-														"1",
-														false,
-														false,
-														"\"zero\"",
-														"0"
-													]
-												}
-											],
-											"sid": 557260080869271,
+											"sid": 852317055457092,
 											"disabled": true
 										}
 									]
 								}
 							]
-						},
-						{
-							"eventType": "block",
-							"conditions": [
-								{
-									"id": "else",
-									"objectClass": "System",
-									"sid": 165515498717431
-								}
-							],
-							"actions": [
-								{
-									"id": "set-instvar-value",
-									"objectClass": "cyclops",
-									"sid": 891122790447938,
-									"parameters": {
-										"instance-variable": "moveType",
-										"value": "\"walk\""
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "cyclops",
-									"sid": 286066402202021,
-									"disabled": true,
-									"parameters": {
-										"instance-variable": "stopType",
-										"value": "\"run\""
-									}
-								},
-								{
-									"id": "set-instvar-value",
-									"objectClass": "base",
-									"sid": 465381338301779,
-									"parameters": {
-										"instance-variable": "directNumbers",
-										"value": "8"
-									}
-								}
-							],
-							"sid": 326676241918889
 						}
 					]
 				},
